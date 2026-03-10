@@ -173,42 +173,105 @@ body { font-family: var(--sans-b); background: var(--bg); color: var(--white); -
 </style>
 </head>
 <body>
-<!-- NAV BAR -->
-<style>
-.ndd{position:relative;display:inline-block}
-.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
-.ndd-b:hover{color:#FCFDF8}
-.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
-.ndd:hover .ndd-m{display:block}
-.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
-.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
-.ndd-m a.da{color:#CDF851;font-weight:700}
-</style>
-<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
-    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
-        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
-        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
-        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
-    </a>
-    <div style="display:flex;align-items:center;gap:2px;">
-        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
-        <a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a>
-        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Rollout</span>
-        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
-        <a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
-    </div>
+<style>.sndd{position:relative;display:inline-block}.sndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}.sndd-b:hover{color:#FCFDF8}.sndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}.sndd:hover .sndd-m{display:block}.sndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}.sndd-m a:hover{background:#2A2A2A;color:#FCFDF8}.sndd-m a.sndd-a{color:#CDF851;font-weight:700}</style><div id="site-nav-bar" style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;"><a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;"><span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span><span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span><span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span></a><div style="display:flex;align-items:center;gap:2px;"><a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a><a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a><span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Rollout</span><a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a><a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="sndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div></div></div>
+
+
+<div class="header">
+  <div class="header-logo">RCA</div>
+  <div class="header-div"></div>
+  <div class="header-title">Implementation Rollout Guide</div>
+  <div class="header-right">March 2026 · Confidential</div>
 </div>
-<!-- /NAV BAR -->
-        <div class="nav-dd">
-            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
-            <div class="nav-dd-menu">
-                <a href="prep-isaia.html">Isaia Huron</a>
-            </div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Cross-Department Visibility System</div>
+    <h1>Implementation<br>Rollout Guide</h1>
+    <div class="hero-sub">A phased plan to build the system that lets every department see the status of every artist at every stage — in one place, in real time. No IT required until Phase 3.</div>
+    <div class="hero-line"></div>
+  </div>
+
+  <!-- EXEC SUMMARY -->
+  <div class="section">
+    <div class="section-label">Overview</div>
+    <h2>Executive Summary</h2>
+    <p>This guide lays out the phased implementation of the Cross-Department Visibility System using Airtable as the platform. The approach is incremental: <strong>each phase delivers working value before the next begins.</strong></p>
+    <p>The existing Airtable base — already housing Artist profiles, Calendar, Releases, Partner Updates, and department-specific interfaces — becomes the foundation. We extend what's already built rather than replacing it.</p>
+    <div class="callout">
+      <p><strong>Starting point:</strong> Phase 1 requires zero permissions, zero IT, and delivers proof-of-pattern data within 30 days.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT EXISTS -->
+  <div class="section">
+    <div class="section-label">Foundation</div>
+    <h2>What Exists Today</h2>
+    <p>The current Airtable base already contains significant infrastructure:</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Current State</th></tr></thead>
+      <tbody>
+        <tr><td>Artist Profiles</td><td>Image, social links, one sheet, team roster (A&R, Marketing, Digital, Creative, Design Lead, Tour Marketing, Manager, Agent)</td></tr>
+        <tr><td>Calendar</td><td>Events with type pills (Track Release, Tour Date, Promo, Press, Hold, Announce) and status pills (Planning, Confirmed) — fully operational</td></tr>
+        <tr><td>Releases</td><td>Upcoming and catalog releases with dates and listening links</td></tr>
+        <tr><td>Partner Updates</td><td>DSP opportunities, deliverables, and partner tracking</td></tr>
+        <tr><td>Department Interfaces</td><td>Sidebar navigation for Marketing, Creative, Digital, Commercial Partnerships, Physical Tracker, Global Brand Partnerships, Press, Release Planning, Finance, Budget Requests</td></tr>
+        <tr><td>Artist Update Log</td><td>Date + recap entries per artist</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-green callout">
+      <p><strong>Gap:</strong> No cross-department visibility layer. No way to click on an artist and see every department's status at each lifecycle stage, with cascading dependencies visible.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- THREE PHASES -->
+  <div class="section">
+    <div class="section-label">The Plan</div>
+    <h2>Three-Phase Implementation</h2>
+
+    <!-- PHASE 1 -->
+    <div class="phase-card active">
+      <div class="phase-header">
+        <span class="phase-badge badge-active">Active</span>
+        <span class="phase-title">Phase 1: ERN Readiness Checklist</span>
+        <span class="phase-time">Now — 30 days</span>
+      </div>
+      <div class="phase-meta">
+        <div class="pm-item"><span class="pm-label">IT Dependency:</span><span class="pm-value pm-green">None</span></div>
+        <div class="pm-item"><span class="pm-label">Owner:</span><span class="pm-value">You</span></div>
+        <div class="pm-item"><span class="pm-label">Status:</span><span class="pm-value pm-green">Ready to start</span></div>
+      </div>
+      <p>Before building anything in Airtable, prove the pattern with data. Run an ERN readiness check against the next 4–6 releases before each Production Meeting.</p>
+      <p><strong>What you're doing:</strong> Taking the DDEX ERN standard (PartyList, ResourceList, DealList, ReleaseList) and checking each upcoming release against it. The fields that come back "Unknown" are the same 7 fields every time — this exercise documents the pattern with hard data.</p>
+      <p><strong>How it works:</strong> Create a simple checklist with the 18 Runway fields. Before each Production Meeting, fill it out for the releases on the agenda. Log which fields are Unknown, which department owns the data, and why it's missing.</p>
+      <p><strong>Deliverable:</strong> A gap report covering 4–6 releases showing the same 7 fields are chronically Unknown, with root causes and department ownership mapped.</p>
+      <div class="callout">
+      <div class="callout">
+        <p><strong>Outcome:</strong> Documented gap data across 4–6 real releases. Same 7 fields, same root causes, every time.</p>
+      </div>
+      </div>
+
+      <div class="collapse" onclick="this.classList.toggle('open')">
+        <div class="collapse-head">
+          <span class="collapse-title">Action Items</span>
+          <span class="collapse-arrow">▾</span>
         </div>
+        <div class="collapse-body">
+          <ul class="item-list green">
+            <li>Create ERN readiness checklist (18 fields mapped to Runway)</li>
+            <li>Run against next 2 releases this week</li>
+            <li>Present findings at next Production Meeting</li>
+            <li>Document gap data for 4–6 releases over 30 days</li>
+            <li>Compile gap report with pattern analysis</li>
+          </ul>
+        </div>
+      </div>
     </div>
-</div>
 
     <!-- PHASE 2 -->
     <div class="phase-card next">

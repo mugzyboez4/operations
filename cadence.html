@@ -113,42 +113,55 @@ body { background:#0F0E0E; font-family:'Inter',Arial,sans-serif; color:#B0A9BE; 
 </style>
 </head>
 <body>
-<!-- NAV BAR -->
-<style>
-.ndd{position:relative;display:inline-block}
-.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
-.ndd-b:hover{color:#FCFDF8}
-.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
-.ndd:hover .ndd-m{display:block}
-.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
-.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
-.ndd-m a.da{color:#CDF851;font-weight:700}
-</style>
-<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
-    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
-        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
-        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
-        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
-    </a>
-    <div style="display:flex;align-items:center;gap:2px;">
-        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
-        <a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a>
-        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
-        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
-        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Cadence</span>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
-    </div>
+<style>.sndd{position:relative;display:inline-block}.sndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}.sndd-b:hover{color:#FCFDF8}.sndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}.sndd:hover .sndd-m{display:block}.sndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}.sndd-m a:hover{background:#2A2A2A;color:#FCFDF8}.sndd-m a.sndd-a{color:#CDF851;font-weight:700}</style><div id="site-nav-bar" style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;"><a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;"><span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span><span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span><span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span></a><div style="display:flex;align-items:center;gap:2px;"><a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a><a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a><a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a><a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a><span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Cadence</span><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="sndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div></div></div>
+
+
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="tag">RCA Records</div>
+    <div class="title">Weekly Operations Cadence</div>
+  </div>
+  <div class="hdr-right">
+    Meeting → Airtable → Visibility → Next Meeting<br>
+    <span>The full cycle in one week</span>
+  </div>
 </div>
-<!-- /NAV BAR -->
-        <div class="nav-dd">
-            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
-            <div class="nav-dd-menu">
-                <a href="prep-isaia.html">Isaia Huron</a>
-            </div>
+
+<!-- ═══ THE WEEK ═══ -->
+<div class="cycle">
+  <div class="cycle-label">The Week at a Glance</div>
+  <div class="timeline">
+
+    <!-- MONDAY -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name active">Mon</div>
+        <div class="day-sub">Prep</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Goal Brief generates</div>
+          <div class="evt-desc">Airtable surfaces: overdue actions, open Qs, this week's calendar</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
         </div>
+        <div class="evt evt-work">
+          <div class="evt-time green">5 min</div>
+          <div class="evt-title">Review + distribute</div>
+          <div class="evt-desc">Scan the brief, add context if needed, send to attendees</div>
+          <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Pre-meeting reminder</div>
+          <div class="evt-desc">Teams ping: "Update your status before tomorrow"</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
+        </div>
+      </div>
     </div>
-</div>
 
     <!-- TUESDAY -->
     <div class="day-col">
@@ -184,7 +197,7 @@ body { background:#0F0E0E; font-family:'Inter',Arial,sans-serif; color:#B0A9BE; 
         <div class="day-sub">Meeting</div>
       </div>
       <div class="day-body">
-        <div class="evt evt-meet">
+        <div class="evt evt-work">
           <div class="evt-time green">11am–1pm</div>
           <div class="evt-title">Active Projects Meeting</div>
           <div class="evt-desc">Notes taken in standard format. AT→ tags added in real time or immediately after.</div>
@@ -211,22 +224,23 @@ body { background:#0F0E0E; font-family:'Inter',Arial,sans-serif; color:#B0A9BE; 
         <div class="day-sub">Check</div>
       </div>
       <div class="day-body">
-        <div class="evt evt-work">
-          <div class="evt-time green">Ongoing</div>
-          <div class="evt-title">Action items in progress</div>
-          <div class="evt-desc">Teams execute on assigned tasks. TAP IN items claimed or escalated.</div>
-        </div>
         <div class="evt evt-auto">
           <div class="evt-time blue">Auto</div>
-          <div class="evt-title">Blocker alerts</div>
-          <div class="evt-desc">Any dept → "Blocked" triggers Teams notification to all leads on that release</div>
+          <div class="evt-title">Stale status reminder</div>
+          <div class="evt-desc">"Your status for [Artist] hasn't been updated this week" → sent to inactive depts</div>
           <span class="evt-tag tag-auto">SYSTEM</span>
         </div>
         <div class="evt evt-work">
           <div class="evt-time green">5 min</div>
           <div class="evt-title">Demo updated</div>
-          <div class="evt-desc">Push any status changes to GitHub. Same URLs.</div>
+          <div class="evt-desc">If any major status changes, push updated HTML to GitHub. Same URLs.</div>
           <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Open Q check</div>
+          <div class="evt-desc">Any Outstanding Questions older than 7 days get flagged</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
         </div>
       </div>
     </div>

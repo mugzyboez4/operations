@@ -40,23 +40,6 @@ body {
   -webkit-font-smoothing: antialiased; overflow: hidden; height: 100vh;
 }
 
-/* ── SITE NAV ── */
-.site-nav {
-  height: 36px; background: var(--bg); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; padding: 0 28px; gap: 4px; z-index: 101;
-}
-.site-nav a {
-  font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--text-dim);
-  text-decoration: none; padding: 5px 12px; border-radius: 4px; transition: all 0.12s;
-}
-.site-nav a:hover { color: var(--white); }
-.site-nav a.active { color: var(--accent); background: var(--accent-dim); }
-.nav-label {
-  font-family: var(--sans); font-size: 9px; font-weight: 800; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--muted); margin-right: 8px;
-}
-.nav-sep { width: 1px; height: 16px; background: var(--border); margin: 0 6px; }
-
 /* ── HEADER ── */
 .header {
   height: 56px; background: var(--surface);
@@ -91,7 +74,7 @@ body {
 .h-btn-info:hover { border-color: var(--text); color: var(--white); border-style: solid; }
 
 /* ── MAIN ── */
-.main { display: flex; height: calc(100vh - 96px); }
+.main { display: flex; height: calc(100vh - 56px); }
 
 /* ── ARTIST PANEL ── */
 .ap {
@@ -314,41 +297,6 @@ body {
 .mo-tbl th { text-align: left; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--border); font-family: var(--sans-m); font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 .mo-tbl td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); font-size: 13px; }
 .mo-tbl td:first-child { color: var(--white); font-weight: 500; }
-
-/* ── SOURCE DATA PANEL ── */
-.sd-box { width: 820px; max-width: 90vw; }
-.sd-tabs { display: flex; gap: 0; padding: 0 22px; border-bottom: 1px solid var(--border); background: var(--card); position: sticky; top: 0; z-index: 2; }
-.sd-tab {
-  padding: 12px 16px; font-family: var(--sans); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim);
-  cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.12s;
-}
-.sd-tab:hover { color: var(--white); }
-.sd-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-.sd-tab .sd-count {
-  display: inline-block; background: var(--accent-dim); color: var(--accent);
-  font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; margin-left: 6px;
-}
-.sd-pane { display: none; padding: 22px; }
-.sd-pane.vis { display: block; }
-.sd-field { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); padding: 6px 0; }
-.sd-field-name { width: 160px; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; padding: 4px 0; }
-.sd-field-val { font-size: 13px; color: var(--white); padding: 4px 0; }
-.sd-field-src { font-size: 10px; color: var(--muted); margin-left: auto; padding: 4px 0; white-space: nowrap; }
-.sd-tbl-label { font-size: 9px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin: 16px 0 8px; }
-.sd-tbl-label:first-child { margin-top: 0; }
-.sd-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0; }
-.sd-pill { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-right: 4px; }
-.sd-pill-g { background: var(--green-dim); color: var(--green); }
-.sd-pill-y { background: var(--yellow-dim); color: var(--yellow); }
-.sd-pill-r { background: var(--flame-dim); color: var(--flame); }
-.h-btn-src {
-  height: 32px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--accent);
-  background: transparent; color: var(--accent); font-family: var(--sans-b);
-  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.12s;
-  display: flex; align-items: center; gap: 6px;
-}
-.h-btn-src:hover { background: var(--accent); color: var(--bg); }
 .t-row { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .t-row:last-child { border-bottom: none; }
 .t-name { font-family: var(--sans-h); font-weight: 700; color: var(--accent); min-width: 70px; font-size: 14px; text-transform: uppercase; }
@@ -445,42 +393,40 @@ body {
 </style>
 </head>
 <body>
-<!-- NAV BAR -->
-<style>
-.ndd{position:relative;display:inline-block}
-.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
-.ndd-b:hover{color:#FCFDF8}
-.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
-.ndd:hover .ndd-m{display:block}
-.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
-.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
-.ndd-m a.da{color:#CDF851;font-weight:700}
-</style>
-<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
-    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
-        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
-        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
-        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
-    </a>
-    <div style="display:flex;align-items:center;gap:2px;">
-        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
-        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Demo</span>
-        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
-        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
-        <a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
-        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
-    </div>
+<style>.sndd{position:relative;display:inline-block}.sndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}.sndd-b:hover{color:#FCFDF8}.sndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}.sndd:hover .sndd-m{display:block}.sndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}.sndd-m a:hover{background:#2A2A2A;color:#FCFDF8}.sndd-m a.sndd-a{color:#CDF851;font-weight:700}</style><div id="site-nav-bar" style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;"><a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;"><span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span><span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span><span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span></a><div style="display:flex;align-items:center;gap:2px;"><a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a><span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Demo</span><a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a><a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a><a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div><div class="sndd"><span class="sndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="sndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div></div></div>
+
+
+<div class="header">
+  <div class="header-logo">RCA</div>
+  <div class="header-div"></div>
+  <div class="header-title">Release Visibility</div>
+  <div class="header-right">
+    <button class="h-btn-info" onclick="toggleOrient()">How to Read This</button>
+    <button class="h-btn" onclick="openM('glossary')">Glossary</button>
+    <button class="h-btn" onclick="openM('sources')">Data Sources</button>
+    <button class="h-btn h-btn-red" onclick="openM('unknowns')">7 Unknown Fields</button>
+  </div>
 </div>
-<!-- /NAV BAR -->
-        <div class="nav-dd">
-            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
-            <div class="nav-dd-menu">
-                <a href="prep-isaia.html">Isaia Huron</a>
-            </div>
-        </div>
-    </div>
+
+<div class="main">
+  <div class="ap" id="ap"></div>
+  <div class="dp" id="dp"></div>
 </div>
+
+<!-- Modals -->
+<div class="mo" id="m-glossary" onclick="if(event.target===this)closeM('glossary')">
+  <div class="mo-box">
+    <div class="mo-head"><h3>Glossary</h3><button class="mo-x" onclick="closeM('glossary')">×</button></div>
+    <div class="mo-body">
+      <div class="t-row"><div class="t-name">DDEX</div><div class="t-def">Digital Data Exchange — the global standard for how music metadata is structured and shared between labels, distributors, and DSPs.</div></div>
+      <div class="t-row"><div class="t-name">ERN</div><div class="t-def">Electronic Release Notification — the DDEX message for delivering releases to DSPs. Four sections: PartyList, ResourceList, DealList, ReleaseList. DSPs reject incomplete ERNs.</div></div>
+      <div class="t-row"><div class="t-name">DSN</div><div class="t-def">Delivery Start Notice — RCA's internal filing that initiates distribution. Unlike ERN, DSN accepts incomplete data. This is where the gap starts.</div></div>
+      <div class="t-row"><div class="t-name">GRPS</div><div class="t-def">Global Release Planning System — Sony's system-of-record for release planning and ISRC assignment.</div></div>
+      <div class="t-row"><div class="t-name">Runway</div><div class="t-def">RCA's real-time release schedule. Tracks 18 fields per release — 7 are chronically "Unknown."</div></div>
+      <div class="t-row"><div class="t-name">SAA</div><div class="t-def">Single Asset Authorization — required before distribution. Needs both labels' Legal sign-off.</div></div>
+      <div class="t-row"><div class="t-name">SAMP</div><div class="t-def">Sample Clearance — confirms sampled material is legally cleared. Tracked in email, not any shared system.</div></div>
+      <div class="t-row"><div class="t-name">CARMA</div><div class="t-def">Sony's Global Contract Management System — artist contracts, deal terms, territory rights.</div></div>
+    </div>
   </div>
 </div>
 <div class="mo" id="m-sources" onclick="if(event.target===this)closeM('sources')">
@@ -516,18 +462,6 @@ body {
         <tr><td>Credits/Splits <span class="vtag">VERIFY</span></td><td>A&R + Legal + Mgmt</td><td>Multi-party, outside all systems</td></tr>
       </tbody></table>
     </div>
-  </div>
-</div>
-
-<!-- SOURCE DATA MODAL -->
-<div class="mo" id="m-sourcedata" onclick="if(event.target===this)closeM('sourcedata')">
-  <div class="mo-box sd-box">
-    <div class="mo-head">
-      <h3 id="sd-title">Source Data</h3>
-      <button class="mo-x" onclick="closeM('sourcedata')">×</button>
-    </div>
-    <div class="sd-tabs" id="sd-tabs"></div>
-    <div id="sd-panes"></div>
   </div>
 </div>
 
@@ -885,114 +819,8 @@ function filterStatus(s){
 }
 function toggleOrient(){document.getElementById('orient').classList.toggle('collapsed');}
 function togSec(el){el.closest('.at-section').classList.toggle('open');}
-function openM(id){
-  if(id==='sourcedata') renderSourceData();
-  document.getElementById('m-'+id).classList.add('vis');
-}
+function openM(id){document.getElementById('m-'+id).classList.add('vis');}
 function closeM(id){document.getElementById('m-'+id).classList.remove('vis');}
-
-function renderSourceData(){
-  const a = ARTISTS.find(x=>x.id===cur);
-  if(!a) return;
-  const atd = AT[a.id];
-  const d = getData(a);
-  const ph = a.phase;
-
-  document.getElementById('sd-title').textContent = 'Source Data — ' + a.name;
-
-  // Tab definitions
-  const tabs = [
-    {id:'profile', label:'Profile', count:null},
-    {id:'calendar', label:'Calendar', count: atd?.calendar?.length || 0},
-    {id:'releases', label:'Releases', count: atd?.releases?.length || 0},
-    {id:'partners', label:'Partners', count: atd?.partners?.length || 0},
-    {id:'depts', label:'Dept Status', count: 12}
-  ];
-
-  // Render tabs
-  let th = '';
-  tabs.forEach((t,i)=>{
-    th += `<div class="sd-tab${i===0?' active':''}" onclick="sdTab('${t.id}')">${t.label}${t.count!==null?`<span class="sd-count">${t.count}</span>`:''}</div>`;
-  });
-  document.getElementById('sd-tabs').innerHTML = th;
-
-  // ── PROFILE PANE ──
-  const teamLabels = {ar:'A&R',marketing:'Marketing',digital:'Digital',creative:'Creative',designLead:'Design Lead',press:'Press',tourMktg:'Tour Marketing',manager:'Manager',agent:'Agent'};
-  let profileH = `
-    <div class="sd-tbl-label">Artist Profile → Airtable: Artists Table</div>
-    <div class="sd-field"><div class="sd-field-name">Artist</div><div class="sd-field-val">${a.name}</div><div class="sd-field-src">GRPS</div></div>
-    <div class="sd-field"><div class="sd-field-name">Genre</div><div class="sd-field-val">${a.genre}</div><div class="sd-field-src">GRPS</div></div>
-    <div class="sd-field"><div class="sd-field-name">Phase</div><div class="sd-field-val">${a.phaseLabel}</div><div class="sd-field-src">Airtable (derived)</div></div>
-    <div class="sd-field"><div class="sd-field-name">Release</div><div class="sd-field-val">${a.release}</div><div class="sd-field-src">Runway</div></div>
-    <div class="sd-field"><div class="sd-field-name">Completion</div><div class="sd-field-val">${d.pct}% — ${d.td} of ${d.total} items</div><div class="sd-field-src">Airtable (calc)</div></div>
-    <div class="sd-tbl-label" style="margin-top:20px;">Team Roster → Airtable: Artist Team Table</div>`;
-  if(atd?.team){
-    Object.entries(atd.team).forEach(([k,v])=>{
-      profileH += `<div class="sd-field"><div class="sd-field-name">${teamLabels[k]||k}</div><div class="sd-field-val">${v||'—'}</div><div class="sd-field-src">CARMA</div></div>`;
-    });
-  }
-
-  // ── CALENDAR PANE ──
-  let calH = `<div class="sd-tbl-label">Calendar Events → Airtable: Calendar Table</div>`;
-  if(atd?.calendar?.length){
-    calH += `<table class="mo-tbl"><thead><tr><th>Date</th><th>Event</th><th>Type</th><th>Status</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
-    atd.calendar.forEach(e=>{
-      const tc = e.type==='release'?'#CDF851':e.type==='tour'?'#60a5fa':e.type==='promo'?'#c4b5fd':e.type==='press'?'#FACC15':e.type==='announce'?'#B0A9BE':'#847D96';
-      const sc = e.status==='confirmed'?'color:#4ADE80':'color:#FACC15';
-      calH += `<tr><td>${e.date}</td><td>${e.title}</td><td><span style="color:${tc};font-weight:600;font-size:11px;text-transform:uppercase;">${e.type}</span></td><td><span style="${sc};font-size:11px;text-transform:uppercase;">${e.status}</span></td><td style="text-align:right;color:var(--muted);font-size:10px;">Runway + Meeting Notes</td></tr>`;
-    });
-    calH += '</tbody></table>';
-  } else { calH += '<div class="sd-empty">No calendar events for this artist.</div>'; }
-
-  // ── RELEASES PANE ──
-  let relH = `<div class="sd-tbl-label">Releases → Airtable: Releases Table</div>`;
-  if(atd?.releases?.length){
-    relH += `<table class="mo-tbl"><thead><tr><th>Title</th><th>Date</th><th>In Catalog</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
-    atd.releases.forEach(r=>{
-      relH += `<tr><td>${r.name}</td><td>${r.date}</td><td>${r.link?'<span style="color:var(--green)">✓ Yes</span>':'<span style="color:var(--text-dim)">Pending</span>'}</td><td style="text-align:right;color:var(--muted);font-size:10px;">GRPS + Runway</td></tr>`;
-    });
-    relH += '</tbody></table>';
-  } else { relH += '<div class="sd-empty">No release records.</div>'; }
-
-  // ── PARTNERS PANE ──
-  let parH = `<div class="sd-tbl-label">Partner Updates → Airtable: Partner Updates Table</div>`;
-  if(atd?.partners?.length){
-    parH += `<table class="mo-tbl"><thead><tr><th>Opportunity</th><th>Partner</th><th>Status</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
-    atd.partners.forEach(p=>{
-      const sc = p.status==='confirmed'?'color:var(--green)':'color:var(--yellow)';
-      parH += `<tr><td>${p.opp}</td><td style="font-weight:600;color:var(--white)">${p.partner}</td><td><span style="${sc};text-transform:uppercase;font-size:11px;">${p.status}</span></td><td style="text-align:right;color:var(--muted);font-size:10px;">Meeting Notes + Digital</td></tr>`;
-    });
-    parH += '</tbody></table>';
-  } else { parH += '<div class="sd-empty">No partner updates.</div>'; }
-
-  // ── DEPT STATUS PANE ──
-  let deptH = `<div class="sd-tbl-label">Department Status → Airtable: Dept Status Table (12 rows per artist per phase)</div>`;
-  deptH += `<table class="mo-tbl"><thead><tr><th>Department</th><th>Status</th><th>Done</th><th>Needs</th><th>Blocks</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
-  const deptSources = {'A&R':'A&R team','A&R Admin':'A&R Admin','Creative & Content':'Creative','Marketing':'Marketing','Digital / Streaming':'Digital','Press / Publicity':'Press','Radio':'Radio','Sync & Licensing':'Sync','Business & Legal':'BLA + CARMA','Finance':'Finance + SAP','Production / Dist.':'GRPS + Runway','International':'Intl team','Management (Ext.)':'Mgmt'};
-  DEPTS.forEach(dept=>{
-    const c = L[dept]?.[ph];
-    if(!c) return;
-    const pill = c.s==='g'?'sd-pill-g':c.s==='y'?'sd-pill-y':'sd-pill-r';
-    const label = c.s==='g'?'ON TRACK':c.s==='y'?'NEEDS ATTN':'BLOCKED';
-    deptH += `<tr><td>${dept}</td><td><span class="sd-pill ${pill}">${label}</span></td><td style="color:var(--green)">${c.done.length}</td><td style="color:var(--yellow)">${c.needs.length}</td><td style="color:${c.blocks.length?'var(--flame)':'var(--muted)'}">${c.blocks.length}</td><td style="text-align:right;color:var(--muted);font-size:10px;">${deptSources[dept]||'Dept'}</td></tr>`;
-  });
-  deptH += '</tbody></table>';
-
-  // Build panes
-  document.getElementById('sd-panes').innerHTML = `
-    <div class="sd-pane vis" id="sdp-profile">${profileH}</div>
-    <div class="sd-pane" id="sdp-calendar">${calH}</div>
-    <div class="sd-pane" id="sdp-releases">${relH}</div>
-    <div class="sd-pane" id="sdp-partners">${parH}</div>
-    <div class="sd-pane" id="sdp-depts">${deptH}</div>
-  `;
-}
-function sdTab(id){
-  document.querySelectorAll('.sd-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.sd-pane').forEach(p=>p.classList.remove('vis'));
-  event.target.closest('.sd-tab').classList.add('active');
-  document.getElementById('sdp-'+id).classList.add('vis');
-}
 
 renderAP();renderDP();
 </script>
