@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Release Visibility</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #CDF851;
+  --accent-dim: rgba(205,248,81,0.1);
+  --accent-glow: rgba(205,248,81,0.2);
+  --bg: #0F0E0E;
+  --surface: #141414;
+  --card: #181818;
+  --card-hover: #1E1E1E;
+  --border: #2A2A2A;
+  --border-light: #333333;
+  --white: #FCFDF8;
+  --text: #B0A9BE;
+  --text-dim: #847D96;
+  --muted: #3E3F41;
+  --green: #4ADE80;
+  --green-dim: rgba(74,222,128,0.1);
+  --yellow: #FACC15;
+  --yellow-dim: rgba(250,204,21,0.1);
+  --flame: #FF4A23;
+  --flame-dim: rgba(255,74,35,0.1);
+  --blue: #60a5fa; --blue-dim: rgba(96,165,250,0.1);
+  --purple: #c4b5fd; --purple-dim: rgba(196,181,253,0.1);
+
+  --sans: 'Inter', -apple-system, sans-serif;
+  --sans-h: 'Inter', -apple-system, sans-serif;
+  --sans-b: 'Inter', -apple-system, sans-serif;
+  --sans-m: 'Inter', -apple-system, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--sans-b); background: var(--bg); color: var(--white);
+  -webkit-font-smoothing: antialiased; overflow: hidden; height: 100vh;
+}
+
+/* ── SITE NAV ── */
+.site-nav {
+  height: 36px; background: var(--bg); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px; gap: 4px; z-index: 101;
+}
+.site-nav a {
+  font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--text-dim);
+  text-decoration: none; padding: 5px 12px; border-radius: 4px; transition: all 0.12s;
+}
+.site-nav a:hover { color: var(--white); }
+.site-nav a.active { color: var(--accent); background: var(--accent-dim); }
+.nav-label {
+  font-family: var(--sans); font-size: 9px; font-weight: 800; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); margin-right: 8px;
+}
+.nav-sep { width: 1px; height: 16px; background: var(--border); margin: 0 6px; }
+
+/* ── HEADER ── */
+.header {
+  height: 56px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px;
+  z-index: 100; position: relative;
+}
+.header-logo {
+  font-family: var(--sans); font-size: 16px; font-weight: 900; letter-spacing: 0.18em;
+  color: var(--accent); line-height: 1;
+}
+.header-div { width: 1px; height: 28px; background: var(--border); margin: 0 18px; }
+.header-title {
+  font-family: var(--sans-h); font-size: 18px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim);
+}
+.header-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.h-btn {
+  height: 32px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-dim); font-family: var(--sans-b);
+  font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s;
+  display: flex; align-items: center; gap: 6px;
+}
+.h-btn:hover { border-color: var(--text); color: var(--white); }
+.h-btn-red { border-color: rgba(226,0,26,0.4); color: var(--accent); }
+.h-btn-red:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.h-btn-info {
+  height: 32px; padding: 0 14px; border-radius: 5px; border: 1px dashed var(--border);
+  background: transparent; color: var(--muted); font-family: var(--sans-b);
+  font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s;
+}
+.h-btn-info:hover { border-color: var(--text); color: var(--white); border-style: solid; }
+
+/* ── MAIN ── */
+.main { display: flex; height: calc(100vh - 96px); }
+
+/* ── ARTIST PANEL ── */
+.ap {
+  width: 300px; min-width: 300px; background: var(--surface);
+  border-right: 1px solid var(--border); display: flex;
+  flex-direction: column; overflow: hidden;
+}
+.ap-head {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+}
+.ap-label {
+  font-family: var(--sans-h); font-size: 13px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.ap-list { flex: 1; overflow-y: auto; padding: 10px; }
+
+.ac {
+  padding: 16px 18px; border-radius: 8px; cursor: pointer;
+  margin-bottom: 4px; border: 1px solid transparent;
+  transition: all 0.15s; position: relative;
+}
+.ac:hover { background: var(--card); border-color: var(--border); }
+.ac.active {
+  background: var(--card); border-color: var(--accent);
+  box-shadow: inset 3px 0 0 var(--accent), 0 0 24px var(--accent-glow);
+}
+.ac-name {
+  font-family: var(--sans-h); font-size: 15px; font-weight: 800;
+  letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.15;
+  margin-bottom: 3px;
+}
+.ac-rel { font-size: 14px; color: var(--text-dim); margin-bottom: 10px; font-weight: 400; }
+.ac-phase {
+  display: inline-flex; height: 22px; padding: 0 10px; border-radius: 4px;
+  font-family: var(--sans-m); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.5px; text-transform: uppercase; align-items: center;
+}
+.ph-setup { background: rgba(168,130,255,0.12); color: #c4a6ff; }
+.ph-pre { background: rgba(96,165,250,0.12); color: #93c5fd; }
+.ph-week { background: rgba(52,211,153,0.12); color: #6ee7b7; }
+.ph-post { background: rgba(251,191,36,0.12); color: #fcd34d; }
+.ph-catalog { background: rgba(148,148,160,0.12); color: #b0b0ba; }
+.ac-stats { display: flex; gap: 12px; margin-top: 10px; }
+.ac-stat {
+  font-family: var(--sans-m); font-size: 11px; display: flex;
+  align-items: center; gap: 4px; color: var(--text-dim);
+}
+.sdot { width: 7px; height: 7px; border-radius: 50%; }
+.dg { background: var(--green); }
+.dy { background: var(--yellow); }
+.dr { background: var(--flame); }
+
+/* ── DETAIL ── */
+.dp { flex: 1; overflow-y: auto; background: var(--bg); }
+
+/* Hero */
+.hero {
+  padding: 32px 36px 24px; border-bottom: 1px solid var(--border);
+  background: var(--surface); position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: #CDF851;
+}
+.hero-phase {
+  font-family: var(--sans-m); font-size: 12px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 8px;
+}
+.hero-name {
+  font-family: var(--sans); font-size: 32px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.15;
+  margin-bottom: 4px;
+}
+.hero-rel { font-size: 16px; color: var(--text-dim); margin-bottom: 20px; font-weight: 400; }
+
+/* Stats row */
+.hero-stats { display: flex; align-items: flex-end; gap: 28px; }
+.hs-box { display: flex; flex-direction: column; gap: 2px; cursor: pointer; padding: 6px 10px; border-radius: 6px; border: 1px solid transparent; transition: all 0.15s; }
+.hs-box:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+.hs-box.active-filter { background: rgba(255,255,255,0.06); border-color: var(--border-light); }
+.hs-box.active-filter .hs-label { color: var(--text); }
+.hs-num { font-family: var(--sans); font-size: 28px; font-weight: 800; line-height: 1; }
+.hs-label { font-family: var(--sans-m); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
+.s-g { color: var(--green); }
+.s-y { color: var(--yellow); }
+.s-r { color: var(--flame); }
+
+/* Completion gauge */
+.gauge-box { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.gauge-wrap { position: relative; width: 80px; height: 80px; }
+.gauge-svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+.gauge-bg { fill: none; stroke: var(--border); stroke-width: 5; }
+.gauge-fill { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.gauge-pct {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.gauge-pct-num { font-family: var(--sans); font-size: 20px; font-weight: 800; line-height: 1; }
+.gauge-pct-label { font-family: var(--sans-m); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.gauge-explain {
+  font-family: var(--sans-m); font-size: 11px; color: var(--muted);
+  line-height: 1.6; text-align: right; max-width: 130px;
+}
+.gauge-explain strong { color: var(--text); font-weight: 500; }
+
+/* ── DEPT ROWS ── */
+.dept-list { padding: 20px 28px 40px; }
+.dr-row {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 6px; overflow: hidden;
+  transition: border-color 0.15s;
+}
+.dr-row:hover { border-color: var(--border-light); }
+.dr-row.exp { border-color: var(--accent); }
+.dr-head {
+  display: flex; align-items: center; padding: 0 18px; height: 52px;
+  cursor: pointer; gap: 14px;
+}
+.dr-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.dr-name {
+  font-family: var(--sans-h); font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px; width: 200px; min-width: 200px;
+  color: var(--white);
+}
+.dr-pill {
+  display: inline-flex; height: 22px; padding: 0 10px; border-radius: 4px;
+  font-family: var(--sans-m); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.3px; align-items: center;
+}
+.pg { background: var(--green-dim); color: var(--green); }
+.py { background: var(--yellow-dim); color: var(--yellow); }
+.pr { background: var(--flame-dim); color: var(--flame); }
+.dr-sum { font-size: 14px; color: var(--text-dim); flex: 1; font-weight: 400; }
+.dr-cts {
+  font-family: var(--sans-m); font-size: 11px; color: var(--muted);
+  display: flex; gap: 10px; margin-left: auto;
+}
+.dr-arr {
+  color: var(--muted); font-size: 11px; margin-left: 10px;
+  transition: transform 0.2s; flex-shrink: 0;
+}
+.dr-row.exp .dr-arr { transform: rotate(180deg); color: var(--accent); }
+
+/* Detail panel */
+.dr-detail { display: none; border-top: 1px solid var(--border); }
+.dr-row.exp .dr-detail { display: block; }
+.dr-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.dr-col { padding: 16px 20px; }
+.dr-col:not(:last-child) { border-right: 1px solid var(--border); }
+.dr-ch {
+  font-family: var(--sans-m); font-size: 10px; font-weight: 500;
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 5px;
+}
+.ch-g { color: var(--green); }
+.ch-y { color: var(--yellow); }
+.ch-r { color: var(--flame); }
+.dr-col ul { list-style: none; }
+.dr-col li {
+  font-size: 14px; color: var(--text); padding: 4px 0 4px 16px;
+  position: relative; line-height: 1.55; font-weight: 400;
+}
+.dr-col li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 5px; height: 5px; border-radius: 50%;
+}
+.c-done li::before { background: var(--green); }
+.c-needs li::before { background: var(--yellow); }
+.c-blocks li::before { background: var(--flame); }
+.dr-empty { font-size: 14px; color: var(--muted); font-style: italic; padding: 2px 0; }
+.vtag {
+  font-family: var(--sans-m); font-size: 9px; font-weight: 700;
+  color: var(--yellow); background: var(--yellow-dim);
+  border: 1px solid rgba(250,204,21,0.2); border-radius: 2px;
+  padding: 0 4px; margin-left: 4px;
+}
+
+/* ── ORIENT BANNER ── */
+.orient-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.orient-bar.collapsed .orient-body { display: none; }
+.orient-toggle {
+  display: flex; align-items: center; padding: 10px 28px; cursor: pointer;
+  gap: 10px; user-select: none;
+}
+.orient-badge {
+  font-family: var(--sans-m); font-size: 10px; font-weight: 500;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent);
+  background: var(--accent-dim); padding: 3px 10px; border-radius: 3px;
+}
+.orient-title { font-family: var(--sans-h); font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.orient-arrow { margin-left: auto; color: var(--muted); font-size: 11px; transition: transform 0.25s; }
+.orient-bar:not(.collapsed) .orient-arrow { transform: rotate(180deg); }
+.orient-body { padding: 0 28px 18px; }
+.orient-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.orient-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+.oc-num { font-family: var(--sans); font-size: 18px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+.oc-t { font-family: var(--sans-h); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.oc-p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+.oc-em { color: var(--accent); font-weight: 600; }
+.orient-foot {
+  background: var(--accent-dim); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 12px 18px;
+}
+.orient-foot p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+.orient-foot strong { color: var(--white); }
+
+/* ── MODALS ── */
+.mo { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.mo.vis { display: flex; }
+.mo-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+.mo-head { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--card); z-index: 1; }
+.mo-head h3 { font-family: var(--sans-h); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.mo-x { width: 30px; height: 30px; border-radius: 5px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.mo-x:hover { color: var(--white); border-color: var(--white); }
+.mo-body { padding: 22px; }
+.mo-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mo-tbl th { text-align: left; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--border); font-family: var(--sans-m); font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.mo-tbl td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); font-size: 13px; }
+.mo-tbl td:first-child { color: var(--white); font-weight: 500; }
+
+/* ── SOURCE DATA PANEL ── */
+.sd-box { width: 820px; max-width: 90vw; }
+.sd-tabs { display: flex; gap: 0; padding: 0 22px; border-bottom: 1px solid var(--border); background: var(--card); position: sticky; top: 0; z-index: 2; }
+.sd-tab {
+  padding: 12px 16px; font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim);
+  cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.12s;
+}
+.sd-tab:hover { color: var(--white); }
+.sd-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.sd-tab .sd-count {
+  display: inline-block; background: var(--accent-dim); color: var(--accent);
+  font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; margin-left: 6px;
+}
+.sd-pane { display: none; padding: 22px; }
+.sd-pane.vis { display: block; }
+.sd-field { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); padding: 6px 0; }
+.sd-field-name { width: 160px; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; padding: 4px 0; }
+.sd-field-val { font-size: 13px; color: var(--white); padding: 4px 0; }
+.sd-field-src { font-size: 10px; color: var(--muted); margin-left: auto; padding: 4px 0; white-space: nowrap; }
+.sd-tbl-label { font-size: 9px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin: 16px 0 8px; }
+.sd-tbl-label:first-child { margin-top: 0; }
+.sd-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0; }
+.sd-pill { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-right: 4px; }
+.sd-pill-g { background: var(--green-dim); color: var(--green); }
+.sd-pill-y { background: var(--yellow-dim); color: var(--yellow); }
+.sd-pill-r { background: var(--flame-dim); color: var(--flame); }
+.h-btn-src {
+  height: 32px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--accent);
+  background: transparent; color: var(--accent); font-family: var(--sans-b);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.12s;
+  display: flex; align-items: center; gap: 6px;
+}
+.h-btn-src:hover { background: var(--accent); color: var(--bg); }
+.t-row { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.t-row:last-child { border-bottom: none; }
+.t-name { font-family: var(--sans-h); font-weight: 700; color: var(--accent); min-width: 70px; font-size: 14px; text-transform: uppercase; }
+.t-def { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── COLLAPSIBLE SECTIONS (Airtable-style) ── */
+.at-section {
+  margin: 0 28px 8px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+.at-section-head {
+  display: flex; align-items: center; padding: 12px 18px; cursor: pointer;
+  gap: 10px; user-select: none; transition: background 0.1s;
+}
+.at-section-head:hover { background: var(--card-hover); }
+.at-section-title {
+  font-family: var(--sans-h); font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.at-section-count {
+  font-family: var(--sans-m); font-size: 10px; color: var(--muted);
+  background: rgba(255,255,255,0.04); padding: 2px 8px; border-radius: 10px;
+}
+.at-section-arrow {
+  margin-left: auto; color: var(--muted); font-size: 10px;
+  transition: transform 0.2s;
+}
+.at-section.open .at-section-arrow { transform: rotate(180deg); color: var(--accent); }
+.at-section-body { display: none; border-top: 1px solid var(--border); }
+.at-section.open .at-section-body { display: block; }
+
+/* Team grid */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.team-cell { padding: 10px 16px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.team-cell:nth-child(3n) { border-right: none; }
+.team-role { font-family: var(--sans-m); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.team-name { font-size: 13px; color: var(--text); font-weight: 400; }
+.team-name.empty { color: var(--muted); font-style: italic; font-size: 12px; }
+
+/* Calendar table */
+.cal-row { display: flex; align-items: center; padding: 8px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); gap: 14px; }
+.cal-row:last-child { border-bottom: none; }
+.cal-date { font-family: var(--sans-m); font-size: 12px; color: var(--text-dim); min-width: 80px; }
+.cal-title { font-size: 13px; color: var(--text); flex: 1; font-weight: 400; }
+.cal-type {
+  display: inline-flex; height: 20px; padding: 0 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; align-items: center; white-space: nowrap;
+}
+.type-release { background: rgba(239,68,68,0.15); color: #fca5a5; }
+.type-tour { background: rgba(251,146,60,0.15); color: #fdba74; }
+.type-promo { background: rgba(168,85,247,0.15); color: #c4b5fd; }
+.type-press { background: rgba(96,165,250,0.15); color: #93c5fd; }
+.type-hold { background: rgba(250,204,21,0.12); color: #fcd34d; }
+.type-announce { background: rgba(52,211,153,0.12); color: #6ee7b7; }
+.cal-status {
+  display: inline-flex; height: 20px; padding: 0 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; align-items: center; white-space: nowrap;
+  min-width: 70px; justify-content: center;
+}
+.status-confirmed { background: rgba(52,211,153,0.12); color: #6ee7b7; }
+.status-planning { background: rgba(96,165,250,0.12); color: #93c5fd; }
+.status-hold { background: rgba(250,204,21,0.12); color: #fcd34d; }
+
+/* Release row */
+.rel-row { display: flex; align-items: center; padding: 8px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); gap: 14px; }
+.rel-row:last-child { border-bottom: none; }
+.rel-name { font-size: 13px; color: var(--text); flex: 1; font-weight: 400; }
+.rel-date { font-family: var(--sans-m); font-size: 12px; color: var(--text-dim); min-width: 90px; }
+.rel-link {
+  font-family: var(--sans-m); font-size: 10px; font-weight: 600;
+  color: var(--accent); background: var(--accent-dim);
+  padding: 3px 10px; border-radius: 10px; text-decoration: none; cursor: pointer;
+}
+
+/* Section label divider */
+.section-divider {
+  padding: 16px 28px 8px; font-family: var(--sans-h); font-size: 12px;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+}
+.hero { animation: fadeIn 0.2s ease; }
+.dr-row { animation: fadeIn 0.15s ease backwards; }
+
+@media (max-width: 900px) {
+  .ap { width: 240px; min-width: 240px; }
+  .orient-grid { grid-template-columns: 1fr; }
+  .dr-cols { grid-template-columns: 1fr; }
+  .dr-col:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  .hero-name { font-size: 38px; }
+}
+@media (max-width: 700px) { .ap { display: none; } }
+</style>
+</head>
+<body>
+<!-- NAV BAR -->
+<style>
+.ndd{position:relative;display:inline-block}
+.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
+.ndd-b:hover{color:#FCFDF8}
+.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
+.ndd:hover .ndd-m{display:block}
+.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
+.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
+.ndd-m a.da{color:#CDF851;font-weight:700}
+</style>
+<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
+    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
+        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
+        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2px;">
+        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
+        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Demo</span>
+        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
+        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
+        <a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
+    </div>
+</div>
+<!-- /NAV BAR -->
+        <div class="nav-dd">
+            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
+            <div class="nav-dd-menu">
+                <a href="prep-isaia.html">Isaia Huron</a>
+            </div>
+        </div>
+    </div>
+</div>
+  </div>
+</div>
+<div class="mo" id="m-sources" onclick="if(event.target===this)closeM('sources')">
+  <div class="mo-box">
+    <div class="mo-head"><h3>Data Sources</h3><button class="mo-x" onclick="closeM('sources')">×</button></div>
+    <div class="mo-body">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Every data point already exists somewhere at RCA. This system connects what's already there.</p>
+      <table class="mo-tbl"><thead><tr><th>Data Type</th><th>Source</th><th>System</th></tr></thead><tbody>
+        <tr><td>Release schedule, dates, UPC</td><td>Release planning</td><td>GRPS + Runway</td></tr>
+        <tr><td>Contracts, terms, territory</td><td>Business & Legal</td><td>CARMA</td></tr>
+        <tr><td>ISRC, delivery, track data</td><td>Production</td><td>GRPS</td></tr>
+        <tr><td>DSP pitches, streaming</td><td>Marketing / Digital</td><td>Pitch docs + Runway</td></tr>
+        <tr><td>Budget, spend</td><td>Finance</td><td>SAP + spreadsheets</td></tr>
+        <tr><td>External contacts</td><td>Teams</td><td>CARMA</td></tr>
+        <tr><td>Clearance, samples</td><td>A&R + Legal</td><td>Sample clearance report, side artist chart</td></tr>
+        <tr><td>Rights, publishers</td><td>Business & Legal</td><td>CARMA</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+<div class="mo" id="m-unknowns" onclick="if(event.target===this)closeM('unknowns')">
+  <div class="mo-box">
+    <div class="mo-head"><h3>7 Chronically Unknown Fields</h3><button class="mo-x" onclick="closeM('unknowns')">×</button></div>
+    <div class="mo-body">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">These show "Unknown" in Runway because the data lives in departments that don't update Runway.</p>
+      <table class="mo-tbl"><thead><tr><th>Field</th><th>Owned By</th><th>Root Cause</th></tr></thead><tbody>
+        <tr><td>SAA</td><td>BLA (both labels)</td><td>No shared cross-label workflow</td></tr>
+        <tr><td>SAMP</td><td>A&R + BLA</td><td>Tracked in email, not Runway</td></tr>
+        <tr><td>Atmos Decision <span class="vtag">VERIFY</span></td><td>A&R / Prod.</td><td>Made verbally, pre-Runway</td></tr>
+        <tr><td>Cover / VSC <span class="vtag">VERIFY</span></td><td>A&R + Legal</td><td>Who initiates is undefined</td></tr>
+        <tr><td>A&R Paperwork</td><td>A&R Admin</td><td>Completion doesn't flow back</td></tr>
+        <tr><td>Artwork <span class="vtag">VERIFY</span></td><td>Creative / Mgmt</td><td>DSN accepts "TBD"</td></tr>
+        <tr><td>Credits/Splits <span class="vtag">VERIFY</span></td><td>A&R + Legal + Mgmt</td><td>Multi-party, outside all systems</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCE DATA MODAL -->
+<div class="mo" id="m-sourcedata" onclick="if(event.target===this)closeM('sourcedata')">
+  <div class="mo-box sd-box">
+    <div class="mo-head">
+      <h3 id="sd-title">Source Data</h3>
+      <button class="mo-x" onclick="closeM('sourcedata')">×</button>
+    </div>
+    <div class="sd-tabs" id="sd-tabs"></div>
+    <div id="sd-panes"></div>
+  </div>
+</div>
+
+<script>
+const ARTISTS = [
+  {id:'a1',name:'Myles Smith',release:'Lead Single — "Stargazing (Platinum Edition)"',genre:'Pop / Soul',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
+  {id:'a2',name:'SZA',release:'Album — Third Studio LP',genre:'R&B / Alt',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
+  {id:'a3',name:'Doja Cat',release:'Vie — Tour Ma Vie Cycle',genre:'Pop / Rap',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
+  {id:'a4',name:'Khalid',release:'Single — "Adorn"',genre:'R&B / Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
+  {id:'a5',name:'H.E.R.',release:'Catalog — Back of My Mind (Deluxe)',genre:'R&B / Soul',phase:'catalog',phaseLabel:'Catalog',phaseClass:'ph-catalog'}
+];
+
+// Per-artist Airtable-style data (team, calendar, releases, partners)
+const AT = {
+  a1: {
+    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    calendar: [
+      {date:'3/15/2026',title:'"Stargazing (Platinum)" — master delivery deadline',type:'release',status:'planning'},
+      {date:'3/22/2026',title:'Visual identity photoshoot',type:'promo',status:'planning'},
+      {date:'4/1/2026',title:'DSP pitch window opens',type:'announce',status:'planning'}
+    ],
+    releases: [
+      {name:'Stargazing (Platinum Edition)',date:'TBD',link:true},
+      {name:'Stargazing (Original)',date:'2024',link:true}
+    ],
+    partners: [{opp:'Spotify Fresh Finds feature',partner:'Spotify',status:'planning'}]
+  },
+  a2: {
+    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    calendar: [
+      {date:'3/10/2026',title:'Lead single announcement',type:'announce',status:'confirmed'},
+      {date:'3/14/2026',title:'"Passenger Princess" — track release',type:'release',status:'planning'},
+      {date:'3/20/2026',title:'Album pre-order live',type:'release',status:'planning'},
+      {date:'3/28/2026',title:'SNL performance (tentative)',type:'press',status:'hold'},
+      {date:'4/18/2026',title:'Album release',type:'release',status:'planning'},
+      {date:'5/1/2026',title:'Tour announce',type:'tour',status:'planning'}
+    ],
+    releases: [
+      {name:'Third Studio LP (Album)',date:'4/18/2026',link:false},
+      {name:'"Passenger Princess" (Single)',date:'3/14/2026',link:false},
+      {name:'SOS Deluxe',date:'12/2023',link:true},
+      {name:'SOS',date:'12/2022',link:true}
+    ],
+    partners: [{opp:'Apple Music Spatial Audio feature',partner:'Apple',status:'planning'},{opp:'Spotify Billions Club campaign',partner:'Spotify',status:'confirmed'}]
+  },
+  a3: {
+    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    calendar: [
+      {date:'3/9/2026',title:'Vie — release week begins',type:'release',status:'confirmed'},
+      {date:'3/9/2026',title:'Paid media campaign launch',type:'promo',status:'confirmed'},
+      {date:'3/10/2026',title:'Music video premiere',type:'announce',status:'confirmed'},
+      {date:'3/11/2026',title:'Press day — interviews',type:'press',status:'confirmed'},
+      {date:'3/12/2026',title:'Spotify Canvas + profile takeover',type:'promo',status:'confirmed'},
+      {date:'10/1/2026',title:'Tour Ma Vie World Tour — Detroit',type:'tour',status:'confirmed'},
+      {date:'10/3/2026',title:'Tour Ma Vie World Tour — Chicago',type:'tour',status:'confirmed'}
+    ],
+    releases: [
+      {name:'Vie (Album)',date:'9/26/2025',link:true},
+      {name:'"Jealous Type" (Single)',date:'2025',link:true},
+      {name:'Scarlet',date:'9/2023',link:true}
+    ],
+    partners: [{opp:'Pepsi Tour Ma Vie partnership',partner:'Pepsi',status:'confirmed'},{opp:'Spotify Marquee campaign',partner:'Spotify',status:'confirmed'},{opp:'Apple Music spatial audio feature',partner:'Apple',status:'confirmed'}]
+  },
+  a4: {
+    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    calendar: [
+      {date:'2/14/2026',title:'"Adorn" — single release',type:'release',status:'confirmed'},
+      {date:'2/21/2026',title:'Follow-up press features',type:'press',status:'planning'},
+      {date:'3/1/2026',title:'Radio impact date',type:'promo',status:'confirmed'},
+      {date:'3/15/2026',title:'30-day P&L check',type:'hold',status:'planning'},
+      {date:'4/1/2026',title:'Next single decision meeting',type:'hold',status:'planning'}
+    ],
+    releases: [
+      {name:'"Adorn" (Single)',date:'2/14/2026',link:true},
+      {name:'Free Spirit',date:'4/2019',link:true},
+      {name:'American Teen',date:'3/2017',link:true}
+    ],
+    partners: [{opp:'Spotify RapCaviar feature',partner:'Spotify',status:'confirmed'},{opp:'Sync pitch: HBO series',partner:'HBO',status:'planning'}]
+  },
+  a5: {
+    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    calendar: [
+      {date:'1/2025',title:'Back of My Mind Deluxe release',type:'release',status:'confirmed'},
+      {date:'Ongoing',title:'Sync catalog active pitching',type:'promo',status:'confirmed'},
+      {date:'Ongoing',title:'Streaming long-tail monitoring',type:'hold',status:'confirmed'}
+    ],
+    releases: [
+      {name:'Back of My Mind (Deluxe)',date:'2025',link:true},
+      {name:'Back of My Mind',date:'6/2021',link:true},
+      {name:'I Used to Know Her',date:'2019',link:true}
+    ],
+    partners: [{opp:'Grammy performance sync placement',partner:'CBS/Grammy',status:'confirmed'}]
+  }
+};
+
+const DEPTS = ['A&R','Creative','Marketing','Digital / Streaming','Press / Publicity','Radio','Sync & Licensing','Business & Legal','Finance','Production / Dist.','International','Management (Ext.)'];
+
+const L={
+'A&R':{setup:{s:'y',sum:'Finalizing masters',done:['Artist signed, deal executed','Producer agreements in progress','Track selection underway'],needs:['Final master delivery','Atmos mix decision','Credits/splits confirmation'],blocks:['Producer agreement delays holding up sessions']},pre:{s:'g',sum:'Master delivered',done:['Final master delivered','Credits and splits confirmed','Atmos mix decision made','ISRC assigned via GRPS'],needs:['Sample clearance sign-off from Legal','A&R paperwork completion confirmation'],blocks:['Cover/VSC status unclear — who initiates?']},week:{s:'g',sum:'Monitoring performance',done:['All masters delivered and live','Credits published on DSPs','Atmos version available'],needs:['Real-time streaming data monitoring','Fan response analysis for next single'],blocks:[]},post:{s:'y',sum:'Planning next single',done:['Performance data collected','Fan response analyzed','Streaming trajectory assessed'],needs:['Next single selection based on data','Album/EP timeline decision','Remix or feature assessment'],blocks:['Next single decision depends on full picture']},catalog:{s:'g',sum:'Catalog management',done:['Track in permanent catalog','Metadata finalized','Version history documented','Ongoing: anniversary re-promotion monitored'],needs:[],blocks:[]}},
+'Creative':{setup:{s:'y',sum:'Brief in development',done:['Creative direction discussed','Photographer shortlist started'],needs:['Visual identity brief locked','Art direction approval','Budget for shoot'],blocks:["Can't book photographer until Finance confirms"]},pre:{s:'y',sum:'Artwork in progress',done:['Art direction approved','Photographer booked','Visual identity locked'],needs:['Final cover artwork','Visualizer / lyric video','Social content for Marketing','DSP banners'],blocks:['DSN filed with Artwork: TBD — no enforcement',"Marketing can't launch without social assets"]},week:{s:'g',sum:'All assets delivered',done:['Cover artwork live on all DSPs','Music video published','Social content deployed','Press photos distributed'],needs:['Day-of reactive content','Additional cuts based on trends'],blocks:[]},post:{s:'y',sum:'Sustain content needed',done:['Release week assets delivered','Visual performance analyzed'],needs:['Sustained content (BTS, live clips)','Visual direction for next single','Merch design tie-ins'],blocks:['Next single creative waiting on A&R']},catalog:{s:'g',sum:'Archive complete',done:['All assets archived and tagged','Style guide documented','Ongoing: re-promotion visuals available if needed'],needs:[],blocks:[]}},
+'Marketing':{setup:{s:'y',sum:'Strategy drafting',done:['Kickoff meeting held','Competitive landscape reviewed'],needs:['Campaign strategy doc','Target audience definition','Budget request to Finance','Influencer targets'],blocks:['Budget not allocated — strategy is theoretical']},pre:{s:'y',sum:'Campaign pending assets',done:['Campaign strategy approved','Influencer targets identified','Paid media budget allocated'],needs:['Social content from Creative','Pre-save link from Digital','Press quotes for ad copy','Confirmed DSP placements'],blocks:["Can't finalize creative until artwork delivered","Launch date TBD — waiting on Production"]},week:{s:'g',sum:'Campaign live',done:['Paid media launched','Influencer posts scheduled','Pre-save converted','Social content posted'],needs:['Real-time optimization','Engagement monitoring','Budget reallocation on performance'],blocks:[]},post:{s:'y',sum:'Sustain campaign',done:['Launch campaign complete','Initial ROI done','Top content identified'],needs:['Sustained paid optimization','Retargeting listeners','Viral moment marketing','Campaign wrap report'],blocks:['Budget reallocation approval needed']},catalog:{s:'g',sum:'Evergreen strategy',done:['Wrap report filed','Learnings documented','Ongoing: evergreen content calendar maintained','Ongoing: anniversary moments flagged'],needs:[],blocks:[]}},
+'Digital / Streaming':{setup:{s:'g',sum:'DSP relationships primed',done:['Streaming strategy outlined','DSP contacts confirmed'],needs:['Pitch timing once date set','Pre-save page setup'],blocks:[]},pre:{s:'g',sum:'DSP pitch submitted',done:['DSP pitch submitted','Pre-save page live','Playlist strategy documented'],needs:['Canvas / video for Spotify','Profile banner updates','Pitch results tracking'],blocks:[]},week:{s:'g',sum:'Tracking placements',done:['Release live on all DSPs','Playlist placements confirmed','Canvas live'],needs:['Hourly streaming velocity','Playlist adds by territory','Algorithmic analysis'],blocks:[]},post:{s:'g',sum:'Algorithmic growth',done:['Playlists secured','Algorithmic pickup confirmed','Discover Weekly tracked'],needs:['Ongoing playlist maintenance','Streaming milestones','Listener demographics for tour','Platform optimization'],blocks:[]},catalog:{s:'g',sum:'Long-tail streaming',done:['Algorithmic ecosystem active','Velocity stabilized','Ongoing: seasonal playlist re-pitching','Ongoing: catalogue playlist strategy maintained'],needs:[],blocks:[]}},
+'Press / Publicity':{setup:{s:'y',sum:'Bio and press kit',done:['Press bio drafted'],needs:['Bio approved by artist/mgmt','Target media list','EPK components','Premiere strategy'],blocks:["EPK can't be finalized without artwork/audio"]},pre:{s:'y',sum:'Pitching outlets',done:['Press bio approved','Media list built','Exclusive premiere pitched'],needs:['Press photos from Creative','Premiere partner confirmed','Interview availability','EPK finalized'],blocks:["Can't send EPK without final artwork/audio"]},week:{s:'g',sum:'Coverage landing',done:['Premiere published','Coverage live','Interviews scheduled'],needs:['Review roundup','Additional press on momentum','Social proof for Marketing'],blocks:[]},post:{s:'y',sum:'Follow-up pitches',done:['Launch coverage compiled','Reviews distributed','Social proof collected'],needs:['Follow-up features','Award submissions','Year-end list positioning'],blocks:['Feature pitches need performance data']},catalog:{s:'g',sum:'Relationship maintenance',done:['Coverage archived','Media relationships maintained','Ongoing: milestone press monitored'],needs:[],blocks:[]}},
+'Radio':{setup:{s:'r',sum:'No audio yet',done:['Format strategy discussed'],needs:['Clean version of track','Radio edit','Add date confirmed'],blocks:['Cannot begin without final audio']},pre:{s:'r',sum:'Waiting on clean version',done:['Add date confirmed','Format strategy set'],needs:['Clean version','Radio edit','Servicing confirmation'],blocks:['Cannot service without clean version','Pre-street delivery unresolved']},week:{s:'y',sum:'Tracking adds',done:['Track serviced','Initial adds secured'],needs:['Impact date monitoring','Secondary market follow-up','Spin count vs targets'],blocks:['Heavy release week may limit adds']},post:{s:'g',sum:'Building momentum',done:['Adds secured','Spin data tracked weekly'],needs:['Impact results','Secondary/tertiary follow-up','Recurrent tracking'],blocks:[]},catalog:{s:'g',sum:'Recurrent rotation',done:['Radio lifecycle documented','Ongoing: format rotation monitored'],needs:[],blocks:[]}},
+'Sync & Licensing':{setup:{s:'y',sum:'Pitches queued',done:['Track flagged for sync','Supervisor outreach planned'],needs:['Final audio for pitching','Publishing splits for quotes','Territory restrictions'],blocks:["Can't pitch without confirmed rights"]},pre:{s:'g',sum:'Pre-release pitches live',done:['Pitches sent','Track in catalog','Rights confirmed'],needs:['Stems / instrumentals','Final publishing splits','Territory restrictions'],blocks:["Can't issue quotes until splits confirmed"]},week:{s:'g',sum:'Active pitching',done:['Pitches converted to holds','Catalog live with data','Rate card updated'],needs:['Post-release pitch refresh','Placement tracking','License fulfillment'],blocks:[]},post:{s:'g',sum:'Active catalog',done:['Track in active catalog','Performance data in pitches','Placements tracked'],needs:['Ongoing supervisor pitching','Quote fulfillment','Royalty coordination','Seasonal positioning'],blocks:[]},catalog:{s:'g',sum:'Evergreen sync asset',done:['Permanent catalog','Rights documented','History archived','Ongoing: re-pitching for new TV/film cycles','Ongoing: rate adjustments tracked'],needs:[],blocks:[]}},
+'Business & Legal':{setup:{s:'r',sum:'Agreements pending',done:['Artist agreement on file'],needs:['Producer agreement','SAA — both labels','SAMP — sample clearance','Mechanical license','Publishing splits'],blocks:["SAA workflow doesn't exist cross-label","SAMP tracked only in email"]},pre:{s:'r',sum:'SAA pending',done:['Artist agreement on file','Producer agreement executed'],needs:['SAA — both labels','SAMP — email only','Mechanical license','Final splits'],blocks:['SAA Unknown in Runway — no cross-label workflow','SAMP Unknown — trapped in email','Blocks Sync, Production, Finance downstream']},week:{s:'g',sum:'Clearances complete',done:['SAA approved','SAMP cleared','Mechanicals confirmed','Splits finalized'],needs:['Unauthorized usage monitoring','Sync license processing'],blocks:[]},post:{s:'g',sum:'Monitoring',done:['All clearances finalized','Agreements filed','Rights registered'],needs:['Takedown enforcement','Sync processing','Option date tracking'],blocks:[]},catalog:{s:'g',sum:'Rights maintained',done:['Agreements archived','PRO registrations confirmed','Ongoing: option dates monitored','Ongoing: re-licensing tracked'],needs:[],blocks:[]}},
+'Finance':{setup:{s:'y',sum:'Budget allocation',done:['Release flagged in planning'],needs:['Budget proposal','Budget approval','Cost center setup','Producer advance'],blocks:["Can't allocate without confirmed scope"]},pre:{s:'y',sum:'Budget approved, costs open',done:['Budget approved','Marketing allocated','Producer advance processed'],needs:['Cost reconciliation','Royalty setup','Sample clearance costs'],blocks:["Can't close P&L until Legal confirms splits"]},week:{s:'y',sum:'Tracking spend',done:['Budget allocated','Marketing spend live','Production booked'],needs:['Real-time spend vs budget','Revenue accrual','P&L projection Day 1'],blocks:['Vendor invoices outstanding']},post:{s:'y',sum:'Closing P&L',done:['Invoices received','Accruals in place','Initial P&L drafted'],needs:['Final P&L close','Royalty reconciliation','ROI analysis','Budget learnings'],blocks:['Vendor invoices + sync revenue needed']},catalog:{s:'g',sum:'P&L closed',done:['P&L closed','Royalties reconciled','Variance analysis complete','Ongoing: royalty monitoring active'],needs:[],blocks:[]}},
+'Production / Dist.':{setup:{s:'y',sum:'DSN prep',done:['Release registered in GRPS','UPC initiated'],needs:['Final audio for DSN','Artwork (accepted as TBD)','Complete credits','Rights/pricing data'],blocks:['Audio not yet delivered from A&R']},pre:{s:'r',sum:'DSN filed incomplete',done:['DSN filed','UPC assigned','Delivery format confirmed'],needs:['Final artwork (DSN accepted TBD)','Credits for label copy','Rights/pricing for ERN','Clean version for radio'],blocks:['DSN filed with Artwork: TBD + zero rights','ERN will reject without complete data','The 44% workability problem']},week:{s:'g',sum:'Delivery complete',done:['ERN accepted by all DSPs','All territories live','Audio + artwork confirmed'],needs:['QC across DSPs','Territory confirmation','Takedown monitoring'],blocks:[]},post:{s:'g',sum:'Live and stable',done:['Release live globally','Quality confirmed','All deliveries successful'],needs:['Takedown monitoring','Metadata corrections','Version management'],blocks:[]},catalog:{s:'g',sum:'Catalog maintained',done:['Permanent catalog','Metadata finalized','Ongoing: updates processed as needed'],needs:[],blocks:[]}},
+'International':{setup:{s:'y',sum:'Territory mapping',done:['Priority markets identified'],needs:['Territory timing','Local budgets','Intl DSP coordination','Localization planning'],blocks:["Can't finalize without global date"]},pre:{s:'y',sum:'Territory plans in draft',done:['Global date aligned','Priority markets identified'],needs:['Territory marketing plans','Local DSP pitches','Press translation','Rights confirmation'],blocks:["Can't finalize without rights confirmation"]},week:{s:'g',sum:'Global rollout live',done:['All territories live','Local pitches submitted','Local press launched'],needs:['Territory streaming data','Local playlists','Market adjustments'],blocks:[]},post:{s:'y',sum:'Market analysis',done:['Global release executed','Local campaigns completed','Territory data collected'],needs:['Market-by-market report','Territory prioritization','Local press follow-up','Tour routing from streaming data'],blocks:['Territory data needed from Digital']},catalog:{s:'g',sum:'Territory data archived',done:['Reports filed','Learnings documented','Ongoing: breakout markets monitored'],needs:[],blocks:[]}},
+'Management (Ext.)':{setup:{s:'g',sum:'Aligned on vision',done:['Release concept discussed','Single direction aligned','Creative vision agreed'],needs:['Final date sign-off','Interview windows','Social willingness'],blocks:[]},pre:{s:'g',sum:'Aligned on timeline',done:['Date approved','Single confirmed','Visual direction aligned','Interview availability confirmed'],needs:['Social calendar sign-off','Content capture dates'],blocks:[]},week:{s:'g',sum:'Artist activated',done:['Social posts published','Interviews executing','Fan engagement active'],needs:['Real-time performance feedback','Content adjustments'],blocks:[]},post:{s:'g',sum:'Next steps aligned',done:['Performance reviewed with artist','Fan response shared','Press results communicated'],needs:['Next single timeline','Tour planning','Creative direction'],blocks:[]},catalog:{s:'g',sum:'Ongoing relationship',done:['Retrospective completed','Long-term plan discussed','Ongoing: option date awareness active','Ongoing: career planning aligned'],needs:[],blocks:[]}}
+
+};
+
+let cur = ARTISTS[0].id;
+let expDepts = new Set();
+let statusFilter = null; // null = all, 'g' = on track, 'y' = needs attn, 'r' = blocked, 'blocks' = has blockers
+
+function getData(a) {
+  const ph = a.phase;
+  let g=0,y=0,r=0,td=0,tn=0,tb=0;
+  DEPTS.forEach(d=>{const c=L[d]?.[ph];if(!c)return;if(c.s==='g')g++;else if(c.s==='y')y++;else r++;td+=c.done.length;tn+=c.needs.length;tb+=c.blocks.length;});
+  const total=td+tn;const pct=total>0?Math.round((td/total)*100):0;
+  return{g,y,r,td,tn,tb,pct,total};
+}
+
+function renderAP() {
+  let h = `<div class="ap-head"><div class="ap-label">Artist Releases</div></div><div class="ap-list">`;
+  ARTISTS.forEach((a,i) => {
+    const d = getData(a);
+    h += `<div class="ac${a.id===cur?' active':''}" onclick="sel('${a.id}')" style="animation-delay:${i*0.04}s">
+      <div class="ac-name">${a.name}</div>
+      <div class="ac-rel">${a.release}</div>
+      <span class="ac-phase ${a.phaseClass}">${a.phaseLabel}</span>
+      <div class="ac-stats">
+        <span class="ac-stat"><span class="sdot dg"></span>${d.g}</span>
+        <span class="ac-stat"><span class="sdot dy"></span>${d.y}</span>
+        <span class="ac-stat"><span class="sdot dr"></span>${d.r}</span>
+        <span class="ac-stat" style="margin-left:auto;color:var(--muted);">${d.pct}%</span>
+      </div>
+    </div>`;
+  });
+  h += '</div>';
+  document.getElementById('ap').innerHTML = h;
+}
+
+function renderDP() {
+  const a = ARTISTS.find(x=>x.id===cur);
+  if(!a) return;
+  const d = getData(a);
+  const circ = 2*Math.PI*32;
+  const off = circ-(d.pct/100)*circ;
+  const col = d.pct>=70?'var(--green)':d.pct>=40?'var(--yellow)':'var(--flame)';
+
+  let h = `<div class="orient-bar collapsed" id="orient">
+    <div class="orient-toggle" onclick="toggleOrient()">
+      <span class="orient-badge">Guide</span>
+      <span class="orient-title">How to Read This</span>
+      <span class="orient-arrow">▾</span>
+    </div>
+    <div class="orient-body">
+      <div class="orient-grid">
+        <div class="orient-card"><div class="oc-num">01</div><div class="oc-t">What You're Looking At</div><div class="oc-p">Pick an artist on the left. The right panel shows <span class="oc-em">every department's status</span> for that release — what's done, what's still needed, what's blocking.</div></div>
+        <div class="orient-card"><div class="oc-num">02</div><div class="oc-t">How to Navigate</div><div class="oc-p">Each artist is at a <span class="oc-em">different lifecycle stage</span>. Click any department row to expand it. Red = blocked. Yellow = needs attention. Green = on track.</div></div>
+        <div class="orient-card"><div class="oc-num">03</div><div class="oc-t">The Completion %</div><div class="oc-p">Across all 12 departments, we count every task item. <span class="oc-em">% = items complete ÷ total items</span>. The ring shows how close this release is to fully ready.</div></div>
+      </div>
+      <div class="orient-foot"><p>Every department updates their status in one place. Every department sees everyone else's. Click an artist and see the whole picture.</p></div>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="hero-phase">${a.phaseLabel} · ${a.genre}</div>
+    <div class="hero-name">${a.name}</div>
+    <div class="hero-rel">${a.release}</div>
+    <div class="hero-stats">
+      <div class="hs-box${statusFilter==='g'?' active-filter':''}" onclick="filterStatus('g')"><div class="hs-num s-g">${d.g}</div><div class="hs-label">On Track</div></div>
+      <div class="hs-box${statusFilter==='y'?' active-filter':''}" onclick="filterStatus('y')"><div class="hs-num s-y">${d.y}</div><div class="hs-label">Needs Attn</div></div>
+      <div class="hs-box${statusFilter==='r'?' active-filter':''}" onclick="filterStatus('r')"><div class="hs-num s-r">${d.r}</div><div class="hs-label">Blocked</div></div>
+      <div class="hs-box${statusFilter==='blocks'?' active-filter':''}" onclick="filterStatus('blocks')"><div class="hs-num" style="color:var(--white)">${d.tb}</div><div class="hs-label">Blockers</div></div>
+      <div class="gauge-box">
+        <div class="gauge-explain">
+          <strong>${d.td}</strong> items done<br>
+          of <strong>${d.total}</strong> total<br>
+          across 12 depts
+        </div>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 80 80">
+            <circle class="gauge-bg" cx="40" cy="40" r="32"/>
+            <circle class="gauge-fill" cx="40" cy="40" r="32"
+              stroke="${col}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/>
+          </svg>
+          <div class="gauge-pct">
+            <div class="gauge-pct-num" style="color:${col}">${d.pct}%</div>
+            <div class="gauge-pct-label">Complete</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AIRTABLE-STYLE SECTIONS -->`;
+
+  const atd = AT[a.id];
+  if(atd) {
+    // Team section
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Artist Team</span>
+        <span class="at-section-count">9 roles</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        <div class="team-grid">
+          <div class="team-cell"><div class="team-role">A&R</div><div class="team-name${atd.team.ar==='—'?' empty':''}">${atd.team.ar}</div></div>
+          <div class="team-cell"><div class="team-role">Marketing</div><div class="team-name${atd.team.marketing==='—'?' empty':''}">${atd.team.marketing}</div></div>
+          <div class="team-cell"><div class="team-role">Digital</div><div class="team-name${atd.team.digital==='—'?' empty':''}">${atd.team.digital}</div></div>
+          <div class="team-cell"><div class="team-role">Creative</div><div class="team-name${atd.team.creative==='—'?' empty':''}">${atd.team.creative}</div></div>
+          <div class="team-cell"><div class="team-role">Design Lead</div><div class="team-name${atd.team.designLead==='—'?' empty':''}">${atd.team.designLead}</div></div>
+          <div class="team-cell"><div class="team-role">Press</div><div class="team-name${atd.team.press==='—'?' empty':''}">${atd.team.press}</div></div>
+          <div class="team-cell"><div class="team-role">Tour Marketing</div><div class="team-name${atd.team.tourMktg==='—'?' empty':''}">${atd.team.tourMktg}</div></div>
+          <div class="team-cell"><div class="team-role">Manager</div><div class="team-name${atd.team.manager==='—'?' empty':''}">${atd.team.manager}</div></div>
+          <div class="team-cell"><div class="team-role">Agent</div><div class="team-name${atd.team.agent==='—'?' empty':''}">${atd.team.agent}</div></div>
+        </div>
+      </div>
+    </div>`;
+
+    // Calendar section
+    const typeClass = {release:'type-release',tour:'type-tour',promo:'type-promo',press:'type-press',hold:'type-hold',announce:'type-announce'};
+    const typeLabel = {release:'Release',tour:'Tour Date',promo:'Promo',press:'Press',hold:'Hold',announce:'Announce'};
+    const statusClass = {confirmed:'status-confirmed',planning:'status-planning',hold:'status-hold'};
+    const statusLabel = {confirmed:'Confirmed',planning:'Planning',hold:'Hold'};
+
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Calendar</span>
+        <span class="at-section-count">${atd.calendar.length} events</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        ${atd.calendar.map(e => `<div class="cal-row">
+          <span class="cal-date">${e.date}</span>
+          <span class="cal-title">${e.title}</span>
+          <span class="cal-type ${typeClass[e.type]||''}">${typeLabel[e.type]||e.type}</span>
+          <span class="cal-status ${statusClass[e.status]||''}">${statusLabel[e.status]||e.status}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+    // Releases section
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Releases</span>
+        <span class="at-section-count">${atd.releases.length}</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        ${atd.releases.map(r => `<div class="rel-row">
+          <span class="rel-name">${r.name}</span>
+          <span class="rel-date">${r.date}</span>
+          ${r.link?'<span class="rel-link">Listen Here</span>':''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+    // Partner Updates section
+    if(atd.partners.length) {
+      h += `<div class="at-section">
+        <div class="at-section-head" onclick="togSec(this)">
+          <span class="at-section-title">Partner Updates</span>
+          <span class="at-section-count">${atd.partners.length}</span>
+          <span class="at-section-arrow">▾</span>
+        </div>
+        <div class="at-section-body">
+          ${atd.partners.map(p => `<div class="cal-row">
+            <span class="cal-title">${p.opp}</span>
+            <span class="cal-type type-announce">${p.partner}</span>
+            <span class="cal-status ${statusClass[p.status]||''}">${statusLabel[p.status]||p.status}</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    }
+  }
+
+  // Section divider before dept status
+  h += `<div class="section-divider">Department Status</div>
+  <div class="dept-list">`;
+
+  if(statusFilter) {
+    const filterLabel = statusFilter==='g'?'On Track':statusFilter==='y'?'Needs Attention':statusFilter==='r'?'Blocked':'Has Blockers';
+    const filterColor = statusFilter==='g'?'var(--green)':statusFilter==='y'?'var(--yellow)':statusFilter==='r'?'var(--flame)':'var(--white)';
+    h += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:0 4px;">
+      <span style="font-family:var(--sans-m);font-size:11px;color:${filterColor};letter-spacing:0.5px;">Showing: ${filterLabel}</span>
+      <span onclick="filterStatus(null)" style="font-family:var(--sans-m);font-size:10px;color:var(--muted);cursor:pointer;padding:3px 8px;border:1px solid var(--border);border-radius:4px;transition:all 0.12s;" onmouseover="this.style.color='var(--white)';this.style.borderColor='var(--text)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">✕ Clear filter</span>
+    </div>`;
+  }
+
+  DEPTS.forEach((dept,i) => {
+    const c = L[dept]?.[a.phase];
+    if(!c) return;
+    // Apply status filter
+    if(statusFilter === 'g' && c.s !== 'g') return;
+    if(statusFilter === 'y' && c.s !== 'y') return;
+    if(statusFilter === 'r' && c.s !== 'r') return;
+    if(statusFilter === 'blocks' && c.blocks.length === 0) return;
+    const isE = expDepts.has(dept);
+    const dc = c.s==='g'?'dg':c.s==='y'?'dy':'dr';
+    const pc = c.s==='g'?'pg':c.s==='y'?'py':'pr';
+    const pt = c.s==='g'?'On Track':c.s==='y'?'Needs Attention':'Blocked';
+
+    h += `<div class="dr-row${isE?' exp':''}" style="animation-delay:${i*0.03}s">
+      <div class="dr-head" onclick="togD('${dept}')">
+        <span class="dr-dot ${dc}"></span>
+        <span class="dr-name">${dept}</span>
+        <span class="dr-pill ${pc}">${pt}</span>
+        <span class="dr-sum">${c.sum}</span>
+        <span class="dr-cts">
+          <span style="color:var(--green)">✓ ${c.done.length}</span>
+          <span style="color:var(--yellow)">◦ ${c.needs.length}</span>
+          ${c.blocks.length?`<span style="color:var(--flame)">✕ ${c.blocks.length}</span>`:''}
+        </span>
+        <span class="dr-arr">▾</span>
+      </div>
+      <div class="dr-detail">
+        <div class="dr-cols">
+          <div class="dr-col c-done">
+            <div class="dr-ch ch-g">✓ Complete (${c.done.length})</div>
+            <ul>${c.done.map(x=>'<li>'+x+'</li>').join('')}</ul>
+          </div>
+          <div class="dr-col c-needs">
+            <div class="dr-ch ch-y">◦ Still Needed (${c.needs.length})</div>
+            <ul>${c.needs.length?c.needs.map(x=>'<li>'+x+'</li>').join(''):'<li class="dr-empty">Nothing outstanding</li>'}</ul>
+          </div>
+          <div class="dr-col c-blocks">
+            <div class="dr-ch ch-r">✕ Blocking (${c.blocks.length})</div>
+            <ul>${c.blocks.length?c.blocks.map(x=>'<li>'+x+'</li>').join(''):'<li class="dr-empty">No blockers</li>'}</ul>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('dp').innerHTML=h;
+}
+
+function sel(id){cur=id;expDepts.clear();statusFilter=null;renderAP();renderDP();document.getElementById('dp').scrollTop=0;}
+function togD(d){if(expDepts.has(d))expDepts.delete(d);else expDepts.add(d);renderDP();}
+function filterStatus(s){
+  statusFilter=(statusFilter===s)?null:s;
+  // Auto-expand all visible rows when filtering to blocked/blockers
+  if(statusFilter==='r'||statusFilter==='blocks'){
+    const a=ARTISTS.find(x=>x.id===cur);
+    if(a) DEPTS.forEach(d=>{const c=L[d]?.[a.phase];if(c){
+      if((statusFilter==='r'&&c.s==='r')||(statusFilter==='blocks'&&c.blocks.length>0))expDepts.add(d);
+    }});
+  } else if(!statusFilter){ expDepts.clear(); }
+  renderDP();
+}
+function toggleOrient(){document.getElementById('orient').classList.toggle('collapsed');}
+function togSec(el){el.closest('.at-section').classList.toggle('open');}
+function openM(id){
+  if(id==='sourcedata') renderSourceData();
+  document.getElementById('m-'+id).classList.add('vis');
+}
+function closeM(id){document.getElementById('m-'+id).classList.remove('vis');}
+
+function renderSourceData(){
+  const a = ARTISTS.find(x=>x.id===cur);
+  if(!a) return;
+  const atd = AT[a.id];
+  const d = getData(a);
+  const ph = a.phase;
+
+  document.getElementById('sd-title').textContent = 'Source Data — ' + a.name;
+
+  // Tab definitions
+  const tabs = [
+    {id:'profile', label:'Profile', count:null},
+    {id:'calendar', label:'Calendar', count: atd?.calendar?.length || 0},
+    {id:'releases', label:'Releases', count: atd?.releases?.length || 0},
+    {id:'partners', label:'Partners', count: atd?.partners?.length || 0},
+    {id:'depts', label:'Dept Status', count: 12}
+  ];
+
+  // Render tabs
+  let th = '';
+  tabs.forEach((t,i)=>{
+    th += `<div class="sd-tab${i===0?' active':''}" onclick="sdTab('${t.id}')">${t.label}${t.count!==null?`<span class="sd-count">${t.count}</span>`:''}</div>`;
+  });
+  document.getElementById('sd-tabs').innerHTML = th;
+
+  // ── PROFILE PANE ──
+  const teamLabels = {ar:'A&R',marketing:'Marketing',digital:'Digital',creative:'Creative',designLead:'Design Lead',press:'Press',tourMktg:'Tour Marketing',manager:'Manager',agent:'Agent'};
+  let profileH = `
+    <div class="sd-tbl-label">Artist Profile → Airtable: Artists Table</div>
+    <div class="sd-field"><div class="sd-field-name">Artist</div><div class="sd-field-val">${a.name}</div><div class="sd-field-src">GRPS</div></div>
+    <div class="sd-field"><div class="sd-field-name">Genre</div><div class="sd-field-val">${a.genre}</div><div class="sd-field-src">GRPS</div></div>
+    <div class="sd-field"><div class="sd-field-name">Phase</div><div class="sd-field-val">${a.phaseLabel}</div><div class="sd-field-src">Airtable (derived)</div></div>
+    <div class="sd-field"><div class="sd-field-name">Release</div><div class="sd-field-val">${a.release}</div><div class="sd-field-src">Runway</div></div>
+    <div class="sd-field"><div class="sd-field-name">Completion</div><div class="sd-field-val">${d.pct}% — ${d.td} of ${d.total} items</div><div class="sd-field-src">Airtable (calc)</div></div>
+    <div class="sd-tbl-label" style="margin-top:20px;">Team Roster → Airtable: Artist Team Table</div>`;
+  if(atd?.team){
+    Object.entries(atd.team).forEach(([k,v])=>{
+      profileH += `<div class="sd-field"><div class="sd-field-name">${teamLabels[k]||k}</div><div class="sd-field-val">${v||'—'}</div><div class="sd-field-src">CARMA</div></div>`;
+    });
+  }
+
+  // ── CALENDAR PANE ──
+  let calH = `<div class="sd-tbl-label">Calendar Events → Airtable: Calendar Table</div>`;
+  if(atd?.calendar?.length){
+    calH += `<table class="mo-tbl"><thead><tr><th>Date</th><th>Event</th><th>Type</th><th>Status</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
+    atd.calendar.forEach(e=>{
+      const tc = e.type==='release'?'#CDF851':e.type==='tour'?'#60a5fa':e.type==='promo'?'#c4b5fd':e.type==='press'?'#FACC15':e.type==='announce'?'#B0A9BE':'#847D96';
+      const sc = e.status==='confirmed'?'color:#4ADE80':'color:#FACC15';
+      calH += `<tr><td>${e.date}</td><td>${e.title}</td><td><span style="color:${tc};font-weight:600;font-size:11px;text-transform:uppercase;">${e.type}</span></td><td><span style="${sc};font-size:11px;text-transform:uppercase;">${e.status}</span></td><td style="text-align:right;color:var(--muted);font-size:10px;">Runway + Meeting Notes</td></tr>`;
+    });
+    calH += '</tbody></table>';
+  } else { calH += '<div class="sd-empty">No calendar events for this artist.</div>'; }
+
+  // ── RELEASES PANE ──
+  let relH = `<div class="sd-tbl-label">Releases → Airtable: Releases Table</div>`;
+  if(atd?.releases?.length){
+    relH += `<table class="mo-tbl"><thead><tr><th>Title</th><th>Date</th><th>In Catalog</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
+    atd.releases.forEach(r=>{
+      relH += `<tr><td>${r.name}</td><td>${r.date}</td><td>${r.link?'<span style="color:var(--green)">✓ Yes</span>':'<span style="color:var(--text-dim)">Pending</span>'}</td><td style="text-align:right;color:var(--muted);font-size:10px;">GRPS + Runway</td></tr>`;
+    });
+    relH += '</tbody></table>';
+  } else { relH += '<div class="sd-empty">No release records.</div>'; }
+
+  // ── PARTNERS PANE ──
+  let parH = `<div class="sd-tbl-label">Partner Updates → Airtable: Partner Updates Table</div>`;
+  if(atd?.partners?.length){
+    parH += `<table class="mo-tbl"><thead><tr><th>Opportunity</th><th>Partner</th><th>Status</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
+    atd.partners.forEach(p=>{
+      const sc = p.status==='confirmed'?'color:var(--green)':'color:var(--yellow)';
+      parH += `<tr><td>${p.opp}</td><td style="font-weight:600;color:var(--white)">${p.partner}</td><td><span style="${sc};text-transform:uppercase;font-size:11px;">${p.status}</span></td><td style="text-align:right;color:var(--muted);font-size:10px;">Meeting Notes + Digital</td></tr>`;
+    });
+    parH += '</tbody></table>';
+  } else { parH += '<div class="sd-empty">No partner updates.</div>'; }
+
+  // ── DEPT STATUS PANE ──
+  let deptH = `<div class="sd-tbl-label">Department Status → Airtable: Dept Status Table (12 rows per artist per phase)</div>`;
+  deptH += `<table class="mo-tbl"><thead><tr><th>Department</th><th>Status</th><th>Done</th><th>Needs</th><th>Blocks</th><th style="text-align:right">Source</th></tr></thead><tbody>`;
+  const deptSources = {'A&R':'A&R team','A&R Admin':'A&R Admin','Creative & Content':'Creative','Marketing':'Marketing','Digital / Streaming':'Digital','Press / Publicity':'Press','Radio':'Radio','Sync & Licensing':'Sync','Business & Legal':'BLA + CARMA','Finance':'Finance + SAP','Production / Dist.':'GRPS + Runway','International':'Intl team','Management (Ext.)':'Mgmt'};
+  DEPTS.forEach(dept=>{
+    const c = L[dept]?.[ph];
+    if(!c) return;
+    const pill = c.s==='g'?'sd-pill-g':c.s==='y'?'sd-pill-y':'sd-pill-r';
+    const label = c.s==='g'?'ON TRACK':c.s==='y'?'NEEDS ATTN':'BLOCKED';
+    deptH += `<tr><td>${dept}</td><td><span class="sd-pill ${pill}">${label}</span></td><td style="color:var(--green)">${c.done.length}</td><td style="color:var(--yellow)">${c.needs.length}</td><td style="color:${c.blocks.length?'var(--flame)':'var(--muted)'}">${c.blocks.length}</td><td style="text-align:right;color:var(--muted);font-size:10px;">${deptSources[dept]||'Dept'}</td></tr>`;
+  });
+  deptH += '</tbody></table>';
+
+  // Build panes
+  document.getElementById('sd-panes').innerHTML = `
+    <div class="sd-pane vis" id="sdp-profile">${profileH}</div>
+    <div class="sd-pane" id="sdp-calendar">${calH}</div>
+    <div class="sd-pane" id="sdp-releases">${relH}</div>
+    <div class="sd-pane" id="sdp-partners">${parH}</div>
+    <div class="sd-pane" id="sdp-depts">${deptH}</div>
+  `;
+}
+function sdTab(id){
+  document.querySelectorAll('.sd-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sd-pane').forEach(p=>p.classList.remove('vis'));
+  event.target.closest('.sd-tab').classList.add('active');
+  document.getElementById('sdp-'+id).classList.add('vis');
+}
+
+renderAP();renderDP();
+</script>
+</body>
+</html>

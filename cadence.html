@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Weekly Operations Cadence</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0F0E0E; font-family:'Inter',Arial,sans-serif; color:#B0A9BE; }
+
+.wrap { max-width:900px; margin:0 auto; padding:40px 24px; }
+
+/* HEADER */
+.hdr { padding-bottom:16px; border-bottom:2px solid #CDF851; margin-bottom:32px; display:flex; justify-content:space-between; align-items:flex-end; }
+.hdr-left .tag { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; margin-bottom:2px; }
+.hdr-left .title { font-size:22px; font-weight:900; letter-spacing:-0.02em; color:#FCFDF8; }
+.hdr-right { font-size:11px; color:#847D96; text-align:right; }
+.hdr-right span { color:#FCFDF8; font-weight:600; }
+
+/* CYCLE VISUAL */
+.cycle { position:relative; margin:40px 0 48px; }
+.cycle-label { font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#CDF851; margin-bottom:20px; }
+
+/* TIMELINE */
+.timeline { position:relative; display:flex; gap:0; }
+.day-col { flex:1; position:relative; }
+.day-col:not(:last-child) { border-right:1px solid #2A2A2A; }
+
+/* Day header */
+.day-hdr { text-align:center; padding:10px 4px; border-bottom:1px solid #2A2A2A; }
+.day-name { font-size:11px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; }
+.day-name.active { color:#CDF851; }
+.day-name.dim { color:#3E3F41; }
+.day-sub { font-size:9px; color:#847D96; margin-top:2px; }
+
+/* Day content */
+.day-body { padding:12px 8px; min-height:320px; position:relative; }
+
+/* Event blocks */
+.evt { border-radius:6px; padding:10px 10px; margin-bottom:8px; position:relative; }
+.evt-meet { background:rgba(205,248,81,0.12); border:1px solid rgba(205,248,81,0.3); }
+.evt-work { background:rgba(176,169,190,0.08); border:1px solid #2A2A2A; }
+.evt-auto { background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.25); }
+.evt-flag { background:rgba(255,74,35,0.1); border:1px solid rgba(255,74,35,0.25); }
+.evt-rest { background:rgba(62,63,65,0.3); border:1px solid #2A2A2A; }
+
+.evt-time { font-size:8px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:4px; }
+.evt-time.green { color:#CDF851; }
+.evt-time.blue { color:#60a5fa; }
+.evt-time.flame { color:#FF4A23; }
+.evt-time.dim { color:#3E3F41; }
+.evt-title { font-size:11px; font-weight:700; color:#FCFDF8; margin-bottom:3px; line-height:1.3; }
+.evt-desc { font-size:10px; color:#847D96; line-height:1.4; }
+.evt-tag { display:inline-block; font-size:8px; font-weight:700; letter-spacing:0.1em; padding:2px 5px; border-radius:2px; margin-top:4px; }
+.tag-at { background:#CDF851; color:#0F0E0E; }
+.tag-auto { background:#60a5fa; color:#0F0E0E; }
+.tag-manual { background:#3E3F41; color:#B0A9BE; }
+
+/* FLOW ARROWS */
+.flow-section { margin:40px 0; }
+.flow-label { font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#B0A9BE; margin-bottom:20px; }
+
+/* Pipeline visual */
+.pipe { display:flex; align-items:stretch; gap:0; margin-bottom:32px; }
+.pipe-node { flex:1; position:relative; }
+.pipe-box { background:#181818; border:1px solid #2A2A2A; border-radius:8px; padding:16px 14px; margin:0 6px; height:100%; display:flex; flex-direction:column; }
+.pipe-num { font-size:28px; font-weight:900; color:#CDF851; line-height:1; margin-bottom:6px; }
+.pipe-title { font-size:12px; font-weight:700; color:#FCFDF8; margin-bottom:4px; }
+.pipe-when { font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#847D96; margin-bottom:6px; }
+.pipe-desc { font-size:10px; color:#B0A9BE; line-height:1.45; flex:1; }
+.pipe-time { font-size:9px; font-weight:700; color:#CDF851; margin-top:8px; letter-spacing:0.05em; }
+.pipe-time.auto { color:#60a5fa; }
+
+/* Arrow between nodes */
+.pipe-arrow { position:absolute; right:-10px; top:50%; transform:translateY(-50%); z-index:2; font-size:16px; color:#CDF851; }
+
+/* DATA FLOW DIAGRAM */
+.dataflow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:center; margin:24px 0; }
+.df-box { background:#181818; border:1px solid #2A2A2A; border-radius:8px; padding:18px 16px; text-align:center; }
+.df-box.source { border-color:#CDF851; }
+.df-box.system { border-color:#60a5fa; }
+.df-box.output { border-color:#FF4A23; }
+.df-icon { font-size:24px; margin-bottom:6px; }
+.df-name { font-size:12px; font-weight:700; color:#FCFDF8; margin-bottom:2px; }
+.df-sub { font-size:9px; color:#847D96; }
+.df-arrow { text-align:center; font-size:20px; color:#3E3F41; padding:0 4px; }
+
+/* WHAT UPDATES WHEN */
+.grid-section { margin:40px 0; }
+.freq-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.freq-card { background:#181818; border:1px solid #2A2A2A; border-radius:8px; padding:16px; border-top:3px solid; }
+.freq-card.daily { border-top-color:#CDF851; }
+.freq-card.weekly { border-top-color:#60a5fa; }
+.freq-card.meeting { border-top-color:#FF4A23; }
+.freq-label { font-size:9px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:8px; }
+.freq-label.daily { color:#CDF851; }
+.freq-label.weekly { color:#60a5fa; }
+.freq-label.meeting { color:#FF4A23; }
+.freq-item { font-size:11px; color:#B0A9BE; line-height:1.5; padding:3px 0; border-bottom:1px solid #2A2A2A; }
+.freq-item:last-child { border-bottom:none; }
+.freq-item strong { color:#FCFDF8; font-weight:600; }
+
+/* CALLOUT */
+.callout { background:rgba(205,248,81,0.06); border-left:3px solid #CDF851; padding:14px 18px; margin:24px 0; border-radius:0 6px 6px 0; }
+.callout p { font-size:13px; color:#B0A9BE; line-height:1.6; }
+.callout strong { color:#FCFDF8; }
+
+/* FOOTER */
+.ftr { border-top:1px solid #2A2A2A; padding-top:14px; margin-top:48px; display:flex; justify-content:space-between; align-items:center; }
+.ftr-left { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#3E3F41; }
+.ftr-right { font-size:9px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; background:#FF4A23; color:#FCFDF8; padding:3px 8px; }
+</style>
+</head>
+<body>
+<!-- NAV BAR -->
+<style>
+.ndd{position:relative;display:inline-block}
+.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
+.ndd-b:hover{color:#FCFDF8}
+.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
+.ndd:hover .ndd-m{display:block}
+.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
+.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
+.ndd-m a.da{color:#CDF851;font-weight:700}
+</style>
+<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
+    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
+        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
+        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2px;">
+        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
+        <a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a>
+        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
+        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
+        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Cadence</span>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
+    </div>
+</div>
+<!-- /NAV BAR -->
+        <div class="nav-dd">
+            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
+            <div class="nav-dd-menu">
+                <a href="prep-isaia.html">Isaia Huron</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- TUESDAY -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name active">Tue</div>
+        <div class="day-sub">Pre-Meeting</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-meet">
+          <div class="evt-time green">Production Meeting</div>
+          <div class="evt-title">Tactical execution</div>
+          <div class="evt-desc">Weekly. Release schedule, delivery status, operational items.</div>
+        </div>
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Pre-meeting reminder</div>
+          <div class="evt-desc">Teams ping: "Active Projects tomorrow — update your status"</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
+        </div>
+        <div class="evt evt-work">
+          <div class="evt-time green">5 min</div>
+          <div class="evt-title">Final brief review</div>
+          <div class="evt-desc">Scan tomorrow's goal brief. Add any last context from today's Production Meeting.</div>
+          <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name active">Wed</div>
+        <div class="day-sub">Meeting</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-meet">
+          <div class="evt-time green">11am–1pm</div>
+          <div class="evt-title">Active Projects Meeting</div>
+          <div class="evt-desc">Notes taken in standard format. AT→ tags added in real time or immediately after.</div>
+        </div>
+        <div class="evt evt-work" style="border-left:3px solid #CDF851;">
+          <div class="evt-time green">15–20 min</div>
+          <div class="evt-title">Airtable translation</div>
+          <div class="evt-desc">Enter records: Calendar events, Update Log, Action Items, Dept Status changes</div>
+          <span class="evt-tag tag-at">AT→</span>
+        </div>
+        <div class="evt evt-work">
+          <div class="evt-time green">5 min</div>
+          <div class="evt-title">Meeting notes sent</div>
+          <div class="evt-desc">HTML doc distributed to attendees + posted to GitHub</div>
+          <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- THURSDAY -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name active">Thu</div>
+        <div class="day-sub">Check</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-work">
+          <div class="evt-time green">Ongoing</div>
+          <div class="evt-title">Action items in progress</div>
+          <div class="evt-desc">Teams execute on assigned tasks. TAP IN items claimed or escalated.</div>
+        </div>
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Blocker alerts</div>
+          <div class="evt-desc">Any dept → "Blocked" triggers Teams notification to all leads on that release</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
+        </div>
+        <div class="evt evt-work">
+          <div class="evt-time green">5 min</div>
+          <div class="evt-title">Demo updated</div>
+          <div class="evt-desc">Push any status changes to GitHub. Same URLs.</div>
+          <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRIDAY -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name active">Fri</div>
+        <div class="day-sub">Digest</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-auto">
+          <div class="evt-time blue">Auto</div>
+          <div class="evt-title">Weekly digest</div>
+          <div class="evt-desc">Auto-generated summary: what moved, what's still blocked, what's due next week</div>
+          <span class="evt-tag tag-auto">SYSTEM</span>
+        </div>
+        <div class="evt evt-work">
+          <div class="evt-time green">5 min</div>
+          <div class="evt-title">Action item check</div>
+          <div class="evt-desc">Scan for overdue items. Anything unresolved auto-carries to Monday's goal brief.</div>
+          <span class="evt-tag tag-manual">MANUAL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAT/SUN -->
+    <div class="day-col">
+      <div class="day-hdr">
+        <div class="day-name dim">Sat–Sun</div>
+        <div class="day-sub">&nbsp;</div>
+      </div>
+      <div class="day-body">
+        <div class="evt evt-rest">
+          <div class="evt-time dim">—</div>
+          <div class="evt-title" style="color:#3E3F41;">System holds</div>
+          <div class="evt-desc" style="color:#3E3F41;">Overdue items and open questions carry forward. Nothing resets.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ THE PIPELINE ═══ -->
+<div class="flow-section">
+  <div class="flow-label">Meeting → System → Visibility (Wednesday's Pipeline)</div>
+  <div class="pipe">
+
+    <div class="pipe-node">
+      <div class="pipe-box">
+        <div class="pipe-num">1</div>
+        <div class="pipe-title">Meeting</div>
+        <div class="pipe-when">11am–1pm</div>
+        <div class="pipe-desc">Notes taken in standard format. Decisions, actions, flags, open questions captured per artist.</div>
+        <div class="pipe-time">~2 hours</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+
+    <div class="pipe-node">
+      <div class="pipe-box">
+        <div class="pipe-num">2</div>
+        <div class="pipe-title">Tag</div>
+        <div class="pipe-when">Post-meeting</div>
+        <div class="pipe-desc">Add AT→ markers to each item. Calendar dates, Update Log entries, Action Items, Dept Status changes.</div>
+        <div class="pipe-time">~5 min</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+
+    <div class="pipe-node">
+      <div class="pipe-box">
+        <div class="pipe-num">3</div>
+        <div class="pipe-title">Enter</div>
+        <div class="pipe-when">Same day</div>
+        <div class="pipe-desc">Create records in Airtable. ~18 Calendar events, 11 Update Log records, 9 Action Items, 4 status flags.</div>
+        <div class="pipe-time">~15 min</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+
+    <div class="pipe-node">
+      <div class="pipe-box">
+        <div class="pipe-num">4</div>
+        <div class="pipe-title">Distribute</div>
+        <div class="pipe-when">Same day</div>
+        <div class="pipe-desc">Meeting notes posted to GitHub. Airtable records live. Automations fire (blocker alerts, status notifications).</div>
+        <div class="pipe-time">~5 min</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+
+    <div class="pipe-node">
+      <div class="pipe-box">
+        <div class="pipe-num">5</div>
+        <div class="pipe-title">Next Brief</div>
+        <div class="pipe-when">Next Monday</div>
+        <div class="pipe-desc">System auto-surfaces: overdue actions, open questions, next week's calendar. Goal brief pre-populated.</div>
+        <div class="pipe-time auto">Auto-generated</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ DATA FLOW ═══ -->
+<div class="flow-section">
+  <div class="flow-label">Where Data Lives</div>
+  <div class="dataflow">
+    <div class="df-box source">
+      <div class="df-icon">🗣️</div>
+      <div class="df-name">Meeting</div>
+      <div class="df-sub">Decisions are made</div>
+    </div>
+    <div class="df-arrow">→</div>
+    <div class="df-box system">
+      <div class="df-icon">⬡</div>
+      <div class="df-name">Airtable</div>
+      <div class="df-sub">Records are created</div>
+    </div>
+    <div class="df-arrow">→</div>
+    <div class="df-box output">
+      <div class="df-icon">◉</div>
+      <div class="df-name">Visibility</div>
+      <div class="df-sub">Everyone can see it</div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:16px;">
+    <div style="text-align:center;">
+      <div style="font-size:10px; color:#847D96; line-height:1.5;">Meeting Notes (HTML)<br>Goal Briefs (HTML)<br>Transcripts (Teams)</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:10px; color:#847D96; line-height:1.5;">Calendar · Update Log<br>Action Items · Dept Status<br>Artist Profiles · Releases</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:10px; color:#847D96; line-height:1.5;">Artist Demo (GitHub)<br>Weekly Digest (Teams)<br>Next Goal Brief (auto)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WHAT UPDATES WHEN ═══ -->
+<div class="grid-section">
+  <div class="flow-label">What Updates When</div>
+  <div class="freq-grid">
+
+    <div class="freq-card meeting">
+      <div class="freq-label meeting">After Each Meeting</div>
+      <div class="freq-item"><strong>Update Log</strong> — 1 record per artist</div>
+      <div class="freq-item"><strong>Calendar</strong> — new dates/events</div>
+      <div class="freq-item"><strong>Action Items</strong> — tasks + owners</div>
+      <div class="freq-item"><strong>Dept Status</strong> — blocker flags</div>
+      <div class="freq-item"><strong>Outstanding Qs</strong> — carry-forwards</div>
+    </div>
+
+    <div class="freq-card weekly">
+      <div class="freq-label weekly">Weekly (Departments)</div>
+      <div class="freq-item"><strong>Dept Status</strong> — per-release update</div>
+      <div class="freq-item"><strong>Action Items</strong> — mark complete</div>
+      <div class="freq-item"><strong>Partner Updates</strong> — new developments</div>
+      <div class="freq-item" style="color:#60a5fa; font-size:10px; border:none; padding-top:8px;">5 min per release · 1× per week<br>Before Monday's reminder</div>
+    </div>
+
+    <div class="freq-card daily">
+      <div class="freq-label daily">As-Needed (Automations)</div>
+      <div class="freq-item"><strong>Blocker alerts</strong> — status → Blocked</div>
+      <div class="freq-item"><strong>Blocker resolved</strong> — Blocked → On Track</div>
+      <div class="freq-item"><strong>Stale reminder</strong> — 7 days no update</div>
+      <div class="freq-item"><strong>Phase advance</strong> — date-triggered</div>
+      <div class="freq-item" style="color:#CDF851; font-size:10px; border:none; padding-top:8px;">Zero manual effort<br>Runs in background</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CALLOUT -->
+<div class="callout">
+  <p><strong>Total manual time per week:</strong> ~30 minutes. 15–20 min Wednesday (Airtable translation), 5 min Monday (brief review), 5 min Thursday (demo update), 5 min Friday (action scan). Everything else is automated or done by departments updating their own status.</p>
+</div>
+
+<!-- ═══ HUMAN EFFORT ═══ -->
+<div class="flow-section">
+  <div class="flow-label">Human Time vs. System Time</div>
+  <div style="display:flex; gap:2px; height:48px; border-radius:8px; overflow:hidden; margin-bottom:8px;">
+    <div style="flex:30; background:#CDF851; display:flex; align-items:center; justify-content:center;">
+      <span style="font-size:11px; font-weight:800; color:#0F0E0E;">~30 min</span>
+    </div>
+    <div style="flex:70; background:#181818; border:1px solid #2A2A2A; display:flex; align-items:center; justify-content:center;">
+      <span style="font-size:11px; font-weight:700; color:#60a5fa;">Automated + Department Self-Service</span>
+    </div>
+  </div>
+  <div style="display:flex; gap:2px;">
+    <div style="flex:30; text-align:center;"><span style="font-size:9px; color:#847D96;">Your time</span></div>
+    <div style="flex:70; text-align:center;"><span style="font-size:9px; color:#847D96;">System + departments</span></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ftr">
+  <div class="ftr-left">RCA Records · March 2026</div>
+  <div class="ftr-right">Internal Use Only</div>
+</div>
+
+</div>
+</body>
+</html>

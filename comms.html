@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Communications Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #CDF851;
+  --accent-dim: rgba(205,248,81,0.1);
+  --bg: #0F0E0E;
+  --surface: #141414;
+  --card: #181818;
+  --card-hover: #1E1E1E;
+  --border: #2A2A2A;
+  --border-light: #333333;
+  --white: #FCFDF8;
+  --text: #B0A9BE;
+  --text-dim: #847D96;
+  --muted: #3E3F41;
+  --green: #4ADE80; --green-dim: rgba(74,222,128,0.1);
+  --yellow: #FACC15; --yellow-dim: rgba(250,204,21,0.1);
+  --flame: #FF4A23; --flame-dim: rgba(255,74,35,0.1);
+  --blue: #60a5fa; --blue-dim: rgba(96,165,250,0.1);
+  --purple: #c4b5fd; --purple-dim: rgba(196,181,253,0.1);
+  --sans: 'Inter', -apple-system, sans-serif;
+  --sans-h: 'Inter', -apple-system, sans-serif;
+  --sans-b: 'Inter', -apple-system, sans-serif;
+  --sans-m: 'Inter', -apple-system, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--sans-b); background: var(--bg); color: var(--white); -webkit-font-smoothing: antialiased; }
+
+.header {
+  height: 56px; background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px; position: sticky; top: 0; z-index: 100;
+}
+.header-logo { font-family: var(--sans); font-size: 32px; letter-spacing: 3px; color: var(--accent); }
+.header-div { width: 1px; height: 28px; background: var(--border); margin: 0 18px; }
+.header-title { font-family: var(--sans-h); font-size: 18px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); }
+.header-right { margin-left: auto; font-family: var(--sans-m); font-size: 11px; color: var(--muted); }
+
+.page { max-width: 860px; margin: 0 auto; padding: 48px 32px 80px; }
+
+.hero { margin-bottom: 48px; }
+.hero-label { font-family: var(--sans-m); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.hero h1 { font-family: var(--sans); font-size: 36px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 8px; }
+.hero-sub { font-size: 17px; color: var(--text-dim); line-height: 1.65; max-width: 660px; font-weight: 400; }
+.hero-line { height: 2px; background: #CDF851; height: 2px; margin-top: 24px; }
+
+.section { margin-bottom: 48px; }
+.section-label { font-family: var(--sans-m); font-size: 9px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.section h2 { font-family: var(--sans); font-size: 22px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 12px; }
+.section h3 { font-family: var(--sans-h); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; margin-top: 28px; }
+.section p { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 12px; font-weight: 400; }
+.section strong { color: var(--white); font-weight: 600; }
+.section em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+.divider { height: 2px; background: #CDF851; height: 2px; margin: 40px 0; }
+
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 16px 0 20px; font-size: 14px; }
+.tbl thead th { background: var(--card); font-family: var(--sans-m); font-size: 9px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.tbl tbody td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text); vertical-align: top; line-height: 1.55; }
+.tbl tbody td:first-child { color: var(--white); font-weight: 500; }
+.tbl tbody tr:last-child td { border-bottom: none; }
+.tbl tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+.callout {
+  background: var(--accent-dim); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0;
+}
+.callout p { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+.callout strong { color: var(--white); }
+.callout-blue { background: var(--blue-dim); border-left-color: var(--blue); }
+.callout-green { background: var(--green-dim); border-left-color: var(--green); }
+.callout-purple { background: var(--purple-dim); border-left-color: var(--purple); }
+
+.item-list { list-style: none; margin: 12px 0; }
+.item-list li { font-size: 14px; color: var(--text); padding: 5px 0 5px 18px; position: relative; line-height: 1.55; }
+.item-list li::before { content: ''; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.item-list.green li::before { background: var(--green); }
+.item-list.blue li::before { background: var(--blue); }
+
+.collapse { background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin: 12px 0; overflow: hidden; }
+.collapse-head { display: flex; align-items: center; padding: 14px 18px; cursor: pointer; gap: 10px; user-select: none; transition: background 0.1s; }
+.collapse-head:hover { background: var(--card-hover); }
+.collapse-title { font-family: var(--sans-h); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.collapse-count { font-family: var(--sans-m); font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.04); padding: 2px 8px; border-radius: 10px; }
+.collapse-arrow { margin-left: auto; color: var(--muted); font-size: 10px; transition: transform 0.2s; }
+.collapse.open .collapse-arrow { transform: rotate(180deg); color: var(--accent); }
+.collapse-body { display: none; border-top: 1px solid var(--border); padding: 18px; }
+.collapse.open .collapse-body { display: block; }
+
+/* Message template */
+.msg-template {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 20px 24px; margin: 12px 0; position: relative;
+}
+.msg-label {
+  font-family: var(--sans-m); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-dim); padding: 2px 8px; border-radius: 3px;
+  display: inline-block; margin-bottom: 12px;
+}
+.msg-template p { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 10px; }
+.msg-template p:last-child { margin-bottom: 0; }
+.msg-template .msg-subject { font-size: 15px; color: var(--white); font-weight: 600; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.msg-template .msg-placeholder { color: var(--accent); font-weight: 500; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 28px; margin: 20px 0; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+.tl-item { position: relative; margin-bottom: 20px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot { position: absolute; left: -24px; top: 6px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+.tl-dot.dot-red { border-color: var(--accent); background: var(--accent-dim); }
+.tl-dot.dot-green { border-color: var(--green); background: var(--green-dim); }
+.tl-dot.dot-yellow { border-color: var(--yellow); background: var(--yellow-dim); }
+.tl-dot.dot-blue { border-color: var(--blue); background: var(--blue-dim); }
+.tl-time { font-family: var(--sans-m); font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 3px; }
+.tl-title { font-family: var(--sans-h); font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.tl-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+
+/* Audience card */
+.aud-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.aud-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+.aud-role { font-family: var(--sans-h); font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.aud-what { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+.aud-what strong { color: var(--text); font-weight: 600; }
+
+.footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); margin-top: 48px; }
+.footer p { font-family: var(--sans-m); font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+
+@keyframes fadeSlide { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.section { animation: fadeSlide 0.3s ease backwards; }
+</style>
+</head>
+<body>
+<!-- NAV BAR -->
+<style>
+.ndd{position:relative;display:inline-block}
+.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
+.ndd-b:hover{color:#FCFDF8}
+.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
+.ndd:hover .ndd-m{display:block}
+.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
+.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
+.ndd-m a.da{color:#CDF851;font-weight:700}
+</style>
+<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
+    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
+        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
+        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2px;">
+        <a href="index.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Home</a>
+        <a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a>
+        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
+        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Comms</span>
+        <a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
+    </div>
+</div>
+<!-- /NAV BAR -->
+        <div class="nav-dd">
+            <span class="nav-dd-btn" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span>
+            <div class="nav-dd-menu">
+                <a href="prep-isaia.html">Isaia Huron</a>
+            </div>
+        </div>
+    </div>
+</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ COMMS TIMELINE ═══ -->
+  <div class="section">
+    <div class="section-label">Sequence</div>
+    <h2>Communication Timeline</h2>
+    <p>Communication happens in waves, matched to the implementation phases. Never announce something people can't use yet.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot dot-red"></div>
+        <div class="tl-time">Week 1–2 · Phase 1 Start</div>
+        <div class="tl-title">Quiet Start — No Announcement</div>
+        <div class="tl-desc">You run the ERN readiness checklist at Production Meetings. No company-wide comms. The only people who know are the people in the room. This is deliberate — you're building proof before making promises.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-yellow"></div>
+        <div class="tl-time">Week 4 · Phase 1 Complete</div>
+        <div class="tl-title">Leadership Briefing</div>
+        <div class="tl-desc">Share gap report with leadership. Frame: "Here's the data. Here's the plan. Here's the system." Demo the prototype. Get sign-off for Phase 2 comms.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-green"></div>
+        <div class="tl-time">Week 5–6 · Phase 2 Kickoff</div>
+        <div class="tl-title">Wave 1 Department Outreach</div>
+        <div class="tl-desc">Direct outreach to A&R, Production, and Legal leads. 1-on-1 or small group. Walk them through the system, show them their department's interface, explain exactly what they need to do (one dropdown update per release per week). Get them using it before anyone else knows about it.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-green"></div>
+        <div class="tl-time">Week 8–9</div>
+        <div class="tl-title">Wave 2 Department Outreach</div>
+        <div class="tl-desc">Same approach for Creative, Marketing, Digital. By now Wave 1 is already updating — you can show real data in the system. "A&R is already using this. Here's what it looks like with their data in it."</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-blue"></div>
+        <div class="tl-time">Week 10 · The Announcement</div>
+        <div class="tl-title">Company-Wide Launch</div>
+        <div class="tl-desc">Now you announce. By this point, 6 departments are already using it and the system has real data. The announcement isn't "we built a thing" — it's "this thing exists and is already working. Here's how to access it."</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-blue"></div>
+        <div class="tl-time">Week 11–12</div>
+        <div class="tl-title">Wave 3 Departments + Full Onboarding</div>
+        <div class="tl-desc">Remaining departments onboard. Training sessions. FAQ published. Teams channel live. By week 12, every department is in the system.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-blue"></div>
+        <div class="tl-time">Ongoing</div>
+        <div class="tl-title">Weekly Cadence Established</div>
+        <div class="tl-desc">Weekly system digest email. Monthly "State of Releases" report from the system. Quarterly review of what's working and what needs adjustment.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Sequence:</strong> Don't announce what people can't use. By the time the company hears about it, 6 departments are already in it and the data is real.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ WHAT WE ASK ═══ -->
+  <div class="section">
+    <div class="section-label">The Ask</div>
+    <h2>What We're Asking of Each Department</h2>
+    <p>What each person needs to do, and how long it takes:</p>
+
+    <table class="tbl">
+      <thead><tr><th>Role</th><th>What We're Asking</th><th>Time Required</th><th>Frequency</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Department lead</strong></td><td>Review and update your department's status for each active release: one dropdown (On Track / Needs Attention / Blocked), one summary line, update the items lists if anything changed</td><td>5 minutes per release</td><td>Weekly (before Production Meeting)</td></tr>
+        <tr><td><strong>Department staff</strong></td><td>Flag blockers to your dept lead as they arise so the lead can update the system. No direct Airtable access required for most staff.</td><td>0 minutes (existing workflow)</td><td>As needed</td></tr>
+        <tr><td><strong>Leadership</strong></td><td>Nothing. The system updates itself from department inputs. Leadership consumes — they don't input.</td><td>0 minutes</td><td>N/A</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-green callout">
+      <p><strong>The ask:</strong> 5 minutes per release per week. In return, your department's work is visible to leadership without you presenting it, and you stop getting pinged 15 times a day asking where things are.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ MESSAGE TEMPLATES ═══ -->
+  <div class="section">
+    <div class="section-label">Templates</div>
+    <h2>Ready-to-Use Messages</h2>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Leadership Briefing Email</span>
+        <span class="collapse-count">Week 4</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="msg-template">
+          <div class="msg-label">Email Template</div>
+          <div class="msg-subject">Subject: Cross-Department Visibility — Gap Data + System Demo</div>
+          <p>Hi <span class="msg-placeholder">[Name]</span>,</p>
+          <p>Following up on our conversation about release operations visibility. Over the past 4 weeks, I ran an ERN readiness checklist against <span class="msg-placeholder">[X]</span> upcoming releases. The findings confirm what we've been experiencing:</p>
+          <p><strong>7 of 18 Release Runway fields are chronically "Unknown"</strong> — the same 7 every time. The root cause is consistent: the data exists in departments that don't update Runway directly. There's no shared workflow for it.</p>
+          <p>I've built a working prototype of what a cross-department visibility system would look like in Airtable — extending the base we already have. I'd love to walk you through it.</p>
+          <p>The system would let anyone click on an artist and see every department's status at every lifecycle stage. No chasing, no Teams threads.</p>
+          <p>Can we find 15 minutes this week?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Department Outreach (Wave 1–2)</span>
+        <span class="collapse-count">Week 5–9</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="msg-template">
+          <div class="msg-label">Teams / Email Template</div>
+          <div class="msg-subject">Subject: Quick walkthrough — new release visibility in Airtable</div>
+          <p>Hey <span class="msg-placeholder">[Name]</span>,</p>
+          <p>We're rolling out a cross-department release visibility layer in Airtable — <span class="msg-placeholder">[Leadership]</span> has signed off and we're starting with <span class="msg-placeholder">[A&R, Production, Legal / Creative, Marketing, Digital]</span>.</p>
+          <p>The short version: it's one place where anyone can see where every release stands across all departments. Your team already has an interface in the Airtable sidebar — this extends it with a status view that other departments can see too.</p>
+          <p><strong>What we're asking:</strong> Once a week, before the Production Meeting, update your department's status for each active release. It's one dropdown + a one-line summary. Takes about 5 minutes per release.</p>
+          <p><strong>What you get:</strong> You stop getting pinged 15 times a day asking where things are. Your team's work is visible to leadership without you having to compile it. And when another department is blocking you, it's visible — not buried in a Teams thread.</p>
+          <p>Can I grab 10 minutes to walk you through your department's view?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Company-Wide Announcement</span>
+        <span class="collapse-count">Week 10</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="msg-template">
+          <div class="msg-label">All-Staff Email or Teams Post</div>
+          <div class="msg-subject">Subject: One place for every release, every department, every stage</div>
+          <p>Team,</p>
+          <p>We've rolled out a cross-department release visibility system in Airtable. Several departments are already using it, and it's now available to everyone.</p>
+          <p><strong>What it is:</strong> A shared view of where every active release stands — across all 12 departments, at every lifecycle stage (Setup through Catalog). Click on any artist, see the complete picture.</p>
+          <p><strong>What it replaces:</strong> The Teams threads, the "does anyone know where [X] is?" messages, the pre-meeting scrambles to compile status updates. It's all in one place now.</p>
+          <p><strong>What you need to do:</strong></p>
+          <p>If you're a department lead: update your department's status once a week. That's it — one dropdown, one summary line, 5 minutes per release.</p>
+          <p>If you're anyone else: use it to check status instead of messaging around. The link is <span class="msg-placeholder">[Airtable link]</span>.</p>
+          <p><strong>Questions?</strong> Drop them in <span class="msg-placeholder">[Release Visibility channel in Teams]</span> or reach out to me directly.</p>
+          <p>This didn't replace anything you're currently doing — it connects what's already there. The data you're already entering in your department's Airtable interface now feeds a view that everyone can see.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Weekly Digest Template</span>
+        <span class="collapse-count">Ongoing</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="msg-template">
+          <div class="msg-label">Automated Weekly Email / Teams</div>
+          <div class="msg-subject">Subject: Release Visibility — Week of [Date]</div>
+          <p><strong><span class="msg-placeholder">[X]</span> active releases</strong> across all lifecycle stages</p>
+          <p><span class="msg-placeholder">[X]</span> on track · <span class="msg-placeholder">[X]</span> needs attention · <span class="msg-placeholder">[X]</span> blocked</p>
+          <p><strong>Blockers this week:</strong></p>
+          <p><span class="msg-placeholder">[Artist]</span> — <span class="msg-placeholder">[Department]</span>: <span class="msg-placeholder">[Blocker description]</span></p>
+          <p><span class="msg-placeholder">[Artist]</span> — <span class="msg-placeholder">[Department]</span>: <span class="msg-placeholder">[Blocker description]</span></p>
+          <p>Full view: <span class="msg-placeholder">[Airtable link]</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ TRAINING ═══ -->
+  <div class="section">
+    <div class="section-label">Enablement</div>
+    <h2>Training & Support Plan</h2>
+    <p>Training is ongoing, not one-time. Resources by format:</p>
+
+    <table class="tbl">
+      <thead><tr><th>Resource</th><th>Format</th><th>Audience</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2-Minute Walkthrough Video</strong></td><td>Loom recording</td><td>All staff</td><td>Pinned in Teams channel + included in announcement</td></tr>
+        <tr><td><strong>Department-Specific Guide</strong></td><td>1-page PDF per department</td><td>Departments</td><td>Sent with each wave outreach</td></tr>
+        <tr><td><strong>Live Walkthrough Session</strong></td><td>15 min Zoom per department</td><td>Departments</td><td>During wave onboarding</td></tr>
+        <tr><td><strong>FAQ Document</strong></td><td>Living doc in Airtable or Google Doc</td><td>All staff</td><td>Published at company-wide launch, updated ongoing</td></tr>
+        <tr><td><strong>Teams Channel</strong></td><td>Release Visibility channel</td><td>All staff</td><td>Created at company-wide launch</td></tr>
+        <tr><td><strong>Office Hours</strong></td><td>30 min open Zoom, weekly</td><td>Anyone</td><td>First 4 weeks after launch, then biweekly</td></tr>
+        <tr><td><strong>"How to Read This" Guide</strong></td><td>Built into the system (collapsible banner)</td><td>Anyone opening the system</td><td>Always available</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-blue callout">
+      <p><strong>The "How to Read This" orientation is already built into the demo.</strong> The collapsible banner at the top of the system walks anyone through what they're looking at, how to navigate, and what the numbers mean — in 30 seconds. New users get oriented without needing separate training.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ FAQ ═══ -->
+  <div class="section">
+    <div class="section-label">Anticipated Questions</div>
+    <h2>FAQ</h2>
+    <p>These are the questions that will come up. Having answers ready prevents the "I don't understand this" spiral that kills adoption.</p>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"Why Airtable? Why not [other tool]?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">We already have an Airtable base with Artist profiles, Calendar, Releases, Partner Updates, and department interfaces built. This system extends what exists — no migration, no new tool to learn. Atlantic Records UK built a comparable system in Airtable at label scale (25 tables, 24 interfaces, 35+ automations). The platform has proven it works for this use case.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"Is this more work for me?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">If you're a department lead: 5 minutes per release per week. One dropdown, one summary line. In return: you stop getting pinged asking where things are, your team's work is visible to leadership without you compiling reports, and when another department is blocking you, it's visible to everyone — not just you.</p>
+        <p style="font-size:14px;color:var(--text);line-height:1.65;margin-top:8px;">If you're anyone else: zero new work. You just have a better place to check status instead of asking around.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"Is this replacing Runway / GRPS / our current tools?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">No. This sits on top of existing systems. Runway, GRPS, CARMA, SAP — they all continue as-is. This system connects what's already there into a single view. In the future (Phase 3), we'll explore automated feeds from those systems into Airtable, but that's months away and depends on IT.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"Is leadership using this to track my performance?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">No. The system tracks release status, not individual performance. It shows what's done, what's needed, and what's blocking — for the release, not for people. When a blocker shows up, it's an operational flag, not a performance review. In fact, the system makes your work more visible in a good way — leadership can see what you've completed without you having to tell them.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"Who maintains this?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">Each department maintains their own status — that's the 5-minute weekly update. The system architecture, automations, and interfaces are maintained centrally. If something breaks or you need a new view, there's a single point of contact and a Teams channel (Release Visibility) for requests.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"What if I don't update my status?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">Your department shows stale data to leadership. Releases with outdated statuses will be flagged in the weekly digest. The system is only as good as the data in it — and when 11 out of 12 departments are current and yours isn't, it's visible. This isn't enforcement — it's just how shared systems work.</p>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">"I already have my own tracking system. Why do I need this?"</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <p style="font-size:14px;color:var(--text);line-height:1.65;">Keep your system. This doesn't replace department-level tracking. What it does is give everyone else visibility into your department's status without you having to share it manually. Think of it as the "public-facing" version of your internal tracking. You still run your department however you want — this just answers the "where are we?" question so you don't have to answer it 15 times a day.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ ONGOING CADENCE ═══ -->
+  <div class="section">
+    <div class="section-label">Ongoing</div>
+    <h2>Communication Cadence Post-Launch</h2>
+    <p>Announcement day is not the finish line. Ongoing communication is what separates a tool people use from a tool people forget about.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Cadence</th><th>What</th><th>Channel</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Weekly</strong></td><td>Release visibility digest — active releases, blockers, status summary</td><td>Email + Teams</td><td>Automated from Airtable</td></tr>
+        <tr><td><strong>Weekly</strong></td><td>Production Meeting — system used as the agenda source</td><td>In-person / Zoom</td><td>You</td></tr>
+        <tr><td><strong>Monthly</strong></td><td>"State of Releases" report — trends, completion rates, recurring blockers</td><td>Email to leadership</td><td>You</td></tr>
+        <tr><td><strong>Monthly</strong></td><td>System feedback pulse — what's working, what's not, feature requests</td><td>Teams poll or form</td><td>You</td></tr>
+        <tr><td><strong>Quarterly</strong></td><td>System review with leadership — adoption metrics, time savings, blocker resolution rates</td><td>Meeting</td><td>You + leadership</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-purple callout">
+      <p><strong>Adoption driver:</strong> If the system is the source of truth at the Production Meeting, people update it. That single touchpoint drives more adoption than any training session.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ AUTOMATIONS ═══ -->
+  <div class="section">
+    <div class="section-label">Automation</div>
+    <h2>How to Automate It</h2>
+    <p>The system shouldn't depend on people remembering to do things. Airtable automations handle the repetitive work — notifications, reminders, phase advances, and digests — so the only human input required is the actual status update.</p>
+
+    <h3>Automations to build (Phase 2)</h3>
+
+    <div class="collapse open" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Status Change Notifications</span>
+        <span class="collapse-count">High Priority</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <table class="tbl">
+          <thead><tr><th>Trigger</th><th>Action</th><th>Who Gets It</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Any department status → "Blocked"</strong></td><td>Send Teams message to Release Visibility channel with artist name, department, blocker description</td><td>All department leads on that release</td></tr>
+            <tr><td><strong>Blocker resolved (Blocked → On Track)</strong></td><td>Send Teams message confirming the blocker is cleared</td><td>All department leads on that release</td></tr>
+            <tr><td><strong>Department status unchanged for 7+ days</strong></td><td>Send reminder to the department lead: "Your status for [Artist] hasn't been updated this week"</td><td>That department lead only</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <p><strong>How to build:</strong> Airtable Automations → Trigger: "When a record matches conditions" on the Department Status table where Status = "Blocked." Action: "Send a Microsoft Teams message" (Airtable has a native Teams integration). Include the Artist name, Department, and Blocker fields in the message body.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Phase Auto-Advance</span>
+        <span class="collapse-count">High Priority</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <table class="tbl">
+          <thead><tr><th>Trigger</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Release date is 14 days away</strong></td><td>Auto-advance phase from Setup → Pre-Release. Notify all department leads: "Pre-release phase has begun for [Artist]."</td></tr>
+            <tr><td><strong>Release date is today</strong></td><td>Auto-advance to Release Week. Notify all leads.</td></tr>
+            <tr><td><strong>Release date + 14 days</strong></td><td>Auto-advance to Post-Release. Notify all leads.</td></tr>
+            <tr><td><strong>Release date + 90 days</strong></td><td>Auto-advance to Catalog. Notify lead + close out remaining "Needs" items or flag for review.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <p><strong>How to build:</strong> Airtable Automations → Trigger: "When a record matches conditions" on the Release Status table. Use a formula field that calculates days until release date. When the formula hits the threshold, fire the automation. Action: Update the Phase field + send Teams notification.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Weekly Digest</span>
+        <span class="collapse-count">Medium Priority</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <table class="tbl">
+          <thead><tr><th>Trigger</th><th>Action</th><th>Who Gets It</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Every Monday 8am</strong></td><td>Compile all active releases: total count, on-track / needs-attention / blocked counts, list of active blockers. Send as formatted message.</td><td>Release Visibility Teams channel + leadership email</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <p><strong>How to build:</strong> Airtable Automations → Trigger: "At a scheduled time" (weekly, Monday 8am). Action: Use "Find records" to pull all releases where Phase ≠ Catalog. Use a script action to compile the summary. Send via Teams integration and/or email. The weekly digest template (see Message Templates above) is the format.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">Pre-Meeting Reminder</span>
+        <span class="collapse-count">Medium Priority</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <table class="tbl">
+          <thead><tr><th>Trigger</th><th>Action</th><th>Who Gets It</th></tr></thead>
+          <tbody>
+            <tr><td><strong>24 hours before Production Meeting</strong></td><td>Send reminder to all department leads: "Production Meeting tomorrow — please update your release statuses in Airtable before EOD."</td><td>All department leads</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <p><strong>How to build:</strong> Airtable Automations → Trigger: "At a scheduled time" (day before Production Meeting). Action: Send Teams message. Include direct link to the Department Status table filtered to that lead's department. One click, they're looking at exactly what they need to update.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse" onclick="this.classList.toggle('open')">
+      <div class="collapse-head">
+        <span class="collapse-title">New Release Auto-Setup</span>
+        <span class="collapse-count">Nice to Have</span>
+        <span class="collapse-arrow">▾</span>
+      </div>
+      <div class="collapse-body">
+        <table class="tbl">
+          <thead><tr><th>Trigger</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>New row created in Release Status table</strong></td><td>Auto-create 12 Department Status rows (one per department) linked to the release, all set to "Needs Attention" with blank items. Notify all department leads: "New release added — [Artist]: [Release Name]. Please review your department's status."</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <p><strong>How to build:</strong> Airtable Automations → Trigger: "When a record is created" in Release Status. Action: Run a script that creates 12 records in the Department Status table, one for each department, each linked to the new release. Then send a Teams notification. This ensures no release enters the system without every department having a status row ready.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Integration options (Phase 3)</h3>
+    <p>These require IT involvement but would reduce manual data entry significantly:</p>
+
+    <table class="tbl">
+      <thead><tr><th>Integration</th><th>What It Does</th><th>How</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GRPS → Airtable</strong></td><td>Auto-populate release data (ISRC, UPC, dates) when a release is registered in GRPS</td><td>API sync or scheduled CSV import via Airtable scripting</td></tr>
+        <tr><td><strong>Outlook Calendar → Airtable</strong></td><td>Sync team calendar events (tour dates, promo events) into the Calendar table</td><td>Microsoft Power Automate → Airtable API</td></tr>
+        <tr><td><strong>Airtable → Runway</strong></td><td>Push completed status fields back to Runway to reduce the 7 "Unknown" fields</td><td>Airtable scripting → Runway API (if available)</td></tr>
+        <tr><td><strong>Teams → Airtable</strong></td><td>Allow department leads to update status via Teams bot command instead of opening Airtable</td><td>Power Automate bot → Airtable API. Lead types "/update [artist] on track" in Teams</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-blue callout">
+      <p><strong>Start simple.</strong> Phase 2 automations (status notifications, phase advance, weekly digest, pre-meeting reminder, auto-setup) can all be built natively in Airtable with no IT involvement. The Phase 3 integrations are stretch goals — the system works fully without them.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#3E3F41;">RCA Records · Internal Use Only</span></p>
+  </div>
+
+</div>
+
+<script>
+// Collapsibles already work via onclick on the .collapse div
+</script>
+</body>
+</html>

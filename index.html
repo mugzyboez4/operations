@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Label Operations</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+body { margin:0; padding:0; background:#0F0E0E; font-family:'Inter',Arial,sans-serif; }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#0F0E0E;">
+<!-- NAV BAR -->
+<style>
+.ndd{position:relative;display:inline-block}
+.ndd-b{font-size:11px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',Arial,sans-serif;display:inline-block;user-select:none}
+.ndd-b:hover{color:#FCFDF8}
+.ndd-m{display:none;position:absolute;top:100%;left:0;background:#181818;border:1px solid #2A2A2A;min-width:220px;z-index:10001;padding:4px 0;margin-top:1px;border-radius:0 0 4px 4px}
+.ndd:hover .ndd-m{display:block}
+.ndd-m a{display:block;padding:8px 16px;font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;font-family:'Inter',Arial,sans-serif}
+.ndd-m a:hover{background:#2A2A2A;color:#FCFDF8}
+.ndd-m a.da{color:#CDF851;font-weight:700}
+</style>
+<div style="position:sticky;top:0;z-index:9999;background:#0F0E0E;border-bottom:1px solid #2A2A2A;padding:0 16px;display:flex;align-items:center;gap:0;min-height:40px;font-family:'Inter',Arial,sans-serif;">
+    <a href="index.html" style="text-decoration:none;margin-right:20px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#CDF851;">RCA</span>
+        <span style="font-size:10px;font-weight:500;color:#3E3F41;">&middot;</span>
+        <span style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#3E3F41;">Label Ops</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2px;">
+        <span style="font-size:11px;font-weight:700;color:#CDF851;padding:6px 10px;border-bottom:2px solid #CDF851;font-family:'Inter',Arial,sans-serif;">Home</span>
+        <a href="demo.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Demo</a>
+        <a href="rollout.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Rollout</a>
+        <a href="comms.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Comms</a>
+        <a href="cadence.html" style="font-size:11px;font-weight:500;color:#B0A9BE;text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;font-family:'Inter',Arial,sans-serif;">Cadence</a>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Meetings ▾</span><div class="ndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+        <div class="ndd"><span class="ndd-b" style="color:#B0A9BE;border-bottom:2px solid transparent;">Prep ▾</span><div class="ndd-m"><a href="prep-isaia.html">Isaia Huron</a></div></div>
+    </div>
+</div>
+<!-- /NAV BAR -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0F0E0E;">
+<tr><td align="center" style="padding:48px 16px;">
+<table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%;">
+
+<!-- HEADER -->
+<tr>
+<td style="padding-bottom:16px; border-bottom:2px solid #CDF851;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851;">RCA Records</p>
+  <p style="margin:0; font-size:22px; font-weight:900; letter-spacing:-0.02em; color:#FCFDF8;">Cross-Department Visibility System</p>
+</td>
+</tr>
+
+<tr><td style="height:32px;"></td></tr>
+
+<!-- ROLLOUT PACKAGE -->
+<tr>
+<td style="padding-bottom:10px; border-bottom:1px solid #2A2A2A;">
+  <span style="font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#CDF851;">Rollout Package</span>
+</td>
+</tr>
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td style="padding:12px 16px; background:#181818; border:1px solid #2A2A2A; border-left:3px solid #CDF851;">
+  <a href="demo.html" style="text-decoration:none;">
+    <p style="margin:0 0 3px 0; font-size:14px; font-weight:700; color:#FCFDF8;">Artist Visibility Demo</p>
+    <p style="margin:0; font-size:11px; color:#B0A9BE;">5 artists, lifecycle phases, clickable filters, department status, Airtable sections</p>
+  </a>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+<tr>
+<td style="padding:12px 16px; background:#181818; border:1px solid #2A2A2A; border-left:3px solid #CDF851;">
+  <a href="rollout.html" style="text-decoration:none;">
+    <p style="margin:0 0 3px 0; font-size:14px; font-weight:700; color:#FCFDF8;">Implementation Rollout Guide</p>
+    <p style="margin:0; font-size:11px; color:#B0A9BE;">3-phase plan, build order, department onboarding, risk mitigation, meeting notes → Airtable</p>
+  </a>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+<tr>
+<td style="padding:12px 16px; background:#181818; border:1px solid #2A2A2A; border-left:3px solid #CDF851;">
+  <a href="comms.html" style="text-decoration:none;">
+    <p style="margin:0 0 3px 0; font-size:14px; font-weight:700; color:#FCFDF8;">Communications Playbook</p>
+    <p style="margin:0; font-size:11px; color:#B0A9BE;">Announcement strategy, message templates, training plan, FAQ, automations</p>
+  </a>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+<tr>
+<td style="padding:12px 16px; background:#181818; border:1px solid #2A2A2A; border-left:3px solid #CDF851;">
+  <a href="cadence.html" style="text-decoration:none;">
+    <p style="margin:0 0 3px 0; font-size:14px; font-weight:700; color:#FCFDF8;">Weekly Operations Cadence</p>
+    <p style="margin:0; font-size:11px; color:#B0A9BE;">Full weekly cycle: meeting → Airtable → visibility → next meeting. Visual timeline + data flow.</p>
+  </a>
+</td>
+</tr>
+
+<tr><td style="height:28px;"></td></tr>
+
+<!-- MEETING DOCS -->
+<tr>
+<td style="padding-bottom:10px; border-bottom:1px solid #2A2A2A;">
+  <span style="font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#B0A9BE;">Meeting Docs</span>
+</td>
+</tr>
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td style="padding:10px 16px; background:#181818; border:1px solid #2A2A2A;">
+  <a href="meetings/goal-brief-2026-03-11.html" style="text-decoration:none;">
+    <p style="margin:0 0 2px 0; font-size:13px; font-weight:600; color:#FCFDF8;">Goal Brief — Active Projects · 3/11/2026</p>
+    <p style="margin:0; font-size:10px; color:#847D96;">Auto-populated from Airtable: overdue actions, open questions, calendar events</p>
+  </a>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+<tr>
+<td style="padding:10px 16px; background:#181818; border:1px solid #2A2A2A;">
+  <a href="meetings/notes-2026-03-04.html" style="text-decoration:none;">
+    <p style="margin:0 0 2px 0; font-size:13px; font-weight:600; color:#FCFDF8;">Meeting Notes — Active Projects · 3/4/2026</p>
+    <p style="margin:0; font-size:10px; color:#847D96;">V5 with AT→ Airtable mapping tags + translation summary</p>
+  </a>
+</td>
+</tr>
+
+<tr><td style="height:28px;"></td></tr>
+
+<!-- PREP PACKAGES -->
+<tr>
+<td style="padding-bottom:10px; border-bottom:1px solid #2A2A2A;">
+  <span style="font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#B0A9BE;">Prep Packages</span>
+</td>
+</tr>
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td style="padding:10px 16px; background:#181818; border:1px solid #2A2A2A;">
+  <a href="prep-isaia.html" style="text-decoration:none;">
+    <p style="margin:0 0 2px 0; font-size:13px; font-weight:600; color:#FCFDF8;">Isaia Huron — Prep Package</p>
+    <p style="margin:0; font-size:10px; color:#847D96;">4-tab: Intake Assessment, Mgmt Intake Request, Dossier, Artist Briefing</p>
+  </a>
+</td>
+</tr>
+
+<tr><td style="height:28px;"></td></tr>
+
+<!-- REFERENCE -->
+<tr>
+<td style="padding-bottom:10px; border-bottom:1px solid #2A2A2A;">
+  <span style="font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#3E3F41;">Reference</span>
+</td>
+</tr>
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td style="padding:8px 16px; border-bottom:1px solid #1A1A1A;">
+  <a href="reference/airtable-grid.html" style="text-decoration:none; font-size:12px; color:#847D96;">Airtable Grid Demo (full-complexity version)</a>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 16px; border-bottom:1px solid #1A1A1A;">
+  <a href="reference/atlantic-uk.html" style="text-decoration:none; font-size:12px; color:#847D96;">Atlantic UK Reference (leave-behind)</a>
+</td>
+</tr>
+
+<tr><td style="height:36px;"></td></tr>
+
+<!-- FOOTER -->
+<tr>
+<td style="border-top:1px solid #2A2A2A; padding-top:14px;">
+  <span style="font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#3E3F41;">RCA Records · March 2026 · Internal Use Only</span>
+</td>
+</tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
