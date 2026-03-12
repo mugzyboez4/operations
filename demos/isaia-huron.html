@@ -169,6 +169,12 @@
   .av-col .av-none li { color:var(--fog-dim); font-style:italic; }
   .av-col .av-none li::before { background:var(--slate); }
   .av-src { margin-top:10px; padding-top:8px; border-top:1px solid #2A2A2A; font-size:10px; color:var(--fog-dim); font-style:italic; }
+
+  /* SUB-HEADER */
+  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
+  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
+  .sub-header .sh-link:hover { color:#FCFDF8; }
+  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
 </style>
 </head>
 <body>
@@ -176,7 +182,7 @@
 <nav>
 <a href="../index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
 <div class="nav-links">
-<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="../pilot.html">Pilot — Overview</a><a href="../demos/isaia-huron.html">Isaia Huron — Assembled View</a></div></div>
+<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="../pilot.html">Pilot Overview</a><a href="../demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
 <a href="../demo.html">Demo</a>
 <a href="../cadence.html">Cadence</a>
 <div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
@@ -185,6 +191,7 @@
 <div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
 </div>
 </nav>
+<div class="sub-header"><a href="../pilot.html" class="sh-link">Pilot Overview</a><span class="sh-active">Pilot MVP — Isaia</span></div>
 
 <main>
 

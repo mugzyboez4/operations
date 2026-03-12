@@ -195,6 +195,12 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 
   /* BOTTOM */
   .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+
+  /* SUB-HEADER */
+  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
+  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
+  .sub-header .sh-link:hover { color:#FCFDF8; }
+  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
 </style>
 </head>
 <body>
@@ -202,7 +208,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 <nav>
 <a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
 <div class="nav-links">
-<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="pilot.html">Pilot — Overview</a><a href="demos/isaia-huron.html">Isaia Huron — Assembled View</a></div></div>
+<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="pilot.html">Pilot Overview</a><a href="demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
 <a href="demo.html">Demo</a>
 <a href="cadence.html">Cadence</a>
 <div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
@@ -211,13 +217,14 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 <div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
 </div>
 </nav>
+<div class="sub-header"><span class="sh-active">Pilot Overview</span><a href="demos/isaia-huron.html" class="sh-link">Pilot MVP — Isaia</a></div>
 
 <main>
 
   <section class="hero">
     <h1>Cross-Department<br>Visibility — <span>Live</span></h1>
     <div class="hero-sub">
-      A 30-day pilot proving that one operational layer — pulling from existing systems — can give Commercial Partnerships and Release Planning the complete release picture they currently chase five departments to assemble.
+      One operational layer pulls from existing systems and assembles the complete release picture. 30 days, 3 releases, real data.
     </div>
   </section>
 
@@ -290,7 +297,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
       </div>
     </div>
     <div class="sys-caption">
-      <strong>No ISRCs. No UPCs. No shared key.</strong> You can't automate reconciliation across these systems because there's nothing to match on. Every song title is entered differently in each system. The pilot assembles this manually — and builds the case for DDEX ERN identifiers as the long-term fix.
+      <strong>No ISRCs. No UPCs. No shared key.</strong> Nothing to match on across systems. The pilot assembles manually — and builds the case for DDEX ERN identifiers as the long-term fix.
     </div>
   </section>
 
@@ -299,7 +306,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
     <div class="section-label">The Problem in One Release</div>
     <hr class="section-divider">
     <p style="font-size: 13px; color: var(--fog); margin-bottom: 24px;">
-      29 days from street date. Here's what Runway shows — and what it doesn't.
+      29 days from street date.
     </p>
     <div class="case-header">
       <div class="case-top">
@@ -429,7 +436,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
     <div class="section-label">Pilot Cohort — Active Releases</div>
     <hr class="section-divider">
     <p style="font-size: 13px; color: var(--fog); margin-bottom: 24px;">
-      Three releases across different lifecycle stages. Each tests the system on real data.
+      Three releases. Three lifecycle stages. Real data.
     </p>
     <div class="cohort-grid">
       <div class="cohort-card active-card">
@@ -563,15 +570,14 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="phase-label" style="color: var(--chartreuse);">Pilot — Now</div>
         <div class="phase-title">Prove the model</div>
         <div class="phase-desc">
-          Operational layer (Meg) + Commercial Partnerships + Release Planning.
-          3 releases. Full assembly from existing sources. No department behavior change required.
+          3 releases. Full assembly from existing sources. No behavior change required.
         </div>
       </div>
       <div class="scale-card phase-2">
         <div class="phase-label" style="color: var(--fog);">Phase 2 — After 30 Days</div>
         <div class="phase-title">Add Marketing &amp; PMs</div>
         <div class="phase-desc">
-          Structured inputs: talking points, timelines, asset links submitted directly instead of assembled. Based on pilot data showing which inputs are most frequently missing.
+          Structured inputs submitted directly instead of assembled. Based on pilot data.
         </div>
         <div class="phase-trigger">Triggered by: Pilot results at 30 days</div>
       </div>
@@ -579,7 +585,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="phase-label" style="color: var(--fog-dim);">Phase 3 — Scale + Identifiers</div>
         <div class="phase-title">DDEX / ISRC Integration</div>
         <div class="phase-desc">
-          ISRC as the shared key connecting Runway → Clearance Reports → DSP delivery. Eliminates manual cross-referencing. Turns the pilot's manual assembly into an automated pipeline.
+          ISRC as the shared key across all systems. Manual assembly becomes automated pipeline.
         </div>
         <div class="phase-trigger">Triggered by: Phase 2 adoption + identifier standardization</div>
       </div>
@@ -604,7 +610,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="step-counter">2</div>
         <div class="step-content">
           <div class="step-title">Run gap analysis on each release</div>
-          <div class="step-desc">Map every Runway field, DSP asset requirement, and delivery dependency. Document what's populated, what's empty, and where the information actually lives.</div>
+          <div class="step-desc">Map every Runway field and delivery dependency. Document what's populated, what's empty, where it lives.</div>
           <div class="step-owner">Owner: Meg · Timeline: Days 1–3</div>
         </div>
       </li>
@@ -612,7 +618,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="step-counter">3</div>
         <div class="step-content">
           <div class="step-title">Fill the gaps from existing sources</div>
-          <div class="step-desc">Pull clearance status from the Sample Report and RCA Charts. Pull talking points from artist briefings. Confirm decisions from meetings and email. Assemble — don't create.</div>
+          <div class="step-desc">Pull from Sample Report, RCA Charts, artist briefings, meetings, email. Assemble — don't create.</div>
           <div class="step-owner">Owner: Meg · Timeline: Days 3–5</div>
         </div>
       </li>
@@ -620,7 +626,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="step-counter">4</div>
         <div class="step-content">
           <div class="step-title">Build the release status view</div>
-          <div class="step-desc">Three releases in Airtable. Clearance fields + DSP readiness fields. Status per department. Real data, updated weekly.</div>
+          <div class="step-desc">Three releases in Airtable. Clearance + DSP readiness. Updated weekly.</div>
           <div class="step-owner">Owner: Meg · Timeline: Days 5–7</div>
         </div>
       </li>
@@ -628,7 +634,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="step-counter">5</div>
         <div class="step-content">
           <div class="step-title">Share with Commercial Partnerships + Release Planning</div>
-          <div class="step-desc">Here's what you'll see. Here's how it updates. Here's what to do when something's flagged. No training — it's a dashboard, not a new system.</div>
+          <div class="step-desc">A dashboard, not a new system. No training needed.</div>
           <div class="step-owner">Owner: Meg · Timeline: Week 2</div>
         </div>
       </li>
@@ -636,7 +642,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
         <div class="step-counter">6</div>
         <div class="step-content">
           <div class="step-title">Run for 30 days. Bring results.</div>
-          <div class="step-desc">How many fields went from Unknown to tracked. How many releases shipped cleaner. How much Production Meeting time was recovered. That's the case for Phase 2.</div>
+          <div class="step-desc">Fields resolved, releases shipped cleaner, Production Meeting time recovered. That's the case for Phase 2.</div>
           <div class="step-owner">Owner: Meg · Timeline: Day 30</div>
         </div>
       </li>
