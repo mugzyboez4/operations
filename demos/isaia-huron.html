@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Isaia Huron · Assembled Release View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-outer: #1A1A1A;
+    --bg-inner: #0F0E0E;
+    --off-white: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --fog-dim: #847D96;
+    --amber: #F5A623;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background:var(--bg-outer); color:var(--off-white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  nav { background:var(--bg-inner); border-bottom:1px solid var(--slate); padding:0 32px; display:flex; align-items:center; gap:28px; height:48px; position:sticky; top:0; z-index:100; }
+  nav .logo { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--off-white); text-decoration:none; margin-right:8px; }
+  nav .logo span { color:var(--chartreuse); }
+  nav a { font-size:12px; color:var(--fog-dim); text-decoration:none; letter-spacing:0.3px; transition:color 0.15s; }
+  nav a:hover { color:var(--off-white); }
+  nav a.active { color:var(--off-white); }
+
+  main { max-width:1080px; margin:0 auto; padding:48px 32px 120px; }
+  section { margin-bottom:56px; }
+  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); }
+  .section-divider { border:none; border-top:1px solid var(--chartreuse); opacity:0.3; margin:10px 0 28px; }
+
+  /* HEADER */
+  .release-header { background:var(--bg-inner); border:1px solid var(--slate); padding:28px; margin-bottom:32px; }
+  .rh-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .rh-artist { font-size:28px; font-weight:800; letter-spacing:-0.5px; }
+  .rh-release { font-size:14px; color:var(--fog); margin-top:2px; }
+  .rh-badge-group { text-align:right; }
+  .rh-workability { font-size:36px; font-weight:800; line-height:1; }
+  .rh-workability.before { color:var(--flame); }
+  .rh-workability.after { color:var(--chartreuse); }
+  .rh-wb-label { font-size:9px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-top:4px; }
+  .rh-meta { display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid var(--slate); padding-top:14px; }
+  .rh-meta-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:2px; }
+  .rh-meta-value { font-size:13px; font-weight:600; }
+
+  /* TOGGLE */
+  .toggle-bar { display:flex; align-items:center; gap:0; margin-bottom:32px; }
+  .toggle-btn {
+    padding:10px 24px; font-size:12px; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; cursor:pointer; border:1px solid var(--slate);
+    background:var(--bg-inner); color:var(--fog-dim); transition:all 0.2s;
+  }
+  .toggle-btn:first-child { border-right:none; }
+  .toggle-btn.active-before { background:rgba(255,74,35,0.12); color:var(--flame); border-color:var(--flame); }
+  .toggle-btn.active-after { background:rgba(205,248,81,0.1); color:var(--chartreuse); border-color:var(--chartreuse); }
+
+  .view { display:none; }
+  .view.visible { display:block; }
+
+  /* STATUS CARDS */
+  .status-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .status-card { background:var(--bg-inner); padding:20px; }
+  .flame-border { border-left:3px solid var(--flame); }
+  .fog-border { border-left:3px solid var(--fog-dim); }
+  .green-border { border-left:3px solid var(--chartreuse); }
+  .amber-border { border-left:3px solid var(--amber); }
+  .card-label { font-size:11px; font-weight:700; letter-spacing:0.5px; color:var(--fog); margin-bottom:14px; text-transform:uppercase; }
+  .field-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid rgba(62,63,65,0.4); }
+  .field-row:last-of-type { border-bottom:none; }
+  .field-name { font-size:13px; }
+  .field-src { font-size:10px; color:var(--fog-dim); font-style:italic; margin-left:4px; }
+  .field-status { font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; text-transform:uppercase; }
+  .st-unknown { background:rgba(255,74,35,0.15); color:var(--flame); }
+  .st-required { background:rgba(255,74,35,0.1); color:#FF8A6A; }
+  .st-empty { background:rgba(176,169,190,0.1); color:var(--fog-dim); }
+  .st-done { background:rgba(205,248,81,0.1); color:#8AB83A; }
+  .st-tracked { background:rgba(205,248,81,0.15); color:var(--chartreuse); }
+  .st-progress { background:rgba(245,166,35,0.15); color:var(--amber); }
+  .st-na { background:rgba(176,169,190,0.08); color:var(--fog-dim); }
+  .source-note { margin-top:14px; padding-top:10px; border-top:1px solid var(--slate); font-size:11px; color:var(--fog-dim); line-height:1.5; }
+  .source-note strong { color:var(--fog); }
+
+  /* TRACK TABLE */
+  .track-table { width:100%; border-collapse:collapse; margin-top:16px; }
+  .track-table th {
+    text-align:left; font-size:10px; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:var(--fog-dim); padding:8px 12px;
+    border-bottom:1px solid var(--slate);
+  }
+  .track-table td { padding:8px 12px; border-bottom:1px solid rgba(62,63,65,0.3); font-size:13px; vertical-align:top; }
+  .track-table .track-title { font-weight:600; }
+  .track-table .track-detail { font-size:11px; color:var(--fog-dim); line-height:1.5; margin-top:2px; }
+
+  /* DELTA CALLOUT */
+  .delta-bar {
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;
+    margin-bottom:32px;
+  }
+  .delta-item { background:var(--bg-inner); border:1px solid var(--slate); padding:20px; text-align:center; }
+  .delta-number { font-size:28px; font-weight:800; line-height:1; }
+  .delta-number.flame { color:var(--flame); }
+  .delta-number.chartreuse { color:var(--chartreuse); }
+  .delta-number.amber { color:var(--amber); }
+  .delta-label { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); margin-top:6px; }
+
+  .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="../index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
+<div class="nav-links">
+<a href="../pilot.html">Pilot</a>
+<div class="sndd"><span class="sndd-b active">Demo &#9662;</span><div class="sndd-m"><a href="../demo.html">Artist Visibility</a><a href="../demos/isaia-huron.html">Isaia Huron — Mr. Lovebomb</a></div></div>
+<a href="../cadence.html">Cadence</a>
+<div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+<a href="../rollout.html">Rollout</a>
+<a href="../comms.html">Comms</a>
+<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
+</div>
+</nav>
+
+<main>
+
+  <!-- RELEASE HEADER -->
+  <div class="release-header">
+    <div class="rh-top">
+      <div>
+        <div class="rh-artist">Isaia Huron</div>
+        <div class="rh-release">Mr. Lovebomb · ITOLA LLC / Slang / RCA Records</div>
+      </div>
+      <div class="rh-badge-group" id="workabilityBadge">
+        <div class="rh-workability before" id="wbNumber">55%</div>
+        <div class="rh-wb-label" id="wbLabel">Runway Workability</div>
+      </div>
+    </div>
+    <div class="rh-meta">
+      <div><div class="rh-meta-label">Street Date</div><div class="rh-meta-value">April 10, 2026</div></div>
+      <div><div class="rh-meta-label">Pre-Order</div><div class="rh-meta-value">March 20, 2026</div></div>
+      <div><div class="rh-meta-label">Config</div><div class="rh-meta-value">Digital Audio LP</div></div>
+      <div><div class="rh-meta-label">Tracks</div><div class="rh-meta-value">10</div></div>
+      <div><div class="rh-meta-label">Schedule</div><div class="rh-meta-value" style="color:var(--flame);">Scheduled (pushed)</div></div>
+      <div><div class="rh-meta-label">Clearance Deadline</div><div class="rh-meta-value">Feb 9, 2026</div></div>
+    </div>
+  </div>
+
+  <!-- TOGGLE -->
+  <div class="toggle-bar">
+    <div class="toggle-btn active-before" id="btnBefore" onclick="showView('before')">Before — What Runway Shows</div>
+    <div class="toggle-btn" id="btnAfter" onclick="showView('after')">After — Assembled View</div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- BEFORE VIEW -->
+  <!-- ============================================ -->
+  <div class="view visible" id="viewBefore">
+
+    <div class="delta-bar">
+      <div class="delta-item">
+        <div class="delta-number flame">6</div>
+        <div class="delta-label">Unknown / Required Fields</div>
+      </div>
+      <div class="delta-item">
+        <div class="delta-number flame">5</div>
+        <div class="delta-label">Blank Metadata Fields</div>
+      </div>
+      <div class="delta-item">
+        <div class="delta-number flame">0 of 5</div>
+        <div class="delta-label">DSP Asset Fields Submitted</div>
+      </div>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card flame-border">
+        <div class="card-label">Clearance Fields</div>
+        <div class="field-row"><span class="field-name">SAA</span><span class="field-status st-unknown">Unknown</span></div>
+        <div class="field-row"><span class="field-name">SAMP</span><span class="field-status st-unknown">Unknown</span></div>
+        <div class="field-row"><span class="field-name">Cover / VSC</span><span class="field-status st-required">Required</span></div>
+        <div class="field-row"><span class="field-name">Agreements</span><span class="field-status st-required">Required</span></div>
+        <div class="field-row"><span class="field-name">Master</span><span class="field-status st-done">Done</span></div>
+        <div class="field-row"><span class="field-name">Label Copy</span><span class="field-status st-done">Done</span></div>
+        <div class="source-note">This is everything Runway shows. "Unknown" doesn't tell you whether it's pending, not started, or not applicable.</div>
+      </div>
+      <div class="status-card fog-border">
+        <div class="card-label">Metadata</div>
+        <div class="field-row"><span class="field-name">Composer(s) / Writer(s)</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">Producer</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">ATMOS</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">All DSP Delivery Dates</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">Distribution</span><span class="field-status st-empty">Blank</span></div>
+      </div>
+    </div>
+
+    <div class="status-card" style="border-left:3px solid var(--flame); margin-bottom:16px;">
+      <div class="card-label">DSP Asset Request Sheet</div>
+      <div class="field-row"><span class="field-name">Talking Points</span><span class="field-status st-empty">Not submitted</span></div>
+      <div class="field-row"><span class="field-name">Timeline</span><span class="field-status st-empty">Not submitted</span></div>
+      <div class="field-row"><span class="field-name">Approved Images</span><span class="field-status st-empty">Not submitted</span></div>
+      <div class="field-row"><span class="field-name">Artwork</span><span class="field-status st-empty">Not submitted</span></div>
+      <div class="field-row"><span class="field-name">Genres</span><span class="field-status st-empty">Not submitted</span></div>
+      <div class="source-note">Album doesn't appear in the DSP Asset Request sheet. First single ships March 27.</div>
+    </div>
+
+  </div>
+
+  <!-- ============================================ -->
+  <!-- AFTER VIEW -->
+  <!-- ============================================ -->
+  <div class="view" id="viewAfter">
+
+    <div class="delta-bar">
+      <div class="delta-item">
+        <div class="delta-number chartreuse">0</div>
+        <div class="delta-label">Unknown Fields</div>
+      </div>
+      <div class="delta-item">
+        <div class="delta-number chartreuse">5 of 5</div>
+        <div class="delta-label">DSP Asset Fields Assembled</div>
+      </div>
+      <div class="delta-item">
+        <div class="delta-number amber">1 of 10</div>
+        <div class="delta-label">Tracks with Active Sample</div>
+      </div>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card green-border">
+        <div class="card-label">Clearance Fields — Assembled</div>
+        <div class="field-row">
+          <span class="field-name">SAA <span class="field-src">· checked RCA Charts</span></span>
+          <span class="field-status st-na">N/A — No Side Artists</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">SAMP <span class="field-src">· Sample Clearance Report</span></span>
+          <span class="field-status st-progress">1 Track — Terms Quoted</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Cover / VSC</span>
+          <span class="field-status st-required">Required — Tracking</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Agreements</span>
+          <span class="field-status st-required">Required — Tracking</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Master</span>
+          <span class="field-status st-done">Done</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Label Copy</span>
+          <span class="field-status st-done">Done</span>
+        </div>
+        <div class="source-note">
+          <strong>SAA "Unknown" → N/A.</strong> No Isaia Huron entries in RCA Charts (Side In or Side Out). No side artists on this release require approval. Runway doesn't have a way to mark "not applicable" — so it stayed Unknown.<br><br>
+          <strong>SAMP "Unknown" → 9 of 10 cleared, 1 in negotiation.</strong> Pulled from Sample Clearance Report. Details below.
+        </div>
+      </div>
+
+      <div class="status-card amber-border">
+        <div class="card-label">Active Sample — WEW</div>
+        <div class="field-row"><span class="field-name">Samples</span><span style="font-size:12px; color:var(--off-white);">"Cold Rock A Party" — MC Lyte</span></div>
+        <div class="field-row"><span class="field-name">Publishing (SMP)</span><span style="font-size:12px; color:var(--amber);">20% © pro-rata/MFN · $2,500 fee</span></div>
+        <div class="field-row"><span class="field-name">Publishing (UMPG)</span><span style="font-size:12px; color:var(--amber);">17.5% © pro-rata/MFN · $2,500 fee</span></div>
+        <div class="field-row"><span class="field-name">Master (WMG)</span><span style="font-size:12px; color:var(--amber);">6–8% gross · $6–8K advance + AFM</span></div>
+        <div class="field-row"><span class="field-name">Synch Rights</span><span class="field-status st-progress">Pending</span></div>
+        <div class="source-note">
+          Terms quoted on both sides. Not yet confirmed. Clearance deadline was Feb 9 — this is overdue. Needs escalation.
+        </div>
+      </div>
+    </div>
+
+    <!-- DSP ASSET REQUEST — ASSEMBLED -->
+    <div class="status-grid">
+      <div class="status-card green-border">
+        <div class="card-label">DSP Asset Request — Assembled</div>
+        <div class="field-row">
+          <span class="field-name">Talking Points</span>
+          <span class="field-status st-tracked">Compiled</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Timeline</span>
+          <span class="field-status st-tracked">Compiled</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Approved Images</span>
+          <span class="field-status st-tracked">Confirmed</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Artwork</span>
+          <span class="field-status st-done">Final · Ingested</span>
+        </div>
+        <div class="field-row">
+          <span class="field-name">Genres</span>
+          <span class="field-status st-tracked">Compiled</span>
+        </div>
+        <div class="source-note">
+          Every field assembled from existing internal emails — no new asks. Sources below.
+        </div>
+      </div>
+
+      <div class="status-card green-border">
+        <div class="card-label">Artist Pitch — Ready for DSP</div>
+        <div style="font-size:12px; color:var(--fog); line-height:1.7; margin-bottom:12px;">
+          Rising singer, songwriter, and self-taught producer out of Greenville, SC. Gospel roots — father a pastor, mother a choir leader. Learned Ableton on a cruise in 2018. Blends R&B, alternative soul, and indie textures. Debut album <em>CONCUBANIA</em> dropped Aug 2025. Signed to RCA Records / SLANG. <em>Mr. Lovebomb</em> is the sophomore album — "the messiness of life, love and experiences."
+        </div>
+        <div style="font-size:11px; color:var(--fog-dim); border-top:1px solid var(--slate); padding-top:10px; line-height:1.6;">
+          <strong style="color:var(--fog);">Tour:</strong> Mr. Lovebomb's Tiny Little Tour — kicks off April 20, San Francisco. LA, NYC, Atlanta + more.<br>
+          <strong style="color:var(--fog);">Focus Track:</strong> "This Girl Wants Everything" (single, March 27)<br>
+          <strong style="color:var(--fog);">Photo Credit:</strong> Jack Peros
+        </div>
+      </div>
+    </div>
+
+    <!-- SOURCE LOG -->
+    <div style="background:var(--bg-inner); padding:16px 20px; margin-bottom:16px;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:10px;">Sources — Where Each Field Was Pulled From</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11px; color:var(--fog-dim); line-height:1.6;">
+        <div><strong style="color:var(--fog);">Talking Points</strong> — Press releases (Feb 13 + Feb 18 all-staff emails, Publicity)</div>
+        <div><strong style="color:var(--fog);">Timeline</strong> — Campaign plan email (Feb 12, Marketing/A&R) + Runway dates</div>
+        <div><strong style="color:var(--fog);">Approved Images</strong> — Press Image Selects on Air (confirmed final, Feb 12 email)</div>
+        <div><strong style="color:var(--fog);">Artwork</strong> — Album artwork on Dropbox (final, sent for ingestion, Feb 12 email)</div>
+        <div><strong style="color:var(--fog);">Genres</strong> — Press release language: R&B, alternative soul, indie</div>
+        <div><strong style="color:var(--fog);">Artist Pitch</strong> — Compiled from all three internal emails</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:32px; padding:16px 20px; background:var(--bg-inner); border-left:3px solid var(--chartreuse); font-size:13px; color:var(--fog); line-height:1.6;">
+      <strong style="color:var(--chartreuse);">What this opens up.</strong> Every field above was assembled from emails already circulated internally. Today that assembly happens manually — or not at all. At scale, this becomes the foundation for artist onboarding packages, automated one-sheets, and structured DSP pitch decks that write themselves from existing campaign data.
+    </div>
+
+    <!-- TRACK-BY-TRACK -->
+    <section>
+      <div class="section-label">Track-by-Track — Sample Status + Identifiers</div>
+      <hr class="section-divider">
+      <table class="track-table">
+        <thead>
+          <tr><th>#</th><th>Track</th><th>ISRC</th><th>Sample Status</th><th>Synch</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              <div class="track-title">WEW</div>
+              <div class="track-detail">Samples "Cold Rock A Party" — MC Lyte · SMP + UMPG pub · WMG master</div>
+            </td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-progress">Terms Quoted</span></td>
+            <td><span class="field-status st-progress">Pending</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><div class="track-title">WTA</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><div class="track-title">Wool</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><div class="track-title">This Girl Wants Everything</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--chartreuse);">USRC12600391</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><div class="track-title">Versions</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><div class="track-title">Side Slider</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><div class="track-title">Give You My Word</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><div class="track-title">Breakfast and Matcha</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><div class="track-title">Pablo Honey</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><div class="track-title">Proprane</div></td>
+            <td style="font-family:monospace; font-size:11px; color:var(--flame);">—</td>
+            <td><span class="field-status st-done">No Samples</span></td>
+            <td><span class="field-status st-done">RCA 100%</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:20px; padding:16px 20px; background:var(--bg-inner); border-left:3px solid var(--chartreuse); font-size:13px; color:var(--fog); line-height:1.6;">
+        <strong style="color:var(--chartreuse);">How this scales.</strong> Runway already has the ISRC field — only the single has one so far. Once every track has an ISRC, that one code connects Runway to the Sample Clearance Report to DSP delivery. That's DDEX ERN: the industry standard identifier structure that turns this manual assembly into an automated pipeline.
+      </div>
+    </section>
+
+  </div>
+
+  <div class="bottom-note">
+    <span>Meg Hourihan · RCA Records · March 2026</span>
+    <span>Cross-Department Visibility Pilot · Demo</span>
+  </div>
+
+</main>
+
+<script>
+function showView(view) {
+  const before = document.getElementById('viewBefore');
+  const after = document.getElementById('viewAfter');
+  const btnBefore = document.getElementById('btnBefore');
+  const btnAfter = document.getElementById('btnAfter');
+  const wbNumber = document.getElementById('wbNumber');
+  const wbLabel = document.getElementById('wbLabel');
+
+  if (view === 'before') {
+    before.classList.add('visible');
+    after.classList.remove('visible');
+    btnBefore.className = 'toggle-btn active-before';
+    btnAfter.className = 'toggle-btn';
+    wbNumber.textContent = '55%';
+    wbNumber.className = 'rh-workability before';
+    wbLabel.textContent = 'Runway Workability';
+  } else {
+    before.classList.remove('visible');
+    after.classList.add('visible');
+    btnBefore.className = 'toggle-btn';
+    btnAfter.className = 'toggle-btn active-after';
+    wbNumber.textContent = '9/10';
+    wbNumber.className = 'rh-workability after';
+    wbLabel.textContent = 'Tracks Cleared';
+  }
+}
+</script>
+
+</body>
+</html>
