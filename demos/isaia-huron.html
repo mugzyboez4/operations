@@ -21,12 +21,25 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background:var(--bg-outer); color:var(--off-white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-  nav { background:var(--bg-inner); border-bottom:1px solid var(--slate); padding:0 32px; display:flex; align-items:center; gap:28px; height:48px; position:sticky; top:0; z-index:100; }
-  nav .logo { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--off-white); text-decoration:none; margin-right:8px; }
-  nav .logo span { color:var(--chartreuse); }
-  nav a { font-size:12px; color:var(--fog-dim); text-decoration:none; letter-spacing:0.3px; transition:color 0.15s; }
-  nav a:hover { color:var(--off-white); }
-  nav a.active { color:var(--off-white); }
+  /* NAV */
+  nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+  nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+  nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+  nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+  nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+  nav .nav-links { display:flex; align-items:center; gap:2px; }
+  nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+  nav .nav-links a:hover { color:#FCFDF8; }
+  nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+  nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+  .sndd { position:relative; display:inline-block; }
+  .sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+  .sndd-b:hover { color:#FCFDF8; }
+  .sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+  .sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
+  .sndd:hover .sndd-m { display:block; }
+  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+  .sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
 
   main { max-width:1080px; margin:0 auto; padding:48px 32px 120px; }
   section { margin-bottom:56px; }
@@ -108,6 +121,54 @@
   .delta-label { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); margin-top:6px; }
 
   .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+
+  /* ARTIST VISIBILITY PREVIEW */
+  .av-preview { background:#141414; border:1px solid #2A2A2A; overflow:hidden; }
+  .av-hero { padding:24px; display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid #2A2A2A; }
+  .av-phase { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:4px; }
+  .av-name { font-size:32px; font-weight:800; letter-spacing:-0.5px; color:var(--off-white); line-height:1.1; }
+  .av-rel { font-size:14px; color:var(--fog-dim); margin-top:4px; }
+  .av-stats { display:flex; align-items:flex-end; gap:20px; }
+  .av-stat { text-align:center; }
+  .av-stat-num { font-size:28px; font-weight:800; line-height:1; }
+  .av-stat-label { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--fog-dim); margin-top:4px; }
+  .av-gauge { position:relative; width:72px; height:72px; }
+  .av-gauge-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+  .av-gauge-pct { font-size:18px; font-weight:800; line-height:1; }
+  .av-gauge-sub { font-size:8px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); margin-top:2px; }
+  .av-depts { }
+
+  /* Expandable Department Rows */
+  .av-dept-row { border-bottom:1px solid #1E1E1E; cursor:pointer; transition:background 0.1s; }
+  .av-dept-row:hover { background:#1A1A1A; }
+  .av-dept-row:last-child { border-bottom:none; }
+  .av-dept-row.no-data { cursor:default; opacity:0.5; }
+  .av-dept-row.no-data:hover { background:transparent; }
+  .av-dept-head { display:flex; align-items:center; gap:12px; padding:10px 20px; }
+  .av-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .av-dept-name { font-size:13px; font-weight:600; color:var(--off-white); min-width:140px; }
+  .av-dept-sum { font-size:12px; color:var(--fog-dim); flex:1; }
+  .av-no-source { font-style:italic; }
+  .av-arr { font-size:11px; color:var(--fog-dim); transition:transform 0.2s; flex-shrink:0; }
+  .av-dept-row.open .av-arr { transform:rotate(180deg); color:var(--chartreuse); }
+  .av-badge-pilot { font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--chartreuse); background:rgba(205,248,81,0.1); padding:2px 6px; flex-shrink:0; }
+
+  /* Detail Panel */
+  .av-dept-detail { display:none; border-top:1px solid #2A2A2A; }
+  .av-dept-row.open .av-dept-detail { display:block; }
+  .av-cols { display:grid; grid-template-columns:1fr 1fr 1fr; }
+  .av-col { padding:14px 20px; }
+  .av-col:not(:last-child) { border-right:1px solid #2A2A2A; }
+  .av-col-head { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; }
+  .av-col-head.done { color:#4ADE80; }
+  .av-col-head.needs { color:#FACC15; }
+  .av-col-head.blocks { color:#FF4A23; }
+  .av-col ul { list-style:none; }
+  .av-col li { font-size:12px; color:var(--fog); line-height:1.5; padding:2px 0; padding-left:12px; position:relative; }
+  .av-col li::before { content:''; position:absolute; left:0; top:9px; width:4px; height:4px; background:var(--fog-dim); }
+  .av-col .av-none li { color:var(--fog-dim); font-style:italic; }
+  .av-col .av-none li::before { background:var(--slate); }
+  .av-src { margin-top:10px; padding-top:8px; border-top:1px solid #2A2A2A; font-size:10px; color:var(--fog-dim); font-style:italic; }
 </style>
 </head>
 <body>
@@ -115,8 +176,8 @@
 <nav>
 <a href="../index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
 <div class="nav-links">
-<a href="../pilot.html">Pilot</a>
-<div class="sndd"><span class="sndd-b active">Demo &#9662;</span><div class="sndd-m"><a href="../demo.html">Artist Visibility</a><a href="../demos/isaia-huron.html">Isaia Huron — Mr. Lovebomb</a></div></div>
+<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="../pilot.html">Pilot — Overview</a><a href="../demos/isaia-huron.html">Isaia Huron — Assembled View</a></div></div>
+<a href="../demo.html">Demo</a>
 <a href="../cadence.html">Cadence</a>
 <div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
 <a href="../rollout.html">Rollout</a>
@@ -419,6 +480,428 @@
       </table>
       <div style="margin-top:20px; padding:16px 20px; background:var(--bg-inner); border-left:3px solid var(--chartreuse); font-size:13px; color:var(--fog); line-height:1.6;">
         <strong style="color:var(--chartreuse);">How this scales.</strong> Runway already has the ISRC field — only the single has one so far. Once every track has an ISRC, that one code connects Runway to the Sample Clearance Report to DSP delivery. That's DDEX ERN: the industry standard identifier structure that turns this manual assembly into an automated pipeline.
+      </div>
+    </section>
+
+    <!-- ARTIST VISIBILITY PREVIEW -->
+    <section>
+      <div class="section-label">What This Looks Like at Scale</div>
+      <hr class="section-divider">
+      <p style="font-size:13px; color:var(--fog); margin-bottom:20px;">
+        The data above feeds into the cross-department visibility system. Click any department to expand. Departments with pilot data show real status from the same sources used above.
+      </p>
+
+      <div class="av-preview">
+        <!-- Hero -->
+        <div class="av-hero">
+          <div>
+            <div class="av-phase">Pre-Release · R&B / Alternative Soul</div>
+            <div class="av-name">Isaia Huron</div>
+            <div class="av-rel">Mr. Lovebomb · April 10, 2026</div>
+          </div>
+          <div class="av-stats">
+            <div class="av-stat">
+              <div class="av-stat-num" style="color:#4ADE80;">3</div>
+              <div class="av-stat-label">On Track</div>
+            </div>
+            <div class="av-stat">
+              <div class="av-stat-num" style="color:#FACC15;">6</div>
+              <div class="av-stat-label">Needs Attn</div>
+            </div>
+            <div class="av-stat">
+              <div class="av-stat-num" style="color:#FF4A23;">3</div>
+              <div class="av-stat-label">Blocked</div>
+            </div>
+            <div class="av-gauge">
+              <svg viewBox="0 0 80 80" width="72" height="72">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#2A2A2A" stroke-width="5"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#FACC15" stroke-width="5"
+                  stroke-dasharray="201" stroke-dashoffset="111"
+                  stroke-linecap="round" transform="rotate(-90 40 40)"/>
+              </svg>
+              <div class="av-gauge-text">
+                <div class="av-gauge-pct" style="color:#FACC15;">45%</div>
+                <div class="av-gauge-sub">Complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Department Rows — Expandable -->
+        <div class="av-depts">
+
+          <!-- A&R — yellow -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">A&R</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">Masters delivered · Credits pending</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Master delivered</li>
+                    <li>A&R: Jake Ottman</li>
+                    <li>Label Copy done</li>
+                  </ul>
+                  <div class="av-src">Runway Export · Sample Report</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>Composer/Writer — blank in Runway</li>
+                    <li>Producer — blank in Runway</li>
+                    <li>ATMOS decision — blank in Runway</li>
+                  </ul>
+                  <div class="av-src">Runway Export</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul>
+                    <li>Credits span 3 departments — nobody reconciles into Runway</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Creative — green -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#4ADE80;"></span>
+              <span class="av-dept-name">Creative</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">Artwork final, ingested · Press images on Air</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Album artwork final — sent for ingestion</li>
+                    <li>Press Image Selects final — on Air</li>
+                    <li>W.T.A. visualizer final</li>
+                    <li>"This Girl Wants Everything" artwork on Air</li>
+                  </ul>
+                  <div class="av-src">Feb 12 email (Marketing/A&R)</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>Album visualizers #1–9 rough cut</li>
+                    <li>Album visualizer #10 rough cut</li>
+                  </ul>
+                  <div class="av-src">Feb 12 email</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul class="av-none">
+                    <li>None identified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Marketing — yellow -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">Marketing</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">Strategy conversations in progress</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Department plans doc created and circulated</li>
+                    <li>Working assets distributed to team</li>
+                  </ul>
+                  <div class="av-src">Feb 12 email (Marketing/A&R)</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>Short form strategy conversations with artist (scheduled)</li>
+                    <li>Campaign gameplan from strategy sessions</li>
+                  </ul>
+                  <div class="av-src">Feb 12 email</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul class="av-none">
+                    <li>None identified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Digital / Streaming — red -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FF4A23;"></span>
+              <span class="av-dept-name">Digital / Streaming</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">DSP asset sheet not started · No pitch submitted</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Single "This Girl Wants Everything" in DSP Asset sheet for 3/27</li>
+                  </ul>
+                  <div class="av-src">DSP Asset Request Sheet</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>Album not in DSP Asset sheet</li>
+                    <li>No DSP pitch submitted</li>
+                    <li>Talking points not submitted</li>
+                    <li>Timeline not submitted</li>
+                    <li>Approved images not submitted</li>
+                    <li>Artwork not submitted</li>
+                    <li>Genres not submitted</li>
+                  </ul>
+                  <div class="av-src">DSP Asset Request Sheet</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul>
+                    <li>Album not in the sheet — first single ships in 15 days</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Press / Publicity — green -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#4ADE80;"></span>
+              <span class="av-dept-name">Press / Publicity</span>
+              <span class="av-dept-sum">Press releases circulated · Bio live</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Press release circulated all-staff (Feb 13)</li>
+                    <li>Tour announcement circulated all-staff (Feb 18)</li>
+                    <li>Artist bio live</li>
+                    <li>Photo credit confirmed: Jack Peros</li>
+                  </ul>
+                  <div class="av-src">Feb 13 + Feb 18 all-staff emails</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul class="av-none">
+                    <li>None identified in sources</li>
+                  </ul>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul class="av-none">
+                    <li>None identified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Radio — red, no data -->
+          <div class="av-dept-row no-data">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FF4A23;"></span>
+              <span class="av-dept-name">Radio</span>
+              <span class="av-dept-sum av-no-source">No data in pilot sources</span>
+            </div>
+          </div>
+
+          <!-- Sync & Licensing — yellow -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">Sync & Licensing</span>
+              <span class="av-dept-sum">9/10 tracks RCA 100% · WEW synch pending</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>9 of 10 tracks: RCA 100% synch rights</li>
+                  </ul>
+                  <div class="av-src">Sample Clearance Report</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>WEW synch rights — pending</li>
+                    <li>Publishing splits not confirmed for quoting</li>
+                  </ul>
+                  <div class="av-src">Sample Clearance Report</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul>
+                    <li>Can't issue quotes until splits confirmed</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business & Legal — red -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FF4A23;"></span>
+              <span class="av-dept-name">Business & Legal</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">SAMP overdue · Cover/VSC required · Agreements required</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>SAA — confirmed N/A (no side artists in RCA Charts)</li>
+                    <li>SAMP — 9 of 10 tracks: No Samples Identified</li>
+                  </ul>
+                  <div class="av-src">RCA Charts · Sample Clearance Report</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>WEW sample — terms quoted, not confirmed</li>
+                    <li>Cover / VSC — required</li>
+                    <li>Agreements — required</li>
+                  </ul>
+                  <div class="av-src">Sample Report · Runway Export</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul>
+                    <li>Clearance deadline was Feb 9 — overdue</li>
+                    <li>WEW synch rights pending blocks Sync dept</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Finance — yellow, no data -->
+          <div class="av-dept-row no-data">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">Finance</span>
+              <span class="av-dept-sum av-no-source">No data in pilot sources</span>
+            </div>
+          </div>
+
+          <!-- Production / Dist. — yellow -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">Production / Dist.</span>
+              <span class="av-badge-pilot">In Pilot</span>
+              <span class="av-dept-sum">Master done · Delivery dates + ATMOS blank</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Master — done</li>
+                    <li>Label Copy — done</li>
+                    <li>Artwork sent for ingestion</li>
+                  </ul>
+                  <div class="av-src">Runway Export · Feb 12 email</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>All DSP delivery dates — blank</li>
+                    <li>Distribution — blank</li>
+                    <li>ATMOS — blank</li>
+                  </ul>
+                  <div class="av-src">Runway Export</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul class="av-none">
+                    <li>None identified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- International — yellow, no data -->
+          <div class="av-dept-row no-data">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#FACC15;"></span>
+              <span class="av-dept-name">International</span>
+              <span class="av-dept-sum av-no-source">No data in pilot sources</span>
+            </div>
+          </div>
+
+          <!-- Management (Ext.) — green -->
+          <div class="av-dept-row" onclick="this.classList.toggle('open')">
+            <div class="av-dept-head">
+              <span class="av-dot" style="background:#4ADE80;"></span>
+              <span class="av-dept-name">Management (Ext.)</span>
+              <span class="av-dept-sum">Tour announced · Strategy sessions pending</span>
+              <span class="av-arr">▾</span>
+            </div>
+            <div class="av-dept-detail">
+              <div class="av-cols">
+                <div class="av-col">
+                  <div class="av-col-head done">Done</div>
+                  <ul>
+                    <li>Mr. Lovebomb's Tiny Little Tour announced — April 20 start</li>
+                    <li>Aligned on album direction and era</li>
+                  </ul>
+                  <div class="av-src">Feb 18 all-staff email</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head needs">Needs</div>
+                  <ul>
+                    <li>Short form strategy conversations with Isaia (scheduled)</li>
+                  </ul>
+                  <div class="av-src">Feb 12 email</div>
+                </div>
+                <div class="av-col">
+                  <div class="av-col-head blocks">Blocks</div>
+                  <ul class="av-none">
+                    <li>None identified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="padding:14px 20px; border-top:1px solid #2A2A2A; font-size:11px; color:var(--fog-dim); line-height:1.5;">
+          This is the same view shown in the <a href="../demo.html" style="color:var(--chartreuse); text-decoration:none;">Artist Visibility demo</a> — every artist gets this dashboard. Departments marked <span style="color:var(--chartreuse); font-size:10px; font-weight:700; letter-spacing:0.5px;">IN PILOT</span> are actively tracked. The rest populate as the system scales.
+        </div>
       </div>
     </section>
 
