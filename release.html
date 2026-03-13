@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCA TEMPO — Isaia Huron · Mr. Lovebomb</title>
+<title>RCA TEMPO — Release View</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -172,9 +172,18 @@
   <div class="release-header">
     <div class="rh-top">
       <div>
-        <div class="rh-tag">Release View · Live Data</div>
-        <div class="rh-artist">Isaia Huron</div>
-        <div class="rh-release">Mr. Lovebomb · ITOLA LLC / Slang / RCA Records</div>
+        <div class="rh-tag">Release View</div>
+        <div class="rh-artist" style="font-size:16px; font-weight:600; color:var(--text); letter-spacing:0;">Everything we know about a release — assembled in one place.</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border); padding-top:16px; margin-top:16px; display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div style="font-size:24px; font-weight:800; letter-spacing:-0.5px;">Isaia Huron</div>
+        <div style="font-size:13px; color:var(--dim); margin-top:2px;">Mr. Lovebomb · ITOLA LLC / Slang / RCA Records</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim);">Genre</div>
+        <div style="font-size:13px; font-weight:600;">R&B / Alternative Soul</div>
       </div>
     </div>
     <div class="rh-meta">
@@ -182,10 +191,63 @@
       <div><div class="rh-meta-label">Pre-Order</div><div class="rh-meta-value">March 20, 2026</div></div>
       <div><div class="rh-meta-label">Config</div><div class="rh-meta-value">Digital Audio LP</div></div>
       <div><div class="rh-meta-label">Tracks</div><div class="rh-meta-value">10</div></div>
-      <div><div class="rh-meta-label">Clearance Deadline</div><div class="rh-meta-value">Feb 9, 2026</div></div>
       <div><div class="rh-meta-label">A&R</div><div class="rh-meta-value">Jake Ottman</div></div>
+      <div><div class="rh-meta-label">PM</div><div class="rh-meta-value">—</div></div>
+      <div><div class="rh-meta-label">Spotify</div><div class="rh-meta-value">—</div></div>
     </div>
   </div>
+
+  <!-- DEPARTMENT VIEW -->
+  <section>
+    <div class="section-label">Department View</div>
+    <hr class="section-divider">
+
+    <div class="dept-preview">
+      <div class="dp-hero">
+        <div>
+          <div class="dp-phase">Pre-Release · R&B / Alternative Soul</div>
+          <div class="dp-name">Isaia Huron</div>
+          <div class="dp-rel">Mr. Lovebomb · April 10, 2026</div>
+        </div>
+        <div class="dp-stats">
+          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--green-dot);">3</div><div class="dp-stat-label">On Track</div></div>
+          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--yellow-dot);">6</div><div class="dp-stat-label">Needs Attn</div></div>
+          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--red-dot);">3</div><div class="dp-stat-label">Blocked</div></div>
+          <div class="dp-gauge">
+            <svg viewBox="0 0 80 80" width="72" height="72"><circle cx="40" cy="40" r="32" fill="none" stroke="var(--border)" stroke-width="5"/><circle cx="40" cy="40" r="32" fill="none" stroke="var(--yellow-dot)" stroke-width="5" stroke-dasharray="201" stroke-dashoffset="111" stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
+            <div class="dp-gauge-text"><div class="dp-gauge-pct" style="color:var(--yellow-dot);">45%</div><div class="dp-gauge-sub">Complete</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dept rows — same expandable data from previous build -->
+      <div>
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">A&R</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Masters delivered · Credits pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Master delivered</li><li>A&R: Jake Ottman</li><li>Label Copy done</li></ul><div class="dp-src">Runway · Sample Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Composer/Writer — blank</li><li>Producer — blank</li><li>ATMOS decision — blank</li></ul><div class="dp-src">Runway Export</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Credits span 3 depts — nobody reconciles</li></ul></div></div></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Creative</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Artwork final, ingested · Press images on Air</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Album artwork final — ingested</li><li>Press Image Selects on Air</li><li>W.T.A. visualizer final</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Album visualizers #1–10 rough cut</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Marketing</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Strategy conversations in progress</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Department plans doc created</li><li>Working assets distributed</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Short form strategy conversations (scheduled)</li><li>Campaign gameplan</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Digital / Streaming</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">DSP asset sheet not started</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Single in DSP Asset sheet for 3/27</li></ul><div class="dp-src">DSP Asset Request Sheet</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Album not in DSP Asset sheet</li><li>No DSP pitch submitted</li><li>Talking points, timeline, images, artwork, genres</li></ul><div class="dp-src">DSP Asset Request Sheet</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>First single ships in 15 days</li></ul></div></div></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Press / Publicity</span><span class="dp-dept-sum">Press releases circulated · Bio live</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Press releases circulated (Feb 13 + 18)</li><li>Bio live</li><li>Photo credit: Jack Peros</li></ul><div class="dp-src">All-staff emails</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul class="none-list"><li>None in sources</li></ul></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
+
+        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Radio</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Sync & Licensing</span><span class="dp-dept-sum">9/10 tracks RCA 100% · WEW pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>9/10 tracks: RCA 100% synch</li></ul><div class="dp-src">Sample Clearance Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>WEW synch rights pending</li><li>Splits not confirmed for quoting</li></ul><div class="dp-src">Sample Report</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Can't quote without splits</li></ul></div></div></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Business & Legal</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">SAMP overdue · Cover/VSC + Agreements required</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>SAA — N/A (no side artists)</li><li>9/10 SAMP cleared</li></ul><div class="dp-src">RCA Charts · Sample Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>WEW sample — terms not confirmed</li><li>Cover / VSC — required</li><li>Agreements — required</li></ul><div class="dp-src">Sample Report · Runway</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Clearance deadline Feb 9 — overdue</li></ul></div></div></div></div>
+
+        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Finance</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Production / Dist.</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Master done · Delivery dates blank</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Master — done</li><li>Label Copy — done</li><li>Artwork sent for ingestion</li></ul><div class="dp-src">Runway · Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>All DSP delivery dates — blank</li><li>Distribution — blank</li><li>ATMOS — blank</li></ul><div class="dp-src">Runway</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
+
+        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">International</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
+
+        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Management (Ext.)</span><span class="dp-dept-sum">Tour announced · Strategy sessions pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Tour announced April 20</li><li>Aligned on album direction</li></ul><div class="dp-src">Feb 18 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Short form strategy conversations (scheduled)</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
+      </div>
+    </div>
+  </section>
 
   <!-- ARTIST PITCH -->
   <section>
@@ -325,58 +387,6 @@
         <tr><td>10</td><td><div class="track-title">Proprane</div></td><td style="font-family:monospace;font-size:11px;color:var(--flame);">—</td><td><span class="field-status st-done">Clear</span></td><td><span class="field-status st-done">RCA 100%</span></td></tr>
       </tbody>
     </table>
-  </section>
-
-  <!-- DEPARTMENT VIEW -->
-  <section>
-    <div class="section-label">Department View</div>
-    <hr class="section-divider">
-
-    <div class="dept-preview">
-      <div class="dp-hero">
-        <div>
-          <div class="dp-phase">Pre-Release · R&B / Alternative Soul</div>
-          <div class="dp-name">Isaia Huron</div>
-          <div class="dp-rel">Mr. Lovebomb · April 10, 2026</div>
-        </div>
-        <div class="dp-stats">
-          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--green-dot);">3</div><div class="dp-stat-label">On Track</div></div>
-          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--yellow-dot);">6</div><div class="dp-stat-label">Needs Attn</div></div>
-          <div class="dp-stat"><div class="dp-stat-num" style="color:var(--red-dot);">3</div><div class="dp-stat-label">Blocked</div></div>
-          <div class="dp-gauge">
-            <svg viewBox="0 0 80 80" width="72" height="72"><circle cx="40" cy="40" r="32" fill="none" stroke="var(--border)" stroke-width="5"/><circle cx="40" cy="40" r="32" fill="none" stroke="var(--yellow-dot)" stroke-width="5" stroke-dasharray="201" stroke-dashoffset="111" stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
-            <div class="dp-gauge-text"><div class="dp-gauge-pct" style="color:var(--yellow-dot);">45%</div><div class="dp-gauge-sub">Complete</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dept rows — same expandable data from previous build -->
-      <div>
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">A&R</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Masters delivered · Credits pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Master delivered</li><li>A&R: Jake Ottman</li><li>Label Copy done</li></ul><div class="dp-src">Runway · Sample Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Composer/Writer — blank</li><li>Producer — blank</li><li>ATMOS decision — blank</li></ul><div class="dp-src">Runway Export</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Credits span 3 depts — nobody reconciles</li></ul></div></div></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Creative</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Artwork final, ingested · Press images on Air</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Album artwork final — ingested</li><li>Press Image Selects on Air</li><li>W.T.A. visualizer final</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Album visualizers #1–10 rough cut</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Marketing</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Strategy conversations in progress</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Department plans doc created</li><li>Working assets distributed</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Short form strategy conversations (scheduled)</li><li>Campaign gameplan</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Digital / Streaming</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">DSP asset sheet not started</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Single in DSP Asset sheet for 3/27</li></ul><div class="dp-src">DSP Asset Request Sheet</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Album not in DSP Asset sheet</li><li>No DSP pitch submitted</li><li>Talking points, timeline, images, artwork, genres</li></ul><div class="dp-src">DSP Asset Request Sheet</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>First single ships in 15 days</li></ul></div></div></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Press / Publicity</span><span class="dp-dept-sum">Press releases circulated · Bio live</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Press releases circulated (Feb 13 + 18)</li><li>Bio live</li><li>Photo credit: Jack Peros</li></ul><div class="dp-src">All-staff emails</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul class="none-list"><li>None in sources</li></ul></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
-
-        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Radio</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Sync & Licensing</span><span class="dp-dept-sum">9/10 tracks RCA 100% · WEW pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>9/10 tracks: RCA 100% synch</li></ul><div class="dp-src">Sample Clearance Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>WEW synch rights pending</li><li>Splits not confirmed for quoting</li></ul><div class="dp-src">Sample Report</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Can't quote without splits</li></ul></div></div></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--red-dot);"></span><span class="dp-dept-name">Business & Legal</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">SAMP overdue · Cover/VSC + Agreements required</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>SAA — N/A (no side artists)</li><li>9/10 SAMP cleared</li></ul><div class="dp-src">RCA Charts · Sample Report</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>WEW sample — terms not confirmed</li><li>Cover / VSC — required</li><li>Agreements — required</li></ul><div class="dp-src">Sample Report · Runway</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul><li>Clearance deadline Feb 9 — overdue</li></ul></div></div></div></div>
-
-        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Finance</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">Production / Dist.</span><span class="dp-badge">In Pilot</span><span class="dp-dept-sum">Master done · Delivery dates blank</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Master — done</li><li>Label Copy — done</li><li>Artwork sent for ingestion</li></ul><div class="dp-src">Runway · Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>All DSP delivery dates — blank</li><li>Distribution — blank</li><li>ATMOS — blank</li></ul><div class="dp-src">Runway</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
-
-        <div class="dp-row no-data"><div class="dp-head"><span class="dp-dot" style="background:var(--yellow-dot);"></span><span class="dp-dept-name">International</span><span class="dp-dept-sum dp-no-source">No data in sources</span></div></div>
-
-        <div class="dp-row" onclick="this.classList.toggle('open')"><div class="dp-head"><span class="dp-dot" style="background:var(--green-dot);"></span><span class="dp-dept-name">Management (Ext.)</span><span class="dp-dept-sum">Tour announced · Strategy sessions pending</span><span class="dp-arr">▾</span></div><div class="dp-detail"><div class="dp-cols"><div class="dp-col"><div class="dp-col-head done">Done</div><ul><li>Tour announced April 20</li><li>Aligned on album direction</li></ul><div class="dp-src">Feb 18 email</div></div><div class="dp-col"><div class="dp-col-head needs">Needs</div><ul><li>Short form strategy conversations (scheduled)</li></ul><div class="dp-src">Feb 12 email</div></div><div class="dp-col"><div class="dp-col-head blocks">Blocks</div><ul class="none-list"><li>None identified</li></ul></div></div></div></div>
-      </div>
-    </div>
   </section>
 
   <div class="callout">

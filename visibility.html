@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCA TEMPO — Release Visibility</title>
+<title>RCA TEMPO — Visibility</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -433,9 +433,9 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 
 
 <div class="header">
-  <div class="header-logo">RCA</div>
+  <div class="header-logo">TEMPO</div>
   <div class="header-div"></div>
-  <div class="header-title">Release Visibility</div>
+  <div class="header-title">Artist Visibility</div>
   <div class="header-right">
     <button class="h-btn-info" onclick="toggleOrient()">How to Read This</button>
     <button class="h-btn" onclick="openM('glossary')">Glossary</button>
@@ -503,56 +503,35 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 
 <script>
 const ARTISTS = [
-  {id:'a1',name:'Myles Smith',release:'Lead Single — "Stargazing (Platinum Edition)"',genre:'Pop / Soul',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a2',name:'SZA',release:'Album — Third Studio LP',genre:'R&B / Alt',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a3',name:'Doja Cat',release:'Vie — Tour Ma Vie Cycle',genre:'Pop / Rap',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
-  {id:'a4',name:'Khalid',release:'Single — "Adorn"',genre:'R&B / Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a5',name:'H.E.R.',release:'Catalog — Back of My Mind (Deluxe)',genre:'R&B / Soul',phase:'catalog',phaseLabel:'Catalog',phaseClass:'ph-catalog'}
+  {id:'a1',name:'Tate McRae',release:'SO CLOSE TO WHAT??? (Deluxe)',genre:'Pop',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
+  {id:'a2',name:'Doja Cat',release:'Vie — Tour Ma Vie Cycle',genre:'Pop / Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
+  {id:'a3',name:'Sleep Token',release:'Even In Arcadia (D2C Vinyl)',genre:'Rock',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
+  {id:'a4',name:'Aliyah\'s Interlude',release:'New Project — 13 Active Campaigns',genre:'Hip-Hop / Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
+  {id:'a5',name:'Isaia Huron',release:'Mr. Lovebomb',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'}
 ];
 
-// Per-artist Airtable-style data (team, calendar, releases, partners)
+// Per-artist Airtable-style data — REAL from RCA Airtable export
 const AT = {
   a1: {
-    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    team: {ar:'Jake Ottmann, Jaryn Valdry',marketing:'Val Pensa, Molly Yorkes',digital:'Tarek Al-Hamdouni, Alexis Gorlick, Bird Cooley',creative:'Jack Barsh, Niki Roberton, Alexander Rea',designLead:'Sam Houston',press:'Kirsten Mikkelson',tourMktg:'—',manager:'—',agent:'—'},
     calendar: [
-      {date:'3/15/2026',title:'"Stargazing (Platinum)" — master delivery deadline',type:'release',status:'planning'},
-      {date:'3/22/2026',title:'Visual identity photoshoot',type:'promo',status:'planning'},
-      {date:'4/1/2026',title:'DSP pitch window opens',type:'announce',status:'planning'}
+      {date:'3/13/2026',title:'SO CLOSE TO WHAT??? (Deluxe) — vinyl + CD ship',type:'release',status:'confirmed'},
+      {date:'3/20/2026',title:'Deluxe streaming rollout',type:'release',status:'planning'},
+      {date:'4/2026',title:'Tour dates TBA',type:'tour',status:'planning'}
     ],
     releases: [
-      {name:'Stargazing (Platinum Edition)',date:'TBD',link:true},
-      {name:'Stargazing (Original)',date:'2024',link:true}
+      {name:'SO CLOSE TO WHAT??? (Deluxe)',date:'3/13/2026',link:true},
+      {name:'SO CLOSE TO WHAT???',date:'2025',link:true},
+      {name:'Think Later',date:'2023',link:true}
     ],
-    partners: [{opp:'Spotify Fresh Finds feature',partner:'Spotify',status:'planning'}]
+    partners: [{opp:'Spotify Marquee — deluxe rollout',partner:'Spotify',status:'confirmed'},{opp:'Apple Music spatial audio',partner:'Apple',status:'planning'}]
   },
   a2: {
-    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    team: {ar:'Adonis Sutherlin',marketing:'Val Pensa, Gerard Rice, Gina Messeri',digital:'Tarek Al-Hamdouni, Carlos Cuadros, Cassidy Carson',creative:'Jack Barsh, Niki Roberton, Chris Hurtt',designLead:'Alexander Rea',press:'Jamie Abzug, Paige Hall',tourMktg:'—',manager:'—',agent:'—'},
     calendar: [
-      {date:'3/10/2026',title:'Lead single announcement',type:'announce',status:'confirmed'},
-      {date:'3/14/2026',title:'"Passenger Princess" — track release',type:'release',status:'planning'},
-      {date:'3/20/2026',title:'Album pre-order live',type:'release',status:'planning'},
-      {date:'3/28/2026',title:'SNL performance (tentative)',type:'press',status:'hold'},
-      {date:'4/18/2026',title:'Album release',type:'release',status:'planning'},
-      {date:'5/1/2026',title:'Tour announce',type:'tour',status:'planning'}
-    ],
-    releases: [
-      {name:'Third Studio LP (Album)',date:'4/18/2026',link:false},
-      {name:'"Passenger Princess" (Single)',date:'3/14/2026',link:false},
-      {name:'SOS Deluxe',date:'12/2023',link:true},
-      {name:'SOS',date:'12/2022',link:true}
-    ],
-    partners: [{opp:'Apple Music Spatial Audio feature',partner:'Apple',status:'planning'},{opp:'Spotify Billions Club campaign',partner:'Spotify',status:'confirmed'}]
-  },
-  a3: {
-    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
-    calendar: [
-      {date:'3/9/2026',title:'Vie — release week begins',type:'release',status:'confirmed'},
-      {date:'3/9/2026',title:'Paid media campaign launch',type:'promo',status:'confirmed'},
-      {date:'3/10/2026',title:'Music video premiere',type:'announce',status:'confirmed'},
-      {date:'3/11/2026',title:'Press day — interviews',type:'press',status:'confirmed'},
-      {date:'3/12/2026',title:'Spotify Canvas + profile takeover',type:'promo',status:'confirmed'},
       {date:'10/1/2026',title:'Tour Ma Vie World Tour — Detroit',type:'tour',status:'confirmed'},
-      {date:'10/3/2026',title:'Tour Ma Vie World Tour — Chicago',type:'tour',status:'confirmed'}
+      {date:'10/3/2026',title:'Tour Ma Vie World Tour — Chicago',type:'tour',status:'confirmed'},
+      {date:'Ongoing',title:'Post-release streaming optimization',type:'promo',status:'confirmed'}
     ],
     releases: [
       {name:'Vie (Album)',date:'9/26/2025',link:true},
@@ -561,35 +540,46 @@ const AT = {
     ],
     partners: [{opp:'Pepsi Tour Ma Vie partnership',partner:'Pepsi',status:'confirmed'},{opp:'Spotify Marquee campaign',partner:'Spotify',status:'confirmed'},{opp:'Apple Music spatial audio feature',partner:'Apple',status:'confirmed'}]
   },
-  a4: {
-    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+  a3: {
+    team: {ar:'Dan Chertoff, Daniel Schultz',marketing:'Aaron Stern',digital:'Tarek Al-Hamdouni, Christian Edusada, Bird Cooley',creative:'Niki Roberton, Shoshana Reist, Leo Araujo',designLead:'—',press:'Nicole Garcia',tourMktg:'—',manager:'—',agent:'—'},
     calendar: [
-      {date:'2/14/2026',title:'"Adorn" — single release',type:'release',status:'confirmed'},
-      {date:'2/21/2026',title:'Follow-up press features',type:'press',status:'planning'},
-      {date:'3/1/2026',title:'Radio impact date',type:'promo',status:'confirmed'},
-      {date:'3/15/2026',title:'30-day P&L check',type:'hold',status:'planning'},
-      {date:'4/1/2026',title:'Next single decision meeting',type:'hold',status:'planning'}
+      {date:'4/18/2026',title:'Caramel/Emergence 12" — RSD Exclusive',type:'release',status:'confirmed'},
+      {date:'5/8/2026',title:'Even In Arcadia — Blood Records vinyl',type:'release',status:'planning'},
+      {date:'2026',title:'New album cycle anticipated',type:'release',status:'planning'}
     ],
     releases: [
-      {name:'"Adorn" (Single)',date:'2/14/2026',link:true},
-      {name:'Free Spirit',date:'4/2019',link:true},
-      {name:'American Teen',date:'3/2017',link:true}
+      {name:'Even In Arcadia (D2C Vinyl)',date:'5/8/2026',link:false},
+      {name:'Caramel/Emergence 12"',date:'4/18/2026',link:false},
+      {name:'Take Me Back to Eden',date:'5/2023',link:true}
     ],
-    partners: [{opp:'Spotify RapCaviar feature',partner:'Spotify',status:'confirmed'},{opp:'Sync pitch: HBO series',partner:'HBO',status:'planning'}]
+    partners: [{opp:'Blood Records exclusive',partner:'Blood Records',status:'confirmed'},{opp:'Record Store Day 2026',partner:'RSD',status:'confirmed'}]
+  },
+  a4: {
+    team: {ar:'Daniel Schultz, Kat Kusion',marketing:'Gina Messeri',digital:'Tarek Al-Hamdouni, Natalie Ho, Ryan Edelman',creative:'Decker Lavely, Niki Roberton, Court Dunn, Lara Turner',designLead:'—',press:'Alex John, Paige Hall',tourMktg:'—',manager:'Amal Noor',agent:'—'},
+    calendar: [
+      {date:'Q2 2026',title:'New project — campaign building',type:'release',status:'planning'},
+      {date:'Ongoing',title:'13 active marketing campaigns',type:'promo',status:'confirmed'}
+    ],
+    releases: [
+      {name:'New Project (TBA)',date:'Q2 2026',link:false}
+    ],
+    partners: [{opp:'DSP playlist pitching',partner:'Multiple',status:'planning'}]
   },
   a5: {
-    team: {ar:'—',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
+    team: {ar:'Adonis Sutherlin, Chloe Mezek, Peter Edge',marketing:'—',digital:'—',creative:'—',designLead:'—',press:'—',tourMktg:'—',manager:'—',agent:'—'},
     calendar: [
-      {date:'1/2025',title:'Back of My Mind Deluxe release',type:'release',status:'confirmed'},
-      {date:'Ongoing',title:'Sync catalog active pitching',type:'promo',status:'confirmed'},
-      {date:'Ongoing',title:'Streaming long-tail monitoring',type:'hold',status:'confirmed'}
+      {date:'3/20/2026',title:'Pre-order live',type:'release',status:'confirmed'},
+      {date:'3/27/2026',title:'"This Girl Wants Everything" — single',type:'release',status:'confirmed'},
+      {date:'4/10/2026',title:'Mr. Lovebomb — album street date',type:'release',status:'confirmed'},
+      {date:'4/20/2026',title:'Mr. Lovebomb\'s Tiny Little Tour — SF',type:'tour',status:'confirmed'}
     ],
     releases: [
-      {name:'Back of My Mind (Deluxe)',date:'2025',link:true},
-      {name:'Back of My Mind',date:'6/2021',link:true},
-      {name:'I Used to Know Her',date:'2019',link:true}
+      {name:'Mr. Lovebomb (Album)',date:'4/10/2026',link:false},
+      {name:'"This Girl Wants Everything" (Single)',date:'3/27/2026',link:false},
+      {name:'"W.T.A." (Single)',date:'2/13/2026',link:true},
+      {name:'CONCUBANIA',date:'8/2025',link:true}
     ],
-    partners: [{opp:'Grammy performance sync placement',partner:'CBS/Grammy',status:'confirmed'}]
+    partners: [{opp:'DSP pitch — new album cycle',partner:'Multiple',status:'planning'}]
   }
 };
 
