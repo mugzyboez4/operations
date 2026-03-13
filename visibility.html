@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCA TEMPO — Visibility</title>
+<title>RCA TEMPO — Release Visibility</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -440,7 +440,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 
 
 <div class="header">
-  <div class="header-logo">TEMPO</div>
+  <div class="header-logo">RCA</div>
   <div class="header-div"></div>
   <div class="header-title">Artist Visibility</div>
   <div class="header-right">
@@ -760,9 +760,8 @@ const L={
 
 let cur = ARTISTS[0].id;
 let expDepts = new Set();
-let statusFilter = null;
-let sortMode = 'alpha';
 let searchTerm = '';
+let statusFilter = null; // null = all, 'g' = on track, 'y' = needs attn, 'r' = blocked, 'blocks' = has blockers
 
 function getData(a) {
   const ph = a.phase;
@@ -775,13 +774,248 @@ function getData(a) {
 function renderAP() {
   let sorted = [...ARTISTS];
   sorted.sort((a, b) => a.name.localeCompare(b.name));
-
-  // Filter by search
   if (searchTerm) {
     const q = searchTerm.toLowerCase();
     sorted = sorted.filter(a => a.name.toLowerCase().includes(q) || a.genre.toLowerCase().includes(q));
   }
-
   let h = `<div class="ap-head">
-    <div class="ap-label">Artists · ${sorted.length}</div>
-    <input class="ap-search" type="text" placeholder="Search artists..." value="${searchTerm}" oninput="searchTerm=this.value;renderAP();">
+    <div class="ap-label">Artists \u00b7 ${sorted.length}</div>
+    <input class="ap-search" type="text" placeholder="Search artists or genre..." value="${searchTerm}" oninput="searchTerm=this.value;renderAP();">
+  </div><div class="ap-list">`;
+  sorted.forEach((a,i) => {
+    const d = getData(a);
+    h += `<div class="ac${a.id===cur?' active':''}" onclick="sel('${a.id}')" style="animation-delay:${Math.min(i*0.02,0.5)}s">
+      <div class="ac-name">${a.name}</div>
+      <div class="ac-rel">${a.release}</div>
+      <span class="ac-phase ${a.phaseClass}">${a.phaseLabel}</span>
+      <div class="ac-stats">
+        <span class="ac-stat"><span class="sdot dg"></span>${d.g}</span>
+        <span class="ac-stat"><span class="sdot dy"></span>${d.y}</span>
+        <span class="ac-stat"><span class="sdot dr"></span>${d.r}</span>
+        <span class="ac-stat" style="margin-left:auto;color:var(--muted);">${d.pct}%</span>
+      </div>
+    </div>`;
+  });
+  h += '</div>';
+  document.getElementById('ap').innerHTML = h;
+}
+
+function renderDP() {
+  const a = ARTISTS.find(x=>x.id===cur);
+  if(!a) return;
+  const d = getData(a);
+  const circ = 2*Math.PI*32;
+  const off = circ-(d.pct/100)*circ;
+  const col = d.pct>=70?'var(--green)':d.pct>=40?'var(--yellow)':'var(--flame)';
+
+  let h = `<div class="orient-bar collapsed" id="orient">
+    <div class="orient-toggle" onclick="toggleOrient()">
+      <span class="orient-badge">Guide</span>
+      <span class="orient-title">How to Read This</span>
+      <span class="orient-arrow">▾</span>
+    </div>
+    <div class="orient-body">
+      <div class="orient-grid">
+        <div class="orient-card"><div class="oc-num">01</div><div class="oc-t">What You're Looking At</div><div class="oc-p">This is a working mockup of <span class="oc-em">what the Airtable visibility system looks like in practice</span>. Pick any artist from the full active roster. The right panel shows every department's status for that release — what's done, what's still needed, what's blocking.</div></div>
+        <div class="orient-card"><div class="oc-num">02</div><div class="oc-t">How to Navigate</div><div class="oc-p">Each artist is at a <span class="oc-em">different lifecycle stage</span>. The data structure mirrors our existing Airtable base — Artist Team, Calendar, Releases, Partner Updates. Click any department row to expand it. Red = blocked. Yellow = needs attention. Green = on track.</div></div>
+        <div class="orient-card"><div class="oc-num">03</div><div class="oc-t">The Completion %</div><div class="oc-p">Across all 12 departments, we count every task item. <span class="oc-em">% = items complete ÷ total items</span>. The ring shows how close this release is to fully ready. In Airtable, this is a rollup field across linked department records.</div></div>
+      </div>
+      <div class="orient-foot"><p>This extends our existing Airtable base — the sections you see here (Team, Calendar, Releases, Partners) are already built. The new layer is department status tracking across lifecycle stages.</p></div>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="hero-phase">${a.phaseLabel} · ${a.genre}</div>
+    <div class="hero-name">${a.name}</div>
+    <div class="hero-rel">${a.release}</div>
+    <div class="hero-stats">
+      <div class="hs-box${statusFilter==='g'?' active-filter':''}" onclick="filterStatus('g')"><div class="hs-num s-g">${d.g}</div><div class="hs-label">On Track</div></div>
+      <div class="hs-box${statusFilter==='y'?' active-filter':''}" onclick="filterStatus('y')"><div class="hs-num s-y">${d.y}</div><div class="hs-label">Needs Attn</div></div>
+      <div class="hs-box${statusFilter==='r'?' active-filter':''}" onclick="filterStatus('r')"><div class="hs-num s-r">${d.r}</div><div class="hs-label">Blocked</div></div>
+      <div class="hs-box${statusFilter==='blocks'?' active-filter':''}" onclick="filterStatus('blocks')"><div class="hs-num" style="color:var(--white)">${d.tb}</div><div class="hs-label">Blockers</div></div>
+      <div class="gauge-box">
+        <div class="gauge-explain">
+          <strong>${d.td}</strong> items done<br>
+          of <strong>${d.total}</strong> total<br>
+          across 12 depts
+        </div>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 80 80">
+            <circle class="gauge-bg" cx="40" cy="40" r="32"/>
+            <circle class="gauge-fill" cx="40" cy="40" r="32"
+              stroke="${col}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/>
+          </svg>
+          <div class="gauge-pct">
+            <div class="gauge-pct-num" style="color:${col}">${d.pct}%</div>
+            <div class="gauge-pct-label">Complete</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AIRTABLE-STYLE SECTIONS -->`;
+
+  const atd = AT[a.id];
+  if(atd) {
+    // Team section
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Artist Team</span>
+        <span class="at-section-count">9 roles</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        <div class="team-grid">
+          <div class="team-cell"><div class="team-role">A&R</div><div class="team-name${atd.team.ar==='—'?' empty':''}">${atd.team.ar}</div></div>
+          <div class="team-cell"><div class="team-role">Marketing</div><div class="team-name${atd.team.marketing==='—'?' empty':''}">${atd.team.marketing}</div></div>
+          <div class="team-cell"><div class="team-role">Digital</div><div class="team-name${atd.team.digital==='—'?' empty':''}">${atd.team.digital}</div></div>
+          <div class="team-cell"><div class="team-role">Creative</div><div class="team-name${atd.team.creative==='—'?' empty':''}">${atd.team.creative}</div></div>
+          <div class="team-cell"><div class="team-role">Design Lead</div><div class="team-name${atd.team.designLead==='—'?' empty':''}">${atd.team.designLead}</div></div>
+          <div class="team-cell"><div class="team-role">Press</div><div class="team-name${atd.team.press==='—'?' empty':''}">${atd.team.press}</div></div>
+          <div class="team-cell"><div class="team-role">Tour Marketing</div><div class="team-name${atd.team.tourMktg==='—'?' empty':''}">${atd.team.tourMktg}</div></div>
+          <div class="team-cell"><div class="team-role">Manager</div><div class="team-name${atd.team.manager==='—'?' empty':''}">${atd.team.manager}</div></div>
+          <div class="team-cell"><div class="team-role">Agent</div><div class="team-name${atd.team.agent==='—'?' empty':''}">${atd.team.agent}</div></div>
+        </div>
+      </div>
+    </div>`;
+
+    // Calendar section
+    const typeClass = {release:'type-release',tour:'type-tour',promo:'type-promo',press:'type-press',hold:'type-hold',announce:'type-announce'};
+    const typeLabel = {release:'Release',tour:'Tour Date',promo:'Promo',press:'Press',hold:'Hold',announce:'Announce'};
+    const statusClass = {confirmed:'status-confirmed',planning:'status-planning',hold:'status-hold'};
+    const statusLabel = {confirmed:'Confirmed',planning:'Planning',hold:'Hold'};
+
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Calendar</span>
+        <span class="at-section-count">${atd.calendar.length} events</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        ${atd.calendar.map(e => `<div class="cal-row">
+          <span class="cal-date">${e.date}</span>
+          <span class="cal-title">${e.title}</span>
+          <span class="cal-type ${typeClass[e.type]||''}">${typeLabel[e.type]||e.type}</span>
+          <span class="cal-status ${statusClass[e.status]||''}">${statusLabel[e.status]||e.status}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+    // Releases section
+    h += `<div class="at-section">
+      <div class="at-section-head" onclick="togSec(this)">
+        <span class="at-section-title">Releases</span>
+        <span class="at-section-count">${atd.releases.length}</span>
+        <span class="at-section-arrow">▾</span>
+      </div>
+      <div class="at-section-body">
+        ${atd.releases.map(r => `<div class="rel-row">
+          <span class="rel-name">${r.name}</span>
+          <span class="rel-date">${r.date}</span>
+          ${r.link?'<span class="rel-link">Listen Here</span>':''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+    // Partner Updates section
+    if(atd.partners.length) {
+      h += `<div class="at-section">
+        <div class="at-section-head" onclick="togSec(this)">
+          <span class="at-section-title">Partner Updates</span>
+          <span class="at-section-count">${atd.partners.length}</span>
+          <span class="at-section-arrow">▾</span>
+        </div>
+        <div class="at-section-body">
+          ${atd.partners.map(p => `<div class="cal-row">
+            <span class="cal-title">${p.opp}</span>
+            <span class="cal-type type-announce">${p.partner}</span>
+            <span class="cal-status ${statusClass[p.status]||''}">${statusLabel[p.status]||p.status}</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    }
+  }
+
+  // Section divider before dept status
+  h += `<div class="section-divider">Department Status</div>
+  <div class="dept-list">`;
+
+  if(statusFilter) {
+    const filterLabel = statusFilter==='g'?'On Track':statusFilter==='y'?'Needs Attention':statusFilter==='r'?'Blocked':'Has Blockers';
+    const filterColor = statusFilter==='g'?'var(--green)':statusFilter==='y'?'var(--yellow)':statusFilter==='r'?'var(--flame)':'var(--white)';
+    h += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:0 4px;">
+      <span style="font-family:var(--sans-m);font-size:11px;color:${filterColor};letter-spacing:0.5px;">Showing: ${filterLabel}</span>
+      <span onclick="filterStatus(null)" style="font-family:var(--sans-m);font-size:10px;color:var(--muted);cursor:pointer;padding:3px 8px;border:1px solid var(--border);border-radius:4px;transition:all 0.12s;" onmouseover="this.style.color='var(--white)';this.style.borderColor='var(--text)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">✕ Clear filter</span>
+    </div>`;
+  }
+
+  DEPTS.forEach((dept,i) => {
+    const c = L[dept]?.[a.phase];
+    if(!c) return;
+    // Apply status filter
+    if(statusFilter === 'g' && c.s !== 'g') return;
+    if(statusFilter === 'y' && c.s !== 'y') return;
+    if(statusFilter === 'r' && c.s !== 'r') return;
+    if(statusFilter === 'blocks' && c.blocks.length === 0) return;
+    const isE = expDepts.has(dept);
+    const dc = c.s==='g'?'dg':c.s==='y'?'dy':'dr';
+    const pc = c.s==='g'?'pg':c.s==='y'?'py':'pr';
+    const pt = c.s==='g'?'On Track':c.s==='y'?'Needs Attention':'Blocked';
+
+    h += `<div class="dr-row${isE?' exp':''}" style="animation-delay:${i*0.03}s">
+      <div class="dr-head" onclick="togD('${dept}')">
+        <span class="dr-dot ${dc}"></span>
+        <span class="dr-name">${dept}</span>
+        <span class="dr-pill ${pc}">${pt}</span>
+        <span class="dr-sum">${c.sum}</span>
+        <span class="dr-cts">
+          <span style="color:var(--green)">✓ ${c.done.length}</span>
+          <span style="color:var(--yellow)">◦ ${c.needs.length}</span>
+          ${c.blocks.length?`<span style="color:var(--flame)">✕ ${c.blocks.length}</span>`:''}
+        </span>
+        <span class="dr-arr">▾</span>
+      </div>
+      <div class="dr-detail">
+        <div class="dr-cols">
+          <div class="dr-col c-done">
+            <div class="dr-ch ch-g">✓ Complete (${c.done.length})</div>
+            <ul>${c.done.map(x=>'<li>'+x+'</li>').join('')}</ul>
+          </div>
+          <div class="dr-col c-needs">
+            <div class="dr-ch ch-y">◦ Still Needed (${c.needs.length})</div>
+            <ul>${c.needs.length?c.needs.map(x=>'<li>'+x+'</li>').join(''):'<li class="dr-empty">Nothing outstanding</li>'}</ul>
+          </div>
+          <div class="dr-col c-blocks">
+            <div class="dr-ch ch-r">✕ Blocking (${c.blocks.length})</div>
+            <ul>${c.blocks.length?c.blocks.map(x=>'<li>'+x+'</li>').join(''):'<li class="dr-empty">No blockers</li>'}</ul>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('dp').innerHTML=h;
+}
+
+function sel(id){cur=id;expDepts.clear();statusFilter=null;renderAP();renderDP();document.getElementById('dp').scrollTop=0;}
+function togD(d){if(expDepts.has(d))expDepts.delete(d);else expDepts.add(d);renderDP();}
+function filterStatus(s){
+  statusFilter=(statusFilter===s)?null:s;
+  // Auto-expand all visible rows when filtering to blocked/blockers
+  if(statusFilter==='r'||statusFilter==='blocks'){
+    const a=ARTISTS.find(x=>x.id===cur);
+    if(a) DEPTS.forEach(d=>{const c=L[d]?.[a.phase];if(c){
+      if((statusFilter==='r'&&c.s==='r')||(statusFilter==='blocks'&&c.blocks.length>0))expDepts.add(d);
+    }});
+  } else if(!statusFilter){ expDepts.clear(); }
+  renderDP();
+}
+function toggleOrient(){document.getElementById('orient').classList.toggle('collapsed');}
+function togSec(el){el.closest('.at-section').classList.toggle('open');}
+function openM(id){document.getElementById('m-'+id).classList.add('vis');}
+function closeM(id){document.getElementById('m-'+id).classList.remove('vis');}
+
+renderAP();renderDP();
+</script>
+</body>
+</html>
