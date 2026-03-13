@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA TEMPO — Auto-Generated Release Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F0E0E;
+    --surface: #141414;
+    --card: #181818;
+    --border: #2A2A2A;
+    --white: #FCFDF8;
+    --text: #B0A9BE;
+    --dim: #847D96;
+    --muted: #3E3F41;
+    --green: #CDF851;
+    --flame: #FF4A23;
+    --amber: #F5A623;
+    --cyan: #5BCEFA;
+    --pink: #F5A0C0;
+  }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  nav { background:var(--bg); border-bottom:1px solid var(--border); padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+  nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+  nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:var(--green); }
+  nav .logo .l2 { font-size:10px; font-weight:500; color:var(--muted); }
+  nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+  nav .nav-links { display:flex; align-items:center; gap:2px; }
+  nav .nav-links a { font-size:11px; font-weight:500; color:var(--dim); text-decoration:none; padding:6px 10px; }
+  nav .nav-links a:hover { color:var(--white); }
+  nav .nav-links .active-label { font-size:11px; font-weight:700; color:var(--green); padding:6px 10px; border-bottom:2px solid var(--green); }
+
+  main { max-width:1080px; margin:0 auto; padding:48px 24px 120px; }
+  section { margin-bottom:48px; }
+  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green); }
+  .section-divider { border:none; border-top:1px solid var(--green); opacity:0.3; margin:10px 0 24px; }
+
+  /* TEMPLATE BANNER */
+  .tpl-banner {
+    background:linear-gradient(135deg, rgba(205,248,81,0.06), rgba(91,206,250,0.04));
+    border:1px dashed var(--green);
+    padding:24px 28px;
+    margin-bottom:32px;
+    display:flex; align-items:center; gap:20px;
+  }
+  .tpl-icon { font-size:32px; }
+  .tpl-title { font-size:18px; font-weight:800; letter-spacing:-0.3px; }
+  .tpl-sub { font-size:13px; color:var(--text); margin-top:4px; line-height:1.5; }
+
+  /* SOURCE TAGS */
+  .src {
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; font-weight:600; letter-spacing:0.5px;
+    padding:2px 6px; display:inline-block; margin-left:6px; position:relative; top:-1px;
+  }
+  .src-runway { background:rgba(255,74,35,0.12); color:var(--flame); }
+  .src-airtable { background:rgba(245,166,35,0.12); color:var(--amber); }
+  .src-sample { background:rgba(91,206,250,0.12); color:var(--cyan); }
+  .src-dsp { background:rgba(245,160,192,0.12); color:var(--pink); }
+  .src-email { background:rgba(205,248,81,0.12); color:var(--green); }
+  .src-spotify { background:rgba(30,215,96,0.12); color:#1ED760; }
+  .src-disco { background:rgba(176,169,190,0.12); color:var(--text); }
+  .src-tempo { background:rgba(205,248,81,0.2); color:var(--green); border:1px solid rgba(205,248,81,0.3); }
+
+  /* LEGEND */
+  .legend { display:flex; flex-wrap:wrap; gap:10px; padding:16px 20px; background:var(--surface); border:1px solid var(--border); margin-bottom:32px; }
+  .legend-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); width:100%; margin-bottom:4px; }
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .legend-dot { width:8px; height:8px; border-radius:2px; }
+
+  /* FLOW */
+  .flow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:center; margin-bottom:32px; }
+  .flow-box { background:var(--surface); border:1px solid var(--border); padding:18px; text-align:center; }
+  .flow-box.active { border-color:var(--green); background:rgba(205,248,81,0.03); }
+  .fb-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); margin-bottom:4px; }
+  .fb-label.g { color:var(--green); }
+  .fb-title { font-size:15px; font-weight:700; }
+  .fb-desc { font-size:11px; color:var(--dim); margin-top:4px; line-height:1.5; }
+  .flow-arr { text-align:center; color:var(--muted); font-size:18px; padding:0 6px; }
+
+  /* RELEASE HEADER FIELDS */
+  .rh { background:var(--surface); border:1px solid var(--border); padding:28px; margin-bottom:12px; }
+  .rh-desc { font-size:13px; color:var(--dim); margin-bottom:16px; }
+  .rh-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .rh-field { padding:10px 14px; background:var(--card); border:1px dashed var(--border); }
+  .rh-field-label { font-size:9px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--dim); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+  .rh-val { font-size:15px; font-weight:700; color:var(--white); opacity:0.3; font-style:italic; font-family:'JetBrains Mono',monospace; font-size:12px; }
+  .rh-val.live { opacity:1; font-style:normal; font-family:'Inter',sans-serif; font-size:15px; }
+
+  /* STATUS GRID */
+  .status-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+  .status-card { background:var(--surface); padding:20px; border:1px solid var(--border); }
+  .card-label { font-size:11px; font-weight:700; letter-spacing:0.5px; color:var(--dim); margin-bottom:14px; text-transform:uppercase; display:flex; align-items:center; gap:6px; }
+  .field-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid rgba(42,42,42,0.5); }
+  .field-row:last-of-type { border-bottom:none; }
+  .field-name { font-size:13px; }
+  .fp { font-size:11px; color:var(--dim); font-family:'JetBrains Mono',monospace; font-style:italic; padding:2px 8px; background:rgba(176,169,190,0.06); border:1px dashed var(--muted); }
+
+  /* DEPT TABLE */
+  .dept-tpl { background:var(--surface); border:1px solid var(--border); margin-bottom:12px; }
+  .dept-tpl-head { padding:20px 24px; border-bottom:1px solid var(--border); }
+  .dept-tpl-title { font-size:16px; font-weight:700; }
+  .dept-tpl-sub { font-size:12px; color:var(--dim); margin-top:4px; }
+  .dt-hdr { display:grid; grid-template-columns:160px 1fr 1fr 1fr; gap:12px; padding:10px 24px; background:var(--card); font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--dim); }
+  .dt-row { display:grid; grid-template-columns:160px 1fr 1fr 1fr; gap:12px; padding:12px 24px; border-bottom:1px solid #1E1E1E; }
+  .dt-row:last-child { border-bottom:none; }
+  .dt-name { font-size:13px; font-weight:600; }
+  .dt-items { font-size:11px; color:var(--dim); font-style:italic; font-family:'JetBrains Mono',monospace; line-height:1.8; }
+
+  /* ALERTS */
+  .alert-card { background:var(--surface); border-left:3px solid var(--flame); padding:20px; margin-bottom:12px; }
+  .alert-title { font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--flame); margin-bottom:12px; }
+  .alert-rule { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(42,42,42,0.4); font-size:13px; }
+  .alert-rule:last-child { border-bottom:none; }
+  .alert-trigger { color:var(--text); }
+  .alert-action { font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--flame); }
+
+  /* CALLOUT */
+  .callout { padding:18px 22px; background:var(--surface); border-left:3px solid var(--green); font-size:13px; color:var(--text); line-height:1.7; margin-bottom:16px; }
+  .callout strong { color:var(--green); }
+  .callout-dim { padding:14px 20px; background:var(--surface); border-left:3px solid var(--muted); font-size:12px; color:var(--dim); line-height:1.6; margin-bottom:16px; }
+
+  .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="release.html">Release View</a>
+<a href="visibility.html">Visibility</a>
+<a href="meetings.html">Meeting Flow</a>
+<a href="pipeline.html">Pipeline</a>
+<span class="active-label">Template</span>
+</div>
+</nav>
+
+<main>
+
+  <!-- BANNER -->
+  <div class="tpl-banner">
+    <div class="tpl-icon">&#x1F9EC;</div>
+    <div>
+      <div class="tpl-title">Auto-Generated Release Page &mdash; Template</div>
+      <div class="tpl-sub">This is what every release page would look like if TEMPO auto-generated from existing data sources. Colored tags show where each field comes from. Dashed fields are placeholders waiting for data.</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Data Sources</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--flame);"></span><span class="src src-runway">RUNWAY</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--amber);"></span><span class="src src-airtable">AIRTABLE</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--cyan);"></span><span class="src src-sample">SAMPLE REPORT</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--pink);"></span><span class="src src-dsp">DSP ASSET SHEET</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span><span class="src src-email">CAMPAIGN EMAIL</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:#1ED760;"></span><span class="src src-spotify">SPOTIFY API</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--text);"></span><span class="src src-disco">DISCO</span></div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green); border:1px solid rgba(205,248,81,0.4);"></span><span class="src src-tempo">TEMPO (you)</span></div>
+  </div>
+
+  <!-- HOW IT GENERATES -->
+  <section>
+    <div class="section-label">How It Generates</div>
+    <hr class="section-divider">
+    <div class="flow">
+      <div class="flow-box">
+        <div class="fb-label">Trigger</div>
+        <div class="fb-title">Release Scheduled</div>
+        <div class="fb-desc">A release enters Runway with a street date. TEMPO sees it.</div>
+      </div>
+      <div class="flow-arr">&rarr;</div>
+      <div class="flow-box active">
+        <div class="fb-label g">Auto-Generate</div>
+        <div class="fb-title">TEMPO Pulls</div>
+        <div class="fb-desc">Runway fields, Airtable team data, Sample Report, Spotify API, DSP sheet. Assembles the page.</div>
+      </div>
+      <div class="flow-arr">&rarr;</div>
+      <div class="flow-box">
+        <div class="fb-label">Review</div>
+        <div class="fb-title">You Approve</div>
+        <div class="fb-desc">Review the assembled page. Add editorial context. Flag gaps. Publish when ready.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELEASE HEADER -->
+  <section>
+    <div class="section-label">Release Header &mdash; Auto-Populated</div>
+    <hr class="section-divider">
+    <div class="rh">
+      <div class="rh-desc">Every field below auto-populates the moment a release is scheduled. No human entry required.</div>
+      <div class="rh-fields">
+        <div class="rh-field"><div class="rh-field-label">Artist <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{artist_name}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Release Title <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{release_title}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Street Date <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{street_date}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Pre-Order <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{preorder_date}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Config <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{configuration}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Tracks <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{track_count}</div></div>
+        <div class="rh-field"><div class="rh-field-label">A&amp;R <span class="src src-airtable">AIRTABLE</span></div><div class="rh-val">{ar_name}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Project Manager <span class="src src-airtable">AIRTABLE</span></div><div class="rh-val">{pm_name}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Genre <span class="src src-spotify">SPOTIFY</span></div><div class="rh-val">{genre}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Popularity <span class="src src-spotify">SPOTIFY</span></div><div class="rh-val">{popularity_score}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Label Partner <span class="src src-runway">RUNWAY</span></div><div class="rh-val">{label_partner}</div></div>
+        <div class="rh-field"><div class="rh-field-label">Manager <span class="src src-airtable">AIRTABLE</span></div><div class="rh-val">{manager}</div></div>
+      </div>
+    </div>
+    <div class="callout-dim">
+      <strong style="color:var(--text);">12 fields. Zero manual entry.</strong> The Isaia Huron release page was built entirely from these sources. Every field was already being tracked &mdash; just in different systems that didn&rsquo;t talk to each other.
+    </div>
+  </section>
+
+  <!-- DEPARTMENT VIEW -->
+  <section>
+    <div class="section-label">Department View &mdash; Per Release</div>
+    <hr class="section-divider">
+
+    <div class="dept-tpl">
+      <div class="dept-tpl-head">
+        <div class="dept-tpl-title">Every department. Done / Needs / Blocks.</div>
+        <div class="dept-tpl-sub">Each row auto-populates from the relevant source. Where there&rsquo;s no data, the field shows as a gap &mdash; that&rsquo;s the system working.</div>
+      </div>
+
+      <div class="dt-hdr">
+        <div>Department</div>
+        <div style="color:#4ADE80;">Done</div>
+        <div style="color:#FACC15;">Needs</div>
+        <div style="color:var(--flame);">Blocks</div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">A&amp;R</div>
+        <div class="dt-items">Master status <span class="src src-runway">RUNWAY</span><br>Credits/splits <span class="src src-runway">RUNWAY</span></div>
+        <div class="dt-items">ATMOS decision <span class="src src-runway">RUNWAY</span><br>Producer <span class="src src-runway">RUNWAY</span></div>
+        <div class="dt-items">Who reconciles credits? <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Creative</div>
+        <div class="dt-items">Artwork status <span class="src src-email">EMAIL</span><br>Visualizers <span class="src src-email">EMAIL</span></div>
+        <div class="dt-items">Cover art delivery <span class="src src-runway">RUNWAY</span><br>Social assets <span class="src src-dsp">DSP</span></div>
+        <div class="dt-items">Deadline alert <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Digital Marketing</div>
+        <div class="dt-name">Commercial Partnerships</div>
+        <div class="dt-items">DSP pitch submitted <span class="src src-dsp">DSP</span></div>
+        <div class="dt-items">Talking points <span class="src src-dsp">DSP</span><br>Timeline <span class="src src-dsp">DSP</span><br>Images <span class="src src-dsp">DSP</span><br>Genres <span class="src src-dsp">DSP</span></div>
+        <div class="dt-items">X days out, sheet empty <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Business &amp; Legal</div>
+        <div class="dt-items">SAA status <span class="src src-sample">SAMPLE</span><br>SAMP status <span class="src src-sample">SAMPLE</span></div>
+        <div class="dt-items">Cover/VSC <span class="src src-runway">RUNWAY</span><br>Agreements <span class="src src-runway">RUNWAY</span></div>
+        <div class="dt-items">Clearance deadline <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Sync &amp; Licensing</div>
+        <div class="dt-items">Synch rights/track <span class="src src-sample">SAMPLE</span><br>Clearance terms <span class="src src-sample">SAMPLE</span></div>
+        <div class="dt-items">Splits for quoting <span class="src src-sample">SAMPLE</span></div>
+        <div class="dt-items">Can&rsquo;t quote w/o splits <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Press / Publicity</div>
+        <div class="dt-items">Press releases <span class="src src-email">EMAIL</span><br>Bio / photos <span class="src src-email">EMAIL</span></div>
+        <div class="dt-items">Approved images <span class="src src-dsp">DSP</span></div>
+        <div class="dt-items">&mdash;</div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Production / Dist.</div>
+        <div class="dt-items">Master delivered <span class="src src-runway">RUNWAY</span><br>Label copy <span class="src src-runway">RUNWAY</span></div>
+        <div class="dt-items">Delivery dates <span class="src src-runway">RUNWAY</span><br>D2C timeline <span class="src src-airtable">AIRTABLE</span></div>
+        <div class="dt-items">&mdash;</div>
+      </div>
+
+      <div class="dt-row">
+        <div class="dt-name">Marketing</div>
+        <div class="dt-items">Campaign plan <span class="src src-email">EMAIL</span></div>
+        <div class="dt-items">Strategy sessions <span class="src src-airtable">AIRTABLE</span></div>
+        <div class="dt-items">Action items overdue <span class="src src-tempo">TEMPO</span></div>
+      </div>
+
+      <div class="dt-row" style="border-bottom:none;">
+        <div class="dt-name" style="color:var(--dim);">+ Radio, Finance,<br>International, Mgmt</div>
+        <div class="dt-items" style="grid-column:span 3;">Populated when sources become available. Empty fields surface as gaps &mdash; that&rsquo;s the system working.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTIST PITCH -->
+  <section>
+    <div class="section-label">Artist Pitch &mdash; Auto-Assembled</div>
+    <hr class="section-divider">
+
+    <div class="status-grid">
+      <div class="status-card" style="border-left:3px solid var(--green);">
+        <div class="card-label">Talking Points <span class="src src-email">EMAIL</span></div>
+        <div class="field-row"><span class="field-name">Artist bio / story</span><span class="fp">{extracted_from_emails}</span></div>
+        <div class="field-row"><span class="field-name">Album narrative</span><span class="fp">{extracted_from_emails}</span></div>
+        <div class="field-row"><span class="field-name">Focus track</span><span class="fp">{dsp_sheet_or_email}</span></div>
+        <div class="field-row"><span class="field-name">Tour info</span><span class="fp">{announcement_email}</span></div>
+      </div>
+      <div class="status-card" style="border-left:3px solid var(--pink);">
+        <div class="card-label">DSP Readiness <span class="src src-dsp">DSP SHEET</span></div>
+        <div class="field-row"><span class="field-name">Talking Points</span><span class="fp">{dsp_asset_sheet}</span></div>
+        <div class="field-row"><span class="field-name">Timeline</span><span class="fp">{dsp_asset_sheet}</span></div>
+        <div class="field-row"><span class="field-name">Approved Images</span><span class="fp">{dsp_asset_sheet}</span></div>
+        <div class="field-row"><span class="field-name">Genres</span><span class="fp">{dsp_asset_sheet}</span></div>
+        <div class="field-row"><span class="field-name">Delivery Dates</span><span class="fp">{dsp_asset_sheet}</span></div>
+      </div>
+    </div>
+
+    <div class="callout-dim">
+      <strong style="color:var(--text);">Already proven.</strong> The Isaia demo assembled every DSP pitch field from 3 internal emails. The Copilot agent extracts, structures, and populates. You review and approve.
+    </div>
+  </section>
+
+  <!-- CLEARANCE -->
+  <section>
+    <div class="section-label">Clearance &mdash; Cross-Referenced</div>
+    <hr class="section-divider">
+
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="card-label">From Runway <span class="src src-runway">RUNWAY</span></div>
+        <div class="field-row"><span class="field-name">SAA</span><span class="fp">{runway_saa}</span></div>
+        <div class="field-row"><span class="field-name">SAMP</span><span class="fp">{runway_samp}</span></div>
+        <div class="field-row"><span class="field-name">Cover / VSC</span><span class="fp">{runway_cover}</span></div>
+        <div class="field-row"><span class="field-name">Agreements</span><span class="fp">{runway_agreements}</span></div>
+        <div class="field-row"><span class="field-name">Master</span><span class="fp">{runway_master}</span></div>
+        <div class="field-row"><span class="field-name">Label Copy</span><span class="fp">{runway_label_copy}</span></div>
+      </div>
+      <div class="status-card">
+        <div class="card-label">From Sample Report <span class="src src-sample">SAMPLE</span></div>
+        <div class="field-row"><span class="field-name">SAA &mdash; verified</span><span class="fp">{rca_charts_lookup}</span></div>
+        <div class="field-row"><span class="field-name">SAMP &mdash; per track</span><span class="fp">{sample_report_detail}</span></div>
+        <div class="field-row"><span class="field-name">Active samples</span><span class="fp">{terms_quoted_detail}</span></div>
+        <div class="field-row"><span class="field-name">Synch rights</span><span class="fp">{synch_per_track}</span></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>This is the &ldquo;Unknown&rdquo; fix.</strong> Runway says &ldquo;Unknown.&rdquo; The Sample Report says &ldquo;N/A &mdash; no side artists&rdquo; or &ldquo;9/10 cleared, 1 track has terms quoted.&rdquo; TEMPO pulls both and shows the truth. Nobody had to update Runway.
+    </div>
+  </section>
+
+  <!-- STALE STATUS ALERTS -->
+  <section>
+    <div class="section-label">Stale Status Alerts &mdash; Auto-Triggered</div>
+    <hr class="section-divider">
+
+    <div class="alert-card">
+      <div class="alert-title">Rules Engine <span class="src src-tempo">TEMPO</span></div>
+      <div class="alert-rule"><span class="alert-trigger">21 days before street &mdash; DSP Asset sheet empty</span><span class="alert-action">&rarr; ping Digital + Commercial</span></div>
+      <div class="alert-rule"><span class="alert-trigger">14 days before street &mdash; artwork not final</span><span class="alert-action">&rarr; ping Creative</span></div>
+      <div class="alert-rule"><span class="alert-trigger">Clearance deadline passed &mdash; terms not confirmed</span><span class="alert-action">&rarr; flag Business &amp; Legal</span></div>
+      <div class="alert-rule"><span class="alert-trigger">Action item open 7+ days &mdash; no update</span><span class="alert-action">&rarr; nudge assigned dept</span></div>
+      <div class="alert-rule"><span class="alert-trigger">Thursday PM &mdash; scheduling requests due</span><span class="alert-action">&rarr; reminder before Fri exec mtg</span></div>
+      <div class="alert-rule"><span class="alert-trigger">Credits/splits blank at T-14</span><span class="alert-action">&rarr; flag A&amp;R Admin + Publishing</span></div>
+    </div>
+
+    <div class="callout-dim">
+      <strong style="color:var(--text);">Jordan&rsquo;s exact request:</strong> &ldquo;3 weeks out, if we don&rsquo;t have artwork, that needs to be flagged.&rdquo; These rules encode that logic. The system watches the data. You don&rsquo;t have to chase.
+    </div>
+  </section>
+
+  <!-- WHAT THIS MEANS -->
+  <section>
+    <div class="section-label">What This Means</div>
+    <hr class="section-divider">
+
+    <div class="callout">
+      <strong>Airtable is the engine. TEMPO is the dashboard.</strong><br><br>
+      Departments keep entering data where they already do. Airtable stores and routes it. TEMPO pulls from everything &mdash; Airtable, Runway, clearance reports, DSP sheets, emails, Spotify &mdash; and assembles the view that everyone actually needs.<br><br>
+      Every release gets a page. Auto-generated. Reviewed by you. Shared with anyone who needs it. No login, no license, no training.<br><br>
+      <em style="color:var(--dim);">&ldquo;What if every release had its own page &mdash; like the Isaia one &mdash; that auto-generated from the data we already have? You&rsquo;d never log into Airtable. You&rsquo;d just go to TEMPO.&rdquo;</em>
+    </div>
+  </section>
+
+  <div class="footer">
+    <span>Meg Hourihan &middot; RCA Records &middot; March 2026</span>
+    <span>TEMPO &middot; Template &middot; v0</span>
+  </div>
+
+</main>
+</body>
+</html>
