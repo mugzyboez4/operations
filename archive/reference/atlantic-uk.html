@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlantic Records UK — Airtable Operations Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rca-black: #0F0E0E;
+    --rca-offwhite: #FCFDF8;
+    --rca-chartreuse: #CDF851;
+    --rca-slate: #3E3F41;
+    --rca-flame: #FF4A23;
+    --rca-fog: #847D96;
+    --rca-card: #1a1a1c;
+    --rca-card-border: #2a2a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--rca-black);
+    color: var(--rca-offwhite);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--rca-card-border);
+  }
+  .header-brand {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rca-fog);
+  }
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rca-fog);
+    background: var(--rca-card);
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--rca-card-border);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 48px 60px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--rca-chartreuse);
+    color: var(--rca-black);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 span { color: var(--rca-chartreuse); }
+  .hero p {
+    font-size: 17px;
+    color: var(--rca-fog);
+    max-width: 680px;
+    line-height: 1.7;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rca-card-border);
+    margin: 0 48px 60px;
+    max-width: 864px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .stat {
+    background: var(--rca-card);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--rca-chartreuse);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--rca-fog);
+  }
+
+  /* ── CONTENT WRAPPER ── */
+  .content { max-width: 960px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 64px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rca-flame);
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+  .section p {
+    font-size: 15px;
+    color: var(--rca-fog);
+    line-height: 1.75;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+
+  /* ── PILLAR TABS ── */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--rca-card-border);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--rca-fog);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--rca-offwhite); }
+  .tab-btn.active {
+    color: var(--rca-chartreuse);
+    border-bottom-color: var(--rca-chartreuse);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── FEATURE CARDS ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .feature-card {
+    background: var(--rca-card);
+    border: 1px solid var(--rca-card-border);
+    border-radius: 8px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: var(--rca-chartreuse); }
+  .feature-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  .priority-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .priority-high { background: rgba(205,248,81,0.15); color: var(--rca-chartreuse); }
+  .priority-medium { background: rgba(255,74,35,0.15); color: var(--rca-flame); }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--rca-fog);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .feature-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rca-fog);
+    background: rgba(255,255,255,0.04);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .meta-item span { color: var(--rca-offwhite); }
+
+  /* ── ACCORDION ── */
+  .accordion { margin-top: 20px; }
+  .accordion-item {
+    border: 1px solid var(--rca-card-border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .accordion-btn {
+    width: 100%;
+    background: var(--rca-card);
+    border: none;
+    color: var(--rca-offwhite);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 18px 24px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .accordion-btn:hover { background: #222224; }
+  .accordion-btn .arrow {
+    transition: transform 0.2s;
+    color: var(--rca-chartreuse);
+    font-size: 18px;
+  }
+  .accordion-btn.open .arrow { transform: rotate(180deg); }
+  .accordion-body {
+    display: none;
+    padding: 0 24px 20px;
+    background: var(--rca-card);
+  }
+  .accordion-body.open { display: block; }
+  .accordion-body p {
+    font-size: 14px;
+    color: var(--rca-fog);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .accordion-body ul {
+    list-style: none;
+    padding: 0;
+  }
+  .accordion-body li {
+    font-size: 13px;
+    color: var(--rca-fog);
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .accordion-body li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rca-chartreuse);
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 24px;
+    position: relative;
+  }
+  .roadmap::before {
+    content: '';
+    position: absolute;
+    left: 23px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--rca-card-border);
+  }
+  .phase {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+    position: relative;
+  }
+  .phase-dot {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    background: var(--rca-card);
+    border: 2px solid var(--rca-chartreuse);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--rca-chartreuse);
+    z-index: 1;
+  }
+  .phase-content h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .phase-content .phase-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rca-chartreuse);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .phase-content p {
+    font-size: 14px;
+    color: var(--rca-fog);
+    line-height: 1.65;
+  }
+  .phase-content .phase-outcome {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rca-offwhite);
+    background: rgba(205,248,81,0.08);
+    padding: 8px 14px;
+    border-radius: 4px;
+    border-left: 3px solid var(--rca-chartreuse);
+  }
+
+  /* ── RCA CALLOUT ── */
+  .callout {
+    background: var(--rca-card);
+    border: 1px solid var(--rca-chartreuse);
+    border-radius: 8px;
+    padding: 32px;
+    margin: 48px 0;
+  }
+  .callout-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rca-chartreuse);
+    margin-bottom: 12px;
+  }
+  .callout h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 14px;
+    color: var(--rca-fog);
+    line-height: 1.7;
+  }
+
+  /* ── OPTIONS GRID ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .option-card {
+    background: var(--rca-card);
+    border: 1px solid var(--rca-card-border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .option-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .option-card .option-time {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rca-chartreuse);
+    margin-bottom: 10px;
+  }
+  .option-card p {
+    font-size: 13px;
+    color: var(--rca-fog);
+    line-height: 1.6;
+  }
+  .option-card.recommended {
+    border-color: var(--rca-chartreuse);
+  }
+  .option-card.recommended::after {
+    content: 'RECOMMENDED';
+    display: block;
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--rca-chartreuse);
+  }
+
+  /* ── DATA TABLE ── */
+  .data-table-wrapper { margin-top: 24px; }
+  .data-pillar { margin-bottom: 32px; }
+  .data-pillar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rca-card-border);
+  }
+  .data-pillar-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .data-pillar-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--rca-black);
+    background: var(--rca-chartreuse);
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .data-tbl {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .data-tbl thead th {
+    background: var(--rca-card);
+    color: var(--rca-fog);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rca-card-border);
+  }
+  .data-tbl thead th:first-child { border-radius: 6px 0 0 0; }
+  .data-tbl thead th:last-child { border-radius: 0 6px 0 0; }
+  .data-tbl tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--rca-offwhite);
+    vertical-align: top;
+  }
+  .data-tbl tbody td:first-child {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .data-tbl tbody td:nth-child(2) { color: var(--rca-fog); }
+  .data-tbl .fill-in {
+    background: rgba(205,248,81,0.06);
+    border: 1px dashed rgba(205,248,81,0.3);
+    border-radius: 4px;
+    padding: 6px 10px;
+    min-height: 28px;
+    color: var(--rca-fog);
+    font-style: italic;
+    font-size: 12px;
+  }
+  .data-tbl tbody tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-note {
+    font-size: 12px;
+    color: var(--rca-fog);
+    font-style: italic;
+    margin-top: 8px;
+    padding-left: 4px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 80px;
+    padding: 32px 48px;
+    border-top: 1px solid var(--rca-card-border);
+    text-align: center;
+  }
+  .footer p {
+    font-size: 12px;
+    color: var(--rca-fog);
+    letter-spacing: 1px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .header, .hero, .content, .footer { padding-left: 24px; padding-right: 24px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-left: 24px; margin-right: 24px; }
+    .hero h1 { font-size: 30px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .tab-nav { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-brand">RCA &middot; Cross-Dept Visibility</div>
+  <div class="header-tag">Case Study</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Industry Precedent</div>
+  <h1>How Atlantic UK Built a <span>Single Source of Truth</span> for Release Operations</h1>
+  <p>Atlantic Records UK transformed their label operations by building a comprehensive Airtable system — 25 relational tables, 24 custom interfaces, and 35+ automations — that eliminated data silos and gave every department real-time visibility. This is the blueprint for what RCA can build.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">25</div>
+    <div class="stat-label">Data Tables</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24</div>
+    <div class="stat-label">Interfaces</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">35+</div>
+    <div class="stat-label">Automations</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Integrations</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- THE PROBLEM THEY SOLVED -->
+  <div class="section">
+    <div class="section-label">The Problem</div>
+    <h2>What Atlantic UK Was Dealing With</h2>
+    <p>Before the system, Atlantic UK operated the way most labels still do: release schedules lived in spreadsheets that went stale within hours, budget tracking was a manual reconciliation exercise, artist information was scattered across inboxes and shared drives, and no single person had a real-time view of what was actually happening across the label. Every department maintained its own version of the truth.</p>
+    <p>The operations cost was enormous — not in dollars, but in time, missed signals, and decisions made on outdated information.</p>
+  </div>
+
+  <!-- THE SYSTEM: THREE PILLARS -->
+  <div class="section">
+    <div class="section-label">The System</div>
+    <h2>Three Pillars, One Connected Database</h2>
+    <p>Atlantic UK's solution was built on three interconnected pillars. All 25 tables are relationally linked, meaning data entered once flows throughout the entire system automatically. No copy-paste. No version conflicts. No "which spreadsheet is current?"</p>
+
+    <!-- TABS -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('release')">Release Planning</button>
+      <button class="tab-btn" onclick="switchTab('artist')">Artist Management</button>
+      <button class="tab-btn" onclick="switchTab('budget')">Budget Tracking</button>
+      <button class="tab-btn" onclick="switchTab('advanced')">Advanced Features</button>
+    </div>
+
+    <!-- RELEASE PLANNING -->
+    <div class="tab-panel active" id="tab-release">
+      <p style="font-size:14px;color:var(--rca-fog);margin-bottom:20px;">The release schedule became the single source of truth for all label operations. Four tables power everything: Releases, Artists, Weeks, and Weekly DSP Pitches.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Master Release Schedule</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Calendar-based interface showing all releases by week. When a release date changes, automation moves it to the correct week automatically. Filters by status, artist, format, and priority — every department sees the same schedule.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>3</span> Tables</div>
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>3</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Weekly DSP Pitch Compilation</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Every Monday, an automation creates a new weekly pitch record and links all releases scheduled for that week. Formatted pitch text is generated automatically — no more manual compilation before DSP outreach.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>1</span> Table</div>
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>2</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Department-Specific Views</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Custom interfaces for Marketing, A&R, Digital, and Finance — each showing only what that department needs. Marketing sees campaign budgets and key dates. A&R sees clearance status. Digital sees streaming priorities. Finance sees budget tracking. Same data, different lenses.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>4</span> Interfaces</div>
+            <div class="meta-item">Views only — no automations needed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST MANAGEMENT -->
+    <div class="tab-panel" id="tab-artist">
+      <p style="font-size:14px;color:var(--rca-fog);margin-bottom:20px;">360-degree artist visibility across all departments. Six tables provide a complete picture: Artists, Contracts, OKRs, Social Media Metrics, External Contacts, and Team Members.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Comprehensive Artist Profiles</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Complete artist records including contracts, OKRs, social metrics, external contacts, team assignments, and full release history. Contract expiration alerts automatically notify A&R 90 days before end date. Social metrics can be imported via API.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>6</span> Tables</div>
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>3</span> Automations</div>
+            <div class="meta-item"><span>3</span> Forms</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Team Assignment & Workload Tracking</h3>
+            <span class="priority-badge priority-medium">Medium</span>
+          </div>
+          <p>Tracks which team members are assigned to which artists across all departments — Marketing, Digital, Creative, A&R, Publicity. Workload dashboard shows artist count per person and alerts managers when someone is overloaded.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>1</span> Junction Table</div>
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>2</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Historical Release Archive</h3>
+            <span class="priority-badge priority-medium">Medium</span>
+          </div>
+          <p>Searchable archive of all past releases with performance data — streams, sales, chart positions, revenue, marketing spend. Enables data-driven decision making based on what actually worked before, not institutional memory.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>1</span> Table</div>
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>1</span> Automation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUDGET TRACKING -->
+    <div class="tab-panel" id="tab-budget">
+      <p style="font-size:14px;color:var(--rca-fog);margin-bottom:20px;">Real-time financial visibility from staff expense submission to executive dashboards. Nine tables power the full Budget → Allocated → Actual pipeline.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Budget Planning & Allocation</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Three-stage budget system: Budget → Allocated → Actual for every artist and release. Budgets broken into categories (Marketing, Production, Tour, Other) with automatic rollup calculations. Alerts fire at 80% spent and when over budget.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>3</span> Tables</div>
+            <div class="meta-item"><span>2</span> Interfaces</div>
+            <div class="meta-item"><span>3</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Expense Logging & Approval</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Staff submit expenses via a simple form — select budget, enter amount, upload receipt. Submission notifies the budget owner for approval. When approved, the expense automatically rolls up to the budget's actual spend. No spreadsheet reconciliation.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>2</span> Interfaces</div>
+            <div class="meta-item"><span>3</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Executive Budget Dashboards</h3>
+            <span class="priority-badge priority-high">High Priority</span>
+          </div>
+          <p>Real-time financial visibility for leadership: total budget across all artists, budget by artist, budget by category, quarterly trends, and health indicators (on track / at risk / over budget). Weekly executive report emails are sent automatically.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>1</span> Interface</div>
+            <div class="meta-item"><span>2</span> Automations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADVANCED FEATURES -->
+    <div class="tab-panel" id="tab-advanced">
+      <p style="font-size:14px;color:var(--rca-fog);margin-bottom:20px;">Beyond the three pillars, Atlantic UK built specialized tools for clearances, streaming pitches, and cross-functional collaboration.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>A&R Clearance Tracking</h3>
+            <span class="priority-badge priority-medium">Medium</span>
+          </div>
+          <p>Nested hierarchy: Release → Tracks → Contributors → Samples. Clearance status automatically rolls up through all levels. Color-coded dashboard (Red / Yellow / Green) with deadline alerts when clearances are overdue. Automated label copy generation validates splits add up to 100%.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>6</span> Tables</div>
+            <div class="meta-item"><span>3</span> Interfaces</div>
+            <div class="meta-item"><span>6</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Streaming Pitch Workflow</h3>
+            <span class="priority-badge priority-medium">Medium</span>
+          </div>
+          <p>Pitch editor with historical context — when creating a pitch, the interface auto-displays all past pitch notes for that artist. Manager review and approval workflow. Approved pitches are compiled into a formatted email and sent to multiple DSP partners with one click via Gmail integration. Saves 2–3 hours per week.</p>
+          <div class="feature-meta">
+            <div class="meta-item"><span>3</span> Tables</div>
+            <div class="meta-item"><span>3</span> Interfaces</div>
+            <div class="meta-item"><span>5</span> Automations</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-header">
+            <h3>Integrations</h3>
+            <span class="priority-badge priority-medium">Medium</span>
+          </div>
+          <p>Three external integrations extend the system: <strong>Gmail</strong> for automated email communications (pitch emails, notifications, weekly reports). <strong>Calendar</strong> for syncing release dates and deadlines to team calendars. <strong>File Storage</strong> for linking assets in Google Drive or Dropbox without storing large files in Airtable.</p>
+          <div class="feature-meta">
+            <div class="meta-item">Gmail API</div>
+            <div class="meta-item">Calendar API</div>
+            <div class="meta-item">Google Drive / Dropbox</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY THIS MATTERS FOR RCA -->
+  <div class="callout">
+    <div class="callout-label">Why This Matters for RCA</div>
+    <h3>Atlantic UK Built This at Label Scale</h3>
+    <p>Atlantic UK is a Warner Music label that operates at the same scale, with the same meeting cadence, the same department structure, and the same operational pain points. They turned Airtable into the connective tissue between departments. 25 relational tables, 24 custom interfaces, 35+ automations, 3 external integrations. Built incrementally over 16 weeks.</p>
+  </div>
+
+  <!-- IMPLEMENTATION ROADMAP -->
+  <div class="section">
+    <div class="section-label">Implementation</div>
+    <h2>How They Built It — and How We Can Too</h2>
+    <p>Atlantic UK rolled this out in four phases over 16 weeks. Each phase delivered functional value before moving to the next. The system didn't require a big-bang launch — it proved itself incrementally.</p>
+
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-dot">1</div>
+        <div class="phase-content">
+          <h3>Core Foundation</h3>
+          <div class="phase-time">Weeks 1–4</div>
+          <p>Release Planning and Artist Management. Master release schedule becomes the single source of truth. Artist profiles with contracts and OKRs. Department-specific views. Team assignment tracking.</p>
+          <div class="phase-outcome">Success metric: Release schedule becomes single source of truth, 80%+ team adoption</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">2</div>
+        <div class="phase-content">
+          <h3>Budget & Finance</h3>
+          <div class="phase-time">Weeks 5–8</div>
+          <p>Budget planning and allocation system. Expense logging with approval workflow. Executive dashboards with real-time visibility. Automated rollup calculations and budget alerts.</p>
+          <div class="phase-outcome">Success metric: 100% budget visibility, expense approval time reduced by 50%</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">3</div>
+        <div class="phase-content">
+          <h3>Advanced Operations</h3>
+          <div class="phase-time">Weeks 9–12</div>
+          <p>Nested clearance tracking with automated label copy. Streaming pitch workflow with manager review. Gmail, calendar, and file storage integrations.</p>
+          <div class="phase-outcome">Success metric: Clearance time reduced by 30%, pitch workflow streamlined</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">4</div>
+        <div class="phase-content">
+          <h3>Optimization & Scale</h3>
+          <div class="phase-time">Weeks 13–16</div>
+          <p>User feedback collection and performance tuning. Advanced automation refinement. Custom reporting and analytics. Training materials and rollout to additional departments.</p>
+          <div class="phase-outcome">Success metric: System fully adopted across label, measurable efficiency gains documented</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT RCA COULD DO -->
+  <div class="section">
+    <div class="section-label">RCA Application</div>
+    <h2>Implementation Options for RCA</h2>
+    <p>RCA doesn't have to replicate the full Atlantic system on day one. There are four approaches — each delivers value, and each can expand based on results.</p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <h4>Full Replication</h4>
+        <div class="option-time">16+ weeks</div>
+        <p>All three pillars plus advanced features. 25 tables, 24 interfaces, 35+ automations, 3 integrations. Best for a complete operations transformation with dedicated implementation support.</p>
+      </div>
+      <div class="option-card recommended">
+        <h4>Three Pillars</h4>
+        <div class="option-time">8–10 weeks</div>
+        <p>Release Planning, Artist Management, and Budget Tracking with core tables and interfaces. Proven core functionality with the option to expand later based on results.</p>
+      </div>
+      <div class="option-card">
+        <h4>Department-Specific</h4>
+        <div class="option-time">4–6 weeks</div>
+        <p>Choose one pillar based on immediate need. Build department-specific interfaces and workflows. Foundation for future expansion. Best as a single-department pilot to prove value.</p>
+      </div>
+      <div class="option-card">
+        <h4>Phased Rollout</h4>
+        <div class="option-time">4+ weeks</div>
+        <p>Custom selection of specific features built incrementally based on priority. Each phase delivers functional value. Adapt based on feedback and results.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA REQUIREMENTS -->
+  <div class="section">
+    <div class="section-label">Data Mapping</div>
+    <h2>What Information Feeds the System</h2>
+    <p>Every table in the Airtable system needs to be populated with data that already exists somewhere at RCA — in spreadsheets, inboxes, shared drives, or people's heads. This section maps out exactly what each table requires and leaves space to document where that information currently lives.</p>
+
+    <div class="data-table-wrapper">
+
+      <!-- PILLAR 1 -->
+      <div class="data-pillar">
+        <div class="data-pillar-header">
+          <div class="data-pillar-num">1</div>
+          <h3>Release Planning</h3>
+        </div>
+
+        <table class="data-tbl">
+          <thead><tr><th>Table</th><th>Fields Required</th><th>Where This Lives at RCA</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Releases</td>
+              <td>Release title, artist, format (single/EP/album), release date, status (planned/confirmed/live), priority level, UPC, label copy</td>
+              <td>GRPS + Release Runway</td>
+            </tr>
+            <tr>
+              <td>Artists</td>
+              <td>Artist name, genre, status (active/development/priority), manager, A&R lead, linked releases</td>
+              <td>See RCA Data System Map</td>
+            </tr>
+            <tr>
+              <td>Weeks</td>
+              <td>Week start date, week number, linked releases for that week, DSP pitch status</td>
+              <td>Auto-generated from GRPS → Runway</td>
+            </tr>
+            <tr>
+              <td>Weekly DSP Pitches</td>
+              <td>Week, linked releases, pitch text, DSP partners targeted, submission status, results</td>
+              <td>Marketing / Digital pitch docs + Runway</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="data-note">Interfaces fed: Master Release Schedule, Weekly DSP Pitch Manager, Department-Specific Views (Marketing, A&R, Digital, Finance)</div>
+      </div>
+
+      <!-- PILLAR 2 -->
+      <div class="data-pillar">
+        <div class="data-pillar-header">
+          <div class="data-pillar-num">2</div>
+          <h3>Artist Management</h3>
+        </div>
+
+        <table class="data-tbl">
+          <thead><tr><th>Table</th><th>Fields Required</th><th>Where This Lives at RCA</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Artists (extended)</td>
+              <td>Bio, hometown, social handles, Spotify URI, signing date, contract type, roster tier</td>
+              <td>See RCA Data System Map</td>
+            </tr>
+            <tr>
+              <td>Contracts</td>
+              <td>Artist, contract type, start date, end date, option dates, territory, key terms/notes</td>
+              <td>CARMA</td>
+            </tr>
+            <tr>
+              <td>Artist OKRs</td>
+              <td>Artist, quarter, objective, key results (streaming target, social growth, press hits), status</td>
+              <td>Marketing plans / A&R planning</td>
+            </tr>
+            <tr>
+              <td>Social Media Metrics</td>
+              <td>Artist, platform, follower count, monthly listeners, engagement rate, date captured</td>
+              <td>Digital marketing reports + Runway</td>
+            </tr>
+            <tr>
+              <td>External Contacts</td>
+              <td>Name, role (manager/agent/publicist/lawyer), company, email, phone, linked artists</td>
+              <td>Outlook (Microsoft 365)</td>
+            </tr>
+            <tr>
+              <td>Team Assignments</td>
+              <td>Artist, team member, department, role on project, assignment date</td>
+              <td>Institutional knowledge + staffing emails</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="data-note">Interfaces fed: Artist Profile Dashboard, Team Workload Dashboard, Historical Release Archive</div>
+      </div>
+
+      <!-- PILLAR 3 -->
+      <div class="data-pillar">
+        <div class="data-pillar-header">
+          <div class="data-pillar-num">3</div>
+          <h3>Budget Tracking</h3>
+        </div>
+
+        <table class="data-tbl">
+          <thead><tr><th>Table</th><th>Fields Required</th><th>Where This Lives at RCA</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Budgets</td>
+              <td>Artist/release, total budget, budget by category (Marketing, Production, Tour, Other), fiscal quarter, status</td>
+              <td>SAP + Finance spreadsheets</td>
+            </tr>
+            <tr>
+              <td>Budget Allocations</td>
+              <td>Budget, category, allocated amount, department owner, approval status, notes</td>
+              <td>See RCA Data System Map</td>
+            </tr>
+            <tr>
+              <td>Expenses</td>
+              <td>Budget, category, amount, vendor, date, receipt attachment, submitter, approval status, approver</td>
+              <td>Concur</td>
+            </tr>
+            <tr>
+              <td>Team Members</td>
+              <td>Name, department, role, email, manager, permission level</td>
+              <td>HR directory (Microsoft 365)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="data-note">Interfaces fed: Budget Overview Dashboard, Budget Detail View, Expense Submission Form, Expense Approval Queue, Executive Financial Dashboard</div>
+      </div>
+
+      <!-- ADVANCED -->
+      <div class="data-pillar">
+        <div class="data-pillar-header">
+          <div class="data-pillar-num">+</div>
+          <h3>Advanced Features</h3>
+        </div>
+
+        <table class="data-tbl">
+          <thead><tr><th>Table</th><th>Fields Required</th><th>Where This Lives at RCA</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Tracks</td>
+              <td>Track title, linked release, ISRC, duration, producers, writers, mix status, master status</td>
+              <td>GRPS (ISRC) + Production</td>
+            </tr>
+            <tr>
+              <td>Contributors</td>
+              <td>Name, role (producer/writer/mixer/engineer), PRO affiliation, publisher, split percentage</td>
+              <td>A&R + BLA documents</td>
+            </tr>
+            <tr>
+              <td>Samples</td>
+              <td>Original track, original artist, rights holder, clearance status, clearance date, terms</td>
+              <td>Legal clearance / BLA files</td>
+            </tr>
+            <tr>
+              <td>Pitch Notes</td>
+              <td>Artist, release, DSP partner, pitch text, pitch date, result (Pending/Accepted/Rejected), notes</td>
+              <td>Streaming pitch docs</td>
+            </tr>
+            <tr>
+              <td>DSP Partners</td>
+              <td>Partner name (Spotify, Apple, Amazon, etc.), contact name, contact email, territory, relationship notes</td>
+              <td>Commerce/DSP contact lists</td>
+            </tr>
+            <tr>
+              <td>Rights Holders</td>
+              <td>Name, type (publisher/label/writer), contact info, standard terms, linked samples</td>
+              <td>BLA archives (CARMA)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="data-note">Interfaces fed: Clearance Tracking Dashboard, Label Copy Generator, Pitch Editor, Manager Pitch Review, Email Composer</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONNECTING TO THE AGENT -->
+  <div class="callout">
+    <div class="callout-label">The Bigger Picture</div>
+    <h3>Airtable + Automated Meeting Outputs = Closed-Loop Operations</h3>
+    <p>The Airtable system is the operational database — the single source of truth for releases, artists, budgets, and decisions. An automation layer turns meeting transcripts into structured outputs and writes action items directly into Airtable. Together, they close the loop: meetings produce decisions, decisions flow into the database, the database informs the next meeting. No manual data entry. No information lost between meetings.</p>
+  </div>
+
+  <!-- FAQ / OBJECTION HANDLING -->
+  <div class="section">
+    <div class="section-label">Anticipated Questions</div>
+    <h2>What Leadership Will Ask</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Why Airtable and not a custom-built system?
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <p>Airtable is already used across the music industry — Atlantic UK, and multiple other labels have adopted it because it's flexible enough to model complex relational data but simple enough that non-technical staff can use it daily. A custom build would take 6–12 months and cost significantly more. Airtable can be live in weeks and iterated on continuously without engineering resources.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          What does this cost?
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <p>Airtable Enterprise pricing is based on seats. For a label operations deployment, the primary cost is the implementation consultant (e.g., Relationl) and the monthly Airtable subscription. The ROI math is straightforward: if the system saves each department head even 2 hours per week, it pays for itself within the first quarter.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          How is this different from what we already have?
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <p>Current operations rely on disconnected spreadsheets, email threads, and institutional memory. This system is relational — data entered once flows everywhere it's needed automatically. When a release date changes, every department's view updates instantly. When a budget is approved, finance sees it in real time. There's no "which version is current?" problem because there's only one version.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Who manages this system day-to-day?
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <p>The system needs an operational owner — someone who maintains the database, refines automations, onboards new users, and ensures the data stays clean. At Atlantic UK, this function sits within their operations team. At RCA, it would sit within the cross-department visibility function.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Can we start small?
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <p>Absolutely. The Department-Specific option (4–6 weeks) lets RCA pilot a single pillar — most likely Release Planning, since it has the highest immediate visibility. If it proves value, expand to Artist Management and Budget Tracking. Atlantic UK built incrementally too. The key is starting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>INDUSTRY REFERENCE &nbsp;&middot;&nbsp; ATLANTIC RECORDS UK &nbsp;&middot;&nbsp; PREPARED MARCH 2026</p>
+</div>
+
+<script>
+  // Tab switching
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Accordion
+  function toggleAccordion(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.accordion-btn').forEach(b => b.classList.remove('open'));
+    // Toggle current
+    if (!isOpen) {
+      body.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>

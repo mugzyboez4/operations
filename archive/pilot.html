@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Cross-Department Visibility Pilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-outer: #1A1A1A;
+    --bg-inner: #0F0E0E;
+    --bg-card: #1A1A1A;
+    --off-white: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --fog-dim: #847D96;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-outer); color: var(--off-white);
+    font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+
+
+
+  /* MAIN */
+  main { max-width:960px; margin:0 auto; padding:64px 32px 120px; }
+  section { margin-bottom: 64px; }
+  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); }
+  .section-divider { border:none; border-top:1px solid var(--chartreuse); opacity:0.3; margin:10px 0 28px; }
+
+  /* HERO */
+  .hero { margin-bottom: 56px; }
+  .hero h1 { font-size:42px; font-weight:800; line-height:1.1; letter-spacing:-1.5px; margin-bottom:20px; }
+  .hero h1 span { color: var(--chartreuse); }
+  .hero-sub { font-size:15px; color:var(--fog); line-height:1.7; max-width:600px; }
+
+  /* PILOT BANNER */
+  .pilot-banner { background:var(--bg-inner); border:1px solid var(--slate); padding:20px 24px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-bottom:56px; }
+  .pb-label { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:4px; }
+  .pb-value { font-size:14px; font-weight:600; }
+  .pb-value.flame { color: var(--flame); }
+
+  /* PROBLEM */
+  .problem-block { background:var(--bg-inner); border-left:3px solid var(--flame); padding:24px; margin-bottom:16px; }
+  .problem-block.green { border-left-color: var(--chartreuse); }
+  .problem-block .heading { font-size:16px; font-weight:700; margin-bottom:8px; }
+  .problem-block p { font-size:13px; color:var(--fog); line-height:1.7; }
+
+  /* THREE SYSTEMS */
+  .systems-grid { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:stretch; margin-top:28px; }
+  .sys-card { background:var(--bg-inner); border:1px solid var(--slate); padding:20px; }
+  .sys-card .sys-name { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+  .sys-card .sys-desc { font-size:12px; color:var(--fog); line-height:1.6; }
+  .sys-card .sys-id { margin-top:12px; padding-top:10px; border-top:1px solid var(--slate); font-size:11px; }
+  .sys-id-label { color: var(--fog-dim); }
+  .sys-id-value { font-weight:600; }
+  .sys-id-value.bad { color: var(--flame); }
+  .sys-gap { display:flex; align-items:center; justify-content:center; padding:0 8px; }
+  .sys-gap-x { color:var(--flame); font-weight:700; font-size:14px; }
+  .sys-caption { margin-top:16px; padding:16px 20px; background:var(--bg-inner); border-left:3px solid var(--chartreuse); font-size:13px; color:var(--fog); line-height:1.6; }
+  .sys-caption strong { color: var(--chartreuse); }
+
+  /* CASE STUDY */
+  .case-header { background:var(--bg-inner); border:1px solid var(--slate); padding:24px; margin-bottom:24px; }
+  .case-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .artist-name { font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+  .release-title { font-size:13px; color:var(--fog); margin-top:2px; }
+  .workability-badge { font-size:32px; font-weight:800; color:var(--flame); text-align:right; line-height:1; }
+  .wb-label { display:block; font-size:9px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-top:4px; }
+  .case-meta { display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid var(--slate); padding-top:14px; }
+  .meta-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:2px; }
+  .meta-value { font-size:13px; font-weight:600; }
+
+  /* STATUS GRID */
+  .status-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .status-card { background:var(--bg-inner); padding:20px; }
+  .flame-border { border-left: 3px solid var(--flame); }
+  .fog-border { border-left: 3px solid var(--fog-dim); }
+  .green-border { border-left: 3px solid var(--chartreuse); }
+  .card-label { font-size:11px; font-weight:700; letter-spacing:0.5px; color:var(--fog); margin-bottom:14px; text-transform:uppercase; }
+  .field-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid rgba(62,63,65,0.4); }
+  .field-row:last-of-type { border-bottom: none; }
+  .field-name { font-size: 13px; }
+  .field-src { font-size: 10px; color: var(--fog-dim); font-style: italic; margin-left: 4px; }
+  .field-status { font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; text-transform:uppercase; }
+  .st-unknown { background:rgba(255,74,35,0.15); color:var(--flame); }
+  .st-required { background:rgba(255,74,35,0.1); color:#FF8A6A; }
+  .st-empty { background:rgba(176,169,190,0.1); color:var(--fog-dim); }
+  .st-done { background:rgba(205,248,81,0.1); color:#8AB83A; }
+  .st-tracked { background:rgba(205,248,81,0.15); color:var(--chartreuse); }
+  .source-note { margin-top:14px; padding-top:10px; border-top:1px solid var(--slate); font-size:11px; color:var(--fog-dim); line-height:1.5; }
+  .source-note strong { color: var(--fog); }
+
+  /* FLOW */
+  .flow-new { display:grid; grid-template-columns:1fr 32px 1fr 32px 1fr; gap:0; align-items:start; }
+  .flow-col { background:var(--bg-inner); padding:20px; border:1px solid var(--slate); }
+  .center-col { border-color: var(--chartreuse); }
+  .flow-arrow-col { display:flex; align-items:center; justify-content:center; color:var(--fog-dim); font-size:18px; }
+  .flow-step-label { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; }
+  .flow-step-label.flame { color: var(--flame); }
+  .flow-step-label.chartreuse { color: var(--chartreuse); }
+  .flow-step-label.fog { color: var(--fog); }
+  .flow-col ul { list-style: none; }
+  .flow-col li { font-size:12px; color:var(--fog); padding:4px 0; display:flex; align-items:flex-start; gap:8px; }
+  .flow-col li strong { color: var(--off-white); }
+  .dot { display:inline-block; width:6px; height:6px; margin-top:6px; flex-shrink:0; }
+  .dot.f { background: var(--flame); }
+  .dot.c { background: var(--chartreuse); }
+  .dot.red { background: var(--flame); }
+  .dot.green { background: var(--chartreuse); }
+  .flow-title { font-size:13px; font-weight:600; color:var(--chartreuse); margin-bottom:12px; }
+  .flow-operator { margin-top:16px; padding-top:12px; border-top:1px solid var(--slate); font-size:11px; color:var(--fog-dim); line-height:1.5; }
+
+  /* TWO PANEL */
+  .two-panel { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .dept-card { background:var(--bg-inner); border:1px solid var(--slate); padding:24px; }
+  .dept-header-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+  .dept-name { font-size:16px; font-weight:700; }
+  .role-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:4px 10px; }
+  .badge-flame { background:rgba(255,74,35,0.12); color:var(--flame); }
+  .badge-fog { background:rgba(176,169,190,0.12); color:var(--fog); }
+  .sub-section { margin-bottom: 16px; }
+  .sub-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:8px; }
+  .dept-card ul { list-style: none; }
+  .dept-card li { font-size:12px; color:var(--fog); padding:3px 0; display:flex; align-items:flex-start; gap:8px; }
+
+  /* COHORT */
+  .cohort-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+  .cohort-card { background:var(--bg-inner); border:1px solid var(--slate); padding:20px; }
+  .active-card { border-top: 3px solid var(--chartreuse); }
+  .pending-card { border-top: 3px solid var(--fog); }
+  .pick-card { border-top: 3px solid var(--fog-dim); border-style: dashed; }
+  .cohort-status { font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:10px; }
+  .cohort-status.live { color: var(--chartreuse); }
+  .cohort-status.queued { color: var(--fog); }
+  .cohort-status.open { color: var(--fog-dim); }
+  .cohort-artist { font-size:18px; font-weight:700; }
+  .cohort-release { font-size:13px; color:var(--fog); margin-bottom:10px; }
+  .cohort-meta { font-size:12px; color:var(--fog-dim); line-height:1.6; }
+
+  /* SCOPE TABLE */
+  .scope-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .scope-table thead th { text-align:left; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--fog-dim); padding:10px 12px; border-bottom:1px solid var(--slate); }
+  .scope-table td { padding:10px 12px; border-bottom:1px solid rgba(62,63,65,0.3); vertical-align:top; }
+  .group-header td { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); padding:18px 12px 8px; border-bottom:1px solid var(--slate); }
+  .f-name { font-weight: 600; }
+  .f-owner { color:var(--fog-dim); font-size:12px; }
+  .f-status { font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; text-transform:uppercase; white-space:nowrap; }
+  .f-desc { font-size:12px; color:var(--fog-dim); line-height:1.5; }
+
+  /* SCALE */
+  .scale-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+  .scale-card { background:var(--bg-inner); border:1px solid var(--slate); padding:24px; }
+  .phase-now { border-top: 3px solid var(--chartreuse); }
+  .phase-2 { border-top: 3px solid var(--fog); }
+  .phase-3 { border-top: 3px solid var(--fog-dim); }
+  .phase-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+  .phase-title { font-size:16px; font-weight:700; margin-bottom:10px; }
+  .phase-desc { font-size:12px; color:var(--fog); line-height:1.6; }
+  .phase-trigger { margin-top:12px; padding-top:10px; border-top:1px solid var(--slate); font-size:10px; color:var(--fog-dim); font-weight:600; letter-spacing:0.3px; text-transform:uppercase; }
+
+  /* STEPS */
+  .steps-list { list-style: none; }
+  .steps-list li { display:flex; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(62,63,65,0.3); }
+  .steps-list li:last-child { border-bottom: none; }
+  .step-counter { width:32px; height:32px; flex-shrink:0; background:var(--bg-inner); border:1px solid var(--chartreuse); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--chartreuse); }
+  .step-title { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .step-desc { font-size:12px; color:var(--fog); line-height:1.6; }
+  .step-owner { font-size:10px; font-weight:600; letter-spacing:0.5px; color:var(--fog-dim); margin-top:6px; text-transform:uppercase; }
+
+  /* BOTTOM */
+  .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+
+  /* SUB-HEADER */
+  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
+  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
+  .sub-header .sh-link:hover { color:#FCFDF8; }
+  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
+<div class="nav-links">
+<div class="sndd"><span class="sndd-b active">Pilot &#9662;</span><div class="sndd-m"><a href="pilot.html">Pilot Overview</a><a href="demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
+<a href="demo.html">Demo</a>
+<a href="cadence.html">Cadence</a>
+<div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+<a href="rollout.html">Rollout</a>
+<a href="comms.html">Comms</a>
+<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="pipeline.html">Pipeline Overview</a><a href="prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
+</div>
+</nav>
+<div class="sub-header"><span class="sh-active">Pilot Overview</span><a href="demos/isaia-huron.html" class="sh-link">Pilot MVP — Isaia</a></div>
+
+<main>
+
+  <section class="hero">
+    <h1>Cross-Department<br>Visibility — <span>Live</span></h1>
+    <div class="hero-sub">
+      One operational layer pulls from existing systems and assembles the complete release picture. 30 days, 3 releases, real data.
+    </div>
+  </section>
+
+  <div class="pilot-banner">
+    <div class="pb-item">
+      <div class="pb-label">Pilot Duration</div>
+      <div class="pb-value">30 Days</div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-label">Releases Tracked</div>
+      <div class="pb-value">3 Active Releases</div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-label">Requirements</div>
+      <div class="pb-value flame">No IT · No Permissions · No Behavior Change</div>
+    </div>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <section>
+    <div class="section-label">The Problem</div>
+    <hr class="section-divider">
+    <div class="problem-block">
+      <div class="heading">The information exists. Nobody assembles it.</div>
+      <p>
+        Clearance status, side artist approvals, DSP asset needs, credits — each tracked in a different department's system. Release Runway has the fields. Most stay "Unknown."
+      </p>
+    </div>
+    <div class="problem-block green">
+      <div class="heading" style="color: var(--chartreuse);">What the Pilot Changes</div>
+      <p>
+        One person pulls from every source and assembles the complete picture. No department behavior change. 30 days, real releases, real data.
+      </p>
+    </div>
+  </section>
+
+  <!-- THREE SYSTEMS -->
+  <section>
+    <div class="section-label">Why This Can't Be Automated Today</div>
+    <hr class="section-divider">
+    <p style="font-size: 13px; color: var(--fog); margin-bottom: 20px;">
+      Three systems describe the same release. None share an identifier.
+    </p>
+    <div class="systems-grid">
+      <div class="sys-card">
+        <div class="sys-name" style="color: var(--flame);">Release Runway</div>
+        <div class="sys-desc">Internal readiness tracker. Good fields, poor population. Clearance statuses perpetually "Unknown."</div>
+        <div class="sys-id">
+          <div class="sys-id-label">Shared Identifier</div>
+          <div class="sys-id-value bad">None — artist name + title only</div>
+        </div>
+      </div>
+      <div class="sys-gap"><span class="sys-gap-x">✕</span></div>
+      <div class="sys-card">
+        <div class="sys-name" style="color: var(--fog);">Clearance Reports</div>
+        <div class="sys-desc">Sample status, side artist approvals, agreements. Per-artist tabs — each structured differently. No ISRCs.</div>
+        <div class="sys-id">
+          <div class="sys-id-label">Shared Identifier</div>
+          <div class="sys-id-value bad">None — song title + producer only</div>
+        </div>
+      </div>
+      <div class="sys-gap"><span class="sys-gap-x">✕</span></div>
+      <div class="sys-card">
+        <div class="sys-name" style="color: var(--fog);">DSP Asset Request</div>
+        <div class="sys-desc">What Commercial Partnerships needs for DSP submission. Weekly tabs. Marketing supposed to fill; CP chases.</div>
+        <div class="sys-id">
+          <div class="sys-id-label">Shared Identifier</div>
+          <div class="sys-id-value bad">None — artist name + release only</div>
+        </div>
+      </div>
+    </div>
+    <div class="sys-caption">
+      <strong>No ISRCs. No UPCs. No shared key.</strong> Nothing to match on across systems. The pilot assembles manually — and builds the case for DDEX ERN identifiers as the long-term fix.
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section>
+    <div class="section-label">The Problem in One Release</div>
+    <hr class="section-divider">
+    <p style="font-size: 13px; color: var(--fog); margin-bottom: 24px;">
+      29 days from street date.
+    </p>
+    <div class="case-header">
+      <div class="case-top">
+        <div>
+          <div class="artist-name">Isaia Huron</div>
+          <div class="release-title">Mr. Lovebomb · ITOLA LLC / Slang / RCA Records</div>
+        </div>
+        <div class="workability-badge">
+          55%
+          <span class="wb-label">Workability</span>
+        </div>
+      </div>
+      <div class="case-meta">
+        <div class="case-meta-item">
+          <div class="meta-label">Street Date</div>
+          <div class="meta-value">April 10, 2026</div>
+        </div>
+        <div class="case-meta-item">
+          <div class="meta-label">Pre-Order</div>
+          <div class="meta-value">March 20, 2026</div>
+        </div>
+        <div class="case-meta-item">
+          <div class="meta-label">Config</div>
+          <div class="meta-value">Digital Audio LP</div>
+        </div>
+        <div class="case-meta-item">
+          <div class="meta-label">Tracks</div>
+          <div class="meta-value">10</div>
+        </div>
+        <div class="case-meta-item">
+          <div class="meta-label">Status</div>
+          <div class="meta-value" style="color: var(--flame);">Scheduled (pushed)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card flame-border">
+        <div class="card-label">Clearance Fields — What's Blocking</div>
+        <div class="field-row"><span class="field-name">SAA <span class="field-src">· RCA Charts — Side In / Side Out</span></span><span class="field-status st-unknown">Unknown</span></div>
+        <div class="field-row"><span class="field-name">SAMP <span class="field-src">· Sample Clearance Report — per-artist tabs</span></span><span class="field-status st-unknown">Unknown</span></div>
+        <div class="field-row"><span class="field-name">Cover / VSC</span><span class="field-status st-required">Required</span></div>
+        <div class="field-row"><span class="field-name">Agreements</span><span class="field-status st-required">Required</span></div>
+        <div class="field-row"><span class="field-name">Master</span><span class="field-status st-done">Done</span></div>
+        <div class="field-row"><span class="field-name">Label Copy</span><span class="field-status st-done">Done</span></div>
+      </div>
+
+      <div class="status-card fog-border">
+        <div class="card-label">Metadata — What's Empty</div>
+        <div class="field-row"><span class="field-name">Composer(s) / Writer(s) <span class="field-src">· publishing / clearance</span></span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">Producer <span class="field-src">· A&amp;R Admin</span></span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">ATMOS</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">All DSP Delivery Dates</span><span class="field-status st-empty">Blank</span></div>
+        <div class="field-row"><span class="field-name">Distribution</span><span class="field-status st-empty">Blank</span></div>
+      </div>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card" style="border-left: 3px solid var(--flame);">
+        <div class="card-label">DSP Asset Request Sheet — Not Started</div>
+        <div class="field-row"><span class="field-name">Talking Points</span><span class="field-status st-empty">Not submitted</span></div>
+        <div class="field-row"><span class="field-name">Timeline</span><span class="field-status st-empty">Not submitted</span></div>
+        <div class="field-row"><span class="field-name">Approved Images</span><span class="field-status st-empty">Not submitted</span></div>
+        <div class="field-row"><span class="field-name">Artwork</span><span class="field-status st-empty">Not submitted</span></div>
+        <div class="field-row"><span class="field-name">Genres</span><span class="field-status st-empty">Not submitted</span></div>
+        <div class="source-note">First single ships in 15 days. Album not in the sheet yet.</div>
+      </div>
+
+      <div class="status-card green-border">
+        <div class="card-label">What the Pilot Assembles</div>
+        <div class="field-row"><span class="field-name">Clearance status</span><span class="field-status st-tracked">Tracked</span></div>
+        <div class="field-row"><span class="field-name">Metadata completeness</span><span class="field-status st-tracked">Tracked</span></div>
+        <div class="field-row"><span class="field-name">DSP asset readiness</span><span class="field-status st-tracked">Tracked</span></div>
+        <div class="field-row"><span class="field-name">Delivery timeline risks</span><span class="field-status st-tracked">Flagged</span></div>
+        <div class="field-row"><span class="field-name">Unified view per release</span><span class="field-status st-tracked">Live</span></div>
+        <div class="source-note">
+          One person pulls from every source. Departments don't change their workflow. The system fills the gaps they don't.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="section-label">How the System Works</div>
+    <hr class="section-divider">
+    <div class="flow-new">
+      <div class="flow-col">
+        <div class="flow-step-label flame">Sources — Where Data Lives Today</div>
+        <ul>
+          <li><span class="dot f"></span>Release Runway (clearance fields — often empty)</li>
+          <li><span class="dot f"></span>Sample Clearance Report (per-artist tabs)</li>
+          <li><span class="dot f"></span>RCA Charts / Side Artist tracker</li>
+          <li><span class="dot f"></span>DSP Asset Request sheet (weekly tabs)</li>
+          <li><span class="dot f"></span>Production meetings (verbal decisions)</li>
+          <li><span class="dot f"></span>Email / Slack (confirmations, status updates)</li>
+        </ul>
+      </div>
+      <div class="flow-arrow-col">→</div>
+      <div class="flow-col center-col">
+        <div class="flow-step-label chartreuse">Operational Layer</div>
+        <div class="flow-title">Tracks · Confirms · Flags · Surfaces</div>
+        <ul>
+          <li><span class="dot c"></span>Pulls status from each source weekly</li>
+          <li><span class="dot c"></span>Populates the unified release view</li>
+          <li><span class="dot c"></span>Flags anything at risk within 3 weeks of street</li>
+          <li><span class="dot c"></span>Pushes pre-surfaced issues to relevant teams</li>
+        </ul>
+        <div class="flow-operator">
+          Operated by <strong>Meg Hourihan</strong><br>
+          Currently one person. Designed to scale as a function.
+        </div>
+      </div>
+      <div class="flow-arrow-col">→</div>
+      <div class="flow-col">
+        <div class="flow-step-label fog">Output — Who Sees What</div>
+        <ul>
+          <li><span class="dot c"></span><strong style="color:var(--off-white)">Commercial Partnerships</strong> — delivery readiness, metadata completeness, clearance status before DSP windows</li>
+          <li style="margin-top:8px"><span class="dot c"></span><strong style="color:var(--off-white)">Release Planning</strong> — pre-surfaced blockers, root cause for every "Unknown," trend view across releases</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILOT COHORT -->
+  <section>
+    <div class="section-label">Pilot Cohort — Active Releases</div>
+    <hr class="section-divider">
+    <p style="font-size: 13px; color: var(--fog); margin-bottom: 24px;">
+      Three releases. Three lifecycle stages. Real data.
+    </p>
+    <div class="cohort-grid">
+      <div class="cohort-card active-card">
+        <div class="cohort-status live">● Gap Analysis Complete</div>
+        <div class="cohort-artist">Isaia Huron</div>
+        <div class="cohort-release">Mr. Lovebomb · April 10</div>
+        <div class="cohort-meta">
+          <strong>55% workability</strong> · 4 clearance gaps · DSP asset sheet not started<br>
+          Pre-order live March 20. Slang JV. Case study above.
+        </div>
+      </div>
+      <div class="cohort-card pending-card">
+        <div class="cohort-status queued">● Baseline in Progress</div>
+        <div class="cohort-artist">horsegiirL</div>
+        <div class="cohort-release">NATURE IS HEALING · April 3</div>
+        <div class="cohort-meta">
+          <strong>5 required/unknown fields</strong> · SAA Unknown · SAMP Unknown<br>
+          Newer artist. Highest gap density in the cohort.
+        </div>
+      </div>
+      <div class="cohort-card pick-card">
+        <div class="cohort-status open">○ Priority Pick — TBD</div>
+        <div class="cohort-artist" style="color: var(--fog);">Option A: Foo Fighters</div>
+        <div class="cohort-release" style="color: var(--fog-dim);">Your Favorite Toy · April 24</div>
+        <div class="cohort-meta">
+          Priority release. Hands-on team. <strong style="color: var(--flame);">Still shows 5 unknown/required fields in Runway.</strong>
+          Proves the gap is structural, not about team quality.<br><br>
+          <span style="color: var(--fog-dim);">Option B: Ca7riel &amp; Paco Amoroso — Free Spirits · March 19<br>
+          Latin release. 6 unknown/required. Cross-market complexity.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILOT SCOPE -->
+  <section>
+    <div class="section-label">Pilot Scope — What Gets Tracked</div>
+    <hr class="section-divider">
+    <table class="scope-table">
+      <thead>
+        <tr><th>Field</th><th>Owned By</th><th>Status</th><th>What the Pilot Does</th></tr>
+      </thead>
+      <tbody>
+        <tr class="group-header"><td colspan="4">Clearance Fields</td></tr>
+        <tr>
+          <td class="f-name">SAA</td>
+          <td class="f-owner">Business Affairs Admin (Dave Schmidt)</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Tracked in RCA Charts (Side In/Out). Pilot pulls status and surfaces weekly.</td>
+        </tr>
+        <tr>
+          <td class="f-name">SAMP</td>
+          <td class="f-owner">Sample Clearance (Jeff Monachino)</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Per-artist tabs in Sample Clearance Report. A&amp;R Admin submits; multi-week eval. Pilot surfaces status before DSP windows.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Cover / VSC</td>
+          <td class="f-owner">Creative</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Assigns ownership to initiation step. Tracks handoff to Legal.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Agreements</td>
+          <td class="f-owner">A&amp;R Admin</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Tracks confirmation back to Runway. Currently doesn't flow back.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Atmos Decision</td>
+          <td class="f-owner">A&amp;R / Production</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Captures decision at point of origin. Currently verbal, never enters Runway.</td>
+        </tr>
+
+        <tr class="group-header"><td colspan="4">Metadata &amp; Credits</td></tr>
+        <tr>
+          <td class="f-name">Credits / Splits</td>
+          <td class="f-owner">3 departments</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Writer/composer from publishing/clearance. Producer from A&amp;R Admin. Nobody reconciles into Runway. Pilot tracks completeness.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Artwork</td>
+          <td class="f-owner">Creative</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Confirms assets exist and are approved. Surfaces to DSP asset readiness.</td>
+        </tr>
+
+        <tr class="group-header"><td colspan="4">DSP Readiness Fields</td></tr>
+        <tr>
+          <td class="f-name">Talking Points</td>
+          <td class="f-owner">Marketing / PMs</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Assembled from existing briefings. Fed to DSP asset sheet.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Timeline</td>
+          <td class="f-owner">Marketing / PMs</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Pulled from release plans, project schedules.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Approved Images</td>
+          <td class="f-owner">Creative</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Confirms assets exist in Air/Box and are approved.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Genres</td>
+          <td class="f-owner">A&amp;R / Marketing</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Pulled from existing metadata. Formatted for DSP specs.</td>
+        </tr>
+        <tr>
+          <td class="f-name">Delivery Dates &amp; Specs</td>
+          <td class="f-owner">Marketing / Mgmt</td>
+          <td><span class="f-status st-tracked">In Scope</span></td>
+          <td class="f-desc">Input by Production / Digital Ops. Connected to Runway fields.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SCALING PATH -->
+  <section>
+    <div class="section-label">Scaling Path</div>
+    <hr class="section-divider">
+    <div class="scale-row">
+      <div class="scale-card phase-now">
+        <div class="phase-label" style="color: var(--chartreuse);">Pilot — Now</div>
+        <div class="phase-title">Prove the model</div>
+        <div class="phase-desc">
+          3 releases. Full assembly from existing sources. No behavior change required.
+        </div>
+      </div>
+      <div class="scale-card phase-2">
+        <div class="phase-label" style="color: var(--fog);">Phase 2 — After 30 Days</div>
+        <div class="phase-title">Add Marketing &amp; PMs</div>
+        <div class="phase-desc">
+          Structured inputs submitted directly instead of assembled. Based on pilot data.
+        </div>
+        <div class="phase-trigger">Triggered by: Pilot results at 30 days</div>
+      </div>
+      <div class="scale-card phase-3">
+        <div class="phase-label" style="color: var(--fog-dim);">Phase 3 — Scale + Identifiers</div>
+        <div class="phase-title">DDEX / ISRC Integration</div>
+        <div class="phase-desc">
+          ISRC as the shared key across all systems. Manual assembly becomes automated pipeline.
+        </div>
+        <div class="phase-trigger">Triggered by: Phase 2 adoption + identifier standardization</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO TURN THIS ON -->
+  <section>
+    <div class="section-label">How to Turn This On</div>
+    <hr class="section-divider">
+    <p style="font-size: 13px; color: var(--fog); margin-bottom: 28px;">No IT. No procurement. No permissions.</p>
+    <ul class="steps-list">
+      <li>
+        <div class="step-counter">1</div>
+        <div class="step-content">
+          <div class="step-title">Confirm pilot releases</div>
+          <div class="step-desc">Isaia Huron baselined. horsegiirL in progress. Third release selected from priority candidates.</div>
+          <div class="step-owner">Owner: Meg · Timeline: This week</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-counter">2</div>
+        <div class="step-content">
+          <div class="step-title">Run gap analysis on each release</div>
+          <div class="step-desc">Map every Runway field and delivery dependency. Document what's populated, what's empty, where it lives.</div>
+          <div class="step-owner">Owner: Meg · Timeline: Days 1–3</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-counter">3</div>
+        <div class="step-content">
+          <div class="step-title">Fill the gaps from existing sources</div>
+          <div class="step-desc">Pull from Sample Report, RCA Charts, artist briefings, meetings, email. Assemble — don't create.</div>
+          <div class="step-owner">Owner: Meg · Timeline: Days 3–5</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-counter">4</div>
+        <div class="step-content">
+          <div class="step-title">Build the release status view</div>
+          <div class="step-desc">Three releases in Airtable. Clearance + DSP readiness. Updated weekly.</div>
+          <div class="step-owner">Owner: Meg · Timeline: Days 5–7</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-counter">5</div>
+        <div class="step-content">
+          <div class="step-title">Share with Commercial Partnerships + Release Planning</div>
+          <div class="step-desc">A dashboard, not a new system. No training needed.</div>
+          <div class="step-owner">Owner: Meg · Timeline: Week 2</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-counter">6</div>
+        <div class="step-content">
+          <div class="step-title">Run for 30 days. Bring results.</div>
+          <div class="step-desc">Fields resolved, releases shipped cleaner, Production Meeting time recovered. That's the case for Phase 2.</div>
+          <div class="step-owner">Owner: Meg · Timeline: Day 30</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <div class="bottom-note">
+    <span>Meg Hourihan · RCA Records · March 2026</span>
+    <span>Pilot · Confidential</span>
+  </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA TEMPO — Meeting Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F0E0E;
+    --surface: #141414;
+    --card: #181818;
+    --border: #2A2A2A;
+    --white: #FCFDF8;
+    --text: #B0A9BE;
+    --dim: #847D96;
+    --muted: #3E3F41;
+    --green: #CDF851;
+    --flame: #FF4A23;
+    --amber: #F5A623;
+  }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  /* NAV */
+  nav { background:var(--bg); border-bottom:1px solid var(--border); padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+  nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+  nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:var(--green); }
+  nav .logo .l2 { font-size:10px; font-weight:500; color:var(--muted); }
+  nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+  nav .nav-links { display:flex; align-items:center; gap:2px; }
+  nav .nav-links a { font-size:11px; font-weight:500; color:var(--dim); text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; transition:color 0.15s; }
+  nav .nav-links a:hover { color:var(--white); }
+  nav .nav-links .active-label { font-size:11px; font-weight:700; color:var(--green); padding:6px 10px; border-bottom:2px solid var(--green); }
+  .sndd { position:relative; display:inline-block; }
+  .sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:var(--dim); border-bottom:2px solid transparent; }
+  .sndd-b:hover { color:var(--white); }
+  .sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--bg); border:1px solid var(--border); min-width:240px; z-index:10001; padding:4px 0; margin-top:1px; }
+  .sndd:hover .sndd-m { display:block; }
+  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:var(--text); text-decoration:none; }
+  .sndd-m a:hover { background:var(--border); color:var(--white); }
+
+  /* MAIN */
+  main { max-width:780px; margin:0 auto; padding:48px 24px 120px; }
+  section { margin-bottom:48px; }
+  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green); }
+  .section-divider { border:none; border-top:1px solid var(--green); opacity:0.3; margin:10px 0 24px; }
+  .sub-text { font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:24px; }
+
+  /* TOGGLE */
+  .toggle-bar { display:flex; gap:0; margin-bottom:32px; }
+  .toggle-btn { padding:10px 20px; font-size:12px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--dim); transition:all 0.2s; }
+  .toggle-btn:first-child { border-right:none; }
+  .toggle-btn.active { background:rgba(205,248,81,0.08); color:var(--green); border-color:var(--green); }
+  .view { display:none; }
+  .view.visible { display:block; }
+
+  /* MEETING HEADER */
+  .meeting-header { background:var(--surface); border:1px solid var(--border); padding:20px 24px; margin-bottom:24px; }
+  .mh-type { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:4px; }
+  .mh-title { font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+  .mh-meta { font-size:12px; color:var(--dim); margin-top:6px; }
+
+  /* CALENDAR BAR */
+  .cal-bar { background:var(--surface); border:1px solid var(--border); padding:16px 20px; margin-bottom:24px; }
+  .cal-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); margin-bottom:10px; }
+  .cal-item { font-size:12px; color:var(--text); padding:4px 0; display:flex; gap:12px; }
+  .cal-date { color:var(--dim); min-width:60px; font-weight:600; font-size:11px; }
+
+  /* ARTIST BLOCK */
+  .artist-block { background:var(--surface); border:1px solid var(--border); margin-bottom:12px; overflow:hidden; }
+  .ab-head { padding:16px 20px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:background 0.1s; }
+  .ab-head:hover { background:var(--card); }
+  .ab-name { font-size:16px; font-weight:700; flex:1; }
+  .ab-phase { font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; padding:3px 8px; }
+  .phase-pre { background:rgba(205,248,81,0.08); color:var(--green); }
+  .phase-setup { background:rgba(176,169,190,0.08); color:var(--dim); }
+  .phase-new { background:rgba(245,166,35,0.08); color:var(--amber); }
+  .ab-arr { font-size:11px; color:var(--dim); transition:transform 0.2s; }
+  .artist-block.open .ab-arr { transform:rotate(180deg); color:var(--green); }
+  .ab-detail { display:none; border-top:1px solid var(--border); padding:16px 20px; }
+  .artist-block.open .ab-detail { display:block; }
+
+  /* ITEMS INSIDE ARTIST */
+  .item { padding:8px 0; border-bottom:1px solid rgba(42,42,42,0.4); display:flex; gap:10px; align-items:flex-start; }
+  .item:last-child { border-bottom:none; }
+  .item-flag { width:6px; height:6px; margin-top:7px; flex-shrink:0; }
+  .flag-red { background:var(--flame); }
+  .flag-green { background:var(--green); }
+  .flag-amber { background:var(--amber); }
+  .flag-dim { background:var(--muted); }
+  .item-type { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--dim); min-width:64px; flex-shrink:0; padding-top:1px; }
+  .item-text { font-size:13px; color:var(--text); line-height:1.5; flex:1; }
+  .item-text strong { color:var(--white); }
+  .item-dept { font-size:10px; color:var(--dim); font-style:italic; margin-top:2px; }
+  .item-tag { font-size:9px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; padding:2px 6px; margin-left:8px; flex-shrink:0; }
+  .tag-urgent { background:rgba(255,74,35,0.12); color:var(--flame); }
+  .tag-decision { background:rgba(205,248,81,0.08); color:var(--green); }
+  .tag-resolved { background:rgba(176,169,190,0.08); color:var(--dim); text-decoration:line-through; }
+
+  /* HOW IT WORKS */
+  .flow-steps { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:center; margin-bottom:32px; }
+  .flow-step { background:var(--surface); border:1px solid var(--border); padding:16px; text-align:center; }
+  .flow-step.active { border-color:var(--green); }
+  .fs-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); margin-bottom:4px; }
+  .fs-label.g { color:var(--green); }
+  .fs-title { font-size:14px; font-weight:700; }
+  .fs-desc { font-size:11px; color:var(--dim); margin-top:4px; }
+  .flow-arrow { text-align:center; color:var(--muted); font-size:16px; padding:0 4px; }
+
+  .callout { padding:16px 20px; background:var(--surface); border-left:3px solid var(--green); font-size:13px; color:var(--text); line-height:1.6; }
+  .callout strong { color:var(--green); }
+
+  .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; margin-top:48px; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="release.html">Release View</a>
+<a href="visibility.html">Visibility</a>
+<span class="active-label">Meeting Flow</span>
+<a href="pipeline.html">Pipeline</a>
+<div class="sndd"><span class="sndd-b">Archive &#9662;</span><div class="sndd-m"><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP — Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package — Isaia</a></div></div>
+</div>
+</nav>
+
+<main>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="section-label">Meeting Flow</div>
+    <hr class="section-divider">
+    <div class="sub-text">Before → During → After. Three steps, every week. The system handles the rest.</div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="fs-label">Before</div>
+        <div class="fs-title">Goal Brief</div>
+        <div class="fs-desc">Auto-generated from Airtable. What's on the agenda, what carried over, what happened this week.</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step active">
+        <div class="fs-label g">During</div>
+        <div class="fs-title">Meeting</div>
+        <div class="fs-desc">Decisions, actions, and flags captured in real time. Organized by artist.</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="fs-label">After</div>
+        <div class="fs-title">Notes + Airtable</div>
+        <div class="fs-desc">Notes distributed. Action items written to Airtable. Stale status reminders triggered.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOGGLE: GOAL BRIEF vs MEETING NOTES -->
+  <div class="toggle-bar">
+    <div class="toggle-btn active" id="btnBrief" onclick="showMeeting('brief')">Goal Brief — Before</div>
+    <div class="toggle-btn" id="btnNotes" onclick="showMeeting('notes')">Meeting Notes — After</div>
+  </div>
+
+  <!-- ======================== -->
+  <!-- GOAL BRIEF VIEW -->
+  <!-- ======================== -->
+  <div class="view visible" id="viewBrief">
+
+    <div class="meeting-header">
+      <div class="mh-type">Goal Brief · Active Projects</div>
+      <div class="mh-title">Week of March 11, 2026</div>
+      <div class="mh-meta">Auto-generated Monday · Reviewed Tuesday · Distributed Wednesday AM</div>
+    </div>
+
+    <div class="cal-bar">
+      <div class="cal-title">This Week</div>
+      <div class="cal-item"><span class="cal-date">3/11</span>Isaia Huron — "This Girl Wants Everything" single announcement</div>
+      <div class="cal-item"><span class="cal-date">3/14</span>horsegiirL — "NATURE IS HEALING" pre-save live</div>
+      <div class="cal-item"><span class="cal-date">3/15</span>Foo Fighters — Your Favorite Toy physical pre-order</div>
+    </div>
+
+    <!-- ARTIST: Isaia Huron -->
+    <div class="artist-block open" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">Isaia Huron</span>
+        <span class="ab-phase phase-pre">Pre-Release</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-red"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text"><strong>DSP Asset sheet not started for album.</strong> Single ships 3/27. No talking points, timeline, images, artwork, or genres submitted.<div class="item-dept">→ Digital / Commercial Partnerships</div></div>
+          <span class="item-tag tag-urgent">Urgent</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Sample clearance for "WEW" — terms quoted, not confirmed. Clearance deadline was Feb 9.<div class="item-dept">→ Business &amp; Legal / A&amp;R Admin</div></div>
+          <span class="item-tag tag-urgent">Overdue</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Credits / splits blank in Runway. Writer/composer and producer not entered.<div class="item-dept">→ A&amp;R Admin / Publishing</div></div>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-green"></span>
+          <span class="item-type">Update</span>
+          <div class="item-text">Artwork final and ingested. Press images on Air. W.T.A. visualizer final.</div>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-green"></span>
+          <span class="item-type">Update</span>
+          <div class="item-text">Tour announced — Mr. Lovebomb's Tiny Little Tour, April 20 start.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST: horsegiirL -->
+    <div class="artist-block" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">horsegiirL</span>
+        <span class="ab-phase phase-pre">Pre-Release</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-red"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text"><strong>SAA + SAMP both showing Unknown in Runway.</strong> 5 required/unknown fields total.<div class="item-dept">→ Business &amp; Legal</div></div>
+          <span class="item-tag tag-urgent">Urgent</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Baseline gap analysis in progress. Street date April 3.<div class="item-dept">→ TEMPO</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST: Yeba (new to agenda) -->
+    <div class="artist-block" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">Yeba</span>
+        <span class="ab-phase phase-new">New to Agenda</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-dim"></span>
+          <span class="item-type">Context</span>
+          <div class="item-text">Just added to agenda — no prior action items. Basic release info pulled from Runway.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================== -->
+  <!-- MEETING NOTES VIEW -->
+  <!-- ======================== -->
+  <div class="view" id="viewNotes">
+
+    <div class="meeting-header">
+      <div class="mh-type">Meeting Notes · Active Projects</div>
+      <div class="mh-title">March 11, 2026</div>
+      <div class="mh-meta">Captured during meeting · Distributed same day · Action items written to Airtable</div>
+    </div>
+
+    <!-- ARTIST: Isaia Huron -->
+    <div class="artist-block open" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">Isaia Huron</span>
+        <span class="ab-phase phase-pre">Pre-Release</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-green"></span>
+          <span class="item-type">Decision</span>
+          <div class="item-text"><strong>Single "This Girl Wants Everything" confirmed for 3/27.</strong> Pre-order goes live 3/20.</div>
+          <span class="item-tag tag-decision">Decided</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-red"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text"><strong>Get DSP Asset sheet filled for album ASAP.</strong> Single is 16 days out with zero submissions.<div class="item-dept">→ Digital Marketing · Commercial Partnerships</div></div>
+          <span class="item-tag tag-urgent">Urgent</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Follow up on WEW sample clearance. Terms quoted but clearance deadline already passed.<div class="item-dept">→ Business &amp; Legal</div></div>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Short form strategy conversations with Isaia — schedule this week.<div class="item-dept">→ Marketing / A&amp;R</div></div>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-green"></span>
+          <span class="item-type">Update</span>
+          <div class="item-text">Tour routing confirmed. Intimate venues. Team aligned on "Lovebomb era" creative direction.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST: horsegiirL -->
+    <div class="artist-block" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">horsegiirL</span>
+        <span class="ab-phase phase-pre">Pre-Release</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Confirm SAA and SAMP status — both Unknown, need resolution before April 3 street.<div class="item-dept">→ Business &amp; Legal</div></div>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Staff love discussion — who's championing internally? Needs someone to claim.<div class="item-dept">→ TAP IN</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST: Yeba -->
+    <div class="artist-block" onclick="this.classList.toggle('open')">
+      <div class="ab-head">
+        <span class="ab-name">Yeba</span>
+        <span class="ab-phase phase-new">New to Agenda</span>
+        <span class="ab-arr">▾</span>
+      </div>
+      <div class="ab-detail">
+        <div class="item">
+          <span class="item-flag flag-green"></span>
+          <span class="item-type">Decision</span>
+          <div class="item-text"><strong>Tiny Desk taping — move earlier than originally planned.</strong><div class="item-dept">→ Marketing / Creative</div></div>
+          <span class="item-tag tag-decision">Decided</span>
+        </div>
+        <div class="item">
+          <span class="item-flag flag-amber"></span>
+          <span class="item-type">Action</span>
+          <div class="item-text">Confirm Tiny Desk taping date and logistics.<div class="item-dept">→ Marketing</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <strong>What happened to this data.</strong> 3 decisions, 5 action items, 1 update written to Airtable. Department owners notified. Stale status reminders scheduled for items not resolved by next meeting.
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>Meg Hourihan · RCA Records · March 2026</span>
+    <span>TEMPO · v0</span>
+  </div>
+
+</main>
+
+<script>
+function showMeeting(view) {
+  document.getElementById('viewBrief').classList.toggle('visible', view === 'brief');
+  document.getElementById('viewNotes').classList.toggle('visible', view === 'notes');
+  document.getElementById('btnBrief').classList.toggle('active', view === 'brief');
+  document.getElementById('btnNotes').classList.toggle('active', view === 'notes');
+}
+</script>
+
+</body>
+</html>
