@@ -89,6 +89,24 @@ body {
   font-family: var(--sans-h); font-size: 13px; font-weight: 600;
   letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
 }
+.ap-search {
+  width: 100%; margin-top: 10px; padding: 7px 10px; font-size: 12px;
+  font-family: var(--sans); background: var(--bg); border: 1px solid var(--border);
+  color: var(--white); outline: none; border-radius: 4px;
+}
+.ap-search:focus { border-color: var(--accent); }
+.ap-search::placeholder { color: var(--muted); }
+.ap-sort {
+  display: flex; gap: 4px; margin-top: 8px;
+}
+.sort-btn {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 3px 8px; cursor: pointer; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 3px;
+  transition: all 0.15s;
+}
+.sort-btn:hover { color: var(--white); border-color: var(--white); }
+.sort-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(205,248,81,0.06); }
 .ap-list { flex: 1; overflow-y: auto; padding: 10px; }
 
 .ac {
@@ -503,119 +521,119 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 
 <script>
 const ARTISTS = [
-  {id:'a1',name:'Tate McRae',release:'SO CLOSE TO WHAT???',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a2',name:'SZA',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a3',name:'Chris Brown',release:'—',genre:'R&B',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
-  {id:'a4',name:'A$AP Rocky',release:"Don't Be Dumb",genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a5',name:'Doja Cat',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a6',name:'Justin Timberlake',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a7',name:'Britney Spears',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a8',name:'Khalid',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a9',name:'Tems',release:'—',genre:'R&B',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
-  {id:'a10',name:'Miguel',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a11',name:'Childish Gambino',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a12',name:'P!nk',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a13',name:'Bryson Tiller',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a14',name:'Sleep Token',release:'Caramel',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a15',name:'Three Days Grace',release:'Alienation',genre:'Rock',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a16',name:'Steve Lacy',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a17',name:'Foo Fighters',release:'Caught In The Echo',genre:'Rock',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a18',name:'Kygo',release:'"Kygo',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a19',name:'Becky G',release:'—',genre:'Latin Urban',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a20',name:'Latto',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a21',name:'Mark Ronson',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a22',name:'The Strokes',release:'—',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a23',name:'Alok',release:'"Alok',genre:'Dance',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a24',name:'Myles Smith',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a25',name:'Lizzy McAlpine',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a26',name:'ATEEZ',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a27',name:'Skepta',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a28',name:'Alex G',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a29',name:'Lost Frequencies',release:'"Lost Frequencies',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a30',name:'Tyler Childers',release:'Live From Dinosaur World',genre:'Country',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a31',name:'Rex Orange County',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a32',name:'LISA',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a33',name:'Davido',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a34',name:'H.E.R.',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a35',name:'The Red Clay Strays',release:'—',genre:'Country',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a36',name:'TOOL',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a37',name:'Yebba',release:'—',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a38',name:'CA7RIEL & PACO AMOROSO',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a39',name:'Blood Orange',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a40',name:'KAYTRANADA',release:"AIN'T NO DAMN WAY!",genre:'Dance / Electronic',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a41',name:'Flo Milli',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post'},
-  {id:'a42',name:'Isabel LaRosa',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a43',name:'Purple Disco Machine',release:'—',genre:'Dance',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a44',name:'Kane Brown',release:'Woman',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a45',name:'Sleepy Hallow',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a46',name:'Young Nudy',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a47',name:'Skillibeng',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a48',name:'Teezo Touchdown',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a49',name:'Colter Wall',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a50',name:'RIIZE',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a51',name:'AVAION',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a52',name:'Ari Abdul',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a53',name:'Joey Valence & Brae',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a54',name:'Wolf Alice',release:'Wolf Alice - Spotify Live Room',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a55',name:"D'Angelo",release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a56',name:'Freddie Dredd',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a57',name:'kwn',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a58',name:'Elle King',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a59',name:'Sheff G',release:'Him',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a60',name:'Oliver Heldens',release:'—',genre:'Dance',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a61',name:'Victoria Monét',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a62',name:'JADE',release:'Angel of My Dreams/IT girl',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a63',name:'Sasha Keable',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a64',name:'Eem Triplin',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a65',name:'Audrey Hobert',release:"Who's the Clown?",genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a66',name:'Jazmine Sullivan',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a67',name:'Cat Burns',release:'alone (Stand-alone ancillary video)',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a68',name:'Walker Hayes',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a69',name:'Skye Newman',release:'Woman I Am',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a70',name:'Tyler ICU',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a71',name:'Love Spells',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a72',name:'horsegiirL',release:'an apple a day',genre:'Dance / Electronic',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a73',name:'Lancey Foux',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a74',name:"Aliyah's Interlude",release:'—',genre:'Hip-Hop/Rap',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week'},
-  {id:'a75',name:'Grizzly Bear',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a76',name:'Buddy Guy',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a77',name:'Cam',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a78',name:'The Cavemen.',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a79',name:'Amy Shark',release:'Our Last Fight',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a80',name:'Carter Vail',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a81',name:'London On Da Track',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a82',name:'Chloe Qisha',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a83',name:'Presley Regier',release:'Audacity (Stand-alone ancillary video)',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a84',name:'Ethan Garner',release:'RED WINE STAINS',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a85',name:'Isaia Huron',release:'Breakfast and Matcha (Stand-alone ancillary video)',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a86',name:'Emma Andersen',release:'Freak In The Streets',genre:'Singer / Songwriter',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a87',name:'Ray Vaughn',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a88',name:'BERWYN',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a89',name:'Matt Champion',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a90',name:'Eli',release:'Feel Your Rain',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a91',name:'cieratherapper',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a92',name:'Ally Salort',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a93',name:'Stargate',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a94',name:'Debbii Dawson',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre'},
-  {id:'a95',name:'reggie',release:'—',genre:'Other',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a96',name:'Paco',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a97',name:'JACOTÉNE',release:'—',genre:'R&B',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a98',name:'DAMEDAME*',release:'—',genre:'Electronic',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a99',name:'Arima Ederra',release:'—',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a100',name:'Osé',release:'Bother Me',genre:'Other',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a101',name:'girlsweetvoiced',release:'Tonight',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a102',name:'Suzy Clue',release:'Love Me The Same',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a103',name:'Blessing Jolie',release:'—',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a104',name:'NOAH NOAH',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a105',name:'Baby J',release:'Fallen Angel',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a106',name:'iAMLYRIC',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a107',name:'Jourden',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a108',name:'Jharrel Jerome',release:'—',genre:'R&B',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a109',name:'Room Full of Mirrors',release:'—',genre:'Rock',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a110',name:'LAWSON',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a111',name:'King EJ',release:'—',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a112',name:'Tele',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
-  {id:'a113',name:'Kenna',release:'—',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup'},
+  {id:'a1',name:'Tate McRae',release:'SO CLOSE TO WHAT???',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:87},
+  {id:'a2',name:'SZA',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:87},
+  {id:'a3',name:'Chris Brown',release:'—',genre:'R&B',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week',pop:87},
+  {id:'a4',name:'A$AP Rocky',release:"Don't Be Dumb",genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:86},
+  {id:'a5',name:'Doja Cat',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:85},
+  {id:'a6',name:'Justin Timberlake',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:81},
+  {id:'a7',name:'Britney Spears',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:81},
+  {id:'a8',name:'Khalid',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:81},
+  {id:'a9',name:'Tems',release:'—',genre:'R&B',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week',pop:81},
+  {id:'a10',name:'Miguel',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:79},
+  {id:'a11',name:'Childish Gambino',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:79},
+  {id:'a12',name:'P!nk',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:78},
+  {id:'a13',name:'Bryson Tiller',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:78},
+  {id:'a14',name:'Sleep Token',release:'Caramel',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:77},
+  {id:'a15',name:'Three Days Grace',release:'Alienation',genre:'Rock',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:77},
+  {id:'a16',name:'Steve Lacy',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:77},
+  {id:'a17',name:'Foo Fighters',release:'Caught In The Echo',genre:'Rock',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:76},
+  {id:'a18',name:'Kygo',release:'"Kygo',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:76},
+  {id:'a19',name:'Becky G',release:'—',genre:'Latin Urban',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a20',name:'Latto',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a21',name:'Mark Ronson',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a22',name:'The Strokes',release:'—',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a23',name:'Alok',release:'"Alok',genre:'Dance',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a24',name:'Myles Smith',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a25',name:'Lizzy McAlpine',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a26',name:'ATEEZ',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a27',name:'Skepta',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:75},
+  {id:'a28',name:'Alex G',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:74},
+  {id:'a29',name:'Lost Frequencies',release:'"Lost Frequencies',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:74},
+  {id:'a30',name:'Tyler Childers',release:'Live From Dinosaur World',genre:'Country',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:74},
+  {id:'a31',name:'Rex Orange County',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:74},
+  {id:'a32',name:'LISA',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:74},
+  {id:'a33',name:'Davido',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:73},
+  {id:'a34',name:'H.E.R.',release:'—',genre:'R&B',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:73},
+  {id:'a35',name:'The Red Clay Strays',release:'—',genre:'Country',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:72},
+  {id:'a36',name:'TOOL',release:'—',genre:'Other',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:72},
+  {id:'a37',name:'Yebba',release:'—',genre:'—',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:71},
+  {id:'a38',name:'CA7RIEL & PACO AMOROSO',release:'—',genre:'Pop',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:71},
+  {id:'a39',name:'Blood Orange',release:'—',genre:'Alternative/Indie',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:70},
+  {id:'a40',name:'KAYTRANADA',release:"AIN'T NO DAMN WAY!",genre:'Dance / Electronic',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:70},
+  {id:'a41',name:'Flo Milli',release:'—',genre:'Hip-Hop/Rap',phase:'post',phaseLabel:'Post-Release',phaseClass:'ph-post',pop:70},
+  {id:'a42',name:'Isabel LaRosa',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:69},
+  {id:'a43',name:'Purple Disco Machine',release:'—',genre:'Dance',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:69},
+  {id:'a44',name:'Kane Brown',release:'Woman',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:69},
+  {id:'a45',name:'Sleepy Hallow',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:69},
+  {id:'a46',name:'Young Nudy',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:67},
+  {id:'a47',name:'Skillibeng',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:67},
+  {id:'a48',name:'Teezo Touchdown',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:66},
+  {id:'a49',name:'Colter Wall',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:66},
+  {id:'a50',name:'RIIZE',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:65},
+  {id:'a51',name:'AVAION',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:65},
+  {id:'a52',name:'Ari Abdul',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:65},
+  {id:'a53',name:'Joey Valence & Brae',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:65},
+  {id:'a54',name:'Wolf Alice',release:'Wolf Alice - Spotify Live Room',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:64},
+  {id:'a55',name:"D'Angelo",release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:63},
+  {id:'a56',name:'Freddie Dredd',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:63},
+  {id:'a57',name:'kwn',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:63},
+  {id:'a58',name:'Elle King',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:63},
+  {id:'a59',name:'Sheff G',release:'Him',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:62},
+  {id:'a60',name:'Oliver Heldens',release:'—',genre:'Dance',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:62},
+  {id:'a61',name:'Victoria Monét',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:61},
+  {id:'a62',name:'JADE',release:'Angel of My Dreams/IT girl',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:61},
+  {id:'a63',name:'Sasha Keable',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:61},
+  {id:'a64',name:'Eem Triplin',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:60},
+  {id:'a65',name:'Audrey Hobert',release:"Who's the Clown?",genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:60},
+  {id:'a66',name:'Jazmine Sullivan',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:59},
+  {id:'a67',name:'Cat Burns',release:'alone (Stand-alone ancillary video)',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:59},
+  {id:'a68',name:'Walker Hayes',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:58},
+  {id:'a69',name:'Skye Newman',release:'Woman I Am',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:58},
+  {id:'a70',name:'Tyler ICU',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:57},
+  {id:'a71',name:'Love Spells',release:'—',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:57},
+  {id:'a72',name:'horsegiirL',release:'an apple a day',genre:'Dance / Electronic',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:54},
+  {id:'a73',name:'Lancey Foux',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:54},
+  {id:'a74',name:"Aliyah's Interlude",release:'—',genre:'Hip-Hop/Rap',phase:'week',phaseLabel:'Release Week',phaseClass:'ph-week',pop:53},
+  {id:'a75',name:'Grizzly Bear',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:52},
+  {id:'a76',name:'Buddy Guy',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:51},
+  {id:'a77',name:'Cam',release:'—',genre:'Country',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:50},
+  {id:'a78',name:'The Cavemen.',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:50},
+  {id:'a79',name:'Amy Shark',release:'Our Last Fight',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:49},
+  {id:'a80',name:'Carter Vail',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:47},
+  {id:'a81',name:'London On Da Track',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:47},
+  {id:'a82',name:'Chloe Qisha',release:'—',genre:'Other',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:47},
+  {id:'a83',name:'Presley Regier',release:'Audacity (Stand-alone ancillary video)',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:46},
+  {id:'a84',name:'Ethan Garner',release:'RED WINE STAINS',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:46},
+  {id:'a85',name:'Isaia Huron',release:'Breakfast and Matcha (Stand-alone ancillary video)',genre:'R&B',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:46},
+  {id:'a86',name:'Emma Andersen',release:'Freak In The Streets',genre:'Singer / Songwriter',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:45},
+  {id:'a87',name:'Ray Vaughn',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:45},
+  {id:'a88',name:'BERWYN',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:42},
+  {id:'a89',name:'Matt Champion',release:'—',genre:'Alternative/Indie',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:42},
+  {id:'a90',name:'Eli',release:'Feel Your Rain',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:42},
+  {id:'a91',name:'cieratherapper',release:'—',genre:'Hip-Hop/Rap',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:41},
+  {id:'a92',name:'Ally Salort',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:41},
+  {id:'a93',name:'Stargate',release:'—',genre:'—',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:41},
+  {id:'a94',name:'Debbii Dawson',release:'—',genre:'Pop',phase:'pre',phaseLabel:'Pre-Release',phaseClass:'ph-pre',pop:40},
+  {id:'a95',name:'reggie',release:'—',genre:'Other',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:39},
+  {id:'a96',name:'Paco',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:38},
+  {id:'a97',name:'JACOTÉNE',release:'—',genre:'R&B',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:36},
+  {id:'a98',name:'DAMEDAME*',release:'—',genre:'Electronic',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:35},
+  {id:'a99',name:'Arima Ederra',release:'—',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:31},
+  {id:'a100',name:'Osé',release:'Bother Me',genre:'Other',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:31},
+  {id:'a101',name:'girlsweetvoiced',release:'Tonight',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:30},
+  {id:'a102',name:'Suzy Clue',release:'Love Me The Same',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:30},
+  {id:'a103',name:'Blessing Jolie',release:'—',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:26},
+  {id:'a104',name:'NOAH NOAH',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:22},
+  {id:'a105',name:'Baby J',release:'Fallen Angel',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:22},
+  {id:'a106',name:'iAMLYRIC',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:21},
+  {id:'a107',name:'Jourden',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:19},
+  {id:'a108',name:'Jharrel Jerome',release:'—',genre:'R&B',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:16},
+  {id:'a109',name:'Room Full of Mirrors',release:'—',genre:'Rock',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:11},
+  {id:'a110',name:'LAWSON',release:'—',genre:'Hip-Hop/Rap',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:4},
+  {id:'a111',name:'King EJ',release:'—',genre:'—',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:1},
+  {id:'a112',name:'Tele',release:'—',genre:'Pop',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:0},
+  {id:'a113',name:'Kenna',release:'—',genre:'Alternative/Indie',phase:'setup',phaseLabel:'Setup',phaseClass:'ph-setup',pop:0},
 ];
 
 const AT = {
@@ -753,7 +771,9 @@ const L={
 
 let cur = ARTISTS[0].id;
 let expDepts = new Set();
-let statusFilter = null; // null = all, 'g' = on track, 'y' = needs attn, 'r' = blocked, 'blocks' = has blockers
+let statusFilter = null;
+let sortMode = 'alpha';
+let searchTerm = '';
 
 function getData(a) {
   const ph = a.phase;
@@ -764,10 +784,32 @@ function getData(a) {
 }
 
 function renderAP() {
-  let h = `<div class="ap-head"><div class="ap-label">Artist Releases</div></div><div class="ap-list">`;
-  ARTISTS.forEach((a,i) => {
+  // Sort artists
+  let sorted = [...ARTISTS];
+  if (sortMode === 'alpha') {
+    sorted.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortMode === 'phase') {
+    const phaseOrder = {week: 0, pre: 1, setup: 2, post: 3, catalog: 4};
+    sorted.sort((a, b) => (phaseOrder[a.phase] || 9) - (phaseOrder[b.phase] || 9) || a.name.localeCompare(b.name));
+  }
+
+  // Filter by search
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    sorted = sorted.filter(a => a.name.toLowerCase().includes(q) || a.genre.toLowerCase().includes(q));
+  }
+
+  let h = `<div class="ap-head">
+    <div class="ap-label">Artists · ${sorted.length}</div>
+    <input class="ap-search" type="text" placeholder="Search artists..." value="${searchTerm}" oninput="searchTerm=this.value;renderAP();">
+    <div class="ap-sort">
+      <span class="sort-btn${sortMode==='alpha'?' active':''}" onclick="sortMode='alpha';renderAP();">A–Z</span>
+      <span class="sort-btn${sortMode==='phase'?' active':''}" onclick="sortMode='phase';renderAP();">Soonest Release</span>
+    </div>
+  </div><div class="ap-list">`;
+  sorted.forEach((a,i) => {
     const d = getData(a);
-    h += `<div class="ac${a.id===cur?' active':''}" onclick="sel('${a.id}')" style="animation-delay:${i*0.04}s">
+    h += `<div class="ac${a.id===cur?' active':''}" onclick="sel('${a.id}')" style="animation-delay:${Math.min(i*0.02,0.5)}s">
       <div class="ac-name">${a.name}</div>
       <div class="ac-rel">${a.release}</div>
       <span class="ac-phase ${a.phaseClass}">${a.phaseLabel}</span>
