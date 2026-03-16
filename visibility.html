@@ -820,6 +820,9 @@ function renderAP() {
       </div>
     </div>`;
   });
+  if (sorted.length === 0) {
+    h += '<div style="padding:24px 18px;text-align:center;color:#847D96;font-size:12px;">No artists found.</div>';
+  }
   h += '</div>';
   document.getElementById('ap').innerHTML = h;
 }
@@ -847,6 +850,7 @@ function renderDP() {
       <div class="orient-foot"><p>This extends our existing Airtable base — the sections you see here (Team, Calendar, Releases, Partners) are already built. The new layer is department status tracking across lifecycle stages.</p></div>
     </div>
   </div>
+  <div style="padding:8px 16px;font-size:10px;color:#847D96;border-bottom:1px solid #2A2A2A;background:#141414;">Team assignments are real, from Airtable. Department status shown as phase templates — per-artist data populates during pilot.</div>
   <div class="hero">
     <div class="hero-phase">${a.phaseLabel} · ${a.genre}</div>
     <div class="hero-name">${a.name}</div>
