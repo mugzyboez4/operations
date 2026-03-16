@@ -113,6 +113,28 @@
   .callout strong { color:var(--green); }
 
   .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; margin-top:48px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
+    main { padding:32px 14px 80px; }
+    .flow-steps { grid-template-columns:1fr; gap:8px; }
+    .flow-arrow { transform:rotate(90deg); padding:4px 0; }
+    .toggle-bar { flex-direction:row; }
+    .toggle-btn { flex:1; text-align:center; font-size:11px; padding:10px 12px; }
+    .meeting-header { padding:16px; }
+    .mh-title { font-size:18px; }
+    .cal-bar { padding:12px 14px; }
+    .ab-head { flex-wrap:wrap; gap:8px; }
+    .ab-name { font-size:15px; }
+    .ab-detail { padding:12px 14px; }
+    .item { flex-wrap:wrap; }
+    .item-type { min-width:auto; }
+    .item-tag { margin-left:0; margin-top:4px; }
+    .callout { padding:14px 16px; }
+    .footer { flex-direction:column; gap:4px; }
+  }
 </style>
 </head>
 <body>

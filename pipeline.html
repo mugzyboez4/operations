@@ -76,6 +76,19 @@
   .pipe-plan li::before { content:''; position:absolute; left:0; top:9px; width:4px; height:4px; background:var(--fog-dim); }
 
   .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
+    main { padding:40px 16px 80px; }
+    h1 { font-size:32px; }
+    .pipe-head { padding:16px; flex-wrap:wrap; gap:8px; }
+    .pipe-name { font-size:14px; }
+    .pipe-detail { padding:0 16px 16px; }
+    .pipe-plan li { font-size:11px; }
+    .bottom-note { flex-direction:column; gap:4px; }
+  }
 </style>
 </head>
 <body>

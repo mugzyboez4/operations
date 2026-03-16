@@ -150,6 +150,36 @@
   .callout strong { color:var(--green); }
 
   .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
+    main { padding:32px 14px 80px; }
+    .release-header { padding:20px 16px; }
+    .rh-meta { gap:16px; }
+    .status-grid { grid-template-columns:1fr; }
+    .source-grid { grid-template-columns:1fr; }
+    .dp-hero { flex-direction:column; gap:16px; }
+    .dp-stats { justify-content:flex-start; }
+    .dp-cols { grid-template-columns:1fr; }
+    .dp-col:not(:last-child) { border-right:none; border-bottom:1px solid var(--border); padding-bottom:12px; }
+    .dp-head { flex-wrap:wrap; gap:8px; }
+    .dp-dept-name { min-width:auto; }
+    .dp-dept-sum { width:100%; order:5; }
+    .track-table { font-size:12px; }
+    .track-table th, .track-table td { padding:6px 8px; }
+    .pitch-card { padding:18px; }
+    .callout { padding:14px 16px; }
+    .footer { flex-direction:column; gap:4px; }
+    section { margin-bottom:36px; }
+  }
+  @media (max-width: 480px) {
+    .dp-name { font-size:22px; }
+    .dp-stat-num { font-size:22px; }
+    .rh-meta { flex-direction:column; gap:10px; }
+    .field-row { flex-direction:column; gap:4px; align-items:flex-start; }
+  }
 </style>
 </head>
 <body>

@@ -126,6 +126,33 @@
   .callout-dim { padding:14px 20px; background:var(--surface); border-left:3px solid var(--muted); font-size:12px; color:var(--dim); line-height:1.6; margin-bottom:16px; }
 
   .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
+    main { padding:32px 14px 80px; }
+    .tpl-banner { flex-direction:column; gap:12px; padding:20px; }
+    .tpl-title { font-size:16px; }
+    .legend { flex-wrap:wrap; gap:8px; }
+    .flow { grid-template-columns:1fr; gap:8px; }
+    .flow-arr { transform:rotate(90deg); padding:4px 0; }
+    .rh-fields { grid-template-columns:1fr; }
+    .status-grid { grid-template-columns:1fr; }
+    .dept-row { grid-template-columns:1fr; gap:8px; padding:14px 16px; }
+    .dept-row > div:first-child { border-bottom:1px solid var(--border); padding-bottom:8px; }
+    .dept-name { font-size:14px; font-weight:700; }
+    .callout { padding:14px 16px; }
+    .callout-dim { padding:12px 16px; }
+    .footer { flex-direction:column; gap:4px; }
+  }
+  @media (max-width: 480px) {
+    .src { font-size:8px; padding:1px 4px; }
+    .rh-field { padding:8px 10px; }
+    .rh-field-value { font-size:13px; }
+    .fb-title { font-size:13px; }
+    .fb-desc { font-size:10px; }
+  }
 </style>
 </head>
 <body>

@@ -385,14 +385,47 @@ body {
 .hero { animation: fadeIn 0.2s ease; }
 .dr-row { animation: fadeIn 0.15s ease backwards; }
 
+/* MOBILE TOGGLE */
+.mobile-toggle {
+  display:none;
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  z-index:9998; padding:10px 20px;
+  background:var(--accent); color:#0F0E0E;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:0.5px; text-transform:uppercase;
+  border:none; cursor:pointer; border-radius:4px;
+  box-shadow:0 4px 20px rgba(205,248,81,0.3);
+}
+
 @media (max-width: 900px) {
   .ap { width: 240px; min-width: 240px; }
   .orient-grid { grid-template-columns: 1fr; }
   .dr-cols { grid-template-columns: 1fr; }
   .dr-col:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
   .hero-name { font-size: 38px; }
+  nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
 }
-@media (max-width: 700px) { .ap { display: none; } }
+
+@media (max-width: 700px) {
+  .mobile-toggle { display:block; }
+  .main { flex-direction:column; height:auto; }
+  .ap { width:100%; min-width:100%; max-height:60vh; border-right:none; border-bottom:1px solid var(--border); display:none; }
+  .ap.mobile-show { display:flex; flex-direction:column; }
+  .dp { width:100%; min-height:100vh; }
+  .header { flex-wrap:wrap; gap:8px; padding:8px 12px; }
+  .header-right { width:100%; display:flex; flex-wrap:wrap; gap:4px; }
+  .h-btn, .h-btn-info, .h-btn-red { font-size:10px; padding:0 8px; height:28px; }
+  .hero-name { font-size:28px; }
+  .hero-sub { font-size:12px; }
+  .hero-phase { font-size:10px; padding:3px 8px; }
+  .hero-meta { gap:16px; flex-wrap:wrap; }
+  .team-grid { grid-template-columns:1fr; }
+  .cal-item { flex-direction:column; gap:2px; }
+  .dr-cols { grid-template-columns:1fr; }
+  .dr-col:not(:last-child) { border-right:none; border-bottom:1px solid var(--border); }
+  .stat-row { flex-wrap:wrap; gap:6px; }
+}
 
 /* SITE NAV DROPDOWN */
 /* NAV */
@@ -443,6 +476,7 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
   </div>
 </div>
 
+<button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileAP()">Browse Artists</button>
 <div class="main">
   <div class="ap" id="ap"></div>
   <div class="dp" id="dp"></div>
@@ -987,7 +1021,13 @@ function renderDP() {
   document.getElementById('dp').innerHTML=h;
 }
 
-function sel(id){cur=id;expDepts.clear();statusFilter=null;renderAP();renderDP();document.getElementById('dp').scrollTop=0;}
+function sel(id){cur=id;expDepts.clear();statusFilter=null;function toggleMobileAP() {
+  const ap = document.getElementById('ap');
+  const btn = document.getElementById('mobileToggle');
+  ap.classList.toggle('mobile-show');
+  btn.textContent = ap.classList.contains('mobile-show') ? 'View Details' : 'Browse Artists';
+}
+renderAP();renderDP();document.getElementById('dp').scrollTop=0;}
 function togD(d){if(expDepts.has(d))expDepts.delete(d);else expDepts.add(d);renderDP();}
 function filterStatus(s){
   statusFilter=(statusFilter===s)?null:s;
@@ -1005,6 +1045,12 @@ function togSec(el){el.closest('.at-section').classList.toggle('open');}
 function openM(id){document.getElementById('m-'+id).classList.add('vis');}
 function closeM(id){document.getElementById('m-'+id).classList.remove('vis');}
 
+function toggleMobileAP() {
+  const ap = document.getElementById('ap');
+  const btn = document.getElementById('mobileToggle');
+  ap.classList.toggle('mobile-show');
+  btn.textContent = ap.classList.contains('mobile-show') ? 'View Details' : 'Browse Artists';
+}
 renderAP();renderDP();
 </script>
 </body>
