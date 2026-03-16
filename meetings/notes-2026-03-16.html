@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Production Meeting Notes — Mar 16, 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+body { margin:0; padding:0; background-color:#0F0E0E; font-family:'Inter',Arial,Helvetica,sans-serif; }
+
+/* NAV */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+
+  /* SUB-HEADER */
+  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
+  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
+  .sub-header .sh-link:hover { color:#FCFDF8; }
+  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
+</style>
+</head>
+<body style="margin:0; padding:0; background-color:#0F0E0E;">
+<nav>
+<a href="../index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
+<div class="nav-links">
+<div class="sndd"><span class="sndd-b">Pilot &#9662;</span><div class="sndd-m"><a href="../pilot.html">Pilot Overview</a><a href="../demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
+<a href="../demo.html">Demo</a>
+<a href="../cadence.html">Cadence</a>
+<div class="sndd"><span class="sndd-b active">Meetings &#9662;</span><div class="sndd-m"><a href="../meetings/notes-2026-03-16.html">Production Notes — 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+<a href="../rollout.html">Rollout</a>
+<a href="../comms.html">Comms</a>
+<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../pipeline.html">Pipeline Overview</a><a href="../prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
+</div>
+</nav>
+<div class="sub-header"><span class="sh-active">Production Notes — 3/16</span><a href="../meetings/goal-brief-2026-03-11.html" class="sh-link">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html" class="sh-link">Meeting Notes — 3/4</a></div>
+
+
+</div>
+
+</div>
+
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0E0E;">
+<tr><td align="center" style="padding:32px 16px;">
+<table width="700" cellpadding="0" cellspacing="0" border="0" style="max-width:700px; width:100%; background-color:#0F0E0E;">
+
+<!-- HEADER -->
+<tr>
+<td style="padding-bottom:16px; border-bottom:2px solid #CDF851;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="vertical-align:top;">
+        <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; font-family:'Inter',Arial,sans-serif;">RCA Records</p>
+        <p style="margin:0; font-size:20px; font-weight:900; letter-spacing:-0.02em; color:#FCFDF8; font-family:'Inter',Arial,sans-serif;">Production Meeting &mdash; Notes</p>
+      </td>
+      <td style="vertical-align:top; text-align:right; padding-left:20px; white-space:nowrap;">
+        <p style="margin:0 0 3px 0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Date: <span style="color:#FCFDF8; font-weight:600;">Monday, March 16, 2026</span></p>
+        <p style="margin:0 0 3px 0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Scope: <span style="color:#FCFDF8; font-weight:600;">Release weeks 3/20 through 4/24</span></p>
+        <p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Version: <span style="color:#FCFDF8; font-weight:600;">V1 &mdash; with Airtable mapping</span></p>
+      </td>
+    </tr>
+  </table>
+</td>
+</tr>
+
+<tr><td style="height:20px;"></td></tr>
+
+<!-- AIRTABLE TRANSLATION KEY -->
+<tr>
+<td style="background-color:#181818; border:1px solid #2A2A2A; padding:14px 16px;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="vertical-align:top; padding-right:20px;">
+        <p style="margin:0 0 8px 0; font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#CDF851; font-family:'Inter',Arial,sans-serif;">How This Feeds Airtable</p>
+        <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.6; font-family:'Inter',Arial,sans-serif;">Every section of these notes maps to a table in the visibility system. The <span style="color:#CDF851; font-weight:700;">AT&rarr;</span> tags show exactly where each item goes.</p>
+      </td>
+      <td style="vertical-align:top; white-space:nowrap;">
+        <p style="margin:0 0 4px 0; font-size:10px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> <span style="font-weight:600; color:#FCFDF8;">Calendar</span> = date/event record</p>
+        <p style="margin:0 0 4px 0; font-size:10px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> <span style="font-weight:600; color:#FCFDF8;">Dept Status</span> = status change</p>
+        <p style="margin:0 0 4px 0; font-size:10px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> <span style="font-weight:600; color:#FCFDF8;">Update Log</span> = decision/recap</p>
+        <p style="margin:0; font-size:10px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> <span style="font-weight:600; color:#FCFDF8;">Action Items</span> = task + owner</p>
+      </td>
+    </tr>
+  </table>
+</td>
+</tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- ⚑ NEEDS ATTENTION -->
+<tr>
+<td>
+  <p style="margin:0 0 4px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#FF4A23; font-family:'Inter',Arial,sans-serif;">&#9873; Needs Attention</p>
+  <p style="margin:0 0 12px 0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Dept Status &rarr; Status = Blocked &nbsp;|&nbsp; Update Log &rarr; flag as Needs Attention</p>
+</td>
+</tr>
+
+<tr>
+<td style="padding:10px 16px; background-color:#1A1A1A; border-left:3px solid #FF4A23; margin-bottom:4px;">
+  <p style="margin:0 0 3px 0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#FF4A23; font-family:'Inter',Arial,sans-serif;">AUDIO &middot; <span style="color:#FCFDF8;">Presley</span></p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">No final approved mix for 3/27 single. Scheduled for mastering today but no guarantee mix is ready. Recommendation: move the date. Decision needed within 24 hours.</p>
+</td>
+</tr>
+<tr><td style="height:4px;"></td></tr>
+
+<tr>
+<td style="padding:10px 16px; background-color:#1A1A1A; border-left:3px solid #FF4A23;">
+  <p style="margin:0 0 3px 0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#FF4A23; font-family:'Inter',Arial,sans-serif;">TIMING &middot; <span style="color:#FCFDF8;">Horsegirl</span></p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Apple a Day release timing unclear &mdash; local midnights vs. 9 AM Eastern. Previous singles were 9 AM. Need consistency across Apple a Day (3/20), pre-order (4/3), and That&rsquo;s My Beach (4/3). Management confirmation needed today.</p>
+</td>
+</tr>
+<tr><td style="height:4px;"></td></tr>
+
+<tr>
+<td style="padding:10px 16px; background-color:#1A1A1A; border-left:3px solid #FF4A23;">
+  <p style="margin:0 0 3px 0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#FF4A23; font-family:'Inter',Arial,sans-serif;">DELIVERY &middot; <span style="color:#FCFDF8;">Latto</span></p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Assets expected very late. Wednesday is the target for all deliverables. Conference with cover team Wednesday to assess status. Release globally timed, midnight Eastern.</p>
+</td>
+</tr>
+<tr><td style="height:4px;"></td></tr>
+
+<tr>
+<td style="padding:10px 16px; background-color:#1A1A1A; border-left:3px solid #FF4A23;">
+  <p style="margin:0 0 3px 0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#FF4A23; font-family:'Inter',Arial,sans-serif;">AUDIO &middot; <span style="color:#FCFDF8;">Allie (L.A. Soul Lord)</span></p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Finish Line (4/3) missing master and artwork. Track being mixed. Artwork in process. Two and a half weeks out.</p>
+</td>
+</tr>
+
+<tr><td style="height:28px;"></td></tr>
+
+<!-- SCHEDULE MOVES -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Schedule Moves</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;">Dates changed or confirmed in this meeting &nbsp;&middot;&nbsp; <span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Calendar (update records)</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">BECKY G</span> &nbsp; &ldquo;Marathon&rdquo; moved to 3/27 with official video. Master approved and ingested. Album moves to 7/10, focus track &ldquo;Patrona&rdquo; with OV. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;2</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ISAIAH HURON</span> &nbsp; &ldquo;This Girl Wants Everything&rdquo; moved to 3/27. Pre-order and countdown page launch. Album 4/10 confirmed. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;2</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ELI</span> &nbsp; &ldquo;Feel Your Reign&rdquo; moves to 3/27 with pre-order. More timeline changes expected. Stage Girl Deluxe pre-order 3/27. Deluxe street date 4/24. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;3</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">FOO FIGHTERS</span> &nbsp; Track switch: &ldquo;Child Actor&rdquo; off 3/20 schedule, replaced by &ldquo;Caught in the Echo.&rdquo; Dates unchanged. Album 4/24. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;2</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">OSE</span> &nbsp; Single moved from 3/25 to 4/8 with official video. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ASAP ROCKY</span> &nbsp; &ldquo;Don&rsquo;t Be Dumb&rdquo; deluxe album moves to TBS. Await further word. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">LATTO</span> &nbsp; Album date corrected to 5/29 (not 5/22). <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar</span></p>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- THIS WEEK: MARCH 20 -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; font-family:'Inter',Arial,sans-serif;">Release Week &mdash; March 20</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;">Delivery status + official videos &nbsp;&middot;&nbsp; <span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Calendar + Dept Status</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ETHAN GARNER</span> &nbsp; &ldquo;Red Wine Stains&rdquo; &mdash; delivered. Official video (visual effort, more muscular than visualizer). Atmos confirmed. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Delivered</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">FOO FIGHTERS</span> &nbsp; &ldquo;Caught in the Echo&rdquo; &mdash; atmos confirmed. Lyric video (parenthetical). <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">HORSEGIRL</span> &nbsp; &ldquo;Apple a Day&rdquo; &mdash; delivered. Final artwork in as of 8 AM today. Pseudo video or management-provided TBD, wrapping up today. Release timing TBD (see flag above). <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">LATTO</span> &nbsp; First single, globally timed midnight Eastern. Friday release. Assets late &mdash; Wednesday target. Manual upload for official video. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status + Calendar</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">CATRIEL &amp; PACO</span> &nbsp; &ldquo;Apocal Maroso&rdquo; album &mdash; Thursday 3/19. Sony Latin handling delivery. On track. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Delivered</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ISAIAH HURON</span> &nbsp; Single delivered. Pre-order delivered, live Friday. All tracks greyed out except Track 1 (single) and Track 18 (&ldquo;Somebody,&rdquo; already out). <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Delivered</span></p>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- NEXT WEEK: MARCH 27 -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Release Week &mdash; March 27</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;">Delivery readiness check &nbsp;&middot;&nbsp; <span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Calendar + Dept Status</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">BECKY G</span> ft. Elken (also producer; product-level primary for him) &nbsp; OV in effects/color, delivery target this Friday. On track. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ELI</span> &nbsp; &ldquo;Feel Your Reign&rdquo; &mdash; master is in. Artwork in process, following up. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">GIRLSWEETVOICED</span> &nbsp; &ldquo;Tonight&rdquo; &mdash; artwork in process per this morning. Master is in. OV shot this weekend, look for VA by EOD today. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ISAIAH HURON</span> &nbsp; Delivered. Ready to go. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Delivered</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">PRESLEY</span> &nbsp; <span style="color:#FF4A23; font-weight:700;">&#9679;</span> Audio not ready. Mix not approved. Mastering today but no guarantee. Suggest moving date. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Blocked</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">CHEF G</span> &nbsp; Winter Circle master confirmed &mdash; delivered. Win: 10 days out. OV status TBD, following up. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Dept Status &rarr; Delivered</span></p>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- NEW TIMELINES -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">New Timelines Established</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Calendar (new records) + Releases</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">LOVE SPELLS</span> <span style="font-size:9px; color:#847D96;">(new signing)</span> &nbsp; &ldquo;Crutch&rdquo; + OV 5/1 &rarr; &ldquo;Keep It to Yourself&rdquo; + OV + album/tour announce + CDP pre-order 5/29 &rarr; TBD single 6/26 &rarr; &ldquo;Love is the Law&rdquo; album 7/24. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;4</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">PACO</span> &nbsp; &ldquo;Control&rdquo; 4/3 &rarr; &ldquo;Innocente&rdquo; 5/1 &rarr; &ldquo;Espada la Peret&rdquo; 6/5. All singles. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;3</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">KHALID</span> &nbsp; &ldquo;Tied Up&rdquo; (with Love Trek) 4/24. Still being mixed, no final master. <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar</span></p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;"><span style="font-weight:700; color:#FCFDF8;">ALLIE (L.A. SOUL LORD)</span> &nbsp; &ldquo;Finish Line&rdquo; 4/3. <span style="font-weight:700; color:#FCFDF8;">BABY J</span> &nbsp; &ldquo;Fallen Angel&rdquo; 4/7 (Tuesday). <span style="font-weight:700; color:#FCFDF8;">THE STROKES</span> &nbsp; first single 4/9 (Thursday 8 AM Eastern). <span style="color:#CDF851; font-size:10px; font-weight:600;">AT&rarr; Calendar &times;3</span></p>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- APRIL LOOK-AHEAD -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">April Look-Ahead</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Calendar + Releases</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0 0 2px 0; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#847D96; font-family:'Inter',Arial,sans-serif;">APRIL 3</p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Paco &ldquo;Control&rdquo; (mixed, not yet mastered, artwork shot this weekend) &middot; Allie &ldquo;Finish Line&rdquo; (missing master + art) &middot; Horsegirl &ldquo;That&rsquo;s My Beach&rdquo; pre-order + album announce (artwork taking album art, final files in this morning, going to Sandra) &middot; Horsegirl pre-order timing TBD</p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0 0 2px 0; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#847D96; font-family:'Inter',Arial,sans-serif;">APRIL 7&ndash;10</p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Baby J &ldquo;Fallen Angel&rdquo; 4/7 (Tue) &middot; Ose single 4/8 + OV &middot; The Strokes first single 4/9 (Thu 8 AM Eastern) &middot; Isaiah Huron album 4/10</p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #1A1A1A;">
+  <p style="margin:0 0 2px 0; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#847D96; font-family:'Inter',Arial,sans-serif;">APRIL 17</p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Hailey Picardi TBD single #4 + EP/album pre-order. Track not in hand. Sequence unknown.</p>
+</td></tr>
+
+<tr><td style="padding:5px 0; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#847D96; font-family:'Inter',Arial,sans-serif;">APRIL 22&ndash;24</p>
+  <p style="margin:0; font-size:13px; color:#B0A9BE; line-height:1.5; font-family:'Inter',Arial,sans-serif;">Horsegirl &ldquo;Earth is Turning&rdquo; 4/22 (Earth Day, timing TBD) &middot; Red Clay Strays &ldquo;Demons in Your Choir&rdquo; 4/23 (Thu 8 AM Eastern, take album) &middot; Emma Anderson &ldquo;Freak in the Streets&rdquo; 4/24 &middot; Khalid &ldquo;Tied Up&rdquo; 4/24 (no master yet) &middot; Eli Stage Girl Deluxe 4/24 &middot; Foo Fighters album 4/24 &middot; Presley &ldquo;Sensitive to the Room&rdquo; EP 4/24</p>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- ACTIONS -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; font-family:'Inter',Arial,sans-serif;">Actions This Week</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;"><span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Action Items table (artist, task, owner, due date, status)</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Digital</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Horsegirl &mdash; confirm Apple a Day timing (local midnights vs. 9 AM) with management, <em>today</em></p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Creative</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Horsegirl &mdash; confirm pseudo video or management asset, <em>today</em></p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Team</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Latto &mdash; conference with cover team Wednesday on all assets</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">A&amp;R</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Presley &mdash; decision within 24 hours on moving 3/27 date</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Creative</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Becky G &mdash; Marathon OV deliver by Friday</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Creative</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">GirlSweetVoiced &mdash; OV look for VA by EOD today</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Creative</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Chef G &mdash; follow up on OV status</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">Creative</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Horsegirl &mdash; That&rsquo;s My Beach artwork files to Sandra</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">A&amp;R</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Becky G &mdash; deliver artwork for Marathon (target tomorrow)</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">A&amp;R</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Horsegirl &mdash; resolve uncleared sample on That&rsquo;s My Beach + deliver revised audio</p></td>
+  </tr></table>
+</td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #2A2A2A;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr>
+    <td width="52" style="vertical-align:top; padding-right:8px;"><span style="font-size:9px; font-weight:700; letter-spacing:0.5px; color:#FCFDF8; padding:2px 0; font-family:'Inter',Arial,sans-serif;">A&amp;R</span></td>
+    <td style="vertical-align:top;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Hailey Picardi &mdash; circle back on single #4 track selection + sequence</p></td>
+  </tr></table>
+</td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- OUTSTANDING QUESTIONS -->
+<tr>
+<td style="padding-bottom:8px; border-bottom:1px solid #2A2A2A;">
+  <p style="margin:0 0 2px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Outstanding Questions</p>
+  <p style="margin:0; font-size:9px; color:#847D96; font-family:'Inter',Arial,sans-serif;">No action item yet &mdash; carry forward &nbsp;&middot;&nbsp; <span style="color:#CDF851; font-weight:700;">AT&rarr;</span> Update Log (status = Open Question)</p>
+</td>
+</tr>
+<tr><td style="height:6px;"></td></tr>
+
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">&cir; &nbsp; <span style="color:#FCFDF8;">Horsegirl</span> &mdash; single timing consistency: local midnights or globally timed 9 AM Eastern?</p></td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">&cir; &nbsp; <span style="color:#FCFDF8;">Hailey Picardi</span> &mdash; April 17 single #4 track selection + project sequence</p></td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">&cir; &nbsp; <span style="color:#FCFDF8;">Eli</span> &mdash; more timeline changes expected beyond Feel Your Reign</p></td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #1A1A1A;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">&cir; &nbsp; <span style="color:#FCFDF8;">Khalid</span> &mdash; &ldquo;Tied Up&rdquo; still being mixed, 4/24 target at risk</p></td></tr>
+<tr><td style="padding:4px 0; border-bottom:1px solid #2A2A2A;"><p style="margin:0; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">&cir; &nbsp; <span style="color:#FCFDF8;">ASAP Rocky</span> &mdash; &ldquo;Don&rsquo;t Be Dumb&rdquo; deluxe TBS, awaiting further word</p></td></tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+<!-- AIRTABLE TRANSLATION SUMMARY -->
+<tr>
+<td style="background-color:#181818; border:1px solid #CDF851; padding:16px;">
+  <p style="margin:0 0 10px 0; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; font-family:'Inter',Arial,sans-serif;">Airtable Translation &mdash; This Meeting</p>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+    <tr style="border-bottom:1px solid #2A2A2A;">
+      <td style="padding:6px 10px 6px 0; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Table</td>
+      <td style="padding:6px 10px; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Records Created</td>
+      <td style="padding:6px 0 6px 10px; font-size:9px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">From</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2A2A2A;">
+      <td style="padding:5px 10px 5px 0; font-size:11px; color:#FCFDF8; font-weight:600; font-family:'Inter',Arial,sans-serif;">Calendar</td>
+      <td style="padding:5px 10px; font-size:11px; color:#CDF851; font-weight:700; font-family:'Inter',Arial,sans-serif;">~25 events</td>
+      <td style="padding:5px 0 5px 10px; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Release dates, schedule moves, new timelines across 20+ artists</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2A2A2A;">
+      <td style="padding:5px 10px 5px 0; font-size:11px; color:#FCFDF8; font-weight:600; font-family:'Inter',Arial,sans-serif;">Update Log</td>
+      <td style="padding:5px 10px; font-size:11px; color:#CDF851; font-weight:700; font-family:'Inter',Arial,sans-serif;">~15 records</td>
+      <td style="padding:5px 0 5px 10px; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Delivery status, track switches, schedule moves</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2A2A2A;">
+      <td style="padding:5px 10px 5px 0; font-size:11px; color:#FCFDF8; font-weight:600; font-family:'Inter',Arial,sans-serif;">Action Items</td>
+      <td style="padding:5px 10px; font-size:11px; color:#CDF851; font-weight:700; font-family:'Inter',Arial,sans-serif;">11 tasks</td>
+      <td style="padding:5px 0 5px 10px; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Artwork, audio, timing confirmations, OV deliveries</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2A2A2A;">
+      <td style="padding:5px 10px 5px 0; font-size:11px; color:#FCFDF8; font-weight:600; font-family:'Inter',Arial,sans-serif;">Dept Status</td>
+      <td style="padding:5px 10px; font-size:11px; color:#FF4A23; font-weight:700; font-family:'Inter',Arial,sans-serif;">4 flags</td>
+      <td style="padding:5px 0 5px 10px; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Presley audio, Horsegirl timing, Latto delivery, Allie master/art</td>
+    </tr>
+    <tr>
+      <td style="padding:5px 10px 5px 0; font-size:11px; color:#FCFDF8; font-weight:600; font-family:'Inter',Arial,sans-serif;">Outstanding Qs</td>
+      <td style="padding:5px 10px; font-size:13px; color:#B0A9BE; font-weight:700; font-family:'Inter',Arial,sans-serif;">5 items</td>
+      <td style="padding:5px 0 5px 10px; font-size:13px; color:#B0A9BE; font-family:'Inter',Arial,sans-serif;">Open Question status in Update Log &mdash; auto-surfaces until resolved</td>
+    </tr>
+  </table>
+</td>
+</tr>
+
+<tr><td style="height:28px;"></td></tr>
+
+<!-- FOOTER -->
+<tr>
+<td style="border-top:1px solid #2A2A2A; padding-top:14px;">
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td><span style="font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#3E3F41; font-family:'Inter',Arial,sans-serif;">Meg Hourihan &middot; RCA Records &middot; March 2026</span></td>
+    <td align="right"><span style="font-size:9px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; background-color:#FF4A23; color:#FCFDF8; padding:3px 8px; font-family:'Inter',Arial,sans-serif;">Internal Use Only</span></td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<tr><td style="height:24px;"></td></tr>
+
+</table>
+</td></tr>
+</table>
+
+</body>
+</html>
