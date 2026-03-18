@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prep Package — A Room Full of Mirrors · RCA Records</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --black: #0F0E0E;
+    --dark: #1A1A1A;
+    --card: #1F1F1F;
+    --offwhite: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --fog: #847D96;
+    --slate: #3E3F41;
+    --blue: #3B82F6;
+    --amber: #F59E0B;
+    --font: 'Inter', -apple-system, sans-serif;
+    --mono: 'Inter', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--offwhite);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== TOP NAV ===== */
+  .topbar {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: var(--black);
+    border-bottom: 1px solid var(--slate);
+    backdrop-filter: blur(20px);
+  }
+
+  .topbar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .topbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0 12px 0;
+  }
+
+  .topbar-title {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--fog);
+    font-weight: 400;
+  }
+
+  .topbar-title span { color: var(--chartreuse); font-weight: 600; }
+
+  .topbar-badge {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fog);
+    border: 1px solid var(--slate);
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-family: var(--mono);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 12px 24px 14px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fog);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+    user-select: none;
+  }
+
+  .tab:hover { color: var(--offwhite); }
+
+  .tab.active {
+    color: var(--chartreuse);
+    border-bottom-color: var(--chartreuse);
+    font-weight: 600;
+  }
+
+  .tab .tab-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--slate);
+    margin-right: 6px;
+    font-weight: 400;
+  }
+
+  .tab.active .tab-num { color: var(--chartreuse); opacity: 0.6; }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 160px 32px 80px 32px;
+  }
+
+  .page { display: none; animation: fadeIn 0.3s ease; }
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== CONTENT PAGES ===== */
+  .section-header {
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--chartreuse);
+    margin-bottom: 20px;
+    margin-top: 48px;
+    font-weight: 600;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--slate);
+  }
+
+  .section-header:first-child { margin-top: 40px; }
+
+  .page-title {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--fog);
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--dark);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .card-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: var(--dark);
+    border-radius: 3px;
+    margin-bottom: 24px;
+  }
+
+  .status-item {
+    padding: 14px 16px;
+    text-align: center;
+    border-right: 1px solid var(--slate);
+  }
+
+  .status-item:last-child { border-right: none; }
+
+  .status-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fog);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .status-value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* Numbered sections (dossier) */
+  .numbered-card {
+    background: var(--dark);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .numbered-label {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--chartreuse);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .numbered-card p, .numbered-card .detail {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .detail-label { color: var(--fog); }
+  .detail-label + span, .detail-value { color: var(--offwhite); }
+
+  /* North stars */
+  .ns-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .ns-num {
+    width: 28px;
+    height: 28px;
+    background: var(--chartreuse);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .ns-text .ns-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .ns-text .ns-depts {
+    font-size: 11px;
+    color: var(--fog);
+  }
+
+  .ns-text .ns-desc {
+    font-size: 12px;
+    color: var(--fog);
+    margin-bottom: 2px;
+    line-height: 1.5;
+  }
+
+  /* Key metrics row */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: var(--dark);
+    border-radius: 3px;
+    margin-bottom: 24px;
+  }
+
+  .metric {
+    padding: 14px 16px;
+    text-align: center;
+    border-right: 1px solid var(--slate);
+  }
+
+  .metric:last-child { border-right: none; }
+
+  .metric .val { font-size: 20px; font-weight: 700; color: var(--chartreuse); }
+  .metric .val.white { color: var(--offwhite); }
+  .metric .val.pending { color: var(--fog); font-size: 14px; }
+  .metric .lbl { font-size: 10px; color: var(--fog); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* Briefing dept cards */
+  .brief-card {
+    background: var(--dark);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .brief-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .brief-card-title { font-size: 20px; font-weight: 700; }
+  .brief-card-ns { font-size: 11px; color: var(--fog); }
+
+  .brief-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--offwhite);
+  }
+
+  .brief-card .note {
+    font-size: 11px;
+    color: var(--fog);
+    margin-top: 6px;
+  }
+
+  /* Quick ref grid */
+  .qr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 12px;
+  }
+
+  .qr-grid .qr-item { padding: 3px 0; }
+  .qr-grid .qr-label { color: var(--fog); }
+
+  /* Release table */
+  .rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .rel-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--black);
+    color: var(--fog);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--slate);
+  }
+
+  .rel-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--slate);
+  }
+
+  /* WIP banner */
+  .wip-banner {
+    background: var(--dark);
+    border: 1px solid var(--slate);
+    border-radius: 3px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--fog);
+    margin-bottom: 24px;
+  }
+
+  /* Footer */
+  .page-footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--slate);
+    font-size: 11px;
+    color: var(--fog);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Insight/accent boxes */
+  .insight-box {
+    background: var(--dark);
+    border-left: 3px solid var(--chartreuse);
+    border-radius: 3px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .insight-box.muted { border-left-color: var(--slate); }
+
+  /* Intake footer */
+  .intake-footer {
+    background: rgba(255, 74, 35, 0.08);
+    border: 1px solid var(--flame);
+    border-radius: 3px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  .intake-footer .left .title { font-size: 13px; font-weight: 700; color: var(--flame); }
+  .intake-footer .left .desc { font-size: 12px; color: var(--offwhite); line-height: 1.5; margin-top: 2px; }
+  .intake-footer .right { text-align: right; white-space: nowrap; padding-left: 20px; }
+  .intake-footer .right .lbl { font-size: 11px; color: var(--fog); }
+  .intake-footer .right .date { font-size: 14px; font-weight: 600; color: var(--flame); }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .status-bar, .metrics-row { grid-template-columns: 1fr 1fr; }
+    .card-fields { grid-template-columns: 1fr; }
+    .qr-grid { grid-template-columns: 1fr; }
+    .tabs { gap: 0; }
+    .tab { padding: 10px 14px; font-size: 11px; }
+  }
+
+/* NAV */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
+<div class="nav-links">
+<div class="sndd"><span class="sndd-b">Pilot &#9662;</span><div class="sndd-m"><a href="pilot.html">Pilot Overview</a><a href="demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
+<a href="demo.html">Demo</a>
+<a href="cadence.html">Cadence</a>
+<div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
+<a href="rollout.html">Rollout</a>
+<a href="comms.html">Comms</a>
+<div class="sndd"><span class="sndd-b active">Pipeline &#9662;</span><div class="sndd-m"><a href="pipeline.html">Pipeline Overview</a><a href="prep-isaia.html">Prep Package — Isaia Huron</a><a href="prep-rfom.html">Prep Package — Room Full of Mirrors</a></div></div>
+</div>
+</nav>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-header">
+      <div class="topbar-title"><span>Prep Package</span> · A Room Full of Mirrors</div>
+      <div class="topbar-badge">Working Draft</div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="showPage('dossier')"><span class="tab-num">01</span>Dossier</div>
+      <div class="tab" onclick="showPage('briefing')"><span class="tab-num">02</span>Briefing</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ================================================================ -->
+<!-- DOSSIER PAGE -->
+<!-- ================================================================ -->
+<div class="page active" id="page-dossier">
+
+  <div class="wip-banner">&#9888; WORKING DRAFT — Compiled from inbox signals only. Not yet verified with full team. Gaps are expected.</div>
+
+  <div class="section-header">Prep Package — Dossier</div>
+  <div class="page-title">A Room Full of Mirrors</div>
+  <div class="page-subtitle">Hip-Hop Collective · Led by Punch (TDE) · Active on 2025&ndash;2026 Roster · LP1 in Progress</div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">01 — Project Status</div>
+    <div class="detail"><span class="detail-label">GRPS Project: </span>LP1 &mdash; fully initiated in Digital Exchange</div>
+    <div class="detail"><span class="detail-label">Legal Metadata: </span>In place &mdash; rep owner and legal party details defined</div>
+    <div class="detail"><span class="detail-label">CARMA Status: </span>Active, fully executed &mdash; listed as Opportunity Driven</div>
+    <div class="detail"><span class="detail-label">Roster: </span>Listed across multiple RCA roster files (2025&ndash;2026)</div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">Contract appears in CARMA updates across multiple weeks, indicating ongoing activity.</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">02 — Music Links</div>
+    <div class="detail"><span class="detail-label">Spotify: </span>open.spotify.com/artist/4CxaPxktjqoN6F9nyftKYW</div>
+    <div class="detail"><span class="detail-label">Top Track: </span>"Mirrors" &mdash; 1.32M plays</div>
+    <div class="detail"><span class="detail-label">Debut Visual EP: </span>Money Bags (Dec 2021) &mdash; Reservoir Dogs-inspired visual EP, written/directed by Lyric Michelle</div>
+    <div class="detail"><span class="detail-label">Recent Albums: </span>Friday (2024) · Saturday (2024) · Helsinki (2024)</div>
+    <div class="detail"><span class="detail-label">Recent Singles: </span>Never (2025) · Safe Space (2025) · Say Girl (2025)</div>
+    <div class="detail"><span class="detail-label">Notable Collab: </span>"My Nigga" ft. Terrace Martin (2021)</div>
+    <div class="detail"><span class="detail-label">Sync Placement: </span>Featured on Bel-Air official playlist</div>
+    <div class="detail"><span class="detail-label">Current Project: </span>LP1 &mdash; playback session imminent with full RCA + Punch/TDE stakeholder attendance</div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">Bandcamp: aroomfullofmirrors.bandcamp.com · SoundCloud: soundcloud.com/roomfullofmirrors</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">03 — Social Handles &amp; Metrics</div>
+    <div class="card-fields">
+      <div class="detail"><span class="detail-label">Spotify: </span>~5K monthly listeners · 5.1K followers</div>
+      <div class="detail"><span class="detail-label">Instagram: </span>@aroomfullofmirrors</div>
+      <div class="detail"><span class="detail-label">X / Twitter: </span>@ArfomOfficial</div>
+      <div class="detail"><span class="detail-label">Website: </span>aroomfullofmirrors.com</div>
+    </div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">Metrics as of March 2026. Streaming baseline is modest &mdash; LP1 will be the first major-push release cycle.</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">04 — Members</div>
+    <div class="detail"><span class="detail-label">Punch: </span>Rapper, TDE President &mdash; quarterbacking the collective; previously guided Kendrick Lamar, SZA, Jay Rock, ScHoolboy Q, Ab-Soul to the top</div>
+    <div class="detail"><span class="detail-label">Daylyt: </span>Rapper, cinematographer (Watts, CA) &mdash; elite battle rapper; featured on J. Cole's "Pi" (2024, #62 Billboard Hot 100); shoots/edits video</div>
+    <div class="detail"><span class="detail-label">Nick Grant: </span>Rapper (Walterboro, SC / Atlanta) &mdash; golden-age lyricist; co-signed by Andre 3000 and Nas; albums on Epic, Virgin Music (Sunday Dinner, 2023)</div>
+    <div class="detail"><span class="detail-label">Lyric Michelle (iamLyric): </span>Rapper, director, editor &mdash; wrote/directed Money Bags visual EP; part of Punch's collective</div>
+    <div class="detail"><span class="detail-label">Ichiban Don: </span>Rapper</div>
+    <div class="detail"><span class="detail-label">Billymaree: </span>Rapper</div>
+    <div class="detail"><span class="detail-label">Jrias Law: </span>Rapper</div>
+    <div class="detail"><span class="detail-label">Earlee Riser: </span>Rapper</div>
+    <div class="detail"><span class="detail-label">Hari: </span>Producer</div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">Punch describes ARFOM as "not a group &mdash; a collective where everybody's an individual artist." Name origin: the song "Believer" got so personal they realized everyone was reflecting each other.</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">05 — Management &amp; Team</div>
+    <div class="card-fields">
+      <div class="detail"><span class="detail-label">Management: </span>Punch / Top Dawg Entertainment</div>
+      <div class="detail"><span class="detail-label">Attorney: </span>TBD</div>
+      <div class="detail"><span class="detail-label">Label Partner: </span>Punch / TDE (JV with RCA)</div>
+      <div class="detail"><span class="detail-label">Publishing: </span>TBD</div>
+      <div class="detail"><span class="detail-label">In-House Creative: </span>Lyric Michelle (director/editor) · Daylyt (cinematography)</div>
+      <div class="detail"><span class="detail-label">Production: </span>Hari (primary producer)</div>
+    </div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">06 — Affiliations &amp; Ecosystem</div>
+    <div class="detail"><span class="detail-label">TDE Lineage: </span>Punch previously developed Kendrick Lamar, SZA, Jay Rock, ScHoolboy Q, Ab-Soul (Black Hippy)</div>
+    <div class="detail"><span class="detail-label">Key Affiliation: </span>iamLyric (Lyric Michelle) &mdash; ARFOM member and Punch collective; crossover potential for promo/comms</div>
+    <div class="detail"><span class="detail-label">Notable Collaborator: </span>Terrace Martin</div>
+    <div class="detail"><span class="detail-label">Individual Co-Signs: </span>Nick Grant co-signed by Andre 3000 and Nas; Daylyt featured on J. Cole's "Pi"</div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">The collective model means individual members carry their own audiences, relationships, and press angles &mdash; each member is a potential entry point for coverage and partnerships.</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">07 — Previous Milestones</div>
+    <p>Collective formed c. 2020&ndash;2021 during sessions for Punch's solo album around the time of SZA's CTRL Tour. Debut visual EP Money Bags released December 3, 2021 &mdash; Reservoir Dogs-inspired film written and directed by Lyric Michelle, with a private TDE screening. Early singles "Mirrors" (Feb 2021) and "RawR" (Apr 2021) established the collective's sound. "Mirrors" became the breakout track (1.32M Spotify plays). Released three albums in 2024 (Friday, Saturday, Helsinki) plus multiple singles. 2025 singles include "Never," "Safe Space," and "Say Girl." Earned a Bel-Air official playlist sync placement. Merch line active (The Summit EP, Cortez line via Shopify store).</p>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">08 — Upcoming Release Plans</div>
+    <table class="rel-table">
+      <tr><th>Release</th><th>Date</th><th>Notes</th></tr>
+      <tr><td>LP1</td><td style="color:var(--fog);">TBD</td><td style="color:var(--fog);">GRPS project initiated; playback session imminent</td></tr>
+      <tr><td>Additional singles</td><td style="color:var(--fog);">TBD</td><td style="color:var(--fog);">Pending playback outcomes and rollout plan</td></tr>
+    </table>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">09 — Upcoming Tentpoles</div>
+    <div class="detail"><span class="detail-label">Playback Session: </span>Imminent &mdash; full stakeholder attendance (RCA + Punch/TDE)</div>
+    <div class="detail"><span class="detail-label">Tour: </span>TBD</div>
+    <div class="detail"><span class="detail-label">Additional: </span>To be identified as rollout progresses</div>
+  </div>
+
+  <div class="numbered-card">
+    <div class="numbered-label">10 — Suggested Team / Pod Reps</div>
+    <div style="font-size:13px;color:var(--fog);margin-bottom:6px;">To be assigned. No internal RCA contacts confirmed yet from inbox signals.</div>
+  </div>
+
+  <!-- NORTH STARS -->
+  <div class="section-header">North Stars</div>
+  <div class="card">
+    <div class="ns-item">
+      <div class="ns-num">1</div>
+      <div class="ns-text">
+        <div class="ns-title">Establish cross-department visibility before LP1 drops</div>
+        <div class="ns-desc">Project is moving quickly. Departments need context on the collective, its members, the Punch/TDE relationship, and the iamLyric crossover before rollout begins.</div>
+        <div class="ns-depts">Primary: A&amp;R · Marketing · Digital · Release Planning</div>
+      </div>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">2</div>
+      <div class="ns-text">
+        <div class="ns-title">Leverage the TDE ecosystem and individual member audiences</div>
+        <div class="ns-desc">Punch's track record (Kendrick, SZA), Daylyt's battle rap/J. Cole connection, Nick Grant's Andre 3000/Nas co-signs, and iamLyric crossover create multiple amplification pathways.</div>
+        <div class="ns-depts">Primary: Marketing · Publicity · Sync · Brand Partnerships</div>
+      </div>
+    </div>
+    <div class="ns-item" style="margin-bottom:0;">
+      <div class="ns-num">3</div>
+      <div class="ns-text">
+        <div class="ns-title">Use playback session to align all stakeholders on LP1 strategy</div>
+        <div class="ns-desc">Playback is the next gate. Capture outcomes and translate into department-level action items. Collective format requires coordinated rollout across multiple individual artists.</div>
+        <div class="ns-depts">Primary: A&amp;R · Release Planning · Ops</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENCE -->
+  <div class="section-header">Reference</div>
+  <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div>
+      <div class="numbered-label">Comp Artists</div>
+      <div style="font-size:13px;">Black Hippy · Griselda · Dreamville (collective model with solo-capable members)</div>
+    </div>
+    <div>
+      <div class="numbered-label">Creative DNA</div>
+      <div style="font-size:13px;">Battle rap lyricism · West Coast hip-hop · Tarantino-style visual storytelling · In-house film production</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="numbered-label">Audience Snapshot</div>
+    <div class="card-fields">
+      <div class="detail"><span class="detail-label">Spotify ML: </span>~5K (collective account)</div>
+      <div class="detail"><span class="detail-label">Top Track: </span>"Mirrors" &mdash; 1.32M plays</div>
+      <div class="detail"><span class="detail-label">Catalog: </span>3 albums (2024), 5+ singles (2024&ndash;2025), visual EP (2021)</div>
+      <div class="detail"><span class="detail-label">Sync: </span>Bel-Air playlist placement</div>
+    </div>
+    <div style="font-size:12px;color:var(--fog);margin-top:8px;">Individual member audiences compound the collective's reach &mdash; Nick Grant, Daylyt, and Punch each carry their own listener bases and social followings.</div>
+  </div>
+
+  <div class="page-footer">
+    <span>Created by Meg Hourihan &middot; March 18, 2026</span>
+    <span>Prep Package — Dossier</span>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- BRIEFING PAGE -->
+<!-- ================================================================ -->
+<div class="page" id="page-briefing">
+
+  <div class="wip-banner">&#9888; WORKING DRAFT — Compiled from inbox signals only. Department context is preliminary and will be updated post-playback.</div>
+
+  <div class="section-header">Prep Package — Artist Briefing</div>
+  <div class="page-title">A Room Full of Mirrors</div>
+  <div class="page-subtitle">Hip-Hop Collective · 9 Members · Led by Punch (TDE) · West Coast / Atlanta / Watts</div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <span class="status-label">Status</span>
+      <span class="status-value" style="color:var(--chartreuse);">Active</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">Contract</span>
+      <span class="status-value">Executed</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">Label Partner</span>
+      <span class="status-value">Punch / TDE</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">Current Project</span>
+      <span class="status-value">LP1</span>
+    </div>
+  </div>
+
+  <!-- NORTH STARS -->
+  <div class="section-header">North Stars</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="ns-item">
+      <div class="ns-num">1</div>
+      <div class="ns-text">
+        <div class="ns-title">Establish cross-department visibility before LP1 drops</div>
+        <div class="ns-depts">A&amp;R · Marketing · Digital · Release Planning</div>
+      </div>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">2</div>
+      <div class="ns-text">
+        <div class="ns-title">Leverage the TDE ecosystem and individual member audiences</div>
+        <div class="ns-depts">Marketing · Publicity · Sync · Brand Partnerships</div>
+      </div>
+    </div>
+    <div class="ns-item" style="margin-bottom:0;">
+      <div class="ns-num">3</div>
+      <div class="ns-text">
+        <div class="ns-title">Use playback session to align all stakeholders on LP1 strategy</div>
+        <div class="ns-depts">A&amp;R · Release Planning · Ops</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric"><div class="val">~5K</div><div class="lbl">Spotify ML</div></div>
+    <div class="metric"><div class="val white">1.32M</div><div class="lbl">"Mirrors" Plays</div></div>
+    <div class="metric"><div class="val white">9</div><div class="lbl">Members</div></div>
+    <div class="metric"><div class="val white">3</div><div class="lbl">Albums (2024)</div></div>
+  </div>
+
+  <!-- DEPARTMENT CONTEXT -->
+  <div class="section-header">Department Context</div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">A&amp;R</div><div class="brief-card-ns">&#8593; NORTH STAR 1 + 3</div></div>
+    <p>LP1 is initiated in GRPS with all legal metadata in place. Playback session is imminent with full RCA and Punch/TDE stakeholder attendance. This is the defining creative milestone &mdash; outcomes should inform rollout timeline, single selection, and creative direction for all downstream departments. ARFOM is a collective, not a traditional group &mdash; each member is an individual artist. Punch is quarterbacking but has described the structure as peers, not a label-artist hierarchy. The collective already has a catalog (Money Bags EP, three 2024 albums, 2025 singles) so LP1 represents a step-up, not a debut. iamLyric (Lyric Michelle) is both a member and a creative lead (directed the Money Bags visual EP).</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">A&amp;R Admin</div></div>
+    <p>GRPS project for LP1 is fully initiated. Rep owner and legal party details are defined in Digital Exchange. Contract is active and fully executed in CARMA (Opportunity Driven). Collective format adds complexity &mdash; nine members means more side artist agreements, splits, and delivery coordination. Confirm whether members furnish masters individually or through a single delivery pipeline. Hari is the primary producer; Daylyt and Lyric Michelle handle in-house visual production.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Business &amp; Legal</div></div>
+    <p>Contract executed and active in CARMA, listed as Opportunity Driven. Appears in CARMA updates across multiple weeks indicating sustained activity. JV structure with Punch/TDE. Key complexity: some members have existing deals elsewhere &mdash; Nick Grant has released on Epic and Virgin Music. Confirm clearance pathways, approval chains, and any member-level deal conflicts for sync, licensing, and cross-artist promo.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Marketing</div><div class="brief-card-ns">&#8593; NORTH STAR 1 + 2</div></div>
+    <p>The Punch/TDE affiliation gives ARFOM instant credibility &mdash; this is the person who developed Kendrick Lamar, SZA, and Black Hippy. The collective model means multiple audience entry points: Daylyt brings battle rap and J. Cole fans, Nick Grant brings golden-age hip-hop purists with Andre 3000/Nas co-signs, Lyric Michelle brings a filmmaker/director angle. Current streaming baseline is modest (~5K Spotify ML) but LP1 will be the first push release. Position the collective's story &mdash; Punch building the next wave after TDE's golden era &mdash; as the central marketing narrative.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Digital / DSP</div><div class="brief-card-ns">&#8593; NORTH STAR 1</div></div>
+    <p>ARFOM has active Spotify profile (~5K ML, 5.1K followers) with catalog across Money Bags (2021), Friday/Saturday/Helsinki (2024), and 2025 singles. "Mirrors" is the breakout track at 1.32M plays. Confirm profile ownership and Content ID transfer to RCA infrastructure. Individual members also have solo profiles &mdash; coordinate cross-linking. Already on the Bel-Air official playlist (sync placement). DSP pitch for LP1 depends on playback outcomes and single selection.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Publicity</div><div class="brief-card-ns">&#8593; NORTH STAR 2</div></div>
+    <p>Multiple strong press angles. Lead narrative: Punch &mdash; the person who built Kendrick and SZA &mdash; is now building a collective from scratch. Supporting angles: Daylyt's journey from Watts battle rap to J. Cole collaborator; Nick Grant's Andre 3000/Nas co-signs; Lyric Michelle as rapper/filmmaker directing the group's visuals. The collective already has Billboard, Vibe, Hypebeast, HotNewHipHop, and The Source coverage from the Money Bags launch. Press strategy should be planned post-playback once LP1 creative direction is locked.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Radio</div></div>
+    <p>Sound is rooted in lyrical hip-hop with West Coast DNA. Radio strategy should follow streaming and press traction rather than lead. LP1 will determine format fit. TDE's track record with radio (Kendrick, SZA, ScHoolboy Q) provides infrastructure context. Monitor playback outcomes for radio-viable singles.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Creative &amp; Content</div><div class="brief-card-ns">&#8593; NORTH STAR 1</div></div>
+    <p>ARFOM has significant in-house creative capability. Lyric Michelle wrote and directed the Money Bags visual EP (Reservoir Dogs-inspired, Tarantino-style heist film). Daylyt is a cinematographer who shoots and edits video. This means the collective can produce visual content independently &mdash; coordinate rather than replace. Existing visual identity leans cinematic and narrative-driven. Merch line already active (Cortez line, Summit EP merchandise via Shopify).</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">International</div></div>
+    <p>TDE has established international presence from Kendrick/SZA era. Assess whether ARFOM can leverage existing international infrastructure and audience from the collective. Battle rap has strong UK and global following which could benefit Daylyt-led tracks. International strategy TBD pending LP1 direction.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Brand Partnerships</div><div class="brief-card-ns">&#8593; NORTH STAR 2</div></div>
+    <p>The TDE brand carries significant weight with culture and lifestyle partners. Collective format creates multiple partnership vectors &mdash; fashion (Cortez merch line already exists), film/entertainment (in-house visual production), battle rap culture. Daylyt's J. Cole connection and Nick Grant's classic hip-hop positioning widen the brand fit beyond typical rap collective. Bel-Air playlist sync is an early entertainment-brand signal. Map alignment categories post-playback.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Sync &amp; Licensing</div><div class="brief-card-ns">&#8593; NORTH STAR 2</div></div>
+    <p>Existing catalog has proven sync viability &mdash; already placed on the Bel-Air official playlist. "Mirrors" (1.32M plays) and Terrace Martin collaboration demonstrate range for film/TV pitching. JV structure with Punch/TDE means clearance pathway and approval chain need confirmation. Members with outside deals (Nick Grant / Virgin Music) add complexity. In-house visual production (Lyric Michelle, Daylyt) could package music + visuals for sync supervisors.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Finance</div></div>
+    <p>Contract active in CARMA as Opportunity Driven, fully executed. JV structure with Punch/TDE. Nine-member collective means splits and payout complexity. LP1 in progress &mdash; budget implications will depend on rollout scope determined post-playback. Note: in-house creative capability (Lyric Michelle, Daylyt) may reduce some external production costs.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header"><div class="brief-card-title">Release Planning / Ops</div><div class="brief-card-ns">&#8593; NORTH STAR 3</div></div>
+    <p>GRPS project for LP1 is initiated with legal metadata in place. Playback session is the next gate &mdash; once outcomes are captured, establish Release Runway project and delivery cadence. Collective has been productive: three albums and multiple singles in 2024&ndash;2025. Confirm Atmos/360RA workflow decisions through the Punch/TDE pipeline. This project is moving quickly; release planning should be prepared to act on short timelines.</p>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="section-header">Quick Reference</div>
+  <div class="card">
+    <div class="qr-grid">
+      <div class="qr-item"><span class="qr-label">Artist: </span>A Room Full of Mirrors (ARFOM)</div>
+      <div class="qr-item"><span class="qr-label">Type: </span>Hip-Hop Collective (9 members)</div>
+      <div class="qr-item"><span class="qr-label">Label: </span>RCA via Punch / TDE</div>
+      <div class="qr-item"><span class="qr-label">Contract: </span>Opportunity Driven (CARMA)</div>
+      <div class="qr-item"><span class="qr-label">Current Project: </span>LP1</div>
+      <div class="qr-item"><span class="qr-label">GRPS: </span>Initiated in Digital Exchange</div>
+      <div class="qr-item"><span class="qr-label">Genre: </span>Lyrical Hip-Hop / West Coast</div>
+      <div class="qr-item"><span class="qr-label">Led By: </span>Punch (TDE President)</div>
+      <div class="qr-item" style="grid-column:1/-1;"><span class="qr-label">Members: </span>Punch · Daylyt · Nick Grant · Lyric Michelle (iamLyric) · Ichiban Don · Billymaree · Jrias Law · Earlee Riser · Hari (producer)</div>
+      <div class="qr-item" style="grid-column:1/-1;"><span class="qr-label">Key Co-Signs: </span>Andre 3000 · Nas · J. Cole · Terrace Martin · TDE / Black Hippy lineage</div>
+    </div>
+  </div>
+
+  <!-- INTAKE STATUS -->
+  <div class="intake-footer">
+    <div class="left">
+      <div class="title">Intake Status: Inbox Signals + Web Research</div>
+      <div class="desc">Compiled from forwarded emails, CARMA/GRPS references, and public sources. Full intake not yet started.</div>
+    </div>
+    <div class="right">
+      <div class="lbl">Next Gate</div>
+      <div class="date">Playback Session</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Created by Meg Hourihan &middot; March 18, 2026</span>
+    <span>Prep Package — Artist Briefing &middot; RCA Records</span>
+  </div>
+</div>
+</div><!-- end .main -->
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const tabMap = { dossier: 0, briefing: 1 };
+  if (tabMap[id] !== undefined) tabs[tabMap[id]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
