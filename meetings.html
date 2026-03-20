@@ -146,6 +146,91 @@
 .sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
 .sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
 .sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+
+
+/* === FEEDBACK SYSTEM === */
+.fb-float {
+  position:fixed; bottom:24px; right:24px; z-index:9998;
+  width:48px; height:48px; border-radius:50%;
+  background:#CDF851; color:#0F0E0E; border:none;
+  font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px rgba(205,248,81,0.3);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.fb-float:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(205,248,81,0.4); }
+.fb-float.open { background:#FF4A23; transform:rotate(45deg); }
+.fb-float.open:hover { transform:rotate(45deg) scale(1.1); }
+
+.fb-panel {
+  position:fixed; bottom:84px; right:24px; z-index:9997;
+  width:340px; max-height:480px; background:#1A1A1A; border:1px solid #2A2A2A;
+  padding:0; display:none; flex-direction:column; overflow:hidden;
+}
+.fb-panel.open { display:flex; }
+.fb-panel-head {
+  padding:16px 20px 12px; border-bottom:1px solid #2A2A2A;
+}
+.fb-panel-title { font-size:13px; font-weight:700; color:#FCFDF8; margin-bottom:2px; }
+.fb-panel-sub { font-size:10px; color:#555; }
+.fb-panel-body { padding:16px 20px; overflow-y:auto; flex:1; }
+.fb-field { margin-bottom:14px; }
+.fb-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#847D96; font-family:'DM Mono',monospace; margin-bottom:6px; display:block; }
+.fb-select, .fb-textarea {
+  width:100%; background:#0F0E0E; border:1px solid #2A2A2A; color:#FCFDF8;
+  font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px;
+  transition:border-color 0.2s; outline:none;
+}
+.fb-select:focus, .fb-textarea:focus { border-color:#CDF851; }
+.fb-textarea { min-height:100px; resize:vertical; line-height:1.5; }
+.fb-select { cursor:pointer; appearance:none; -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%23847D96' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center;
+}
+.fb-select option { background:#1A1A1A; color:#FCFDF8; }
+.fb-submit {
+  width:100%; padding:10px; background:#CDF851; color:#0F0E0E;
+  border:none; font-family:'Inter',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:0.5px; text-transform:uppercase; cursor:pointer;
+  transition:background 0.2s;
+}
+.fb-submit:hover { background:#d8fb7a; }
+.fb-success {
+  text-align:center; padding:32px 20px;
+  font-size:13px; color:#CDF851; display:none;
+}
+.fb-success.show { display:block; }
+.fb-success .fb-check { font-size:28px; margin-bottom:8px; }
+.fb-success p { color:#847D96; font-size:11px; margin-top:6px; }
+
+/* INLINE FEEDBACK (sidebar) */
+.fb-inline {
+  margin-top:12px; padding:12px 14px; background:rgba(205,248,81,0.03);
+  border:1px dashed #2A2A2A; cursor:pointer; transition:border-color 0.2s;
+}
+.fb-inline:hover { border-color:#CDF851; }
+.fb-inline-prompt { font-size:10px; color:#555; font-family:'DM Mono',monospace; letter-spacing:0.5px; }
+.fb-inline-prompt span { color:#CDF851; }
+.fb-inline-form { display:none; margin-top:10px; }
+.fb-inline-form.open { display:block; }
+.fb-inline-ta {
+  width:100%; background:#0F0E0E; border:1px solid #2A2A2A; color:#FCFDF8;
+  font-family:'Inter',sans-serif; font-size:12px; padding:8px 10px;
+  min-height:60px; resize:vertical; outline:none; margin-bottom:8px;
+}
+.fb-inline-ta:focus { border-color:#CDF851; }
+.fb-inline-btn {
+  padding:6px 14px; background:#CDF851; color:#0F0E0E; border:none;
+  font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase;
+  cursor:pointer; font-family:'Inter',sans-serif;
+}
+.fb-inline-btn:hover { background:#d8fb7a; }
+.fb-inline-sent { font-size:10px; color:#CDF851; display:none; padding:4px 0; }
+
+@media(max-width:640px) {
+  .fb-panel { width:calc(100vw - 32px); right:16px; bottom:76px; }
+  .fb-float { bottom:16px; right:16px; width:44px; height:44px; font-size:18px; }
+}
+
 </style>
 </head>
 <body>
@@ -156,7 +241,7 @@
 <a href="index.html">Home</a>
 <a href="orbit.html">Orbit</a>
 <a href="visibility.html">Visibility</a>
-<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief — 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes — 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="archive/index.html">Archive Index</a><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP — Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package — Isaia</a></div></div>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><div class="sep"></div><div class="sep-label">Insights</div><a href="insights/index.html">All Artist Insights</a><a href="insights/horsegirl-insights-v4.html">horsegiirL</a><a href="insights/ca7riel-paco-insights.html">CA7RIEL &amp; Paco Amoroso</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="archive/index.html">Archive Index</a><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
 </div>
 </nav>
 
@@ -403,6 +488,65 @@ function showMeeting(view) {
   document.getElementById('btnBrief').classList.toggle('active', view === 'brief');
   document.getElementById('btnNotes').classList.toggle('active', view === 'notes');
 }
+</script>
+
+<!-- FEEDBACK FLOATING BUTTON -->
+<button class="fb-float" id="fbToggle" onclick="document.getElementById('fbPanel').classList.toggle('open');this.classList.toggle('open');" title="Leave feedback">&#9998;</button>
+
+<div class="fb-panel" id="fbPanel">
+  <div class="fb-panel-head">
+    <div class="fb-panel-title">Leave a Note</div>
+    <div class="fb-panel-sub">Anonymous &middot; Goes directly to Meg</div>
+  </div>
+  <div class="fb-panel-body">
+    <div id="fbFormWrap">
+      <form name="meetings-feedback" method="POST" data-netlify="true" id="fbForm">
+        <input type="hidden" name="form-name" value="meetings-feedback">
+        <input type="hidden" name="page" value="Meeting Flow">
+        <div class="fb-field">
+          <label class="fb-label">About</label>
+          <select class="fb-select" name="section">
+            <option value="General">General / Overall</option>
+            <option value="Goal Brief">Goal Brief Format</option>
+            <option value="Meeting Notes">Meeting Notes Format</option>
+            <option value="Action Items">Action Items / Routing</option>
+            <option value="Missing">Something Missing</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="fb-field">
+          <label class="fb-label">Your Note</label>
+          <textarea class="fb-textarea" name="note" placeholder="What would you change, add, or question?" required></textarea>
+        </div>
+        <button type="submit" class="fb-submit">Send Note</button>
+      </form>
+    </div>
+    <div class="fb-success" id="fbSuccess">
+      <div class="fb-check">&#10003;</div>
+      Sent. Thank you!
+      <p>Your feedback shapes this system.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('fbForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var form=e.target;
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams(new FormData(form)).toString()
+  }).then(function(){
+    document.getElementById('fbFormWrap').style.display='none';
+    document.getElementById('fbSuccess').classList.add('show');
+    setTimeout(function(){
+      document.getElementById('fbFormWrap').style.display='block';
+      document.getElementById('fbSuccess').classList.remove('show');
+      form.reset();
+      document.getElementById('fbPanel').classList.remove('open');
+      document.getElementById('fbToggle').classList.remove('open');
+    },2500);
+  }).catch(function(){alert('Something went wrong. Try again?');});
+});
 </script>
 
 </body>

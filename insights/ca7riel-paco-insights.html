@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA7RIEL & Paco Amoroso — Artist Insights — March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:56px}
+body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(15,14,14,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--slate);transition:box-shadow 0.3s}
+.nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,0.5)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:54px;gap:8px}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--chartreuse);letter-spacing:3px;margin-right:auto}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim);padding:6px 14px;border:1px solid transparent;cursor:pointer;transition:all 0.25s;text-decoration:none}
+.nav-link:hover{color:var(--fog);border-color:var(--slate)}
+.nav-link.active{color:var(--chartreuse);border-color:var(--chartreuse)}
+
+/* LAYOUT */
+.c{max-width:960px;margin:0 auto;padding:0 32px}
+.hero{padding:72px 0 48px;border-bottom:2px solid var(--chartreuse);position:relative;overflow:hidden}
+.hero::before{content:'CA7RIEL';position:absolute;top:-20px;right:-40px;font-family:'Bebas Neue',sans-serif;font-size:220px;color:rgba(205,248,81,0.03);letter-spacing:10px;pointer-events:none;line-height:1}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:14px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,84px);line-height:0.9;color:var(--off-white);letter-spacing:2px;margin-bottom:14px}
+.hero-title span{color:var(--chartreuse)}
+.hero-sub{font-size:15px;color:var(--fog);max-width:520px}
+.hero-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);margin-top:20px;line-height:1.8}
+
+/* SECTIONS */
+.sec{padding:56px 0 0}
+.sec-bar{display:flex;align-items:baseline;gap:12px;padding-bottom:6px;border-bottom:2px solid var(--chartreuse);margin-bottom:28px}
+.sec-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--off-white);letter-spacing:1px;line-height:1}
+.sub{padding:32px 0 0}
+.sub-title{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--slate)}
+
+/* STATS */
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.st{background:var(--dark);padding:18px 22px;flex:1;min-width:130px;border-top:3px solid var(--slate);transition:border-color 0.3s}
+.st:hover{border-top-color:var(--chartreuse)}
+.st-n{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;letter-spacing:1px}
+.st-n.g{color:var(--chartreuse)}.st-n.f{color:var(--flame)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.sm{font-size:30px}
+.st-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-top:4px}
+.st-s{font-size:11px;color:var(--fog-dim);margin-top:2px}.st-s.up{color:var(--chartreuse)}.st-s.dn{color:var(--flame)}
+
+/* TEXT */
+.cm{font-size:14px;color:var(--off-white);line-height:1.7;margin-top:14px;opacity:0.88}
+.cm+.cm{margin-top:8px}
+.cm strong{font-weight:700;color:var(--off-white)}
+.cm em{color:var(--chartreuse);font-style:normal;font-weight:600}
+
+/* TOGGLE */
+.toggle{margin-top:16px;margin-bottom:8px}
+.toggle-btn{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;background:transparent;border:1px solid var(--slate);transition:all 0.3s;width:100%;text-align:left;font-family:'DM Mono',monospace}
+.toggle-btn:hover{border-color:var(--chartreuse);background:rgba(205,248,81,0.03)}
+.toggle-btn.open{border-color:var(--chartreuse);background:rgba(205,248,81,0.04)}
+.toggle-btn .arrow{font-size:14px;color:var(--chartreuse);transition:transform 0.3s;flex-shrink:0}
+.toggle-btn.open .arrow{transform:rotate(90deg)}
+.toggle-btn .tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;flex-shrink:0}
+.toggle-btn .tag.action{background:rgba(205,248,81,0.1);color:var(--chartreuse)}
+.toggle-btn .tag.question{background:rgba(255,179,71,0.1);color:var(--amber)}
+.toggle-btn .tag.flag{background:rgba(255,74,35,0.1);color:var(--flame)}
+.toggle-btn .preview{font-family:'Outfit',sans-serif;font-size:12px;color:var(--fog);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.toggle-btn .dept{font-size:9px;letter-spacing:1px;color:var(--fog-dim);flex-shrink:0}
+.toggle-body{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),padding 0.3s;padding:0 16px}
+.toggle-body.open{max-height:300px;padding:14px 16px}
+.toggle-body.act{border-left:3px solid var(--chartreuse);background:rgba(205,248,81,0.02)}
+.toggle-body.ask{border-left:3px solid var(--amber);background:rgba(255,179,71,0.02)}
+.toggle-body.flg{border-left:3px solid var(--flame);background:rgba(255,74,35,0.02)}
+.toggle-body p{font-size:13px;line-height:1.65;color:var(--off-white)}
+.toggle-body p strong{font-weight:700}
+
+/* TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.dt th{text-align:left;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);padding:6px 10px;border-bottom:1px solid var(--slate)}
+.dt th.r{text-align:right}
+.dt td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4);font-variant-numeric:tabular-nums}
+.dt td.r{text-align:right}.dt td.d{color:var(--fog-dim);font-size:11px}
+.dt tr:last-child td{border-bottom:none}
+.dt tr{transition:background 0.2s}.dt tr:hover{background:rgba(205,248,81,0.02)}
+.ix{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:1px 7px;font-variant-numeric:tabular-nums}
+.ix.o{background:rgba(205,248,81,0.1);color:var(--chartreuse)}
+.ix.u{background:rgba(255,74,35,0.1);color:var(--flame)}
+.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
+
+/* BARS */
+.bars{margin-top:14px}
+.br{display:grid;grid-template-columns:200px 1fr 55px;gap:10px;align-items:center;margin-bottom:5px}
+.br-l{font-size:12px;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br-l.hi{color:var(--chartreuse);font-weight:700}
+.br-l .dt2{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);font-weight:400;margin-left:6px}
+.br-t{background:rgba(62,63,65,0.2);height:24px;position:relative;overflow:hidden}
+.br-f{height:100%;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.br-f.g{background:var(--chartreuse)}.br-f.t{background:var(--teal)}
+.br-v{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fog)}
+.br-v.hi{color:var(--chartreuse);font-weight:700}
+
+/* GRID */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+
+/* CARDS */
+.card{background:var(--dark);padding:18px;border-top:3px solid var(--slate);transition:border-color 0.3s}
+.card:hover{border-top-color:var(--chartreuse)}
+.card.gc{border-top-color:var(--chartreuse)}.card.tc{border-top-color:var(--teal)}.card.pc{border-top-color:var(--pink)}
+.card-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.card-label.gc{color:var(--chartreuse)}.card-label.tc{color:var(--teal)}.card-label.pc{color:var(--pink)}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:11px;font-weight:600;padding:4px 12px;background:rgba(205,248,81,0.07);color:var(--chartreuse);transition:background 0.2s}
+.tag:hover{background:rgba(205,248,81,0.14)}
+.tag.pk{background:rgba(255,107,157,0.07);color:var(--pink)}.tag.pk:hover{background:rgba(255,107,157,0.14)}
+
+/* PLATFORMS */
+.plats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.plat{background:var(--dark);padding:18px 12px;text-align:center;border-top:3px solid var(--slate);transition:all 0.3s}
+.plat:hover{border-top-color:var(--chartreuse);transform:translateY(-2px)}
+.plat-name{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:8px}
+.plat-num{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--off-white);line-height:1;margin-bottom:4px}
+.plat-delta{font-size:12px;font-weight:700;color:var(--chartreuse)}
+.plat-sub{font-size:10px;color:var(--fog-dim);margin-top:2px}
+
+/* PSYCHO */
+.psy{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.psy-card{background:var(--dark);padding:16px;border-top:2px solid var(--flame)}
+.psy-card h4{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--flame);margin-bottom:6px}
+.psy-card p{font-size:12px;color:var(--fog);line-height:1.55}
+
+/* MISC */
+.hl{background:var(--dark);border-left:3px solid var(--chartreuse);padding:16px 20px;margin-top:16px;font-size:14px;line-height:1.6}
+.hl strong{font-weight:700;color:var(--off-white)}.hl em{color:var(--chartreuse);font-style:normal;font-weight:600}
+.div{height:1px;background:var(--slate);margin-top:48px}
+.foot{padding:40px 0 56px;text-align:center}
+.foot .rca{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--chartreuse);letter-spacing:4px;margin-bottom:8px}
+.foot p{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);letter-spacing:0.5px}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .c{padding:0 20px}.hero-title{font-size:44px}
+  .two,.psy{grid-template-columns:1fr}.three{grid-template-columns:1fr}
+  .stats{flex-direction:column}.plats{grid-template-columns:repeat(2,1fr)}
+  .br{grid-template-columns:120px 1fr 44px}.nav-link{padding:6px 8px;font-size:10px}
+}
+
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Insights</div><a href="../insights/index.html">All Artist Insights</a><a href="../insights/horsegirl-insights-v4.html">horsegiirL</a><a href="../insights/ca7riel-paco-insights.html">CA7RIEL &amp; Paco Amoroso</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+
+<div class="c">
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Artist Insights &middot; Internal Use Only</p>
+  <h1 class="hero-title"><span>CA7RIEL</span> &amp;<br>PACO AMOROSO</h1>
+  <p class="hero-sub">Streaming, audience, social, and what it means &mdash; in one place.</p>
+  <p class="hero-meta">March 12, 2026<br>Data: Strategic Analytics<br>Sources: Luminate &middot; Spotify Internal &middot; Chartmetric</p>
+</div>
+
+<!-- 5 THINGS TO KNOW -->
+<div style="padding:24px 0;border-bottom:1px solid var(--slate)">
+  <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px">5 Things to Know</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    <!-- Lead -->
+    <div style="grid-column:1/-1;display:grid;grid-template-columns:20px 1fr;gap:8px;padding:10px 14px;background:var(--dark);border-left:3px solid var(--chartreuse);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--chartreuse);padding-top:2px">&rarr;</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Live performance is the US growth engine, not releases.</strong> Every streaming spike ties to a live moment. Build release timing around live tentpoles.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">01</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Each single opens bigger than the last</strong> &mdash; 14K to 282K Week 1 US ODA in under two years.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">02</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Two audiences, one act.</strong> Streaming: age 31, even gender. Instagram: age 27, 71% female.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">03</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Amazon over-indexes at 177. Apple under-indexes at 55.</strong> Someone should know why.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">04</span>
+      <span style="font-size:12px;line-height:1.5"><strong>IG engagement at 18.7% is exceptional.</strong> TikTok at 7.9% needs campaign content, not autopilot.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════ STREAMING ══════ -->
+<div class="sec" id="streaming">
+  <div class="sec-bar"><div class="sec-label">Streaming</div><div class="sec-title">Artist Level Streams</div></div>
+
+  <div class="stats">
+    <div class="st"><div class="st-n g">6.8M</div><div class="st-l">Weekly Global</div><div class="st-s">Current average</div></div>
+    <div class="st"><div class="st-n f">9%</div><div class="st-l">US Share</div><div class="st-s">Of global weekly</div></div>
+    <div class="st"><div class="st-n t">14M</div><div class="st-l">Peak Global Week</div><div class="st-s">&ldquo;Papota&rdquo; release, Mar &rsquo;25</div></div>
+  </div>
+
+  <p class="cm"><strong>Every streaming inflection point ties to a live moment:</strong> Tiny Desk &rarr; Papota &rarr; Coachella &rarr; 5 Latin GRAMMYs &rarr; GIMME MORE &rarr; HASTA JES&Uacute;S. The pattern is consistent &mdash; live events are the catalyst, singles capture the momentum.</p>
+
+  <div class="toggle">
+    <button class="toggle-btn" onclick="tog(this)">
+      <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+      <span class="preview">Time US singles to land within 2 weeks of a live moment...</span>
+      <span class="dept">Marketing</span>
+    </button>
+    <div class="toggle-body act"><p><strong>Time US single releases to land within 2 weeks of a live moment.</strong> The event creates search demand; the single captures it. Don&rsquo;t release into a vacuum &mdash; release into attention.</p></div>
+  </div>
+
+  <!-- Week 1 Debuts -->
+  <div class="sub">
+    <div class="sub-title">Week 1 Debuts &mdash; US ODA</div>
+    <div class="bars">
+      <div class="br"><div class="br-l hi">HASTA JES&Uacute;S<span class="dt2">2/19/26</span></div><div class="br-t"><div class="br-f g" style="width:100%"></div></div><div class="br-v hi">282K</div></div>
+      <div class="br"><div class="br-l">GIMME MORE<span class="dt2">11/27/25</span></div><div class="br-t"><div class="br-f t" style="width:93.6%"></div></div><div class="br-v">264K</div></div>
+      <div class="br"><div class="br-l">EL D&Iacute;A DEL AMIGO<span class="dt2">3/13/25</span></div><div class="br-t"><div class="br-f t" style="width:54.3%"></div></div><div class="br-v">153K</div></div>
+      <div class="br"><div class="br-l">RE FORRO</div><div class="br-t"><div class="br-f t" style="width:44.3%"></div></div><div class="br-v">125K</div></div>
+      <div class="br"><div class="br-l">IMPOSTOR</div><div class="br-t"><div class="br-f t" style="width:39%"></div></div><div class="br-v">110K</div></div>
+      <div class="br"><div class="br-l">#TETAS<span class="dt2">3/6/25</span></div><div class="br-t"><div class="br-f t" style="width:32.6%"></div></div><div class="br-v">92K</div></div>
+      <div class="br"><div class="br-l">DUMBAI<span class="dt2">4/25/24</span></div><div class="br-t"><div class="br-f t" style="width:5%"></div></div><div class="br-v">14K</div></div>
+    </div>
+    <p class="cm"><strong>20x increase in first-week US performance across less than two years.</strong> Every release cycle lands bigger.</p>
+  </div>
+
+  <!-- Tiny Desk & Latest Release -->
+  <div class="sub">
+    <div class="sub-title">Tiny Desk &amp; Latest Release</div>
+    <div class="two">
+      <div class="card gc">
+        <div class="card-label gc">Tiny Desk Concert</div>
+        <div class="st-n g">47M</div><div class="st-l">Views</div>
+        <p style="font-size:12px;color:var(--fog);margin-top:10px;line-height:1.6">#8 all-time &middot; Most viewed in 6 years<br>5 standalone singles released &rarr; fed PAPOTA album<br>Playbook: live &rarr; recorded release &rarr; album</p>
+      </div>
+      <div class="card tc">
+        <div class="card-label tc">HASTA JES&Uacute;S TUVO UN MAL D&Iacute;A</div>
+        <div class="st-n t">282K W1</div><div class="st-l">Biggest US Debut</div>
+        <p style="font-size:12px;color:var(--fog);margin-top:10px;line-height:1.6">83K this week (-38% WoW) &middot; 516K RTD<br>Spotify 60% &middot; Amazon 20% (idx 177) &middot; Apple 16% (idx 55)</p>
+      </div>
+    </div>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag question">Question</span>
+        <span class="preview">What&rsquo;s driving Amazon at 177? Playlist, Alexa/Echo, or algorithmic?</span>
+        <span class="dept">Commercial Partnerships</span>
+      </button>
+      <div class="toggle-body ask"><p><strong>What&rsquo;s driving Amazon at 177?</strong> Playlist, Alexa/Echo ambient, or algorithmic? Apple at 55 needs a specific conversation.</p></div>
+    </div>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+        <span class="preview">Plan the recorded-release strategy before the next performance...</span>
+        <span class="dept">Marketing / A&amp;R</span>
+      </button>
+      <div class="toggle-body act"><p><strong>Plan the recorded-release strategy before the next high-profile performance.</strong> The live-to-single-to-album playbook is proven. Go in with a capture plan.</p></div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="sub">
+    <div class="sub-title">Artist History (US) &mdash; All-Time</div>
+    <div class="stats">
+      <div class="st"><div class="st-n t sm">50K</div><div class="st-l">Total Activity</div></div>
+      <div class="st"><div class="st-n t sm">56M</div><div class="st-l">ODA Streams</div></div>
+      <div class="st"><div class="st-n t sm">2.5M</div><div class="st-l">Views</div></div>
+      <div class="st"><div class="st-n t sm">4.1K</div><div class="st-l">Albums</div></div>
+    </div>
+    <div class="two" style="margin-top:12px">
+      <div class="card gc"><div class="card-label gc">PAPOTA (2025)</div><p style="font-size:13px;color:var(--fog)">36K activity &middot; <strong style="color:var(--off-white)">40M ODA</strong> &middot; 3.5K albums &middot; No BB200</p></div>
+      <div class="card tc"><div class="card-label tc">BA&Ntilde;O MAR&Iacute;A (2024)</div><p style="font-size:13px;color:var(--fog)">36K activity &middot; <strong style="color:var(--off-white)">44M ODA</strong> &middot; 562 albums &middot; No BB200</p></div>
+    </div>
+    <p class="cm">Similar activity, but PAPOTA&rsquo;s album sales jumped 6x (562 &rarr; 3.5K) &mdash; Tiny Desk / Coachella converted casual listeners into buyers. Neither cracked BB200 yet.</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════ AUDIENCE ══════ -->
+<div class="sec" id="audience">
+  <div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Global Audience</div></div>
+
+  <div class="two">
+    <div>
+      <div class="sub-title" style="margin-bottom:8px">All Genres</div>
+      <table class="dt">
+        <tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr>
+        <tr><td><strong>Mexico</strong></td><td class="r">27.5%</td><td class="r"><span class="ix o">456</span></td></tr>
+        <tr><td><strong>Argentina</strong></td><td class="r">20.9%</td><td class="r"><span class="ix o">2,699</span></td></tr>
+        <tr><td>USA</td><td class="r">9.9%</td><td class="r"><span class="ix u">21</span></td></tr>
+        <tr><td>Peru</td><td class="r">8.7%</td><td class="r"><span class="ix o">2,279</span></td></tr>
+        <tr><td>Chile</td><td class="r">7.2%</td><td class="r"><span class="ix o">1,151</span></td></tr>
+        <tr><td>Spain</td><td class="r">5.6%</td><td class="r"><span class="ix o">455</span></td></tr>
+        <tr><td>Colombia</td><td class="r">3.1%</td><td class="r"><span class="ix o">477</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="sub-title" style="margin-bottom:8px">vs Latin</div>
+      <table class="dt">
+        <tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr>
+        <tr><td><strong>Mexico</strong></td><td class="r">27.5%</td><td class="r"><span class="ix u">73</span></td></tr>
+        <tr><td><strong>Argentina</strong></td><td class="r">20.9%</td><td class="r"><span class="ix o">695</span></td></tr>
+        <tr><td>USA</td><td class="r">9.9%</td><td class="r"><span class="ix u">42</span></td></tr>
+        <tr><td>Peru</td><td class="r">8.7%</td><td class="r"><span class="ix o">643</span></td></tr>
+        <tr><td>Chile</td><td class="r">7.2%</td><td class="r"><span class="ix o">306</span></td></tr>
+        <tr><td>Spain</td><td class="r">5.6%</td><td class="r"><span class="ix o">111</span></td></tr>
+        <tr><td>Colombia</td><td class="r">3.1%</td><td class="r"><span class="ix n">100</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <p class="cm"><strong>Argentina and South America are the strongholds.</strong> Mexico drops from 456 to 73 against Latin peers &mdash; a false positive. US at 42 is the clearest gap and upside.</p>
+
+  <div class="toggle">
+    <button class="toggle-btn" onclick="tog(this)">
+      <span class="arrow">&rarr;</span><span class="tag flag">Flag</span>
+      <span class="preview">Mexico: growth opportunity or identity ceiling? Spain could bridge LatAm and Europe...</span>
+      <span class="dept">International</span>
+    </button>
+    <div class="toggle-body flg"><p><strong>Mexico:</strong> growth opportunity or identity ceiling? <strong>Spain</strong> at 111 Latin index could bridge LatAm and Europe. Both need specific conversations.</p></div>
+  </div>
+
+  <!-- US Markets -->
+  <div class="sub">
+    <div class="sub-title">US Markets</div>
+    <table class="dt">
+      <tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr>
+      <tr><td><strong>Los Angeles</strong></td><td class="r">16.0%</td><td class="r"><span class="ix o">206</span></td></tr>
+      <tr><td>New York</td><td class="r">9.1%</td><td class="r"><span class="ix o">129</span></td></tr>
+      <tr><td>Chicago</td><td class="r">5.5%</td><td class="r"><span class="ix o">129</span></td></tr>
+      <tr><td><strong>SF / Oakland</strong></td><td class="r">5.2%</td><td class="r"><span class="ix o">170</span></td></tr>
+      <tr><td><strong>Miami</strong></td><td class="r">5.0%</td><td class="r"><span class="ix o">289</span></td></tr>
+      <tr><td>Houston</td><td class="r">4.1%</td><td class="r"><span class="ix o">131</span></td></tr>
+      <tr><td><strong>San Diego</strong></td><td class="r">2.8%</td><td class="r"><span class="ix o">243</span></td></tr>
+      <tr><td>San Antonio</td><td class="r">2.4%</td><td class="r"><span class="ix o">147</span></td></tr>
+      <tr><td><strong>Austin</strong></td><td class="r">2.0%</td><td class="r"><span class="ix o">158</span></td></tr>
+    </table>
+
+    <p class="cm">Coastal, Latin-influenced cultural gateway cities. Miami (289), San Diego (243), and LA (206) over-index hardest. These are the footholds &mdash; not random distribution.</p>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+        <span class="preview">Route US shows through Miami, San Diego, LA, SF, and Austin first...</span>
+        <span class="dept">Marketing / Touring</span>
+      </button>
+      <div class="toggle-body act"><p><strong>Route US headline or support tour through Miami, San Diego, LA, SF, and Austin first.</strong> Own the 5 cities where the audience exists before expanding.</p></div>
+    </div>
+  </div>
+
+  <!-- Demographics -->
+  <div class="sub">
+    <div class="sub-title">Two Audiences, One Act</div>
+    <div class="three">
+      <div class="card gc">
+        <div class="card-label gc">US Streaming</div>
+        <div class="st-n sm" style="color:var(--chartreuse)">31.2</div><div class="st-l">Avg Age</div>
+        <p style="font-size:11px;color:var(--fog);margin-top:8px;line-height:1.5"><strong style="color:var(--off-white)">47%F / 48%M</strong><br>28&ndash;34 core (31%)<br>Older &mdash; Tiny Desk effect</p>
+      </div>
+      <div class="card tc">
+        <div class="card-label tc">Global Streaming</div>
+        <div class="st-n t sm">30.0</div><div class="st-l">Avg Age</div>
+        <p style="font-size:11px;color:var(--fog);margin-top:8px;line-height:1.5"><strong style="color:var(--off-white)">44%F / 51%M</strong><br>23&ndash;27 core (30%)<br>Younger outside US</p>
+      </div>
+      <div class="card pc">
+        <div class="card-label pc">Instagram</div>
+        <div class="st-n sm" style="color:var(--pink)">27.4</div><div class="st-l">Avg Age</div>
+        <p style="font-size:11px;color:var(--fog);margin-top:8px;line-height:1.5"><strong style="color:var(--pink)">71%F / 29%M</strong><br>18&ndash;34 core (78%)<br>Dramatically different</p>
+      </div>
+    </div>
+
+    <div class="hl"><strong>The music reaches one audience (30+, even gender). The visual/cultural identity reaches another (27, 71% female).</strong> Most artists skew one way. This is a rare two-for-one.</div>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+        <span class="preview">Pitch brand partners on dual-audience positioning. Lead with 18.7% IG engagement...</span>
+        <span class="dept">Brand / Sync</span>
+      </button>
+      <div class="toggle-body act"><p><strong>Pitch brand partners on dual-audience positioning.</strong> Streaming = 25&ndash;34 Hispanic males. Social = 18&ndash;27 females in Latin alt/fashion. Lead with 18.7% IG engagement, not follower count.</p></div>
+    </div>
+  </div>
+
+  <!-- Ethnicity -->
+  <div class="sub">
+    <div class="sub-title">Ethnicity &amp; Language (Instagram)</div>
+    <div class="two">
+      <table class="dt"><tr><th>Ethnicity</th><th class="r">Share</th></tr><tr><td>Hispanic</td><td class="r"><strong>64%</strong></td></tr><tr><td>White / Caucasian</td><td class="r">31%</td></tr><tr><td>Asian</td><td class="r">4%</td></tr><tr><td>Black / African American</td><td class="r">2%</td></tr></table>
+      <table class="dt"><tr><th>Language</th><th class="r">Share</th></tr><tr><td>Spanish</td><td class="r"><strong>73%</strong></td></tr><tr><td>English</td><td class="r">15%</td></tr><tr><td>Portuguese</td><td class="r">6%</td></tr><tr><td>Other</td><td class="r">&lt;1%</td></tr></table>
+    </div>
+  </div>
+
+  <!-- Genre + Fans Also Like -->
+  <div class="sub">
+    <div class="sub-title">Genre Profile</div>
+    <div class="two">
+      <div>
+        <table class="dt" style="font-size:12px">
+          <tr><th>Genre (US)</th><th class="r">Share</th><th class="r">Idx</th></tr>
+          <tr><td><strong>Latin Alternative</strong></td><td class="r">6.0%</td><td class="r"><span class="ix o">1,237</span></td></tr>
+          <tr><td><strong>Latin Rock</strong></td><td class="r">1.1%</td><td class="r"><span class="ix o">1,073</span></td></tr>
+          <tr><td><strong>Latin Pop</strong></td><td class="r">5.5%</td><td class="r"><span class="ix o">407</span></td></tr>
+          <tr><td><strong>Latin Urban</strong></td><td class="r">6.9%</td><td class="r"><span class="ix o">395</span></td></tr>
+          <tr><td>Dance / Electronic</td><td class="r">3.5%</td><td class="r"><span class="ix o">142</span></td></tr>
+          <tr><td>Alternative</td><td class="r">8.2%</td><td class="r"><span class="ix o">111</span></td></tr>
+          <tr><td>Pop</td><td class="r">16.1%</td><td class="r"><span class="ix n">87</span></td></tr>
+          <tr><td>Rap / Hip-Hop</td><td class="r">12.9%</td><td class="r"><span class="ix u">72</span></td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:10px">Fans Also Like</p>
+        <div class="tags">
+          <span class="tag">NATHY PELUSO</span><span class="tag">AKRIILA</span><span class="tag">rusowsky</span><span class="tag">Dillom</span><span class="tag">Trueno</span><span class="tag">LATIN MAFIA</span><span class="tag">Milo j</span><span class="tag pk">Young Miko</span><span class="tag pk">Judeline</span><span class="tag pk">ROSAL&Iacute;A</span>
+        </div>
+        <p style="font-size:12px;color:var(--fog);margin-top:14px;line-height:1.6">Latin alternative and experimental urban &mdash; genre-fluid, internet-driven, culturally boundary-pushing. This audience isn&rsquo;t reggaeton.</p>
+      </div>
+    </div>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+        <span class="preview">Sync leans high-energy, irreverent &mdash; sports, streetwear, gaming, action-comedy...</span>
+        <span class="dept">Sync / Brand</span>
+      </button>
+      <div class="toggle-body act"><p><strong>Sync leans toward high-energy, irreverent placements</strong> &mdash; sports, streetwear, gaming, action-comedy. Think Red Bull, Nike SB, brands that want cultural edge in Latin without defaulting to reggaeton.</p></div>
+    </div>
+  </div>
+
+  <!-- Psychographics -->
+  <div class="sub">
+    <div class="sub-title">Audience Psychographics <span style="font-weight:400;color:var(--fog-dim)">[Beta]</span></div>
+    <div class="hl" style="border-left-color:var(--flame)"><strong style="color:var(--flame)">Snapshot:</strong> High-energy cultural shapeshifters &mdash; chaos, irony, creative freedom. Humor + aggression + style. Originality over polish. Spectacle as self-expression.</div>
+    <div class="psy">
+      <div class="psy-card"><h4>Lifestyle</h4><p>Social scenes over routines. Late-night creativity, pickup soccer, street fashion.</p></div>
+      <div class="psy-card"><h4>Values</h4><p>Freedom, authenticity, creative mischief. Humor as armor.</p></div>
+      <div class="psy-card"><h4>Musical DNA</h4><p>Eclectic, collision-driven. Latin pop + experimental hip-hop + punk.</p></div>
+      <div class="psy-card"><h4>Fashion</h4><p>Maximalist, performative. Streetwear + throwback. Outfits as the joke.</p></div>
+      <div class="psy-card"><h4>Media</h4><p>Fast-paced, absurdist, visually bold. Internet-native. Chaotic &gt; structured.</p></div>
+      <div class="psy-card"><h4>Digital</h4><p>Visual-first, meme-driven. Short-form + behind-the-scenes. Irony &gt; polish.</p></div>
+    </div>
+    <p style="font-family:'DM Mono',monospace;font-size:9px;color:var(--fog-dim);margin-top:8px">Source: GPT-5.2 + web research &middot; RCA psychographic framework</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════ SOCIALS ══════ -->
+<div class="sec" id="socials">
+  <div class="sec-bar"><div class="sec-label">Socials</div><div class="sec-title">Social &amp; Content</div></div>
+
+  <div class="plats">
+    <div class="plat"><div class="plat-name">Instagram</div><div class="plat-num">1.2M</div><div class="plat-delta">+154% YoY</div><div class="plat-sub">18.7% eng (+13.5 above)</div></div>
+    <div class="plat"><div class="plat-name">TikTok</div><div class="plat-num">442K</div><div class="plat-delta">+202% YoY</div><div class="plat-sub">7.9% eng (-1.5 below)</div></div>
+    <div class="plat"><div class="plat-name">YouTube</div><div class="plat-num">755K</div><div class="plat-delta">+48% YoY</div><div class="plat-sub">+243K new</div></div>
+    <div class="plat"><div class="plat-name">Spotify</div><div class="plat-num">633K</div><div class="plat-delta">+139% YoY</div><div class="plat-sub">+368K new</div></div>
+  </div>
+
+  <p class="cm">Triple-digit YoY growth on every platform. Absolute numbers still small &mdash; significant runway ahead.</p>
+
+  <!-- IG vs TikTok -->
+  <div class="sub">
+    <div class="sub-title">Instagram vs TikTok &mdash; Head to Head</div>
+    <div class="two">
+      <div class="card gc">
+        <div class="card-label gc">Instagram</div>
+        <div class="st-n g" style="font-size:36px">18.7%</div><div class="st-l">Engagement</div><div class="st-s up">+13.5% above benchmark</div>
+        <p style="font-size:12px;color:var(--fog);margin-top:12px;line-height:1.6">Pre-Feb: <strong style="color:var(--off-white)">2.5M</strong> avg views/Reel. Post-Feb: <strong style="color:var(--off-white)">1.7M</strong> avg.<br>Fred again.. London show = 5.2M (top post).<br>228K avg likes. Engagement is extraordinary.</p>
+      </div>
+      <div class="card" style="border-top-color:var(--flame)">
+        <div class="card-label" style="color:var(--flame)">TikTok</div>
+        <div class="st-n f" style="font-size:36px">7.9%</div><div class="st-l">Engagement</div><div class="st-s dn">-1.5% vs benchmark</div>
+        <p style="font-size:12px;color:var(--fog);margin-top:12px;line-height:1.6">Pre-Feb: <strong style="color:var(--off-white)">700K</strong> avg. Post-Feb: <strong style="color:var(--off-white)">1.4M</strong> &mdash; doubled.<br>Creates spike around LIVE (3,500 post-Coachella)<br>not releases (~500). Needs strategy, not autopilot.</p>
+      </div>
+    </div>
+
+    <div class="toggle">
+      <button class="toggle-btn" onclick="tog(this)">
+        <span class="arrow">&rarr;</span><span class="tag action">Action</span>
+        <span class="preview">Instagram is the relationship platform &mdash; protect it. TikTok needs campaign content...</span>
+        <span class="dept">Creative / Content</span>
+      </button>
+      <div class="toggle-body act"><p><strong>Instagram is the relationship platform &mdash; protect it.</strong> TikTok needs campaign content around live moments, not autopilot. Prioritize collaborator footage (Fred again.. = top-performing).</p></div>
+    </div>
+  </div>
+
+  <!-- Notable Followers -->
+  <div class="sub">
+    <div class="sub-title">Notable Followers</div>
+    <p style="font-size:13px;color:var(--fog);line-height:1.8"><strong style="color:var(--off-white)">Sergio Ramos</strong> (67M) &middot; <strong style="color:var(--off-white)">J Balvin</strong> (50M) &middot; Veveta (37M) &middot; Juanpa Zurita (33M) &middot; DANNA (32M) &middot; Sebasti&aacute;n Yatra (29M) &middot; <strong style="color:var(--off-white)">ROSAL&Iacute;A</strong> (28M) &middot; <strong style="color:var(--off-white)">The Tonight Show</strong> (22M) &middot; <strong style="color:var(--off-white)">Jack Black</strong> (16M) &middot; Mar&iacute;a Becerra (15M) &middot; LALI (12M)</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- FOOTER -->
+<div class="foot">
+  <div class="rca">RCA</div>
+  <p>Artist Insights &mdash; CA7RIEL &amp; Paco Amoroso &mdash; March 12, 2026</p>
+  <p style="margin-top:2px">Data: Strategic Analytics &middot; Internal Use Only</p>
+  <p style="margin-top:8px;font-size:9px;color:var(--slate)">Luminate &middot; Spotify Internal &middot; Chartmetric &middot; Internal Data Sources</p>
+</div>
+
+</div><!-- /.c -->
+
+<script>
+function tog(btn){
+  var body=btn.nextElementSibling;
+  var isOpen=btn.classList.contains('open');
+  // Close all others
+  document.querySelectorAll('.toggle-btn.open').forEach(function(b){
+    if(b!==btn){b.classList.remove('open');b.nextElementSibling.classList.remove('open');b.nextElementSibling.style.maxHeight='0';b.nextElementSibling.style.padding='0 16px'}
+  });
+  if(isOpen){
+    btn.classList.remove('open');body.classList.remove('open');body.style.maxHeight='0';body.style.padding='0 16px';
+  }else{
+    btn.classList.add('open');body.classList.add('open');body.style.maxHeight=body.scrollHeight+28+'px';body.style.padding='14px 16px';
+  }
+}
+
+// Nav scroll tracking
+var nav=document.getElementById('nav');
+var sections=document.querySelectorAll('.sec[id]');
+var navLinks=document.querySelectorAll('.nav-link');
+function updateNav(){
+  if(window.scrollY>20){nav.classList.add('scrolled')}else{nav.classList.remove('scrolled')}
+  var current='';
+  sections.forEach(function(sec){if(window.scrollY>=sec.offsetTop-80){current=sec.getAttribute('id')}});
+  navLinks.forEach(function(link){link.classList.remove('active');if(link.getAttribute('data-section')===current){link.classList.add('active')}});
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+updateNav();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEMPO — Artist Insights</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0E0E;--card:#1A1A1A;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--fog:#B0A9BE;--fog-dim:#706B7A;--amber:#FFB347}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;height:44px;position:sticky;top:0;z-index:9999}
+nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+nav .nav-links{display:flex;align-items:center;gap:2px}
+nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color 0.15s}
+nav .nav-links a:hover{color:var(--white)}
+nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
+.sndd{position:relative;display:inline-block}
+.sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+.sndd-b:hover{color:var(--white)}
+.sndd-b.active{font-weight:700;color:var(--green);border-bottom:2px solid var(--green)}
+.sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:220px;z-index:10000;padding:4px 0}
+.sndd:hover .sndd-m{display:block}
+.sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+.sndd-m a:hover{background:var(--border);color:var(--white)}
+.sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+.sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+
+/* CONTENT */
+.c{max-width:720px;margin:0 auto;padding:0 32px}
+.hero{padding:80px 0 48px}
+.hero-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:inline-block;padding:4px 10px;background:rgba(205,248,81,0.08)}
+.hero-title{font-size:42px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:16px}
+.hero-title span{color:var(--green)}
+.hero-sub{font-size:14px;color:var(--fog-dim);max-width:460px;line-height:1.7}
+
+.artists{padding:32px 0}
+.artist-card{display:block;background:var(--card);padding:24px 28px;margin-bottom:10px;border-left:3px solid var(--muted);text-decoration:none;transition:all 0.2s;position:relative}
+.artist-card:hover{border-left-color:var(--green);background:#1C1C1C}
+.artist-card::after{content:'\2192';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:16px;color:var(--muted);transition:color 0.2s}
+.artist-card:hover::after{color:var(--green)}
+.artist-name{font-size:20px;font-weight:800;color:var(--white);line-height:1;margin-bottom:6px}
+.artist-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);letter-spacing:0.5px}
+.artist-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.artist-tags span{font-size:10px;font-weight:600;padding:3px 10px;background:rgba(205,248,81,0.06);color:var(--fog)}
+.review-badge{position:absolute;top:12px;right:56px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;background:rgba(255,179,71,0.1);color:var(--amber);padding:3px 10px}
+
+.foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:32px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
+
+@media(max-width:640px){.c{padding:0 20px}.artist-card{padding:20px}.hero-title{font-size:32px}.foot{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Insights</div><a href="../insights/index.html">All Artist Insights</a><a href="../insights/horsegirl-insights-v4.html">horsegiirL</a><a href="../insights/ca7riel-paco-insights.html">CA7RIEL &amp; Paco Amoroso</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+
+<div class="c">
+<div class="hero">
+  <div class="hero-tag">Artist Insights</div>
+  <h1 class="hero-title"><span>Artist</span> Insights</h1>
+  <p class="hero-sub">Streaming, audience, and social profiles &mdash; built from Strategic Analytics data. Each deck is independent and self-contained.</p>
+</div>
+
+<div class="artists">
+  <a href="horsegirl-insights-v4.html" class="artist-card">
+    <div class="artist-name">horsegiirL</div>
+    <div class="artist-meta">March 16, 2026 &middot; Luminate &middot; Spotify &middot; Chartmetric</div>
+    <div class="artist-tags">
+      <span>318K Weekly US</span>
+      <span>+180% TikTok YoY</span>
+      <span>Hyperpop / Electronic</span>
+    </div>
+  </a>
+
+  <a href="horsegirl-review.html" class="artist-card">
+    <span class="review-badge">REVIEW</span>
+    <div class="artist-name">horsegiirL</div>
+    <div class="artist-meta">Review copy &middot; Add notes per section &middot; Export as .txt</div>
+    <div class="artist-tags">
+      <span>Interactive Notes</span>
+      <span>Save Locally</span>
+      <span>Export</span>
+    </div>
+  </a>
+
+  <a href="ca7riel-paco-insights.html" class="artist-card">
+    <div class="artist-name">CA7RIEL &amp; Paco Amoroso</div>
+    <div class="artist-meta">March 12, 2026 &middot; Luminate &middot; Spotify &middot; Chartmetric</div>
+    <div class="artist-tags">
+      <span>6.8M Weekly Global</span>
+      <span>47M Tiny Desk Views</span>
+      <span>Latin Alternative</span>
+    </div>
+  </a>
+</div>
+
+<div class="foot">
+  <span>Campaign Operations &middot; Strategic Analytics &middot; RCA Records</span>
+  <span>Internal Use Only</span>
+</div>
+</div>
+</body>
+</html>

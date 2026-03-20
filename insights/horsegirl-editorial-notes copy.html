@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editorial Notes — horsegiirL Insights — March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--amber:#FFB347}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.c{max-width:720px;margin:0 auto;padding:0 32px}
+.hero{padding:60px 0 36px;border-bottom:2px solid var(--chartreuse)}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:12px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--off-white);letter-spacing:2px;line-height:1;margin-bottom:10px}
+.hero-title span{color:var(--chartreuse)}
+.hero-sub{font-size:14px;color:var(--fog);max-width:580px}
+h2{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--chartreuse);letter-spacing:1px;margin-top:48px;margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--slate)}
+h3{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-top:28px;margin-bottom:8px}
+p{margin-bottom:12px;color:var(--off-white);opacity:0.9}
+p em{color:var(--chartreuse);font-style:normal;font-weight:600}
+p strong{color:var(--off-white);font-weight:700}
+.note{background:var(--dark);border-left:3px solid var(--teal);padding:14px 18px;margin:16px 0;font-size:13px;line-height:1.6}
+.note strong{color:var(--off-white)}
+.note em{color:var(--chartreuse);font-style:normal;font-weight:600}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.compare-col{background:var(--dark);padding:14px;font-size:13px;line-height:1.6;color:var(--fog)}
+.compare-col .label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.compare-col .label.raw{color:var(--fog-dim)}
+.compare-col .label.ed{color:var(--chartreuse)}
+.foot{padding:40px 0;text-align:center}
+.foot p{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim)}
+@media(max-width:640px){.c{padding:0 20px}.compare{grid-template-columns:1fr}}
+
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+
+</style>
+</head>
+<body>
+<div class="c">
+
+<div class="hero">
+  <p class="hero-eyebrow">Editorial Notes &middot; Internal</p>
+  <h1 class="hero-title">HOW THE DATA BECAME <span>THE STORY</span></h1>
+  <p class="hero-sub">Notes on the editorial choices in the horsegiirL Artist Insights build &mdash; what was surfaced, what was reframed, and why.</p>
+</div>
+
+<h2>What This Document Is</h2>
+
+<p>The Artist Insights deck uses raw data from Strategic Analytics. This doc walks through the editorial choices that turn data into narrative &mdash; which numbers got highlighted, which connections were drawn, and what the reasoning was. Think of it as a making-of for the insights process.</p>
+
+<p>The point isn't that the data changes. It doesn't. <strong>Every number in the deck comes directly from the spreadsheet.</strong> What changes is which numbers get put in front of people, in what order, and with what framing.</p>
+
+<h2>The Lead Insight: Catalog as Engine</h2>
+
+<h3>What the raw data shows</h3>
+<p>The track_stream_trends tab has weekly ODA for every track. Sorting by recent average (Feb&ndash;Mar 2026), the top 3 tracks are: ONLY THE BEST (112K avg), My Little White Pony (81K avg), My Barn My Rules (55K avg).</p>
+
+<h3>The editorial choice</h3>
+<p>Tracks #2 and #3 are from <em>2022</em>. They're four years old and still pulling 81K and 55K weekly. That's not normal for a developing artist &mdash; usually the most recent release dominates and catalog fades. Here, <strong>catalog is actually sustaining the baseline between release spikes.</strong></p>
+
+<div class="compare">
+  <div class="compare-col"><div class="label raw">Raw data says</div>Top 3 most-streamed tracks: ONLY THE BEST (112K), My Little White Pony (81K), My Barn My Rules (55K)</div>
+  <div class="compare-col"><div class="label ed">Insights framing</div>Catalog is the engine. Early tracks are 2nd and 3rd most-streamed right now &mdash; years after release. New singles spike, catalog sustains.</div>
+</div>
+
+<div class="note"><strong>Why this matters:</strong> It changes the playlist strategy conversation. If catalog is doing this much heavy lifting, losing catalog playlist positioning between releases isn't just a missed opportunity &mdash; it drops the floor. That's a concrete action for Commercial Partnerships.</div>
+
+
+<h2>US Share at 35%</h2>
+
+<h3>What the raw data shows</h3>
+<p>artist_stream_trends: US 8-week avg is 318K, WW 8-week avg is 911K. That's 34.9% US share.</p>
+
+<h3>The editorial choice</h3>
+<p>35% US share is <em>unusually high for a developing artist</em> in this genre. Most electronic/hyperpop acts skew heavily international (European festivals, UK scene). Flagging this as an anomaly is more useful than just reporting the number, because it tells you where this artist sits relative to expectation.</p>
+
+
+<h2>The SoundCloud Signal</h2>
+
+<h3>What the raw data shows</h3>
+<p>partner_share: SoundCloud at 0.9% share, index 279.</p>
+
+<h3>The editorial choice</h3>
+<p>Most people would skip SoundCloud at 0.9% share &mdash; it's a rounding error in the total. But the <em>index is 279</em>, meaning this artist's audience uses SoundCloud nearly 3x more than the benchmark. For the hyperpop/electronic lane, SoundCloud is still a discovery platform. That 0.9% share at 279 index is a cultural signal, not a business metric.</p>
+
+<div class="note">This is the kind of insight that gets lost when you only look at share. <strong>Share tells you where the volume is. Index tells you where the audience identity lives.</strong> Both matter, but for different conversations.</div>
+
+
+<h2>European Electronic Corridor</h2>
+
+<h3>What the raw data shows</h3>
+<p>global_streaming_markets: Germany 145, France 148, Poland 167, Netherlands 155, Denmark 263. All over-indexing.</p>
+
+<h3>The editorial choice</h3>
+<p>These aren't random European markets. They're the five countries with the strongest electronic music infrastructure &mdash; major festivals (Primavera, Sonar, Dekmantel, Unsound), established club scenes, and audiences that actively seek out this genre. Naming it the <em>"European electronic corridor"</em> connects the data to a geographic strategy rather than just listing numbers. It also tells International exactly which conversations to have.</p>
+
+<div class="compare">
+  <div class="compare-col"><div class="label raw">Raw data says</div>Germany 4.8% (idx 145), France 2.7% (idx 148), Poland 1.8% (idx 167), Netherlands 1.7% (idx 155), Denmark 1.0% (idx 263)</div>
+  <div class="compare-col"><div class="label ed">Insights framing</div>The European electronic corridor (Germany, France, Poland, Netherlands, Denmark) is where international growth lives. Prioritize festival bookings and European press.</div>
+</div>
+
+
+<h2>Techno at 6,795 Index</h2>
+
+<h3>What the raw data shows</h3>
+<p>audience_preferred_genres: Techno at 0.1% share, index 6,795.</p>
+
+<h3>The editorial choice</h3>
+<p>0.1% share is negligible volume. 6,795 index is the single highest number in the entire dataset. That means horsegiirL's audience listens to Techno at <em>68 times the rate of the average listener</em>. Combined with Dance/Electronic at 318 index and the Fans Also Like list (SOPHIE, A.G. Cook, Shygirl, Slayyyter, VTSS, Brutalismus 3000), this confirms the genre positioning conclusively.</p>
+
+<p>Pop leads by raw share (29.5%), and a pure share-based read would call this a Pop artist. <strong>The index tells you the audience's identity; the share tells you the market's default.</strong> The identity is electronic/experimental. Pop is just what these listeners also consume.</p>
+
+
+<h2>The TikTok Growth vs. Engagement Disconnect</h2>
+
+<h3>What the raw data shows</h3>
+<p>social_followers: TikTok +180% YoY, 401K followers (surpassed Instagram at 310K).<br>
+engagement: TikTok 2.7% engagement, -6.6% vs benchmark. Instagram 10.0%, +4.8% vs benchmark.</p>
+
+<h3>The editorial choice</h3>
+<p>If you only looked at follower growth, TikTok is the clear winner. If you only looked at engagement, Instagram is. <strong>The insight is in the disconnect:</strong> TikTok is driving discovery (people finding the artist) but Instagram is driving connection (people caring about the artist). They serve different functions.</p>
+
+<p>This changes the content strategy recommendation. TikTok doesn't need less investment &mdash; it needs <em>different</em> content. Growth-at-all-costs content (trends, hooks, algorithmic optimization) gets followers but not engagement. Scene-specific, personality-driven content would trade some growth for depth.</p>
+
+
+<h2>What's Not in the Deck (and Why)</h2>
+
+<h3>Track-level streaming timeline chart</h3>
+<p>The data exists (track_stream_trends, 2,595 rows) but horsegiirL has 21 tracks. A chart with 21 overlapping lines is unreadable. The bar chart (Week 1 debuts) and the "top tracks by recent average" commentary convey the same information more clearly.</p>
+
+<h3>Full 21-track debut list</h3>
+<p>Trimmed to top 9. The bottom 12 tracks all debuted below 4K. Including them would compress the bar chart and make the acceleration story harder to see. The editorial judgment: show the trajectory, not the inventory.</p>
+
+<h3>Every global market</h3>
+<p>The data has 145 markets. The deck shows 11. Anything below 1% share and without a notable index signal was cut. The Denmark exception (1.0% share but 263 index) made the cut because it completes the European electronic corridor pattern.</p>
+
+<h3>Pandora</h3>
+<p>Listed in partner_share at 0.0% share, index 1. Mentioned once in commentary to make a specific point: "this audience doesn't exist on lean-back radio." Then dropped. The absence is the insight.</p>
+
+
+<h2>Department Routing</h2>
+
+<p>Every action callout in the deck is tagged to a specific department. The routing logic:</p>
+
+<div class="note">
+<strong>Commercial Partnerships</strong> &mdash; anything DSP, playlist, or streaming-related. Catalog positioning, SoundCloud strategy, platform mix.<br><br>
+<strong>Marketing / Touring</strong> &mdash; live show routing, US market selection.<br><br>
+<strong>International</strong> &mdash; European market prioritization, festival strategy.<br><br>
+<strong>Brand / Sync</strong> &mdash; dual-audience positioning, engagement stats for brand pitches, genre-informed sync placements.<br><br>
+<strong>Creative / Content</strong> &mdash; IG vs TikTok strategy, content type recommendations.
+</div>
+
+<p>The point of tagging departments is that someone scanning the deck can find the actions that are relevant to them without reading every slide. A person from Commercial Partnerships can look at the green ACTION bars, see their name, and know exactly what to do. Everyone else can skip it.</p>
+
+
+<h2>The Process: Raw Data &rarr; Finished Output</h2>
+
+<p>For reference, here's what happened between receiving the spreadsheet and delivering the deck:</p>
+
+<p><strong>1. Data intake:</strong> 14-tab Excel file with streaming trends, track debuts, partner share, demographics, market data, genre profiles, social followers, and engagement metrics.</p>
+
+<p><strong>2. Analysis pass:</strong> Calculated 8-week averages, YoY growth, identified top tracks by current streaming (not just all-time), found the biggest week-over-week jumps, compared share vs. index across all tables.</p>
+
+<p><strong>3. Insight extraction:</strong> Identified the 5&ndash;7 findings that would change someone's behavior &mdash; not just interesting facts. "Catalog is sustaining the floor" changes playlist strategy. "SoundCloud at 279 index" opens a new conversation. "TikTok growth vs. engagement disconnect" changes content strategy.</p>
+
+<p><strong>4. Department routing:</strong> Matched each insight to the team best positioned to act on it.</p>
+
+<p><strong>5. Output generation:</strong> Three formats from the same content &mdash; interactive HTML (for web sharing), PPTX (for meetings), PDF (for attachments).</p>
+
+<p>Total data points in the spreadsheet: ~5,000+ rows across 14 tabs. Total data points that appear in the deck: ~80. <strong>The editorial value is in the 98% that gets cut.</strong></p>
+
+
+<div class="foot">
+  <p>Editorial Notes &mdash; horsegiirL Artist Insights &mdash; March 16, 2026</p>
+</div>
+
+</div>
+</body>
+</html>
