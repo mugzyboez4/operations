@@ -229,8 +229,13 @@
     background: var(--chartreuse); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 20px rgba(205,248,81,0.3); transition: transform 0.15s, box-shadow 0.15s;
+    animation: fb-pulse 2s ease-in-out 3;
   }
-  .fb-float:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(205,248,81,0.4); }
+  @keyframes fb-pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(205,248,81,0.3); }
+    50% { box-shadow: 0 4px 32px rgba(205,248,81,0.6), 0 0 0 8px rgba(205,248,81,0.1); }
+  }
+  .fb-float:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(205,248,81,0.4); animation: none; }
   .fb-float svg { width: 22px; height: 22px; fill: var(--bg); }
 
   /* FLOATING PANEL */
@@ -335,6 +340,11 @@ nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; p
 </div>
 
 <!-- PHASE BAR -->
+<div style="padding:10px 32px; background:rgba(205,248,81,0.04); border-bottom:1px solid #2A2A2A; display:flex; align-items:center; gap:10px;">
+  <span style="font-size:14px;">&#9998;</span>
+  <span style="font-size:11px; color:#B0A9BE; font-family:'Inter',sans-serif;"><strong style="color:#CDF851;">This is a working draft &mdash; your input shapes it.</strong> &nbsp;Click the pencil icons in the sidebar or the notes button in the corner to leave feedback directly on the page.</span>
+  <button onclick="this.parentElement.style.display='none'" style="margin-left:auto; background:none; border:none; color:#555; cursor:pointer; font-size:16px; padding:4px 8px;">&times;</button>
+</div>
 <div class="phase-bar">
   <div class="pb-left">
     <div class="pb-label">Selected Phase</div>
