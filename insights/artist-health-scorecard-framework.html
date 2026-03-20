@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Health Scorecard — Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.c{max-width:860px;margin:0 auto;padding:0 32px}
+.hero{padding:72px 0 36px;border-bottom:2px solid var(--chartreuse)}
+.hero-ey{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:14px}
+.hero-t{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,7vw,72px);line-height:0.92;color:var(--off-white);letter-spacing:2px;margin-bottom:12px}
+.hero-t span{color:var(--chartreuse)}
+.hero-s{font-size:14px;color:var(--fog);max-width:500px}
+.sl{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:4px}
+.st{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--off-white);letter-spacing:1px;line-height:1;margin-bottom:6px}
+.sb{height:2px;background:var(--chartreuse);margin-bottom:20px}
+.ix{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:1px 6px}
+.ix.o{background:rgba(205,248,81,0.1);color:var(--chartreuse)}.ix.u{background:rgba(255,74,35,0.1);color:var(--flame)}.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
+.bg{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1px;padding:2px 8px;vertical-align:middle;margin-left:6px}
+.bg.lv{background:rgba(205,248,81,0.1);color:var(--chartreuse)}
+.bg.nx{background:rgba(255,179,71,0.1);color:var(--amber)}
+.bg.fu{background:rgba(176,169,190,0.08);color:var(--fog-dim)}
+.dv{height:1px;background:var(--slate);margin-top:40px}
+.ft{padding:28px 0 48px;text-align:center}
+.ft .r{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--chartreuse);letter-spacing:4px;margin-bottom:4px}
+.ft p{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim)}
+@media(max-width:700px){.c{padding:0 20px}.hero-t{font-size:40px}}
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+</style>
+</head>
+<body>
+<div class="c">
+
+<div class="hero">
+  <p class="hero-ey">Proposal &middot; Strategic Analytics &times; Campaign Ops</p>
+  <h1 class="hero-t">ARTIST HEALTH<br><span>SCORECARD</span></h1>
+  <p class="hero-s">Not &ldquo;is this number big&rdquo; &mdash; but &ldquo;is this number big <em style="color:var(--chartreuse);font-style:normal">for an artist like this.&rdquo;</em></p>
+</div>
+
+<!-- HOW IT WORKS -->
+<div style="padding:40px 0 0">
+  <div class="sl">How It Works</div>
+  <div class="sb"></div>
+  <div style="display:grid;grid-template-columns:40px 1fr;gap:0;font-size:14px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--chartreuse);padding:8px 0">1</div>
+    <div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)"><strong>Tier the artist</strong> by follower count and streaming volume.</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--chartreuse);padding:8px 0">2</div>
+    <div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)"><strong>Measure growth</strong> across 1-month, 3-month, 6-month, and 1-year windows.</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--chartreuse);padding:8px 0">3</div>
+    <div style="padding:8px 0"><strong>Place in percentile</strong> vs the full peer group. Classify. Track momentum.</div>
+  </div>
+</div>
+
+<!-- SCALE -->
+<div style="padding:40px 0 0">
+  <div class="sl">Scale</div>
+  <div class="sb"></div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
+    <div style="background:var(--dark);padding:14px 8px;text-align:center;border-top:3px solid var(--chartreuse)"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--chartreuse)">P90+</div><div style="font-size:10px;color:var(--chartreuse)">Excellent</div></div>
+    <div style="background:var(--dark);padding:14px 8px;text-align:center;border-top:3px solid var(--chartreuse)"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--chartreuse)">P70&ndash;89</div><div style="font-size:10px;color:var(--chartreuse)">Strong</div></div>
+    <div style="background:var(--dark);padding:14px 8px;text-align:center;border-top:3px solid var(--fog)"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--fog)">P40&ndash;69</div><div style="font-size:10px;color:var(--fog)">Average</div></div>
+    <div style="background:var(--dark);padding:14px 8px;text-align:center;border-top:3px solid var(--amber)"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--amber)">P20&ndash;39</div><div style="font-size:10px;color:var(--amber)">Below Avg</div></div>
+    <div style="background:var(--dark);padding:14px 8px;text-align:center;border-top:3px solid var(--flame)"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--flame)">&lt;P20</div><div style="font-size:10px;color:var(--flame)">Concerning</div></div>
+  </div>
+</div>
+
+<!-- DIMENSIONS -->
+<div style="padding:40px 0 0">
+  <div class="sl">Dimensions</div>
+  <div class="sb"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:13px">
+    <tr><th style="text-align:left;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">Metric</th><th style="text-align:left;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">Source</th><th style="text-align:left;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">Tiered By</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">Status</th></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">IG Follower Growth</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Chartmetric</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Follower count</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg lv">LIVE</span></td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">TK Follower Growth</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Chartmetric</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Follower count</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">Streaming Growth</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Luminate</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Weekly ODA</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">Release Performance</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Luminate</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Weekly ODA</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">IG Engagement</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Chartmetric</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Follower count</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">TK Engagement</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Chartmetric</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);color:var(--fog)">Follower count</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></td></tr>
+    <tr><td style="padding:10px;font-weight:600">Catalog Strength</td><td style="padding:10px;color:var(--fog)">Luminate</td><td style="padding:10px;color:var(--fog)">Weekly ODA</td><td style="padding:10px;text-align:right"><span class="bg fu">FUTURE</span></td></tr>
+  </table>
+</div>
+
+<!-- EXAMPLE -->
+<div style="padding:40px 0 0">
+  <div class="sl">Example</div>
+  <div class="st">horsegiirL &mdash; 200K&ndash;500K Tier</div>
+  <div class="sb"></div>
+  <div style="background:var(--dark);padding:20px;overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:600px">
+      <tr><th style="text-align:left;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate);width:120px"></th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">1M</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">3M</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">6M</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">1Y</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">CLASS.</th><th style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--fog-dim);padding:8px 10px;border-bottom:2px solid var(--slate)">TREND</th></tr>
+      <tr><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">IG Growth</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="ix o">P87</span></td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="ix o">P84</span></td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="ix o">P85</span></td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="ix o">P92</span></td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--chartreuse);font-weight:600;font-size:11px">Very Strong</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog);font-size:11px">Stable</td></tr>
+      <tr style="opacity:0.4"><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">TK Growth</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)" colspan="4">+180% YoY</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--amber);font-size:10px">Pending</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)">&mdash;</td></tr>
+      <tr style="opacity:0.4"><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">Streaming</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)" colspan="4">318K weekly US</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--amber);font-size:10px">Pending</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)">&mdash;</td></tr>
+      <tr style="opacity:0.4"><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">Releases</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)" colspan="4">186K Week 1</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--amber);font-size:10px">Pending</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)">&mdash;</td></tr>
+      <tr style="opacity:0.4"><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);font-weight:600">IG Engagement</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)" colspan="4">10.0% ER</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--amber);font-size:10px">Pending</td><td style="padding:10px;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right;color:var(--fog-dim)">&mdash;</td></tr>
+      <tr style="opacity:0.4"><td style="padding:10px;font-weight:600">TK Engagement</td><td style="padding:10px;text-align:right;color:var(--fog-dim)" colspan="4">4.6% L2V</td><td style="padding:10px;text-align:right;color:var(--amber);font-size:10px">Pending</td><td style="padding:10px;text-align:right;color:var(--fog-dim)">&mdash;</td></tr>
+    </table>
+  </div>
+  <p style="font-size:12px;color:var(--fog);margin-top:10px">One row live. Each new benchmark lights up another row.</p>
+</div>
+
+<!-- BUILD ORDER -->
+<div style="padding:40px 0 0">
+  <div class="sl">Build Order</div>
+  <div class="sb"></div>
+  <div style="display:grid;grid-template-columns:40px 1fr auto;gap:0;font-size:13px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--chartreuse);padding:8px 0">1</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)">IG Follower Growth</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg lv">DONE</span></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--amber);padding:8px 0">2</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)">Streaming ODA Growth</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--amber);padding:8px 0">3</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)">TK Growth + Engagement</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--amber);padding:8px 0">4</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3)">Release Performance</div><div style="padding:8px 0;border-bottom:1px solid rgba(62,63,65,0.3);text-align:right"><span class="bg nx">NEXT</span></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--fog-dim);padding:8px 0">5</div><div style="padding:8px 0">Catalog Strength</div><div style="padding:8px 0;text-align:right"><span class="bg fu">FUTURE</span></div>
+  </div>
+</div>
+
+<!-- OWNERSHIP -->
+<div style="padding:40px 0 0">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="background:var(--dark);padding:18px;border-top:3px solid var(--teal)"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Strategic Analytics</div><div style="font-size:13px;color:var(--fog)">Builds the benchmarks. Owns the data.</div></div>
+    <div style="background:var(--dark);padding:18px;border-top:3px solid var(--chartreuse)"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:6px">Campaign Operations</div><div style="font-size:13px;color:var(--fog)">Builds the scorecards. Distributes to departments.</div></div>
+  </div>
+</div>
+
+<div class="dv"></div>
+<div class="ft"><div class="r">RCA</div><p>Artist Health Scorecard &middot; Strategic Analytics &times; Campaign Ops</p></div>
+</div>
+</body>
+</html>

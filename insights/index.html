@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEMPO — Artist Insights</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0F0E0E;--card:#1A1A1A;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--fog:#B0A9BE;--fog-dim:#706B7A;--amber:#FFB347}
+:root{--bg:#0F0E0E;--card:#1A1A1A;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--fog:#B0A9BE;--fog-dim:#706B7A;--amber:#FFB347;--teal:#5BC0BE}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
@@ -39,7 +39,9 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
 .hero-title span{color:var(--green)}
 .hero-sub{font-size:14px;color:var(--fog-dim);max-width:460px;line-height:1.7}
 
-.artists{padding:32px 0}
+.section-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin:40px 0 16px}
+
+.artists{padding:16px 0 32px}
 .artist-card{display:block;background:var(--card);padding:24px 28px;margin-bottom:10px;border-left:3px solid var(--muted);text-decoration:none;transition:all 0.2s;position:relative}
 .artist-card:hover{border-left-color:var(--green);background:#1C1C1C}
 .artist-card::after{content:'\2192';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:16px;color:var(--muted);transition:color 0.2s}
@@ -48,9 +50,15 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
 .artist-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);letter-spacing:0.5px}
 .artist-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .artist-tags span{font-size:10px;font-weight:600;padding:3px 10px;background:rgba(205,248,81,0.06);color:var(--fog)}
-.review-badge{position:absolute;top:12px;right:56px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;background:rgba(255,179,71,0.1);color:var(--amber);padding:3px 10px}
+.review-badge{position:absolute;top:12px;right:56px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;padding:3px 10px}
+.badge-review{background:rgba(255,179,71,0.1);color:var(--amber)}
+.badge-scorecard{background:rgba(91,192,190,0.1);color:var(--teal)}
+.badge-framework{background:rgba(205,248,81,0.08);color:var(--green)}
 
-.foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:32px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
+.card-framework{border-left-color:var(--teal)}
+.card-framework:hover{border-left-color:var(--green)}
+
+.foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:16px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
 
 @media(max-width:640px){.c{padding:0 20px}.artist-card{padding:20px}.hero-title{font-size:32px}.foot{flex-direction:column;gap:4px}}
 </style>
@@ -62,7 +70,7 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
 <a href="../index.html">Home</a>
 <a href="../orbit.html">Orbit</a>
 <a href="../visibility.html">Visibility</a>
-<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Insights</div><a href="../insights/index.html">All Artist Insights</a><a href="../insights/horsegirl-insights-v4.html">horsegiirL</a><a href="../insights/ca7riel-paco-insights.html">CA7RIEL &amp; Paco Amoroso</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Insights</div><a href="index.html" style="color:var(--green);font-weight:700;">All Artist Insights</a><a href="horsegirl-insights-v3.html">horsegiirL</a><a href="horsegirl-insights-scorecard.html">horsegiirL (Scorecard)</a><a href="ca7riel-paco-insights.html">CA7RIEL &amp; Paco Amoroso</a><a href="artist-health-scorecard-framework.html">Scorecard Framework</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
 </div>
 </nav>
 
@@ -73,10 +81,27 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
   <p class="hero-sub">Streaming, audience, and social profiles &mdash; built from Strategic Analytics data. Each deck is independent and self-contained.</p>
 </div>
 
+<!-- FRAMEWORK -->
+<div class="section-label">Framework</div>
 <div class="artists">
-  <a href="horsegirl-insights-v4.html" class="artist-card">
+  <a href="artist-health-scorecard-framework.html" class="artist-card card-framework">
+    <span class="review-badge badge-framework">NEW</span>
+    <div class="artist-name">Artist Health Scorecard</div>
+    <div class="artist-meta">Framework &middot; 7 dimensions &middot; Tiered benchmarks &middot; Percentile placement</div>
+    <div class="artist-tags">
+      <span>IG Growth: LIVE</span>
+      <span>TK Growth: Next</span>
+      <span>Streaming: Next</span>
+    </div>
+  </a>
+</div>
+
+<!-- ARTIST DECKS -->
+<div class="section-label">Artist Decks</div>
+<div class="artists">
+  <a href="horsegirl-insights-v3.html" class="artist-card">
     <div class="artist-name">horsegiirL</div>
-    <div class="artist-meta">March 16, 2026 &middot; Luminate &middot; Spotify &middot; Chartmetric</div>
+    <div class="artist-meta">March 20, 2026 &middot; Luminate &middot; Spotify &middot; Chartmetric</div>
     <div class="artist-tags">
       <span>318K Weekly US</span>
       <span>+180% TikTok YoY</span>
@@ -84,14 +109,14 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
     </div>
   </a>
 
-  <a href="horsegirl-review.html" class="artist-card">
-    <span class="review-badge">REVIEW</span>
+  <a href="horsegirl-insights-scorecard.html" class="artist-card">
+    <span class="review-badge badge-scorecard">SCORECARD</span>
     <div class="artist-name">horsegiirL</div>
-    <div class="artist-meta">Review copy &middot; Add notes per section &middot; Export as .txt</div>
+    <div class="artist-meta">With Artist Health Scorecard section &middot; Show second when pitching framework</div>
     <div class="artist-tags">
-      <span>Interactive Notes</span>
-      <span>Save Locally</span>
-      <span>Export</span>
+      <span>P87 Composite</span>
+      <span>Very Strong</span>
+      <span>Stable Momentum</span>
     </div>
   </a>
 
@@ -102,6 +127,31 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
       <span>6.8M Weekly Global</span>
       <span>47M Tiny Desk Views</span>
       <span>Latin Alternative</span>
+    </div>
+  </a>
+</div>
+
+<!-- REVIEW & REFERENCE -->
+<div class="section-label">Review &amp; Reference</div>
+<div class="artists">
+  <a href="horsegirl-review.html" class="artist-card">
+    <span class="review-badge badge-review">REVIEW</span>
+    <div class="artist-name">horsegiirL</div>
+    <div class="artist-meta">Interactive review copy &middot; Add notes per section &middot; Export as .txt</div>
+    <div class="artist-tags">
+      <span>Interactive Notes</span>
+      <span>Save Locally</span>
+      <span>Export</span>
+    </div>
+  </a>
+
+  <a href="horsegirl-editorial-notes.html" class="artist-card">
+    <span class="review-badge badge-review">NOTES</span>
+    <div class="artist-name">horsegiirL &mdash; Editorial Notes</div>
+    <div class="artist-meta">Data-to-insight translation choices &middot; How we got from numbers to narrative</div>
+    <div class="artist-tags">
+      <span>Methodology</span>
+      <span>Source Mapping</span>
     </div>
   </a>
 </div>
