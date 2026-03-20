@@ -18,7 +18,6 @@
     --muted: #3E3F41;
     --green: #CDF851;
     --flame: #FF4A23;
-    --cyan: #5BCEFA;
   }
   *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
@@ -33,14 +32,17 @@
   nav .nav-links a { font-size:11px; font-weight:500; color:var(--dim); text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; transition:color 0.15s; }
   nav .nav-links a:hover { color:var(--white); }
   nav .nav-links .active-label { font-size:11px; font-weight:700; color:var(--green); padding:6px 10px; border-bottom:2px solid var(--green); }
-  
-  
+
+  .sndd { position:relative; display:inline-block; }
+  .sndd-b { font-size:11px; font-weight:500; color:var(--dim); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
   .sndd-b:hover { color:var(--white); }
   .sndd-b.active { font-weight:700; color:var(--green); border-bottom:2px solid var(--green); }
-  
-  .sndd:hover 
-  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:var(--text); text-decoration:none; }
+  .sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card); border:1px solid var(--border); min-width:220px; z-index:10000; padding:4px 0; }
+  .sndd:hover .sndd-m { display:block; }
+  .sndd-m a { display:block; font-size:11px; color:var(--text); text-decoration:none; padding:6px 12px; }
   .sndd-m a:hover { background:var(--border); color:var(--white); }
+  .sndd-m .sep { border-top:1px solid var(--border); margin:4px 0; }
+  .sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); padding:6px 12px 2px; }
 
   /* MAIN */
   main { max-width:680px; margin:0 auto; padding:80px 24px 120px; }
@@ -49,30 +51,37 @@
   .hero-tag { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; display:inline-block; padding:4px 10px; background:rgba(205,248,81,0.08); }
   h1 { font-size:48px; font-weight:900; letter-spacing:-2px; line-height:1.05; margin-bottom:20px; }
   h1 span { color:var(--green); }
-  .hero-sub { font-size:16px; color:var(--text); line-height:1.7; margin-bottom:48px; max-width:520px; }
+  .hero-sub { font-size:16px; color:var(--text); line-height:1.7; margin-bottom:56px; max-width:540px; }
 
   /* CARDS */
-  .card-grid { display:grid; gap:12px; margin-bottom:48px; }
+  .card-grid { display:grid; gap:12px; margin-bottom:56px; }
   .card { background:var(--card); border:1px solid var(--border); padding:24px; text-decoration:none; display:block; transition:border-color 0.15s, background 0.15s; position:relative; }
   .card:hover { border-color:var(--green); background:#1C1C1C; }
   .card-tag { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); margin-bottom:8px; }
   .card-title { font-size:18px; font-weight:700; color:var(--white); margin-bottom:6px; }
   .card-desc { font-size:13px; color:var(--dim); line-height:1.6; }
-  .card-badge { position:absolute; top:20px; right:20px; font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:3px 8px; }
-  .badge-live { background:rgba(205,248,81,0.1); color:var(--green); }
-  .badge-building { background:rgba(176,169,190,0.08); color:var(--dim); }
   .card-hero { border-left:3px solid var(--green); }
   .card-hero .card-title { font-size:20px; }
 
   /* SECTION */
   .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
 
-  /* PRINCIPLES */
-  .principles { margin-bottom:56px; }
-  .principle { display:flex; gap:16px; margin-bottom:16px; }
-  .p-icon { font-size:20px; flex-shrink:0; width:32px; text-align:center; line-height:1.4; }
-  .p-text { font-size:13px; color:var(--text); line-height:1.6; }
-  .p-text strong { color:var(--white); }
+  /* VERBS */
+  .verbs { margin-bottom:56px; }
+  .verb-row { display:flex; gap:16px; margin-bottom:14px; align-items:baseline; }
+  .verb-word { font-size:13px; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:0.5px; min-width:80px; flex-shrink:0; }
+  .verb-desc { font-size:13px; color:var(--text); line-height:1.6; }
+
+  /* PROSE BLOCKS */
+  .prose { margin-bottom:56px; }
+  .prose p { font-size:14px; color:var(--text); line-height:1.75; margin-bottom:16px; }
+  .prose p strong { color:var(--white); font-weight:600; }
+  .prose p:last-child { margin-bottom:0; }
+
+  /* LIBRARY LINKS */
+  .lib-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:56px; }
+  .lib-link { font-size:12px; font-weight:500; color:var(--dim); text-decoration:none; padding:8px 16px; border:1px solid var(--border); transition:border-color 0.15s, color 0.15s; }
+  .lib-link:hover { border-color:var(--green); color:var(--white); }
 
   /* FOOTER */
   .footer { border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); letter-spacing:0.5px; }
@@ -87,21 +96,10 @@
     .card { padding:18px; }
     .card-title { font-size:16px; }
     .card-hero .card-title { font-size:18px; }
-    .principle { gap:12px; }
-    .p-icon { font-size:16px; width:24px; }
+    .verb-row { flex-direction:column; gap:4px; }
+    .verb-word { min-width:auto; }
     .footer { flex-direction:column; gap:4px; }
   }
-
-.sndd { position:relative; display:inline-block; }
-.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
-.sndd-b:hover { color:var(--white,#FCFDF8); }
-.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
-.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
-.sndd:hover .sndd-m { display:block; }
-.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
-.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
-.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
-.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
 </style>
 </head>
 <body>
@@ -112,96 +110,94 @@
 <span class="active-label">Home</span>
 <a href="orbit.html">Orbit</a>
 <a href="visibility.html">Visibility</a>
-<div class="sndd"><span class="sndd-b">Library &#9662;</span><div class="sndd-m"><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief — 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes — 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="archive/index.html">Archive Index</a><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP — Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package — Isaia</a></div></div>
+<div class="sndd"><span class="sndd-b">Library &#9662;</span><div class="sndd-m"><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="archive/index.html">Archive Index</a><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
 </div>
 </nav>
 
 <main>
 
-  <div class="hero-tag">TEMPO</div>
-  <h1>Welcome to <span>TEMPO</span></h1>
+  <div class="hero-tag">Campaign Operations</div>
+  <h1><span>TEMPO</span></h1>
   <div class="hero-sub">
-    113 active RCA artists. Real team assignments. Real data. One system that gives every team the complete picture on every release — without adding work.
+    The operational layer between where we are and where we need to be. 120 artists. Every department. One system.
   </div>
 
-  <!-- EXPLORE -->
-  <div class="section-label">Explore</div>
+  <!-- THREE MAIN CARDS -->
+  <div class="section-label">The System</div>
   <div class="card-grid">
 
-    <a href="release.html" class="card card-hero">
-      <span class="card-badge badge-live">Live Data</span>
-      <div class="card-tag">Release View</div>
-      <div class="card-title">Isaia Huron — Mr. Lovebomb</div>
-      <div class="card-desc">Everything we know about this release, assembled from existing sources. Clearance status, DSP readiness, artist pitch, track-by-track breakdown. One page, real data.</div>
+    <a href="orbit.html" class="card card-hero">
+      <div class="card-tag">Orbit</div>
+      <div class="card-title">How a release moves through the label.</div>
+      <div class="card-desc">Campaign phases, department timelines, gates. The framework that shows where every team fits &mdash; and what happens when one piece is waiting on another.</div>
     </a>
 
     <a href="visibility.html" class="card">
-      <span class="card-badge badge-building">Demo</span>
-      <div class="card-tag">Artist Visibility</div>
-      <div class="card-title">Pick an artist. See every department.</div>
-      <div class="card-desc">Every active RCA artist — real teams, real data. Click any department to expand what's done, what's needed, what's blocking. This is what the system looks like at scale.</div>
+      <div class="card-tag">Visibility</div>
+      <div class="card-title">Every active artist. Every team. One view.</div>
+      <div class="card-desc">Real roster, real assignments. Click any artist to see the full picture across departments &mdash; who&rsquo;s working on what, and where things stand.</div>
     </a>
 
-    <a href="meetings.html" class="card">
-      <div class="card-tag">Meeting Flow</div>
+    <a href="meetings/goal-brief-2026-03-18.html" class="card">
+      <div class="card-tag">Active Projects</div>
       <div class="card-title">Before the meeting. After the meeting.</div>
-      <div class="card-desc">Goal Brief goes out before. Notes come out after. Everything organized by artist. Action items route to the right department automatically.</div>
-    </a>
-
-    
-    <a href="template.html" class="card" style="border-left:3px solid var(--cyan);">
-      <span class="card-badge badge-building" style="color:var(--cyan); background:rgba(91,206,250,0.08);">Vision</span>
-      <div class="card-tag">Template</div>
-      <div class="card-title">What auto-generation looks like</div>
-      <div class="card-desc">Every release gets a page. Auto-populated from Runway, Airtable, clearance reports, DSP sheets, Spotify. Color-coded by data source. This is where TEMPO is heading.</div>
-    </a>
-
-    <a href="pipeline.html" class="card">
-      <div class="card-tag">Pipeline</div>
-      <div class="card-title">What we're building toward</div>
-      <div class="card-desc">Everything in the pipeline — what's active, what's in progress, what's on the horizon. Click any item to see the plan.</div>
+      <div class="card-desc">Goal Brief goes out before. Notes come out after. Decisions and action items route to the right people &mdash; nothing falls through the cracks.</div>
     </a>
 
   </div>
 
-  <!-- HOW IT WORKS -->
-  <div class="section-label">How This Works</div>
-  <div class="principles">
-
-    <div class="principle">
-      <div class="p-icon">🔌</div>
-      <div class="p-text"><strong>We pull from your systems.</strong> Runway, GRPS, clearance reports, DSP asset sheets, campaign emails. We don't ask you to enter anything new. If it exists somewhere, we find it.</div>
+  <!-- WHAT CAMPAIGN OPS DOES -->
+  <div class="section-label">What Campaign Ops Does</div>
+  <div class="verbs">
+    <div class="verb-row">
+      <div class="verb-word">Track</div>
+      <div class="verb-desc">Where every release is in its lifecycle, across every department.</div>
     </div>
-
-    <div class="principle">
-      <div class="p-icon">🚫</div>
-      <div class="p-text"><strong>No new workflows.</strong> You keep doing what you do. We assemble the complete picture from the pieces you already create. Nobody changes how they work.</div>
+    <div class="verb-row">
+      <div class="verb-word">Surface</div>
+      <div class="verb-desc">The information each team needs, when they need it.</div>
     </div>
-
-    <div class="principle">
-      <div class="p-icon">🔔</div>
-      <div class="p-text"><strong>You'll know before you have to ask.</strong> If something's missing 3 weeks from street date, you'll see it. If a dependency is blocking someone downstream, it surfaces. No more chasing.</div>
+    <div class="verb-row">
+      <div class="verb-word">Flag</div>
+      <div class="verb-desc">When something is blocked, missing, or at risk of slipping.</div>
     </div>
-
-    <div class="principle">
-      <div class="p-icon">🧪</div>
-      <div class="p-text"><strong>This is an experiment.</strong> We're testing on a few releases. If it helps, we scale it. If something's wrong, tell us. The whole point is to iterate.</div>
+    <div class="verb-row">
+      <div class="verb-word">Prompt</div>
+      <div class="verb-desc">The right person at the right time, before deadlines pass.</div>
     </div>
-
+    <div class="verb-row">
+      <div class="verb-word">Confirm</div>
+      <div class="verb-desc">That decisions made in one room reach every room that needs them.</div>
+    </div>
   </div>
 
-  <!-- WHAT WE NEED -->
-  <div class="section-label">What We Need From You</div>
-  <div class="card-grid" style="margin-bottom:48px;">
-    <div class="card" style="border-left:3px solid var(--green); cursor:default;">
-      <div class="card-title" style="font-size:16px;">Nothing, yet.</div>
-      <div class="card-desc">Seriously. We're doing the work of pulling everything together. When we show you the assembled view of your release, we'll ask one question: <strong style="color:var(--white);">Is this right?</strong> That's it.</div>
-    </div>
+  <!-- ROLLING OUT -->
+  <div class="section-label">Rolling Out</div>
+  <div class="prose">
+    <p>Campaign Ops is built on what you already know. Over the coming weeks, I&rsquo;ll be sitting down with every department to understand your timelines, your dependencies, and what information would actually help you do your job.</p>
+    <p><strong>Your input shapes this system.</strong> Nothing gets finalized without your sign-off on your team&rsquo;s piece. You know your process better than anyone &mdash; this is us asking, not assuming.</p>
+  </div>
+
+  <!-- THIS IS FOR ALL OF US -->
+  <div class="section-label">This Is for All of Us</div>
+  <div class="prose">
+    <p>One of the things that matters most to me about this function is that <strong>success gets seen</strong> &mdash; not just the wins that make noise, but the work that keeps everything moving.</p>
+    <p>Every cleared sample. Every on-time delivery. Every problem solved before anyone noticed it was a problem. Campaign Ops exists to make sure that when things go right, the people who made it happen get the credit &mdash; whether they&rsquo;re in the room or not.</p>
+    <p>This new phase of the company is for all of us. Not just the top.</p>
+  </div>
+
+  <!-- LIBRARY -->
+  <div class="section-label">Library</div>
+  <div class="lib-grid">
+    <a href="release.html" class="lib-link">Release View</a>
+    <a href="meetings.html" class="lib-link">Meeting Flow</a>
+    <a href="pipeline.html" class="lib-link">Pipeline</a>
+    <a href="template.html" class="lib-link">Template</a>
   </div>
 
   <div class="footer">
-    <span>Meg Hourihan · RCA Records · March 2026</span>
-    <span>TEMPO · v0</span>
+    <span>Meg Hourihan &middot; Campaign Operations &middot; RCA Records</span>
+    <span>TEMPO &middot; 2026</span>
   </div>
 
 </main>
