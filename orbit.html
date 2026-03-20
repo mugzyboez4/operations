@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEMPO — The Orbit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* === TEMPO SITE NAV === */
+  nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 32px; display:flex; align-items:center; height:44px; position:sticky; top:0; z-index:100; }
+  .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+  .l1 { font-size:12px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+  .l2 { font-size:11px; color:#3E3F41; }
+  .l3 { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:#3E3F41; }
+  .nav-links { display:flex; align-items:center; gap:2px; }
+  .nav-links a { font-size:11px; font-weight:500; padding:6px 10px; color:#B0A9BE; text-decoration:none; border-bottom:2px solid transparent; }
+  .nav-links a:hover { color:#FCFDF8; }
+  .active-label { font-size:11px; font-weight:700; padding:6px 10px; color:#CDF851; border-bottom:2px solid #CDF851; }
+  .sndd { position:relative; display:inline-block; }
+  .sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+  .sndd-b:hover { color:#FCFDF8; }
+  .sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
+  .sndd:hover .sndd-m { display:block; }
+  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+  .sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+
+  /* === PAGE STYLES === */
+  :root {
+    --bg: #0F0E0E;
+    --card: #1A1A1A;
+    --text: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --fog: #B0A9BE;
+    --slate: #3E3F41;
+    --dim: #555;
+    --border: #2A2A2A;
+    --gate: #FFB800;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* KEY STRIP */
+  .key-strip {
+    padding: 14px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .key-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    flex: 1;
+  }
+
+  .key-icon { flex-shrink: 0; margin-top: 2px; }
+
+  .key-icon-hub {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1.5px solid var(--chartreuse);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .key-icon-hub-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--chartreuse); opacity: 0.6; }
+  .key-icon-stage { width: 18px; height: 6px; background: var(--flame); border-radius: 1px; margin-top: 6px; }
+  .key-icon-gate { width: 10px; height: 10px; background: var(--gate); transform: rotate(45deg); margin: 4px 4px 0; }
+  .key-icon-spoke { width: 10px; height: 10px; border-radius: 50%; background: var(--fog); margin: 3px 4px 0; }
+
+  .key-text-title { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 1px; }
+  .key-text-desc { font-size: 10px; color: var(--dim); line-height: 1.5; }
+  .key-text-framework { font-size: 9px; font-family: 'DM Mono', monospace; letter-spacing: 0.5px; margin-top: 2px; }
+  .key-text-framework.hub-f { color: rgba(205,248,81,0.5); }
+  .key-text-framework.stage-f { color: rgba(255,74,35,0.5); }
+  .key-text-framework.gate-f { color: rgba(255,184,0,0.5); }
+  .key-text-framework.sipoc-f { color: rgba(176,169,190,0.4); }
+
+  /* PHASE DISPLAY */
+  .phase-bar {
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pb-left .pb-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dim); font-family: 'DM Mono', monospace; margin-bottom: 2px;
+  }
+
+  .pb-left .pb-name {
+    font-size: 20px; font-weight: 800; color: var(--flame); transition: color 0.3s;
+  }
+
+  .pb-right {
+    text-align: right;
+    font-size: 12px; color: var(--dim); max-width: 340px; line-height: 1.5;
+  }
+
+  /* MAIN GRID */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    min-height: calc(100vh - 200px);
+  }
+
+  /* ORBIT */
+  .orbit-wrap {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; position: relative;
+  }
+
+  .orbit-svg { width: 100%; max-width: 580px; aspect-ratio: 1; }
+
+  .click-hint {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: #333; font-family: 'DM Mono', monospace;
+    letter-spacing: 1px; transition: opacity 0.5s;
+  }
+
+  .click-hint.gone { opacity: 0; }
+
+  /* SIDEBAR */
+  .sidebar {
+    border-left: 1px solid var(--border);
+    padding: 20px 24px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+  }
+
+  .sb-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; font-family: 'DM Mono', monospace; margin-bottom: 12px;
+  }
+
+  .sb-label.ch { color: var(--chartreuse); }
+  .sb-label.fog { color: var(--fog); }
+  .sb-label.gate-l { color: var(--gate); }
+
+  .sb-section { margin-bottom: 28px; }
+
+  /* GATE CARD */
+  .gate-card { background: var(--card); border: 1px solid rgba(255,184,0,0.3); padding: 14px 16px; margin-bottom: 16px; }
+  .gate-card .gc-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gate); font-family: 'DM Mono', monospace; margin-bottom: 6px; }
+  .gate-card .gc-q { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .gate-card .gc-detail { font-size: 11px; color: var(--dim); line-height: 1.5; }
+
+  /* DEPT CARDS */
+  .dept-card { background: var(--card); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 6px; transition: border-color 0.2s; }
+  .dept-card:hover { border-color: var(--slate); }
+  .dept-card .dc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .dept-card .dc-name { font-size: 12px; font-weight: 700; }
+  .dept-card .dc-status { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 8px; font-family: 'DM Mono', monospace; }
+  .dc-status.active { border: 1px solid rgba(205,248,81,0.4); color: var(--chartreuse); }
+  .dc-status.waiting { border: 1px solid rgba(176,169,190,0.3); color: var(--fog); }
+  .dc-status.blocked { border: 1px solid rgba(255,74,35,0.4); color: var(--flame); }
+  .dc-status.not-started { border: 1px solid var(--border); color: var(--dim); }
+  .dc-status.complete { border: 1px solid rgba(205,248,81,0.2); color: rgba(205,248,81,0.5); }
+  .dc-sipoc { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .dc-io { font-size: 10px; line-height: 1.5; color: var(--dim); }
+  .dc-io span { display: block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-bottom: 1px; }
+  .dc-io span.needs-l { color: var(--fog); }
+  .dc-io span.produces-l { color: var(--chartreuse); }
+
+  /* OPS ACTIONS */
+  .ops-row { display: grid; grid-template-columns: 60px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .ops-row:last-child { border-bottom: none; }
+  .ops-verb { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--chartreuse); font-family: 'DM Mono', monospace; padding-top: 1px; }
+  .ops-desc { font-size: 12px; color: var(--fog); line-height: 1.5; }
+  .ops-desc strong { color: var(--text); font-weight: 600; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--dim); font-family: 'DM Mono', monospace; }
+  .legend-dot { width: 7px; height: 7px; }
+  .legend-dot.la { background: var(--chartreuse); }
+  .legend-dot.lw { background: var(--fog); }
+  .legend-dot.lb { background: var(--flame); }
+  .legend-dot.ln { background: var(--slate); }
+  .legend-dot.lg { background: var(--gate); border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<!-- TEMPO NAV -->
+<nav>
+<a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<span class="active-label">Orbit</span>
+<a href="visibility.html">Visibility</a>
+<div class="sndd"><span class="sndd-b">Library &#9662;</span><div class="sndd-m"><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><a href="artists/isaia-huron.html">Artist — Isaia Huron</a><a href="archive/pilot.html">Archive — Pilot Overview</a><a href="archive/cadence.html">Archive — Cadence</a><a href="archive/rollout.html">Archive — Rollout</a><a href="archive/comms.html">Archive — Comms</a></div></div>
+</div>
+</nav>
+
+<!-- KEY STRIP -->
+<div class="key-strip">
+  <div class="key-item">
+    <div class="key-icon"><div class="key-icon-hub"><div class="key-icon-hub-dot"></div></div></div>
+    <div>
+      <div class="key-text-title">Center = Campaign Ops</div>
+      <div class="key-text-desc">The hub. Sees all departments and phases at once. Tracks, surfaces, flags — never decides or approves.</div>
+      <div class="key-text-framework hub-f">Hub &amp; Spoke — govern at the center, execute at the edge</div>
+    </div>
+  </div>
+  <div class="key-item">
+    <div class="key-icon"><div class="key-icon-stage"></div></div>
+    <div>
+      <div class="key-text-title">Inner Ring = Campaign Phase</div>
+      <div class="key-text-desc">Where the artist is in their release cycle. Click a phase to see what every department should be doing.</div>
+      <div class="key-text-framework stage-f">Stage-Gate — sequential phases with checkpoints between each one</div>
+    </div>
+  </div>
+  <div class="key-item">
+    <div class="key-icon"><div class="key-icon-gate"></div></div>
+    <div>
+      <div class="key-text-title">Diamonds = Gates</div>
+      <div class="key-text-desc">Checkpoints between phases. A question that must be answered before the release moves forward.</div>
+      <div class="key-text-framework gate-f">Stage-Gate — can't proceed until the gate criteria are met</div>
+    </div>
+  </div>
+  <div class="key-item">
+    <div class="key-icon"><div class="key-icon-spoke"></div></div>
+    <div>
+      <div class="key-text-title">Outer Ring = Departments</div>
+      <div class="key-text-desc">Each team's status. Color = where they are. Sidebar shows what they need and what they produce.</div>
+      <div class="key-text-framework sipoc-f">SIPOC — Suppliers, Inputs, Process, Outputs, Customers</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE BAR -->
+<div class="phase-bar">
+  <div class="pb-left">
+    <div class="pb-label">Selected Phase</div>
+    <div class="pb-name" id="pdName">Pre-Release</div>
+  </div>
+  <div class="pb-right" id="pdDesc">Campaign in motion. No music out yet. Building assets, setting strategy, scheduling.</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="orbit-wrap">
+    <svg class="orbit-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" id="orbitSvg">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="300" cy="300" r="260" fill="none" stroke="#1A1A1A" stroke-width="50"/>
+      <circle cx="300" cy="300" r="260" fill="none" stroke="#222" stroke-width="0.5"/>
+      <g id="deptDots"></g>
+      <circle cx="300" cy="300" r="160" fill="none" stroke="#1A1A1A" stroke-width="44"/>
+      <circle cx="300" cy="300" r="160" fill="none" stroke="#2A2A2A" stroke-width="0.5"/>
+      <g id="phaseArcs"></g>
+      <g id="gateDiamonds"></g>
+      <circle cx="300" cy="300" r="82" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+      <circle cx="300" cy="300" r="80" fill="none" stroke="var(--chartreuse)" stroke-width="1" opacity="0.25"/>
+      <circle cx="300" cy="300" r="35" fill="var(--chartreuse)" opacity="0.03" filter="url(#glow)"/>
+      <text x="300" y="290" text-anchor="middle" fill="var(--chartreuse)" font-family="DM Mono, monospace" font-size="9" font-weight="700" letter-spacing="2.5">CAMPAIGN</text>
+      <text x="300" y="304" text-anchor="middle" fill="var(--chartreuse)" font-family="DM Mono, monospace" font-size="9" font-weight="700" letter-spacing="2.5">OPS</text>
+      <text x="300" y="322" text-anchor="middle" fill="#444" font-family="DM Mono, monospace" font-size="7" letter-spacing="1">THE HUB</text>
+      <text x="300" y="115" text-anchor="middle" fill="#2A2A2A" font-family="DM Mono, monospace" font-size="7" letter-spacing="2">DEPARTMENTS (SPOKES)</text>
+      <text x="300" y="148" text-anchor="middle" fill="#2A2A2A" font-family="DM Mono, monospace" font-size="7" letter-spacing="2">CAMPAIGN PHASE (STAGES)</text>
+    </svg>
+    <div class="click-hint" id="hint">CLICK A PHASE TO EXPLORE</div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sb-section" id="gateSection">
+      <div class="sb-label gate-l">Gate to Enter This Phase</div>
+      <div id="gateCard"></div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label fog" id="deptLabel">Departments — Pre-Release</div>
+      <div id="deptCards"></div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label ch">Campaign Ops Actions</div>
+      <div id="opsActions"></div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label" style="color:var(--dim);">Legend</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot la"></div>Active</div>
+        <div class="legend-item"><div class="legend-dot lw"></div>Waiting</div>
+        <div class="legend-item"><div class="legend-dot lb"></div>Blocked</div>
+        <div class="legend-item"><div class="legend-dot ln"></div>Not Started</div>
+        <div class="legend-item"><div class="legend-dot lg"></div>Gate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CX=300,CY=300,PR=160,DR=260;
+const CHARTREUSE='#CDF851',FLAME='#FF4A23',FOG='#B0A9BE',SLATE='#3E3F41',DIM='#555',TEXT='#FCFDF8',GATE='#FFB800';
+
+const phases=[
+  {name:'Development',short:'DEV',desc:'No active release. Writing, recording, creative direction.',angle:0,span:51.4},
+  {name:'Pre-Release',short:'PRE',desc:'Campaign in motion. No music out yet. Building assets, setting strategy, scheduling.',angle:51.4,span:51.4},
+  {name:'Rolling Singles',short:'ROLL',desc:'Releasing music. No announced project. Each single informs the next.',angle:102.8,span:51.4},
+  {name:'Project Rollout',short:'PROJ',desc:'Album/EP announced. All activity building toward a known date.',angle:154.2,span:51.4},
+  {name:'Release Week',short:'WEEK',desc:'The week it drops. Real-time execution. All hands.',angle:205.6,span:51.4},
+  {name:'Post-Release',short:'POST',desc:'Project is out. Sustaining, tracking, planning next.',angle:257,span:51.4},
+  {name:'Dormant',short:'HOLD',desc:'Between cycles. Minimal activity.',angle:308.4,span:51.4}
+];
+
+const gates={
+  'Development':{title:'No gate',q:'Starting point — artist signed or in conversation.',detail:''},
+  'Pre-Release':{title:'Gate: Green Light',q:'Is there a creative direction and commitment to release?',detail:'A&R has signaled intent. At least one department beyond A&R is now engaged.'},
+  'Rolling Singles':{title:'Gate: Workability',q:'Are art, music, and clearance done for the first single?',detail:'Workability = cleared. Scheduling request approved. DSP delivery confirmed.'},
+  'Project Rollout':{title:'Gate: Project Announcement',q:'Is the project publicly announced with a confirmed street date?',detail:'Pre-order/pre-save live. Full campaign plan approved. All departments briefed.'},
+  'Release Week':{title:'Gate: Final Check',q:'Is everything delivered and in position?',detail:'Masters delivered. DSP placements confirmed. Physical in stores. Marketing armed.'},
+  'Post-Release':{title:'Gate: Street Date Passed',q:'Has the release date occurred?',detail:'Automatic. Focus shifts from preparation to sustain and response.'},
+  'Dormant':{title:'Gate: Cycle Complete',q:'Has active promotion ended with no announced follow-up?',detail:'No new releases scheduled. Last release 3+ months ago. Monitoring only.'}
+};
+
+const departments=['A&R','Creative','Commercial','Audience Dev','Publicity','Radio','Physical','Rel. Planning'];
+
+const sipoc={
+  'Development':{'A&R':{s:'active',needs:'Artist vision, demos',produces:'Creative direction, tracklist intent',from:'Artist/Mgmt',to:'Creative, Admin'},'Creative':{s:'not-started',needs:'Direction from A&R',produces:'\u2014',from:'A&R',to:'\u2014'},'Commercial':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Audience Dev':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Publicity':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Radio':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Physical':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Rel. Planning':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'}},
+  'Pre-Release':{'A&R':{s:'active',needs:'Artist demos, features',produces:'Final masters, tracklist',from:'Artist/Mgmt',to:'Admin, Creative, Rel. Planning'},'Creative':{s:'active',needs:'Creative direction, tracklist',produces:'Cover art, VSC, content',from:'A&R',to:'Commercial, Audience Dev, Physical'},'Commercial':{s:'waiting',needs:'Workable assets',produces:'DSP pitch, playlist strategy',from:'Creative, Rel. Planning',to:'Audience Dev'},'Audience Dev':{s:'active',needs:'Assets, release timeline',produces:'Social strategy, pre-save',from:'Creative, Commercial',to:'Artist/Mgmt'},'Publicity':{s:'active',needs:'Artist story, release info',produces:'Press angle, outlet list',from:'A&R, Audience Dev',to:'Commercial'},'Radio':{s:'not-started',needs:'Confirmed single',produces:'\u2014',from:'A&R',to:'\u2014'},'Physical':{s:'blocked',needs:'Confirmed release date',produces:'Market analysis, product plan',from:'Rel. Planning',to:'Commercial, International'},'Rel. Planning':{s:'blocked',needs:'Workability cleared',produces:'Confirmed schedule',from:'A&R, Creative, Admin',to:'All departments'}},
+  'Rolling Singles':{'A&R':{s:'active',needs:'Ongoing artist output',produces:'Masters per single',from:'Artist/Mgmt',to:'Admin, Creative'},'Creative':{s:'active',needs:'Master + direction per single',produces:'Cover, visualizer, content',from:'A&R',to:'Commercial, Audience Dev'},'Commercial':{s:'active',needs:'Assets per single',produces:'DSP placements, playlist adds',from:'Creative',to:'Audience Dev, Publicity'},'Audience Dev':{s:'active',needs:'Assets, DSP placements',produces:'Per-single campaigns, paid',from:'Creative, Commercial',to:'Artist/Mgmt'},'Publicity':{s:'active',needs:'Release info, artist avail',produces:'Press hits, features',from:'A&R, Audience Dev',to:'Commercial'},'Radio':{s:'waiting',needs:'Single selection decision',produces:'Radio servicing',from:'A&R',to:'Commercial'},'Physical':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Rel. Planning':{s:'active',needs:'Cadence plan from A&R',produces:'Scheduled single dates',from:'A&R',to:'All departments'}},
+  'Project Rollout':{'A&R':{s:'complete',needs:'\u2014',produces:'Delivered masters, locked tracklist',from:'\u2014',to:'All departments'},'Creative':{s:'active',needs:'Final tracklist, artist avail',produces:'Full asset suite: video, packaging',from:'A&R',to:'Commercial, Physical, Audience Dev'},'Commercial':{s:'active',needs:'Full assets, confirmed date',produces:'DSP editorial, takeovers',from:'Creative, Rel. Planning',to:'Audience Dev'},'Audience Dev':{s:'active',needs:'All assets, DSP plan',produces:'Full campaign: social, paid, CRM',from:'Creative, Commercial',to:'Artist/Mgmt'},'Publicity':{s:'active',needs:'Press assets, embargoes',produces:'Full press campaign',from:'Creative, A&R',to:'Commercial'},'Radio':{s:'active',needs:'Serviced single, promo plan',produces:'Spins, adds tracking',from:'A&R, Commercial',to:'Rel. Planning'},'Physical':{s:'active',needs:'Final art, confirmed quantities',produces:'Manufactured product, pre-orders',from:'Creative, Commercial',to:'Retail, Ecomm'},'Rel. Planning':{s:'complete',needs:'\u2014',produces:'Confirmed schedule (locked)',from:'\u2014',to:'All departments'}},
+  'Release Week':{'A&R':{s:'complete',needs:'\u2014',produces:'Monitoring, reaction read',from:'\u2014',to:'All departments'},'Creative':{s:'active',needs:'Real-time moments',produces:'Day-of content, BTS',from:'Artist/Mgmt',to:'Audience Dev'},'Commercial':{s:'active',needs:'Day-of DSP data',produces:'Chart monitoring, placement checks',from:'DSPs',to:'Rel. Planning, A&R'},'Audience Dev':{s:'active',needs:'All content, DSP data',produces:'Peak spend: social blitz, CRM',from:'Creative, Commercial',to:'Artist/Mgmt'},'Publicity':{s:'active',needs:'Embargo lifts',produces:'Reviews, day-of press',from:'Press outlets',to:'Commercial, Audience Dev'},'Radio':{s:'active',needs:'Impact week data',produces:'Spins tracking, chart position',from:'Radio networks',to:'A&R, Commercial'},'Physical':{s:'active',needs:'Fulfillment confirmation',produces:'Street date delivery, chart reporting',from:'Supply chain',to:'Commercial'},'Rel. Planning':{s:'active',needs:'Sales data, chart data',produces:'Real-time performance report',from:'Commercial, Radio',to:'A&R, Leadership'}},
+  'Post-Release':{'A&R':{s:'active',needs:'Performance data',produces:'Next moves: deluxe, tour, dev',from:'Commercial, Rel. Planning',to:'All departments'},'Creative':{s:'active',needs:'Deep cut selections',produces:'Visuals, tour content',from:'A&R',to:'Audience Dev, Commercial'},'Commercial':{s:'active',needs:'Catalog, performance data',produces:'Sustain pitching, catalog placement',from:'Rel. Planning',to:'A&R'},'Audience Dev':{s:'active',needs:'Sustain assets',produces:'Retargeting, CRM, long-tail',from:'Creative',to:'Artist/Mgmt'},'Publicity':{s:'active',needs:'Story angles',produces:'Long-tail press, year-end lists',from:'A&R',to:'Commercial'},'Radio':{s:'active',needs:'Continued promo plan',produces:'Ongoing spins',from:'A&R, Commercial',to:'Rel. Planning'},'Physical':{s:'active',needs:'Reorder signals',produces:'Inventory mgmt, merch',from:'Commercial',to:'Retail, Ecomm'},'Rel. Planning':{s:'waiting',needs:'A&R signal for next cycle',produces:'Next cycle planning',from:'A&R',to:'All departments'}},
+  'Dormant':{'A&R':{s:'waiting',needs:'Artist readiness',produces:'Signal when new project forms',from:'Artist/Mgmt',to:'Campaign Ops'},'Creative':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Commercial':{s:'waiting',needs:'Catalog list',produces:'Catalog maintenance',from:'Rel. Planning',to:'DSPs'},'Audience Dev':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Publicity':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Radio':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Physical':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'},'Rel. Planning':{s:'not-started',needs:'\u2014',produces:'\u2014',from:'\u2014',to:'\u2014'}}
+};
+
+const opsData={
+  'Development':[{v:'Track',d:'<strong>A&R is the only active spoke.</strong> Monitor for when creative direction solidifies \u2014 that triggers the gate to Pre-Release.'}],
+  'Pre-Release':[{v:'Surface',d:'<strong>Physical + Rel. Planning both blocked</strong> \u2014 same dependency: no confirmed date.'},{v:'Flag',d:'<strong>Commercial is waiting</strong> on workable assets from Creative. Timeline pressure.'},{v:'Prompt',d:'<strong>Radio is dark</strong> \u2014 does A&R intend a radio single? If yes, that decision is overdue.'}],
+  'Rolling Singles':[{v:'Track',d:'<strong>Every dept running in parallel.</strong> Ensure cadence doesn\'t outpace production.'},{v:'Flag',d:'<strong>Radio waiting</strong> on single selection. Servicing deadlines approaching.'}],
+  'Project Rollout':[{v:'Confirm',d:'<strong>A&R + Rel. Planning are complete.</strong> Gate is cleared \u2014 all downstream depts should be active.'},{v:'Track',d:'<strong>Peak coordination.</strong> Nearly every spoke is lit. Monitor for anyone falling behind.'}],
+  'Release Week':[{v:'Track',d:'<strong>Real-time across all spokes.</strong> Chart position, social reaction, press, sales.'},{v:'Surface',d:'<strong>Any day-of issues</strong> \u2014 DSP problems, content gaps \u2014 immediate escalation.'}],
+  'Post-Release':[{v:'Prompt',d:'<strong>Rel. Planning should be planning next cycle.</strong> When does that conversation start?'},{v:'Flag',d:'<strong>Sync is in peak mode</strong> \u2014 full catalog available. Coordinate with Audience Dev.'}],
+  'Dormant':[{v:'Track',d:'<strong>Minimal activity.</strong> A&R is the signal \u2014 when they indicate a new project, trigger the cycle.'}]
+};
+
+let active='Pre-Release';
+
+function pol(cx,cy,r,a){const rad=(a-90)*Math.PI/180;return{x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};}
+function arc(cx,cy,r,sa,ea){const s=pol(cx,cy,r,ea),e=pol(cx,cy,r,sa),la=ea-sa<=180?0:1;return`M ${s.x} ${s.y} A ${r} ${r} 0 ${la} 0 ${e.x} ${e.y}`;}
+function sCol(s){return s==='active'?CHARTREUSE:s==='waiting'?FOG:s==='blocked'?FLAME:s==='complete'?'rgba(205,248,81,0.45)':SLATE;}
+
+function draw(){
+  const ag=document.getElementById('phaseArcs'),gg=document.getElementById('gateDiamonds'),dg=document.getElementById('deptDots');
+  ag.innerHTML='';gg.innerHTML='';dg.innerHTML='';
+
+  phases.forEach(p=>{
+    const gap=2.5,sa=p.angle+gap/2,ea=p.angle+p.span-gap/2,mid=p.angle+p.span/2,isA=p.name===active;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',arc(CX,CY,PR,sa,ea));path.setAttribute('fill','none');
+    path.setAttribute('stroke',isA?FLAME:'#252525');path.setAttribute('stroke-width',isA?'42':'38');
+    path.style.cursor='pointer';path.style.transition='stroke 0.2s';
+    path.onmouseenter=()=>{if(p.name!==active)path.setAttribute('stroke','#333');};
+    path.onmouseleave=()=>{if(p.name!==active)path.setAttribute('stroke','#252525');};
+    path.onclick=()=>{active=p.name;draw();updateSidebar();document.getElementById('hint').classList.add('gone');};
+    ag.appendChild(path);
+
+    const lp=pol(CX,CY,PR,mid);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',lp.x);t.setAttribute('y',lp.y);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','central');
+    t.setAttribute('fill',isA?TEXT:'#444');t.setAttribute('font-family','DM Mono, monospace');
+    t.setAttribute('font-size',isA?'9':'8');t.setAttribute('font-weight',isA?'700':'500');t.setAttribute('letter-spacing','1');
+    t.setAttribute('pointer-events','none');t.textContent=p.short;
+    let rot=mid;if(rot>90&&rot<270)rot+=180;
+    t.setAttribute('transform',`rotate(${rot},${lp.x},${lp.y})`);ag.appendChild(t);
+
+    if(p.name!=='Development'){
+      const gp=pol(CX,CY,PR,p.angle),s=7;
+      const d=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      d.setAttribute('points',`${gp.x},${gp.y-s} ${gp.x+s},${gp.y} ${gp.x},${gp.y+s} ${gp.x-s},${gp.y}`);
+      d.setAttribute('fill',isA?GATE:'#333');d.setAttribute('opacity',isA?'1':'0.5');
+      d.style.transition='fill 0.2s, opacity 0.2s';gg.appendChild(d);
+    }
+  });
+
+  const pd=sipoc[active];
+  departments.forEach((dept,i)=>{
+    const angle=(360/departments.length)*i,pos=pol(CX,CY,DR,angle),data=pd[dept],col=sCol(data.s);
+    const ip=pol(CX,CY,183,angle);
+    const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',ip.x);ln.setAttribute('y1',ip.y);ln.setAttribute('x2',pos.x);ln.setAttribute('y2',pos.y);
+    ln.setAttribute('stroke',col);ln.setAttribute('stroke-width','0.5');ln.setAttribute('opacity',data.s==='not-started'?'0.08':'0.15');
+    dg.appendChild(ln);
+
+    if(data.s==='active'||data.s==='blocked'){
+      const gc=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      gc.setAttribute('cx',pos.x);gc.setAttribute('cy',pos.y);gc.setAttribute('r','14');gc.setAttribute('fill',col);gc.setAttribute('opacity','0.07');
+      dg.appendChild(gc);
+    }
+
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',pos.x);c.setAttribute('cy',pos.y);
+    c.setAttribute('r',data.s==='blocked'?9:data.s==='active'?8:data.s==='complete'?7:5);
+    c.setAttribute('fill',col);c.setAttribute('opacity',data.s==='not-started'?'0.3':'0.9');
+    if(data.s==='blocked')c.setAttribute('filter','url(#glow)');
+    dg.appendChild(c);
+
+    const labR=DR+22,labPos=pol(CX,CY,labR,angle);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',labPos.x);t.setAttribute('y',labPos.y);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','central');
+    t.setAttribute('fill',data.s==='not-started'?'#2A2A2A':DIM);
+    t.setAttribute('font-family','Inter, sans-serif');t.setAttribute('font-size','7.5');t.setAttribute('font-weight','600');
+    t.setAttribute('pointer-events','none');
+    let rot=angle;if(rot>90&&rot<270)rot+=180;
+    t.setAttribute('transform',`rotate(${rot},${labPos.x},${labPos.y})`);
+    t.textContent=dept;dg.appendChild(t);
+  });
+}
+
+function updateSidebar(){
+  const p=phases.find(x=>x.name===active);
+  document.getElementById('pdName').textContent=active;
+  document.getElementById('pdDesc').textContent=p.desc;
+  document.querySelector('.sb-label.fog').textContent=`Departments \u2014 ${active}`;
+
+  const g=gates[active],gc=document.getElementById('gateCard');
+  gc.innerHTML=active==='Development'
+    ?`<div class="gate-card" style="border-color:var(--border);"><div class="gc-title" style="color:var(--dim);">No Gate</div><div class="gc-detail">Starting point. Artist signed or in conversation with A&R.</div></div>`
+    :`<div class="gate-card"><div class="gc-title">${g.title}</div><div class="gc-q">${g.q}</div><div class="gc-detail">${g.detail}</div></div>`;
+
+  const dc=document.getElementById('deptCards');dc.innerHTML='';
+  const pd=sipoc[active],order={blocked:0,active:1,waiting:2,complete:3,'not-started':4};
+  [...departments].sort((a,b)=>order[pd[a].s]-order[pd[b].s]).forEach(d=>{
+    const data=pd[d],sl=data.s==='not-started'?'NOT STARTED':data.s.toUpperCase();
+    const card=document.createElement('div');card.className='dept-card';
+    let sip='';
+    if(data.needs!=='\u2014'||data.produces!=='\u2014'){
+      sip=`<div class="dc-sipoc"><div class="dc-io"><span class="needs-l">Needs</span>${data.needs}${data.from!=='\u2014'?' <em style="color:#444;">\u2190 '+data.from+'</em>':''}</div><div class="dc-io"><span class="produces-l">Produces</span>${data.produces}${data.to!=='\u2014'?' <em style="color:#444;">\u2192 '+data.to+'</em>':''}</div></div>`;
+    }
+    card.innerHTML=`<div class="dc-top"><div class="dc-name">${d}</div><div class="dc-status ${data.s}">${sl}</div></div>${sip}`;
+    dc.appendChild(card);
+  });
+
+  const oa=document.getElementById('opsActions');oa.innerHTML='';
+  (opsData[active]||[]).forEach(a=>{
+    const r=document.createElement('div');r.className='ops-row';
+    r.innerHTML=`<div class="ops-verb">${a.v}</div><div class="ops-desc">${a.d}</div>`;
+    oa.appendChild(r);
+  });
+}
+
+draw();updateSidebar();
+</script>
+</body>
+</html>
