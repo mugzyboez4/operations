@@ -860,27 +860,35 @@ nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decorati
 nav .nav-links a:hover { color:#FCFDF8; }
 nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
 nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
-.sndd { position:relative; display:inline-block; }
-.sndd-b { font-size:11px; font-weight:500; padding:6px 10px; cursor:pointer; display:inline-block; user-select:none; color:#B0A9BE; border-bottom:2px solid transparent; }
+
+
 .sndd-b:hover { color:#FCFDF8; }
 .sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
-.sndd-m { display:none; position:absolute; top:100%; left:0; background:#0F0E0E; border:1px solid #2A2A2A; min-width:220px; z-index:10001; padding:4px 0; margin-top:1px; }
-.sndd:hover .sndd-m { display:block; }
+
+.sndd:hover 
 .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
 .sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
 </style>
 </head>
 <body>
 <nav>
-<a href="index.html" class="logo"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">Operations</span></a>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
 <div class="nav-links">
-<div class="sndd"><span class="sndd-b">Pilot &#9662;</span><div class="sndd-m"><a href="pilot.html">Pilot Overview</a><a href="demos/isaia-huron.html">Pilot MVP — Isaia</a></div></div>
-<a href="demo.html">Demo</a>
-<a href="cadence.html">Cadence</a>
-<div class="sndd"><span class="sndd-b">Meetings &#9662;</span><div class="sndd-m"><a href="meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a></div></div>
-<a href="rollout.html">Rollout</a>
-<a href="comms.html">Comms</a>
-<div class="sndd"><span class="sndd-b active">Pipeline &#9662;</span><div class="sndd-m"><a href="pipeline.html">Pipeline Overview</a><a href="prep-isaia.html">Prep Package — Isaia Huron</a></div></div>
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief — 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes — 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief — 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes — 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP — Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package — Isaia</a></div></div>
 </div>
 </nav>
 

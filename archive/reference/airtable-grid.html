@@ -429,6 +429,27 @@ body {
   .orient-grid { grid-template-columns: 1fr; }
   .exp-cols { grid-template-columns: 1fr; }
 }
+
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; transition:color 0.15s; }
+nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
 </style>
 </head>
 <body>
