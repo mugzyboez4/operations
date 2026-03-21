@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347;--eval-green:#39E75F;--eval-red:#FF4A23;--gender-a:#CDF851;--gender-b:#5BC0BE}
+:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--data-us:#B8E64A;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347;--eval-green:#4ADE80;--eval-red:#EF4444;--gender-a:var(--data-us);--gender-b:var(--teal)}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:56px}
 body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .nav{position:sticky;top:0;z-index:100;background:rgba(15,14,14,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--slate);transition:box-shadow 0.3s}
@@ -30,9 +30,9 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 .stats{display:flex;gap:12px;flex-wrap:wrap}
 .st{background:var(--dark);padding:18px 22px;flex:1;min-width:130px;border-top:3px solid var(--slate);transition:border-color 0.3s}.st:hover{border-top-color:var(--chartreuse)}
 .st-n{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;letter-spacing:1px}
-.st-n.g{color:var(--chartreuse)}.st-n.f{color:var(--flame)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.sm{font-size:30px}.st-n.pk{color:var(--pink)}
+.st-n.g{color:var(--data-us)}.st-n.f{color:var(--flame)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.sm{font-size:30px}.st-n.pk{color:var(--pink)}
 .st-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-top:4px}
-.st-s{font-size:11px;color:var(--fog-dim);margin-top:2px}.st-s.up{color:var(--chartreuse)}.st-s.dn{color:var(--flame)}
+.st-s{font-size:11px;color:var(--fog-dim);margin-top:2px}.st-s.up{color:var(--eval-green)}.st-s.dn{color:var(--eval-red)}
 .cm{font-size:14px;color:var(--off-white);line-height:1.7;margin-top:14px;opacity:0.88}.cm+.cm{margin-top:8px}
 .cm strong{font-weight:700;color:var(--off-white)}.cm em{color:var(--chartreuse);font-style:normal;font-weight:600}
 .chart-wrap{background:var(--dark);padding:20px;margin-top:16px;position:relative}.chart-wrap canvas{width:100%!important}
@@ -41,11 +41,11 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 .dt th.r{text-align:right}.dt td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4);font-variant-numeric:tabular-nums}
 .dt td.r{text-align:right}.dt td.d{color:var(--fog-dim);font-size:11px}.dt tr:last-child td{border-bottom:none}.dt tr{transition:background 0.2s}.dt tr:hover{background:rgba(205,248,81,0.02)}
 .ix{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:1px 7px;font-variant-numeric:tabular-nums}
-.ix.o{background:rgba(57,231,95,0.1);color:var(--eval-green)}.ix.u{background:rgba(255,74,35,0.1);color:var(--eval-red)}.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
+.ix.o{background:rgba(74,222,128,0.12);color:var(--eval-green)}.ix.u{background:rgba(239,68,68,0.12);color:var(--eval-red)}.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
 .bars{margin-top:14px}.br{display:grid;grid-template-columns:220px 1fr 55px;gap:10px;align-items:center;margin-bottom:5px}
-.br-l{font-size:12px;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.br-l.hi{color:var(--chartreuse);font-weight:700}
-.br-t{background:rgba(62,63,65,0.2);height:24px;position:relative;overflow:hidden}.br-f{height:100%}.br-f.g{background:var(--chartreuse)}.br-f.t{background:var(--teal)}
-.br-v{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fog)}.br-v.hi{color:var(--chartreuse);font-weight:700}
+.br-l{font-size:12px;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.br-l.hi{color:var(--data-us);font-weight:700}
+.br-t{background:rgba(62,63,65,0.2);height:24px;position:relative;overflow:hidden}.br-f{height:100%}.br-f.g{background:var(--data-us)}.br-f.t{background:var(--teal)}
+.br-v{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fog)}.br-v.hi{color:var(--data-us);font-weight:700}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px}
 .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
 .card{background:var(--dark);padding:18px;border-top:3px solid var(--slate);transition:border-color 0.3s}.card:hover{border-top-color:var(--chartreuse)}
@@ -109,29 +109,29 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
   <p class="hero-meta">March 17, 2026<br>Data: Strategic Analytics<br>Sources: Luminate &middot; Spotify Internal &middot; Chartmetric</p>
 </div>
 
-<!-- 5 THINGS TO KNOW — all numbered equally -->
+<!-- 5 THINGS TO KNOW — interpretive, not just factual -->
 <div style="padding:24px 0;border-bottom:1px solid var(--slate)">
   <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px">5 Things to Know</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
     <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">01</span>
-      <span style="font-size:12px;line-height:1.5"><strong>Catalog is the engine.</strong> Early tracks (My Little White Pony, My Barn My Rules) are 2nd and 3rd most-streamed right now &mdash; years after release. New singles spike, catalog sustains.</span>
+      <span style="font-size:12px;line-height:1.5"><strong>The floor keeps rising.</strong> 318K weekly US streams, up from ~1K in early 2022. Each release spike establishes a higher baseline than the last &mdash; catalog sustains between releases, not just new singles.</span>
     </div>
     <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">02</span>
-      <span style="font-size:12px;line-height:1.5"><strong>318K weekly US, 911K global.</strong> US accounts for ~33% of global streams. Peak US week: 539,607 (July 2025).</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Every release opens bigger.</strong> Week 1 debut: 18 ODA (2022) &rarr; 186K (2026). Last three all above 100K. The audience is not only growing &mdash; it&rsquo;s showing up faster each time.</span>
     </div>
     <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">03</span>
-      <span style="font-size:12px;line-height:1.5"><strong>Debut trajectory accelerating.</strong> Week 1 ODA: 18 (2022) &rarr; 186K (2026). Last three releases all opened above 100K.</span>
+      <span style="font-size:12px;line-height:1.5"><strong>This is a scene artist, not a playlist artist.</strong> Techno (6,795 index), Dance/Electronic (318). Fans Also Like: SOPHIE, A.G. Cook, Shygirl. The audience found her through the culture, not an algorithm.</span>
     </div>
     <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">04</span>
-      <span style="font-size:12px;line-height:1.5"><strong>Genre signal: Dance/Electronic (idx 318), Techno (idx 6,795).</strong> Fans Also Like: SOPHIE, A.G. Cook, Shygirl. Hyperpop/experimental electronic lane.</span>
+      <span style="font-size:12px;line-height:1.5"><strong>IG followers love her &mdash; and she barely posts.</strong> 10% engagement rate (2x benchmark) on just 0.3 posts/week. 606K avg reel views. The audience is deeply invested. Content frequency is the clear upside lever.</span>
     </div>
     <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start;grid-column:1/-1">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">05</span>
-      <span style="font-size:12px;line-height:1.5"><strong>IG: 10% engagement, 606K avg views/reel &mdash; posting just 0.3x/week</strong> (bench 3.5). TikTok: 4.6% like-to-view (bench 5.0%), 309K avg views/post.</span>
+      <span style="font-size:12px;line-height:1.5"><strong>The streaming listener and the social follower are different people.</strong> Streaming skews 28&ndash;34, near-even gender. Instagram skews 18&ndash;24, 57% female. Two distinct audiences that overlap on the artist but diverge on age and platform. Strategy should account for both.</span>
     </div>
   </div>
 </div>
@@ -171,11 +171,12 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 
 <!-- COLOR KEY -->
 <div style="padding:16px 0;display:flex;gap:20px;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:9px;color:var(--fog-dim);letter-spacing:0.5px;border-bottom:1px solid var(--slate)">
-  <span><span style="display:inline-block;width:8px;height:8px;background:var(--chartreuse);margin-right:4px;vertical-align:middle"></span> US data / Instagram</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:var(--chartreuse);margin-right:4px;vertical-align:middle"></span> Brand / structural</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:var(--data-us);margin-right:4px;vertical-align:middle"></span> US data / Instagram</span>
   <span><span style="display:inline-block;width:8px;height:8px;background:var(--teal);margin-right:4px;vertical-align:middle"></span> Global data / Spotify</span>
   <span><span style="display:inline-block;width:8px;height:8px;background:var(--flame);margin-right:4px;vertical-align:middle"></span> TikTok</span>
-  <span><span style="display:inline-block;width:8px;height:8px;background:var(--eval-green);margin-right:4px;vertical-align:middle"></span> Positive signal / over-index</span>
-  <span><span style="display:inline-block;width:8px;height:8px;background:var(--eval-red);margin-right:4px;vertical-align:middle"></span> Negative signal / under-index</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:var(--eval-green);margin-right:4px;vertical-align:middle"></span> Positive / over-index</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:var(--eval-red);margin-right:4px;vertical-align:middle"></span> Negative / under-index</span>
   <span><span style="display:inline-block;width:8px;height:8px;background:var(--amber);margin-right:4px;vertical-align:middle"></span> Watch / below benchmark</span>
 </div>
 
@@ -346,7 +347,8 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 
 <!-- ══════ AUDIENCE (now after Socials) ══════ -->
 <div class="sec" id="audience">
-  <div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Where They Listen</div></div>
+  <div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Who They Are</div></div>
+  <p class="cm" style="margin-top:0"><strong>The short answer: this is a real, invested, genre-specific audience.</strong> They cluster in electronic music cities, skew 23&ndash;34, and they&rsquo;re disproportionately engaged compared to peer artists. They aren&rsquo;t casual listeners who stumbled onto a playlist &mdash; they found her through the scene.</p>
 
   <!-- Maps + Tables side by side -->
   <div class="sub"><div class="sub-title">Global Markets <span style="font-weight:400;color:var(--fog-dim)">(Luminate &middot; Over-indexing markets highlighted)</span></div>
@@ -447,9 +449,8 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 <tr><td>Indonesian</td><td class="r">0%</td></tr>
 </table>
     </div>
+    <p class="cm">Heavily English-speaking (73%) and predominantly White/Caucasian (78%). German and French language shares align with the European electronic market over-indexing above. Worth noting for brand partnerships and international campaign targeting &mdash; this audience is reachable in English but lives globally.</p>
   </div>
-
-  <div class="sub"><div class="sub-title">Genre Profile &amp; Fans Also Like</div>
     <div class="two">
       <div><div class="chart-wrap"><canvas id="chartGenre" height="280"></canvas></div></div>
       <div>
@@ -458,10 +459,11 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
         <p style="font-size:12px;color:var(--fog);margin-top:14px;line-height:1.6">Hyperpop, experimental electronic, PC Music orbit. Internet-native, genre-fluid, aesthetically confrontational.</p>
       </div>
     </div>
-    <p class="cm">Pop is the largest genre by share (29.5%), but the index tells a different story: Techno at 6,795 and Dance/Electronic at 318 are the genres this audience gravitates toward disproportionately.</p>
+    <p class="cm"><strong>The genre data reveals where to find more of this audience.</strong> Pop is the largest genre by share (29.5%), but the index tells the real story: Techno at 6,795 and Dance/Electronic at 318 are where this audience lives disproportionately. This matters for playlist targeting (lean into electronic/dance placements over pop), festival booking (electronic festivals over mainstream), and collaboration strategy (the Fans Also Like list is essentially a collaboration shortlist).</p>
   </div>
 
   <div class="sub"><div class="sub-title">Audience Psychographics</div>
+    <p class="cm" style="margin-top:0;margin-bottom:14px">The data above paints a demographic picture: 23&ndash;34, clustered in electronic music cities, female-leaning on social, deeply engaged. Below is what that person looks like when they walk into a room.</p>
     <div style="background:var(--dark);border-left:3px solid var(--flame);padding:16px 20px;margin-bottom:14px;font-size:14px;line-height:1.6"><strong style="color:var(--flame)">Snapshot:</strong> Irreverent, creative escapists who treat nightlife as self-expression and find community in absurdist humor, costume culture, and high-BPM euphoria.</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div class="card" style="border-top-color:var(--teal)"><div class="card-label tc">Lifestyle &amp; Hobbies</div>
@@ -494,6 +496,13 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
   </div>
 </div>
 
+<!-- ══════ BOTTOM LINE ══════ -->
+<div style="padding:48px 0 0;border-top:2px solid var(--chartreuse);margin-top:56px">
+  <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:14px">The Bottom Line</p>
+  <p class="cm" style="font-size:16px;line-height:1.7;max-width:720px"><strong>horsegiirL is working.</strong> Streams are growing with an accelerating debut trajectory. The audience is real, invested, and genre-specific &mdash; not algorithmic drift. Instagram engagement is exceptional at nearly 2x benchmark. The one clear lever is posting frequency: she barely posts, and the audience still shows up. Increasing content cadence is the highest-upside, lowest-risk move available.</p>
+  <p class="cm" style="font-size:14px;margin-top:12px;color:var(--fog)">The artist is developing, the audience is building, and the signals say lean in.</p>
+</div>
+
 <div class="div"></div>
 
 <div class="foot">
@@ -514,17 +523,17 @@ function fmtK(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1000?Math.round(v/1000)
 // Artist streams
 new Chart(document.getElementById("chartArtist"),{type:"line",data:{labels:wwD,datasets:[
   {label:"Global",data:wwV.map((v,i)=>({x:wwD[i],y:v})),borderColor:"#5BC0BE",backgroundColor:"rgba(91,192,190,0.05)",fill:true,borderWidth:1.5,pointRadius:0,tension:0.3},
-  {label:"US",data:usV.map((v,i)=>({x:usD[i],y:v})),borderColor:"#CDF851",backgroundColor:"rgba(205,248,81,0.08)",fill:true,borderWidth:1.5,pointRadius:0,tension:0.3}
+  {label:"US",data:usV.map((v,i)=>({x:usD[i],y:v})),borderColor:"#B8E64A",backgroundColor:"rgba(184,230,74,0.08)",fill:true,borderWidth:1.5,pointRadius:0,tension:0.3}
 ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:16,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
 
 // Track streams
-var tColors=["#CDF851","#5BC0BE","#FF6B9D","#FFB347","#B0A9BE","#FF4A23"];
+var tColors=["#B8E64A","#5BC0BE","#FF6B9D","#FFB347","#B0A9BE","#FF4A23"];
 var tNames=Object.keys(trkData.tracks);
 var tDS=tNames.map(function(name,i){return{label:name,data:trkData.tracks[name].map(function(v,j){return v!==null?{x:trkData.dates[j],y:v}:null}).filter(function(d){return d!==null}),borderColor:tColors[i%tColors.length],borderWidth:1.5,pointRadius:0,tension:0.3,fill:false}});
 new Chart(document.getElementById("chartTracks"),{type:"line",data:{labels:trkData.dates,datasets:tDS},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"nearest",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:12,font:{size:10}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
 
 // Partner doughnut
-new Chart(document.getElementById("chartPartner"),{type:"doughnut",data:{labels:partnerLabels,datasets:[{data:partnerVals,backgroundColor:["#CDF851","#5BC0BE","#FFB347","#FF6B9D","#B0A9BE","#3E3F41","#706B7A"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:10,padding:10,font:{size:10}}}}}});
+new Chart(document.getElementById("chartPartner"),{type:"doughnut",data:{labels:partnerLabels,datasets:[{data:partnerVals,backgroundColor:["#B8E64A","#5BC0BE","#FFB347","#FF6B9D","#B0A9BE","#3E3F41","#706B7A"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:10,padding:10,font:{size:10}}}}}});
 
 // Age chart - US Streaming — NEUTRAL color (no color coding)
 new Chart(document.getElementById("chartAgeUS"),{type:"bar",data:{labels:ageUSLabels,datasets:[{label:"% of Total",data:ageUSPcts,backgroundColor:"#5BC0BE",borderWidth:0}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,scales:{x:{max:40,ticks:{callback:function(v){return v+"%"},color:tickColor,font:{size:10}},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false},title:{display:true,text:"US Streaming (Spotify)",color:"#B0A9BE",font:{size:10,family:"DM Mono",weight:500},padding:{bottom:12}},tooltip:{callbacks:{label:function(c){return c.raw+"% (idx "+ageUSIdx[c.dataIndex]+")"}}}}}});
@@ -536,7 +545,7 @@ new Chart(document.getElementById("chartAgeIG"),{type:"bar",data:{labels:ageIGLa
 new Chart(document.getElementById("chartGenre"),{type:"bar",data:{labels:genreLabels,datasets:[{data:genreIdx,backgroundColor:"#B0A9BE",borderWidth:0}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false},title:{display:true,text:"Index vs Benchmark",color:"#706B7A",font:{size:10,family:"DM Mono",weight:500},padding:{bottom:8}},tooltip:{callbacks:{label:function(c){return"Index: "+c.raw.toLocaleString()}}}}}});
 
 // Social follower growth
-new Chart(document.getElementById("chartSocial"),{type:"line",data:{labels:[...new Set([...igD,...tkD])].sort(),datasets:[{label:"Instagram",data:igV.map(function(v,i){return{x:igD[i],y:v}}),borderColor:"#CDF851",borderWidth:2,pointRadius:0,tension:0.3,fill:false},{label:"TikTok",data:tkV.map(function(v,i){return{x:tkD[i],y:v}}),borderColor:"#FF4A23",borderWidth:2,pointRadius:0,tension:0.3,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:16,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
+new Chart(document.getElementById("chartSocial"),{type:"line",data:{labels:[...new Set([...igD,...tkD])].sort(),datasets:[{label:"Instagram",data:igV.map(function(v,i){return{x:igD[i],y:v}}),borderColor:"#B8E64A",borderWidth:2,pointRadius:0,tension:0.3,fill:false},{label:"TikTok",data:tkV.map(function(v,i){return{x:tkD[i],y:v}}),borderColor:"#FF4A23",borderWidth:2,pointRadius:0,tension:0.3,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:16,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
 
 // ═══ MINI MAPS (Canvas-based bubble maps) ═══
 function drawGlobalMap(){
@@ -550,9 +559,9 @@ function drawGlobalMap(){
     var p=proj(m.lat,m.lon);
     var r=Math.max(4,Math.min(18,Math.sqrt(m.share)*6));
     ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);
-    ctx.fillStyle=m.idx>=200?"rgba(205,248,81,0.6)":m.idx>=120?"rgba(205,248,81,0.35)":"rgba(176,169,190,0.2)";
+    ctx.fillStyle=m.idx>=200?"rgba(74,222,128,0.6)":m.idx>=120?"rgba(205,248,81,0.35)":"rgba(176,169,190,0.2)";
     ctx.fill();
-    ctx.strokeStyle=m.idx>=200?"#CDF851":m.idx>=120?"rgba(205,248,81,0.5)":"rgba(176,169,190,0.15)";
+    ctx.strokeStyle=m.idx>=200?"#4ADE80":m.idx>=120?"rgba(74,222,128,0.5)":"rgba(176,169,190,0.15)";
     ctx.lineWidth=1;ctx.stroke();
     // Label for big dots
     if(m.share>=2){ctx.fillStyle="#FCFDF8";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="center";ctx.fillText(m.name.substring(0,3).toUpperCase(),p[0],p[1]-r-3)}
@@ -575,9 +584,9 @@ function drawUSMap(){
     var p=proj(m.lat,m.lon);
     var r=Math.max(5,Math.min(20,Math.sqrt(m.share)*5));
     ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);
-    ctx.fillStyle=m.idx>=120?"rgba(205,248,81,0.5)":m.idx<=80?"rgba(255,74,35,0.4)":"rgba(176,169,190,0.2)";
+    ctx.fillStyle=m.idx>=120?"rgba(74,222,128,0.5)":m.idx<=80?"rgba(255,74,35,0.4)":"rgba(176,169,190,0.2)";
     ctx.fill();
-    ctx.strokeStyle=m.idx>=120?"#CDF851":m.idx<=80?"#FF4A23":"rgba(176,169,190,0.15)";
+    ctx.strokeStyle=m.idx>=120?"#4ADE80":m.idx<=80?"#EF4444":"rgba(176,169,190,0.15)";
     ctx.lineWidth=1;ctx.stroke();
     if(m.share>=2){ctx.fillStyle="#FCFDF8";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="center";ctx.fillText(m.name.split("/")[0].trim().substring(0,3).toUpperCase(),p[0],p[1]-r-3)}
   });
