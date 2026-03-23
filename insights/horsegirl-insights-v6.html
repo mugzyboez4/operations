@@ -66,6 +66,17 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
 .gender-label .fl{color:var(--gender-a)}.gender-label .ml{color:var(--gender-b)}
 .map-wrap{background:var(--dark);padding:16px;margin-top:16px;position:relative;overflow:hidden}
 .map-wrap svg{width:100%;height:auto}
+.idx-bars{display:flex;flex-direction:column;gap:5px;padding:8px 0}
+.idx-row{display:flex;align-items:center;gap:8px;height:22px}
+.idx-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--off-white);min-width:85px;text-align:right;white-space:nowrap}
+.idx-track{flex:1;height:14px;background:rgba(62,63,65,0.3);position:relative;overflow:hidden}
+.idx-fill{height:100%;transition:width 0.6s ease}
+.idx-fill.over{background:linear-gradient(90deg,rgba(74,222,128,0.25),rgba(74,222,128,0.5))}
+.idx-fill.neutral{background:rgba(176,169,190,0.2)}
+.idx-fill.under{background:rgba(255,74,35,0.2)}
+.idx-baseline{position:absolute;left:32.9%;top:0;bottom:0;width:1px;background:var(--fog-dim);opacity:0.4}
+.idx-val{font-family:'DM Mono',monospace;font-size:10px;min-width:28px;text-align:right}
+.idx-val.o{color:var(--eval-green)}.idx-val.n{color:var(--fog-dim)}.idx-val.u{color:var(--flame)}
 .psy-imgs{display:flex;gap:6px;margin-top:10px;overflow:hidden}
 .psy-imgs img{width:calc(33.33% - 4px);height:64px;object-fit:cover;filter:grayscale(30%);opacity:0.85;transition:all 0.3s}
 .psy-imgs img:hover{filter:grayscale(0%);opacity:1}
@@ -350,11 +361,27 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
   <div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Who They Are</div></div>
   <p class="cm" style="margin-top:0"><strong>The short answer: this is a real, invested, genre-specific audience.</strong> They cluster in electronic music cities, skew 23&ndash;34, and they&rsquo;re disproportionately engaged compared to peer artists. They aren&rsquo;t casual listeners who stumbled onto a playlist &mdash; they found her through the scene.</p>
 
-  <!-- Maps + Tables side by side -->
-  <div class="sub"><div class="sub-title">Global Markets <span style="font-weight:400;color:var(--fog-dim)">(Luminate &middot; Over-indexing markets highlighted)</span></div>
+  <!-- Global Markets: Index bars + Table -->
+  <div class="sub"><div class="sub-title">Global Markets <span style="font-weight:400;color:var(--fog-dim)">(Luminate &middot; Sorted by index &middot; 100 = expected share)</span></div>
     <div class="two">
       <div>
-        <div class="map-wrap" id="globalMapWrap"><canvas id="globalMap" height="220"></canvas></div>
+        <div class="idx-bars" id="globalBars">
+          <div class="idx-row"><span class="idx-label">Belgium</span><div class="idx-track"><div class="idx-fill over" style="width:100%"></div></div><span class="idx-val o">304</span></div>
+          <div class="idx-row"><span class="idx-label">Ireland</span><div class="idx-track"><div class="idx-fill over" style="width:87.8%"></div></div><span class="idx-val o">267</span></div>
+          <div class="idx-row"><span class="idx-label">Denmark</span><div class="idx-track"><div class="idx-fill over" style="width:82.2%"></div></div><span class="idx-val o">250</span></div>
+          <div class="idx-row"><span class="idx-label">Netherlands</span><div class="idx-track"><div class="idx-fill over" style="width:79.9%"></div></div><span class="idx-val o">243</span></div>
+          <div class="idx-row"><span class="idx-label">Great Britain</span><div class="idx-track"><div class="idx-fill over" style="width:78.3%"></div></div><span class="idx-val o">238</span></div>
+          <div class="idx-row"><span class="idx-label">Poland</span><div class="idx-track"><div class="idx-fill over" style="width:69.1%"></div></div><span class="idx-val o">210</span></div>
+          <div class="idx-row"><span class="idx-label">Germany</span><div class="idx-track"><div class="idx-fill over" style="width:66.4%"></div></div><span class="idx-val o">202</span></div>
+          <div class="idx-row"><span class="idx-label">Chile</span><div class="idx-track"><div class="idx-fill over" style="width:56.6%"></div></div><span class="idx-val o">172</span></div>
+          <div class="idx-row"><span class="idx-label">Australia</span><div class="idx-track"><div class="idx-fill over" style="width:48%"></div></div><span class="idx-val o">146</span></div>
+          <div class="idx-row"><span class="idx-label">Japan</span><div class="idx-track"><div class="idx-fill over" style="width:43.1%"></div></div><span class="idx-val o">131</span></div>
+          <div class="idx-row"><span class="idx-label">France</span><div class="idx-track"><div class="idx-fill over" style="width:42.1%"></div></div><span class="idx-val o">128</span></div>
+          <div class="idx-row base-row"><span class="idx-label" style="color:var(--fog-dim)">USA</span><div class="idx-track"><div class="idx-fill neutral" style="width:29.9%"></div><div class="idx-baseline"></div></div><span class="idx-val n">91</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Brazil</span><div class="idx-track"><div class="idx-fill neutral" style="width:29.3%"></div></div><span class="idx-val n">89</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Canada</span><div class="idx-track"><div class="idx-fill under" style="width:26.3%"></div></div><span class="idx-val u">80</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Mexico</span><div class="idx-track"><div class="idx-fill under" style="width:13.8%"></div></div><span class="idx-val u">42</span></div>
+        </div>
       </div>
       <div>
         <table class="dt"><tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td>USA</td><td class="r">38.9%</td><td class="r"><span class="ix n">91</span></td></tr>
@@ -374,10 +401,21 @@ body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-se
     </div>
   </div>
 
-  <div class="sub"><div class="sub-title">US Markets <span style="font-weight:400;color:var(--fog-dim)">(Spotify &middot; Over-indexing markets highlighted)</span></div>
+  <div class="sub"><div class="sub-title">US Markets <span style="font-weight:400;color:var(--fog-dim)">(Spotify &middot; Sorted by index &middot; 100 = expected share)</span></div>
     <div class="two">
       <div>
-        <div class="map-wrap" id="usMapWrap"><canvas id="usMap" height="220"></canvas></div>
+        <div class="idx-bars">
+          <div class="idx-row"><span class="idx-label">Los Angeles</span><div class="idx-track"><div class="idx-fill over" style="width:100%"></div></div><span class="idx-val o">221</span></div>
+          <div class="idx-row"><span class="idx-label">San Francisco</span><div class="idx-track"><div class="idx-fill over" style="width:84.2%"></div></div><span class="idx-val o">186</span></div>
+          <div class="idx-row"><span class="idx-label">New York</span><div class="idx-track"><div class="idx-fill over" style="width:73.8%"></div></div><span class="idx-val o">163</span></div>
+          <div class="idx-row"><span class="idx-label">Seattle</span><div class="idx-track"><div class="idx-fill over" style="width:57.9%"></div></div><span class="idx-val o">128</span></div>
+          <div class="idx-row"><span class="idx-label">Chicago</span><div class="idx-track"><div class="idx-fill over" style="width:56.6%"></div></div><span class="idx-val o">125</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Boston</span><div class="idx-track"><div class="idx-fill neutral" style="width:45.7%"></div><div class="idx-baseline"></div></div><span class="idx-val n">101</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Washington</span><div class="idx-track"><div class="idx-fill neutral" style="width:42.5%"></div></div><span class="idx-val n">94</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Houston</span><div class="idx-track"><div class="idx-fill under" style="width:35.7%"></div></div><span class="idx-val u">79</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Philadelphia</span><div class="idx-track"><div class="idx-fill under" style="width:35.3%"></div></div><span class="idx-val u">78</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Dallas</span><div class="idx-track"><div class="idx-fill under" style="width:31.7%"></div></div><span class="idx-val u">70</span></div>
+        </div>
       </div>
       <div>
         <table class="dt"><tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td><strong>Los Angeles</strong></td><td class="r">17.1%</td><td class="r"><span class="ix o">221</span></td></tr>
@@ -622,54 +660,7 @@ setTimeout(function(){drawConstellation()},120);
 window.addEventListener("resize",function(){drawConstellation()});
 
 // ═══ MINI MAPS (Canvas-based bubble maps) ═══
-function drawGlobalMap(){
-  var c=document.getElementById("globalMap");var ctx=c.getContext("2d");
-  var w=c.width=c.parentElement.clientWidth-32;var h=c.height=220;
-  ctx.fillStyle="#1A1A1A";ctx.fillRect(0,0,w,h);
-  // Simple Mercator projection
-  function proj(lat,lon){return[((lon+180)/360)*w,((90-lat)/180)*h]}
-  // Draw dots
-  mapGlobal.forEach(function(m){
-    var p=proj(m.lat,m.lon);
-    var r=Math.max(4,Math.min(18,Math.sqrt(m.share)*6));
-    ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);
-    ctx.fillStyle=m.idx>=200?"rgba(74,222,128,0.6)":m.idx>=120?"rgba(205,248,81,0.35)":"rgba(176,169,190,0.2)";
-    ctx.fill();
-    ctx.strokeStyle=m.idx>=200?"#4ADE80":m.idx>=120?"rgba(74,222,128,0.5)":"rgba(176,169,190,0.15)";
-    ctx.lineWidth=1;ctx.stroke();
-    // Label for big dots
-    if(m.share>=2){ctx.fillStyle="#FCFDF8";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="center";ctx.fillText(m.name.substring(0,3).toUpperCase(),p[0],p[1]-r-3)}
-  });
-  // Legend
-  ctx.fillStyle="#706B7A";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="left";
-  ctx.fillText("● Over-index (120+)",8,h-6);
-}
-
-function drawUSMap(){
-  var c=document.getElementById("usMap");var ctx=c.getContext("2d");
-  var w=c.width=c.parentElement.clientWidth-32;var h=c.height=220;
-  ctx.fillStyle="#1A1A1A";ctx.fillRect(0,0,w,h);
-  // US bounds: lat 24-50, lon -125 to -66
-  function proj(lat,lon){return[((lon+125)/59)*w,((50-lat)/26)*h]}
-  // US outline (very rough)
-  ctx.strokeStyle="rgba(62,63,65,0.4)";ctx.lineWidth=1;ctx.beginPath();
-  [[49,-125],[49,-66],[25,-66],[25,-80],[30,-85],[29,-90],[26,-97],[32,-117],[34,-120],[42,-124],[49,-125]].forEach(function(p,i){var pt=proj(p[0],p[1]);i===0?ctx.moveTo(pt[0],pt[1]):ctx.lineTo(pt[0],pt[1])});ctx.stroke();
-  mapUS.forEach(function(m){
-    var p=proj(m.lat,m.lon);
-    var r=Math.max(5,Math.min(20,Math.sqrt(m.share)*5));
-    ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);
-    ctx.fillStyle=m.idx>=120?"rgba(74,222,128,0.5)":m.idx<=80?"rgba(255,74,35,0.4)":"rgba(176,169,190,0.2)";
-    ctx.fill();
-    ctx.strokeStyle=m.idx>=120?"#4ADE80":m.idx<=80?"#EF4444":"rgba(176,169,190,0.15)";
-    ctx.lineWidth=1;ctx.stroke();
-    if(m.share>=2){ctx.fillStyle="#FCFDF8";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="center";ctx.fillText(m.name.split("/")[0].trim().substring(0,3).toUpperCase(),p[0],p[1]-r-3)}
-  });
-  ctx.fillStyle="#706B7A";ctx.font="9px 'DM Mono',monospace";ctx.textAlign="left";
-  ctx.fillText("● Over-index  ● Under-index",8,h-6);
-}
-
-setTimeout(function(){drawGlobalMap();drawUSMap()},100);
-window.addEventListener("resize",function(){drawGlobalMap();drawUSMap()});
+// ═══ MINI MAPS — removed, replaced with index bars ═══
 
 // Nav
 var nav=document.getElementById("nav");var sections=document.querySelectorAll(".sec[id]");var navLinks=document.querySelectorAll(".nav-link");
