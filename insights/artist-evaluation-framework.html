@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Evaluation Framework — Campaign Operations</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0F0E0E;
+    --card: #1A1A1A;
+    --card-hover: #222222;
+    --offwhite: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --fog-dim: #7A7388;
+    --border: #2A2A2A;
+    --border-light: #333333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--offwhite);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === HEADER === */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header .brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+  }
+
+  .site-header .brand span {
+    color: var(--chartreuse);
+  }
+
+  .site-header .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+    border: 1px solid var(--border-light);
+    padding: 4px 10px;
+  }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 40px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 72px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: var(--offwhite);
+  }
+
+  .hero h1 .accent {
+    color: var(--chartreuse);
+  }
+
+  .hero .subtitle {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--fog);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  .hero .meta-row {
+    margin-top: 28px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero .meta-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+    border: 1px solid var(--border-light);
+    padding: 6px 14px;
+  }
+
+  /* === MAIN CONTENT === */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* === COLLAPSIBLE SECTIONS === */
+  .section {
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  .section-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0;
+    text-align: left;
+    transition: opacity 0.2s;
+  }
+
+  .section-toggle:hover { opacity: 0.85; }
+
+  .section-toggle .section-label {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .section-toggle .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--chartreuse);
+    letter-spacing: 1px;
+    min-width: 28px;
+  }
+
+  .section-toggle h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--offwhite);
+    font-weight: 400;
+  }
+
+  .section-toggle .chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--fog-dim);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .section.open .chevron {
+    transform: rotate(180deg);
+  }
+
+  .section-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .section.open .section-body {
+    max-height: 5000px;
+    opacity: 1;
+  }
+
+  .section-inner {
+    padding-bottom: 40px;
+  }
+
+  /* === TYPOGRAPHY === */
+  .body-text {
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  .body-text strong {
+    color: var(--offwhite);
+    font-weight: 600;
+  }
+
+  .sub-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--offwhite);
+    margin: 32px 0 12px;
+  }
+
+  /* === CALLOUT BLOCKS === */
+  .callout {
+    border-left: 3px solid var(--chartreuse);
+    background: rgba(205, 248, 81, 0.04);
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--fog);
+    line-height: 1.7;
+  }
+
+  .callout.flame {
+    border-left-color: var(--flame);
+    background: rgba(255, 74, 35, 0.05);
+  }
+
+  .callout em {
+    color: var(--offwhite);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* === THREE LENSES GRID === */
+  .lenses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 28px 0;
+    border: 1px solid var(--border-light);
+  }
+
+  .lens-card {
+    border-right: 1px solid var(--border-light);
+    padding: 0;
+  }
+
+  .lens-card:last-child { border-right: none; }
+
+  .lens-header {
+    background: var(--card);
+    padding: 22px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .lens-header .lens-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .lens-header h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--chartreuse);
+    font-weight: 500;
+  }
+
+  .lens-body {
+    padding: 20px;
+    min-height: 180px;
+  }
+
+  .lens-body .lens-question {
+    font-size: 14px;
+    color: var(--offwhite);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .lens-body ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .lens-body li {
+    font-size: 13px;
+    color: var(--fog);
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .lens-body li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    background: var(--chartreuse);
+  }
+
+  .lens-quote {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-light);
+    background: rgba(255,255,255,0.015);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--fog-dim);
+    line-height: 1.6;
+  }
+
+  /* === DATA TABLES === */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .data-table thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--chartreuse);
+    background: var(--card);
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+    font-weight: 500;
+  }
+
+  .data-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--fog);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .data-table tbody tr:nth-child(even) td {
+    background: rgba(255,255,255,0.015);
+  }
+
+  .data-table tbody td:first-child {
+    color: var(--offwhite);
+    font-weight: 500;
+  }
+
+  /* Tier badges */
+  .tier-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    background: rgba(205, 248, 81, 0.1);
+    color: var(--chartreuse);
+    text-transform: uppercase;
+  }
+
+  /* === DOES / DOES NOT TABLE === */
+  .split-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border-light);
+    margin: 24px 0;
+  }
+
+  .split-col-header {
+    padding: 14px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: var(--card);
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .split-col-header.does { color: var(--chartreuse); }
+  .split-col-header.doesnot { color: var(--flame); }
+
+  .split-row {
+    display: contents;
+  }
+
+  .split-cell {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: var(--fog);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+
+  .split-cell:nth-child(odd) {
+    border-right: 1px solid var(--border);
+  }
+
+  /* === STEP BLOCKS === */
+  .steps {
+    margin: 24px 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--chartreuse);
+    line-height: 1;
+    min-width: 32px;
+    padding-top: 2px;
+  }
+
+  .step-content {
+    flex: 1;
+  }
+
+  .step-title {
+    font-weight: 600;
+    color: var(--offwhite);
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .step-desc {
+    color: var(--fog);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* === SIGNAL CARDS (spike real vs noise) === */
+  .signal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .signal-card {
+    border: 1px solid var(--border-light);
+    padding: 20px;
+  }
+
+  .signal-card h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .signal-card.real h4 { color: var(--chartreuse); }
+  .signal-card.noise h4 { color: var(--flame); }
+
+  .signal-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .signal-card li {
+    font-size: 13px;
+    color: var(--fog);
+    padding: 5px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .signal-card.real li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 5px;
+    height: 5px;
+    background: var(--chartreuse);
+  }
+
+  .signal-card.noise li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 5px;
+    height: 5px;
+    background: var(--flame);
+  }
+
+  /* === QUALITATIVE ITEMS === */
+  .qual-item {
+    margin-bottom: 20px;
+  }
+
+  .qual-item h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--offwhite);
+    margin-bottom: 4px;
+  }
+
+  .qual-item p {
+    font-size: 14px;
+    color: var(--fog);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  /* === CLOSER === */
+  .closer {
+    border-top: 2px solid var(--chartreuse);
+    margin-top: 60px;
+    padding-top: 30px;
+  }
+
+  .closer p {
+    font-size: 15px;
+    color: var(--fog);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 720px;
+  }
+
+  .closer p em {
+    color: var(--offwhite);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 700px) {
+    .lenses-grid { grid-template-columns: 1fr; }
+    .lens-card { border-right: none; border-bottom: 1px solid var(--border-light); }
+    .lens-card:last-child { border-bottom: none; }
+    .signal-grid { grid-template-columns: 1fr; }
+    .split-table { grid-template-columns: 1fr; }
+    .hero, .content { padding-left: 20px; padding-right: 20px; }
+    .site-header { padding: 14px 20px; }
+  }
+
+  /* === EXPAND ALL TOGGLE === */
+  .expand-toggle {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--fog-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+  }
+
+  .expand-toggle:hover {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand"><span>TEMPO</span> · Campaign Operations</div>
+  <div class="tag">Internal — Working Draft</div>
+</header>
+
+<div class="hero">
+  <h1>ARTIST EVALUATION<br><span class="accent">FRAMEWORK</span></h1>
+  <p class="subtitle">A unified intelligence model for signing decisions. Three lenses, corroborated signals, one clear picture.</p>
+  <div class="meta-row">
+    <span class="meta-pill">Campaign Operations</span>
+    <span class="meta-pill">March 2026</span>
+    <span class="meta-pill">Strategic Analytics + A&R + Commercial</span>
+  </div>
+</div>
+
+<main class="content">
+
+  <div style="text-align: right; margin-bottom: 4px;">
+    <button class="expand-toggle" onclick="toggleAll()">Expand All</button>
+  </div>
+
+  <!-- SECTION 1: THE PROBLEM -->
+  <div class="section open" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">01</span>
+        <h2>THE PROBLEM</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Right now, when A&R evaluates an unsigned artist, the process relies heavily on a single signal: <strong>a chart going up and to the right.</strong> The room reacts to the slope of the line, not to what the line actually represents.</p>
+
+        <div class="callout flame">
+          <em>An artist doing 1M streams consistently across 3 releases with flat growth</em> has proven they have a real, durable audience. <em>An artist growing 57% from 118 to 186 streams</em> has a great-looking chart and almost no audience. Both get presented the same way.
+        </div>
+
+        <p class="body-text">The result: the label is using surface-level data to make high-stakes investment decisions. Volume, consistency, engagement depth, scene context, and management quality all matter — but there's no system that brings them together into a unified picture.</p>
+
+        <p class="body-text">No single data source gives you the full picture. Good intelligence comes from <strong>corroborating multiple signals</strong> to paint a story — then using that story to make a decision.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: THREE LENSES -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">02</span>
+        <h2>THE FRAMEWORK: THREE LENSES</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">This framework evaluates unsigned artists through three lenses. Each captures a different dimension. Together, they produce a picture that's more complete than any single department can generate alone.</p>
+
+        <div class="lenses-grid">
+          <div class="lens-card">
+            <div class="lens-header">
+              <div class="lens-icon">📊</div>
+              <h3>Lens 1: Scale</h3>
+            </div>
+            <div class="lens-body">
+              <div class="lens-question">How big is this artist right now?</div>
+              <ul>
+                <li>Monthly listeners</li>
+                <li>Total catalog streams</li>
+                <li>Social follower base</li>
+                <li>Live ticket capacity</li>
+              </ul>
+            </div>
+            <div class="lens-quote">"Volume is context. Before you look at any trajectory, anchor: how big is this artist?"</div>
+          </div>
+
+          <div class="lens-card">
+            <div class="lens-header">
+              <div class="lens-icon">📈</div>
+              <h3>Lens 2: Trajectory</h3>
+            </div>
+            <div class="lens-body">
+              <div class="lens-question">Where are they going?</div>
+              <ul>
+                <li>Growth rate across windows</li>
+                <li>Consistency across releases</li>
+                <li>Listener retention rate</li>
+                <li>Organic vs. artificial growth</li>
+              </ul>
+            </div>
+            <div class="lens-quote">"A spike is noise until proven otherwise. What makes it real? Multiple signals across multiple releases."</div>
+          </div>
+
+          <div class="lens-card">
+            <div class="lens-header">
+              <div class="lens-icon">🔍</div>
+              <h3>Lens 3: Intelligence</h3>
+            </div>
+            <div class="lens-body">
+              <div class="lens-question">What else do we know?</div>
+              <ul>
+                <li>Network / collaborators</li>
+                <li>Management situation</li>
+                <li>Live performance ability</li>
+                <li>Scene / cultural positioning</li>
+              </ul>
+            </div>
+            <div class="lens-quote">"Data can tell you if it's working. Only human intelligence can tell you why — and whether it will keep working."</div>
+          </div>
+        </div>
+
+        <div class="callout">
+          Campaign Ops sits at the intersection of these three lenses. <em>Strategic Analytics owns the data. A&R owns the taste. Commercial owns the market context.</em> This function translates between them and ensures no signal gets lost.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: BUSINESS DECISIONS -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">03</span>
+        <h2>WHAT BUSINESS DECISION ARE YOU MAKING?</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Every evaluation starts with the same question: <strong>What is the business decision you need to make, and what confidence level does that decision require?</strong></p>
+        <p class="body-text">For unsigned artists, there are three tiers of decision. Each requires progressively more intelligence:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Decision</th>
+              <th>Data Required</th>
+              <th>Confidence</th>
+              <th>Who Inputs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Pursue or pass?</td>
+              <td>Scale + basic trajectory (Lens 1–2 surface data)</td>
+              <td>Directional — quick read</td>
+              <td>Strategic Analytics</td>
+            </tr>
+            <tr>
+              <td>2. How aggressively?</td>
+              <td>Full trajectory + engagement depth + scene context</td>
+              <td>Corroborated — multiple signals aligned</td>
+              <td>Analytics + A&R + Commercial</td>
+            </tr>
+            <tr>
+              <td>3. What's the offer?</td>
+              <td>All three lenses + management intel + deal comps</td>
+              <td>High confidence — unified picture</td>
+              <td>Analytics + A&R + Business & Legal</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout flame">
+          The critical insight: Decision 1 can be made with relatively thin data. Decision 3 requires thick, corroborated intelligence from multiple sources. <em>Right now, the label frequently uses Decision 1-level data to make Decision 3-level commitments.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: VOLUME BENCHMARKING -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">04</span>
+        <h2>VOLUME BENCHMARKING: THE MISSING CONTEXT</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Before evaluating trajectory, you have to anchor scale. <strong>How big is this artist right now?</strong> Growth percentages are meaningless without context — 50% growth at 500K monthly listeners is a fundamentally different signal than 50% growth at 5K.</p>
+
+        <p class="sub-header">Preliminary Volume Tiers</p>
+        <p class="body-text" style="font-size: 13px; color: var(--fog-dim); margin-bottom: 16px;">To be validated with Strategic Analytics</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Monthly Listeners</th>
+              <th>Tier</th>
+              <th>What It Tells You</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Under 50K</td>
+              <td><span class="tier-badge">Embryonic</span></td>
+              <td>Very early. Audience exists but hasn't been tested across releases. High variance.</td>
+            </tr>
+            <tr>
+              <td>50K – 250K</td>
+              <td><span class="tier-badge">Developing</span></td>
+              <td>Has an audience. Enough data to start evaluating consistency and retention patterns.</td>
+            </tr>
+            <tr>
+              <td>250K – 500K</td>
+              <td><span class="tier-badge">Emerging</span></td>
+              <td>Something real is happening. Multiple signals should be corroborating by now.</td>
+            </tr>
+            <tr>
+              <td>500K – 1M</td>
+              <td><span class="tier-badge">Established Unsigned</span></td>
+              <td>Proven they can build. The question shifts from "is it real?" to "why haven't they been signed?"</td>
+            </tr>
+            <tr>
+              <td>1M+</td>
+              <td><span class="tier-badge">Rare Unsigned</span></td>
+              <td>Significant pre-existing audience. Either a massive opportunity or a red flag worth investigating.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          Key principle: <em>"Big and steady" is a strong signal.</em> An artist with sustained volume across multiple releases has proven audience durability — even with flat growth. The default expectation for any spike should be reversion to the mean until multiple signals prove otherwise.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: SPIKE PROBLEM -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">05</span>
+        <h2>THE SPIKE PROBLEM: REVERSION TO THE MEAN</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Given a large enough sample, performance reverts to the average. When an unsigned artist has a sudden spike, the statistically correct default assumption is that <strong>they will come back down.</strong> The spike is noise until proven otherwise.</p>
+
+        <div class="signal-grid">
+          <div class="signal-card real">
+            <h4>What Proves a Spike Is Real</h4>
+            <ul>
+              <li>Sustained growth across multiple releases</li>
+              <li>Engagement metrics that hold post-spike</li>
+              <li>Geographic spread that widens, not concentrates</li>
+              <li>Listener retention between releases stays above baseline</li>
+            </ul>
+          </div>
+          <div class="signal-card noise">
+            <h4>What Suggests a Spike Is Noise</h4>
+            <ul>
+              <li>Single-song virality without catalog lift</li>
+              <li>Playlist-driven discovery without organic follow-through</li>
+              <li>Social growth that doesn't convert to streams</li>
+              <li>Short track record with no prior consistency data</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="body-text">The evaluation framework should explicitly flag which category an artist's recent performance falls into — not to discourage pursuit, but to <strong>inform the confidence level and structure of the offer.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: QUALITATIVE LAYER -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">06</span>
+        <h2>LENS 3: THE QUALITATIVE LAYER</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Data tells you if it's working. Human intelligence tells you <strong>why — and whether it will keep working.</strong> The qualitative layer isn't a replacement for analytics. It's the context that turns numbers into a decision.</p>
+
+        <div class="qual-item">
+          <h4>Network & Collaborators</h4>
+          <p>Who has the artist worked with? What producers, writers, or featured artists are in their orbit? Relationships predict trajectory. An artist who writes for established acts or co-produces with in-demand collaborators carries de-risked creative credibility.</p>
+        </div>
+        <div class="qual-item">
+          <h4>Management Situation</h4>
+          <p>Is the artist professionally managed? By whom? Management track record is one of the strongest predictors of post-signing execution.</p>
+        </div>
+        <div class="qual-item">
+          <h4>Live Performance</h4>
+          <p>Can they perform? Have they sold tickets? Live viability is a massive de-risker and increasingly central to long-term revenue.</p>
+        </div>
+        <div class="qual-item">
+          <h4>Cultural Positioning</h4>
+          <p>Are they part of an ascending scene? Are they the tip of a spear or a late arrival? Scene momentum is a rising tide — but it recedes.</p>
+        </div>
+        <div class="qual-item">
+          <h4>Work Ethic & Partnership Potential</h4>
+          <p>Will they be collaborative or difficult? Track record of reliability matters for deal structure and team commitment.</p>
+        </div>
+
+        <div class="callout">
+          This is where A&R's expertise plugs in. <em>Campaign Ops doesn't generate qualitative intelligence</em> — it creates the structured space for A&R to contribute it alongside the quantitative picture, so that both inform the decision.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: BUILD PROCESS -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">07</span>
+        <h2>BUILD PROCESS</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">This framework defines the thinking. The model is built through structured input from the stakeholders who own each lens:</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Define the Criteria</div>
+              <div class="step-desc">Each key stakeholder (Strategic Analytics, A&R, Commercial) independently answers: "If you could only look at 5 data points about an unsigned artist before making a signing decision, what would they be?"</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Find the Overlap</div>
+              <div class="step-desc">The responses will share 3 common priorities. The remaining 2 per stakeholder are where the interesting debate lives.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Force the 5</div>
+              <div class="step-desc">Stakeholders negotiate to a shared set of 5 evaluation criteria. That debate is the process — it surfaces what each leader actually values and builds shared ownership.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Operationalize</div>
+              <div class="step-desc">Campaign Ops translates the consensus into a repeatable evaluation template that can be populated from existing data sources and A&R input.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Test & Iterate</div>
+              <div class="step-desc">Run the model against recent signings retrospectively. Did the framework predict which deals worked and which didn't? Refine.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout flame">
+          Critical: This is <em>collaborative and time-bound.</em> Stakeholders shape the criteria during the build phase. Once locked, the framework runs. If you don't speak up during the build, you don't get to redesign it after launch.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: WHERE CAMPAIGN OPS SITS -->
+  <div class="section" data-section>
+    <button class="section-toggle" onclick="toggle(this)">
+      <div class="section-label">
+        <span class="section-num">08</span>
+        <h2>WHERE CAMPAIGN OPS SITS</h2>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="section-body">
+      <div class="section-inner">
+        <p class="body-text">Campaign Ops does not own the data. It does not own the taste. It does not own the market read. What it owns is the <strong>integration layer</strong> — the function that ensures every signing decision is informed by a unified picture rather than a single signal.</p>
+
+        <div class="split-table">
+          <div class="split-col-header does">Campaign Ops Does</div>
+          <div class="split-col-header doesnot">Campaign Ops Does Not</div>
+
+          <div class="split-cell">Translate data into decision-ready intelligence</div>
+          <div class="split-cell">Generate the underlying data</div>
+
+          <div class="split-cell">Structure the evaluation so all signals are visible</div>
+          <div class="split-cell">Override A&R's creative judgment</div>
+
+          <div class="split-cell">Surface patterns across the pipeline</div>
+          <div class="split-cell">Approve or deny signings</div>
+
+          <div class="split-cell">Ensure consistency in how artists are assessed</div>
+          <div class="split-cell">Replace the expertise of any department</div>
+
+          <div class="split-cell">Flag when signals contradict each other</div>
+          <div class="split-cell">Make the final call</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSER -->
+  <div class="closer">
+    <p>This framework is the architecture. The model is built through the process described above, with input from the people who own each piece. <em>Campaign Ops owns the integration</em> — the assurance that when this organization makes a signing decision, it's making it with the fullest possible picture.</p>
+  </div>
+
+</main>
+
+<script>
+function toggle(btn) {
+  const section = btn.closest('.section');
+  section.classList.toggle('open');
+}
+
+function toggleAll() {
+  const sections = document.querySelectorAll('[data-section]');
+  const btn = document.querySelector('.expand-toggle');
+  const allOpen = [...sections].every(s => s.classList.contains('open'));
+
+  sections.forEach(s => {
+    if (allOpen) {
+      s.classList.remove('open');
+    } else {
+      s.classList.add('open');
+    }
+  });
+
+  btn.textContent = allOpen ? 'Expand All' : 'Collapse All';
+}
+</script>
+
+</body>
+</html>
