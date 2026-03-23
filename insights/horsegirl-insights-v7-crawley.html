@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>horsegiirL &mdash; Artist Insights V7 &mdash; March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--data-us:#B8E64A;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347;--eval-green:#4ADE80;--eval-red:#EF4444;--gender-a:#CDF851;--gender-b:#5BC0BE}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:56px}
+body{background:var(--black);color:var(--off-white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.nav{position:sticky;top:0;z-index:100;background:rgba(15,14,14,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--slate);transition:box-shadow 0.3s}
+.nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,0.5)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:54px;gap:8px}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--chartreuse);letter-spacing:3px;margin-right:auto}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim);padding:6px 14px;border:1px solid transparent;cursor:pointer;transition:all 0.25s;text-decoration:none}
+.nav-link:hover{color:var(--fog);border-color:var(--slate)}.nav-link.active{color:var(--chartreuse);border-color:var(--chartreuse)}
+.c{max-width:960px;margin:0 auto;padding:0 32px}
+.hero{padding:72px 0 48px;border-bottom:2px solid var(--chartreuse);position:relative;overflow:hidden}
+.hero::before{content:'horsegiirL';position:absolute;top:-10px;right:-30px;font-family:'Bebas Neue',sans-serif;font-size:180px;color:rgba(205,248,81,0.03);letter-spacing:8px;pointer-events:none;line-height:1}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:14px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,84px);line-height:0.9;color:var(--chartreuse);letter-spacing:2px;margin-bottom:14px}
+.hero-sub{font-size:15px;color:var(--fog);max-width:520px}
+.hero-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);margin-top:20px;line-height:1.8}
+.sec{padding:56px 0 0}.sec-bar{display:flex;align-items:baseline;gap:12px;padding-bottom:6px;border-bottom:2px solid var(--chartreuse);margin-bottom:28px}
+.sec-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--off-white);letter-spacing:1px;line-height:1}
+.sub{padding:32px 0 0}.sub-title{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--slate)}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.st{background:var(--dark);padding:18px 22px;flex:1;min-width:130px;border-top:3px solid var(--slate);transition:border-color 0.3s}.st:hover{border-top-color:var(--chartreuse)}
+.st-n{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;letter-spacing:1px}
+.st-n.g{color:var(--data-us)}.st-n.f{color:var(--flame)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.sm{font-size:30px}.st-n.pk{color:var(--pink)}
+.st-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-top:4px}
+.st-s{font-size:11px;color:var(--fog-dim);margin-top:2px}.st-s.up{color:var(--eval-green)}.st-s.dn{color:var(--eval-red)}
+.cm{font-size:14px;color:var(--off-white);line-height:1.7;margin-top:14px;opacity:0.88}.cm+.cm{margin-top:8px}
+.cm strong{font-weight:700;color:var(--off-white)}.cm em{color:var(--chartreuse);font-style:normal;font-weight:600}
+.chart-wrap{background:var(--dark);padding:20px;margin-top:16px;position:relative}.chart-wrap canvas{width:100%!important}
+.dt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.dt th{text-align:left;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);padding:6px 10px;border-bottom:1px solid var(--slate)}
+.dt th.r{text-align:right}.dt td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4);font-variant-numeric:tabular-nums}
+.dt td.r{text-align:right}.dt td.d{color:var(--fog-dim);font-size:11px}.dt tr:last-child td{border-bottom:none}.dt tr{transition:background 0.2s}.dt tr:hover{background:rgba(205,248,81,0.02)}
+.ix{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:1px 7px;font-variant-numeric:tabular-nums}
+.ix.o{background:rgba(74,222,128,0.12);color:var(--eval-green)}.ix.u{background:rgba(239,68,68,0.12);color:var(--eval-red)}.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
+.bars{margin-top:14px}.br{display:grid;grid-template-columns:220px 1fr 55px;gap:10px;align-items:center;margin-bottom:5px}
+.br-l{font-size:12px;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.br-l.hi{color:var(--data-us);font-weight:700}
+.br-t{background:rgba(62,63,65,0.2);height:24px;position:relative;overflow:hidden}.br-f{height:100%}.br-f.g{background:var(--data-us)}.br-f.t{background:var(--teal)}
+.br-v{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fog)}.br-v.hi{color:var(--data-us);font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.card{background:var(--dark);padding:18px;border-top:3px solid var(--slate);transition:border-color 0.3s}.card:hover{border-top-color:var(--chartreuse)}
+.card.gc{border-top-color:var(--chartreuse)}.card.tc{border-top-color:var(--teal)}.card.pc{border-top-color:var(--pink)}
+.card-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.card-label.gc{color:var(--chartreuse)}.card-label.tc{color:var(--teal)}.card-label.pc{color:var(--pink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:11px;font-weight:600;padding:4px 12px;background:rgba(176,169,190,0.08);color:var(--fog);transition:background 0.2s}.tag:hover{background:rgba(176,169,190,0.15)}
+.eng-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.eng-card{background:var(--dark);padding:20px;border-top:3px solid var(--slate)}
+.eng-card .big{font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;margin-bottom:2px}
+.eng-card .lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:12px}
+.eng-card .metric{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(62,63,65,0.3);font-size:13px}
+.eng-card .metric:last-child{border-bottom:none}
+.eng-card .metric .k{color:var(--fog)}.eng-card .metric .v{font-weight:600;font-variant-numeric:tabular-nums}
+.gender-bar{display:flex;height:28px;margin-top:8px;overflow:hidden}.gender-bar .f{background:var(--gender-a)}.gender-bar .m{background:var(--gender-b)}
+.gender-label{display:flex;justify-content:space-between;margin-top:4px;font-family:'DM Mono',monospace;font-size:10px}
+.gender-label .fl{color:var(--gender-a)}.gender-label .ml{color:var(--gender-b)}
+.map-wrap{background:var(--dark);padding:16px;margin-top:16px;position:relative;overflow:hidden}
+.map-wrap svg{width:100%;height:auto}
+.idx-bars{display:flex;flex-direction:column;gap:5px;padding:8px 0}
+.idx-row{display:flex;align-items:center;gap:8px;height:22px}
+.idx-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--off-white);min-width:85px;text-align:right;white-space:nowrap}
+.idx-track{flex:1;height:14px;background:rgba(62,63,65,0.3);position:relative;overflow:hidden}
+.idx-fill{height:100%;transition:width 0.6s ease}
+.idx-fill.over{background:linear-gradient(90deg,rgba(74,222,128,0.25),rgba(74,222,128,0.5))}
+.idx-fill.neutral{background:rgba(176,169,190,0.2)}
+.idx-fill.under{background:rgba(255,74,35,0.2)}
+.idx-baseline{position:absolute;left:32.9%;top:0;bottom:0;width:1px;background:var(--fog-dim);opacity:0.4}
+.idx-val{font-family:'DM Mono',monospace;font-size:10px;min-width:28px;text-align:right}
+.idx-val.o{color:var(--eval-green)}.idx-val.n{color:var(--fog-dim)}.idx-val.u{color:var(--flame)}
+.psy-imgs{display:flex;gap:6px;margin-top:10px;overflow:hidden}
+.psy-imgs img{width:calc(33.33% - 4px);height:64px;object-fit:cover;filter:grayscale(30%);opacity:0.85;transition:all 0.3s}
+.psy-imgs img:hover{filter:grayscale(0%);opacity:1}
+.placeholder{background:var(--dark);border:1px dashed var(--slate);padding:20px;margin-top:16px;text-align:center;color:var(--fog-dim);font-family:'DM Mono',monospace;font-size:11px}
+.div{height:1px;background:var(--slate);margin-top:48px}
+.foot{padding:40px 0 56px;text-align:center}.foot .rca{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--chartreuse);letter-spacing:4px;margin-bottom:8px}
+.foot p{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);letter-spacing:0.5px}
+@media(max-width:700px){.c{padding:0 20px}.hero-title{font-size:44px}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr}.stats{flex-direction:column}.eng-grid{grid-template-columns:1fr}.br{grid-template-columns:140px 1fr 44px}.nav-link{padding:6px 8px;font-size:10px}}
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<span class="active-label">Insights</span>
+<div class="sndd"><span class="sndd-b">Library &#9662;</span><div class="sndd-m"><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+
+<div class="c">
+
+<div class="hero">
+  <p class="hero-eyebrow">Artist Insights &middot; Internal Use Only</p>
+  <h1 class="hero-title">horsegiirL</h1>
+  <p class="hero-sub">Streaming, audience, social &mdash; a full picture of where the artist is right now.</p>
+  <p class="hero-meta">March 17, 2026<br>Data: Strategic Analytics<br>Sources: Luminate &middot; Spotify Internal &middot; Chartmetric</p>
+</div>
+
+<!-- 5 THINGS TO KNOW — all numbered equally -->
+<div style="padding:24px 0;border-bottom:1px solid var(--slate)">
+  <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px">5 Things to Know</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">01</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Catalog is the engine.</strong> Early tracks (My Little White Pony, My Barn My Rules) are 2nd and 3rd most-streamed right now &mdash; years after release. New singles spike, catalog sustains.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">02</span>
+      <span style="font-size:12px;line-height:1.5"><strong>318K weekly US, 911K global.</strong> US accounts for ~33% of global streams. Peak US week: 539,607 (July 2025).</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">03</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Debut trajectory accelerating.</strong> Week 1 ODA: 18 (2022) &rarr; 186K (2026). Last three releases all opened above 100K.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">04</span>
+      <span style="font-size:12px;line-height:1.5"><strong>Genre signal: Dance/Electronic (idx 318), Techno (idx 6,795).</strong> Fans Also Like: SOPHIE, A.G. Cook, Shygirl. Hyperpop/experimental electronic lane.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start;grid-column:1/-1">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px">05</span>
+      <span style="font-size:12px;line-height:1.5"><strong>IG: 10% engagement, 606K avg views/reel &mdash; posting just 0.3x/week</strong> (bench 3.5). TikTok: 4.6% like-to-view (bench 5.0%), 309K avg views/post.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ STREAMING ══════ -->
+<div class="sec" id="streaming">
+  <div class="sec-bar"><div class="sec-label">Streaming</div><div class="sec-title">Artist Level Streams</div></div>
+  <div class="stats">
+    <div class="st"><div class="st-n g">318K</div><div class="st-l">Weekly US</div><div class="st-s">8-week average</div></div>
+    <div class="st"><div class="st-n t">911K</div><div class="st-l">Weekly Global</div><div class="st-s">8-week average</div></div>
+    <div class="st"><div class="st-n w">33%</div><div class="st-l">US Share</div><div class="st-s">Of global ODA</div></div>
+    <div class="st"><div class="st-n g">539K</div><div class="st-l">US Peak</div><div class="st-s">Week of 7/17/25</div></div>
+  </div>
+  <div class="sub"><div class="sub-title">Weekly ODA &mdash; US vs Global</div>
+    <div class="chart-wrap"><canvas id="chartArtist" height="280"></canvas></div>
+    <p class="cm">Four years of streaming history. The floor has risen from ~1K weekly (early 2022) to 250&ndash;330K (current). Each release spike establishes a higher baseline than the last.</p>
+  </div>
+  <div class="sub"><div class="sub-title">Top Tracks Over Time &mdash; US Weekly ODA</div>
+    <div class="chart-wrap"><canvas id="chartTracks" height="280"></canvas></div>
+    <p class="cm">My Little White Pony and My Barn My Rules (both 2022) have been consistent catalog performers for years. ONLY THE BEST (Feb 2026) is the most recent spike.</p>
+  </div>
+  <div class="sub"><div class="sub-title">Week 1 Debuts &mdash; US ODA</div>
+    <div class="bars"><div class="br"><div class="br-l hi">ONLY THE BEST</div><div class="br-t"><div class="br-f g" style="width:100.0%"></div></div><div class="br-v hi">186K</div></div>
+<div class="br"><div class="br-l">SEASALT & TEARDROPS</div><div class="br-t"><div class="br-f t" style="width:91.8%"></div></div><div class="br-v">171K</div></div>
+<div class="br"><div class="br-l">MATERIAL HOR$E</div><div class="br-t"><div class="br-f t" style="width:63.3%"></div></div><div class="br-v">118K</div></div>
+<div class="br"><div class="br-l">YOLO</div><div class="br-t"><div class="br-f t" style="width:55.9%"></div></div><div class="br-v">104K</div></div>
+<div class="br"><div class="br-l">f0rbiidden l0ve$tory</div><div class="br-t"><div class="br-f t" style="width:49.8%"></div></div><div class="br-v">92K</div></div>
+<div class="br"><div class="br-l">TAKE IT OFFFF</div><div class="br-t"><div class="br-f t" style="width:28.2%"></div></div><div class="br-v">52K</div></div>
+<div class="br"><div class="br-l">eat, sleep, slay, 🔁</div><div class="br-t"><div class="br-f t" style="width:28.1%"></div></div><div class="br-v">52K</div></div>
+<div class="br"><div class="br-l">giirL math</div><div class="br-t"><div class="br-f t" style="width:27.0%"></div></div><div class="br-v">50K</div></div>
+<div class="br"><div class="br-l">Obsessed</div><div class="br-t"><div class="br-f t" style="width:18.4%"></div></div><div class="br-v">34K</div></div>
+<div class="br"><div class="br-l">bby luv x3</div><div class="br-t"><div class="br-f t" style="width:18.1%"></div></div><div class="br-v">34K</div></div>
+</div>
+    <p class="cm">Debut sizes are accelerating. The last three releases have all opened above 100K &mdash; a new tier compared to 2023&ndash;2024 levels.</p>
+  </div>
+  <div class="sub"><div class="sub-title">Partner Share (US)</div>
+    <div class="two">
+      <div><div class="chart-wrap"><canvas id="chartPartner" height="220"></canvas></div></div>
+      <div>
+        <table class="dt"><tr><th>Platform</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td><strong>Spotify</strong></td><td class="r">69.0%</td><td class="r"><span class="ix o">126</span></td></tr>
+<tr><td>Apple</td><td class="r">24.2%</td><td class="r"><span class="ix u">79</span></td></tr>
+<tr><td>Amazon</td><td class="r">4.9%</td><td class="r"><span class="ix u">49</span></td></tr>
+<tr><td><strong>Soundcloud</strong></td><td class="r">0.9%</td><td class="r"><span class="ix o">279</span></td></tr>
+<tr><td><strong>Deezer</strong></td><td class="r">0.6%</td><td class="r"><span class="ix o">125</span></td></tr>
+<tr><td>Others</td><td class="r">0.4%</td><td class="r"><span class="ix n">106</span></td></tr>
+<tr><td>Pandora</td><td class="r">0.0%</td><td class="r"><span class="ix u">1</span></td></tr>
+</table>
+        <p class="cm" style="font-size:12px">Spotify-heavy at 69%. SoundCloud over-indexes at 279 despite tiny share.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════ SOCIAL PERFORMANCE (restructured per Crawley 3/20) ══════ -->
+<div class="sec" id="socials">
+  <div class="sec-bar"><div class="sec-label">Social</div><div class="sec-title">Social Performance</div></div>
+
+  <!-- FOLLOWERS & GROWTH -->
+  <div class="sub"><div class="sub-title">Followers &amp; Growth</div>
+  <div class="eng-grid">
+    <div class="eng-card" style="border-top-color:var(--chartreuse)">
+      <div class="card-label gc">Instagram</div>
+      <div class="big" style="color:var(--chartreuse)">309,542</div>
+      <div class="lbl">Followers</div>
+      <div class="metric"><span class="k">YoY Growth</span><span class="v" style="color:var(--eval-green)">+53%</span></div>
+      <div class="metric"><span class="k">Benchmark Tier</span><span class="v">200K&ndash;500K (5,104 artists)</span></div>
+      <div class="metric"><span class="k">1-Year Tier Ranking</span><span class="v" style="color:var(--eval-green)">Excellent &mdash; Top 8%</span></div>
+    </div>
+    <div class="eng-card" style="border-top-color:var(--flame)">
+      <div class="card-label" style="color:var(--flame)">TikTok</div>
+      <div class="big" style="color:var(--flame)">401,200</div>
+      <div class="lbl">Followers</div>
+      <div class="metric"><span class="k">YoY Growth</span><span class="v" style="color:var(--eval-green)">+180%</span></div>
+      <div class="metric"><span class="k">TikTok surpassed IG</span><span class="v">Late 2025</span></div>
+    </div>
+  </div>
+  <p class="cm"><strong>Instagram</strong> has 309K followers. Growth of +53% in the last year ranks Excellent &mdash; top 8% among artists in the 200K&ndash;500K tier. However, more recent windows show the growth rate slowing slightly: 6-month is Very Strong (top 15%), and 3-month is Very Strong (top 16%). This is expected as the base gets larger, but worth watching.</p>
+  <p class="cm"><strong>TikTok</strong> has 401K followers, surpassing Instagram in late 2025. YoY growth of +180% is very strong. TikTok is the discovery engine; Instagram is the relationship layer.</p>
+  </div>
+
+  <div class="sub"><div class="sub-title">Follower Growth Over Time</div>
+    <div class="chart-wrap"><canvas id="chartSocial" height="260"></canvas></div>
+    <p class="cm">TikTok surpassed Instagram in absolute followers in late 2025. Both platforms continue to grow, though Instagram&rsquo;s rate has stabilized while TikTok&rsquo;s continues to accelerate.</p>
+  </div>
+
+  <div class="sub"><div class="sub-title">Instagram Follower Growth &mdash; Benchmarked <span style="font-weight:400;color:var(--fog-dim)">(200K&ndash;500K tier &middot; 5,104 artists)</span></div>
+    <div style="background:var(--dark);padding:20px;margin-top:12px">
+      <!-- Simplified classification header -->
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--eval-green);line-height:1">Very Strong</span>
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--fog-dim);margin-left:auto">Momentum: Stable</span>
+      </div>
+      <!-- 4 windows — simplified, no P-notation -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
+        <div style="padding:12px;border-top:2px solid var(--eval-green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--fog-dim);margin-bottom:6px">1 YEAR</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--eval-green);line-height:1">+54%</div>
+          <div style="font-size:11px;color:var(--fog);margin-top:4px">Excellent &middot; Top 8%</div>
+        </div>
+        <div style="padding:12px;border-top:2px solid var(--eval-green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--fog-dim);margin-bottom:6px">6 MONTH</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--eval-green);line-height:1">+12%</div>
+          <div style="font-size:11px;color:var(--fog);margin-top:4px">Very Strong &middot; Top 15%</div>
+        </div>
+        <div style="padding:12px;border-top:2px solid var(--eval-green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--fog-dim);margin-bottom:6px">3 MONTH</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--eval-green);line-height:1">+5%</div>
+          <div style="font-size:11px;color:var(--fog);margin-top:4px">Very Strong &middot; Top 16%</div>
+        </div>
+        <div style="padding:12px;border-top:2px solid var(--eval-green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--fog-dim);margin-bottom:6px">1 MONTH</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--eval-green);line-height:1">+1.9%</div>
+          <div style="font-size:11px;color:var(--fog);margin-top:4px">Very Strong &middot; Top 13%</div>
+        </div>
+      </div>
+    </div>
+    <p class="cm">horsegiirL&rsquo;s Instagram growth is very strong compared to other artists in the 200K&ndash;500K follower tier. One-year growth of +54% ranks Excellent (top 8%). More recent windows (3- and 6-month) show the growth rate slowing slightly rather than accelerating, which is expected as the follower base gets larger. The momentum is stable, not declining.</p>
+  </div>
+
+  <!-- ENGAGEMENT -->
+  <div class="sub"><div class="sub-title">Engagement</div>
+  <div class="eng-grid">
+    <div class="eng-card" style="border-top-color:var(--chartreuse)">
+      <div class="card-label gc">Instagram</div>
+      <div class="big" style="color:var(--eval-green)">10.0%</div>
+      <div class="lbl">Engagement Rate</div>
+      <div class="metric"><span class="k">Benchmark</span><span class="v">5.2%</span></div>
+      <div class="metric"><span class="k">vs Benchmark</span><span class="v" style="color:var(--eval-green)">+4.8% (nearly 2x)</span></div>
+      <div class="metric"><span class="k">Avg Views / Reel</span><span class="v">606,000</span></div>
+    </div>
+    <div class="eng-card" style="border-top-color:var(--flame)">
+      <div class="card-label" style="color:var(--flame)">TikTok</div>
+      <div class="big" style="color:var(--fog)">4.6%</div>
+      <div class="lbl">Like-to-View Ratio</div>
+      <div class="metric"><span class="k">Benchmark</span><span class="v">5.0%</span></div>
+      <div class="metric"><span class="k">vs Benchmark</span><span class="v" style="color:var(--fog)">-0.4% (slightly below)</span></div>
+      <div class="metric"><span class="k">Avg Views / Post</span><span class="v">308,633</span></div>
+    </div>
+  </div>
+  <p class="cm"><strong>Instagram engagement is exceptionally high.</strong> 10% of followers are engaging with each post &mdash; nearly double the 5.2% benchmark. Fans who follow her are actively paying attention. This is the strongest signal in the social data.</p>
+  <p class="cm"><strong>TikTok engagement is near benchmark</strong> at 4.6% like-to-view (vs 5.0%). Not a concern &mdash; TikTok&rsquo;s algorithm drives views beyond the follower base, so the ratio naturally dilutes as reach expands.</p>
+  </div>
+
+  <!-- POSTING FREQUENCY -->
+  <div class="sub"><div class="sub-title">Posting Frequency</div>
+  <div class="eng-grid">
+    <div class="eng-card" style="border-top-color:var(--chartreuse)">
+      <div class="card-label gc">Instagram</div>
+      <div class="big" style="color:var(--flame)">0.28</div>
+      <div class="lbl">Posts per Week <span style="color:var(--flame)">(bench 3.5)</span></div>
+    </div>
+    <div class="eng-card" style="border-top-color:var(--flame)">
+      <div class="card-label" style="color:var(--flame)">TikTok</div>
+      <div class="big" style="color:var(--amber)">2.1</div>
+      <div class="lbl">Posts per Week <span style="color:var(--amber)">(bench 3.5)</span></div>
+    </div>
+  </div>
+  <p class="cm">Both platforms are well below the 3.5 posts/week benchmark. Instagram is especially low &mdash; she posts roughly once every 3&ndash;4 weeks. Despite this, engagement and views remain very high, which suggests the audience is deeply invested. The question is whether increasing frequency would grow the audience faster or dilute what makes the content feel special.</p>
+  </div>
+
+  <div class="sub"><div class="sub-title">TikTok Daily Creations by Track</div>
+    <div class="placeholder">TikTok daily creations data not yet available. Placeholder for future data drop.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════ AUDIENCE (now after Socials) ══════ -->
+<div class="sec" id="audience">
+  <div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Where They Listen</div></div>
+
+  <!-- Index bars + Tables side by side -->
+  <div class="sub"><div class="sub-title">Global Markets <span style="font-weight:400;color:var(--fog-dim)">(Luminate &middot; Sorted by index &middot; 100 = expected share)</span></div>
+    <div class="two">
+      <div>
+        <div class="idx-bars">
+          <div class="idx-row"><span class="idx-label">Belgium</span><div class="idx-track"><div class="idx-fill over" style="width:100%"></div></div><span class="idx-val o">304</span></div>
+          <div class="idx-row"><span class="idx-label">Ireland</span><div class="idx-track"><div class="idx-fill over" style="width:87.8%"></div></div><span class="idx-val o">267</span></div>
+          <div class="idx-row"><span class="idx-label">Denmark</span><div class="idx-track"><div class="idx-fill over" style="width:82.2%"></div></div><span class="idx-val o">250</span></div>
+          <div class="idx-row"><span class="idx-label">Netherlands</span><div class="idx-track"><div class="idx-fill over" style="width:79.9%"></div></div><span class="idx-val o">243</span></div>
+          <div class="idx-row"><span class="idx-label">Great Britain</span><div class="idx-track"><div class="idx-fill over" style="width:78.3%"></div></div><span class="idx-val o">238</span></div>
+          <div class="idx-row"><span class="idx-label">Poland</span><div class="idx-track"><div class="idx-fill over" style="width:69.1%"></div></div><span class="idx-val o">210</span></div>
+          <div class="idx-row"><span class="idx-label">Germany</span><div class="idx-track"><div class="idx-fill over" style="width:66.4%"></div></div><span class="idx-val o">202</span></div>
+          <div class="idx-row"><span class="idx-label">Chile</span><div class="idx-track"><div class="idx-fill over" style="width:56.6%"></div></div><span class="idx-val o">172</span></div>
+          <div class="idx-row"><span class="idx-label">Australia</span><div class="idx-track"><div class="idx-fill over" style="width:48%"></div></div><span class="idx-val o">146</span></div>
+          <div class="idx-row"><span class="idx-label">Japan</span><div class="idx-track"><div class="idx-fill over" style="width:43.1%"></div></div><span class="idx-val o">131</span></div>
+          <div class="idx-row"><span class="idx-label">France</span><div class="idx-track"><div class="idx-fill over" style="width:42.1%"></div></div><span class="idx-val o">128</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">USA</span><div class="idx-track"><div class="idx-fill neutral" style="width:29.9%"></div><div class="idx-baseline"></div></div><span class="idx-val n">91</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Brazil</span><div class="idx-track"><div class="idx-fill neutral" style="width:29.3%"></div></div><span class="idx-val n">89</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Canada</span><div class="idx-track"><div class="idx-fill under" style="width:26.3%"></div></div><span class="idx-val u">80</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Mexico</span><div class="idx-track"><div class="idx-fill under" style="width:13.8%"></div></div><span class="idx-val u">42</span></div>
+        </div>
+      </div>
+      <div>
+        <table class="dt"><tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td>USA</td><td class="r">38.9%</td><td class="r"><span class="ix n">91</span></td></tr>
+<tr><td><strong>Great Britain</strong></td><td class="r">13.8%</td><td class="r"><span class="ix o">238</span></td></tr>
+<tr><td><strong>Germany</strong></td><td class="r">5.8%</td><td class="r"><span class="ix o">202</span></td></tr>
+<tr><td><strong>Australia</strong></td><td class="r">4.5%</td><td class="r"><span class="ix o">146</span></td></tr>
+<tr><td>Canada</td><td class="r">3.2%</td><td class="r"><span class="ix u">80</span></td></tr>
+<tr><td>Brazil</td><td class="r">3.1%</td><td class="r"><span class="ix n">89</span></td></tr>
+<tr><td>Mexico</td><td class="r">2.8%</td><td class="r"><span class="ix u">42</span></td></tr>
+<tr><td><strong>Netherlands</strong></td><td class="r">2.7%</td><td class="r"><span class="ix o">243</span></td></tr>
+<tr><td><strong>France</strong></td><td class="r">2.4%</td><td class="r"><span class="ix o">128</span></td></tr>
+<tr><td><strong>Poland</strong></td><td class="r">2.1%</td><td class="r"><span class="ix o">210</span></td></tr>
+<tr><td><strong>Japan</strong></td><td class="r">1.8%</td><td class="r"><span class="ix o">131</span></td></tr>
+<tr><td><strong>Chile</strong></td><td class="r">1.6%</td><td class="r"><span class="ix o">172</span></td></tr>
+</table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub"><div class="sub-title">US Markets <span style="font-weight:400;color:var(--fog-dim)">(Spotify &middot; Sorted by index &middot; 100 = expected share)</span></div>
+    <div class="two">
+      <div>
+        <div class="idx-bars">
+          <div class="idx-row"><span class="idx-label">Los Angeles</span><div class="idx-track"><div class="idx-fill over" style="width:100%"></div></div><span class="idx-val o">221</span></div>
+          <div class="idx-row"><span class="idx-label">San Francisco</span><div class="idx-track"><div class="idx-fill over" style="width:84.2%"></div></div><span class="idx-val o">186</span></div>
+          <div class="idx-row"><span class="idx-label">New York</span><div class="idx-track"><div class="idx-fill over" style="width:73.8%"></div></div><span class="idx-val o">163</span></div>
+          <div class="idx-row"><span class="idx-label">Seattle</span><div class="idx-track"><div class="idx-fill over" style="width:57.9%"></div></div><span class="idx-val o">128</span></div>
+          <div class="idx-row"><span class="idx-label">Chicago</span><div class="idx-track"><div class="idx-fill over" style="width:56.6%"></div></div><span class="idx-val o">125</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Boston</span><div class="idx-track"><div class="idx-fill neutral" style="width:45.7%"></div><div class="idx-baseline"></div></div><span class="idx-val n">101</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Washington</span><div class="idx-track"><div class="idx-fill neutral" style="width:42.5%"></div></div><span class="idx-val n">94</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Houston</span><div class="idx-track"><div class="idx-fill under" style="width:35.7%"></div></div><span class="idx-val u">79</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Philadelphia</span><div class="idx-track"><div class="idx-fill under" style="width:35.3%"></div></div><span class="idx-val u">78</span></div>
+          <div class="idx-row"><span class="idx-label" style="color:var(--fog-dim)">Dallas</span><div class="idx-track"><div class="idx-fill under" style="width:31.7%"></div></div><span class="idx-val u">70</span></div>
+        </div>
+      </div>
+      <div>
+        <table class="dt"><tr><th>Market</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td><strong>Los Angeles</strong></td><td class="r">17.1%</td><td class="r"><span class="ix o">221</span></td></tr>
+<tr><td><strong>New York</strong></td><td class="r">11.5%</td><td class="r"><span class="ix o">163</span></td></tr>
+<tr><td><strong>San Francisco / Oakland / San Jose</strong></td><td class="r">5.6%</td><td class="r"><span class="ix o">186</span></td></tr>
+<tr><td><strong>Chicago</strong></td><td class="r">5.3%</td><td class="r"><span class="ix o">125</span></td></tr>
+<tr><td>Washington</td><td class="r">2.8%</td><td class="r"><span class="ix n">94</span></td></tr>
+<tr><td>Dallas / Ft. Worth</td><td class="r">2.7%</td><td class="r"><span class="ix u">70</span></td></tr>
+<tr><td>Boston</td><td class="r">2.5%</td><td class="r"><span class="ix n">101</span></td></tr>
+<tr><td><strong>Seattle / Tacoma</strong></td><td class="r">2.3%</td><td class="r"><span class="ix o">128</span></td></tr>
+<tr><td>Philadelphia</td><td class="r">2.3%</td><td class="r"><span class="ix u">78</span></td></tr>
+<tr><td>Houston</td><td class="r">2.2%</td><td class="r"><span class="ix u">79</span></td></tr>
+</table>
+      </div>
+    </div>
+    <p class="cm">International over-indexing markets cluster in European electronic hubs: Belgium (304), Ireland (267), Denmark (250), Netherlands (243), Great Britain (238). In the US: LA (221), SF (186), NY (163), Seattle (128).</p>
+  </div>
+
+  <!-- Demographics: Age charts + Index tables -->
+  <div class="sub"><div class="sub-title">Age Distribution</div>
+    <div class="two">
+      <div>
+        <div class="chart-wrap"><canvas id="chartAgeUS" height="200"></canvas></div>
+        <!-- Index table alongside -->
+        <table class="dt" style="margin-top:8px">
+          <tr><th>Age</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td>13-17</td><td class="r">0%</td><td class="r"><span class="ix u">5</span></td></tr><tr><td>18-22</td><td class="r">8%</td><td class="r"><span class="ix u">44</span></td></tr><tr><td>23-27</td><td class="r">29%</td><td class="r"><span class="ix n">100</span></td></tr><tr><td>28-34</td><td class="r">34%</td><td class="r"><span class="ix o">170</span></td></tr><tr><td>35-44</td><td class="r">20%</td><td class="r"><span class="ix o">128</span></td></tr><tr><td>45+</td><td class="r">10%</td><td class="r"><span class="ix n">88</span></td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="chart-wrap"><canvas id="chartAgeIG" height="200"></canvas></div>
+        <table class="dt" style="margin-top:8px">
+          <tr><th>Age</th><th class="r">Share</th><th class="r">Index</th></tr><tr><td>13-17</td><td class="r">6%</td><td class="r"><span class="ix o">132</span></td></tr><tr><td>18-24</td><td class="r">40%</td><td class="r"><span class="ix o">138</span></td></tr><tr><td>25-34</td><td class="r">45%</td><td class="r"><span class="ix n">103</span></td></tr><tr><td>35-44</td><td class="r">8%</td><td class="r"><span class="ix u">66</span></td></tr><tr><td>45-64</td><td class="r">1%</td><td class="r"><span class="ix u">23</span></td></tr><tr><td>65+</td><td class="r">0%</td><td class="r"><span class="ix u">0</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="cm"><strong>Streaming audience skews older than the platform benchmark.</strong> The core is 23&ndash;34 (63% of streams), with 28&ndash;34 over-indexing at 170. The under-18 audience is virtually nonexistent on streaming (index 5). Instagram skews younger: 18&ndash;24 is the largest segment (40%, index 138) with 13&ndash;17 also over-indexing. The streaming listener and the social follower are different age groups.</p>
+  </div>
+  <div class="sub"><div class="sub-title">Gender Split</div>
+    <div class="two">
+      <div class="card gc">
+        <div class="card-label gc">US Streaming (Spotify)</div>
+        <div class="gender-bar"><div class="f" style="width:44%"></div><div class="m" style="width:49%"></div></div>
+        <div class="gender-label"><span class="fl">44% Female</span><span class="ml">49% Male</span></div>
+      </div>
+      <div class="card pc">
+        <div class="card-label pc">Global Social (Instagram Likers)</div>
+        <div class="gender-bar"><div class="f" style="width:57%"></div><div class="m" style="width:43%"></div></div>
+        <div class="gender-label"><span class="fl">57% Female</span><span class="ml">43% Male</span></div>
+      </div>
+    </div>
+    <p class="cm">Streaming is near-even (44% female, 49% male). Instagram skews more female at 57%. The social audience and the streaming audience have noticeably different demographic profiles.</p>
+  </div>
+
+  <div class="sub"><div class="sub-title">Ethnicity &amp; Language (Instagram)</div>
+    <div class="two">
+      <table class="dt"><tr><th>Ethnicity</th><th class="r">Share</th></tr><tr><td><strong>White / Caucasian</strong></td><td class="r">78%</td></tr>
+<tr><td>Asian</td><td class="r">10%</td></tr>
+<tr><td>Hispanic</td><td class="r">9%</td></tr>
+<tr><td>Black / African American</td><td class="r">4%</td></tr>
+</table>
+      <table class="dt"><tr><th>Language</th><th class="r">Share</th></tr><tr><td><strong>English</strong></td><td class="r">73%</td></tr>
+<tr><td>Spanish</td><td class="r">9%</td></tr>
+<tr><td>German</td><td class="r">6%</td></tr>
+<tr><td>French</td><td class="r">4%</td></tr>
+<tr><td>Portugese</td><td class="r">1%</td></tr>
+<tr><td>Russian</td><td class="r">1%</td></tr>
+<tr><td>Chinese</td><td class="r">0%</td></tr>
+<tr><td>Japanese</td><td class="r">0%</td></tr>
+<tr><td>Indonesian</td><td class="r">0%</td></tr>
+</table>
+    </div>
+  </div>
+
+  <div class="sub"><div class="sub-title">Genre Profile &amp; Fans Also Like</div>
+    <div class="two">
+      <div><div class="chart-wrap"><canvas id="chartGenre" height="280"></canvas></div></div>
+      <div>
+        <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:10px">Fans Also Like</p>
+        <div style="position:relative;width:100%;aspect-ratio:1/1;max-width:360px;margin:0 auto">
+          <canvas id="constellationMap" style="width:100%;height:100%"></canvas>
+        </div>
+        <div style="display:flex;gap:14px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+          <span style="font-size:10px;color:#CDF851">&#9679; PC Music / Hyperpop</span>
+          <span style="font-size:10px;color:#5BC0BE">&#9679; Club / Techno</span>
+          <span style="font-size:10px;color:#FF6B9D">&#9679; Experimental</span>
+          <span style="font-size:10px;color:#FFB347">&#9679; Punk / Noise</span>
+        </div>
+      </div>
+    </div>
+    <p class="cm">Pop is the largest genre by share (29.5%), but the index tells a different story: Techno at 6,795 and Dance/Electronic at 318 are the genres this audience gravitates toward disproportionately.</p>
+  </div>
+
+  <div class="sub"><div class="sub-title">Audience Psychographics</div>
+    <div style="background:var(--dark);border-left:3px solid var(--flame);padding:16px 20px;margin-bottom:14px;font-size:14px;line-height:1.6"><strong style="color:var(--flame)">Snapshot:</strong> Irreverent, creative escapists who treat nightlife as self-expression and find community in absurdist humor, costume culture, and high-BPM euphoria.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="card" style="border-top-color:var(--teal)"><div class="card-label tc">Lifestyle &amp; Hobbies</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">Active nightlife participants who organize social lives around club nights and festivals. Creative output is constant &mdash; DIY costumes for shows, mix curation, meme production. Many maintain dual identities between a professional daytime life and an expressive, uninhibited nighttime persona.</p>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">Berghain; Dekmantel; DIY costume workshops; club photography; SoundCloud mix curation</p>
+      </div>
+      <div class="card" style="border-top-color:var(--pink)"><div class="card-label pc">Media &amp; Entertainment</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">Drawn to content that blends absurdist humor with visual spectacle. Prefer media that rewards repeat viewing and doesn&rsquo;t take itself seriously. Strong appetite for music documentaries and competition formats that spotlight subcultures.</p>
+        <div class="psy-imgs"><img src="img/horsegirl/media-1.jpg" alt="" onerror="this.style.display='none'"><img src="img/horsegirl/media-2.jpg" alt="" onerror="this.style.display='none'"><img src="img/horsegirl/media-3.jpg" alt="" onerror="this.style.display='none'"></div>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">TV: Drag Race, I Think You Should Leave, Euphoria; Movies: Climax, Bodies Bodies Bodies, Zoolander; Podcasts: Boiler Room Broadcast, Las Culturistas</p>
+      </div>
+      <div class="card" style="border-top-color:var(--chartreuse)"><div class="card-label gc">Fashion &amp; Visual Taste</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">Maximalist, playful, costume-forward. Show outfits are a creative project &mdash; cowgirl hats, pitchforks, sequined farm gear. Day-to-day: baby tees, arm warmers, platform boots. Color palettes are saturated and clashing. The &ldquo;Farmies&rdquo; fan community coordinates outfits for shows as a form of collective expression.</p>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">MSCHF; iamgia; Dolls Kill; custom cowgirl boots; rave utility vests; ironic slogan tees</p>
+      </div>
+      <div class="card" style="border-top-color:var(--amber)"><div class="card-label" style="color:var(--amber)">Values &amp; Emotional Drivers</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">Freedom of expression is non-negotiable. Strong identification with queer culture and safe-space nightlife. Anti-snob &mdash; skeptical of gatekeeping in electronic music, drawn to artists who make underground genres accessible. Community built through shared absurdity rather than shared taste.</p>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">Queer club nights; anti-gatekeeping ethos; costume as identity; permission to be unserious</p>
+      </div>
+      <div class="card" style="border-top-color:var(--teal)"><div class="card-label tc">Platforms &amp; Digital Behavior</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">TikTok is the discovery engine &mdash; set clips, fan edits, ironic commentary spread fast. Instagram is the relationship layer &mdash; BTS content, outfit reveals, fan interaction. SoundCloud retains cultural currency for unreleased edits and bootleg remixes. Reddit and Discord function as community hubs for coordinating show outfits.</p>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">TikTok sounds; IG Reels; SoundCloud bootlegs; Reddit r/hyperpop; Discord fan servers; Resident Advisor</p>
+      </div>
+      <div class="card" style="border-top-color:var(--pink)"><div class="card-label pc">Brand &amp; Cultural Affinities</div>
+        <p style="font-size:12px;color:var(--fog);line-height:1.55">Gravitates toward brands with humor, irreverence, and visual boldness. Internet-native brands that blur product and cultural commentary. Skeptical of luxury but responsive to brands participating in subculture authentically. Festival and nightlife brands carry weight.</p>
+        <div class="psy-imgs"><img src="img/horsegirl/brand-1.jpg" alt="" onerror="this.style.display='none'"><img src="img/horsegirl/brand-2.jpg" alt="" onerror="this.style.display='none'"><img src="img/horsegirl/brand-3.jpg" alt="" onerror="this.style.display='none'"></div>
+        <p style="font-size:11px;color:var(--fog-dim);margin-top:8px">MSCHF; Liquid Death; Starface; Crocs (ironic); Boiler Room; Live From Earth; J&auml;germeister (nightlife context)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<div class="foot">
+  <div class="rca">RCA</div>
+  <p>Artist Insights &mdash; horsegiirL &mdash; March 17, 2026</p>
+  <p style="margin-top:2px">Data: Strategic Analytics &middot; Internal Use Only</p>
+  <p style="margin-top:8px;font-size:9px;color:var(--slate)">Luminate &middot; Spotify Internal &middot; Chartmetric</p>
+</div>
+
+</div>
+
+<script>
+const usD=["2022-02-24", "2022-03-03", "2022-03-10", "2022-03-17", "2022-03-24", "2022-03-31", "2022-04-07", "2022-04-14", "2022-04-21", "2022-04-28", "2022-05-05", "2022-05-12", "2022-05-19", "2022-05-26", "2022-06-02", "2022-06-09", "2022-06-16", "2022-06-23", "2022-06-30", "2022-07-07", "2022-07-14", "2022-07-21", "2022-07-28", "2022-08-04", "2022-08-11", "2022-08-18", "2022-08-25", "2022-09-01", "2022-09-08", "2022-09-15", "2022-09-22", "2022-09-29", "2022-10-06", "2022-10-13", "2022-10-20", "2022-10-27", "2022-11-03", "2022-11-10", "2022-11-17", "2022-11-24", "2022-12-01", "2022-12-08", "2022-12-15", "2022-12-22", "2022-12-29", "2023-01-05", "2023-01-12", "2023-01-19", "2023-01-26", "2023-02-02", "2023-02-09", "2023-02-16", "2023-02-23", "2023-03-02", "2023-03-09", "2023-03-16", "2023-03-23", "2023-03-30", "2023-04-06", "2023-04-13", "2023-04-20", "2023-04-27", "2023-05-04", "2023-05-11", "2023-05-18", "2023-05-25", "2023-06-01", "2023-06-08", "2023-06-15", "2023-06-22", "2023-06-29", "2023-07-06", "2023-07-13", "2023-07-20", "2023-07-27", "2023-08-03", "2023-08-10", "2023-08-17", "2023-08-24", "2023-08-31", "2023-09-07", "2023-09-14", "2023-09-21", "2023-09-28", "2023-10-05", "2023-10-12", "2023-10-19", "2023-10-26", "2023-11-02", "2023-11-09", "2023-11-16", "2023-11-23", "2023-11-30", "2023-12-07", "2023-12-14", "2023-12-21", "2023-12-28", "2024-01-04", "2024-01-11", "2024-01-18", "2024-01-25", "2024-02-01", "2024-02-08", "2024-02-15", "2024-02-22", "2024-02-29", "2024-03-07", "2024-03-14", "2024-03-21", "2024-03-28", "2024-04-04", "2024-04-11", "2024-04-18", "2024-04-25", "2024-05-02", "2024-05-09", "2024-05-16", "2024-05-23", "2024-05-30", "2024-06-06", "2024-06-13", "2024-06-20", "2024-06-27", "2024-07-04", "2024-07-11", "2024-07-18", "2024-07-25", "2024-08-01", "2024-08-08", "2024-08-15", "2024-08-22", "2024-08-29", "2024-09-05", "2024-09-12", "2024-09-19", "2024-09-26", "2024-10-03", "2024-10-10", "2024-10-17", "2024-10-24", "2024-10-31", "2024-11-07", "2024-11-14", "2024-11-21", "2024-11-28", "2024-12-05", "2024-12-12", "2024-12-19", "2024-12-26", "2025-01-02", "2025-01-09", "2025-01-16", "2025-01-23", "2025-01-30", "2025-02-06", "2025-02-13", "2025-02-20", "2025-02-27", "2025-03-06", "2025-03-13", "2025-03-20", "2025-03-27", "2025-04-03", "2025-04-10", "2025-04-17", "2025-04-24", "2025-05-01", "2025-05-08", "2025-05-15", "2025-05-22", "2025-05-29", "2025-06-05", "2025-06-12", "2025-06-19", "2025-06-26", "2025-07-03", "2025-07-10", "2025-07-17", "2025-07-24", "2025-07-31", "2025-08-07", "2025-08-14", "2025-08-21", "2025-08-28", "2025-09-04", "2025-09-11", "2025-09-18", "2025-09-25", "2025-10-02", "2025-10-09", "2025-10-16", "2025-10-23", "2025-10-30", "2025-11-06", "2025-11-13", "2025-11-20", "2025-11-27", "2025-12-04", "2025-12-11", "2025-12-18", "2025-12-25", "2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-05", "2026-02-12", "2026-02-19", "2026-02-26", "2026-03-05", "2026-03-12"];const usV=[18, 55, 3535, 2476, 1115, 918, 833, 901, 969, 1113, 1475, 1279, 1265, 1235, 1350, 1477, 1262, 1172, 1295, 1348, 1480, 1789, 1859, 2007, 2821, 3323, 3218, 3696, 3787, 4115, 3868, 3332, 3243, 3001, 3841, 3859, 3619, 3465, 3365, 3338, 3460, 5027, 5330, 7928, 6673, 6873, 9333, 11090, 8751, 8349, 8515, 12008, 9747, 17368, 14659, 15632, 18335, 22801, 26274, 23509, 36834, 39906, 50320, 59946, 57640, 89086, 176023, 203862, 199036, 180712, 187466, 206648, 186239, 186404, 172688, 158422, 143610, 134981, 146054, 133853, 129965, 121944, 114627, 109629, 99323, 84977, 80125, 85304, 174980, 122633, 95456, 93521, 91175, 111957, 153411, 159865, 158135, 113332, 110436, 109777, 112378, 124853, 135772, 201558, 149420, 134979, 128260, 114502, 119042, 138229, 128643, 152797, 125618, 123055, 108097, 96089, 101927, 98306, 92627, 94044, 92148, 94832, 98398, 94261, 83906, 85549, 87641, 83054, 81473, 81125, 82789, 84458, 84217, 100305, 150354, 128217, 135074, 142065, 129092, 137997, 126993, 100775, 112318, 168342, 144666, 137450, 152862, 168404, 156129, 151241, 150628, 137900, 135101, 457530, 280051, 249370, 223484, 201619, 198076, 188211, 188598, 185138, 187635, 241295, 341918, 350903, 326875, 272832, 360708, 363955, 383880, 323749, 287198, 305425, 420002, 359609, 452247, 539607, 415370, 337493, 508275, 402300, 349683, 322034, 295481, 279235, 281683, 310384, 312745, 382311, 399232, 332660, 320826, 307690, 282411, 271736, 267216, 258718, 278693, 267022, 257769, 236618, 259082, 274496, 255042, 241026, 276128, 257406, 316365, 493734, 367993, 332612];const wwD=["2022-02-17", "2022-02-24", "2022-03-03", "2022-03-10", "2022-03-17", "2022-03-24", "2022-03-31", "2022-04-07", "2022-04-14", "2022-04-21", "2022-04-28", "2022-05-05", "2022-05-12", "2022-05-19", "2022-05-26", "2022-06-02", "2022-06-09", "2022-06-16", "2022-06-23", "2022-06-30", "2022-07-07", "2022-07-14", "2022-07-21", "2022-07-28", "2022-08-04", "2022-08-11", "2022-08-18", "2022-08-25", "2022-09-01", "2022-09-08", "2022-09-15", "2022-09-22", "2022-09-29", "2022-10-06", "2022-10-13", "2022-10-20", "2022-10-27", "2022-11-03", "2022-11-10", "2022-11-17", "2022-11-24", "2022-12-01", "2022-12-08", "2022-12-15", "2022-12-22", "2022-12-29", "2023-01-05", "2023-01-12", "2023-01-19", "2023-01-26", "2023-02-02", "2023-02-09", "2023-02-16", "2023-02-23", "2023-03-02", "2023-03-09", "2023-03-16", "2023-03-23", "2023-03-30", "2023-04-06", "2023-04-13", "2023-04-20", "2023-04-27", "2023-05-04", "2023-05-11", "2023-05-18", "2023-05-25", "2023-06-01", "2023-06-08", "2023-06-15", "2023-06-22", "2023-06-29", "2023-07-06", "2023-07-13", "2023-07-20", "2023-07-27", "2023-08-03", "2023-08-10", "2023-08-17", "2023-08-24", "2023-08-31", "2023-09-07", "2023-09-14", "2023-09-21", "2023-09-28", "2023-10-05", "2023-10-12", "2023-10-19", "2023-10-26", "2023-11-02", "2023-11-09", "2023-11-16", "2023-11-23", "2023-11-30", "2023-12-07", "2023-12-14", "2023-12-21", "2023-12-28", "2024-01-04", "2024-01-11", "2024-01-18", "2024-01-25", "2024-02-01", "2024-02-08", "2024-02-15", "2024-02-22", "2024-02-29", "2024-03-07", "2024-03-14", "2024-03-21", "2024-03-28", "2024-04-04", "2024-04-11", "2024-04-18", "2024-04-25", "2024-05-02", "2024-05-09", "2024-05-16", "2024-05-23", "2024-05-30", "2024-06-06", "2024-06-13", "2024-06-20", "2024-06-27", "2024-07-04", "2024-07-11", "2024-07-18", "2024-07-25", "2024-08-01", "2024-08-08", "2024-08-15", "2024-08-22", "2024-08-29", "2024-09-05", "2024-09-12", "2024-09-19", "2024-09-26", "2024-10-03", "2024-10-10", "2024-10-17", "2024-10-24", "2024-10-31", "2024-11-07", "2024-11-14", "2024-11-21", "2024-11-28", "2024-12-05", "2024-12-12", "2024-12-19", "2024-12-26", "2025-01-02", "2025-01-09", "2025-01-16", "2025-01-23", "2025-01-30", "2025-02-06", "2025-02-13", "2025-02-20", "2025-02-27", "2025-03-06", "2025-03-13", "2025-03-20", "2025-03-27", "2025-04-03", "2025-04-10", "2025-04-17", "2025-04-24", "2025-05-01", "2025-05-08", "2025-05-15", "2025-05-22", "2025-05-29", "2025-06-05", "2025-06-12", "2025-06-19", "2025-06-26", "2025-07-03", "2025-07-10", "2025-07-17", "2025-07-24", "2025-07-31", "2025-08-07", "2025-08-14", "2025-08-21", "2025-08-28", "2025-09-04", "2025-09-11", "2025-09-18", "2025-09-25", "2025-10-02", "2025-10-09", "2025-10-16", "2025-10-23", "2025-10-30", "2025-11-06", "2025-11-13", "2025-11-20", "2025-11-27", "2025-12-04", "2025-12-11", "2025-12-18", "2025-12-25", "2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-05", "2026-02-12", "2026-02-19", "2026-02-26", "2026-03-05", "2026-03-12"];const wwV=[2, 1937, 1730, 42192, 37958, 22430, 19647, 17182, 17190, 19907, 20355, 21247, 20329, 20237, 22727, 23409, 24757, 24803, 26238, 24124, 25494, 26773, 26537, 29463, 32163, 39616, 42356, 42184, 46093, 43879, 45303, 45370, 42656, 40675, 39141, 42026, 46465, 45372, 42823, 44050, 41399, 40989, 57390, 54247, 67894, 56486, 60207, 61460, 64000, 61627, 62042, 61143, 84198, 73447, 107575, 92762, 102502, 121660, 136766, 155507, 145536, 204681, 228408, 249459, 320468, 399791, 666586, 1147842, 1327588, 1277152, 1200964, 1200676, 1323107, 1378582, 1339290, 1223416, 1135762, 1045429, 955862, 1115305, 905987, 856163, 823212, 798313, 719089, 672438, 628624, 588473, 574620, 845244, 638232, 535016, 522275, 516083, 582754, 604746, 730976, 886835, 987256, 1029858, 1007035, 895153, 891804, 915587, 974127, 820370, 763799, 723456, 657706, 676355, 677820, 605761, 735271, 667080, 628557, 579221, 530339, 540882, 530026, 505175, 525883, 537752, 537559, 549139, 510107, 474709, 485146, 508701, 473785, 466541, 477818, 474063, 474116, 455324, 497605, 620040, 562215, 548450, 545790, 540878, 532503, 505091, 438372, 465866, 586050, 523450, 533776, 555907, 575681, 528198, 579177, 613943, 552878, 532634, 1252856, 883719, 780594, 689837, 648612, 667390, 619337, 601241, 592855, 596515, 643999, 839974, 781346, 792529, 677949, 885401, 833506, 829067, 748226, 700902, 785285, 1037403, 889908, 1269166, 1453162, 1134543, 946593, 1331420, 1101700, 1004091, 958788, 942434, 842565, 803259, 837029, 802055, 866210, 943482, 876046, 889523, 870426, 802025, 767490, 763931, 752876, 771202, 747209, 707081, 684147, 736992, 792394, 748917, 728387, 787328, 752272, 849391, 1371625, 1049790, 1000517];const igD=["2023-06-11", "2023-06-18", "2023-06-25", "2023-07-02", "2023-07-09", "2023-07-16", "2023-07-23", "2023-07-30", "2023-08-06", "2023-08-13", "2023-08-20", "2023-08-27", "2023-09-03", "2023-09-10", "2023-09-17", "2023-09-24", "2023-10-01", "2023-10-08", "2023-10-15", "2023-10-22", "2023-10-29", "2023-11-05", "2023-11-12", "2023-11-19", "2023-11-26", "2023-12-03", "2023-12-10", "2023-12-17", "2023-12-24", "2023-12-31", "2024-01-07", "2024-01-14", "2024-01-21", "2024-01-28", "2024-02-04", "2024-02-11", "2024-02-18", "2024-02-25", "2024-03-03", "2024-03-10", "2024-03-17", "2024-03-24", "2024-03-31", "2024-04-07", "2024-04-14", "2024-04-21", "2024-04-28", "2024-05-05", "2024-05-12", "2024-05-19", "2024-05-26", "2024-06-02", "2024-06-09", "2024-06-16", "2024-06-23", "2024-06-30", "2024-07-07", "2024-07-14", "2024-07-21", "2024-07-28", "2024-08-04", "2024-08-11", "2024-08-18", "2024-08-25", "2024-09-01", "2024-09-08", "2024-09-15", "2024-09-22", "2024-09-29", "2024-10-06", "2024-10-13", "2024-10-20", "2024-10-27", "2024-11-03", "2024-11-10", "2024-11-17", "2024-11-24", "2024-12-01", "2024-12-08", "2024-12-15", "2024-12-22", "2024-12-29", "2025-01-05", "2025-01-12", "2025-01-19", "2025-01-26", "2025-02-02", "2025-02-09", "2025-02-16", "2025-02-23", "2025-03-02", "2025-03-09", "2025-03-16", "2025-03-23", "2025-03-30", "2025-04-06", "2025-04-13", "2025-04-20", "2025-04-27", "2025-05-04", "2025-05-11", "2025-05-18", "2025-05-25", "2025-06-01", "2025-06-08", "2025-06-15", "2025-06-22", "2025-06-29", "2025-07-06", "2025-07-13", "2025-07-20", "2025-07-27", "2025-08-03", "2025-08-10", "2025-08-17", "2025-08-24", "2025-08-31", "2025-09-07", "2025-09-14", "2025-09-21", "2025-09-28", "2025-10-05", "2025-10-12", "2025-10-19", "2025-10-26", "2025-11-02", "2025-11-09", "2025-11-16", "2025-11-23", "2025-11-30", "2025-12-07", "2025-12-14", "2025-12-21", "2025-12-28", "2026-01-04", "2026-01-11", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-08", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-08", "2026-03-15"];const igV=[39981, 42754, 42356, 45791, 47082, 48239, 49356, 51472, 52572, 53621, 56314, 58271, 60393, 68870, 71599, 73861, 75599, 76883, 77577, 78855, 81067, 83919, 85604, 86713, 88131, 89347, 90674, 93144, 97131, 100600, 103975, 104924, 106091, 111718, 112469, 116792, 119082, 120134, 121958, 128807, 131670, 138554, 143519, 145700, 150089, 151822, 153337, 154388, 155037, 155590, 156252, 156772, 157847, 159945, 161331, 162097, 162475, 162995, 163410, 164784, 165179, 165677, 166152, 166877, 168187, 169336, 170640, 171869, 172874, 174553, 176429, 177664, 179102, 179497, 179865, 180967, 181875, 182467, 183203, 184145, 184924, 185695, 187137, 187846, 188028, 188917, 190983, 192204, 193159, 193906, 195965, 200015, 200686, 201423, 201829, 202190, 204595, 210237, 215955, 218318, 219455, 226541, 233858, 239003, 242960, 248578, 250323, 252774, 258166, 262511, 264453, 266124, 267087, 269857, 271139, 273540, 275437, 277160, 277538, 278356, 278836, 283650, 289289, 291117, 292331, 293755, 294214, 294420, 294466, 294586, 294626, 294888, 295056, 295031, 295455, 295635, 295800, 296441, 298377, 302500, 304443, 305992, 306611, 306969, 309542];const tkD=["2023-12-10", "2023-12-17", "2023-12-24", "2023-12-31", "2024-01-07", "2024-01-14", "2024-01-21", "2024-01-28", "2024-02-04", "2024-02-11", "2024-02-18", "2024-02-25", "2024-03-03", "2024-03-10", "2024-03-17", "2024-03-24", "2024-03-31", "2024-04-07", "2024-04-14", "2024-04-21", "2024-04-28", "2024-05-05", "2024-05-12", "2024-05-19", "2024-05-26", "2024-06-02", "2024-06-09", "2024-06-16", "2024-06-23", "2024-06-30", "2024-07-07", "2024-07-14", "2024-07-21", "2024-07-28", "2024-08-04", "2024-08-11", "2024-08-18", "2024-08-25", "2024-09-01", "2024-09-08", "2024-09-15", "2024-09-22", "2024-09-29", "2024-10-06", "2024-10-13", "2024-10-20", "2024-10-27", "2024-11-03", "2024-11-10", "2024-11-17", "2024-11-24", "2024-12-01", "2024-12-08", "2024-12-15", "2024-12-22", "2024-12-29", "2025-01-05", "2025-01-12", "2025-01-19", "2025-01-26", "2025-02-02", "2025-02-09", "2025-02-16", "2025-02-23", "2025-03-02", "2025-03-09", "2025-03-16", "2025-03-23", "2025-03-30", "2025-04-06", "2025-04-13", "2025-04-20", "2025-04-27", "2025-05-04", "2025-05-11", "2025-05-18", "2025-05-25", "2025-06-01", "2025-06-08", "2025-06-15", "2025-06-22", "2025-06-29", "2025-07-06", "2025-07-13", "2025-07-20", "2025-07-27", "2025-08-03", "2025-08-10", "2025-08-17", "2025-08-24", "2025-08-31", "2025-09-07", "2025-09-14", "2025-09-21", "2025-09-28", "2025-10-05", "2025-10-12", "2025-10-19", "2025-10-26", "2025-11-02", "2025-11-09", "2025-11-16", "2025-11-23", "2025-11-30", "2025-12-07", "2025-12-14", "2025-12-21", "2025-12-28", "2026-01-04", "2026-01-11", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-08", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-08", "2026-03-15"];const tkV=[39100, 41500, 45000, 49200, 57400, 63200, 66100, 69300, 70900, 79500, 82800, 85500, 85500, 85500, 88000, 89200, 91200, 91600, 91800, 92000, 92100, 92200, 92300, 92400, 92600, 93000, 93500, 94800, 95100, 95600, 95800, 95800, 96000, 96100, 96100, 96600, 96700, 96800, 97300, 105600, 114400, 118000, 120100, 122100, 123400, 124100, 125100, 126000, 126400, 126700, 126900, 127200, 128700, 130800, 132500, 133000, 135100, 136200, 137600, 138900, 139800, 141000, 141000, 141000, 141000, 142500, 142800, 143000, 143100, 143200, 143900, 150700, 153500, 155800, 156500, 158000, 159800, 161700, 162500, 166800, 170400, 175200, 186300, 203100, 210400, 212100, 213100, 216500, 218200, 219600, 223000, 231800, 254700, 267900, 291400, 307600, 356000, 356000, 363300, 367800, 368600, 372100, 377400, 382000, 383900, 383900, 383800, 383600, 389700, 390300, 393300, 395700, 395700, 396400, 397400, 399600, 400000, 400100, 401200];const trkData={"dates": ["2022-02-24", "2022-03-03", "2022-03-10", "2022-03-17", "2022-03-24", "2022-03-31", "2022-04-07", "2022-04-14", "2022-04-21", "2022-04-28", "2022-05-05", "2022-05-12", "2022-05-19", "2022-05-26", "2022-06-02", "2022-06-09", "2022-06-16", "2022-06-23", "2022-06-30", "2022-07-07", "2022-07-14", "2022-07-21", "2022-07-28", "2022-08-04", "2022-08-11", "2022-08-18", "2022-08-25", "2022-09-01", "2022-09-08", "2022-09-15", "2022-09-22", "2022-09-29", "2022-10-06", "2022-10-13", "2022-10-20", "2022-10-27", "2022-11-03", "2022-11-10", "2022-11-17", "2022-11-24", "2022-12-01", "2022-12-08", "2022-12-15", "2022-12-22", "2022-12-29", "2023-01-05", "2023-01-12", "2023-01-19", "2023-01-26", "2023-02-02", "2023-02-09", "2023-02-16", "2023-02-23", "2023-03-02", "2023-03-09", "2023-03-16", "2023-03-23", "2023-03-30", "2023-04-06", "2023-04-13", "2023-04-20", "2023-04-27", "2023-05-04", "2023-05-11", "2023-05-18", "2023-05-25", "2023-06-01", "2023-06-08", "2023-06-15", "2023-06-22", "2023-06-29", "2023-07-06", "2023-07-13", "2023-07-20", "2023-07-27", "2023-08-03", "2023-08-10", "2023-08-17", "2023-08-24", "2023-08-31", "2023-09-07", "2023-09-14", "2023-09-21", "2023-09-28", "2023-10-05", "2023-10-12", "2023-10-19", "2023-10-26", "2023-11-02", "2023-11-09", "2023-11-16", "2023-11-23", "2023-11-30", "2023-12-07", "2023-12-14", "2023-12-21", "2023-12-28", "2024-01-04", "2024-01-11", "2024-01-18", "2024-01-25", "2024-02-01", "2024-02-08", "2024-02-15", "2024-02-22", "2024-02-29", "2024-03-07", "2024-03-14", "2024-03-21", "2024-03-28", "2024-04-04", "2024-04-11", "2024-04-18", "2024-04-25", "2024-05-02", "2024-05-09", "2024-05-16", "2024-05-23", "2024-05-30", "2024-06-06", "2024-06-13", "2024-06-20", "2024-06-27", "2024-07-04", "2024-07-11", "2024-07-18", "2024-07-25", "2024-08-01", "2024-08-08", "2024-08-15", "2024-08-22", "2024-08-29", "2024-09-05", "2024-09-12", "2024-09-19", "2024-09-26", "2024-10-03", "2024-10-10", "2024-10-17", "2024-10-24", "2024-10-31", "2024-11-07", "2024-11-14", "2024-11-21", "2024-11-28", "2024-12-05", "2024-12-12", "2024-12-19", "2024-12-26", "2025-01-02", "2025-01-09", "2025-01-16", "2025-01-23", "2025-01-30", "2025-02-06", "2025-02-13", "2025-02-20", "2025-02-27", "2025-03-06", "2025-03-13", "2025-03-20", "2025-03-27", "2025-04-03", "2025-04-10", "2025-04-17", "2025-04-24", "2025-05-01", "2025-05-08", "2025-05-15", "2025-05-22", "2025-05-29", "2025-06-05", "2025-06-12", "2025-06-19", "2025-06-26", "2025-07-03", "2025-07-10", "2025-07-17", "2025-07-24", "2025-07-31", "2025-08-07", "2025-08-14", "2025-08-21", "2025-08-28", "2025-09-04", "2025-09-11", "2025-09-18", "2025-09-25", "2025-10-02", "2025-10-09", "2025-10-16", "2025-10-23", "2025-10-30", "2025-11-06", "2025-11-13", "2025-11-20", "2025-11-27", "2025-12-04", "2025-12-11", "2025-12-18", "2025-12-25", "2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-05", "2026-02-12", "2026-02-19", "2026-02-26", "2026-03-05", "2026-03-12"], "tracks": {"ONLY THE BEST": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 185689, 84865, 65718], "My Little White Pony": [null, null, 594, 669, 377, 285, 248, 199, 232, 373, 351, 308, 299, 316, 296, 336, 323, 319, 314, 278, 363, 367, 365, 341, 373, 375, 363, 421, 492, 456, 458, 467, 460, 460, 539, 608, 531, 562, 500, 534, 547, 679, 810, 1170, 930, 977, 1365, 1715, 1309, 1250, 1412, 1423, 1232, 1395, 1374, 1717, 2212, 3018, 3341, 2903, 4112, 4451, 5650, 6749, 6331, 8840, 16232, 15580, 15354, 14172, 13310, 8967, 7772, 7594, 7552, 7502, 7071, 6764, 6810, 6658, 7544, 6804, 6244, 6308, 5882, 5222, 5027, 5191, 5510, 5292, 5240, 5694, 5003, 5830, 6759, 6589, 6644, 8120, 8609, 13356, 12935, 14674, 20648, 49707, 32495, 25912, 23569, 19788, 19450, 24216, 21382, 18549, 16898, 15706, 14550, 13122, 14177, 14141, 14048, 13179, 12084, 12015, 12133, 12028, 10523, 10858, 10450, 10479, 10088, 10442, 10439, 10557, 10160, 12352, 13263, 12722, 13873, 14635, 12572, 14783, 13278, 10637, 10869, 11297, 12035, 11131, 12210, 13926, 12025, 16353, 13236, 12057, 11427, 13498, 13073, 12848, 12721, 13088, 12954, 13140, 13207, 12882, 12898, 18737, 26693, 32664, 30211, 25189, 25101, 28976, 32444, 26838, 24087, 37333, 45905, 49750, 112798, 161158, 108883, 79326, 72961, 66054, 61696, 57326, 52246, 50448, 55974, 79084, 83052, 95444, 116346, 100340, 101030, 97172, 93261, 89747, 86813, 79681, 80658, 77229, 73713, 72433, 83808, 88153, 82862, 78601, 84094, 78798, 80182, 84974, 81334, 75174], "My Barn My Rules": [null, null, 2765, 1577, 420, 394, 367, 346, 356, 381, 408, 390, 391, 370, 366, 440, 294, 367, 412, 461, 512, 661, 596, 636, 595, 582, 591, 624, 757, 770, 696, 770, 808, 716, 1144, 1289, 1174, 1120, 1171, 1124, 1087, 1519, 1864, 2535, 1943, 1753, 2467, 3197, 2552, 2550, 2445, 2604, 2456, 3212, 3618, 4378, 5605, 9643, 12942, 10896, 21459, 23442, 26767, 30803, 32328, 59259, 131041, 159133, 153462, 136783, 148493, 169861, 152389, 152297, 141331, 125253, 113267, 105696, 114786, 105183, 97069, 92355, 88208, 82379, 73577, 62566, 58536, 57261, 58333, 54379, 51813, 51231, 50082, 53310, 54375, 59036, 59464, 65888, 66472, 60059, 60897, 67486, 69897, 89870, 71335, 67344, 65069, 59259, 60393, 66361, 60736, 59372, 55607, 53796, 50620, 46372, 50203, 49484, 47682, 49015, 50629, 48914, 48448, 48944, 45172, 45842, 46785, 43790, 44102, 42991, 44503, 43478, 41789, 46637, 45275, 45583, 48849, 49827, 45614, 48638, 45973, 38461, 39030, 42028, 42542, 39095, 44020, 51283, 40857, 45581, 46881, 43496, 41603, 46183, 45580, 45560, 43576, 43474, 43318, 43753, 45245, 45646, 45677, 60553, 78432, 87349, 80943, 67763, 69595, 80251, 92836, 74243, 63644, 63940, 65714, 66838, 77405, 87592, 70796, 60424, 59717, 62649, 54460, 51070, 49671, 47796, 48472, 52243, 53281, 62360, 64582, 55100, 56884, 56439, 49451, 46715, 47601, 44764, 45800, 42782, 40762, 41081, 46351, 50023, 48499, 45824, 52882, 48990, 51659, 63377, 59745, 55517], "eat, sleep, slay, \ud83d\udd01": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 52105, 32648, 30337, 29822, 31563, 31418, 27566, 20790, 23289, 25226, 22081, 18829, 20167, 21694, 26029, 25950, 26647, 23654, 23833, 57059, 37063, 32427, 29512, 28197, 27987, 25661, 26122, 25562, 26123, 31409, 51442, 53099, 49166, 39854, 42302, 53834, 60706, 55234, 48863, 49747, 50943, 47983, 58087, 70531, 56542, 48120, 48688, 44866, 42430, 40336, 39507, 38819, 37874, 41234, 39090, 49235, 50828, 42112, 40929, 39485, 35351, 33581, 32966, 31633, 35226, 33370, 31505, 30872, 32990, 35813, 33490, 31683, 36262, 34303, 36456, 40204, 36158, 35731], "MATERIAL HOR$E": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 117629, 52527, 44404, 34891, 29664, 29306, 26816, 24644, 24897, 26938, 33437, 38382, 38932, 35754, 30370, 53005, 46732, 43237, 37228, 34994, 33208, 32191, 30341, 32391, 34394, 28316, 24777, 24567, 25851, 24454, 23724, 19173, 16893, 16523, 15852, 17052, 21863, 20132, 17665, 16937, 16772, 14255, 13467, 13364, 13816, 15786, 14189, 13244, 13017, 13007, 13800, 12006, 11268, 13730, 11898, 13151, 14500, 13021, 12028], "SEASALT & TEARDROPS": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 170504, 79135, 51798, 39786, 32207, 27416, 26966, 25598, 23627, 28904, 29741, 22580, 15921, 12819, 11167, 10909, 10504, 9784, 10262, 10212, 9003, 9093, 10364, 10460, 9876, 8748, 10926, 10124, 11147, 14090, 11702, 9573]}};const ageUSLabels=["13-17", "18-22", "23-27", "28-34", "35-44", "45+"];const ageUSPcts=[0.0, 8.0, 29.0, 34.0, 20.0, 10.0];const ageUSIdx=[5, 44, 100, 170, 128, 88];const ageIGLabels=["13-17", "18-24", "25-34", "35-44", "45-64", "65+"];const ageIGPcts=[6.0, 40.0, 45.0, 8.0, 1.0, 0.0];const ageIGIdx=[132, 138, 103, 66, 23, 0];const genreLabels=["Techno", "Latin Alternative", "Dance Pop", "Dance/Electronic", "Electronica", "Ambient", "Meditation", "Vari\u00e9t\u00e9 fran\u00e7aise", "Pop/Rock Italiano", "Latin Rock"];const genreIdx=[6795, 603, 492, 318, 314, 279, 196, 179, 170, 167];const partnerLabels=["Spotify", "Apple", "Amazon", "Soundcloud", "Deezer", "Others", "Pandora"];const partnerVals=[69.0, 24.2, 4.9, 0.9, 0.6, 0.4, 0.0];const mapGlobal=[{"name": "Great Britain", "lat": 54, "lon": -2, "idx": 238, "share": 13.8}, {"name": "Germany", "lat": 51.2, "lon": 10.4, "idx": 202, "share": 5.8}, {"name": "Australia", "lat": -25.3, "lon": 133.8, "idx": 146, "share": 4.5}, {"name": "Netherlands", "lat": 52.1, "lon": 5.3, "idx": 243, "share": 2.7}, {"name": "France", "lat": 46.2, "lon": 2.2, "idx": 128, "share": 2.4}, {"name": "Poland", "lat": 51.9, "lon": 19.1, "idx": 210, "share": 2.1}, {"name": "Japan", "lat": 36.2, "lon": 138.3, "idx": 131, "share": 1.8}, {"name": "Chile", "lat": -35.7, "lon": -71.5, "idx": 172, "share": 1.6}, {"name": "Belgium", "lat": 50.5, "lon": 4.5, "idx": 304, "share": 1.4}, {"name": "Ireland", "lat": 53.1, "lon": -8, "idx": 267, "share": 1.3}, {"name": "Denmark", "lat": 56.3, "lon": 9.5, "idx": 250, "share": 0.9}, {"name": "Sweden", "lat": 60.1, "lon": 18.6, "idx": 134, "share": 0.8}, {"name": "Austria", "lat": 47.5, "lon": 14.6, "idx": 208, "share": 0.6}, {"name": "Finland", "lat": 61.9, "lon": 25.7, "idx": 278, "share": 0.5}, {"name": "Czech Republic", "lat": 49.8, "lon": 15.5, "idx": 157, "share": 0.5}];const mapUS=[{"name": "Los Angeles", "lat": 34.05, "lon": -118.24, "idx": 221, "share": 17.1}, {"name": "New York", "lat": 40.71, "lon": -74.01, "idx": 163, "share": 11.5}, {"name": "San Francisco / Oakland / San Jose", "lat": 37.77, "lon": -122.42, "idx": 186, "share": 5.6}, {"name": "Chicago", "lat": 41.88, "lon": -87.63, "idx": 125, "share": 5.3}, {"name": "Washington", "lat": 38.91, "lon": -77.04, "idx": 94, "share": 2.8}, {"name": "Dallas / Ft. Worth", "lat": 32.78, "lon": -96.8, "idx": 70, "share": 2.7}, {"name": "Boston", "lat": 42.36, "lon": -71.06, "idx": 101, "share": 2.5}, {"name": "Seattle / Tacoma", "lat": 47.61, "lon": -122.33, "idx": 128, "share": 2.3}, {"name": "Philadelphia", "lat": 39.95, "lon": -75.17, "idx": 78, "share": 2.3}, {"name": "Houston", "lat": 29.76, "lon": -95.37, "idx": 79, "share": 2.2}];
+const gridColor="rgba(62,63,65,0.4)";const tickColor="#706B7A";
+Chart.defaults.color=tickColor;Chart.defaults.font.family="Outfit";
+function fmtK(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1000?Math.round(v/1000)+"K":v}
+
+// Artist streams
+new Chart(document.getElementById("chartArtist"),{type:"line",data:{labels:wwD,datasets:[
+  {label:"Global",data:wwV.map((v,i)=>({x:wwD[i],y:v})),borderColor:"#5BC0BE",backgroundColor:"rgba(91,192,190,0.05)",fill:true,borderWidth:1.5,pointRadius:0,tension:0.3},
+  {label:"US",data:usV.map((v,i)=>({x:usD[i],y:v})),borderColor:"#B8E64A",backgroundColor:"rgba(184,230,74,0.08)",fill:true,borderWidth:1.5,pointRadius:0,tension:0.3}
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:16,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
+
+// Track streams
+var tColors=["#B8E64A","#5BC0BE","#FF6B9D","#FFB347","#B0A9BE","#FF4A23"];
+var tNames=Object.keys(trkData.tracks);
+var tDS=tNames.map(function(name,i){return{label:name,data:trkData.tracks[name].map(function(v,j){return v!==null?{x:trkData.dates[j],y:v}:null}).filter(function(d){return d!==null}),borderColor:tColors[i%tColors.length],borderWidth:1.5,pointRadius:0,tension:0.3,fill:false}});
+new Chart(document.getElementById("chartTracks"),{type:"line",data:{labels:trkData.dates,datasets:tDS},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"nearest",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:12,font:{size:10}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
+
+// Partner doughnut
+new Chart(document.getElementById("chartPartner"),{type:"doughnut",data:{labels:partnerLabels,datasets:[{data:partnerVals,backgroundColor:["#B8E64A","#5BC0BE","#FFB347","#FF6B9D","#B0A9BE","#3E3F41","#706B7A"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:10,padding:10,font:{size:10}}}}}});
+
+// Age chart - US Streaming — NEUTRAL color (no color coding)
+new Chart(document.getElementById("chartAgeUS"),{type:"bar",data:{labels:ageUSLabels,datasets:[{label:"% of Total",data:ageUSPcts,backgroundColor:"#5BC0BE",borderWidth:0}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,scales:{x:{max:40,ticks:{callback:function(v){return v+"%"},color:tickColor,font:{size:10}},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false},title:{display:true,text:"US Streaming (Spotify)",color:"#B0A9BE",font:{size:10,family:"DM Mono",weight:500},padding:{bottom:12}},tooltip:{callbacks:{label:function(c){return c.raw+"% (idx "+ageUSIdx[c.dataIndex]+")"}}}}}});
+
+// Age chart - Instagram Likers — NEUTRAL color
+new Chart(document.getElementById("chartAgeIG"),{type:"bar",data:{labels:ageIGLabels,datasets:[{label:"% of Total",data:ageIGPcts,backgroundColor:"#FF6B9D",borderWidth:0}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,scales:{x:{max:50,ticks:{callback:function(v){return v+"%"},color:tickColor,font:{size:10}},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false},title:{display:true,text:"Global Social (Instagram Likers)",color:"#B0A9BE",font:{size:10,family:"DM Mono",weight:500},padding:{bottom:12}},tooltip:{callbacks:{label:function(c){return c.raw+"% (idx "+ageIGIdx[c.dataIndex]+")"}}}}}});
+
+// Genre index — LINEAR, NEUTRAL color (no color coding)
+new Chart(document.getElementById("chartGenre"),{type:"bar",data:{labels:genreLabels,datasets:[{data:genreIdx,backgroundColor:"#B0A9BE",borderWidth:0}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false},title:{display:true,text:"Index vs Benchmark",color:"#706B7A",font:{size:10,family:"DM Mono",weight:500},padding:{bottom:8}},tooltip:{callbacks:{label:function(c){return"Index: "+c.raw.toLocaleString()}}}}}});
+
+// Social follower growth
+new Chart(document.getElementById("chartSocial"),{type:"line",data:{labels:[...new Set([...igD,...tkD])].sort(),datasets:[{label:"Instagram",data:igV.map(function(v,i){return{x:igD[i],y:v}}),borderColor:"#B8E64A",borderWidth:2,pointRadius:0,tension:0.3,fill:false},{label:"TikTok",data:tkV.map(function(v,i){return{x:tkD[i],y:v}}),borderColor:"#FF4A23",borderWidth:2,pointRadius:0,tension:0.3,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},scales:{x:{type:"category",ticks:{maxTicksLimit:8,color:tickColor,font:{size:10}},grid:{display:false}},y:{ticks:{callback:fmtK,color:tickColor,font:{size:10}},grid:{color:gridColor}}},plugins:{legend:{labels:{boxWidth:12,padding:16,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+fmtK(c.raw.y)}}}}}});
+
+// ═══ CONSTELLATION MAP (Fans Also Like) ═══
+function drawConstellation(){
+  var c=document.getElementById("constellationMap");if(!c)return;
+  var ctx=c.getContext("2d");
+  var size=Math.min(c.parentElement.clientWidth, c.parentElement.clientHeight);
+  c.width=size*2;c.height=size*2;c.style.width=size+"px";c.style.height=size+"px";
+  ctx.scale(2,2);
+  var cx=size/2, cy=size/2, R=size*0.38;
+  var clusters=[
+    {label:"PC Music / Hyperpop",color:"#CDF851",artists:["A.G. Cook","SOPHIE","Slayyyter","Rebecca Black","Frost Children"],startAngle:-0.4,endAngle:0.9},
+    {label:"Club / Techno",color:"#5BC0BE",artists:["VTSS","Brutalismus 3000","dj g2g","Cobrah","The Dare"],startAngle:1.1,endAngle:2.4},
+    {label:"Experimental",color:"#FF6B9D",artists:["Shygirl","MCR-T","Miss Bashful","Ninajirachi","Only Fire"],startAngle:2.6,endAngle:3.9},
+    {label:"Punk / Noise",color:"#FFB347",artists:["Fcukers","Joey Cash","DBBD","AMARA","Mietze Conte"],startAngle:4.1,endAngle:5.5}
+  ];
+  [0.5,0.75,1.0].forEach(function(m){
+    ctx.beginPath();ctx.arc(cx,cy,R*m,0,Math.PI*2);
+    ctx.strokeStyle="rgba(62,63,65,0.25)";ctx.lineWidth=0.5;ctx.stroke();
+  });
+  ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);
+  ctx.fillStyle="rgba(205,248,81,0.15)";ctx.fill();
+  ctx.strokeStyle="#CDF851";ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle="#CDF851";ctx.font="bold 7px 'DM Mono',monospace";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText("hg",cx,cy);
+  clusters.forEach(function(cl){
+    var n=cl.artists.length;
+    var angleStep=(cl.endAngle-cl.startAngle)/(n);
+    cl.artists.forEach(function(name,i){
+      var angle=cl.startAngle+angleStep*(i+0.5);
+      var rMult=0.55+((i%3)*0.2);
+      var x=cx+Math.cos(angle)*R*rMult;
+      var y=cy+Math.sin(angle)*R*rMult;
+      var dotR=3+Math.random()*2;
+      var lr=parseInt(cl.color.slice(1,3),16),lg=parseInt(cl.color.slice(3,5),16),lb=parseInt(cl.color.slice(5,7),16);
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);
+      ctx.strokeStyle="rgba("+lr+","+lg+","+lb+",0.12)";
+      ctx.lineWidth=0.5;ctx.stroke();
+      ctx.beginPath();ctx.arc(x,y,dotR,0,Math.PI*2);
+      ctx.fillStyle="rgba("+lr+","+lg+","+lb+",0.5)";ctx.fill();
+      ctx.strokeStyle="rgba("+lr+","+lg+","+lb+",0.7)";ctx.lineWidth=0.8;ctx.stroke();
+      ctx.fillStyle="rgba("+lr+","+lg+","+lb+",0.85)";
+      ctx.font="500 7px 'Inter',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
+      var labelR=rMult+0.12;
+      var lx=cx+Math.cos(angle)*R*labelR;
+      var ly=cy+Math.sin(angle)*R*labelR;
+      ctx.fillText(name,lx,ly);
+    });
+  });
+}
+setTimeout(function(){drawConstellation()},120);
+window.addEventListener("resize",function(){drawConstellation()});
+
+// Nav
+var nav=document.getElementById("nav");var sections=document.querySelectorAll(".sec[id]");var navLinks=document.querySelectorAll(".nav-link");
+function updateNav(){if(window.scrollY>20)nav.classList.add("scrolled");else nav.classList.remove("scrolled");var current="";sections.forEach(function(sec){if(window.scrollY>=sec.offsetTop-80)current=sec.getAttribute("id")});navLinks.forEach(function(link){link.classList.remove("active");if(link.getAttribute("data-section")===current)link.classList.add("active")})}
+window.addEventListener("scroll",updateNav,{passive:true});updateNav();
+</script>
+</body></html>
