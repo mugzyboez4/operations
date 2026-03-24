@@ -290,6 +290,9 @@ document.getElementById('tnFilters').addEventListener('click',e=>{
 // Keyboard shortcut: Cmd/Ctrl + K to toggle
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();toggle();}});
 
+// Avoid overlap with Orbit feedback button
+if(document.querySelector('.fb-float')){float.style.bottom='84px';}
+
 // Init
 render();
 
