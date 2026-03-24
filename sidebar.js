@@ -136,6 +136,7 @@ panel.innerHTML=`
 </div>
 <div class="tn-filters" id="tnFilters">
   <button class="tn-filter active" data-f="all">All</button>
+  <button class="tn-filter" data-f="general">General</button>
   <button class="tn-filter" data-f="question">Questions</button>
   <button class="tn-filter" data-f="idea">Ideas</button>
   <button class="tn-filter" data-f="feedback">Feedback</button>
@@ -152,23 +153,28 @@ panel.innerHTML=`
 </div>`;
 document.body.appendChild(panel);
 
+// Cache DOM references directly
+const tnList = panel.querySelector('#tnList');
+const tnBadge = float.querySelector('.tn-badge');
+const tnCount = panel.querySelector('#tnCount');
+const tnInput = panel.querySelector('#tnInput');
+const tnTag = panel.querySelector('#tnTag');
+const tnFilters = panel.querySelector('#tnFilters');
+
 // === RENDER ===
 function render(){
-  const list = document.getElementById('tnList');
   const filtered = filter==='all' ? notes : notes.filter(n=>n.tag===filter);
-  const badge = document.getElementById('tnBadge');
-  const count = document.getElementById('tnCount');
 
-  if(notes.length>0){badge.style.display='flex';badge.textContent=notes.length;}
-  else{badge.style.display='none';}
-  count.textContent=notes.length+(notes.length===1?' note':' notes');
+  if(notes.length>0){tnBadge.style.display='flex';tnBadge.textContent=notes.length;}
+  else{tnBadge.style.display='none';}
+  tnCount.textContent=notes.length+(notes.length===1?' note':' notes');
 
   if(filtered.length===0){
-    list.innerHTML='<div class="tn-empty">'+(notes.length===0?'No notes yet.<br>Add one above — it saves automatically.':'No notes in this filter.')+'</div>';
+    tnList.innerHTML='<div class="tn-empty">'+(notes.length===0?'No notes yet.<br>Add one above — it saves automatically.':'No notes in this filter.')+'</div>';
     return;
   }
 
-  list.innerHTML=filtered.map((n,i)=>{
+  tnList.innerHTML=filtered.map((n,i)=>{
     const realIdx=notes.indexOf(n);
     return `<div class="tn-note" draggable="true" data-idx="${realIdx}">
       <button class="tn-note-del" onclick="window._tnDel(${realIdx})">&times;</button>
@@ -182,9 +188,9 @@ function render(){
   }).join('');
 
   // Drag handlers
-  list.querySelectorAll('.tn-note').forEach(el=>{
+  tnList.querySelectorAll('.tn-note').forEach(el=>{
     el.addEventListener('dragstart',e=>{dragIdx=+el.dataset.idx;el.classList.add('dragging')});
-    el.addEventListener('dragend',()=>{el.classList.remove('dragging');dragIdx=null;list.querySelectorAll('.tn-note').forEach(n=>n.classList.remove('drag-over'))});
+    el.addEventListener('dragend',()=>{el.classList.remove('dragging');dragIdx=null;tnList.querySelectorAll('.tn-note').forEach(n=>n.classList.remove('drag-over'))});
     el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drag-over')});
     el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
     el.addEventListener('drop',e=>{
@@ -205,20 +211,18 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 window._tnDel=function(idx){notes.splice(idx,1);save();render();};
 
 function addNote(){
-  const input=document.getElementById('tnInput');
-  const tag=document.getElementById('tnTag');
-  const text=input.value.trim();
+  const text=tnInput.value.trim();
   if(!text)return;
-  notes.unshift({text,tag:tag.value,page:getPage(),ts:Date.now()});
+  notes.unshift({text,tag:tnTag.value,page:getPage(),ts:Date.now()});
   save();render();
-  input.value='';
-  tag.value='general';
+  tnInput.value='';
+  tnTag.value='general';
 }
 
 function toggle(){
   panel.classList.toggle('open');
   overlay.classList.toggle('open');
-  if(panel.classList.contains('open')) document.getElementById('tnInput').focus();
+  if(panel.classList.contains('open')){tnInput.focus();render();}
 }
 
 function exportNotes(){
@@ -242,9 +246,8 @@ function clearAll(){
 
 function sendToTeam(){
   if(notes.length===0)return;
-  const btn=document.getElementById('tnSend');
-  const origText=btn.textContent;
-  btn.textContent='Sending...';btn.style.opacity='0.5';btn.style.pointerEvents='none';
+  const origText=tnSend.textContent;
+  tnSend.textContent='Sending...';tnSend.style.opacity='0.5';tnSend.style.pointerEvents='none';
   
   const formData=new URLSearchParams();
   formData.append('form-name','team-notes');
@@ -254,35 +257,43 @@ function sendToTeam(){
   
   fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:formData.toString()})
   .then(function(response){
-    btn.textContent=origText;btn.style.opacity='1';btn.style.pointerEvents='auto';
+    tnSend.style.opacity='1';tnSend.style.pointerEvents='auto';
     if(response.ok){
-      btn.textContent='Sent!';btn.style.background='#4ADE80';btn.style.borderColor='#4ADE80';btn.style.color='#0F0E0E';
-      setTimeout(function(){btn.textContent=origText;btn.style.background='';btn.style.borderColor='#CDF851';btn.style.color='#CDF851';},3000);
+      tnSend.textContent='Sent!';tnSend.style.background='#4ADE80';tnSend.style.borderColor='#4ADE80';tnSend.style.color='#0F0E0E';
+      setTimeout(function(){tnSend.textContent=origText;tnSend.style.background='';tnSend.style.borderColor='#CDF851';tnSend.style.color='#CDF851';},3000);
     } else {
       alert('Something went wrong (status '+response.status+'). Your notes are saved locally — try again in a bit.');
+      tnSend.textContent=origText;
     }
   })
   .catch(function(){
-    btn.textContent=origText;btn.style.opacity='1';btn.style.pointerEvents='auto';
+    tnSend.textContent=origText;tnSend.style.opacity='1';tnSend.style.pointerEvents='auto';
     alert('Couldn\'t connect right now. Your notes are saved locally — nothing is lost.');
   });
 }
 
 // === EVENT LISTENERS ===
+// Cache button refs
+const tnClose = panel.querySelector('#tnClose');
+const tnAddBtn = panel.querySelector('#tnAddBtn');
+const tnExport = panel.querySelector('#tnExport');
+const tnClearAll = panel.querySelector('#tnClearAll');
+const tnSend = panel.querySelector('#tnSend');
+
 float.addEventListener('click',toggle);
 overlay.addEventListener('click',toggle);
-document.getElementById('tnClose').addEventListener('click',toggle);
-document.getElementById('tnAddBtn').addEventListener('click',addNote);
-document.getElementById('tnInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addNote();}});
-document.getElementById('tnExport').addEventListener('click',exportNotes);
-document.getElementById('tnClearAll').addEventListener('click',clearAll);
-document.getElementById('tnSend').addEventListener('click',sendToTeam);
+tnClose.addEventListener('click',toggle);
+tnAddBtn.addEventListener('click',addNote);
+tnInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addNote();}});
+tnExport.addEventListener('click',exportNotes);
+tnClearAll.addEventListener('click',clearAll);
+tnSend.addEventListener('click',sendToTeam);
 
-document.getElementById('tnFilters').addEventListener('click',e=>{
+tnFilters.addEventListener('click',e=>{
   const btn=e.target.closest('.tn-filter');
   if(!btn)return;
   filter=btn.dataset.f;
-  document.querySelectorAll('.tn-filter').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.tn-filter').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   render();
 });
