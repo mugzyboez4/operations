@@ -242,18 +242,30 @@ function clearAll(){
 
 function sendToTeam(){
   if(notes.length===0)return;
-  // Build a form submission via Netlify
-  const form=document.createElement('form');
-  form.method='POST';form.action='/';form.style.display='none';
-  form.setAttribute('data-netlify','true');
-  form.setAttribute('name','team-notes');
-  const h=document.createElement('input');h.type='hidden';h.name='form-name';h.value='team-notes';form.appendChild(h);
-  const d=document.createElement('input');d.type='hidden';d.name='notes';d.value=JSON.stringify(notes,null,2);form.appendChild(d);
-  const p=document.createElement('input');p.type='hidden';p.name='page';p.value=getPage();form.appendChild(p);
-  document.body.appendChild(form);
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()})
-  .then(()=>{alert('Notes sent to the team! They\'ll still be here in your sidebar.');form.remove();})
-  .catch(()=>{alert('Couldn\'t send right now — your notes are saved locally. Try again later.');form.remove();});
+  const btn=document.getElementById('tnSend');
+  const origText=btn.textContent;
+  btn.textContent='Sending...';btn.style.opacity='0.5';btn.style.pointerEvents='none';
+  
+  const formData=new URLSearchParams();
+  formData.append('form-name','team-notes');
+  formData.append('notes',JSON.stringify(notes,null,2));
+  formData.append('page',getPage());
+  formData.append('submitted_at',new Date().toISOString());
+  
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:formData.toString()})
+  .then(function(response){
+    btn.textContent=origText;btn.style.opacity='1';btn.style.pointerEvents='auto';
+    if(response.ok){
+      btn.textContent='Sent!';btn.style.background='#4ADE80';btn.style.borderColor='#4ADE80';btn.style.color='#0F0E0E';
+      setTimeout(function(){btn.textContent=origText;btn.style.background='';btn.style.borderColor='#CDF851';btn.style.color='#CDF851';},3000);
+    } else {
+      alert('Something went wrong (status '+response.status+'). Your notes are saved locally — try again in a bit.');
+    }
+  })
+  .catch(function(){
+    btn.textContent=origText;btn.style.opacity='1';btn.style.pointerEvents='auto';
+    alert('Couldn\'t connect right now. Your notes are saved locally — nothing is lost.');
+  });
 }
 
 // === EVENT LISTENERS ===
