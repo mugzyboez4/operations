@@ -617,4 +617,5 @@ var nav=document.getElementById("nav");var sections=document.querySelectorAll(".
 function updateNav(){if(window.scrollY>20)nav.classList.add("scrolled");else nav.classList.remove("scrolled");var current="";sections.forEach(function(sec){if(window.scrollY>=sec.offsetTop-80)current=sec.getAttribute("id")});navLinks.forEach(function(link){link.classList.remove("active");if(link.getAttribute("data-section")===current)link.classList.add("active")})}
 window.addEventListener("scroll",updateNav,{passive:true});updateNav();
 </script>
+<script src="../sidebar.js"></script>
 </body></html>
