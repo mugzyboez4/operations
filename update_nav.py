@@ -51,6 +51,7 @@ def make_nav(active_page, prefix=""):
         f'<div class="sep"></div>'
         f'<div class="sep-label">Artists</div>'
         f'<a href="{p}artists/isaia-huron.html">Isaia Huron</a>'
+        f'<a href="{p}artists/pixy.html">PIXY</a>'
         f'<a href="{p}artists/room-full-of-mirrors.html">Room Full of Mirrors</a>'
         f'<div class="sep"></div>'
         f'<div class="sep-label">Archive</div>'

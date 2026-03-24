@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Briefing — PIXY · RCA Records</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── TEMPO NAV ── */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:#B0A9BE; cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:#1A1A1A; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:#B0A9BE; text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+.sndd-m .sep { border-top:1px solid #2A2A2A; margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3E3F41; padding:6px 12px 2px; }
+
+/* ── PAGE STYLES ── */
+:root {
+  --bg: #0F0E0E;
+  --card: #1A1A1A;
+  --white: #FCFDF8;
+  --lime: #CDF851;
+  --flame: #FF4A23;
+  --fog: #B0A9BE;
+  --muted: #847D96;
+  --slate: #3E3F41;
+  --border: rgba(255,255,255,0.08);
+  --border-lime: rgba(205,248,81,0.25);
+  --border-flame: rgba(255,74,35,0.3);
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--white); font-family:'Inter',Arial,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.container { max-width:760px; margin:0 auto; padding:0 24px; }
+
+.header { display:flex; justify-content:space-between; align-items:center; padding:28px 0 20px; border-bottom:3px solid var(--lime); }
+.header-logo { font-size:20px; font-weight:900; color:var(--lime); letter-spacing:1px; }
+.header-badge { font-size:9px; font-weight:700; color:var(--flame); letter-spacing:1px; text-transform:uppercase; border:1px solid var(--border-flame); padding:4px 10px; }
+
+.hero { padding:40px 0 32px; }
+.eyebrow { font-size:10px; font-weight:700; color:var(--lime); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+.artist-name { font-size:56px; font-weight:900; letter-spacing:-3px; line-height:1; margin-bottom:16px; }
+.pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
+.pill { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:4px 12px; }
+.pill--filled { background:var(--lime); color:var(--bg); }
+.pill--lime { border:1px solid var(--border-lime); color:var(--lime); }
+.pill--flame { border:1px solid var(--border-flame); color:var(--flame); }
+.logline { border-left:3px solid var(--lime); padding-left:20px; font-size:14px; font-weight:300; color:rgba(252,253,248,0.8); line-height:1.75; }
+.divider { height:3px; background:var(--lime); margin:0; }
+.section { padding:36px 0 32px; }
+.section-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; margin-top:10px; }
+.stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px 16px; }
+.stat-label { font-size:9px; font-weight:700; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; }
+.stat-value { font-family:'DM Mono',monospace; font-size:26px; font-weight:500; color:var(--lime); margin:2px 0; }
+.stat-note { font-size:10px; color:var(--muted); }
+
+.health-score-container { background:var(--card); border:1px solid var(--border); padding:28px; }
+.health-overall { display:flex; align-items:center; gap:24px; margin-bottom:28px; }
+.health-ring { position:relative; width:100px; height:100px; flex-shrink:0; }
+.health-ring svg { width:100px; height:100px; transform:rotate(-90deg); }
+.health-ring-bg { fill:none; stroke:var(--slate); stroke-width:6; }
+.health-ring-fill { fill:none; stroke-width:6; stroke-linecap:butt; }
+.health-ring-label { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+.health-ring-number { font-family:'DM Mono',monospace; font-size:28px; font-weight:500; color:var(--flame); display:block; line-height:1; }
+.health-ring-sub { font-size:8px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+.health-summary { font-size:14px; font-weight:300; color:rgba(252,253,248,0.8); line-height:1.7; }
+.health-summary strong { color:var(--flame); font-weight:700; }
+.health-bars { display:flex; flex-direction:column; gap:12px; }
+.health-bar-row { display:grid; grid-template-columns:140px 1fr 40px; align-items:center; gap:12px; }
+.health-bar-label { font-size:11px; font-weight:600; color:rgba(252,253,248,0.75); }
+.health-bar-track { height:6px; background:var(--slate); position:relative; overflow:hidden; }
+.health-bar-fill { height:100%; position:absolute; left:0; top:0; }
+.health-bar-score { font-family:'DM Mono',monospace; font-size:12px; font-weight:500; text-align:right; }
+
+.body-text { font-size:14px; font-weight:300; color:rgba(252,253,248,0.8); line-height:1.75; }
+.press-callout { border-left:3px solid var(--flame); padding:14px 18px; background:rgba(255,74,35,0.06); font-size:12px; font-weight:500; color:rgba(252,253,248,0.7); font-style:italic; line-height:1.6; margin-top:16px; }
+.comps-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:20px 0; }
+.comp-card { border:1px solid var(--border); padding:14px 16px; }
+.comp-name { font-size:13px; font-weight:700; margin-bottom:4px; }
+.comp-note { font-size:11px; color:var(--muted); }
+.sound-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:20px; }
+.sound-tag { font-size:10px; font-weight:600; color:var(--lime); border:1px solid var(--border-lime); padding:4px 12px; text-transform:uppercase; letter-spacing:0.5px; }
+
+.dept-card { border:1px solid var(--border); margin-bottom:8px; transition:border-color 0.2s; }
+.dept-card:hover { border-color:rgba(255,255,255,0.15); }
+.dept-card.open { border-color:var(--border-lime); }
+.dept-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; cursor:pointer; user-select:none; }
+.dept-header:hover { background:rgba(255,255,255,0.02); }
+.dept-header-left { display:flex; align-items:center; gap:10px; }
+.dept-name { font-size:13px; font-weight:700; }
+.dept-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; display:inline-block; }
+.badge-critical { color:var(--flame); background:rgba(255,74,35,0.15); border:1px solid var(--border-flame); }
+.badge-high { color:var(--lime); background:rgba(205,248,81,0.1); border:1px solid var(--border-lime); }
+.badge-medium { color:var(--muted); background:rgba(132,125,150,0.15); border:1px solid rgba(132,125,150,0.3); }
+.dept-chevron { font-size:14px; color:var(--muted); transition:transform 0.25s ease; font-weight:300; }
+.dept-card.open .dept-chevron { transform:rotate(180deg); color:var(--lime); }
+.dept-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.2s ease; }
+.dept-card.open .dept-body { max-height:600px; padding:0 18px 18px; }
+.dept-text { font-size:12px; font-weight:400; color:rgba(252,253,248,0.75); line-height:1.65; margin-bottom:10px; }
+.verify { font-size:11px; color:var(--muted); margin:4px 0; }
+.verify-arrow { color:var(--lime); }
+
+.question-card { border-left:3px solid var(--lime); padding:14px 18px; margin-bottom:10px; }
+.question-title { font-size:13px; font-weight:700; margin-bottom:6px; }
+.question-context { font-size:12px; color:rgba(252,253,248,0.75); line-height:1.6; }
+
+.ref-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+.ref-row { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.ref-label { font-size:10px; color:var(--muted); }
+.ref-value { font-size:12px; font-weight:600; }
+
+.risk-item { padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.risk-dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:8px; vertical-align:middle; }
+.risk-dot--flame { background:var(--flame); }
+.risk-dot--lime { background:var(--lime); }
+.risk-label { font-size:13px; font-weight:700; }
+.risk-text { font-size:12px; color:rgba(252,253,248,0.75); }
+
+.internal-notes { border:1px solid var(--border-flame); border-left:3px solid var(--flame); background:rgba(255,74,35,0.04); padding:18px; }
+.internal-notes p { font-size:12px; color:rgba(252,253,248,0.65); line-height:1.6; margin-bottom:8px; }
+.internal-notes p:last-child { margin-bottom:0; }
+.internal-notes strong { color:var(--white); }
+
+.footer { display:flex; justify-content:space-between; padding:24px 0 40px; font-size:10px; color:#3f3e3e; }
+
+.expand-controls { display:flex; gap:8px; margin-bottom:12px; }
+.expand-btn { background:none; border:1px solid var(--border); color:var(--muted); font-family:'Inter',sans-serif; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; cursor:pointer; transition:all 0.2s; }
+.expand-btn:hover { border-color:var(--lime); color:var(--lime); }
+
+@media (max-width:600px) {
+  .artist-name { font-size:40px; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .comps-grid { grid-template-columns:1fr; }
+  .ref-grid { grid-template-columns:1fr; }
+  .health-overall { flex-direction:column; text-align:center; }
+  .health-bar-row { grid-template-columns:110px 1fr 36px; }
+}
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<a href="../insights/index.html">Insights</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="../reference/handoff-map.html">Handoff Map</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+
+<div class="container">
+<div class="header">
+  <div class="header-logo">RCA</div>
+  <div class="header-badge">Artist Briefing — Internal Use Only</div>
+</div>
+<div class="hero">
+  <div class="eyebrow">Unsigned Artist Evaluation</div>
+  <h1 class="artist-name">PIXY</h1>
+  <div class="pills">
+    <span class="pill pill--filled">Dark Alt-Pop</span>
+    <span class="pill pill--lime">Brazil</span>
+    <span class="pill pill--lime">Alt-Electronic</span>
+    <span class="pill pill--flame">Unsigned</span>
+  </div>
+  <div class="logline">Giovanna Rodrigues Tomaz is a Brazilian solo artist releasing dark alt-pop under the name PIXY (formerly Pixxy Lua). She writes on every track, has released 10+ singles and a debut EP since 2023, and works with a rotating cast of independent producers. The music sits in a lane between daine, PureSnow, and Nokia Angel&mdash;atmospheric, emotionally raw, and built for playlist discovery. She&rsquo;s very early stage with a small but growing social footprint, and there are real discoverability issues to solve before anything can scale.</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Evaluation</div>
+  <div class="section-title" style="margin-bottom:20px;">Artist Health Score</div>
+  <div class="health-score-container">
+    <div class="health-overall">
+      <div class="health-ring">
+        <svg viewBox="0 0 100 100"><circle class="health-ring-bg" cx="50" cy="50" r="42"/><circle class="health-ring-fill" cx="50" cy="50" r="42" stroke="#FF4A23" stroke-dasharray="263.9" stroke-dashoffset="190"/></svg>
+        <div class="health-ring-label"><span class="health-ring-number">28</span><span class="health-ring-sub">/ 100</span></div>
+      </div>
+      <div class="health-summary"><strong>Pre-Development.</strong> PIXY scores well on creative identity and release discipline&mdash;she writes on every track and has maintained a consistent release cadence since 2023. But streaming presence is unverified, social following is minimal, there&rsquo;s no press footprint, no live history, and no visible team. This is the profile of an artist who may be worth watching, but is not yet ready for a full label commitment without significant infrastructure investment.</div>
+    </div>
+    <div class="health-bars">
+      <div class="health-bar-row"><div class="health-bar-label">Release Discipline</div><div class="health-bar-track"><div class="health-bar-fill" style="width:75%;background:var(--lime);"></div></div><div class="health-bar-score" style="color:var(--lime);">75</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Creative Identity</div><div class="health-bar-track"><div class="health-bar-fill" style="width:65%;background:var(--lime);"></div></div><div class="health-bar-score" style="color:var(--lime);">65</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Songwriting</div><div class="health-bar-track"><div class="health-bar-fill" style="width:60%;background:var(--lime);"></div></div><div class="health-bar-score" style="color:var(--lime);">60</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Streaming Presence</div><div class="health-bar-track"><div class="health-bar-fill" style="width:15%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">15</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Social Following</div><div class="health-bar-track"><div class="health-bar-fill" style="width:10%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">10</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Press Footprint</div><div class="health-bar-track"><div class="health-bar-fill" style="width:0%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">0</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Live Activity</div><div class="health-bar-track"><div class="health-bar-fill" style="width:0%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">0</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Team Infrastructure</div><div class="health-bar-track"><div class="health-bar-fill" style="width:0%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">0</div></div>
+      <div class="health-bar-row"><div class="health-bar-label">Name / Trademark</div><div class="health-bar-track"><div class="health-bar-fill" style="width:10%;background:var(--flame);"></div></div><div class="health-bar-score" style="color:var(--flame);">10</div></div>
+    </div>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">By the Numbers</div>
+  <div class="section-title" style="margin-bottom:20px;">Key Metrics</div>
+  <div class="stats-grid">
+    <div><div class="stat-label">Instagram</div><div class="stat-value">~5K</div><div class="stat-note">@pixxylua &bull; 29 posts</div></div>
+    <div><div class="stat-label">Spotify (Solo)</div><div class="stat-value">TBD</div><div class="stat-note">Separate from K-pop PIXY</div></div>
+    <div><div class="stat-label">Facebook</div><div class="stat-value">~2K</div><div class="stat-note">Pixxy Lua page</div></div>
+    <div><div class="stat-label">Catalog</div><div class="stat-value">10+</div><div class="stat-note">Singles + XY EP (Mar 2026)</div></div>
+    <div><div class="stat-label">Active Since</div><div class="stat-value">2023</div><div class="stat-note">Rebranded from Pixxy Lua ~2025</div></div>
+    <div><div class="stat-label">Live Shows</div><div class="stat-value">0</div><div class="stat-note">No known live dates</div></div>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Market Context</div>
+  <div class="section-title" style="margin-bottom:16px;">Why Now</div>
+  <p class="body-text">Dark alt-pop is one of the most active playlist-discovery lanes right now, with artists like daine, Nokia Angel, and PureSnow building audiences primarily through algorithmic placement and editorial pickup. Brazil is also an increasingly valuable origin market for global pop acts&mdash;but most of that pipeline has been Latin pop, funk carioca, or sertanejo. A Brazilian artist writing in English in the dark alt-pop space is unusual and potentially interesting as a crossover play. That said, PIXY is extremely early stage. Social numbers are tiny, there&rsquo;s no press footprint, no visible management, no live history, and no distribution deal on record. The XY EP just dropped March 18, 2026, which means we&rsquo;re seeing this at the earliest possible window. The question isn&rsquo;t whether the music is ready&mdash;it&rsquo;s whether there&rsquo;s enough here to justify an artist development bet before someone else spots it.</p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Press Record</div>
+  <div class="section-title" style="margin-bottom:16px;">Media Footprint</div>
+  <p class="body-text">No press coverage found across English-language or music trade publications. No interviews, no blog features, no playlist editorial write-ups. This is a blank slate. For an artist development signing, this can be an advantage&mdash;there&rsquo;s no narrative to correct. But it also means the publicity team would be building from absolute zero.</p>
+  <div class="press-callout">No public quotes available. If we move forward, the first press hit would define her public identity entirely&mdash;that&rsquo;s a rare opportunity but also a responsibility.</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Sound &amp; Comparables</div>
+  <div class="section-title" style="margin-bottom:16px;">Musical DNA</div>
+  <p class="body-text" style="margin-bottom:0;">PIXY makes dark, atmospheric alt-pop with electronic production and emotionally raw lyrics. The writing gravitates toward self-destruction, isolation, and performative darkness. Production ranges from hyperpop-adjacent beats (badbadbad, Daniel Angell) to more restrained alt-electronic (Calvin Young, Jacob Wice). Consistent vocal identity across multiple producer partnerships. Titles skew dramatic and anime-influenced (SHINIGAMI, DEM&Ocirc;NITA, LEGACY). She writes on everything.</p>
+  <div class="comps-grid">
+    <div class="comp-card"><div class="comp-name">daine</div><div class="comp-note">Dark alt-pop, emotional intensity, label-backed trajectory PIXY could follow</div></div>
+    <div class="comp-card"><div class="comp-name">PureSnow</div><div class="comp-note">Same alt-pop lane, similar audience profile, slightly more electronic</div></div>
+    <div class="comp-card"><div class="comp-name">Nokia Angel</div><div class="comp-note">Hyperpop-meets-alt with dramatic visuals, similar audience and vibe</div></div>
+    <div class="comp-card"><div class="comp-name">Nessa Barrett</div><div class="comp-note">Dark pop with emo edge, label-developed from small social origins</div></div>
+  </div>
+  <div class="sound-tags">
+    <span class="sound-tag">Dark Alt-Pop</span><span class="sound-tag">Electronic</span><span class="sound-tag">Emo-Adjacent</span><span class="sound-tag">Hyperpop-Lite</span><span class="sound-tag">Anime-Influenced</span><span class="sound-tag">English-Language</span>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Department Briefing</div>
+  <div class="section-title" style="margin-bottom:16px;">By Department</div>
+  <div class="expand-controls"><button class="expand-btn" onclick="toggleAll(true)">Expand All</button><button class="expand-btn" onclick="toggleAll(false)">Collapse All</button></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">A&amp;R</span><span class="dept-badge badge-critical">Critical</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">PIXY writes on every track and has worked with 5+ different producer teams across 10+ releases. That&rsquo;s notable discipline for an unsigned artist at this stage. The question is whether the sound is distinct enough to break through or if it&rsquo;s genre-competent but interchangeable. The XY EP (March 2026) is the first body of work beyond singles&mdash;that&rsquo;s the evaluation target. Anime-influenced naming and dark aesthetics suggest a built-in visual world, but it needs sharpening.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Is there a primary producer relationship we should lock, or is the rotating approach intentional?</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: What does her unreleased catalog look like? Singles cadence is strong&mdash;is there deeper material?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">A&amp;R Administration</span><span class="dept-badge badge-high">High</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Multiple producer/songwriter collaborators across the catalog means clearing existing rights will be a factor. Releases span at least three different production teams (Arthur Besna, Calvin Young/Jacob Wice, Daniel Angell/Beau Miles-Watson/badbadbad). Splits and existing distribution agreements need full audit before any deal can close. The rebrand from Pixxy Lua to PIXY also raises trademark questions given the K-pop group&rsquo;s prior claim to the name.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Current distribution arrangement for existing catalog&mdash;DistroKid? TuneCore? Existing masters ownership?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Business &amp; Legal Affairs</span><span class="dept-badge badge-critical">Critical</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Two major legal considerations. First: the name PIXY collides with a disbanded K-pop girl group (PIXY/&#54589;&#49884;) that still holds 514K monthly Spotify listeners and whose former members are now forming a new group (AWU). Trademark exposure is real. Second: if PIXY is Brazilian-based, visa/work authorization logistics for any US-based activity need early scoping. This is an artist development deal at most&mdash;likely small advance, optioned project commitment.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Is she represented by an attorney or manager? Any existing label conversations?</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Current country of residence&mdash;Brazil or relocated?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Campaign Leads</span><span class="dept-badge badge-medium">Medium</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Nothing to campaign until there&rsquo;s a deal and a release plan. But the brand world has potential&mdash;dark aesthetics, anime naming conventions, and dramatic single titles (SHINIGAMI, DEM&Ocirc;NITA, LEGACY) suggest she already has a visual identity forming. If signed, the first campaign should lean into the visual world rather than trying to manufacture one.</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Audience Development</span><span class="dept-badge badge-high">High</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Social presence is minimal (~5K Instagram, TikTok handle @pixxylua appears inactive). Any deal would need to come with a content strategy from day one. The dark aesthetic plays well on TikTok and Instagram Reels, but there&rsquo;s no evidence she&rsquo;s producing content beyond music releases.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Is she creating any short-form video content? What&rsquo;s her content output beyond music?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Commercial Partnerships</span><span class="dept-badge badge-high">High</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">This is where the case gets made or breaks. The music sits in an algorithmic sweet spot (dark alt-pop, electronic production, sub-3:00 runtimes) that performs well in Spotify&rsquo;s Discover Weekly and Release Radar pipelines. But the name collision with the K-pop PIXY is a genuine DSP problem&mdash;playlist editors searching &ldquo;PIXY&rdquo; will find the Korean group first. There are also two separate Spotify artist profiles. Cleaning that up would be a prerequisite for any meaningful DSP pitching.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Has she appeared on any Spotify editorial playlists? Any algorithmic traction on specific tracks?</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Is the Spotify artist profile issue resolvable, or does the name need to change?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Publicity</span><span class="dept-badge badge-medium">Medium</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Zero press footprint currently. The origin story (Brazilian artist writing dark English-language alt-pop) is genuinely interesting for a first-feature angle. Outlets like The FADER, Pigeons &amp; Planes, or Ones To Watch would be natural first targets.</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Radio</span><span class="dept-badge badge-medium">Not Year 1</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Not a radio story. The sound is too niche and production-forward for traditional format radio. If the artist develops and a more accessible single emerges, revisit.</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Creative &amp; Content</span><span class="dept-badge badge-high">High</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">The anime-inspired naming (SHINIGAMI = death god in Japanese), dark visual palette, and dramatic song titles suggest a strong creative identity already forming. This should be elevated, not replaced. The name collision also makes strong visual branding critical for differentiation.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: Does she have existing music videos? What&rsquo;s the visual quality of current self-released content?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">International Marketing</span><span class="dept-badge badge-high">High</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">A Brazilian artist writing in English is a natural bridge between Sony Music Brazil and RCA US. The question is where her audience actually lives. If she has organic listenership in Brazil, Sony Brazil could be a co-development partner. Need streaming geo data to answer this.</p><p class="verify"><span class="verify-arrow">&rarr;</span> VERIFY: What percentage of current streams come from Brazil vs. US vs. other markets?</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Global Brand Partnerships</span><span class="dept-badge badge-medium">Not Year 1</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">Too early. Social following is well below brand partnership thresholds. Down the road, niche brand partnerships (anime-adjacent, gaming, alt-fashion) could be a fit, but that&rsquo;s a Year 2+ conversation.</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Finance</span><span class="dept-badge badge-medium">Medium</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">This would be a low-investment artist development deal. Small advance, project-based commitment. Budget should account for: content creation, producer fees for new recordings, and a social/digital marketing push. No touring infrastructure costs in Year 1.</p></div></div>
+
+  <div class="dept-card" onclick="toggleDept(this)"><div class="dept-header"><div class="dept-header-left"><span class="dept-name">Release Planning / Operations</span><span class="dept-badge badge-medium">Medium</span></div><span class="dept-chevron">&#9660;</span></div><div class="dept-body"><p class="dept-text">She has demonstrated consistent release cadence on her own (roughly one single every 2&ndash;3 months since 2023). That discipline is a good sign. If signed, the priority would be transitioning from a self-release cadence to a planned campaign calendar with proper lead times for DSP pitching, press, and content creation.</p></div></div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Discussion Prep</div>
+  <div class="section-title" style="margin-bottom:20px;">Key Questions for the Room</div>
+  <div class="question-card"><div class="question-title">Is the name collision a dealbreaker or a solvable problem?</div><div class="question-context">The K-pop PIXY has 514K Spotify listeners and an active fan community. Would a name change be a condition of signing, or can differentiation be handled through branding?</div></div>
+  <div class="question-card"><div class="question-title">What&rsquo;s the realistic ceiling for this lane?</div><div class="question-context">Comps like daine and PureSnow are active in similar space. What are their streaming numbers and growth trajectories? That benchmarks the best-case scenario.</div></div>
+  <div class="question-card"><div class="question-title">Is there management in place, or would we be building the team from scratch?</div><div class="question-context">No visible manager, attorney, or business infrastructure found. If this is truly a solo operation, the label would need to help stand up basic infrastructure.</div></div>
+  <div class="question-card"><div class="question-title">Does the Brazil angle unlock Sony Music Brazil as a co-development partner?</div><div class="question-context">If she has organic listenership in Brazil, a co-development structure could share costs and expand reach. This needs geo-data to evaluate.</div></div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Quick Reference</div>
+  <div class="section-title" style="margin-bottom:20px;">Key Facts</div>
+  <div class="ref-grid">
+    <div>
+      <div class="ref-row"><div class="ref-label">Legal Name</div><div class="ref-value">Giovanna Rodrigues Tomaz</div></div>
+      <div class="ref-row"><div class="ref-label">Stage Name</div><div class="ref-value">PIXY (fka Pixxy Lua)</div></div>
+      <div class="ref-row"><div class="ref-label">Origin</div><div class="ref-value">Brazil (presumed)</div></div>
+      <div class="ref-row"><div class="ref-label">Deal Status</div><div class="ref-value">Unsigned / Self-releasing</div></div>
+      <div class="ref-row"><div class="ref-label">Management</div><div class="ref-value">Unknown / Not visible</div></div>
+      <div class="ref-row"><div class="ref-label">Attorney</div><div class="ref-value">Unknown</div></div>
+    </div>
+    <div>
+      <div class="ref-row"><div class="ref-label">Catalog</div><div class="ref-value">10+ singles, 1 EP (XY, Mar 2026)</div></div>
+      <div class="ref-row"><div class="ref-label">Key Tracks</div><div class="ref-value">LEGACY, SHINIGAMI, Pity Palace, DEM&Ocirc;NITA</div></div>
+      <div class="ref-row"><div class="ref-label">Key Producers</div><div class="ref-value">badbadbad, Daniel Angell, Beau Miles-Watson, Jacob Wice, Arthur Besna</div></div>
+      <div class="ref-row"><div class="ref-label">Distribution</div><div class="ref-value">Unknown (likely DIY aggregator)</div></div>
+      <div class="ref-row"><div class="ref-label">Live History</div><div class="ref-value">None found</div></div>
+      <div class="ref-row"><div class="ref-label">Key Dates</div><div class="ref-value">XY EP released Mar 18, 2026</div></div>
+    </div>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow">Risk Assessment</div>
+  <div class="section-title" style="margin-bottom:20px;">Risks &amp; Flags</div>
+  <div class="risk-item"><span class="risk-dot risk-dot--flame"></span><span class="risk-label">Name Collision.</span><span class="risk-text"> K-pop group PIXY has 514K Spotify monthly listeners, active social presence, and former members forming new group AWU. Trademark, discoverability, and audience confusion are real risks.</span></div>
+  <div class="risk-item"><span class="risk-dot risk-dot--flame"></span><span class="risk-label">Extremely Early Stage.</span><span class="risk-text"> ~5K Instagram followers, no press, no live shows, no visible team. The gap between current state and &ldquo;ready for label support&rdquo; is substantial.</span></div>
+  <div class="risk-item"><span class="risk-dot risk-dot--lime"></span><span class="risk-label">No Team Infrastructure.</span><span class="risk-text"> No visible manager, attorney, or business representation. Label would need to help build basic infrastructure.</span></div>
+  <div class="risk-item"><span class="risk-dot risk-dot--lime"></span><span class="risk-label">International Logistics.</span><span class="risk-text"> If based in Brazil, visa/work authorization for US promo, studio sessions, and showcases adds complexity and timeline.</span></div>
+  <div class="risk-item" style="border-bottom:none;"><span class="risk-dot risk-dot--lime"></span><span class="risk-label">Existing Catalog Rights.</span><span class="risk-text"> Multiple producer collaborators across 10+ releases. Splits, masters ownership, and existing distribution agreements are all unknowns.</span></div>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <div class="eyebrow" style="color:var(--flame);">Internal Notes</div>
+  <div class="internal-notes" style="margin-top:12px;">
+    <p>This briefing was built from publicly available information only: streaming platform metadata (Spotify, Apple Music, Shazam, TIDAL, Deezer), social media profiles, and songwriting/production credits. No direct contact with the artist or her team has been made.</p>
+    <p>All items marked VERIFY require confirmation through management contact or internal research before any deal conversation proceeds.</p>
+    <p><strong>Note on name:</strong> The K-pop group PIXY (&#54589;&#49884;) and this solo artist PIXY are completely separate entities. This briefing concerns only the solo artist Giovanna Rodrigues Tomaz.</p>
+  </div>
+</div>
+<div class="footer"><span>RCA Records</span><span>Meg Hourihan &middot; March 24, 2026</span></div>
+</div>
+<script>
+function toggleDept(card){if(event.target.closest('.dept-body'))return;card.classList.toggle('open');}
+function toggleAll(open){document.querySelectorAll('.dept-card').forEach(c=>{if(open)c.classList.add('open');else c.classList.remove('open');});}
+</script>
+<script src="../sidebar.js"></script>
+</body>
+</html>
