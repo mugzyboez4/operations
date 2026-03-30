@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCA — Pipeline Overview</title>
+<title>RCA — Campaign Ops Priority Pipeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-outer: #1A1A1A;
@@ -13,14 +13,16 @@
     --off-white: #FCFDF8;
     --chartreuse: #CDF851;
     --flame: #FF4A23;
+    --teal: #5BC0BE;
+    --gold: #E8C547;
     --slate: #3E3F41;
     --fog: #B0A9BE;
     --fog-dim: #847D96;
+    --border: #2A2A2A;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background:var(--bg-outer); color:var(--off-white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-  /* NAV */
   nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
   nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
   nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
@@ -30,76 +32,83 @@
   nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
   nav .nav-links a:hover { color:#FCFDF8; }
   nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
-  nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
-  
-  
+  .sndd { position:relative; display:inline-block; }
+  .sndd-b { font-size:11px; font-weight:500; color:#B0A9BE; cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
   .sndd-b:hover { color:#FCFDF8; }
   .sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
-  
-  .sndd:hover 
-  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+  .sndd-m { display:none; position:absolute; top:100%; left:0; background:#1A1A1A; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
+  .sndd:hover .sndd-m { display:block; }
+  .sndd-m a { display:block; font-size:11px; color:#B0A9BE; text-decoration:none; padding:6px 12px; }
   .sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+  .sndd-m .sep { border-top:1px solid #2A2A2A; margin:4px 0; }
+  .sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3E3F41; padding:6px 12px 2px; }
 
-  /* SUB-HEADER */
-  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
-  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
-  .sub-header .sh-link:hover { color:#FCFDF8; }
-  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
+  main { max-width:760px; margin:0 auto; padding:48px 24px 120px; }
+  .page-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:8px; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:2px; line-height:1.1; margin-bottom:8px; }
+  .page-intro { font-size:13px; color:var(--fog); line-height:1.7; margin-bottom:8px; max-width:600px; }
+  .last-updated { font-family:'DM Mono',monospace; font-size:10px; color:var(--fog-dim); margin-bottom:48px; }
 
-  /* MAIN */
-  main { max-width:720px; margin:0 auto; padding:64px 32px 120px; }
-  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); }
-  .section-divider { border:none; border-top:1px solid var(--chartreuse); opacity:0.3; margin:10px 0 28px; }
+  .tier-header { display:flex; align-items:center; gap:12px; margin-top:48px; margin-bottom:16px; }
+  .tier-header:first-of-type { margin-top:0; }
+  .tier-dot { width:10px; height:10px; flex-shrink:0; }
+  .tier-label { font-family:'DM Mono',monospace; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+  .tier-line { flex:1; height:1px; background:var(--border); }
+  .tier-count { font-family:'DM Mono',monospace; font-size:11px; color:var(--fog-dim); }
 
-  h1 { font-size:32px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; }
-  h1 span { color:var(--chartreuse); }
-  .intro { font-size:14px; color:var(--fog); line-height:1.7; margin-bottom:48px; }
+  .pipe-card { background:var(--bg-inner); border-left:3px solid var(--slate); margin-bottom:10px; transition:border-color 0.15s; }
+  .pipe-card:hover { border-left-color:var(--fog); }
+  .pipe-card.open { border-left-color:var(--chartreuse); }
+  .pipe-card.tier-now { border-left-color:var(--flame); }
+  .pipe-card.tier-now:hover, .pipe-card.tier-now.open { border-left-color:var(--flame); }
+  .pipe-card.tier-active { border-left-color:var(--chartreuse); }
+  .pipe-card.tier-active.open { border-left-color:var(--chartreuse); }
 
-  .pipe-item { background:var(--bg-inner); border-left:3px solid var(--slate); margin-bottom:12px; transition:border-color 0.15s; cursor:pointer; }
-  .pipe-item:hover { border-left-color: var(--chartreuse); }
-  .pipe-item.active { border-left-color: var(--chartreuse); }
-  .pipe-head { padding:20px 24px; display:flex; align-items:center; gap:12px; }
-  .pipe-name { font-size:15px; font-weight:700; flex:1; }
-  .pipe-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:2px 6px; flex-shrink:0; }
-  .tag-live { background:rgba(205,248,81,0.1); color:var(--chartreuse); }
-  .tag-building { background:rgba(176,169,190,0.1); color:var(--fog); }
-  .tag-next { background:rgba(255,74,35,0.08); color:var(--fog-dim); }
+  .pipe-head { padding:16px 20px; display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .pipe-head:hover { background:rgba(252,253,248,0.02); }
+  .pipe-name { font-size:14px; font-weight:700; flex:1; }
+  .pipe-owner { font-family:'DM Mono',monospace; font-size:10px; color:var(--fog-dim); flex-shrink:0; }
+  .pipe-status { font-family:'DM Mono',monospace; font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:2px 6px; flex-shrink:0; }
+  .s-urgent { background:rgba(255,74,35,0.12); color:var(--flame); }
+  .s-active { background:rgba(205,248,81,0.1); color:var(--chartreuse); }
+  .s-blocked { background:rgba(255,74,35,0.2); color:var(--flame); }
+  .s-waiting { background:rgba(232,197,71,0.12); color:var(--gold); }
+  .s-building { background:rgba(91,192,190,0.1); color:var(--teal); }
+  .s-horizon { background:rgba(176,169,190,0.08); color:var(--fog-dim); }
   .pipe-arr { font-size:11px; color:var(--fog-dim); transition:transform 0.2s; flex-shrink:0; }
-  .pipe-item.open .pipe-arr { transform:rotate(180deg); color:var(--chartreuse); }
-  .pipe-detail { display:none; padding:0 24px 20px; }
-  .pipe-item.open .pipe-detail { display:block; }
-  .pipe-overview { font-size:12px; color:var(--fog-dim); line-height:1.6; margin-bottom:12px; }
-  .pipe-plan { border-top:1px solid var(--slate); padding-top:12px; }
-  .pipe-plan-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:6px; }
-  .pipe-plan ul { list-style:none; }
-  .pipe-plan li { font-size:12px; color:var(--fog); padding:3px 0; padding-left:14px; position:relative; }
-  .pipe-plan li::before { content:''; position:absolute; left:0; top:9px; width:4px; height:4px; background:var(--fog-dim); }
+  .pipe-card.open .pipe-arr { transform:rotate(180deg); color:var(--chartreuse); }
 
-  .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+  .pipe-detail { display:none; padding:0 20px 20px; }
+  .pipe-card.open .pipe-detail { display:block; }
 
-  /* MOBILE */
+  .field { margin-bottom:14px; }
+  .field-label { font-family:'DM Mono',monospace; font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:4px; }
+  .field-value { font-size:13px; color:var(--fog); line-height:1.6; }
+  .field-value strong { color:var(--off-white); font-weight:600; }
+  .field-political { border-left:2px solid var(--flame); padding-left:12px; }
+  .field-play { border-left:2px solid var(--chartreuse); padding-left:12px; }
+  .blocker-tag { display:inline-block; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.5px; padding:2px 6px; background:rgba(255,74,35,0.1); color:var(--flame); margin-right:6px; margin-bottom:4px; }
+  .dep-tag { display:inline-block; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.5px; padding:2px 6px; background:rgba(91,192,190,0.1); color:var(--teal); margin-right:6px; margin-bottom:4px; }
+  .divider { border:none; border-top:1px solid var(--border); margin:12px 0; }
+
+  .sp-banner { background:var(--bg-inner); border:1px solid var(--border); padding:14px 20px; margin-bottom:48px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .sp-banner-text { font-size:12px; color:var(--fog-dim); }
+  .sp-banner-text strong { color:var(--fog); }
+  .sp-link { font-family:'DM Mono',monospace; font-size:10px; color:var(--teal); text-decoration:none; padding:4px 10px; border:1px solid var(--teal); transition:all 0.15s; flex-shrink:0; }
+  .sp-link:hover { background:var(--teal); color:var(--bg-inner); }
+
+  .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); margin-top:48px; }
+
   @media (max-width: 640px) {
     nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
-    main { padding:40px 16px 80px; }
-    h1 { font-size:32px; }
-    .pipe-head { padding:16px; flex-wrap:wrap; gap:8px; }
-    .pipe-name { font-size:14px; }
+    main { padding:32px 16px 80px; }
+    h1 { font-size:36px; }
+    .pipe-head { padding:14px 16px; flex-wrap:wrap; gap:6px; }
+    .pipe-name { font-size:13px; width:100%; }
     .pipe-detail { padding:0 16px 16px; }
-    .pipe-plan li { font-size:11px; }
+    .sp-banner { flex-direction:column; align-items:flex-start; }
     .bottom-note { flex-direction:column; gap:4px; }
   }
-
-.sndd { position:relative; display:inline-block; }
-.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
-.sndd-b:hover { color:var(--white,#FCFDF8); }
-.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
-.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
-.sndd:hover .sndd-m { display:block; }
-.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
-.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
-.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
-.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
 </style>
 </head>
 <body>
@@ -117,194 +126,101 @@
 
 <main>
 
-  <h1>What's <span>Next</span></h1>
-  <div class="intro">
-    The pilot is one piece. Here's the full picture of what this operational layer can build toward.
+  <div class="page-label">Campaign Operations</div>
+  <h1>PRIORITY PIPELINE</h1>
+  <div class="page-intro">What we're doing, what's blocking us, and what the play is. Updated weekly.</div>
+  <div class="last-updated">Last updated: March 30, 2026</div>
+
+  <div class="sp-banner">
+    <div class="sp-banner-text"><strong>Also on SharePoint.</strong> Bookmark either &mdash; same content, always current.</div>
+    <a href="#" class="sp-link" title="Update with SharePoint URL when site is live">OPEN IN SHAREPOINT &rarr;</a>
   </div>
 
-  <div class="section-label">Active Now</div>
-  <hr class="section-divider">
-
-  <div class="pipe-item active" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">Cross-Department Visibility Pilot</div>
-      <span class="pipe-tag tag-live">Live</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">3 releases, real data, assembling the complete release picture from existing systems. Proves that one person pulling from scattered department tools can eliminate the "Unknown" problem.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>30-day pilot on 3 active releases (Isaia Huron, horsegiirL, TBD)</li>
-          <li>Pull clearance status from Sample Report, RCA Charts, Runway — surface weekly</li>
-          <li>Assemble DSP asset readiness from campaign emails and briefings</li>
-          <li>At Day 30: measure fields resolved, releases shipped cleaner, Production Meeting time recovered</li>
-          <li>Results become the case for Phase 2 (Marketing/PMs submit directly)</li>
-        </ul>
-      </div>
-    </div>
+  <!-- ==================== NOW ==================== -->
+  <div class="tier-header">
+    <div class="tier-dot" style="background:var(--flame);"></div>
+    <div class="tier-label" style="color:var(--flame);">Now &mdash; This Week</div>
+    <div class="tier-line"></div>
+    <div class="tier-count">4 items</div>
   </div>
 
-  <div class="pipe-item active" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">Artist Briefing Portfolio</div>
-      <span class="pipe-tag tag-live">Live</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">13-section, 13-department briefings per artist. Standardized format that gives any team a complete picture of where an artist stands across the label.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>Template locked — 13 departments in consistent order</li>
-          <li>Complete: femtanyl (led to meetings with Head of A&R and Head of Data), Benny Bellson</li>
-          <li>In progress: Baby J, Hailey Picardi, Stella Lefty, Laufey</li>
-          <li>Scale: every priority artist gets a briefing, updated at lifecycle milestones</li>
-        </ul>
-      </div>
-    </div>
+  <div class="pipe-card tier-now" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Active Projects Recap Cycle</div><span class="pipe-owner">Meg</span><span class="pipe-status s-urgent">This Week</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Campaign Ops' debut product. Structured recap after Wednesday's Active Projects meeting, distributed Thursday. That recap evolves into next week's pre-meeting brief. One document, two modes, natural weekly cycle. Eventually goes out Monday mornings as a full week-ahead view.</div></div><div class="field"><div class="field-label">Status</div><div class="field-value"><strong>Template built.</strong> Populated live during Wednesday's meeting. Normal agenda goes out this week &mdash; first thing people see from Campaign Ops = the recap.</div></div><div class="field"><div class="field-label">Blockers</div><div class="field-value"><span class="blocker-tag">TRANSCRIPTION</span> Need recording turned on by Wednesday. <span class="blocker-tag">FRAMING</span> Jordan: "We're trying stuff &mdash; give us real feedback." Not presented as final.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Highest-visibility deliverable Campaign Ops has produced. If the recap is clean and useful, it justifies the function. If messy, people dismiss it as "just like everything else." Jordan wants transcription framed as a Sony-wide norm, ideally announced by Fleck.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Ship V1 Thursday. Call it a pilot. Iterate openly. The before/after pair (recap &rarr; brief &rarr; recap) IS the proof of concept for Campaign Ops. Quality over ambition &mdash; better to nail 7 artists than half-ass 11.</div></div></div></div>
+
+  <div class="pipe-card tier-now" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Meeting Transcription &mdash; Turn It On</div><span class="pipe-owner">Meg + Jordan</span><span class="pipe-status s-urgent">Mon/Tue</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Enable transcription for Wednesday's Active Projects. Unlocks automated action items, system feeds, and real-time capture for all future meetings.</div></div><div class="field"><div class="field-label">Blockers</div><div class="field-value"><span class="blocker-tag">LOGISTICS</span> Is it Zoom or Teams? Who owns the invite? <span class="blocker-tag">BUY-IN</span> Jordan pre-clearing with leadership Mon/Tue.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Some people uncomfortable being recorded. Framing matters: "We work at Sony &mdash; you're already signed up" not "Campaign Ops is recording you." Ideally Fleck or Jordan announces, not Meg.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Once transcription is on, it's foundational infrastructure &mdash; action items from any meeting, even ones Campaign Ops doesn't attend. Get it on for Active Projects first, expand from there.</div></div></div></div>
+
+  <div class="pipe-card tier-now" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Roster Split &mdash; 3-Person Plan</div><span class="pipe-owner">Meg</span><span class="pipe-status s-urgent">This Week</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Assign ~120 artists across 3 Campaign Ops seats (2 LA, 1 NY). Identify temp coverage for unfilled third role. Focus on actively releasing artists first.</div></div><div class="field"><div class="field-label">Blockers</div><div class="field-value"><span class="blocker-tag">THIRD HIRE</span> No clarity from Fernando on headcount. <span class="blocker-tag">TAREK</span> Genre assignments not confirmed.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Gabby's departure shifted headcount. Fernando slow. Christian = easy internal option but Jordan: "easiest isn't always best."</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Build for three, operate as two. Don't wait for the hire.</div></div></div></div>
+
+  <div class="pipe-card tier-now" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">PDE / Airtable Discovery &mdash; Follow-Ups</div><span class="pipe-owner">Gerard + Meg</span><span class="pipe-status s-active">Post-Meeting</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Discovery session with PDE (Mike Jang, Troy Denkinger), Global Tech (Ziggy, Victoria Lowther), The Orchard (Gavin Potts), and two external Airtable consultants: Max Bernstein (independent, built Gerard's base) and Britney Zientara (Optimum CS, PDE's enterprise Airtable + Microsoft partner).</div></div><div class="field"><div class="field-label">Status</div><div class="field-value"><strong>Session completed 3/30.</strong> Gerard = Airtable owner on our team (Jordan blessed). Follow-up actions TBD.</div></div><div class="field"><div class="field-label">Dependencies</div><div class="field-value"><span class="dep-tag">PDE</span> Mike Jang decides Airtable's future. <span class="dep-tag">OPTIMUM</span> Enterprise partner, Microsoft + Airtable. Could build Airtable-to-RDX bridge. <span class="dep-tag">MAX</span> Independent, built current base. Smart but has own agenda.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political"><strong>Two consultants, different power bases.</strong> Max = grassroots builder (Gerard's ally). Optimum = PDE's enterprise partner. If PDE scales Airtable, Optimum likely inherits the build. Don't pick sides.<br><br><strong>PDE vs. Global Tech:</strong> RDX built by Global Tech, not PDE. Frame the ask as: "Airtable is where we work. RDX is where the data lives. Connect them." PDE funds Optimum to build the bridge &rarr; Global Tech gets first label-level RDX user &rarr; everyone wins.<br><br><strong>Michelle's Max warning:</strong> "Very smart, very slick, own agenda, double-dipping with RCA." Fed Gerard info that triggered A&R Admin chain reaction. Let him be useful, maintain editorial control.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Three wins if positioned right: PDE claims Airtable enablement. Global Tech claims RDX adoption. Campaign Ops gets the dashboard. The ask to PDE: "Can Airtable read from RDX?" &mdash; a PDE deliverable using their vendor connecting to existing infrastructure.</div></div></div></div>
+
+  <!-- ==================== IN PROGRESS ==================== -->
+  <div class="tier-header">
+    <div class="tier-dot" style="background:var(--chartreuse);"></div>
+    <div class="tier-label" style="color:var(--chartreuse);">In Progress &mdash; Active</div>
+    <div class="tier-line"></div>
+    <div class="tier-count">6 items</div>
   </div>
 
-  <div class="pipe-item active" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">Copilot Studio Agent</div>
-      <span class="pipe-tag tag-live">Live</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">AI-powered automation for meeting outputs. Takes transcripts and produces structured Goal Briefs and Meeting Notes, writes action items and decisions directly to the Airtable ops database.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>Agent knows 6 meeting types, 12 department lenses, stakeholder communication preferences</li>
-          <li>Works well for meeting outputs (shorter docs); artist briefings too complex — those stay manual</li>
-          <li>Airtable connected with read/write for action items and decisions</li>
-          <li>Pending: full IT provisioning for Copilot Studio access across the team</li>
-        </ul>
-      </div>
-    </div>
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">RDX Production Access</div><span class="pipe-owner">Meg</span><span class="pipe-status s-blocked">Blocked</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Production access to Sony's RDX GraphQL federation. Stage works (confirmed 3/21) but UAT data only + broken label filters. Production = real data = RDX becomes live operational source for TEMPO and Airtable.</div></div><div class="field"><div class="field-label">Blockers</div><div class="field-value"><span class="blocker-tag">BRIAN LYNCH</span> Azure/Entra ID provisioning. No timeline.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">RDX built by Global Tech, not PDE. Campaign Ops = first label team querying federation directly. Unprecedented. Jordan asking Jacob about it may create tension with Global Tech ownership. Framing: "Sony built the pipes. Nobody at the label reads the water."</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Don't wait for production. Stage proves the architecture. Build queries and dashboard logic now. When access lands, flip the switch. PDE discovery may open faster path via Optimum.</div></div></div></div>
+
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Airtable &harr; RDX Connector</div><span class="pipe-owner">PDE / Optimum</span><span class="pipe-status s-waiting">Pending Discovery</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Read-only: Airtable pulls release data, workability scores, clearance status from RDX via GraphQL. Replaces individual system reads (GRPS, CARMA, Console, SAA, SAMP) with one connection.</div></div><div class="field"><div class="field-label">Status</div><div class="field-value"><strong>Concept stage.</strong> Optimum has the expertise. Nobody has asked them yet.</div></div><hr class="divider"><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Let PDE scope it. If they ask "what integrations matter?" the answer is RDX. Frame: "If Airtable could read from RDX, every label benefits. RCA is the willing pilot."</div></div></div></div>
+
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">DISCO Cross-Label Adoption</div><span class="pipe-owner">Michelle (lead) / Meg (cc)</span><span class="pipe-status s-active">In Progress</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">DISCO replacing/complementing PreAmp. DDEX feed set up. Content security cleared. Each sync team has accounts. Need cross-label deal structure. DISCO doesn't charge per distribution (unlike PreAmp's ~$3M).</div></div><div class="field"><div class="field-label">Status</div><div class="field-value"><strong>Michelle steering cross-label.</strong> Meg sends contact info + DDEX details today. Jordan cc'd.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Michelle had bad DISCO experience via Victoria. Jordan warming the connection. PreAmp party line vs. worker bees. Campaign Ops surfaces implications, doesn't take sides.</div></div></div></div>
+
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">PreAmp &rarr; Promo Tool Transition</div><span class="pipe-owner">Michelle</span><span class="pipe-status s-waiting">Monitoring</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">PreAmp shutting down ~April 1. Promo Tool interim. If Promo Tool fails, Fleck escalates to Neil/PDE. Budget: PreAmp ~$3M vs. Promo Tool ~$500K. Operational Impact Assessment built.</div></div></div></div>
+
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Orbit Gating System</div><span class="pipe-owner">Meg + Jordan</span><span class="pipe-status s-active">Designing</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Active gates: Can we plan / execute / announce / deliver? Block when prerequisites unmet. Campaign Ops never says no &mdash; the gate does. Stack: Airtable (engine) / TEMPO-Orbit (dashboard) / Runway+RDX (data).</div></div><div class="field"><div class="field-label">Blockers</div><div class="field-value"><span class="blocker-tag">SCOTT DEPARTURE</span> July 1 &mdash; his "no, we're not scheduling" power walks out the door. Orbit must inherit it. <span class="blocker-tag">ENFORCEMENT</span> Michelle: "Every time they make an exception, no one forgets."</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Most politically sensitive item. A&R at RCA does ~5% of what A&R does at other labels (Michelle) &mdash; main function is signing, not releasing. Gate can't fix A&R. It forces minimum compliance. Columbia model: must present plan, deadline, or Ron Perry says no. RCA: everyone circumvents. Key risk: if leadership makes exceptions, system dies.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Build now, socialize with dept leads 1:1 before broad announcement. Capture Scott's criteria before July. Frame as "the system says no" not "Campaign Ops says no." Don't launch until Fleck or Peter will hold the line.</div></div></div></div>
+
+  <div class="pipe-card tier-active" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Ownership Map &mdash; 17 Ownerless Functions</div><span class="pipe-owner">Meg</span><span class="pipe-status s-active">V3 Complete</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">17 functions with no clear owner (Vacancies / Vibes / Handoffs). From discovery with Aaron, Scott, Sarah. Campaign Ops recommended owner for zero of the 17.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Strongest turf-anxiety defuser. We found 17 problems, recommended ourselves for none. Proves infrastructure, not power grab.</div></div></div></div>
+
+  <!-- ==================== BUILDING ==================== -->
+  <div class="tier-header">
+    <div class="tier-dot" style="background:var(--teal);"></div>
+    <div class="tier-label" style="color:var(--teal);">Building &mdash; Committed</div>
+    <div class="tier-line"></div>
+    <div class="tier-count">5 items</div>
   </div>
 
-  <div class="section-label" style="margin-top:48px;">Building Now</div>
-  <hr class="section-divider">
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Third Campaign Ops Hire</div><span class="pipe-owner">Jordan</span><span class="pipe-status s-waiting">Waiting &mdash; Fernando</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Third team member, title TBD. Fernando needs headcount clarity. Christian = easy internal option but "easiest isn't always best."</div></div></div></div>
 
-  <div class="pipe-item" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">Artist Onboarding Package</div>
-      <span class="pipe-tag tag-building">Prototype Complete</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">A structured intake system for every new signing. Four tabs take an artist from "just signed" to "every department knows what they need." Replaces scattered emails and tribal knowledge.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>Prototype complete for Isaia Huron (Slang JV)</li>
-          <li>Tab 1: Intake Assessment — what do we know, what's missing</li>
-          <li>Tab 2: Mgmt Intake Request — structured ask to management (input tab)</li>
-          <li>Tab 3: Dossier — compiled research and context</li>
-          <li>Tab 4: Artist Briefing — the 13-department view</li>
-          <li>Next: test on 2–3 more signings, refine the intake request template based on what management actually responds to</li>
-        </ul>
-      </div>
-    </div>
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Job Descriptions &mdash; Meg + Gerard</div><span class="pipe-owner">Meg + Gerard</span><span class="pipe-status s-building">Next Week</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Formalize Campaign Ops roles. Neither has a JD. Gerard: "We should prioritize ourselves." Needs to happen before third hire is scoped.</div></div></div></div>
+
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Val Pensa Knowledge Capture</div><span class="pipe-owner">Meg</span><span class="pipe-status s-waiting">Before Departure</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Budget ownership, P&L, meeting context at risk. P&L explicitly NOT Campaign Ops territory, but institutional knowledge matters.</div></div><hr class="divider"><div class="field"><div class="field-label">Political Context</div><div class="field-value field-political">Val told Gerard Meg/Jordan were "trashing Airtable." Relationship delicate. Frame as respect for her work, not audit of systems.</div></div></div></div>
+
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">SharePoint Site Buildout</div><span class="pipe-owner">Meg</span><span class="pipe-status s-building">Building</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">USARCARecords-Ops site. Full design spec exists. Jordan has visibility. Document library, knowledge base, meeting archive. Michelle's cross-label folder protocol is the model &mdash; standardized hierarchy, naming conventions, IT hypercare for onboarding.</div></div></div></div>
+
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Artist Insights &mdash; Sleepy Hallow</div><span class="pipe-owner">Meg</span><span class="pipe-status s-building">Queued</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Next Insights deck after horsegiirL V7. Crawley rules: linear scale, no P-notation, charts before commentary, each deck independent.</div></div></div></div>
+
+  <!-- ==================== HORIZON ==================== -->
+  <div class="tier-header">
+    <div class="tier-dot" style="background:var(--fog);"></div>
+    <div class="tier-label" style="color:var(--fog);">Horizon &mdash; Strategic</div>
+    <div class="tier-line"></div>
+    <div class="tier-count">5 items</div>
   </div>
 
-  <div class="pipe-item" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">Rights Translation Map</div>
-      <span class="pipe-tag tag-building">In Progress</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">Per-department one-pagers that translate complex agreement language from CARMA exports into plain English. Each department sees only the provisions that affect their work — no legal jargon, just what they need to know.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>Source: Rights &amp; Restrictions export from agreements system (CARMA)</li>
-          <li>Sync &amp; Licensing prototype complete (3 provisions mapped)</li>
-          <li>10 departments remaining — each gets a standalone one-pager</li>
-          <li>Delivery: tabbed master HTML + 11 individual department files</li>
-          <li>Distributed at artist onboarding — so every team knows their rights position from day one</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Optimum CS &mdash; Enterprise Integration Opportunities</div><span class="pipe-owner">PDE</span><span class="pipe-status s-horizon">Future</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">If PDE greenlights: Airtable &harr; SharePoint sync, Airtable &harr; Copilot Studio pipeline, enterprise Airtable interfaces with permissions, Teams/Outlook automations.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Campaign Ops = willing pilot, not project manager. If Optimum builds for RCA, it becomes the template for every Sony label.</div></div></div></div>
 
-  <div class="pipe-item" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">RACI Mapping</div>
-      <span class="pipe-tag tag-building">In Progress</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">A lightweight ownership map that identifies "the seam" — where handoffs break between departments — without blaming any team. Uses custom verbs: Initiates → Executes → Approves → The Seam → Label Ops Driver.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>7 real seams already identified from the Isaia Huron pilot data:</li>
-          <li>Who executes Cover/VSC? Who handles the Atmos mixing decision?</li>
-          <li>Who confirms Agreements back to Runway? Who signs off A&R Paperwork?</li>
-          <li>SAA requires two labels' BA teams — who initiates?</li>
-          <li>SAMP tracked in email — who surfaces it? Credits across 3 depts — who reconciles?</li>
-          <li>Needs input from department leads to validate and complete</li>
-          <li>Label Ops driver verbs: track, confirm, flag, prompt, surface — never "approve" or "decide"</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Kafka Event Subscriptions</div><span class="pipe-owner">TBD</span><span class="pipe-status s-horizon">Research</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">RDX has Kafka/AWS MSK events. Nobody at RCA is subscribed. Could enable real-time push notifications: clearance completed, dates shifted, metadata changed. Requires production RDX access first.</div></div></div></div>
 
-  <div class="section-label" style="margin-top:48px;">On the Horizon</div>
-  <hr class="section-divider">
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">DDEX-to-DISCO Pipeline</div><span class="pipe-owner">Colleen / Philip / Nate</span><span class="pipe-status s-horizon">Testing</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Automatic music delivery to Radio via DDEX. In testing with Sony Production UK and RCA Digital Ops. Open Q: pre-street vs. street-date-only. RDX Catalog Import API may shortcut parts.</div></div></div></div>
 
-  <div class="pipe-item" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">One-Sheet Automation</div>
-      <span class="pipe-tag tag-next">Next</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">DSP pitch decks and artist one-sheets generated from existing campaign emails and briefings. The Isaia demo already proved the data is there — talking points, timeline, images, genre, artist story — all assembled from three emails nobody had to write specifically for this purpose.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>Build on the Isaia proof-of-concept: every field in the DSP Asset Request sheet was sourced from internal emails</li>
-          <li>Automate the assembly: campaign emails → structured one-sheet template</li>
-          <li>Output feeds directly into DSP Asset Request sheet — no manual entry</li>
-          <li>Extends artist onboarding package: onboarding data populates the first one-sheet automatically</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Scott Sylvester Departure &mdash; Production Meeting</div><span class="pipe-owner">Campaign Ops</span><span class="pipe-status s-horizon">July 1</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">Scott (SVP Release Planning) departing July 1. Production Meeting ownership transitions to Campaign Ops. His gating authority must be absorbed into Orbit, not lost.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Shadow Production Meetings now. Build Orbit gate definitions from his actual criteria. His departure = forcing function. If gates aren't ready by July 1, that authority evaporates.</div></div></div></div>
 
-  <div class="pipe-item" onclick="this.classList.toggle('open')">
-    <div class="pipe-head">
-      <div class="pipe-name">DDEX / ISRC Integration</div>
-      <span class="pipe-tag tag-next">Next</span>
-      <span class="pipe-arr">▾</span>
-    </div>
-    <div class="pipe-detail">
-      <div class="pipe-overview">ISRC as the shared key connecting every system that describes a release. Runway already has the field — it's just empty. The industry already agreed on what "ready" looks like; we just use that standard too late in the process.</div>
-      <div class="pipe-plan">
-        <div class="pipe-plan-label">The Plan</div>
-        <ul>
-          <li>DDEX ERN structure maps directly to Runway fields: PartyList → credits, ResourceList → masters/artwork, DealList → pricing, ReleaseList → title/genre</li>
-          <li>Completing the internal checklist = completing the delivery package</li>
-          <li>ISRC assigned earlier in process connects Sample Report → Runway → DSP delivery</li>
-          <li>Eliminates manual cross-referencing (currently matching by song title across 3 systems)</li>
-          <li>DDEX-to-DISCO pipeline already in testing with Sony Production UK and RCA Digital Ops</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div class="pipe-card" onclick="this.classList.toggle('open')"><div class="pipe-head"><div class="pipe-name">Snowflake &mdash; PDE Endgame</div><span class="pipe-owner">PDE</span><span class="pipe-status s-horizon">Future</span><span class="pipe-arr">&#9662;</span></div><div class="pipe-detail"><div class="field"><div class="field-label">What</div><div class="field-value">PDE consolidating all Sony data into Snowflake as single source of truth. Not live yet. Until then, RDX is the existing aggregation layer nobody uses.</div></div><div class="field"><div class="field-label">The Play</div><div class="field-value field-play">Acknowledge the roadmap, don't bet against it. Build on standards (GraphQL, APIs) that survive a platform migration. Campaign Ops doesn't care which warehouse powers the queries &mdash; we care about the output.</div></div></div></div>
 
   <div class="bottom-note">
-    <span>Campaign Operations &middot; RCA Records &middot; March 2026</span>
-    <span>TEMPO · Pipeline</span>
+    <span>Campaign Operations &middot; Meg Hourihan &middot; RCA Records</span>
+    <span>TEMPO &middot; Priority Pipeline</span>
   </div>
 
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var first = document.querySelector('.pipe-card');
+  if (first) first.classList.add('open');
+});
+</script>
 <script src="sidebar.js"></script>
 </body>
 </html>

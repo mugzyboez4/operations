@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA — Pipeline Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-outer: #1A1A1A;
+    --bg-inner: #0F0E0E;
+    --off-white: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --fog-dim: #847D96;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background:var(--bg-outer); color:var(--off-white); font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  /* NAV */
+  nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 16px; display:flex; align-items:center; gap:0; height:40px; font-family:'Inter',Arial,sans-serif; position:sticky; top:0; z-index:9999; }
+  nav .logo { text-decoration:none; margin-right:20px; display:flex; align-items:center; gap:6px; }
+  nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+  nav .logo .l2 { font-size:10px; font-weight:500; color:#3E3F41; }
+  nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#3E3F41; }
+  nav .nav-links { display:flex; align-items:center; gap:2px; }
+  nav .nav-links a { font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+  nav .nav-links a:hover { color:#FCFDF8; }
+  nav .nav-links a.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+  nav .nav-links .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+  
+  
+  .sndd-b:hover { color:#FCFDF8; }
+  .sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+  
+  .sndd:hover 
+  .sndd-m a { display:block; padding:8px 16px; font-size:11px; font-weight:500; color:#B0A9BE; text-decoration:none; }
+  .sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+
+  /* SUB-HEADER */
+  .sub-header { background:#0F0E0E; border-bottom:1px solid #1E1E1E; padding:0 16px; display:flex; align-items:center; gap:4px; height:32px; }
+  .sub-header .sh-link { font-size:10px; font-weight:500; color:#847D96; text-decoration:none; padding:4px 10px; transition:color 0.15s; }
+  .sub-header .sh-link:hover { color:#FCFDF8; }
+  .sub-header .sh-active { font-size:10px; font-weight:700; color:#CDF851; padding:4px 10px; }
+
+  /* MAIN */
+  main { max-width:720px; margin:0 auto; padding:64px 32px 120px; }
+  .section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); }
+  .section-divider { border:none; border-top:1px solid var(--chartreuse); opacity:0.3; margin:10px 0 28px; }
+
+  h1 { font-size:32px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; }
+  h1 span { color:var(--chartreuse); }
+  .intro { font-size:14px; color:var(--fog); line-height:1.7; margin-bottom:48px; }
+
+  .pipe-item { background:var(--bg-inner); border-left:3px solid var(--slate); margin-bottom:12px; transition:border-color 0.15s; cursor:pointer; }
+  .pipe-item:hover { border-left-color: var(--chartreuse); }
+  .pipe-item.active { border-left-color: var(--chartreuse); }
+  .pipe-head { padding:20px 24px; display:flex; align-items:center; gap:12px; }
+  .pipe-name { font-size:15px; font-weight:700; flex:1; }
+  .pipe-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:2px 6px; flex-shrink:0; }
+  .tag-live { background:rgba(205,248,81,0.1); color:var(--chartreuse); }
+  .tag-building { background:rgba(176,169,190,0.1); color:var(--fog); }
+  .tag-next { background:rgba(255,74,35,0.08); color:var(--fog-dim); }
+  .pipe-arr { font-size:11px; color:var(--fog-dim); transition:transform 0.2s; flex-shrink:0; }
+  .pipe-item.open .pipe-arr { transform:rotate(180deg); color:var(--chartreuse); }
+  .pipe-detail { display:none; padding:0 24px 20px; }
+  .pipe-item.open .pipe-detail { display:block; }
+  .pipe-overview { font-size:12px; color:var(--fog-dim); line-height:1.6; margin-bottom:12px; }
+  .pipe-plan { border-top:1px solid var(--slate); padding-top:12px; }
+  .pipe-plan-label { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); margin-bottom:6px; }
+  .pipe-plan ul { list-style:none; }
+  .pipe-plan li { font-size:12px; color:var(--fog); padding:3px 0; padding-left:14px; position:relative; }
+  .pipe-plan li::before { content:''; position:absolute; left:0; top:9px; width:4px; height:4px; background:var(--fog-dim); }
+
+  .bottom-note { display:flex; justify-content:space-between; font-size:10px; color:var(--fog-dim); letter-spacing:0.5px; padding-top:32px; border-top:1px solid var(--slate); }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding:0 12px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    nav .nav-links { flex-wrap:nowrap; white-space:nowrap; }
+    main { padding:40px 16px 80px; }
+    h1 { font-size:32px; }
+    .pipe-head { padding:16px; flex-wrap:wrap; gap:8px; }
+    .pipe-name { font-size:14px; }
+    .pipe-detail { padding:0 16px 16px; }
+    .pipe-plan li { font-size:11px; }
+    .bottom-note { flex-direction:column; gap:4px; }
+  }
+
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:var(--dim,#B0A9BE); cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:var(--white,#FCFDF8); }
+.sndd-b.active { font-weight:700; color:var(--green,#CDF851); border-bottom:2px solid var(--green,#CDF851); }
+.sndd-m { display:none; position:absolute; top:100%; left:0; background:var(--card,#1A1A1A); border:1px solid var(--border,#2A2A2A); min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:var(--fog,#B0A9BE); text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:var(--border,#2A2A2A); color:var(--white,#FCFDF8); }
+.sndd-m .sep { border-top:1px solid var(--border,#2A2A2A); margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim,#3E3F41); padding:6px 12px 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="orbit.html">Orbit</a>
+<a href="visibility.html">Visibility</a>
+<a href="insights/index.html">Insights</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="reference/handoff-map.html">Handoff Map</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="meetings.html">Meeting Flow</a><a href="pipeline.html">Pipeline</a><a href="template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="archive/index.html">Archive Index</a><a href="archive/pilot.html">Pilot Overview</a><a href="archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="archive/demo.html">Artist Visibility (v1)</a><a href="archive/cadence.html">Cadence</a><a href="archive/rollout.html">Rollout</a><a href="archive/comms.html">Comms</a><a href="archive/pipeline.html">Pipeline (v1)</a><a href="archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+
+<main>
+
+  <h1>What's <span>Next</span></h1>
+  <div class="intro">
+    The pilot is one piece. Here's the full picture of what this operational layer can build toward.
+  </div>
+
+  <div class="section-label">Active Now</div>
+  <hr class="section-divider">
+
+  <div class="pipe-item active" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">Cross-Department Visibility Pilot</div>
+      <span class="pipe-tag tag-live">Live</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">3 releases, real data, assembling the complete release picture from existing systems. Proves that one person pulling from scattered department tools can eliminate the "Unknown" problem.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>30-day pilot on 3 active releases (Isaia Huron, horsegiirL, TBD)</li>
+          <li>Pull clearance status from Sample Report, RCA Charts, Runway — surface weekly</li>
+          <li>Assemble DSP asset readiness from campaign emails and briefings</li>
+          <li>At Day 30: measure fields resolved, releases shipped cleaner, Production Meeting time recovered</li>
+          <li>Results become the case for Phase 2 (Marketing/PMs submit directly)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-item active" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">Artist Briefing Portfolio</div>
+      <span class="pipe-tag tag-live">Live</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">13-section, 13-department briefings per artist. Standardized format that gives any team a complete picture of where an artist stands across the label.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>Template locked — 13 departments in consistent order</li>
+          <li>Complete: femtanyl (led to meetings with Head of A&R and Head of Data), Benny Bellson</li>
+          <li>In progress: Baby J, Hailey Picardi, Stella Lefty, Laufey</li>
+          <li>Scale: every priority artist gets a briefing, updated at lifecycle milestones</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-item active" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">Copilot Studio Agent</div>
+      <span class="pipe-tag tag-live">Live</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">AI-powered automation for meeting outputs. Takes transcripts and produces structured Goal Briefs and Meeting Notes, writes action items and decisions directly to the Airtable ops database.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>Agent knows 6 meeting types, 12 department lenses, stakeholder communication preferences</li>
+          <li>Works well for meeting outputs (shorter docs); artist briefings too complex — those stay manual</li>
+          <li>Airtable connected with read/write for action items and decisions</li>
+          <li>Pending: full IT provisioning for Copilot Studio access across the team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:48px;">Building Now</div>
+  <hr class="section-divider">
+
+  <div class="pipe-item" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">Artist Onboarding Package</div>
+      <span class="pipe-tag tag-building">Prototype Complete</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">A structured intake system for every new signing. Four tabs take an artist from "just signed" to "every department knows what they need." Replaces scattered emails and tribal knowledge.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>Prototype complete for Isaia Huron (Slang JV)</li>
+          <li>Tab 1: Intake Assessment — what do we know, what's missing</li>
+          <li>Tab 2: Mgmt Intake Request — structured ask to management (input tab)</li>
+          <li>Tab 3: Dossier — compiled research and context</li>
+          <li>Tab 4: Artist Briefing — the 13-department view</li>
+          <li>Next: test on 2–3 more signings, refine the intake request template based on what management actually responds to</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-item" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">Rights Translation Map</div>
+      <span class="pipe-tag tag-building">In Progress</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">Per-department one-pagers that translate complex agreement language from CARMA exports into plain English. Each department sees only the provisions that affect their work — no legal jargon, just what they need to know.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>Source: Rights &amp; Restrictions export from agreements system (CARMA)</li>
+          <li>Sync &amp; Licensing prototype complete (3 provisions mapped)</li>
+          <li>10 departments remaining — each gets a standalone one-pager</li>
+          <li>Delivery: tabbed master HTML + 11 individual department files</li>
+          <li>Distributed at artist onboarding — so every team knows their rights position from day one</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-item" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">RACI Mapping</div>
+      <span class="pipe-tag tag-building">In Progress</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">A lightweight ownership map that identifies "the seam" — where handoffs break between departments — without blaming any team. Uses custom verbs: Initiates → Executes → Approves → The Seam → Label Ops Driver.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>7 real seams already identified from the Isaia Huron pilot data:</li>
+          <li>Who executes Cover/VSC? Who handles the Atmos mixing decision?</li>
+          <li>Who confirms Agreements back to Runway? Who signs off A&R Paperwork?</li>
+          <li>SAA requires two labels' BA teams — who initiates?</li>
+          <li>SAMP tracked in email — who surfaces it? Credits across 3 depts — who reconciles?</li>
+          <li>Needs input from department leads to validate and complete</li>
+          <li>Label Ops driver verbs: track, confirm, flag, prompt, surface — never "approve" or "decide"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:48px;">On the Horizon</div>
+  <hr class="section-divider">
+
+  <div class="pipe-item" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">One-Sheet Automation</div>
+      <span class="pipe-tag tag-next">Next</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">DSP pitch decks and artist one-sheets generated from existing campaign emails and briefings. The Isaia demo already proved the data is there — talking points, timeline, images, genre, artist story — all assembled from three emails nobody had to write specifically for this purpose.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>Build on the Isaia proof-of-concept: every field in the DSP Asset Request sheet was sourced from internal emails</li>
+          <li>Automate the assembly: campaign emails → structured one-sheet template</li>
+          <li>Output feeds directly into DSP Asset Request sheet — no manual entry</li>
+          <li>Extends artist onboarding package: onboarding data populates the first one-sheet automatically</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-item" onclick="this.classList.toggle('open')">
+    <div class="pipe-head">
+      <div class="pipe-name">DDEX / ISRC Integration</div>
+      <span class="pipe-tag tag-next">Next</span>
+      <span class="pipe-arr">▾</span>
+    </div>
+    <div class="pipe-detail">
+      <div class="pipe-overview">ISRC as the shared key connecting every system that describes a release. Runway already has the field — it's just empty. The industry already agreed on what "ready" looks like; we just use that standard too late in the process.</div>
+      <div class="pipe-plan">
+        <div class="pipe-plan-label">The Plan</div>
+        <ul>
+          <li>DDEX ERN structure maps directly to Runway fields: PartyList → credits, ResourceList → masters/artwork, DealList → pricing, ReleaseList → title/genre</li>
+          <li>Completing the internal checklist = completing the delivery package</li>
+          <li>ISRC assigned earlier in process connects Sample Report → Runway → DSP delivery</li>
+          <li>Eliminates manual cross-referencing (currently matching by song title across 3 systems)</li>
+          <li>DDEX-to-DISCO pipeline already in testing with Sony Production UK and RCA Digital Ops</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-note">
+    <span>Campaign Operations &middot; RCA Records &middot; March 2026</span>
+    <span>TEMPO · Pipeline</span>
+  </div>
+
+</main>
+<script src="sidebar.js"></script>
+</body>
+</html>
