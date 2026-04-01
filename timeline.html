@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department Timeline — Album Release</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F0E0E;
+    --card: #1A1A1A;
+    --off-white: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --teal: #5BC0BE;
+    --purple: #7F77DD;
+    --muted: #847D96;
+    --divider: #2A2A2A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--off-white);
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .header {
+    padding: 48px 48px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .header .label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: var(--off-white);
+  }
+  .header h1 span { color: var(--chartreuse); }
+  .header .subtitle {
+    font-size: 14px;
+    color: var(--fog);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .header .meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+    letter-spacing: 1px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--chartreuse);
+  }
+
+  .legend {
+    padding: 16px 48px 8px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--fog);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+  }
+
+  .phase-bar {
+    padding: 12px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .phase-strip {
+    display: flex;
+    height: 28px;
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--bg);
+    font-weight: 500;
+  }
+  .phase-strip > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .cluster-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--chartreuse);
+    font-weight: 700;
+    padding: 20px 0 6px;
+  }
+
+  .timeline-container {
+    padding: 0 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 44px;
+    border-bottom: 1px solid var(--divider);
+    position: relative;
+  }
+  .timeline-row:hover {
+    background: rgba(205, 248, 81, 0.03);
+  }
+
+  .dept-name {
+    padding: 10px 16px 10px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--off-white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 1px solid var(--divider);
+    position: sticky;
+    left: 0;
+    background: var(--bg);
+    z-index: 2;
+  }
+  .dept-name .dept-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+  }
+
+  .dept-bars {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+  }
+
+  .week-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 2px solid var(--slate);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+  }
+  .week-header .dept-name {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  .week-labels {
+    display: flex;
+    position: relative;
+  }
+
+  .bar {
+    position: absolute;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    z-index: 1;
+  }
+  .bar:hover {
+    opacity: 1 !important;
+    transform: scaleY(1.3);
+    z-index: 5;
+  }
+
+  .tooltip {
+    display: none;
+    position: fixed;
+    background: var(--card);
+    border: 1px solid var(--slate);
+    padding: 12px 16px;
+    max-width: 320px;
+    z-index: 100;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--fog);
+    pointer-events: none;
+  }
+  .tooltip.active { display: block; }
+  .tooltip .tt-title {
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .tooltip .tt-dept {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .tooltip .tt-gate {
+    font-size: 10px;
+    color: var(--flame);
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  .gate-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--flame);
+    opacity: 0.4;
+    z-index: 0;
+  }
+  .gate-marker::after {
+    content: attr(data-gate);
+    position: absolute;
+    top: -18px;
+    left: -14px;
+    font-size: 8px;
+    font-family: 'DM Mono', monospace;
+    color: var(--flame);
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .release-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--chartreuse);
+    z-index: 0;
+  }
+
+  /* ═══════ GATE ROWS ═══════ */
+  .gate-row {
+    border: 1px solid rgba(255,74,35,0.3);
+    border-left: 3px solid var(--flame);
+    background: rgba(255,74,35,0.04);
+    margin: 8px 0;
+    overflow: hidden;
+  }
+  .gate-row-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .gate-row-header:hover {
+    background: rgba(255,74,35,0.08);
+  }
+  .gate-row-header .gate-arrow {
+    font-size: 10px;
+    color: var(--flame);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    width: 14px;
+    display: inline-block;
+  }
+  .gate-row-header .gate-arrow.open {
+    transform: rotate(90deg);
+  }
+  .gate-row-header .gate-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--flame);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .gate-row-header .gate-question {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--off-white);
+  }
+  .gate-row-header .gate-subtitle {
+    font-size: 11px;
+    color: var(--fog);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .gate-row-header .gate-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    flex-shrink: 0;
+    min-width: 56px;
+    text-align: right;
+  }
+
+  .gate-row-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 16px 0 42px;
+  }
+  .gate-row-body.open {
+    max-height: 800px;
+    padding: 0 16px 16px 42px;
+  }
+
+  .gate-prereq {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,74,35,0.12);
+    font-size: 12px;
+  }
+  .gate-prereq:last-child {
+    border-bottom: none;
+  }
+  .gate-prereq .prereq-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--slate);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .gate-prereq .prereq-check:hover {
+    border-color: var(--chartreuse);
+  }
+  .gate-prereq .prereq-check.checked {
+    background: var(--chartreuse);
+    border-color: var(--chartreuse);
+    color: var(--bg);
+  }
+  .gate-prereq .prereq-text {
+    color: var(--fog);
+    line-height: 1.4;
+  }
+  .gate-prereq .prereq-owner {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .gate-row-principle {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(205,248,81,0.06);
+    border-left: 2px solid var(--chartreuse);
+    font-size: 11px;
+    color: var(--fog);
+    line-height: 1.5;
+  }
+  .gate-row-principle strong {
+    color: var(--chartreuse);
+  }
+
+  .gate-trigger-label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .gate-status-ready {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(205,248,81,0.1);
+    border: 1px solid var(--chartreuse);
+    font-size: 12px;
+    color: var(--chartreuse);
+    font-weight: 700;
+    text-align: center;
+    display: none;
+  }
+  .gate-status-ready.visible {
+    display: block;
+  }
+
+  .footer {
+    padding: 32px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-top: 2px solid var(--chartreuse);
+    margin-top: 24px;
+  }
+  .footer .tagline {
+    font-size: 13px;
+    color: var(--off-white);
+    text-align: center;
+    font-weight: 700;
+  }
+  .footer .credits {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .gaps-section {
+    padding: 24px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .gaps-section h3 {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--flame);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .gap-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--divider);
+    font-size: 12px;
+  }
+  .gap-dept {
+    color: var(--flame);
+    font-weight: 600;
+    min-width: 160px;
+  }
+  .gap-q { color: var(--fog); }
+  .gap-confirmed {
+    color: var(--chartreuse);
+    font-weight: 600;
+    font-size: 10px;
+  }
+
+  .scroll-wrap {
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  .scroll-inner {
+    min-width: 1100px;
+  }
+
+  @media (max-width: 900px) {
+    .header, .legend, .phase-bar, .timeline-container, .gaps-section, .footer {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+/* NAV */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#847D96; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#847D96; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#847D96; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+.active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:#847D96; cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; right:0; background:#1A1A1A; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:#B0A9BE; text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+.sndd-m .sep { border-top:1px solid #2A2A2A; margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3E3F41; padding:6px 12px 2px; }
+
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="orbit.html">Orbit</a>
+<span class="active-label">Timeline</span>
+<div class="sndd"><span class="sndd-b">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+
+<div class="header">
+  <p class="label">Internal Use Only &middot; Working Draft</p>
+  <h1>DEPARTMENT <span>TIMELINE</span></h1>
+  <p class="subtitle">Every department&rsquo;s activation window for an album release &mdash; counting backward from street date.<br>Where does your work start? When does it need to be done?</p>
+  <p class="meta">March 31, 2026 &middot; Campaign Operations</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#5BC0BE;"></div> Campaign Lead</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#CDF851;"></div> Campaign Ops</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7F77DD;"></div> Audience Development</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B0A9BE;"></div> Department</div>
+  <div class="legend-item"><div class="legend-dot" style="background:repeating-linear-gradient(90deg,#FF4A23,#FF4A23 3px,transparent 3px,transparent 6px);"></div> TBD &mdash; Needs Confirmation</div>
+  <div class="legend-item"><div class="legend-dot" style="background:transparent; border: 1px dashed var(--flame); width: 8px; height: 8px;"></div> Gate (click to expand)</div>
+</div>
+
+<div class="scroll-wrap">
+<div class="scroll-inner">
+
+<div class="phase-bar">
+  <div style="display:grid; grid-template-columns: 200px 1fr;">
+    <div></div>
+    <div class="phase-strip">
+      <div style="flex:6; background:var(--muted);">Development</div>
+      <div style="flex:4; background:var(--fog); color:var(--bg);">Pre-Release</div>
+      <div style="flex:6; background:var(--teal); color:var(--bg);">Rolling Singles</div>
+      <div style="flex:4; background:var(--purple);">Project Rollout</div>
+      <div style="flex:2; background:var(--chartreuse); color:var(--bg);">Release Wk</div>
+      <div style="flex:4; background:var(--slate); color:var(--fog);">Post-Release</div>
+    </div>
+  </div>
+</div>
+
+<div class="timeline-container" id="timelineContainer">
+</div>
+
+</div>
+</div>
+
+<div class="gaps-section">
+  <h3>Lead Times to Confirm</h3>
+  <p style="font-size:12px; color:var(--fog); margin-bottom:12px; line-height:1.6;">Hatched bars represent estimated timelines. Campaign Ops is scheduling conversations with each department to confirm real lead times.</p>
+  <div class="gap-row"><span class="gap-dept">Commercial Partnerships</span><span class="gap-q">Spotify min 10 days, target 14+ all DSPs</span><span class="gap-confirmed">&check; CONFIRMED</span></div>
+  <div class="gap-row"><span class="gap-dept">Publicity</span><span class="gap-q">Long-lead vs. short-lead pitch windows &mdash; print vs. digital?</span></div>
+  <div class="gap-row"><span class="gap-dept">Radio</span><span class="gap-q">Setup time for radio adds. Impact date lead time.</span></div>
+  <div class="gap-row"><span class="gap-dept">Creative</span><span class="gap-q">Photo shoot planning. Video production. Asset delivery deadlines.</span></div>
+  <div class="gap-row"><span class="gap-dept">International</span><span class="gap-q">Territory-specific lead times. When do global teams need the brief?</span></div>
+  <div class="gap-row"><span class="gap-dept">Brand Partnerships</span><span class="gap-q">Deal activation lead time. Integration planning window.</span></div>
+  <div class="gap-row"><span class="gap-dept">Sync &amp; Licensing</span><span class="gap-q">Placement pitch window relative to release. Awareness timing.</span></div>
+</div>
+
+<div class="footer">
+  <p class="tagline">Every Campaign Lead &mdash; senior or junior &mdash; can look at this and know exactly when to trigger what.</p>
+  <p class="credits">Campaign Operations &middot; RCA Records &middot; March 2026</p>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+var TOTAL_WEEKS = 31;
+var RELEASE_INDEX = 26;
+function weekToIndex(w) { return w + 26; }
+function pct(idx) { return (idx / TOTAL_WEEKS * 100); }
+
+// ═══════ GATE PREREQUISITES ═══════
+var gates = [
+  {
+    id: "gate1",
+    number: "Gate 1",
+    question: "Can we plan?",
+    week: -16,
+    desc: "Before a release can be scheduled or a campaign plan can begin.",
+    trigger: "Triggered by: scheduling request submission",
+    items: [
+      { text: "A&R has confirmed artist, format, and approximate timing", owner: "A&R", done: false },
+      { text: "Physical projection requested and returned", owner: "Commerce / Data", done: false },
+      { text: "Historical spend data pulled for this artist or comparables", owner: "Campaign Ops", done: false },
+      { text: "Baseline audience profile delivered", owner: "Audience Dev + Strategic Analytics", done: false },
+      { text: "Legacy team engaged (if catalog artist)", owner: "Campaign Lead", done: false }
+    ]
+  },
+  {
+    id: "gate2",
+    number: "Gate 2",
+    question: "Can we execute?",
+    week: -8,
+    desc: "Before departments can begin execution. Kickoff must have happened.",
+    trigger: "Triggered by: budget submission or kickoff meeting request",
+    items: [
+      { text: "Timeline locked (SVP blessing)", owner: "Campaign Lead \u2192 SVP", done: false },
+      { text: "Budget submitted and approved", owner: "Campaign Ops \u2192 Finance \u2192 COO", done: false },
+      { text: "Creative direction set with artist team", owner: "Campaign Lead + Creative", done: false },
+      { text: "Internal kickoff meeting held", owner: "Campaign Lead (Ops captures notes)", done: false },
+      { text: "All departments briefed on plan", owner: "Campaign Ops confirms", done: false },
+      { text: "Audience strategy presented", owner: "Audience Dev", done: false }
+    ]
+  },
+  {
+    id: "gate3",
+    number: "Gate 3",
+    question: "Can we announce?",
+    week: -4,
+    desc: "Before public announcement or DSP pitches.",
+    trigger: "Triggered by: DSP pitch submission or announcement request",
+    items: [
+      { text: "Cover art finalized and uploaded", owner: "Creative", done: false },
+      { text: "Masters delivered and QA\u2019d", owner: "A&R / A&R Admin", done: false },
+      { text: "Label copy complete", owner: "A&R Admin", done: false },
+      { text: "SAA cleared (if applicable)", owner: "Business & Legal", done: false },
+      { text: "SAMP cleared (if applicable)", owner: "Business & Legal", done: false },
+      { text: "DSP pitches submitted (14+ days, Spotify min 10)", owner: "Commercial Partnerships", done: false },
+      { text: "Press materials ready", owner: "Publicity", done: false },
+      { text: "Marketing plan finalized", owner: "Campaign Lead", done: false }
+    ]
+  },
+  {
+    id: "gate4",
+    number: "Gate 4",
+    question: "Can we deliver?",
+    week: -1,
+    desc: "Before content goes to platforms. The final sprint.",
+    trigger: "Triggered by: DSN filing (5\u20137 days before street date)",
+    items: [
+      { text: "All 18 Runway fields resolved (zero Unknown)", owner: "All departments", done: false },
+      { text: "DSN filed with Sony distribution", owner: "Production / Ops", done: false },
+      { text: "ERN delivered to all DSPs (by day 5)", owner: "Production / Ops", done: false },
+      { text: "Radio clean edit delivered", owner: "A&R + Radio", done: false },
+      { text: "Smart links live", owner: "Audience Dev / Campaign Lead", done: false },
+      { text: "Physical product messaging plan exists", owner: "Audience Dev + Campaign Lead", done: false },
+      { text: "All platform deliveries confirmed (48 hrs)", owner: "Production / Ops", done: false }
+    ]
+  }
+];
+
+// ═══════ DEPARTMENT DATA ═══════
+var clusters = [
+  {
+    label: "UPSTREAM",
+    depts: [
+      {
+        name: "A&R",
+        color: "#B0A9BE",
+        bars: [
+          { start: -26, end: -16, label: "Briefs Lead on pipeline", desc: "A&R confirms artist, format, approximate timing. Pairs with writers/producers. Music in progress.", gate: null, hatched: false },
+          { start: -12, end: -8, label: "Masters delivered", desc: "Final masters delivered and QA\u2019d. Atmos/360RA if applicable.", gate: "Gate 3", hatched: false },
+          { start: -2, end: 0, label: "Radio clean edit", desc: "Radio clean edit delivered for promotion.", gate: "Gate 4", hatched: false }
+        ]
+      },
+      {
+        name: "A&R Admin",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -8, label: "Label copy + metadata", desc: "Label copy, credits, metadata, splits all finalized. SAA/SAMP clearance if applicable.", gate: "Gate 3", hatched: false },
+          { start: -4, end: -1, label: "Runway fields resolved", desc: "All 18 Release Runway fields must be resolved. Zero Unknown tolerance.", gate: "Gate 4", hatched: false }
+        ]
+      },
+      {
+        name: "Business & Legal",
+        color: "#B0A9BE",
+        bars: [
+          { start: -20, end: -12, label: "Agreements + clearances", desc: "SAA cleared, SAMP cleared, all agreements finalized. SplitDeals/CARMA in GRPS.", gate: "Gate 2", hatched: false },
+          { start: -8, end: -4, label: "Final clearance check", desc: "Confirm all rights cleared for distribution. Any flags = immediate escalation.", gate: "Gate 3", hatched: false }
+        ]
+      },
+      {
+        name: "Finance",
+        color: "#B0A9BE",
+        bars: [
+          { start: -12, end: -10, label: "Budget approval", desc: "Budget submitted to Console and approved. Big-ticket items flagged to COO.", gate: "Gate 2", hatched: false },
+          { start: 0, end: 4, label: "Reconciliation", desc: "Post-release budget reconciliation. Actual vs. planned spend.", gate: null, hatched: false }
+        ]
+      }
+    ]
+  },
+  {
+    label: "EXECUTION",
+    depts: [
+      {
+        name: "Creative & Content",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -12, label: "Creative direction set", desc: "Creative direction set with artist team. Photo shoots, music video concepts, creative director engaged.", gate: null, hatched: true },
+          { start: -12, end: -4, label: "Asset production", desc: "Album artwork, single artwork, music videos, lyric videos, social content in production. Cover art finalized and uploaded.", gate: "Gate 3", hatched: true }
+        ]
+      },
+      {
+        name: "Publicity",
+        color: "#B0A9BE",
+        bars: [
+          { start: -12, end: -8, label: "Long-lead pitches", desc: "Long-lead press pitches (print magazines, major features). Timeline TBD.", gate: null, hatched: true },
+          { start: -6, end: -2, label: "Short-lead + digital", desc: "Short-lead and digital press pitches. Interview scheduling. Press materials finalized.", gate: "Gate 3", hatched: true },
+          { start: 0, end: 2, label: "Press day / release coverage", desc: "Press day activities, media appearances, interviews, TV performances.", gate: null, hatched: false }
+        ]
+      },
+      {
+        name: "Radio",
+        color: "#B0A9BE",
+        bars: [
+          { start: -8, end: -4, label: "Setup + impact targeting", desc: "Radio strategy set. Impact date targeted. Setup with stations begins. Clean edit needed.", gate: null, hatched: true },
+          { start: -4, end: 2, label: "Active promotion", desc: "Radio adds. Promo tours. Station visits. Promotional appearances.", gate: null, hatched: true }
+        ]
+      },
+      {
+        name: "Tour Marketing",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -8, label: "Tour alignment (if active)", desc: "If artist is touring, coordinate release timing with tour dates.", gate: null, hatched: true },
+          { start: -4, end: 2, label: "Tour promo push", desc: "Align release-week promo with live dates. Fan engagement at shows.", gate: null, hatched: true }
+        ]
+      }
+    ]
+  },
+  {
+    label: "COMMERCIAL",
+    depts: [
+      {
+        name: "Commercial Partnerships",
+        color: "#B0A9BE",
+        bars: [
+          { start: -4, end: -2, label: "DSP pitch prep", desc: "Pitch copy written. Spotify for Artists minimum 10 days. Target 14+ for all DSP pitches. CONFIRMED.", gate: "Gate 3", hatched: false },
+          { start: -2, end: 0, label: "Pitches submitted + follow-up", desc: "All DSP pitches submitted. Follow-up with partners. Playlist placement confirmation.", gate: null, hatched: false },
+          { start: 0, end: 2, label: "Release-week activation", desc: "Playlist placements live. Streaming velocity. Retail positioning.", gate: null, hatched: false }
+        ]
+      },
+      {
+        name: "International",
+        color: "#B0A9BE",
+        bars: [
+          { start: -12, end: -6, label: "Territory strategy", desc: "Global rollout strategy. Territory-specific lead times TBD. Localized campaign plans.", gate: null, hatched: true },
+          { start: -6, end: 0, label: "Territory execution", desc: "Localized campaigns executing. Territory DSP pitches. International press.", gate: null, hatched: true }
+        ]
+      },
+      {
+        name: "Brand Partnerships",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -8, label: "Deal development", desc: "Brand deals identified and negotiated. Integration planning. Lead time TBD.", gate: null, hatched: true },
+          { start: -4, end: 2, label: "Activation", desc: "Brand deals activated. Sponsorships live. Cross-promotional content.", gate: null, hatched: true }
+        ]
+      },
+      {
+        name: "Sync & Licensing",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -4, label: "Placement pitching", desc: "Pitch music for sync opportunities across film, TV, advertising.", gate: null, hatched: true },
+          { start: 0, end: 4, label: "Post-release placements", desc: "Catalog-building sync. Strategic placements to extend reach post-release.", gate: null, hatched: true }
+        ]
+      }
+    ]
+  },
+  {
+    label: "OPERATIONS",
+    depts: [
+      {
+        name: "Campaign Lead",
+        color: "#5BC0BE",
+        bars: [
+          { start: -26, end: -16, label: "Intake + planning", desc: "Receives A&R brief. Engages Legacy team (if catalog). Loops Creative for vision. Begins budget conversation.", gate: "Gate 1", hatched: false },
+          { start: -12, end: -8, label: "Timeline lock + kickoff", desc: "Timeline locked with SVP blessing. Sends to management. Internal kickoff meeting held. All departments briefed.", gate: "Gate 2", hatched: false },
+          { start: -8, end: 0, label: "Campaign management", desc: "Active campaign management. Marketing plan finalized. Cross-department coordination.", gate: null, hatched: false },
+          { start: 0, end: 4, label: "Release + retro", desc: "Day-of coordination. Launch moments. Manages pivots. Presents retro. Plans sustain/deluxe/next phase.", gate: null, hatched: false }
+        ]
+      },
+      {
+        name: "Audience Development",
+        color: "#7F77DD",
+        bars: [
+          { start: -26, end: -16, label: "Baseline audience profile", desc: "Demographics, streaming health, platform breakdown. Baseline for campaign measurement.", gate: "Gate 1", hatched: false },
+          { start: -12, end: -8, label: "Audience strategy", desc: "Audience strategy presented at kickoff. Targeting plan. Paid media strategy.", gate: "Gate 2", hatched: false },
+          { start: -6, end: 0, label: "Pre-release push", desc: "Paid campaign live. Social strategy executing. Building anticipation.", gate: null, hatched: false },
+          { start: 0, end: 4, label: "Full paid push + ROI", desc: "Full paid push. Real-time social. First-week velocity. KPIs vs benchmarks.", gate: null, hatched: false }
+        ]
+      },
+      {
+        name: "DTC / Physical Product",
+        color: "#B0A9BE",
+        bars: [
+          { start: -16, end: -14, label: "Vinyl countdown starts", desc: "16-week vinyl manufacturing lead time. Pre-order setup. D2C sales channel configured.", gate: null, hatched: false },
+          { start: -8, end: -4, label: "Pre-order live", desc: "Physical pre-order goes live. DTC assets needed. Messaging plan required.", gate: null, hatched: false },
+          { start: -1, end: 0, label: "Street-date delivery", desc: "Physical product in stores/shipped.", gate: null, hatched: false }
+        ]
+      },
+      {
+        name: "Release Planning / Prod.",
+        color: "#B0A9BE",
+        bars: [
+          { start: -12, end: -8, label: "Schedule in GRPS", desc: "Release scheduled in GRPS. Distribution timeline set.", gate: "Gate 2", hatched: false },
+          { start: -2, end: 0, label: "DSN + ERN delivery", desc: "DSN filed (5\u20137 days). ERN delivered to all DSPs by day 5. All platforms confirmed 48hrs out.", gate: "Gate 4", hatched: false }
+        ]
+      },
+      {
+        name: "Campaign Ops",
+        color: "#CDF851",
+        bars: [
+          { start: -26, end: -16, label: "Pipeline tracking", desc: "Tracks pipeline. Pulls historical spend data + comparable artist benchmarks for Lead.", gate: null, hatched: false },
+          { start: -12, end: -8, label: "Budget entry + gate monitoring", desc: "Enters budget into system. Reviews against tier thresholds. Flags if over ceiling.", gate: "Gate 2", hatched: false },
+          { start: -8, end: -1, label: "Active coordination", desc: "Monitors gates. Prompts departments on deadlines. Surfaces blocked items. Escalates overdue.", gate: null, hatched: false },
+          { start: -1, end: 0, label: "Runway confirmation", desc: "Confirms all 18 Runway fields resolved. Any red/unknown = immediate escalation.", gate: "Gate 4", hatched: false },
+          { start: 0, end: 4, label: "Release tracking + retro", desc: "Real-time tracking. Routes urgent changes. Captures decisions. Prompts retro. Budget reconciliation.", gate: null, hatched: false }
+        ]
+      }
+    ]
+  }
+];
+
+// ═══════ RENDER ═══════
+var container = document.getElementById("timelineContainer");
+
+// Week header
+var headerRow = document.createElement("div");
+headerRow.className = "week-header";
+var headerName = document.createElement("div");
+headerName.className = "dept-name";
+headerName.textContent = "Department";
+headerRow.appendChild(headerName);
+
+var headerLabels = document.createElement("div");
+headerLabels.className = "week-labels";
+headerLabels.style.position = "relative";
+
+for (var i = 0; i < TOTAL_WEEKS; i++) {
+  var weekNum = i - 26;
+  if (weekNum % 2 === 0 || weekNum === 0) {
+    var lbl = document.createElement("div");
+    lbl.style.position = "absolute";
+    lbl.style.left = pct(i) + "%";
+    lbl.style.top = "0";
+    lbl.style.bottom = "0";
+    lbl.style.width = "1px";
+    lbl.style.background = weekNum === 0 ? "var(--chartreuse)" : "var(--divider)";
+    lbl.style.zIndex = "0";
+    headerLabels.appendChild(lbl);
+
+    var txt = document.createElement("span");
+    txt.style.position = "absolute";
+    txt.style.left = pct(i) + "%";
+    txt.style.top = "8px";
+    txt.style.transform = "translateX(-50%)";
+    txt.style.fontSize = "9px";
+    txt.style.fontFamily = "'DM Mono', monospace";
+    txt.style.whiteSpace = "nowrap";
+    if (weekNum === 0) {
+      txt.textContent = "\u25B6 RELEASE";
+      txt.style.color = "var(--chartreuse)";
+      txt.style.fontWeight = "700";
+      txt.style.fontSize = "10px";
+    } else if (weekNum > 0) {
+      txt.textContent = "+" + weekNum;
+      txt.style.color = "var(--muted)";
+    } else {
+      txt.textContent = "" + weekNum;
+      txt.style.color = "var(--muted)";
+    }
+    headerLabels.appendChild(txt);
+  }
+}
+headerLabels.style.height = "30px";
+headerRow.appendChild(headerLabels);
+container.appendChild(headerRow);
+
+var gatePositions = [
+  { week: -16, label: "GATE 1" },
+  { week: -8, label: "GATE 2" },
+  { week: -4, label: "GATE 3" },
+  { week: -1, label: "GATE 4" }
+];
+
+function buildGateRow(gate) {
+  var row = document.createElement("div");
+  row.className = "gate-row";
+  row.id = gate.id;
+
+  var doneCount = gate.items.filter(function(it) { return it.done; }).length;
+  var totalCount = gate.items.length;
+
+  var header = document.createElement("div");
+  header.className = "gate-row-header";
+  header.innerHTML =
+    "<span class=\"gate-arrow\">\u25B6</span>" +
+    "<span class=\"gate-number\">" + gate.number + "</span>" +
+    "<span class=\"gate-question\">" + gate.question + "</span>" +
+    "<span class=\"gate-subtitle\">" + gate.desc + "</span>" +
+    "<span class=\"gate-count\" id=\"" + gate.id + "-count\">" + doneCount + "/" + totalCount + "</span>";
+
+  var body = document.createElement("div");
+  body.className = "gate-row-body";
+  body.id = gate.id + "-body";
+
+  var triggerP = document.createElement("p");
+  triggerP.className = "gate-trigger-label";
+  triggerP.textContent = gate.trigger;
+  body.appendChild(triggerP);
+
+  gate.items.forEach(function(item, idx) {
+    var prereq = document.createElement("div");
+    prereq.className = "gate-prereq";
+
+    var check = document.createElement("div");
+    check.className = "prereq-check" + (item.done ? " checked" : "");
+    check.textContent = item.done ? "\u2713" : "";
+    check.addEventListener("click", function() {
+      item.done = !item.done;
+      this.classList.toggle("checked");
+      this.textContent = item.done ? "\u2713" : "";
+      var newCount = gate.items.filter(function(it) { return it.done; }).length;
+      document.getElementById(gate.id + "-count").textContent = newCount + "/" + totalCount;
+      // Show/hide ready status
+      var statusEl = document.getElementById(gate.id + "-status");
+      if (newCount === totalCount) {
+        statusEl.classList.add("visible");
+      } else {
+        statusEl.classList.remove("visible");
+      }
+    });
+
+    var textDiv = document.createElement("div");
+    textDiv.innerHTML = "<div class=\"prereq-text\">" + item.text + "</div><div class=\"prereq-owner\">" + item.owner + "</div>";
+
+    prereq.appendChild(check);
+    prereq.appendChild(textDiv);
+    body.appendChild(prereq);
+  });
+
+  // Ready status
+  var statusEl = document.createElement("div");
+  statusEl.className = "gate-status-ready";
+  statusEl.id = gate.id + "-status";
+  statusEl.textContent = "\u2713 All prerequisites met \u2014 gate cleared. Request proceeds.";
+  body.appendChild(statusEl);
+
+  // Principle callout
+  var principle = document.createElement("div");
+  principle.className = "gate-row-principle";
+  principle.innerHTML = "<strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate.";
+  body.appendChild(principle);
+
+  header.addEventListener("click", function() {
+    var b = document.getElementById(gate.id + "-body");
+    var arrow = this.querySelector(".gate-arrow");
+    b.classList.toggle("open");
+    arrow.classList.toggle("open");
+  });
+
+  row.appendChild(header);
+  row.appendChild(body);
+  return row;
+}
+
+function buildDeptRow(dept) {
+  var row = document.createElement("div");
+  row.className = "timeline-row";
+
+  var nameEl = document.createElement("div");
+  nameEl.className = "dept-name";
+  nameEl.innerHTML = "<div class=\"dept-dot\" style=\"background:" + dept.color + ";\"></div>" + dept.name;
+  row.appendChild(nameEl);
+
+  var barsEl = document.createElement("div");
+  barsEl.className = "dept-bars";
+  barsEl.style.position = "relative";
+
+  for (var i = 0; i < TOTAL_WEEKS; i++) {
+    var weekNum = i - 26;
+    if (weekNum % 2 === 0) {
+      var gl = document.createElement("div");
+      gl.style.cssText = "position:absolute;left:" + pct(i) + "%;top:0;bottom:0;width:1px;background:var(--divider);z-index:0;";
+      barsEl.appendChild(gl);
+    }
+  }
+
+  var rl = document.createElement("div");
+  rl.className = "release-line";
+  rl.style.left = pct(RELEASE_INDEX) + "%";
+  barsEl.appendChild(rl);
+
+  gatePositions.forEach(function(g) {
+    var gm = document.createElement("div");
+    gm.className = "gate-marker";
+    gm.style.left = pct(weekToIndex(g.week)) + "%";
+    gm.setAttribute("data-gate", g.label);
+    barsEl.appendChild(gm);
+  });
+
+  dept.bars.forEach(function(b) {
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    var left = pct(weekToIndex(b.start));
+    var width = pct(weekToIndex(b.end)) - pct(weekToIndex(b.start));
+    var bgColor = dept.color === "#B0A9BE" ? "rgba(176,169,190,0.6)" : (dept.color === "#5BC0BE" ? "rgba(91,192,190,0.7)" : (dept.color === "#7F77DD" ? "rgba(127,119,221,0.7)" : "rgba(205,248,81,0.7)"));
+    var textColor = dept.color === "#CDF851" ? "var(--bg)" : "var(--off-white)";
+
+    if (b.hatched) {
+      bar.style.cssText = "left:" + left + "%;width:" + width + "%;background:repeating-linear-gradient(135deg,rgba(176,169,190,0.35),rgba(176,169,190,0.35) 3px,rgba(255,74,35,0.3) 3px,rgba(255,74,35,0.3) 6px);color:var(--off-white);";
+    } else {
+      bar.style.cssText = "left:" + left + "%;width:" + width + "%;background:" + bgColor + ";color:" + textColor + ";";
+    }
+
+    bar.textContent = b.label;
+
+    bar.addEventListener("mouseenter", function(e) {
+      var tt = document.getElementById("tooltip");
+      tt.innerHTML = "<div class=\"tt-dept\" style=\"color:" + dept.color + ";\">" + dept.name + "</div><div class=\"tt-title\">" + b.label + "</div><div>" + b.desc + "</div>" + (b.gate ? "<div class=\"tt-gate\">" + b.gate + " prerequisite</div>" : "") + (b.hatched ? "<div class=\"tt-gate\" style=\"color:var(--flame);\">\u26A0 Estimated \u2014 needs dept confirmation</div>" : "");
+      tt.classList.add("active");
+    });
+    bar.addEventListener("mousemove", function(e) {
+      var tt = document.getElementById("tooltip");
+      tt.style.left = (e.clientX + 16) + "px";
+      tt.style.top = (e.clientY - 10) + "px";
+      var rect = tt.getBoundingClientRect();
+      if (rect.right > window.innerWidth - 20) {
+        tt.style.left = (e.clientX - rect.width - 16) + "px";
+      }
+    });
+    bar.addEventListener("mouseleave", function() {
+      document.getElementById("tooltip").classList.remove("active");
+    });
+
+    barsEl.appendChild(bar);
+  });
+
+  row.appendChild(barsEl);
+  return row;
+}
+
+// Build: cluster depts, then gate row after each cluster
+clusters.forEach(function(cluster, clusterIdx) {
+  var clusterEl = document.createElement("div");
+  clusterEl.className = "cluster-label";
+  clusterEl.textContent = cluster.label;
+  container.appendChild(clusterEl);
+
+  cluster.depts.forEach(function(dept) {
+    container.appendChild(buildDeptRow(dept));
+  });
+
+  // Insert gate after this cluster
+  if (clusterIdx < gates.length) {
+    container.appendChild(buildGateRow(gates[clusterIdx]));
+  }
+});
+</script>
+
+</body>
+</html>
