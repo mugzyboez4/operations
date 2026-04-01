@@ -269,77 +269,118 @@
     z-index: 0;
   }
 
-  /* ═══════ GATE ROWS ═══════ */
-  .gate-row {
-    border: 1px solid rgba(255,74,35,0.3);
-    border-left: 3px solid var(--flame);
-    background: rgba(255,74,35,0.04);
-    margin: 8px 0;
-    overflow: hidden;
+  /* ═══════ GATE PANELS (VERTICAL, INLINE) ═══════ */
+  .gates-track {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 2px solid var(--flame);
+    position: relative;
   }
-  .gate-row-header {
+  .gates-track-label {
+    padding: 10px 16px 10px 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--flame);
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
+    border-right: 1px solid var(--divider);
+    position: sticky;
+    left: 0;
+    background: var(--bg);
+    z-index: 2;
+  }
+  .gates-track-area {
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .gate-tab {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: 56px;
+    transform: translateX(-50%);
+    background: rgba(255,74,35,0.15);
+    border: 1px solid rgba(255,74,35,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     cursor: pointer;
-    user-select: none;
     transition: background 0.15s;
+    z-index: 3;
   }
-  .gate-row-header:hover {
-    background: rgba(255,74,35,0.08);
-  }
-  .gate-row-header .gate-arrow {
-    font-size: 10px;
+  .gate-tab:hover { background: rgba(255,74,35,0.25); }
+  .gate-tab.active { background: rgba(255,74,35,0.3); border-color: var(--flame); }
+  .gate-tab-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
     color: var(--flame);
-    transition: transform 0.2s;
-    flex-shrink: 0;
-    width: 14px;
-    display: inline-block;
+    letter-spacing: 1px;
   }
-  .gate-row-header .gate-arrow.open {
-    transform: rotate(90deg);
+  .gate-tab-q {
+    font-size: 7px;
+    color: var(--fog);
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 2px;
   }
-  .gate-row-header .gate-number {
+
+  .gate-panel-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    background: rgba(255,74,35,0.03);
+    border-bottom: 1px solid rgba(255,74,35,0.15);
+  }
+  .gate-panel-container.open { max-height: 600px; }
+  .gate-panel-spacer {
+    border-right: 1px solid var(--divider);
+    position: sticky;
+    left: 0;
+    background: rgba(255,74,35,0.03);
+    z-index: 2;
+  }
+  .gate-panel-content {
+    position: relative;
+    padding: 16px 0;
+  }
+  .gate-panel-card {
+    position: absolute;
+    width: 280px;
+    background: var(--card);
+    border: 1px solid rgba(255,74,35,0.3);
+    border-top: 2px solid var(--flame);
+    padding: 16px;
+    z-index: 4;
+  }
+  .gpc-title {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     font-weight: 700;
     color: var(--flame);
     letter-spacing: 1px;
     text-transform: uppercase;
-    flex-shrink: 0;
+    margin-bottom: 4px;
   }
-  .gate-row-header .gate-question {
-    font-size: 13px;
+  .gpc-question {
+    font-size: 15px;
     font-weight: 700;
     color: var(--off-white);
+    margin-bottom: 4px;
   }
-  .gate-row-header .gate-subtitle {
-    font-size: 11px;
-    color: var(--fog);
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .gate-row-header .gate-count {
-    font-family: 'DM Mono', monospace;
+  .gpc-desc {
     font-size: 11px;
     color: var(--muted);
-    flex-shrink: 0;
-    min-width: 56px;
-    text-align: right;
+    margin-bottom: 12px;
+    font-style: italic;
   }
-
-  .gate-row-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0 16px 0 42px;
-  }
-  .gate-row-body.open {
-    max-height: 800px;
-    padding: 0 16px 16px 42px;
-  }
-
   .gate-prereq {
     display: flex;
     align-items: flex-start;
@@ -348,10 +389,8 @@
     border-bottom: 1px solid rgba(255,74,35,0.12);
     font-size: 12px;
   }
-  .gate-prereq:last-child {
-    border-bottom: none;
-  }
-  .gate-prereq .prereq-check {
+  .gate-prereq:last-of-type { border-bottom: none; }
+  .prereq-check {
     width: 16px;
     height: 16px;
     border: 1.5px solid var(--slate);
@@ -364,58 +403,31 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .gate-prereq .prereq-check:hover {
-    border-color: var(--chartreuse);
-  }
-  .gate-prereq .prereq-check.checked {
+  .prereq-check:hover { border-color: var(--chartreuse); }
+  .prereq-check.checked {
     background: var(--chartreuse);
     border-color: var(--chartreuse);
     color: var(--bg);
   }
-  .gate-prereq .prereq-text {
+  .prereq-text { color: var(--fog); line-height: 1.4; }
+  .prereq-owner { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .gpc-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+  .gpc-principle {
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: rgba(205,248,81,0.06);
+    border-left: 2px solid var(--chartreuse);
+    font-size: 10px;
     color: var(--fog);
     line-height: 1.4;
   }
-  .gate-prereq .prereq-owner {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .gate-row-principle {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: rgba(205,248,81,0.06);
-    border-left: 2px solid var(--chartreuse);
-    font-size: 11px;
-    color: var(--fog);
-    line-height: 1.5;
-  }
-  .gate-row-principle strong {
-    color: var(--chartreuse);
-  }
-
-  .gate-trigger-label {
-    font-size: 10px;
-    color: var(--muted);
-    margin-bottom: 10px;
-    font-style: italic;
-  }
-
-  .gate-status-ready {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: rgba(205,248,81,0.1);
-    border: 1px solid var(--chartreuse);
-    font-size: 12px;
-    color: var(--chartreuse);
-    font-weight: 700;
-    text-align: center;
-    display: none;
-  }
-  .gate-status-ready.visible {
-    display: block;
-  }
+  .gpc-principle strong { color: var(--chartreuse); }
 
   .footer {
     padding: 32px 48px;
@@ -886,86 +898,7 @@ var gatePositions = [
   { week: -1, label: "GATE 4" }
 ];
 
-function buildGateRow(gate) {
-  var row = document.createElement("div");
-  row.className = "gate-row";
-  row.id = gate.id;
-
-  var doneCount = gate.items.filter(function(it) { return it.done; }).length;
-  var totalCount = gate.items.length;
-
-  var header = document.createElement("div");
-  header.className = "gate-row-header";
-  header.innerHTML =
-    "<span class=\"gate-arrow\">\u25B6</span>" +
-    "<span class=\"gate-number\">" + gate.number + "</span>" +
-    "<span class=\"gate-question\">" + gate.question + "</span>" +
-    "<span class=\"gate-subtitle\">" + gate.desc + "</span>" +
-    "<span class=\"gate-count\" id=\"" + gate.id + "-count\">" + doneCount + "/" + totalCount + "</span>";
-
-  var body = document.createElement("div");
-  body.className = "gate-row-body";
-  body.id = gate.id + "-body";
-
-  var triggerP = document.createElement("p");
-  triggerP.className = "gate-trigger-label";
-  triggerP.textContent = gate.trigger;
-  body.appendChild(triggerP);
-
-  gate.items.forEach(function(item, idx) {
-    var prereq = document.createElement("div");
-    prereq.className = "gate-prereq";
-
-    var check = document.createElement("div");
-    check.className = "prereq-check" + (item.done ? " checked" : "");
-    check.textContent = item.done ? "\u2713" : "";
-    check.addEventListener("click", function() {
-      item.done = !item.done;
-      this.classList.toggle("checked");
-      this.textContent = item.done ? "\u2713" : "";
-      var newCount = gate.items.filter(function(it) { return it.done; }).length;
-      document.getElementById(gate.id + "-count").textContent = newCount + "/" + totalCount;
-      // Show/hide ready status
-      var statusEl = document.getElementById(gate.id + "-status");
-      if (newCount === totalCount) {
-        statusEl.classList.add("visible");
-      } else {
-        statusEl.classList.remove("visible");
-      }
-    });
-
-    var textDiv = document.createElement("div");
-    textDiv.innerHTML = "<div class=\"prereq-text\">" + item.text + "</div><div class=\"prereq-owner\">" + item.owner + "</div>";
-
-    prereq.appendChild(check);
-    prereq.appendChild(textDiv);
-    body.appendChild(prereq);
-  });
-
-  // Ready status
-  var statusEl = document.createElement("div");
-  statusEl.className = "gate-status-ready";
-  statusEl.id = gate.id + "-status";
-  statusEl.textContent = "\u2713 All prerequisites met \u2014 gate cleared. Request proceeds.";
-  body.appendChild(statusEl);
-
-  // Principle callout
-  var principle = document.createElement("div");
-  principle.className = "gate-row-principle";
-  principle.innerHTML = "<strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate.";
-  body.appendChild(principle);
-
-  header.addEventListener("click", function() {
-    var b = document.getElementById(gate.id + "-body");
-    var arrow = this.querySelector(".gate-arrow");
-    b.classList.toggle("open");
-    arrow.classList.toggle("open");
-  });
-
-  row.appendChild(header);
-  row.appendChild(body);
-  return row;
-}
+var activeGateId = null;
 
 function buildDeptRow(dept) {
   var row = document.createElement("div");
@@ -1043,8 +976,96 @@ function buildDeptRow(dept) {
   return row;
 }
 
-// Build: cluster depts, then gate row after each cluster
-clusters.forEach(function(cluster, clusterIdx) {
+function toggleGatePanel(gateId) {
+  var panels = document.querySelectorAll('.gate-panel-container');
+  var tabs = document.querySelectorAll('.gate-tab');
+  
+  if (activeGateId === gateId) {
+    // Close
+    panels.forEach(function(p) { p.classList.remove('open'); });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    activeGateId = null;
+  } else {
+    // Open this one, close others
+    panels.forEach(function(p) { p.classList.remove('open'); });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    document.getElementById(gateId + '-panel').classList.add('open');
+    document.getElementById(gateId + '-tab').classList.add('active');
+    activeGateId = gateId;
+  }
+}
+
+function buildGatePanel(gate) {
+  // The expandable panel row
+  var panelRow = document.createElement('div');
+  panelRow.className = 'gate-panel-container';
+  panelRow.id = gate.id + '-panel';
+  
+  var spacer = document.createElement('div');
+  spacer.className = 'gate-panel-spacer';
+  panelRow.appendChild(spacer);
+  
+  var content = document.createElement('div');
+  content.className = 'gate-panel-content';
+  
+  // Position the card at the gate's x position
+  var card = document.createElement('div');
+  card.className = 'gate-panel-card';
+  var leftPct = pct(weekToIndex(gate.week));
+  // Shift left if too far right
+  if (leftPct > 60) {
+    card.style.right = (100 - leftPct) + '%';
+  } else {
+    card.style.left = leftPct + '%';
+  }
+  
+  card.innerHTML = '<div class="gpc-title">' + gate.number + '</div>' +
+    '<div class="gpc-question">' + gate.question + '</div>' +
+    '<div class="gpc-desc">' + gate.desc + '</div>';
+  
+  gate.items.forEach(function(item) {
+    var prereq = document.createElement('div');
+    prereq.className = 'gate-prereq';
+    
+    var check = document.createElement('div');
+    check.className = 'prereq-check' + (item.done ? ' checked' : '');
+    check.textContent = item.done ? '\u2713' : '';
+    check.addEventListener('click', function() {
+      item.done = !item.done;
+      this.classList.toggle('checked');
+      this.textContent = item.done ? '\u2713' : '';
+      var done = gate.items.filter(function(it) { return it.done; }).length;
+      document.getElementById(gate.id + '-count').textContent = done + '/' + gate.items.length;
+    });
+    
+    var textDiv = document.createElement('div');
+    textDiv.innerHTML = '<div class="prereq-text">' + item.text + '</div><div class="prereq-owner">' + item.owner + '</div>';
+    
+    prereq.appendChild(check);
+    prereq.appendChild(textDiv);
+    card.appendChild(prereq);
+  });
+  
+  var countEl = document.createElement('div');
+  countEl.className = 'gpc-count';
+  countEl.id = gate.id + '-count';
+  var doneCount = gate.items.filter(function(it) { return it.done; }).length;
+  countEl.textContent = doneCount + '/' + gate.items.length + ' complete';
+  card.appendChild(countEl);
+  
+  var principle = document.createElement('div');
+  principle.className = 'gpc-principle';
+  principle.innerHTML = '<strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate.';
+  card.appendChild(principle);
+  
+  content.appendChild(card);
+  panelRow.appendChild(content);
+  
+  return panelRow;
+}
+
+// Build: all clusters (no gates between), then gates track at bottom
+clusters.forEach(function(cluster) {
   var clusterEl = document.createElement("div");
   clusterEl.className = "cluster-label";
   clusterEl.textContent = cluster.label;
@@ -1053,11 +1074,53 @@ clusters.forEach(function(cluster, clusterIdx) {
   cluster.depts.forEach(function(dept) {
     container.appendChild(buildDeptRow(dept));
   });
+});
 
-  // Insert gate after this cluster
-  if (clusterIdx < gates.length) {
-    container.appendChild(buildGateRow(gates[clusterIdx]));
+// Gates track row
+var gatesRow = document.createElement('div');
+gatesRow.className = 'gates-track';
+
+var gatesLabel = document.createElement('div');
+gatesLabel.className = 'gates-track-label';
+gatesLabel.textContent = 'Gates';
+gatesRow.appendChild(gatesLabel);
+
+var gatesArea = document.createElement('div');
+gatesArea.className = 'gates-track-area';
+
+// Add week grid lines
+for (var i = 0; i < TOTAL_WEEKS; i++) {
+  var weekNum = i - 26;
+  if (weekNum % 2 === 0) {
+    var gl = document.createElement('div');
+    gl.style.cssText = 'position:absolute;left:' + pct(i) + '%;top:0;bottom:0;width:1px;background:var(--divider);z-index:0;';
+    gatesArea.appendChild(gl);
   }
+}
+
+// Release line
+var rl = document.createElement('div');
+rl.className = 'release-line';
+rl.style.left = pct(RELEASE_INDEX) + '%';
+gatesArea.appendChild(rl);
+
+// Gate tabs
+gates.forEach(function(gate) {
+  var tab = document.createElement('div');
+  tab.className = 'gate-tab';
+  tab.id = gate.id + '-tab';
+  tab.style.left = pct(weekToIndex(gate.week)) + '%';
+  tab.innerHTML = '<div class="gate-tab-num">' + gate.number.replace('Gate ', 'G') + '</div><div class="gate-tab-q">' + gate.question + '</div>';
+  tab.addEventListener('click', function() { toggleGatePanel(gate.id); });
+  gatesArea.appendChild(tab);
+});
+
+gatesRow.appendChild(gatesArea);
+container.appendChild(gatesRow);
+
+// Gate panels (one per gate, inserted after gates track)
+gates.forEach(function(gate) {
+  container.appendChild(buildGatePanel(gate));
 });
 </script>
 
