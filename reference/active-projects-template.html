@@ -18,10 +18,6 @@
     --fog: #B0A9BE;
     --teal: #5BC0BE;
     --border: #2A2A2A;
-    --muted: #847D96;
-    --fog-dim: #847D96;
-    --white: #FCFDF8;
-
     --gold: #E8C547;
   }
   body { background: var(--bg); color: var(--off-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
@@ -119,63 +115,10 @@
     .item { grid-template-columns: auto 1fr; }
     .item-meta { grid-column: 1 / -1; text-align: left; }
   }
-nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 9999; }
-nav .logo { text-decoration: none; margin-right: 24px; display: flex; align-items: center; gap: 6px; }
-nav .logo .l1 { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chartreuse); }
-nav .logo .l2 { font-size: 10px; font-weight: 500; color: var(--muted); }
-nav .logo .l3 { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-nav .nav-links { display: flex; align-items: center; gap: 2px; }
-nav .nav-links a { font-size: 11px; font-weight: 500; color: var(--fog-dim); text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; }
-nav .nav-links a:hover { color: var(--white); }
-.hero .sub-title .sep { color: var(--fog-dim); }
-@media (max-width: 800px) {
-  .c { padding: 0 16px; }
-  .phase-grid { grid-template-columns: 1fr; }
-  .phase-header { display: none; }
-  .phase-cell.phase-name { background: var(--card); padding: 12px 16px; font-size: 16px; }
-  .phase-cell.trigger-col { border-left: 3px solid var(--fog-dim); }
-  .phase-cell.ops-col { border-left: 3px solid var(--chartreuse); }
-  .phase-cell.leads-col { border-left: 3px solid var(--teal); }
-  .mtg-grid { grid-template-columns: 1fr; }
-  .line-grid { grid-template-columns: 1fr; }
-  .verb-row { flex-direction: column; }
-  .verb-label { min-width: auto; }
-}
-
-  /* NAV */
-  nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 9999; }
-  nav .logo { text-decoration: none; margin-right: 24px; display: flex; align-items: center; gap: 6px; }
-  nav .logo .l1 { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chartreuse); }
-  nav .logo .l2 { font-size: 10px; font-weight: 500; color: var(--muted); }
-  nav .logo .l3 { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  nav .nav-links { display: flex; align-items: center; gap: 2px; }
-  nav .nav-links a { font-size: 11px; font-weight: 500; color: var(--fog-dim); text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; }
-  nav .nav-links a:hover { color: var(--white); }
-  nav .nav-links a.active { color: var(--white); border-bottom-color: var(--chartreuse); }
-  .sndd { position: relative; }
-  .sndd-b { font-size: 11px; font-weight: 500; color: var(--fog-dim); cursor: pointer; padding: 6px 10px; border-bottom: 2px solid transparent; display: inline-block; }
-  .sndd-b:hover, .sndd-b.active { color: var(--white); border-bottom-color: var(--chartreuse); }
-  .sndd-m { display: none; position: absolute; top: 100%; right: 0; background: var(--card); border: 1px solid var(--border); min-width: 220px; padding: 8px 0; z-index: 10000; }
-  .sndd:hover .sndd-m { display: block; }
-  .sndd-m a { display: block; padding: 6px 16px; font-size: 12px; color: var(--fog); text-decoration: none; }
-  .sndd-m a:hover { background: var(--bg); color: var(--white); }
-  .sep-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 8px 16px 4px; }
-  .sep { border-top: 1px solid var(--border); margin: 6px 0; }
-
 </style>
 </head>
 <body>
-<nav>
-<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
-<div class="nav-links">
-<a href="../index.html">Home</a>
-<a href="../orbit.html">Orbit</a>
-<a href="../visibility.html">Visibility</a>
-<a href="../insights/index.html">Insights</a>
-<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="../reference/handoff-map.html">Handoff Map</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><a href="framework-reference.html">Framework Reference</a><a href="active-projects-template.html">Active Projects Template</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
-</div>
-</nav>
-<div class="container" style="padding-top:80px;">
+<div class="container">
 
   <!-- ==================== HEADER ==================== -->
   <div class="doc-header">
