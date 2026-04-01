@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Projects — Campaign Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0F0E0E;
+    --card: #1A1A1A;
+    --card-hover: #222222;
+    --off-white: #FCFDF8;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --slate: #3E3F41;
+    --fog: #B0A9BE;
+    --teal: #5BC0BE;
+    --border: #2A2A2A;
+    --muted: #847D96;
+    --fog-dim: #847D96;
+    --white: #FCFDF8;
+
+    --gold: #E8C547;
+  }
+  body { background: var(--bg); color: var(--off-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* HEADER */
+  .doc-header { border-bottom: 3px solid var(--chartreuse); padding-bottom: 24px; margin-bottom: 32px; }
+  .doc-type { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--chartreuse); text-transform: uppercase; margin-bottom: 8px; }
+  .doc-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; line-height: 1.1; }
+  .doc-meta { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+  .meta-item { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--fog); }
+  .meta-label { color: var(--slate); }
+  .mode-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; padding: 2px 10px; letter-spacing: 1px; }
+  .mode-badge.recap { background: var(--flame); color: var(--off-white); }
+  .mode-badge.brief { background: var(--chartreuse); color: var(--bg); }
+
+  /* INTRO */
+  .intro { background: var(--card); border-left: 3px solid var(--chartreuse); padding: 20px 24px; margin-bottom: 32px; font-size: 14px; color: var(--fog); line-height: 1.7; }
+  .intro strong { color: var(--off-white); }
+
+  /* SECTION */
+  .section-header { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 48px; margin-bottom: 20px; }
+
+  /* STATS BAR */
+  .stats-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); margin-bottom: 32px; }
+  .stat { background: var(--card); padding: 16px 20px; text-align: center; }
+  .stat-number { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); }
+
+  /* ARTIST CARDS */
+  .artist-card { background: var(--card); border: 1px solid var(--border); margin-bottom: 24px; overflow: hidden; }
+  .artist-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .artist-header:hover { background: var(--card-hover); }
+  .artist-name { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; }
+  .artist-badges { display: flex; gap: 8px; align-items: center; }
+  .badge { font-family: 'DM Mono', monospace; font-size: 11px; padding: 2px 8px; letter-spacing: 0.5px; }
+  .badge.decision { background: var(--chartreuse); color: var(--bg); }
+  .badge.action { background: var(--teal); color: var(--bg); }
+  .badge.escalation { background: var(--flame); color: var(--off-white); }
+  .badge.carry { background: var(--fog); color: var(--bg); }
+  .badge.route { background: var(--gold); color: var(--bg); }
+
+  .phase-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--fog); border: 1px solid var(--slate); padding: 2px 8px; }
+  .gate-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--flame); border: 1px solid rgba(255,74,35,0.4); padding: 2px 8px; letter-spacing: 0.5px; }
+
+  .artist-body { padding: 20px 24px; }
+
+  /* ITEM ROWS */
+  .item-group { margin-bottom: 20px; }
+  .item-group-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--fog); margin-bottom: 8px; }
+  .item { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .item:last-child { border-bottom: none; }
+  .item-type { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 2px 6px; white-space: nowrap; margin-top: 2px; }
+  .item-type.decision { background: rgba(205,248,81,0.15); color: var(--chartreuse); }
+  .item-type.action { background: rgba(91,192,190,0.15); color: var(--teal); }
+  .item-type.escalation { background: rgba(255,74,35,0.15); color: var(--flame); }
+  .item-type.carry { background: rgba(176,169,190,0.15); color: var(--fog); }
+  .item-type.route { background: rgba(232,197,71,0.15); color: var(--gold); }
+  .item-type.dep { background: rgba(255,74,35,0.08); color: var(--flame); border: 1px solid rgba(255,74,35,0.2); }
+  .item-text { font-size: 14px; color: var(--off-white); line-height: 1.5; }
+  .item-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--fog); text-align: right; white-space: nowrap; }
+  .owner { color: var(--teal); }
+  .urgency-now { color: var(--flame); font-weight: 600; }
+  .urgency-week { color: var(--chartreuse); }
+  .empty { color: var(--slate); font-size: 13px; font-style: italic; padding: 4px 0; }
+
+  /* STATUS UPDATE (brief mode) */
+  .status-update { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .status-indicator { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 2px 6px; white-space: nowrap; margin-top: 2px; }
+  .status-indicator.done { background: rgba(205,248,81,0.15); color: var(--chartreuse); }
+  .status-indicator.in-progress { background: rgba(91,192,190,0.15); color: var(--teal); }
+  .status-indicator.blocked { background: rgba(255,74,35,0.15); color: var(--flame); }
+  .new-info { background: rgba(205,248,81,0.03); border-left: 2px solid var(--chartreuse); padding: 12px 16px; margin: 12px 0; font-size: 13px; color: var(--off-white); }
+  .new-info-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--chartreuse); margin-bottom: 4px; }
+
+  /* SYNTHESIS */
+  .synthesis-block { background: var(--card); border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; }
+  .synthesis-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; cursor: pointer; border-left: 3px solid var(--chartreuse); }
+  .synthesis-header:hover { background: var(--card-hover); }
+  .synthesis-header.chartreuse { border-left-color: var(--chartreuse); }
+  .synthesis-header.teal { border-left-color: var(--teal); }
+  .synthesis-header.flame { border-left-color: var(--flame); }
+  .synthesis-header.fog { border-left-color: var(--fog); }
+  .synthesis-header.gold { border-left-color: var(--gold); }
+  .synthesis-title { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+  .synthesis-count { font-family: 'DM Mono', monospace; font-size: 12px; }
+  .synthesis-body { padding: 0 24px 20px 24px; border-top: 1px solid var(--border); }
+
+  .foot { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--slate); display: flex; justify-content: space-between; }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(3, 1fr); }
+    .doc-meta { flex-direction: column; gap: 8px; }
+    .artist-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .item { grid-template-columns: auto 1fr; }
+    .item-meta { grid-column: 1 / -1; text-align: left; }
+  }
+nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 9999; }
+nav .logo { text-decoration: none; margin-right: 24px; display: flex; align-items: center; gap: 6px; }
+nav .logo .l1 { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chartreuse); }
+nav .logo .l2 { font-size: 10px; font-weight: 500; color: var(--muted); }
+nav .logo .l3 { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+nav .nav-links { display: flex; align-items: center; gap: 2px; }
+nav .nav-links a { font-size: 11px; font-weight: 500; color: var(--fog-dim); text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; }
+nav .nav-links a:hover { color: var(--white); }
+.hero .sub-title .sep { color: var(--fog-dim); }
+@media (max-width: 800px) {
+  .c { padding: 0 16px; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .phase-header { display: none; }
+  .phase-cell.phase-name { background: var(--card); padding: 12px 16px; font-size: 16px; }
+  .phase-cell.trigger-col { border-left: 3px solid var(--fog-dim); }
+  .phase-cell.ops-col { border-left: 3px solid var(--chartreuse); }
+  .phase-cell.leads-col { border-left: 3px solid var(--teal); }
+  .mtg-grid { grid-template-columns: 1fr; }
+  .line-grid { grid-template-columns: 1fr; }
+  .verb-row { flex-direction: column; }
+  .verb-label { min-width: auto; }
+}
+
+  /* NAV */
+  nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 9999; }
+  nav .logo { text-decoration: none; margin-right: 24px; display: flex; align-items: center; gap: 6px; }
+  nav .logo .l1 { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chartreuse); }
+  nav .logo .l2 { font-size: 10px; font-weight: 500; color: var(--muted); }
+  nav .logo .l3 { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  nav .nav-links { display: flex; align-items: center; gap: 2px; }
+  nav .nav-links a { font-size: 11px; font-weight: 500; color: var(--fog-dim); text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; }
+  nav .nav-links a:hover { color: var(--white); }
+  nav .nav-links a.active { color: var(--white); border-bottom-color: var(--chartreuse); }
+  .sndd { position: relative; }
+  .sndd-b { font-size: 11px; font-weight: 500; color: var(--fog-dim); cursor: pointer; padding: 6px 10px; border-bottom: 2px solid transparent; display: inline-block; }
+  .sndd-b:hover, .sndd-b.active { color: var(--white); border-bottom-color: var(--chartreuse); }
+  .sndd-m { display: none; position: absolute; top: 100%; right: 0; background: var(--card); border: 1px solid var(--border); min-width: 220px; padding: 8px 0; z-index: 10000; }
+  .sndd:hover .sndd-m { display: block; }
+  .sndd-m a { display: block; padding: 6px 16px; font-size: 12px; color: var(--fog); text-decoration: none; }
+  .sndd-m a:hover { background: var(--bg); color: var(--white); }
+  .sep-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 8px 16px 4px; }
+  .sep { border-top: 1px solid var(--border); margin: 6px 0; }
+
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<a href="../insights/index.html">Insights</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="../reference/handoff-map.html">Handoff Map</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><a href="framework-reference.html">Framework Reference</a><a href="active-projects-template.html">Active Projects Template</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+<div class="container" style="padding-top:80px;">
+
+  <!-- ==================== HEADER ==================== -->
+  <div class="doc-header">
+    <div class="doc-type">Campaign Operations</div>
+    <div class="doc-title">ACTIVE PROJECTS</div>
+    <div class="doc-meta">
+      <span class="mode-badge recap">RECAP</span>
+      <!-- <span class="mode-badge brief">PRE-MEETING BRIEF</span> -->
+      <span class="meta-item"><span class="meta-label">Meeting:</span> Wed April 2, 2026</span>
+      <span class="meta-item"><span class="meta-label">Distributed:</span> Same day</span>
+      <span class="meta-item"><span class="meta-label">Next Meeting:</span> Wed April 9, 2026</span>
+    </div>
+  </div>
+
+  <!-- ==================== INTRO ==================== -->
+  <div class="intro">
+    Every decision in this room affects teams that weren't in it. This document captures what was decided, what needs to happen, and what needs to cross department boundaries — so that the work discussed today becomes the work executed this week.
+    <!-- BRIEF MODE: -->
+    <!-- Where each artist stands against the next gate in their campaign, what's blocking progress, and what the room needs to resolve today. -->
+  </div>
+
+  <!-- ==================== ON THE AGENDA ==================== -->
+  <div style="margin-bottom: 24px;">
+    <div style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--fog); margin-bottom: 10px;">ON THE AGENDA</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <!-- Replace with actual artist names -->
+      <span style="font-size: 13px; color: var(--off-white); background: var(--card); border: 1px solid var(--border); padding: 4px 12px;">[Artist]</span>
+      <span style="font-size: 13px; color: var(--off-white); background: var(--card); border: 1px solid var(--border); padding: 4px 12px;">[Artist]</span>
+      <span style="font-size: 13px; color: var(--off-white); background: var(--card); border: 1px solid var(--border); padding: 4px 12px;">[Artist]</span>
+    </div>
+  </div>
+
+  <!-- ==================== STATS BAR ==================== -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-number" style="color: var(--chartreuse);">—</div>
+      <div class="stat-label">Decisions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" style="color: var(--teal);">—</div>
+      <div class="stat-label">Actions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" style="color: var(--flame);">—</div>
+      <div class="stat-label">Blocked</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" style="color: var(--gold);">—</div>
+      <div class="stat-label">Route to Dept</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" style="color: var(--fog);">—</div>
+      <div class="stat-label">Carry-Fwd</div>
+    </div>
+  </div>
+
+  <!-- ==================== ARTIST SECTION ==================== -->
+  <div class="section-header">BY ARTIST</div>
+
+  <!-- ===== ARTIST CARD TEMPLATE ===== -->
+  <div class="artist-card">
+    <div class="artist-header">
+      <div>
+        <span class="artist-name">[ARTIST NAME]</span>
+        <span class="phase-tag" style="margin-left: 12px;">Pre-Release</span>
+        <span class="gate-tag" style="margin-left: 8px;">→ GATE 2</span>
+      </div>
+      <div class="artist-badges">
+        <span class="badge decision">0D</span>
+        <span class="badge action">0A</span>
+        <span class="badge route">0R</span>
+      </div>
+    </div>
+    <div class="artist-body">
+
+      <!-- DECISIONS -->
+      <div class="item-group">
+        <div class="item-group-label">Decisions</div>
+        <div class="empty">None captured.</div>
+        <!--
+        <div class="item">
+          <span class="item-type decision">DECIDED</span>
+          <span class="item-text">Single release date confirmed for April 18</span>
+          <span class="item-meta"><span class="owner">Campaign Leads</span></span>
+        </div>
+        -->
+      </div>
+
+      <!-- ACTION ITEMS -->
+      <div class="item-group">
+        <div class="item-group-label">Action Items</div>
+        <div class="empty">None captured.</div>
+        <!--
+        <div class="item">
+          <span class="item-type action">ACTION</span>
+          <span class="item-text">Submit revised creative brief incorporating new visual direction</span>
+          <span class="item-meta">
+            <span class="owner">Creative</span><br>
+            <span class="urgency-week">This Week</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="item-type action">ACTION</span>
+          <span class="item-text">Confirm radio add date with promotion team</span>
+          <span class="item-meta">
+            <span class="owner">[UNCLAIMED]</span><br>
+            <span class="urgency-now">ASAP</span>
+          </span>
+        </div>
+        -->
+      </div>
+
+      <!-- BLOCKED / WAITING ON -->
+      <div class="item-group">
+        <div class="item-group-label">Blocked / Waiting On</div>
+        <div class="empty">Nothing blocked.</div>
+        <!--
+        <div class="item">
+          <span class="item-type dep">BLOCKED</span>
+          <span class="item-text">Budget approval stalled — needs leadership sign-off before execution can begin</span>
+          <span class="item-meta">
+            <span class="urgency-now">ESCALATE</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="item-type dep">WAITING</span>
+          <span class="item-text">Final masters — A&R Admin needs delivery before clearance can proceed</span>
+          <span class="item-meta"><span class="owner">A&R → A&R Admin</span></span>
+        </div>
+        -->
+      </div>
+
+      <!-- ROUTE TO DEPARTMENTS -->
+      <div class="item-group">
+        <div class="item-group-label">Route to Departments</div>
+        <div class="empty">Nothing to route.</div>
+        <!--
+        <div class="item">
+          <span class="item-type route">ROUTE</span>
+          <span class="item-text">Tour dates confirmed — impacts creative asset deadline and DSP pitch window</span>
+          <span class="item-meta"><span style="color: var(--gold);">→ Creative, Commercial Partnerships</span></span>
+        </div>
+        <div class="item">
+          <span class="item-type route">ROUTE</span>
+          <span class="item-text">Feature artist locked in — clearance needed before any public announcement</span>
+          <span class="item-meta"><span style="color: var(--gold);">→ Business &amp; Legal</span></span>
+        </div>
+        -->
+      </div>
+
+      <!-- CARRY-FORWARD -->
+      <div class="item-group">
+        <div class="item-group-label">Carry-Forward</div>
+        <div class="empty">None.</div>
+      </div>
+
+      <!-- ===== BRIEF MODE (swap when cycling recap → brief) ===== -->
+      <!--
+      <div class="item-group">
+        <div class="item-group-label">Gate Status</div>
+        <div style="background: rgba(255,74,35,0.05); border: 1px solid rgba(255,74,35,0.2); padding: 12px 16px; font-size: 13px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--flame);">GATE 2 — CAN WE EXECUTE?</span>
+          <div style="margin-top: 8px; color: var(--off-white); line-height: 1.6;">
+            <span style="color: var(--chartreuse);">✓</span> Timeline locked<br>
+            <span style="color: var(--flame);">✗</span> Budget submitted — waiting on Finance<br>
+            <span style="color: var(--flame);">✗</span> Creative direction — meeting scheduled Thursday<br>
+            <span style="color: var(--chartreuse);">✓</span> Internal kickoff held<br>
+            <span style="color: var(--teal);">○</span> All departments briefed — pending recap distribution
+          </div>
+        </div>
+      </div>
+      <div class="item-group">
+        <div class="item-group-label">Status Updates (From Last Week)</div>
+        <div class="status-update">
+          <span class="status-indicator done">DONE</span>
+          <span class="item-text">Creative brief submitted with new visual direction</span>
+          <span class="item-meta"><span class="owner">Creative</span></span>
+        </div>
+        <div class="status-update">
+          <span class="status-indicator in-progress">IN PROG</span>
+          <span class="item-text">Radio add date — waiting on promotion confirmation</span>
+          <span class="item-meta"><span class="owner">Radio</span></span>
+        </div>
+        <div class="status-update">
+          <span class="status-indicator blocked">BLOCKED</span>
+          <span class="item-text">Budget approval stalled — needs leadership sign-off</span>
+          <span class="item-meta"><span class="urgency-now">ESCALATE</span></span>
+        </div>
+      </div>
+      <div class="item-group">
+        <div class="item-group-label">New Since Last Meeting</div>
+        <div class="new-info">
+          <div class="new-info-label">NEW</div>
+          Festival slot confirmed. Impacts creative timeline — assets needed by April 25.
+        </div>
+      </div>
+      -->
+
+    </div>
+  </div>
+
+  <!-- ===== DUPLICATE ARTIST CARDS AS NEEDED ===== -->
+
+
+  <!-- ==================== SYNTHESIS ==================== -->
+  <div class="section-header">ALL ITEMS</div>
+
+  <div class="synthesis-block">
+    <div class="synthesis-header chartreuse">
+      <span class="synthesis-title">All Decisions</span>
+      <span class="synthesis-count" style="color: var(--chartreuse);">—</span>
+    </div>
+  </div>
+
+  <div class="synthesis-block">
+    <div class="synthesis-header teal">
+      <span class="synthesis-title">All Action Items</span>
+      <span class="synthesis-count" style="color: var(--teal);">—</span>
+    </div>
+  </div>
+
+  <div class="synthesis-block">
+    <div class="synthesis-header flame">
+      <span class="synthesis-title">Blocked / Escalations</span>
+      <span class="synthesis-count" style="color: var(--flame);">—</span>
+    </div>
+  </div>
+
+  <div class="synthesis-block">
+    <div class="synthesis-header gold">
+      <span class="synthesis-title">Route to Departments</span>
+      <span class="synthesis-count" style="color: var(--gold);">—</span>
+    </div>
+    <!-- <div class="synthesis-body">
+      <div style="display:grid; grid-template-columns: auto 1fr auto; gap:12px; padding:10px 0; border-bottom: 1px solid var(--border);">
+        <span style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gold);">FROM: A&R</span>
+        <span class="item-text">Feature artist confirmed — needs clearance before announcement</span>
+        <span style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gold);">→ Business &amp; Legal</span>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="synthesis-block">
+    <div class="synthesis-header fog">
+      <span class="synthesis-title">Carry-Forward to Next Meeting</span>
+      <span class="synthesis-count" style="color: var(--fog);">—</span>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <div class="foot">
+    <span>Campaign Operations · RCA Records</span>
+    <span>Feedback? Reply directly or flag in the Active Projects channel.</span>
+  </div>
+
+</div>
+</body>
+</html>
