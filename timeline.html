@@ -269,7 +269,7 @@
     z-index: 0;
   }
 
-  /* ═══════ GATE PANELS (VERTICAL, INLINE) ═══════ */
+  /* ═══════ GATE PANELS (FLOATING POPOVER) ═══════ */
   .gates-track {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -330,36 +330,25 @@
     margin-top: 2px;
   }
 
-  .gate-panel-container {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.35s ease;
-    background: rgba(255,74,35,0.03);
-    border-bottom: 1px solid rgba(255,74,35,0.15);
-  }
-  .gate-panel-container.open { max-height: 600px; }
-  .gate-panel-spacer {
-    border-right: 1px solid var(--divider);
-    position: sticky;
-    left: 0;
-    background: rgba(255,74,35,0.03);
-    z-index: 2;
-  }
-  .gate-panel-content {
-    position: relative;
-    padding: 16px 0;
-  }
-  .gate-panel-card {
+  .gate-popover {
+    display: none;
     position: absolute;
-    width: 280px;
+    bottom: calc(100% + 8px);
+    width: 300px;
     background: var(--card);
-    border: 1px solid rgba(255,74,35,0.3);
-    border-top: 2px solid var(--flame);
+    border: 1px solid rgba(255,74,35,0.4);
+    border-top: 3px solid var(--flame);
     padding: 16px;
-    z-index: 4;
+    z-index: 50;
+    max-height: 420px;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   }
+  .gate-popover.open { display: block; }
+  .gate-popover.anchor-left { left: 0; }
+  .gate-popover.anchor-right { right: 0; }
+  .gate-popover.anchor-center { left: 50%; transform: translateX(-50%); }
+
   .gpc-title {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -898,8 +887,6 @@ var gatePositions = [
   { week: -1, label: "GATE 4" }
 ];
 
-var activeGateId = null;
-
 function buildDeptRow(dept) {
   var row = document.createElement("div");
   row.className = "timeline-row";
@@ -977,49 +964,48 @@ function buildDeptRow(dept) {
 }
 
 function toggleGatePanel(gateId) {
-  var panels = document.querySelectorAll('.gate-panel-container');
-  var tabs = document.querySelectorAll('.gate-tab');
+  var allPopovers = document.querySelectorAll('.gate-popover');
+  var allTabs = document.querySelectorAll('.gate-tab');
+  var thisPopover = document.getElementById(gateId + '-popover');
+  var thisTab = document.getElementById(gateId + '-tab');
   
-  if (activeGateId === gateId) {
-    // Close
-    panels.forEach(function(p) { p.classList.remove('open'); });
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    activeGateId = null;
+  if (thisPopover.classList.contains('open')) {
+    thisPopover.classList.remove('open');
+    thisTab.classList.remove('active');
   } else {
-    // Open this one, close others
-    panels.forEach(function(p) { p.classList.remove('open'); });
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    document.getElementById(gateId + '-panel').classList.add('open');
-    document.getElementById(gateId + '-tab').classList.add('active');
-    activeGateId = gateId;
+    allPopovers.forEach(function(p) { p.classList.remove('open'); });
+    allTabs.forEach(function(t) { t.classList.remove('active'); });
+    thisPopover.classList.add('open');
+    thisTab.classList.add('active');
   }
 }
 
-function buildGatePanel(gate) {
-  // The expandable panel row
-  var panelRow = document.createElement('div');
-  panelRow.className = 'gate-panel-container';
-  panelRow.id = gate.id + '-panel';
+// Close popovers on click outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.gate-tab')) {
+    document.querySelectorAll('.gate-popover').forEach(function(p) { p.classList.remove('open'); });
+    document.querySelectorAll('.gate-tab').forEach(function(t) { t.classList.remove('active'); });
+  }
+});
+
+function buildGatePopover(gate, gateIndex, totalGates) {
+  var popover = document.createElement('div');
+  popover.className = 'gate-popover';
+  popover.id = gate.id + '-popover';
   
-  var spacer = document.createElement('div');
-  spacer.className = 'gate-panel-spacer';
-  panelRow.appendChild(spacer);
-  
-  var content = document.createElement('div');
-  content.className = 'gate-panel-content';
-  
-  // Position the card at the gate's x position
-  var card = document.createElement('div');
-  card.className = 'gate-panel-card';
-  var leftPct = pct(weekToIndex(gate.week));
-  // Shift left if too far right
-  if (leftPct > 60) {
-    card.style.right = (100 - leftPct) + '%';
+  // Anchor direction based on position
+  if (gateIndex === 0) {
+    popover.classList.add('anchor-left');
+  } else if (gateIndex === totalGates - 1) {
+    popover.classList.add('anchor-right');
   } else {
-    card.style.left = leftPct + '%';
+    popover.classList.add('anchor-center');
   }
   
-  card.innerHTML = '<div class="gpc-title">' + gate.number + '</div>' +
+  // Prevent click inside from closing
+  popover.addEventListener('click', function(e) { e.stopPropagation(); });
+  
+  popover.innerHTML = '<div class="gpc-title">' + gate.number + '</div>' +
     '<div class="gpc-question">' + gate.question + '</div>' +
     '<div class="gpc-desc">' + gate.desc + '</div>';
   
@@ -1030,12 +1016,13 @@ function buildGatePanel(gate) {
     var check = document.createElement('div');
     check.className = 'prereq-check' + (item.done ? ' checked' : '');
     check.textContent = item.done ? '\u2713' : '';
-    check.addEventListener('click', function() {
+    check.addEventListener('click', function(e) {
+      e.stopPropagation();
       item.done = !item.done;
       this.classList.toggle('checked');
       this.textContent = item.done ? '\u2713' : '';
       var done = gate.items.filter(function(it) { return it.done; }).length;
-      document.getElementById(gate.id + '-count').textContent = done + '/' + gate.items.length;
+      document.getElementById(gate.id + '-count').textContent = done + '/' + gate.items.length + ' complete';
     });
     
     var textDiv = document.createElement('div');
@@ -1043,7 +1030,7 @@ function buildGatePanel(gate) {
     
     prereq.appendChild(check);
     prereq.appendChild(textDiv);
-    card.appendChild(prereq);
+    popover.appendChild(prereq);
   });
   
   var countEl = document.createElement('div');
@@ -1051,20 +1038,17 @@ function buildGatePanel(gate) {
   countEl.id = gate.id + '-count';
   var doneCount = gate.items.filter(function(it) { return it.done; }).length;
   countEl.textContent = doneCount + '/' + gate.items.length + ' complete';
-  card.appendChild(countEl);
+  popover.appendChild(countEl);
   
   var principle = document.createElement('div');
   principle.className = 'gpc-principle';
   principle.innerHTML = '<strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate.';
-  card.appendChild(principle);
+  popover.appendChild(principle);
   
-  content.appendChild(card);
-  panelRow.appendChild(content);
-  
-  return panelRow;
+  return popover;
 }
 
-// Build: all clusters (no gates between), then gates track at bottom
+// Build: all department clusters
 clusters.forEach(function(cluster) {
   var clusterEl = document.createElement("div");
   clusterEl.className = "cluster-label";
@@ -1088,7 +1072,7 @@ gatesRow.appendChild(gatesLabel);
 var gatesArea = document.createElement('div');
 gatesArea.className = 'gates-track-area';
 
-// Add week grid lines
+// Grid lines
 for (var i = 0; i < TOTAL_WEEKS; i++) {
   var weekNum = i - 26;
   if (weekNum % 2 === 0) {
@@ -1104,24 +1088,23 @@ rl.className = 'release-line';
 rl.style.left = pct(RELEASE_INDEX) + '%';
 gatesArea.appendChild(rl);
 
-// Gate tabs
-gates.forEach(function(gate) {
+// Gate tabs with popovers inside
+gates.forEach(function(gate, idx) {
   var tab = document.createElement('div');
   tab.className = 'gate-tab';
   tab.id = gate.id + '-tab';
   tab.style.left = pct(weekToIndex(gate.week)) + '%';
   tab.innerHTML = '<div class="gate-tab-num">' + gate.number.replace('Gate ', 'G') + '</div><div class="gate-tab-q">' + gate.question + '</div>';
-  tab.addEventListener('click', function() { toggleGatePanel(gate.id); });
+  tab.addEventListener('click', function(e) { e.stopPropagation(); toggleGatePanel(gate.id); });
+  
+  // Attach popover inside the tab (so it floats above it)
+  tab.appendChild(buildGatePopover(gate, idx, gates.length));
+  
   gatesArea.appendChild(tab);
 });
 
 gatesRow.appendChild(gatesArea);
 container.appendChild(gatesRow);
-
-// Gate panels (one per gate, inserted after gates track)
-gates.forEach(function(gate) {
-  container.appendChild(buildGatePanel(gate));
-});
 </script>
 
 </body>
