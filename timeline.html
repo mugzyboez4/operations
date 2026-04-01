@@ -269,86 +269,71 @@
     z-index: 0;
   }
 
-  /* ═══════ GATE PANELS (FLOATING POPOVER) ═══════ */
-  .gates-track {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    border-bottom: 2px solid var(--flame);
-    position: relative;
-  }
-  .gates-track-label {
-    padding: 10px 16px 10px 0;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--flame);
-    display: flex;
-    align-items: center;
-    border-right: 1px solid var(--divider);
-    position: sticky;
-    left: 0;
-    background: var(--bg);
-    z-index: 2;
-  }
-  .gates-track-area {
-    position: relative;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-  .gate-tab {
+  /* ═══════ GATE MARKERS (CLICKABLE VERTICAL LINES) ═══════ */
+  .gate-marker {
     position: absolute;
-    top: 4px;
-    bottom: 4px;
-    width: 56px;
+    top: 0;
+    bottom: 0;
+    width: 16px;
     transform: translateX(-50%);
-    background: rgba(255,74,35,0.15);
-    border: 1px solid rgba(255,74,35,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
     cursor: pointer;
-    transition: background 0.15s;
     z-index: 3;
   }
-  .gate-tab:hover { background: rgba(255,74,35,0.25); }
-  .gate-tab.active { background: rgba(255,74,35,0.3); border-color: var(--flame); }
-  .gate-tab-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--flame);
-    letter-spacing: 1px;
+  .gate-marker::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--flame);
+    opacity: 0.4;
+    transition: opacity 0.15s;
   }
-  .gate-tab-q {
-    font-size: 7px;
-    color: var(--fog);
-    text-align: center;
-    line-height: 1.2;
-    margin-top: 2px;
+  .gate-marker:hover::before { opacity: 0.8; }
+  .gate-marker::after {
+    content: attr(data-gate);
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    font-family: 'DM Mono', monospace;
+    color: var(--flame);
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
   }
 
+  /* GATE POPOVER (FIXED, FOLLOWS CLICK POSITION) */
   .gate-popover {
     display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
+    position: fixed;
     width: 300px;
     background: var(--card);
     border: 1px solid rgba(255,74,35,0.4);
     border-top: 3px solid var(--flame);
     padding: 16px;
-    z-index: 50;
+    z-index: 100;
     max-height: 420px;
     overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
   }
   .gate-popover.open { display: block; }
-  .gate-popover.anchor-left { left: 0; }
-  .gate-popover.anchor-right { right: 0; }
-  .gate-popover.anchor-center { left: 50%; transform: translateX(-50%); }
 
+  .gpc-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .gpc-close:hover { color: var(--off-white); }
   .gpc-title {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -919,6 +904,12 @@ function buildDeptRow(dept) {
     gm.className = "gate-marker";
     gm.style.left = pct(weekToIndex(g.week)) + "%";
     gm.setAttribute("data-gate", g.label);
+    gm.setAttribute("data-gate-id", g.label.toLowerCase().replace(' ', ''));
+    gm.addEventListener("click", function(e) {
+      e.stopPropagation();
+      var gateId = this.getAttribute("data-gate-id");
+      openGatePopover(gateId, e.clientX, e.clientY);
+    });
     barsEl.appendChild(gm);
   });
 
@@ -963,49 +954,17 @@ function buildDeptRow(dept) {
   return row;
 }
 
-function toggleGatePanel(gateId) {
-  var allPopovers = document.querySelectorAll('.gate-popover');
-  var allTabs = document.querySelectorAll('.gate-tab');
-  var thisPopover = document.getElementById(gateId + '-popover');
-  var thisTab = document.getElementById(gateId + '-tab');
-  
-  if (thisPopover.classList.contains('open')) {
-    thisPopover.classList.remove('open');
-    thisTab.classList.remove('active');
-  } else {
-    allPopovers.forEach(function(p) { p.classList.remove('open'); });
-    allTabs.forEach(function(t) { t.classList.remove('active'); });
-    thisPopover.classList.add('open');
-    thisTab.classList.add('active');
-  }
-}
+// ═══════ GATE POPOVER SYSTEM ═══════
 
-// Close popovers on click outside
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.gate-tab')) {
-    document.querySelectorAll('.gate-popover').forEach(function(p) { p.classList.remove('open'); });
-    document.querySelectorAll('.gate-tab').forEach(function(t) { t.classList.remove('active'); });
-  }
-});
-
-function buildGatePopover(gate, gateIndex, totalGates) {
+// Build popovers (one per gate, appended to body, hidden)
+gates.forEach(function(gate) {
   var popover = document.createElement('div');
   popover.className = 'gate-popover';
   popover.id = gate.id + '-popover';
-  
-  // Anchor direction based on position
-  if (gateIndex === 0) {
-    popover.classList.add('anchor-left');
-  } else if (gateIndex === totalGates - 1) {
-    popover.classList.add('anchor-right');
-  } else {
-    popover.classList.add('anchor-center');
-  }
-  
-  // Prevent click inside from closing
   popover.addEventListener('click', function(e) { e.stopPropagation(); });
   
-  popover.innerHTML = '<div class="gpc-title">' + gate.number + '</div>' +
+  popover.innerHTML = '<button class="gpc-close" onclick="closeGatePopovers()">&times;</button>' +
+    '<div class="gpc-title">' + gate.number + '</div>' +
     '<div class="gpc-question">' + gate.question + '</div>' +
     '<div class="gpc-desc">' + gate.desc + '</div>';
   
@@ -1045,10 +1004,44 @@ function buildGatePopover(gate, gateIndex, totalGates) {
   principle.innerHTML = '<strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate.';
   popover.appendChild(principle);
   
-  return popover;
+  document.body.appendChild(popover);
+});
+
+function openGatePopover(gateId, x, y) {
+  closeGatePopovers();
+  var popover = document.getElementById(gateId + '-popover');
+  if (!popover) return;
+  
+  // Position at click, nudge to stay on screen
+  var popW = 300;
+  var popH = 420;
+  var left = x + 12;
+  var top = y - 20;
+  
+  if (left + popW > window.innerWidth - 20) {
+    left = x - popW - 12;
+  }
+  if (top + popH > window.innerHeight - 20) {
+    top = window.innerHeight - popH - 20;
+  }
+  if (top < 60) top = 60;
+  
+  popover.style.left = left + 'px';
+  popover.style.top = top + 'px';
+  popover.classList.add('open');
 }
 
-// Build: all department clusters
+function closeGatePopovers() {
+  document.querySelectorAll('.gate-popover').forEach(function(p) { p.classList.remove('open'); });
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.gate-popover') && !e.target.closest('.gate-marker')) {
+    closeGatePopovers();
+  }
+});
+
+// ═══════ BUILD TIMELINE ═══════
 clusters.forEach(function(cluster) {
   var clusterEl = document.createElement("div");
   clusterEl.className = "cluster-label";
@@ -1059,52 +1052,6 @@ clusters.forEach(function(cluster) {
     container.appendChild(buildDeptRow(dept));
   });
 });
-
-// Gates track row
-var gatesRow = document.createElement('div');
-gatesRow.className = 'gates-track';
-
-var gatesLabel = document.createElement('div');
-gatesLabel.className = 'gates-track-label';
-gatesLabel.textContent = 'Gates';
-gatesRow.appendChild(gatesLabel);
-
-var gatesArea = document.createElement('div');
-gatesArea.className = 'gates-track-area';
-
-// Grid lines
-for (var i = 0; i < TOTAL_WEEKS; i++) {
-  var weekNum = i - 26;
-  if (weekNum % 2 === 0) {
-    var gl = document.createElement('div');
-    gl.style.cssText = 'position:absolute;left:' + pct(i) + '%;top:0;bottom:0;width:1px;background:var(--divider);z-index:0;';
-    gatesArea.appendChild(gl);
-  }
-}
-
-// Release line
-var rl = document.createElement('div');
-rl.className = 'release-line';
-rl.style.left = pct(RELEASE_INDEX) + '%';
-gatesArea.appendChild(rl);
-
-// Gate tabs with popovers inside
-gates.forEach(function(gate, idx) {
-  var tab = document.createElement('div');
-  tab.className = 'gate-tab';
-  tab.id = gate.id + '-tab';
-  tab.style.left = pct(weekToIndex(gate.week)) + '%';
-  tab.innerHTML = '<div class="gate-tab-num">' + gate.number.replace('Gate ', 'G') + '</div><div class="gate-tab-q">' + gate.question + '</div>';
-  tab.addEventListener('click', function(e) { e.stopPropagation(); toggleGatePanel(gate.id); });
-  
-  // Attach popover inside the tab (so it floats above it)
-  tab.appendChild(buildGatePopover(gate, idx, gates.length));
-  
-  gatesArea.appendChild(tab);
-});
-
-gatesRow.appendChild(gatesArea);
-container.appendChild(gatesRow);
 </script>
 
 </body>
