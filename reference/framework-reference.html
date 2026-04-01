@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Why This Works — Campaign Operations Framework Reference</title>
+<title>Campaign Operations — Framework Reference</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg: #0F0E0E;
     --card: #1A1A1A;
+    --card-hover: #222222;
     --off-white: #FCFDF8;
     --chartreuse: #CDF851;
     --flame: #FF4A23;
@@ -18,60 +19,85 @@
     --teal: #5BC0BE;
     --border: #2A2A2A;
     --gold: #E8C547;
+    --muted: #847D96;
+    --fog-dim: #847D96;
+    --white: #FCFDF8;
   }
-  body { background: var(--bg); color: var(--off-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
-  .container { max-width: 900px; margin: 0 auto; }
+  body { background: var(--bg); color: var(--off-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
 
   /* HEADER */
-  .hdr { border-bottom: 3px solid var(--chartreuse); padding-bottom: 24px; margin-bottom: 32px; }
+  .hdr { border-bottom: 3px solid var(--chartreuse); padding-bottom: 24px; margin-bottom: 40px; }
   .hdr-type { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--chartreuse); text-transform: uppercase; margin-bottom: 8px; }
-  .hdr-title { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 2px; line-height: 1.1; margin-bottom: 4px; }
-  .hdr-sub { font-size: 14px; color: var(--fog); line-height: 1.5; margin-top: 12px; }
+  .hdr-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; line-height: 1.1; }
   .hdr-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--slate); margin-top: 12px; letter-spacing: 1px; }
 
-  /* WHY BLOCK */
-  .why { background: var(--card); border-left: 3px solid var(--chartreuse); padding: 24px 28px; margin-bottom: 40px; }
-  .why-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--chartreuse); text-transform: uppercase; margin-bottom: 10px; }
-  .why p { font-size: 15px; color: var(--off-white); line-height: 1.7; margin-bottom: 12px; }
-  .why p:last-child { margin-bottom: 0; }
-  .why em { color: var(--fog); font-style: normal; }
+  /* SECTION HEADERS */
+  .sec { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 56px; margin-bottom: 20px; }
+  .sec-sub { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-left: 12px; vertical-align: middle; }
 
-  /* SECTION */
-  .sec { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 48px; margin-bottom: 20px; }
+  /* WHAT THIS IS */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 24px; }
+  .what-cell { background: var(--card); padding: 24px; }
+  .what-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .what-text { font-size: 15px; line-height: 1.6; color: var(--off-white); }
+  .what-full { grid-column: 1 / -1; }
 
-  /* THEME CARDS */
-  .theme { background: var(--card); border: 1px solid var(--border); margin-bottom: 24px; overflow: hidden; }
-  .theme-hdr { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .theme-num { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; color: var(--chartreuse); margin-right: 16px; }
-  .theme-name { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; }
-  .theme-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 2px 8px; background: rgba(205,248,81,0.12); color: var(--chartreuse); }
-  .theme-body { padding: 20px 24px; }
-  .theme-desc { font-size: 13px; color: var(--fog); line-height: 1.6; margin-bottom: 16px; }
+  /* VERBS */
+  .verb-bar { display: flex; gap: 1px; background: var(--border); margin-bottom: 32px; }
+  .verb { flex: 1; background: var(--card); padding: 12px 8px; text-align: center; }
+  .verb-word { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: var(--off-white); letter-spacing: 1px; }
+  .verb-no { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--flame); margin-top: 4px; letter-spacing: 0.5px; }
 
-  .fw-row { display: grid; grid-template-columns: 140px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: start; }
-  .fw-row:last-child { border-bottom: none; }
-  .fw-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); letter-spacing: 0.5px; padding-top: 2px; }
-  .fw-text { font-size: 13px; color: var(--off-white); line-height: 1.5; }
-  .fw-text .src { color: var(--fog); font-size: 12px; }
-  .fw-text strong { color: var(--chartreuse); font-weight: 600; }
+  /* THEME INDEX */
+  .idx { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 40px; }
+  .idx-card { background: var(--card); padding: 20px 24px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
+  .idx-card:hover { background: var(--card-hover); }
+  .idx-card.active { border-left-color: var(--chartreuse); }
+  .idx-num { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; color: var(--slate); margin-bottom: 4px; }
+  .idx-name { font-size: 14px; font-weight: 600; color: var(--off-white); margin-bottom: 6px; }
+  .idx-desc { font-size: 12px; color: var(--fog); line-height: 1.4; }
 
-  /* WHAT WE BUILD */
-  .build { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 12px; }
-  .build-cell { background: var(--card); padding: 14px 16px; }
-  .build-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
-  .build-label.now { color: var(--chartreuse); }
-  .build-label.arch { color: var(--flame); }
-  .build-text { font-size: 12px; color: var(--fog); line-height: 1.5; }
+  /* THEME PANELS */
+  .theme-panel { display: none; }
+  .theme-panel.active { display: block; }
 
-  /* SUMMARY TABLE */
-  .sum-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 24px; }
-  .sum-cell { background: var(--card); padding: 16px 20px; }
-  .sum-cell.hd { background: #222; }
-  .sum-val { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: var(--chartreuse); margin-bottom: 4px; }
-  .sum-lbl { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); }
+  /* QUOTE BLOCK */
+  .quote { background: var(--card); border-left: 3px solid var(--teal); padding: 20px 24px; margin-bottom: 24px; }
+  .quote-text { font-size: 15px; color: var(--off-white); line-height: 1.6; font-style: italic; }
+  .quote-src { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 10px; letter-spacing: 0.5px; }
+
+  /* PROBLEM / FRAMEWORK / BUILD */
+  .pfb { margin-bottom: 24px; }
+  .pfb-row { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .pfb-row:last-child { border-bottom: none; }
+  .pfb-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding-top: 2px; }
+  .pfb-label.problem { color: var(--flame); }
+  .pfb-label.framework { color: var(--teal); }
+  .pfb-label.build { color: var(--chartreuse); }
+  .pfb-text { font-size: 14px; color: var(--off-white); line-height: 1.6; }
+  .pfb-text .cite { color: var(--muted); font-size: 12px; }
+
+  /* STAGE-GATE VISUAL */
+  .sg-visual { background: var(--card); padding: 24px; margin-bottom: 32px; overflow-x: auto; }
+  .sg-flow { display: flex; align-items: center; gap: 0; min-width: 700px; }
+  .sg-stage { flex: 1; text-align: center; padding: 14px 8px; }
+  .sg-stage-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--fog); margin-bottom: 6px; text-transform: uppercase; }
+  .sg-stage-name { font-size: 12px; color: var(--off-white); font-weight: 500; }
+  .sg-gate { width: 36px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .sg-gate-icon { width: 28px; height: 28px; border: 2px solid var(--flame); display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--flame); font-weight: 700; }
+  .sg-gate-q { font-family: 'DM Mono', monospace; font-size: 8px; color: var(--flame); letter-spacing: 0.5px; text-align: center; line-height: 1.2; white-space: nowrap; }
+
+  /* NOW / ARCHITECTURE SPLIT */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 16px; }
+  .split-cell { background: var(--card); padding: 16px 20px; }
+  .split-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .split-label.now { color: var(--chartreuse); }
+  .split-label.arch { color: var(--flame); }
+  .split-text { font-size: 13px; color: var(--fog); line-height: 1.5; }
 
   /* BOTTOM LINE */
-  .bl { background: var(--card); border-left: 3px solid var(--flame); padding: 24px 28px; margin-top: 40px; }
+  .bl { background: var(--card); border-left: 3px solid var(--flame); padding: 24px 28px; margin-top: 48px; }
   .bl-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--flame); text-transform: uppercase; margin-bottom: 10px; }
   .bl p { font-size: 15px; color: var(--off-white); line-height: 1.7; margin-bottom: 12px; }
   .bl p:last-child { margin-bottom: 0; }
@@ -79,184 +105,297 @@
   .foot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--slate); display: flex; justify-content: space-between; }
 
   @media (max-width: 600px) {
-    .build { grid-template-columns: 1fr; }
-    .sum-grid { grid-template-columns: 1fr; }
-    .fw-row { grid-template-columns: 1fr; }
-    .theme-hdr { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .what-grid, .idx, .split { grid-template-columns: 1fr; }
+    .pfb-row { grid-template-columns: 1fr; }
+    .verb-bar { flex-wrap: wrap; }
+    .sg-flow { min-width: 0; flex-wrap: wrap; }
   }
+
+  /* NAV */
+  nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 9999; }
+  nav .logo { text-decoration: none; margin-right: 24px; display: flex; align-items: center; gap: 6px; }
+  nav .logo .l1 { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chartreuse); }
+  nav .logo .l2 { font-size: 10px; font-weight: 500; color: var(--muted); }
+  nav .logo .l3 { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  nav .nav-links { display: flex; align-items: center; gap: 2px; }
+  nav .nav-links a { font-size: 11px; font-weight: 500; color: var(--fog-dim); text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; }
+  nav .nav-links a:hover { color: var(--white); }
+  nav .nav-links a.active { color: var(--white); border-bottom-color: var(--chartreuse); }
+  .sndd { position: relative; }
+  .sndd-b { font-size: 11px; font-weight: 500; color: var(--fog-dim); cursor: pointer; padding: 6px 10px; border-bottom: 2px solid transparent; display: inline-block; }
+  .sndd-b:hover, .sndd-b.active { color: var(--white); border-bottom-color: var(--chartreuse); }
+  .sndd-m { display: none; position: absolute; top: 100%; right: 0; background: var(--card); border: 1px solid var(--border); min-width: 220px; padding: 8px 0; z-index: 10000; }
+  .sndd:hover .sndd-m { display: block; }
+  .sndd-m a { display: block; padding: 6px 16px; font-size: 12px; color: var(--fog); text-decoration: none; }
+  .sndd-m a:hover { background: var(--bg); color: var(--white); }
+  .sep-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 8px 16px 4px; }
+  .sep { border-top: 1px solid var(--border); margin: 6px 0; }
+
 </style>
 </head>
 <body>
-<div class="container">
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../orbit.html">Orbit</a>
+<a href="../visibility.html">Visibility</a>
+<a href="../insights/index.html">Insights</a>
+<div class="sndd"><span class="sndd-b active">Library &#9662;</span><div class="sndd-m"><div class="sep-label">Reference</div><a href="../reference/handoff-map.html">Handoff Map</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><a href="framework-reference.html">Framework Reference</a><a href="active-projects-template.html">Active Projects Template</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../meetings.html">Meeting Flow</a><a href="../pipeline.html">Pipeline</a><a href="../template.html">Template</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><div class="sep-label">Archive</div><a href="../archive/index.html">Archive Index</a><a href="../archive/pilot.html">Pilot Overview</a><a href="../archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a><a href="../archive/demo.html">Artist Visibility (v1)</a><a href="../archive/cadence.html">Cadence</a><a href="../archive/rollout.html">Rollout</a><a href="../archive/comms.html">Comms</a><a href="../archive/pipeline.html">Pipeline (v1)</a><a href="../archive/prep-isaia.html">Prep Package &mdash; Isaia</a></div></div>
+</div>
+</nav>
+<div class="container" style="padding-top:60px;">
 
-  <!-- HEADER -->
+  <!-- ==================== HEADER ==================== -->
   <div class="hdr">
     <div class="hdr-type">Campaign Operations</div>
-    <div class="hdr-title">WHY THIS WORKS</div>
-    <div class="hdr-sub">Four structural problems observed at RCA — and the established frameworks that explain why they exist, why they matter, and what to build.</div>
+    <div class="hdr-title">CAMPAIGN OPERATIONS<br>FRAMEWORK REFERENCE</div>
     <div class="hdr-meta">Internal Reference · March 2026</div>
   </div>
 
-  <!-- THE WHY -->
-  <div class="why">
-    <div class="why-label">The premise</div>
-    <p>Every organization faces a tradeoff between specialization and coordination. Departments exist because specialization creates expertise. Silos exist because specialization creates boundaries.</p>
-    <p>When the coordination demand between departments exceeds the hierarchy's capacity to process information, the organization has two choices: restructure, or add a lateral coordination layer. <em>Campaign Operations is the lateral coordination layer.</em></p>
-    <p>We don't change who reports to whom. We don't own strategy or decisions. We increase the organization's capacity to move information across department boundaries — so that every dollar spent on an artist, every hour a department invests, and every decision leadership makes is informed, connected, and visible.</p>
-  </div>
+  <!-- ==================== 1. WHAT THIS IS ==================== -->
+  <div class="sec">WHAT THIS IS</div>
 
-  <!-- STATS -->
-  <div class="sum-grid">
-    <div class="sum-cell">
-      <div class="sum-val">4</div>
-      <div class="sum-lbl">Structural themes</div>
+  <div class="what-grid">
+    <div class="what-cell">
+      <div class="what-label">The Function</div>
+      <div class="what-text">Campaign Operations is the coordination layer between departments at RCA Records. Two people — LA and NY — serving 120+ artists across the full roster.</div>
     </div>
-    <div class="sum-cell">
-      <div class="sum-val">6</div>
-      <div class="sum-lbl">Validated frameworks</div>
+    <div class="what-cell">
+      <div class="what-label">The Goal</div>
+      <div class="what-text">When a decision gets made in one room, every other team knows what it means for them — and nothing falls through the cracks between departments.</div>
     </div>
-    <div class="sum-cell">
-      <div class="sum-val">50+</div>
-      <div class="sum-lbl">Years of research</div>
+    <div class="what-cell what-full">
+      <div class="what-label">The Principle</div>
+      <div class="what-text">Campaign Ops owns the system, not the strategy. We don't make decisions about artists. We make sure every decision is informed, connected, and visible to the people who need to execute on it.</div>
     </div>
   </div>
 
-  <!-- ==================== THEME 1 ==================== -->
-  <div class="sec">THE FOUR THEMES</div>
+  <div class="verb-bar">
+    <div class="verb"><div class="verb-word">Track</div></div>
+    <div class="verb"><div class="verb-word">Surface</div></div>
+    <div class="verb"><div class="verb-word">Flag</div></div>
+    <div class="verb"><div class="verb-word">Prompt</div></div>
+    <div class="verb"><div class="verb-word">Confirm</div></div>
+  </div>
 
-  <div class="theme">
-    <div class="theme-hdr">
-      <div style="display:flex; align-items:center;">
-        <span class="theme-num">01</span>
-        <span class="theme-name">Role Clarity & Responsibility Mapping</span>
-      </div>
-      <span class="theme-tag">STRUCTURE · SYSTEMS</span>
+  <!-- ==================== 2. WHAT PROBLEMS WE SOLVE ==================== -->
+  <div class="sec">WHAT PROBLEMS WE SOLVE <span class="sec-sub">4 structural patterns observed across the organization</span></div>
+
+  <p style="font-size: 14px; color: var(--fog); line-height: 1.6; margin-bottom: 24px;">These aren't opinions. They're patterns that surfaced independently across conversations at every level of the organization — leadership, management, and execution teams. Each one has been described, unprompted, by multiple people in different departments.</p>
+
+  <!-- THEME INDEX (clickable) -->
+  <div class="idx">
+    <div class="idx-card active" onclick="showTheme(0)">
+      <div class="idx-num">01</div>
+      <div class="idx-name">Information Routing Breakdown</div>
+      <div class="idx-desc">No system moves information between departments. People chase people.</div>
     </div>
-    <div class="theme-body">
-      <div class="theme-desc">Recurring confusion about who owns what, when responsibilities kick in, and where handoffs happen. Observed across leadership, middle management, and execution teams independently.</div>
-
-      <div class="fw-row">
-        <span class="fw-label">McKinsey 7S</span>
-        <span class="fw-text">This is a <strong>Structure–Systems misalignment</strong>. The 7S framework warns that focusing only on structure (who reports to whom) without aligning systems (how work flows) is the most common failure mode in organizational design. <span class="src">Peters & Waterman, 1982; IMD, 2025</span></span>
-      </div>
-      <div class="fw-row">
-        <span class="fw-label">Stage-Gate</span>
-        <span class="fw-text">Cooper's Stage-Gate system requires that <strong>every stage is cross-functional</strong> — no department-specific stages, no serial handoffs. Each stage defines who does what in parallel, and the gate enforces it. <span class="src">Cooper, 1990–2025</span></span>
-      </div>
-      <div class="fw-row">
-        <span class="fw-label">What we build</span>
-        <span class="fw-text"><strong>Orbit Gating System.</strong> Four gates across the campaign lifecycle, each with named prerequisite owners per department. Accountability lives in the system, not in a person.</span>
-      </div>
-
-      <div class="build">
-        <div class="build-cell"><div class="build-label now">Ship now</div><div class="build-text">Responsibility Map — who does what at each campaign phase, across Campaign Ops / Campaign Leads / Audience Dev</div></div>
-        <div class="build-cell"><div class="build-label arch">Build toward</div><div class="build-text">Orbit gates enforce responsibility by phase. You can't advance without completing your prerequisites. The system asks — not a person.</div></div>
-      </div>
+    <div class="idx-card" onclick="showTheme(1)">
+      <div class="idx-num">02</div>
+      <div class="idx-name">Role Clarity & Responsibility Gaps</div>
+      <div class="idx-desc">Nobody knows who owns what or when in the process their responsibility kicks in.</div>
+    </div>
+    <div class="idx-card" onclick="showTheme(2)">
+      <div class="idx-num">03</div>
+      <div class="idx-name">Ad Hoc Process Culture</div>
+      <div class="idx-desc">The default answer is "it depends" — which means there's no baseline process at all.</div>
+    </div>
+    <div class="idx-card" onclick="showTheme(3)">
+      <div class="idx-num">04</div>
+      <div class="idx-name">Transparency & Visibility Deficit</div>
+      <div class="idx-desc">Decisions happen in hallway conversations. Nobody else finds out until it's too late.</div>
     </div>
   </div>
 
-  <!-- ==================== THEME 2 ==================== -->
-  <div class="theme">
-    <div class="theme-hdr">
-      <div style="display:flex; align-items:center;">
-        <span class="theme-num">02</span>
-        <span class="theme-name">Information Routing Breakdown</span>
-      </div>
-      <span class="theme-tag">COORDINATION</span>
+  <!-- ==================== 3. WHY THIS WORKS ==================== -->
+  <div class="sec">HOW WE SOLVE THEM <span class="sec-sub">Each problem mapped to established frameworks</span></div>
+
+  <!-- ===== THEME 1: INFORMATION ROUTING ===== -->
+  <div class="theme-panel active" id="theme-0">
+
+    <div class="quote">
+      <div class="quote-text">"No matter how fast he gets the information... Angelina's mad that he hasn't shared it with her yet, but he may be on the phone having a conversation about one thing. And then my digital team is mad."</div>
+      <div class="quote-src">— SVP, Leadership meeting</div>
     </div>
-    <div class="theme-body">
-      <div class="theme-desc">Departments can't get information fast enough because there's no system — just people chasing people. Campaign Leads become bottlenecks not because they're slow, but because they're the only conduit between 10+ departments.</div>
 
-      <div class="fw-row">
-        <span class="fw-label">Galbraith OIPT</span>
-        <span class="fw-text">Galbraith's Information Processing Theory (1973): when task interdependence exceeds hierarchy's processing capacity, organizations must either reduce information needs (self-contained units) or <strong>increase processing capacity through lateral relations and information systems</strong>. Campaign Ops is the lateral relation. <span class="src">Galbraith, 1973–1974</span></span>
+    <div class="pfb">
+      <div class="pfb-row">
+        <span class="pfb-label problem">The problem</span>
+        <span class="pfb-text">Departments can't get information fast enough because there's no system — just people chasing people. Campaign Leads become bottlenecks not because they're slow, but because one person can't be the router for 10+ departments simultaneously.</span>
       </div>
-      <div class="fw-row">
-        <span class="fw-label">HBS Research</span>
-        <span class="fw-text">Harvard Business School analysis of 100M+ emails found that <strong>junior executives and cross-functional connectors are the key actors bridging silos</strong> — not department heads. The people who move between departments create the information pathways the org chart doesn't. <span class="src">Kleinbaum, Stuart & Tushman, HBS, 2008</span></span>
+      <div class="pfb-row">
+        <span class="pfb-label framework">Galbraith</span>
+        <span class="pfb-text">Organizational Information Processing Theory (1973): when task interdependence exceeds the hierarchy's capacity to process information, organizations must add lateral coordination mechanisms — either information systems or integrator roles. Campaign Ops is both. <span class="cite">Galbraith, 1973–1974</span></span>
       </div>
-      <div class="fw-row">
-        <span class="fw-label">What we build</span>
-        <span class="fw-text"><strong>Structured meeting outputs + automated routing.</strong> One person updates once. The system distributes to every department that needs it. The Campaign Lead stops being the router.</span>
+      <div class="pfb-row">
+        <span class="pfb-label framework">HBS Research</span>
+        <span class="pfb-text">Harvard analysis of 100M+ corporate communications found that cross-functional connectors — not department heads — are the key actors bridging organizational silos. The bridging role is structural, not hierarchical. <span class="cite">Kleinbaum, Stuart & Tushman, HBS, 2008</span></span>
       </div>
-
-      <div class="build">
-        <div class="build-cell"><div class="build-label now">Ship now</div><div class="build-text">Active Projects recap distributed same-day with decisions, actions, and cross-department signals tagged by department</div></div>
-        <div class="build-cell"><div class="build-label arch">Build toward</div><div class="build-text">Automated routing from Airtable — Campaign Leads update once, system distributes department-specific views</div></div>
+      <div class="pfb-row">
+        <span class="pfb-label build">What we build</span>
+        <span class="pfb-text">Structured meeting outputs with department routing. One person updates once — the system distributes to every department that needs it. The Campaign Lead stops being the router.</span>
       </div>
     </div>
-  </div>
 
-  <!-- ==================== THEME 3 ==================== -->
-  <div class="theme">
-    <div class="theme-hdr">
-      <div style="display:flex; align-items:center;">
-        <span class="theme-num">03</span>
-        <span class="theme-name">Standardization vs. "It Depends"</span>
-      </div>
-      <span class="theme-tag">PROCESS · STYLE</span>
-    </div>
-    <div class="theme-body">
-      <div class="theme-desc">The organization defaults to "every project is different" as justification for zero process. Even when tiers exist, baseline standards don't apply across projects.</div>
-
-      <div class="fw-row">
-        <span class="fw-label">McKinsey OpModel</span>
-        <span class="fw-text">McKinsey's operating model research shows that <strong>without standardized processes, cross-functional teams cannot deliver end-to-end value</strong>. The telecom case study: functions pulled back resources when there were no shared standards, and cross-functional squads collapsed. <span class="src">McKinsey, 2025</span></span>
-      </div>
-      <div class="fw-row">
-        <span class="fw-label">Stage-Gate</span>
-        <span class="fw-text">Cooper's 5th-generation Stage-Gate is <strong>adaptive but structured</strong>: baseline gates apply to every project, with complexity tiers determining how many additional gates activate. The answer isn't one process or zero process — it's <strong>tiered standardization</strong>. <span class="src">Cooper, 2008</span></span>
-      </div>
-      <div class="fw-row">
-        <span class="fw-label">What we build</span>
-        <span class="fw-text"><strong>Campaign phases with baseline gates + tiered complexity.</strong> Every release goes through the same lifecycle. Priority projects get additional gates. Developing artists get a lighter version of the same system.</span>
-      </div>
-
-      <div class="build">
-        <div class="build-cell"><div class="build-label now">Ship now</div><div class="build-text">Consistent recap format for every Active Projects meeting — same structure regardless of which artists are discussed</div></div>
-        <div class="build-cell"><div class="build-label arch">Build toward</div><div class="build-text">Tiered campaign templates by project complexity — baseline always applies, additional gates for priority releases</div></div>
-      </div>
+    <div class="split">
+      <div class="split-cell"><div class="split-label now">Ship now</div><div class="split-text">Active Projects recap distributed same-day with decisions and action items tagged by department</div></div>
+      <div class="split-cell"><div class="split-label arch">Build toward</div><div class="split-text">Automated routing from the data engine — update once, system distributes department-specific views</div></div>
     </div>
   </div>
 
-  <!-- ==================== THEME 4 ==================== -->
-  <div class="theme">
-    <div class="theme-hdr">
-      <div style="display:flex; align-items:center;">
-        <span class="theme-num">04</span>
-        <span class="theme-name">Transparency & "Back Room" Culture</span>
-      </div>
-      <span class="theme-tag">SHARED VALUES</span>
+  <!-- ===== THEME 2: ROLE CLARITY ===== -->
+  <div class="theme-panel" id="theme-1">
+
+    <div class="quote">
+      <div class="quote-text">"We need to know which of those are which, obviously... I don't care what the breakdown is. I just think on paper, that's all."</div>
+      <div class="quote-src">— SVP, Leadership meeting</div>
     </div>
-    <div class="theme-body">
-      <div class="theme-desc">Decisions happen in hallway conversations and nobody else finds out until it's too late. Systems need to be visible, not secret. The emotional core of the Campaign Ops mandate.</div>
 
-      <div class="fw-row">
-        <span class="fw-label">HBR Silo Types</span>
-        <span class="fw-text">Harvard Business Review identifies three silo types. RCA exhibits all three: <strong>systemic</strong> (departments optimizing for their own goals), <strong>elitist</strong> (departments restricting information to maintain control), and <strong>protectionist</strong> (teams withholding information to safeguard autonomy). 67% of collaboration failures are attributed to silos. <span class="src">HBR, 2025; Salesforce Research</span></span>
+    <div class="pfb">
+      <div class="pfb-row">
+        <span class="pfb-label problem">The problem</span>
+        <span class="pfb-text">Recurring confusion about who owns what, when in the process their responsibility kicks in, and where handoffs happen between departments. Observed independently at every level of the organization.</span>
       </div>
-      <div class="fw-row">
-        <span class="fw-label">Gulati (HBS)</span>
-        <span class="fw-text">Ranjay Gulati's silo-busting research: to deliver solutions, three things must cross boundaries — <strong>information sharing, division of labor, and decision making</strong>. The fix is usually not replacing silos but <strong>transcending them</strong> with coordination mechanisms. <span class="src">Gulati, HBR, 2007</span></span>
+      <div class="pfb-row">
+        <span class="pfb-label framework">Stage-Gate</span>
+        <span class="pfb-text">Cooper's Stage-Gate system (1988–present) requires that every stage is cross-functional — no department-specific stages, no serial handoffs. Each stage defines parallel tasks with named owners. The gate enforces completion before advancement. Used by 54% of firms globally. <span class="cite">Cooper, 1990; PDMA Global Study</span></span>
       </div>
-      <div class="fw-row">
-        <span class="fw-label">What we build</span>
-        <span class="fw-text"><strong>TEMPO dashboards + structured meeting outputs.</strong> A living visibility layer anyone can check without asking a person. Transparency of outputs, not surveillance of conversations.</span>
+      <div class="pfb-row">
+        <span class="pfb-label framework">McKinsey 7S</span>
+        <span class="pfb-text">The 7S Framework identifies Structure–Systems misalignment as the most common organizational failure mode: teams redraw org charts but don't align the systems that move work between departments. The fix isn't restructuring — it's aligning systems to the existing structure. <span class="cite">Peters & Waterman, 1982; IMD, 2025</span></span>
       </div>
+      <div class="pfb-row">
+        <span class="pfb-label build">What we build</span>
+        <span class="pfb-text">A gating system across the campaign lifecycle. Four gates with named prerequisite owners per department. Accountability lives in the system, not in a person.</span>
+      </div>
+    </div>
 
-      <div class="build">
-        <div class="build-cell"><div class="build-label now">Ship now</div><div class="build-text">Meeting transcription + AI-powered recaps — what happened in the room reaches everyone who needs it, same day</div></div>
-        <div class="build-cell"><div class="build-label arch">Build toward</div><div class="build-text">TEMPO as the single visibility layer — campaign status, department timelines, gate readiness — all queryable without asking anyone</div></div>
+    <!-- STAGE-GATE VISUAL -->
+    <div class="sg-visual">
+      <div style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px;">Campaign Lifecycle — Stage-Gate Applied</div>
+      <div class="sg-flow">
+        <div class="sg-stage">
+          <div class="sg-stage-label">Stage</div>
+          <div class="sg-stage-name">Development</div>
+        </div>
+        <div class="sg-gate">
+          <div class="sg-gate-icon">G1</div>
+          <div class="sg-gate-q">Can we<br>plan?</div>
+        </div>
+        <div class="sg-stage">
+          <div class="sg-stage-label">Stage</div>
+          <div class="sg-stage-name">Pre-Release</div>
+        </div>
+        <div class="sg-gate">
+          <div class="sg-gate-icon">G2</div>
+          <div class="sg-gate-q">Can we<br>execute?</div>
+        </div>
+        <div class="sg-stage">
+          <div class="sg-stage-label">Stage</div>
+          <div class="sg-stage-name">Rollout</div>
+        </div>
+        <div class="sg-gate">
+          <div class="sg-gate-icon">G3</div>
+          <div class="sg-gate-q">Can we<br>announce?</div>
+        </div>
+        <div class="sg-stage">
+          <div class="sg-stage-label">Stage</div>
+          <div class="sg-stage-name">Release Week</div>
+        </div>
+        <div class="sg-gate">
+          <div class="sg-gate-icon">G4</div>
+          <div class="sg-gate-q">Can we<br>deliver?</div>
+        </div>
+        <div class="sg-stage">
+          <div class="sg-stage-label">Stage</div>
+          <div class="sg-stage-name">Post-Release</div>
+        </div>
       </div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 16px; line-height: 1.5;">Each gate has prerequisites owned by named departments. The system checks completion — not a person. If the gate isn't clear, the request doesn't advance.</div>
+    </div>
+
+    <div class="split">
+      <div class="split-cell"><div class="split-label now">Ship now</div><div class="split-text">Responsibility Map — who does what at each campaign phase, published and referenced in every meeting output</div></div>
+      <div class="split-cell"><div class="split-label arch">Build toward</div><div class="split-text">Gates enforced through the data engine. Prerequisites auto-calculated from release data. Deadlines derived backward from street date.</div></div>
     </div>
   </div>
 
-  <!-- ==================== BOTTOM LINE ==================== -->
+  <!-- ===== THEME 3: AD HOC ===== -->
+  <div class="theme-panel" id="theme-2">
+
+    <div class="quote">
+      <div class="quote-text">"The budget process to me is too loosey goosey... too many people can see your money and take your money. But then they're not accountable for your money — that's the crazy part."</div>
+      <div class="quote-src">— Department lead, Discovery conversation</div>
+    </div>
+
+    <div class="pfb">
+      <div class="pfb-row">
+        <span class="pfb-label problem">The problem</span>
+        <span class="pfb-text">The organization defaults to "every project is different" as justification for zero baseline process. Budget allocation has no science behind it. Timelines are individual guesswork. The result: no one can be held accountable because there are no standards to hold them to.</span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label framework">Stage-Gate</span>
+        <span class="pfb-text">Cooper's 5th-generation Stage-Gate is adaptive but structured: baseline gates apply to every project, with complexity tiers determining additional rigor. The answer isn't one process or zero process — it's tiered standardization. <span class="cite">Cooper, 2008</span></span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label framework">McKinsey</span>
+        <span class="pfb-text">McKinsey's operating model research: without standardized processes, cross-functional teams cannot deliver end-to-end value. In a documented case, functions pulled back resources from cross-functional squads when there were no shared standards — and the squads collapsed. <span class="cite">McKinsey, 2025</span></span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label framework">Systems Thinking</span>
+        <span class="pfb-text">Systems analysis holds that ad hoc processes produce unpredictable outputs. Standardization doesn't eliminate flexibility — it creates a known baseline from which intentional exceptions can be made and measured. Without the baseline, every exception is invisible. <span class="cite">Senge, 1990; Meadows, 2008</span></span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label build">What we build</span>
+        <span class="pfb-text">Campaign phases with baseline gates that apply to every release. Priority projects activate additional gates. Developing artists get a lighter version of the same system — not a different one.</span>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="split-cell"><div class="split-label now">Ship now</div><div class="split-text">Consistent meeting output format for every Active Projects session — same structure regardless of which artists are discussed</div></div>
+      <div class="split-cell"><div class="split-label arch">Build toward</div><div class="split-text">Tiered campaign templates by project complexity. Baseline always applies. Historical spend data by tier enables evidence-based budgeting.</div></div>
+    </div>
+  </div>
+
+  <!-- ===== THEME 4: TRANSPARENCY ===== -->
+  <div class="theme-panel" id="theme-3">
+
+    <div class="quote">
+      <div class="quote-text">"There is no omniscient view. Release Runway has the yellow and the white, but they don't have the red... so I have this spreadsheet, and it's very primitive, but it gives me an idea."</div>
+      <div class="quote-src">— SVP Release Planning, Discovery conversation</div>
+    </div>
+
+    <div class="pfb">
+      <div class="pfb-row">
+        <span class="pfb-label problem">The problem</span>
+        <span class="pfb-text">Decisions happen in hallway conversations. Status lives in individual spreadsheets. Nobody has a complete picture unless they built one themselves — and those pictures aren't shared. The information exists; it's just not visible to the people who need it.</span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label framework">HBR Silo Research</span>
+        <span class="pfb-text">HBR identifies three silo types: systemic (departments optimizing for their own goals), elitist (restricting information to maintain control), and protectionist (withholding to safeguard autonomy). 67% of collaboration failures are attributed to silo effects. <span class="cite">HBR, 2025; Salesforce Research</span></span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label framework">Gulati (HBS)</span>
+        <span class="pfb-text">To deliver coordinated outcomes, three things must cross department boundaries: information sharing, division of labor, and decision making. The fix is usually not replacing silos but transcending them with coordination mechanisms. <span class="cite">Gulati, Harvard Business Review, 2007</span></span>
+      </div>
+      <div class="pfb-row">
+        <span class="pfb-label build">What we build</span>
+        <span class="pfb-text">A living visibility layer — campaign status, department timelines, gate readiness — queryable without asking anyone. Transparency of outputs, not surveillance of conversations.</span>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="split-cell"><div class="split-label now">Ship now</div><div class="split-text">Meeting transcription + AI-powered recaps. What happened in the room reaches everyone who needs it, same day.</div></div>
+      <div class="split-cell"><div class="split-label arch">Build toward</div><div class="split-text">Dashboards as the single visibility layer. Anyone can check campaign status, release readiness, and department timelines without sending an email.</div></div>
+    </div>
+  </div>
+
+  <!-- ==================== 4. THE BOTTOM LINE ==================== -->
   <div class="bl">
     <div class="bl-label">The bottom line</div>
-    <p>None of this is new theory. Galbraith described the need for lateral coordination in 1973. Cooper built Stage-Gate in 1988. McKinsey has documented the cost of silo-based operating models for decades. HBR publishes on this every year.</p>
-    <p>What's new is applying it here. No record label has built this layer. The infrastructure exists at the corporate level (Sony built RDX). Nobody at the label level translates it into operational coordination.</p>
-    <p>Campaign Operations is the translation layer between established organizational science and how a record label actually runs campaigns. We're not inventing a methodology — we're implementing one that the rest of the business world already uses.</p>
+    <p>These are not new problems, and this is not a new solution. Galbraith described the need for lateral coordination layers in 1973. Cooper built Stage-Gate in 1988. McKinsey has documented the cost of uncoordinated operating models for decades. What's new is applying it to a record label.</p>
+    <p>Every label has departments. No label has the coordination layer between them. Campaign Operations builds that layer — using frameworks the rest of the business world already relies on.</p>
   </div>
 
   <div class="foot">
@@ -265,5 +404,14 @@
   </div>
 
 </div>
+
+<script>
+function showTheme(n) {
+  document.querySelectorAll('.theme-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.idx-card').forEach(function(c){ c.classList.remove('active'); });
+  document.getElementById('theme-' + n).classList.add('active');
+  document.querySelectorAll('.idx-card')[n].classList.add('active');
+}
+</script>
 </body>
 </html>
