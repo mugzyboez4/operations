@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — How It Runs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0F0E0E; --card: #1A1A1A; --off-white: #FCFDF8; --chartreuse: #CDF851;
+    --flame: #FF4A23; --slate: #3E3F41; --fog: #B0A9BE; --teal: #5BC0BE;
+    --border: #2A2A2A; --gold: #E8C547; --muted: #847D96;
+  }
+  body { background: var(--bg); color: var(--off-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* HEADER */
+  .hdr { border-bottom: 3px solid var(--chartreuse); padding-bottom: 28px; margin-bottom: 40px; }
+  .hdr-badge { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--chartreuse); margin-bottom: 16px; display: inline-block; padding: 4px 10px; background: rgba(205,248,81,0.08); }
+  .hdr-title { font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1.05; color: var(--chartreuse); margin-bottom: 12px; }
+  .hdr-sub { font-size: 15px; color: var(--fog); max-width: 680px; line-height: 1.6; }
+  .hdr-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--slate); margin-top: 16px; letter-spacing: 1px; }
+
+  /* SECTIONS */
+  .sec { margin-top: 56px; margin-bottom: 24px; }
+  .sec-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .sec-title { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
+  .sec-line { height: 2px; background: var(--border); margin-top: 12px; }
+
+  /* CALLOUT */
+  .callout { background: var(--card); border-left: 3px solid var(--chartreuse); padding: 20px 24px; margin: 20px 0; font-size: 14px; color: var(--fog); line-height: 1.7; }
+  .callout strong { color: var(--off-white); }
+  .callout.flame { border-left-color: var(--flame); }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-top: 20px; }
+  .cell { background: var(--card); padding: 20px; }
+  .cell-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .cell-label.ch { color: var(--chartreuse); }
+  .cell-label.fl { color: var(--flame); }
+  .cell-label.tl { color: var(--teal); }
+  .cell-label.gd { color: var(--gold); }
+  .cell-label.fg { color: var(--fog); }
+  .cell-text { font-size: 13px; color: var(--fog); line-height: 1.6; }
+  .cell-text strong { color: var(--off-white); font-weight: 600; }
+  .cell-big { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; color: var(--chartreuse); margin-bottom: 4px; }
+
+  /* CADENCE VISUAL */
+  .cadence { margin-top: 24px; }
+  .cadence-row { display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid var(--border); min-height: 56px; }
+  .cadence-when { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); padding: 14px 16px 14px 0; border-right: 1px solid var(--border); display: flex; align-items: center; }
+  .cadence-what { padding: 14px 16px; }
+  .cadence-title { font-size: 14px; font-weight: 700; color: var(--off-white); margin-bottom: 2px; }
+  .cadence-desc { font-size: 12px; color: var(--fog); line-height: 1.5; }
+  .cadence-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; padding: 2px 6px; display: inline-block; margin-top: 4px; }
+  .cadence-tag.route { background: rgba(232,197,71,0.12); color: var(--gold); }
+  .cadence-tag.standard { background: rgba(205,248,81,0.12); color: var(--chartreuse); }
+  .cadence-tag.retro { background: rgba(255,74,35,0.12); color: var(--flame); }
+  .cadence-tag.vis { background: rgba(91,192,190,0.12); color: var(--teal); }
+
+  /* ROLE CARDS */
+  .role-card { background: var(--card); border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; }
+  .role-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .role-who { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .role-does { font-size: 13px; color: var(--fog); line-height: 1.6; }
+
+  /* BASELINE TABLE */
+  .bl-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1px; background: var(--border); }
+  .bl-row.hd { background: var(--border); }
+  .bl-cell { background: var(--card); padding: 10px 14px; font-size: 12px; color: var(--fog); }
+  .bl-cell.hd { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); background: #222; }
+
+  /* BOTTOM */
+  .bl-block { background: var(--card); border-left: 3px solid var(--flame); padding: 24px 28px; margin-top: 48px; }
+  .bl-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--flame); text-transform: uppercase; margin-bottom: 10px; }
+  .bl-block p { font-size: 15px; color: var(--off-white); line-height: 1.7; margin-bottom: 10px; }
+  .bl-block p:last-child { margin-bottom: 0; }
+
+  .foot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--slate); display: flex; justify-content: space-between; }
+
+  p.body { font-size: 14px; color: var(--fog); line-height: 1.7; margin-bottom: 16px; }
+
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .cadence-row { grid-template-columns: 1fr; }
+    .cadence-when { border-right: none; border-bottom: 1px solid var(--border); }
+    .bl-row { grid-template-columns: 1fr 1fr; }
+  }
+
+/* NAV */
+nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
+nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
+nav .logo .l2 { font-size:10px; font-weight:500; color:#847D96; }
+nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#847D96; }
+nav .nav-links { display:flex; align-items:center; gap:2px; }
+nav .nav-links a { font-size:11px; font-weight:500; color:#847D96; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
+nav .nav-links a:hover { color:#FCFDF8; }
+.active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
+.sndd { position:relative; display:inline-block; }
+.sndd-b { font-size:11px; font-weight:500; color:#847D96; cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
+.sndd-b:hover { color:#FCFDF8; }
+.sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
+.sndd-m { display:none; position:absolute; top:100%; right:0; background:#1A1A1A; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
+.sndd:hover .sndd-m { display:block; }
+.sndd-m a { display:block; font-size:11px; color:#B0A9BE; text-decoration:none; padding:6px 12px; }
+.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+.sndd-m .sep { border-top:1px solid #2A2A2A; margin:4px 0; }
+.sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3E3F41; padding:6px 12px 2px; }
+
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="Campaign Ops" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<div class="nav-links">
+<a href="../index.html">The Mission</a>
+<a href="../orbit.html">The Cycle</a>
+<a href="../timeline.html">Accountability</a>
+<div class="sndd"><span class="sndd-b active">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="../reference/framework-reference.html">Framework Reference</a><a href="../reference/operational-plan.html">How It Runs</a><a href="../reference/active-projects-template.html">Active Projects Template</a><a href="../reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../visibility.html">Visibility (Roster)</a><a href="../meetings.html">Meeting Flow</a><a href="../insights/index.html">Insights</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="../archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-badge">Campaign Operations</div>
+    <div class="hdr-title">HOW IT RUNS</div>
+    <div class="hdr-sub">The Framework Reference explains why Campaign Ops exists. This document explains how it operates — the cadence, the roles, the measurements, and the rules that make it stick.</div>
+    <div class="hdr-meta">Internal Reference · April 2026 · RCA Records</div>
+  </div>
+
+  <!-- ==================== 01. YOUR ROLE ==================== -->
+  <div class="sec">
+    <div class="sec-num">01</div>
+    <div class="sec-title">The Role</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="callout">
+    In every situation, when any team at any point in a campaign is asked to do something, they understand why — and how their work fits into the larger process. That's what Campaign Ops is here to build.
+  </div>
+
+  <p class="body">Three roles touch every campaign. Each has a defined lane.</p>
+
+  <div class="role-card" style="border-left: 3px solid var(--chartreuse);">
+    <div class="role-name" style="color: var(--chartreuse);">Campaign Ops</div>
+    <div class="role-who">The process coordinator</div>
+    <div class="role-does"><strong>Owns the system, not the strategy.</strong> Maintains the gates, tracks prerequisites, routes information between departments, captures meeting outputs, surfaces blockers, prompts on deadlines. Present on every project from start to finish as the impartial observer who sees the full chain. Runs the retrospective. Holds the baseline data.</div>
+  </div>
+
+  <div class="role-card" style="border-left: 3px solid var(--teal);">
+    <div class="role-name" style="color: var(--teal);">Campaign Lead</div>
+    <div class="role-who">The project owner</div>
+    <div class="role-does"><strong>Owns the artist strategy and campaign plan.</strong> Decides creative direction, allocates budget, manages the artist relationship. Submits requests that trigger gates. Responsible for the outcome — Campaign Ops is responsible for the process that supports the outcome.</div>
+  </div>
+
+  <div class="role-card" style="border-left: 3px solid var(--fog);">
+    <div class="role-name">Department Leads</div>
+    <div class="role-who">The execution teams</div>
+    <div class="role-does"><strong>Own their deliverables within their lane.</strong> Each department completes their gate prerequisites on their timeline. Campaign Ops doesn't tell them how to do their work — the system tells them when their work is due and who's waiting on it.</div>
+  </div>
+
+
+  <!-- ==================== 02. CADENCE ==================== -->
+  <div class="sec">
+    <div class="sec-num">02</div>
+    <div class="sec-title">The Cadence</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <p class="body">Change sticks through frequency. Routines build habits. Habits build norms. Norms build culture. This is the recurring rhythm that makes the system operational — not a one-time rollout, but a cadence that repeats until it's invisible.</p>
+
+  <div class="cadence">
+    <div class="cadence-row" style="background: #222;">
+      <div class="cadence-when" style="color: var(--off-white); font-weight: 700;">When</div>
+      <div class="cadence-what"><div class="cadence-title" style="font-size: 12px; color: var(--muted);">What happens</div></div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Mon AM</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Weekly status check</div>
+        <div class="cadence-desc">Campaign Ops reviews all active releases against their current gate. What's blocked? What's approaching a deadline? What changed since Friday? This generates the week's priority list.</div>
+        <span class="cadence-tag standard">STANDARDIZATION</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Mon</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Production Meeting</div>
+        <div class="cadence-desc">Delivery status, physical product, scheduling. Campaign Ops captures decisions and blocked items. Recap distributed same day.</div>
+        <span class="cadence-tag route">ROUTING</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Tue</div>
+      <div class="cadence-what">
+        <div class="cadence-title">SMT</div>
+        <div class="cadence-desc">Strategic priorities from leadership. Campaign Ops listens for decisions that affect campaign timelines — date changes, priority shifts, budget approvals. No recording.</div>
+        <span class="cadence-tag vis">VISIBILITY</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Wed</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Active Projects (3×/month)</div>
+        <div class="cadence-desc"><strong>The primary operating meeting.</strong> Pre-meeting brief goes out with gate status per artist. Meeting is recorded + transcribed. Recap distributed same day: decisions, actions (by department), blocked items, cross-dept routing.</div>
+        <span class="cadence-tag route">ROUTING</span> <span class="cadence-tag standard">STANDARDIZATION</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Thu</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Exec scheduling deadline</div>
+        <div class="cadence-desc">All items for Friday's scheduling meeting submitted by Thursday. Campaign Ops confirms gate prerequisites are met before requests proceed.</div>
+        <span class="cadence-tag standard">STANDARDIZATION</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Fri AM</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Exec Scheduling</div>
+        <div class="cadence-desc">Release dates, date changes, scheduling conflicts. Campaign Ops surfaces any gate failures — requests that haven't met prerequisites.</div>
+        <span class="cadence-tag standard">STANDARDIZATION</span>
+      </div>
+    </div>
+
+    <div class="cadence-row">
+      <div class="cadence-when">Fri PM</div>
+      <div class="cadence-what">
+        <div class="cadence-title">Week close + voice note</div>
+        <div class="cadence-desc">What happened this week. What's carrying forward. What patterns are emerging. Captured for the record — not distributed, used to build the institutional memory.</div>
+        <span class="cadence-tag vis">VISIBILITY</span>
+      </div>
+    </div>
+
+    <div class="cadence-row" style="border-bottom: 2px solid var(--flame);">
+      <div class="cadence-when" style="color: var(--flame);">Post-release</div>
+      <div class="cadence-what">
+        <div class="cadence-title" style="color: var(--flame);">Retrospective</div>
+        <div class="cadence-desc"><strong>Non-negotiable.</strong> After every campaign cycle: what worked, what didn't, what broke, what to change. Data-driven, not opinion-driven. No blame, no ego. Campaign Ops facilitates as the impartial observer who was present from start to finish. Results feed back into the system — gate criteria updated, lead times adjusted, baselines refined.</div>
+        <span class="cadence-tag retro">RETROSPECTIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 24px;">
+    <strong>The frequency is the point.</strong> The same rhythm, every week, without exception. People can't forget a process that touches them on Monday, Wednesday, and Friday. They can forget a quarterly initiative announced in a deck.
+  </div>
+
+
+  <!-- ==================== 03. ENFORCEMENT ==================== -->
+  <div class="sec">
+    <div class="sec-num">03</div>
+    <div class="sec-title">How It Gets Enforced</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <p class="body">Campaign Ops can build the system. Campaign Ops cannot enforce it alone. The system only works if leadership visibly uses it — references the gates, asks "did we hit the prerequisites," holds departments to the cadence. Without that, people will route around the process within weeks.</p>
+
+  <div class="grid-2">
+    <div class="cell">
+      <div class="cell-label ch">The system says no</div>
+      <div class="cell-text">Gates block requests when prerequisites aren't met. Campaign Ops doesn't deny anyone — the checklist does. This removes the political risk of one person being the blocker. <strong>Accountability lives in the system, not in a person.</strong></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label fl">Leadership references it</div>
+      <div class="cell-text">When leadership asks "where are we on gates?" or "what's the status against the checklist?" in meetings — not once, but every time — the system becomes real. <strong>If leadership bypasses it, everyone else will too.</strong></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label tl">Equal accountability</div>
+      <div class="cell-text">Every department's status is visible. Every blocked item is named. Every missed deadline is on the record — not as punishment, but because if nobody tracks it, nobody fixes it. <strong>The same standard applies to everyone, including Campaign Ops.</strong></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label gd">Build in the open</div>
+      <div class="cell-text">Processes, dashboards, meeting outputs — all visible to department heads, not built in private. When other teams see their work highlighted, they adopt the system. <strong>Your success is measured by how much people use what you built.</strong></div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 04. MEASUREMENT ==================== -->
+  <div class="sec">
+    <div class="sec-num">04</div>
+    <div class="sec-title">How We Know It's Working</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <p class="body">You can't improve what you don't measure. And you can't measure without a baseline. These are the metrics Campaign Ops tracks — some are available now, some need 2–3 campaign cycles to establish.</p>
+
+  <div class="grid-3" style="margin-bottom: 24px;">
+    <div class="cell">
+      <div class="cell-big" style="color: var(--off-white);">North Star</div>
+      <div class="cell-label fg">Company-wide</div>
+      <div class="cell-text"><strong>Market share.</strong> Publicly available. Measurable weekly. Can't be gamed. If the system works, campaigns execute better, releases perform better, market share grows. This isn't Campaign Ops' number alone — it's the label's. But it's the scoreboard everyone watches.</div>
+    </div>
+    <div class="cell">
+      <div class="cell-big" style="color: var(--chartreuse);">Leading</div>
+      <div class="cell-label ch">What we control</div>
+      <div class="cell-text">Gate completion rates. On-time prerequisite delivery by department. Meeting output distribution speed. Routing accuracy. These are Campaign Ops' direct metrics — measurable now.</div>
+    </div>
+    <div class="cell">
+      <div class="cell-big" style="color: var(--teal);">Lagging</div>
+      <div class="cell-label tl">What improves over time</div>
+      <div class="cell-text">Fewer last-minute fire drills. Shorter time from A&R handoff to street date. Less rework. More cross-department coordination happening through the system instead of through chasing. Needs 3 cycles to measure.</div>
+    </div>
+  </div>
+
+  <p class="body" style="font-weight: 600; color: var(--off-white);">Baseline metrics to establish (next 3 campaign cycles):</p>
+
+  <div class="bl-row hd">
+    <div class="bl-cell hd">Metric</div>
+    <div class="bl-cell hd">How measured</div>
+    <div class="bl-cell hd">Baseline status</div>
+    <div class="bl-cell hd">Target</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Dept lead times</div>
+    <div class="bl-cell">Days from gate trigger to prerequisite completion, per dept</div>
+    <div class="bl-cell" style="color:var(--flame);">No data. Establishing.</div>
+    <div class="bl-cell">Variance under 2 std deviations</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Gate pass rate</div>
+    <div class="bl-cell">% of releases that clear each gate on first attempt</div>
+    <div class="bl-cell" style="color:var(--flame);">No data. Gates not yet live.</div>
+    <div class="bl-cell">Improving quarter over quarter</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Recap turnaround</div>
+    <div class="bl-cell">Hours from meeting end to distributed recap</div>
+    <div class="bl-cell" style="color:var(--chartreuse);">Same day (current)</div>
+    <div class="bl-cell">Same day (maintain)</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Unknown field rate</div>
+    <div class="bl-cell">% of Release Runway fields marked Unknown at gate check</div>
+    <div class="bl-cell" style="color:var(--flame);">~100% for SAA/SAMP/Agreements</div>
+    <div class="bl-cell">Under 20% at Gate 3</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Routing adoption</div>
+    <div class="bl-cell">% of cross-dept items that reach target dept through system vs. chasing</div>
+    <div class="bl-cell" style="color:var(--flame);">No baseline. All manual.</div>
+    <div class="bl-cell">50%+ through system by Q3</div>
+  </div>
+  <div class="bl-row">
+    <div class="bl-cell" style="color:var(--off-white); font-weight:600;">Market share</div>
+    <div class="bl-cell">Weekly public data</div>
+    <div class="bl-cell" style="color:var(--teal);">Current baseline available</div>
+    <div class="bl-cell">Trend direction (up)</div>
+  </div>
+
+  <div class="callout flame" style="margin-top: 24px;">
+    <strong>The variance problem:</strong> This system only works if department lead times are reasonably predictable. If the range is "somewhere between 2 weeks and 3 months," the gates give you information that isn't actionable. Three cycles of data will tell us whether the variance is manageable. If it's not, we adjust the tier structure — shorter gates for predictable departments, wider windows for variable ones.
+  </div>
+
+
+  <!-- ==================== 05. ADOPTION ==================== -->
+  <div class="sec">
+    <div class="sec-num">05</div>
+    <div class="sec-title">How People Start Using It</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <p class="body">The fastest way to kill a new system is to build it in private and launch it all at once. The fastest way to make it stick is to make it useful before it's mandatory.</p>
+
+  <div class="grid-2">
+    <div class="cell">
+      <div class="cell-label ch">Phase 1 — Be useful now</div>
+      <div class="cell-text">Same-day meeting recaps. Pre-meeting briefs with real context. Gate status per artist before the room asks for it. <strong>Solve an immediate problem people already have.</strong> They'll adopt the tool because it helps them, not because they were told to.</div>
+    </div>
+    <div class="cell">
+      <div class="cell-label tl">Phase 2 — Give them the podium</div>
+      <div class="cell-text">Highlight other departments' work publicly. Let them demo their dashboards, their process improvements, their wins. <strong>Adoption happens when people feel ownership, not when they feel monitored.</strong> The value of the podium is giving it away.</div>
+    </div>
+    <div class="cell">
+      <div class="cell-label gd">Phase 3 — Make it the default</div>
+      <div class="cell-text">When enough people are using the system voluntarily, it becomes the path of least resistance. Requests go through gates because it's easier than not. Recaps are expected because everyone reads them. <strong>You don't announce the mandate — the system becomes the mandate.</strong></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label fl">Phase 4 — Retrospective proves value</div>
+      <div class="cell-text">After the first full campaign cycle through the system, the retrospective shows the data: fewer fire drills, faster turnaround, less rework. <strong>The pilot proves itself.</strong> Leadership sees the numbers. The conversation shifts from "should we do this" to "how do we scale this."</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 24px;">
+    <strong>Quick wins and architecture are not mutually exclusive.</strong> Every quick win should be a brick in the larger system. Every recap uses the same format. Every gate check feeds the baseline data. Nothing disposable. Nothing disconnected. They see the win. You see the infrastructure.
+  </div>
+
+
+  <!-- ==================== 06. WHAT STICKING LOOKS LIKE ==================== -->
+  <div class="sec">
+    <div class="sec-num">06</div>
+    <div class="sec-title">What Sticking Looks Like</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <p class="body">This is how you know it's working — not because someone said "good job," but because the behavior changed.</p>
+
+  <div class="grid-2">
+    <div class="cell">
+      <div class="cell-label fl">Before</div>
+      <div class="cell-text">Campaign Lead chases 10 departments individually for updates. Decisions made in hallways disappear by the next day. Nobody knows what gate a release is at. Budget process is "ask and hope." Fire drills are the norm.</div>
+    </div>
+    <div class="cell">
+      <div class="cell-label ch">After</div>
+      <div class="cell-text">Campaign Lead updates once, system routes to every department that needs it. Decisions captured and distributed same day. Gate status visible without asking. Budget approved against documented tier thresholds. Fire drills are the exception.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 24px;">
+    <strong>The real measure:</strong> Can a new Campaign Lead — someone who's never worked here before — look at the system and know exactly what to do, when to do it, and who's responsible for what? If yes, the system works regardless of who's in the seat. If no, it's still dependent on institutional memory. That's the test.
+  </div>
+
+
+  <!-- ==================== BOTTOM LINE ==================== -->
+  <div class="bl-block">
+    <div class="bl-label">The bottom line</div>
+    <p>The Framework Reference explains the four problems and the science behind the solutions. This document explains how those solutions actually run — the daily rhythm, the weekly cadence, the campaign-level retrospective.</p>
+    <p>None of it works without frequency. None of it works without visible leadership adoption. And none of it works without measurement. Build the routine. Measure the baseline. Prove the improvement. That's how it sticks.</p>
+  </div>
+
+  <div class="foot">
+    <span>Campaign Operations · RCA Records</span>
+    <span>Internal Reference · April 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
