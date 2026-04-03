@@ -61,16 +61,7 @@ h1 span{color:var(--green)}
 .flag-banner{background:rgba(255,74,35,0.06);border-left:3px solid var(--flame);padding:10px 16px;margin-bottom:20px;font-size:13px}
 .flag-banner strong{color:var(--flame);font-family:'Inter',sans-serif;letter-spacing:1px}
 
-.board-key{display:flex;gap:20px;flex-wrap:wrap;align-items:center;padding:12px 16px;background:var(--surface);border:1px solid var(--border);margin-bottom:20px;font-size:11px}
-.board-key .key-section{display:flex;gap:10px;align-items:center}
-.board-key .key-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px}
-.board-key .key-item{display:flex;align-items:center;gap:5px;color:var(--text);font-size:11px}
-.board-key .key-swatch{width:10px;height:10px;display:inline-block}
-.board-key .key-flag{width:8px;height:8px;border-radius:50%;background:var(--flame);display:inline-block}
-.board-key .key-border-sample{width:24px;height:14px;border:1px solid rgba(255,74,35,0.4);display:inline-block;background:var(--bg)}
-.board-key .key-sep{width:1px;height:16px;background:var(--border)}
-
-.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
+.kanban{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:16px}
 .lane{background:var(--card);border:1px solid var(--border);padding:10px;min-height:300px;transition:all .15s ease}
 .lane.hover{background:var(--surface);border-color:var(--dim)}
 .lane-header{padding-bottom:8px;margin-bottom:8px}
@@ -111,7 +102,7 @@ h1 span{color:var(--green)}
 .gallery-card .lane-tag{font-size:10px;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:1px;margin-bottom:4px}
 .gallery-card .g-title{font-size:13px;font-weight:600;color:var(--white);line-height:1.3;margin-bottom:6px}
 .gallery-card .g-note{font-size:11px;color:var(--text);line-height:1.4}
-.drop-zones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
+.drop-zones{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
 .drop-zone{border:1px dashed var(--muted);padding:14px 8px;text-align:center;transition:all .15s;min-height:56px}
 .drop-zone.hover{border-style:solid;background:var(--surface)}
 .drop-zone-label{font-size:11px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:1px}
@@ -129,6 +120,12 @@ h1 span{color:var(--green)}
 .callout-body{font-size:13px;color:var(--text);line-height:1.6}
 .callout-body em{color:var(--white);font-weight:600;font-style:normal}
 
+.gap-section{background:var(--card);border:1px solid rgba(255,74,35,0.3);padding:16px;margin-bottom:20px}
+.gap-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--flame)}
+.gap-section-title{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--flame)}
+.gap-section-count{font-size:11px;color:var(--dim)}
+.gap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+
 .footer{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
 
 @media(max-width:1000px){.kanban{grid-template-columns:repeat(3,1fr)}.drop-zones{grid-template-columns:repeat(3,1fr)}.team-grid{grid-template-columns:1fr}}
@@ -138,12 +135,12 @@ h1 span{color:var(--green)}
 <body>
 
 <nav>
-<a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="Campaign Ops" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
 <div class="nav-links">
 <a href="index.html">The Mission</a>
 <a href="orbit.html">The Cycle</a>
 <a href="timeline.html">Accountability</a>
-<div class="sndd"><span class="sndd-b active">Pipeline &#9662;</span><div class="sndd-m"><a href="lanes.html" style="color:#CDF851;">Lane Definition</a><a href="vcf.html">Value vs. Complexity</a></div></div>
+<span class="active-label">Lane Definition</span>
 <div class="sndd"><span class="sndd-b">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/operational-plan.html">How It Runs</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
 </div>
 </nav>
@@ -172,40 +169,12 @@ h1 span{color:var(--green)}
   </div>
 
   <div class="flag-banner" id="flagBanner"></div>
-
-  <div class="board-key">
-    <span class="key-label">Lanes</span>
-    <div class="key-section">
-      <div class="key-item"><span class="key-swatch" style="background:#CDF851"></span> Campaign Ops</div>
-      <div class="key-item"><span class="key-swatch" style="background:#5BC0BE"></span> Campaign Leads</div>
-      <div class="key-item"><span class="key-swatch" style="background:#7F77DD"></span> Audience Dev</div>
-      <div class="key-item"><span class="key-swatch" style="background:#B0A9BE"></span> Support</div>
-      <div class="key-item"><span class="key-swatch" style="background:#FF4A23"></span> Unresolved</div>
-    </div>
-    <span class="key-sep"></span>
-    <span class="key-label">Symbols</span>
-    <div class="key-section">
-      <div class="key-item"><span class="key-flag"></span> Flagged for discussion</div>
-      <div class="key-item"><span class="key-border-sample"></span> Needs a decision</div>
-    </div>
-    <span class="key-sep"></span>
-    <span class="key-label">Interaction</span>
-    <div class="key-section">
-      <div class="key-item">Drag cards between lanes</div>
-      <div class="key-item">Hover to see notes</div>
-    </div>
-  </div>
-
   <div id="kanbanContainer"></div>
+  <div id="gapContainer"></div>
   <div id="galleryContainer" style="display:none"></div>
   <div id="changelogContainer" style="display:none"></div>
   <div id="addModal" style="display:none"></div>
 
-  <div class="callout">
-    <div class="callout-label">Open Question</div>
-    <div class="callout-title">Who does Project Support actually support?</div>
-    <div class="callout-body">The JD says Support serves Campaign Leads, Audience Development, <strong>and</strong> Campaign Operations. But who directs their priorities? If Support reports into the same org as CL and Aud Dev, then Ops is the only team that has to <strong>request</strong> Support rather than <strong>direct</strong> it. This changes how ~15 responsibilities on this board actually work day-to-day.</div>
-  </div>
 
   <div class="footer"><span>Campaign Operations &middot; RCA Records</span><span>April 2026 &middot; Working Draft</span></div>
 </main>
@@ -218,8 +187,10 @@ const LANES = [
   { id:"leads", label:"CAMPAIGN LEADS", color:"#5BC0BE", bg:"rgba(91,192,190,0.08)", verbs:"Plan · Build · Execute · Present · Own" },
   { id:"auddev", label:"AUDIENCE DEV", color:"#7F77DD", bg:"rgba(127,119,221,0.08)", verbs:"Grow · Target · Optimize · Measure · Amplify" },
   { id:"support", label:"SUPPORT", color:"#B0A9BE", bg:"rgba(176,169,190,0.08)", verbs:"Execute · Coordinate · Deliver · Maintain" },
+  { id:"commercial", label:"COMMERCIAL P'SHIPS", color:"#5B9BD5", bg:"rgba(91,155,213,0.08)", verbs:"Pitch · Manage · Negotiate · Activate · Deliver" },
   { id:"gap", label:"UNRESOLVED", color:"#FF4A23", bg:"rgba(255,74,35,0.08)", verbs:"Needs a decision" },
 ];
+const BOARD_LANES = ["ops","leads","auddev","support","commercial"];
 const CATEGORIES = ["Strategy & Planning","Budget","Content & Assets","Platforms & Partners","Meetings & Comms","Systems & Data","Digital Rep Workflow"];
 const laneMap = Object.fromEntries(LANES.map(l=>[l.id,l]));
 
@@ -228,7 +199,7 @@ const INITIAL = [
   {id:2,text:"Digital campaign objective & plan",cat:"Strategy & Planning",lane:"leads",note:"Where does CL digital strategy end and Aud Dev execution begin?",flag:true},
   {id:3,text:"Audience strategy & segmentation",cat:"Strategy & Planning",lane:"auddev",note:"Present audience strategy pre-rollout"},
   {id:4,text:"Shortform content planning",cat:"Strategy & Planning",lane:"leads",note:"CL outlines ideas. Shortform executes."},
-  {id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"GAP: Not happening consistently",flag:true},
+  {id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"Not happening consistently. Should activate in Development phase.",flag:true},
   {id:6,text:"Release readiness tracking",cat:"Strategy & Planning",lane:"ops",note:"Ops surfaces gaps → Leads resolves"},
   {id:7,text:"Per-artist budget creation",cat:"Budget",lane:"leads",note:"CL builds breakdown, submits to PM"},
   {id:8,text:"Budget visibility & divergence",cat:"Budget",lane:"ops",note:"Surfaces difference between verbal approval and Console"},
@@ -243,12 +214,14 @@ const INITIAL = [
   {id:17,text:"Video deliverables (Earworm, BA)",cat:"Content & Assets",lane:"leads",note:"CL requests treatment, verifies BA"},
   {id:18,text:"Website management & social profiles",cat:"Content & Assets",lane:"support",note:"Setup, maintenance, consistency"},
   {id:19,text:"Artist newsletter creation",cat:"Content & Assets",lane:"support",note:"CL provides direction, Support executes"},
-  {id:20,text:"DSP partner pitching",cat:"Platforms & Partners",lane:"gap",note:"Restructuring moves to Commercial. CL To-Do still lists as CL.",flag:true},
+  {id:20,text:"DSP partner pitching (YouTube, Spotify, Apple)",cat:"Platforms & Partners",lane:"commercial",note:"Moved from Digital Marketing in restructuring"},
   {id:21,text:"Social platform pitching (TikTok, Meta, Snap)",cat:"Platforms & Partners",lane:"gap",note:"CL preps pitch. Commercial owns relationship?",flag:true},
   {id:22,text:"Partner catch-ups & updates",cat:"Platforms & Partners",lane:"leads",note:"CL Partner Lead facilitates"},
   {id:23,text:"Music delivery to partners",cat:"Platforms & Partners",lane:"support",note:"A&R Admin. Ops tracks delivery status."},
   {id:24,text:"Influencer/agency solicitation",cat:"Platforms & Partners",lane:"leads",note:"CL contacts agencies, presents for sign-off"},
-  {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"support",note:"Form submission."},
+  {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"support",note:"Form submission. Due noon Tuesday."},
+  {id:52,text:"Streaming partner relationships",cat:"Platforms & Partners",lane:"commercial",note:"Ongoing relationship management with DSPs"},
+  {id:53,text:"Social & video partner management",cat:"Platforms & Partners",lane:"commercial",note:"Moved from Digital Marketing per restructuring"},
   {id:26,text:"Cross-dept meeting prep & follow-up",cat:"Meetings & Comms",lane:"ops",note:"Goal Briefs, notes, action tracking"},
   {id:27,text:"Meeting notes distribution",cat:"Meetings & Comms",lane:"ops",note:"Ops produces → SVPs review → Ops distributes"},
   {id:28,text:"Action item tracking",cat:"Meetings & Comms",lane:"ops",note:"98 items tracked from last AP alone"},
@@ -261,20 +234,19 @@ const INITIAL = [
   {id:35,text:"Release Runway data",cat:"Systems & Data",lane:"ops",note:"All depts populate. Ops surfaces."},
   {id:36,text:"Console (financial system)",cat:"Systems & Data",lane:"leads",note:"Finance owns. CL allocates. Ops tracks divergence."},
   {id:37,text:"Linkfire / SMF / Marketing Cloud",cat:"Systems & Data",lane:"support",note:"Link creation, pre-saves, blasts"},
-  {id:38,text:"Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
-  {id:39,text:"Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
-  {id:40,text:"Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
-  {id:41,text:"VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"support",note:"Form submission."},
-  {id:42,text:"SMF campaign setup",cat:"Digital Rep Workflow",lane:"auddev",note:"Audience-facing. Pre-save strategy."},
-  {id:43,text:"NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
-  {id:44,text:"YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
-  {id:45,text:"Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
-  {id:46,text:"Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
-  {id:47,text:"TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
-  {id:48,text:"Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud."},
+  {id:38,text:"Mon: Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
+  {id:39,text:"Mon: Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
+  {id:40,text:"Mon: Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
+  {id:41,text:"Tue: VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"support",note:"Form. Due noon ET."},
+  {id:42,text:"Tue: SMF campaign setup",cat:"Digital Rep Workflow",lane:"auddev",note:"Audience-facing. Pre-save strategy."},
+  {id:43,text:"Wed: NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
+  {id:44,text:"Thu: YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
+  {id:45,text:"Thu: Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
+  {id:46,text:"Fri: Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
+  {id:47,text:"Fri: TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
+  {id:48,text:"Fri: Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud. Mgmt approval by Thu."},
   {id:49,text:"Upstream dependency tracking (Mon)",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody tracks whether inputs arrive. Ops flags.",flag:true},
-  {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody flags when it's missed.",flag:true},
-  {id:51,text:"Who does Support report to?",cat:"Digital Rep Workflow",lane:"gap",note:"JD says serves CL + Aud Dev + Ops. But who directs priorities?",flag:true},
+  {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Thu deadline. Nobody flags when it's missed.",flag:true},
 ];
 
 let items = JSON.parse(JSON.stringify(INITIAL));
@@ -404,21 +376,36 @@ function render() {
   if (viewMode === "kanban") {
     kc.style.display = ""; gc.style.display = "none";
     let html = '<div class="kanban">';
-    LANES.forEach(lane => {
-      const li = filtered.filter(i => i.lane === lane.id);
-      html += '<div class="lane" data-lane="' + lane.id + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
+    BOARD_LANES.forEach(laneId => {
+      const lane = laneMap[laneId];
+      const li = filtered.filter(i => i.lane === laneId);
+      html += '<div class="lane" data-lane="' + laneId + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
       html += '<div class="lane-header" style="border-bottom:2px solid ' + lane.color + '">';
       html += '<div class="lane-title" style="color:' + lane.color + '">' + lane.label + '</div>';
       html += '<div class="lane-verbs">' + lane.verbs + '</div>';
       html += '<div class="lane-count">' + li.length + ' items</div></div>';
       li.forEach(item => { html += cardHTML(item); });
-      html += '<div class="add-btn" onclick="openAdd(\'' + lane.id + '\')">+ Add</div>';
+      html += '<div class="add-btn" onclick="openAdd(\'' + laneId + '\')">+ Add</div>';
       html += '</div>';
     });
     html += '</div>';
     kc.innerHTML = html;
+
+    // Gap section at bottom
+    var gapLane = laneMap["gap"];
+    var gapItems = filtered.filter(i => i.lane === "gap");
+    var ghtml = '<div class="gap-section" data-lane="gap">';
+    ghtml += '<div class="gap-section-header"><div class="gap-section-title">&#x25CF; UNRESOLVED — Needs a decision</div>';
+    ghtml += '<div class="gap-section-count">' + gapItems.length + ' items</div></div>';
+    ghtml += '<div class="gap-grid">';
+    gapItems.forEach(item => { ghtml += cardHTML(item); });
+    ghtml += '<div class="add-btn" onclick="openAdd(\'gap\')" style="min-height:40px;display:flex;align-items:center;justify-content:center">+ Add</div>';
+    ghtml += '</div></div>';
+    document.getElementById("gapContainer").innerHTML = ghtml;
+    document.getElementById("gapContainer").style.display = "";
   } else {
     kc.style.display = "none"; gc.style.display = "";
+    document.getElementById("gapContainer").style.display = "none";
     let html = '<div class="gallery">';
     const cats = currentFilter === "all" ? CATEGORIES : [currentFilter];
     cats.forEach(cat => {
@@ -606,7 +593,7 @@ function autoLoad() {
   } catch(e) {}
 }
 
-let nextId = 52;
+let nextId = 54;
 let addLane = "gap";
 
 function openAdd(lane) {
