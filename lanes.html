@@ -204,12 +204,12 @@ const laneMap = Object.fromEntries(LANES.map(l=>[l.id,l]));
 
 const INITIAL = [
   {id:1,text:"Campaign strategy & narrative",cat:"Strategy & Planning",lane:"leads",note:"Ops distributes plan once approved"},
-  {id:2,text:"Digital campaign objective & plan",cat:"Strategy & Planning",lane:"leads",note:"Where does CL digital strategy end and Aud Dev execution begin?",flag:true},
-  {id:3,text:"Audience strategy & segmentation",cat:"Strategy & Planning",lane:"auddev",note:"Present audience strategy pre-rollout"},
-  {id:4,text:"Shortform content planning",cat:"Strategy & Planning",lane:"auddev",note:"CL outlines ideas. Shortform executes."},
-  {id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"GAP: Not happening consistently",flag:true},
+  {id:2,text:"Digital campaign objective & plan",cat:"Strategy & Planning",lane:"gap",note:"REMOVED from Leads. Absorbed into Aud Dev audience growth/engagement strategy.",flag:true},
+  {id:3,text:"Audience definition",cat:"Strategy & Planning",lane:"auddev",note:"Define target audience pre-rollout"},
+  {id:4,text:"Short-form strategy & execution",cat:"Strategy & Planning",lane:"auddev",note:"Aud Dev owns short-form strategy and execution"},
+  {id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"Signed artists only. Not happening consistently.",flag:true},
   {id:6,text:"Release readiness tracking",cat:"Strategy & Planning",lane:"ops",note:"Ops surfaces gaps → Leads resolves"},
-  {id:7,text:"Per-artist budget creation",cat:"Budget",lane:"leads",note:"CL builds breakdown, submits to PM"},
+  {id:7,text:"Budget strategy & oversight",cat:"Budget",lane:"leads",note:"CL builds budget, aligns spend to campaign goals"},
   {id:8,text:"Budget visibility & divergence",cat:"Budget",lane:"ops",note:"Surfaces difference between verbal approval and Console"},
   {id:9,text:"Budget reallocation",cat:"Budget",lane:"leads",note:"Leads → Finance → COO"},
   {id:10,text:"PO/Invoice submission",cat:"Budget",lane:"support",note:"CL fills out PO doc"},
@@ -226,37 +226,43 @@ const INITIAL = [
   {id:21,text:"Social platform pitching (TikTok, Meta, Snap)",cat:"Platforms & Partners",lane:"commercial",note:"CL preps pitch. Commercial owns relationship?",flag:true},
   {id:22,text:"Partner catch-ups & updates",cat:"Platforms & Partners",lane:"commercial",note:"CL Partner Lead facilitates"},
   {id:23,text:"Music delivery to partners",cat:"Platforms & Partners",lane:"commercial",note:"A&R Admin. Ops tracks delivery status."},
-  {id:24,text:"Influencer/agency solicitation",cat:"Platforms & Partners",lane:"auddev",note:"CL contacts agencies, presents for sign-off"},
+  {id:24,text:"Influencer marketing",cat:"Platforms & Partners",lane:"auddev",note:"Aud Dev owns influencer strategy and agency relationships"},
   {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"commercial",note:"Form submission."},
   {id:26,text:"Cross-dept meeting prep & follow-up",cat:"Meetings & Comms",lane:"ops",note:"Goal Briefs, notes, action tracking"},
   {id:27,text:"Meeting notes distribution",cat:"Meetings & Comms",lane:"ops",note:"Ops produces → SVPs review → Ops distributes"},
   {id:28,text:"Action item tracking",cat:"Meetings & Comms",lane:"ops",note:"98 items tracked from last AP alone"},
   {id:29,text:"ICYMI Teams updates",cat:"Meetings & Comms",lane:"gap",note:"CL shares highlights? Ops surfaces signals? Both?",flag:true},
   {id:30,text:"Artist briefings (13-dept)",cat:"Meetings & Comms",lane:"ops",note:"Ops assembles, CL consumes"},
-  {id:31,text:"RCA newsletter/social post orders",cat:"Meetings & Comms",lane:"support",note:"Plugging releases into sheet. Logistics."},
+  {id:31,text:"RCA Newsletter",cat:"Meetings & Comms",lane:"support",note:"Newsletter coordination and distribution"},
   {id:32,text:"Dashboards & tracking tools",cat:"Systems & Data",lane:"ops",note:"TEMPO, Airtable, Orbit"},
   {id:33,text:"Data layer & system of record",cat:"Systems & Data",lane:"ops",note:"Ops maintains. All teams input."},
-  {id:34,text:"Audience data & KPI measurement",cat:"Systems & Data",lane:"auddev",note:"Aud Dev produces → CL uses"},
+  {id:34,text:"Audience data & KPI measurement",cat:"Systems & Data",lane:"auddev",note:"KPIs defined by Strategic Analytics. Executed by Aud Dev."},
   {id:35,text:"Release Runway data",cat:"Systems & Data",lane:"ops",note:"All depts populate. Ops surfaces."},
   {id:36,text:"Console (financial system)",cat:"Systems & Data",lane:"support",note:"Finance owns. CL allocates. Ops tracks divergence."},
   {id:37,text:"Linkfire / SMF / Marketing Cloud",cat:"Systems & Data",lane:"support",note:"Link creation, pre-saves, blasts"},
-  {id:38,text:"Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
+  {id:38,text:"Asset requests (all channels)",cat:"Digital Rep Workflow",lane:"support",note:"Merged: Airtable + direct requests from Creative, A&R Admin, Production"},
   {id:39,text:"Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
   {id:40,text:"Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
   {id:41,text:"VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"commercial",note:"Form submission."},
-  {id:42,text:"SMF campaign setup",cat:"Digital Rep Workflow",lane:"support",note:"Audience-facing. Pre-save strategy."},
+  {id:42,text:"SMF page build & execution",cat:"Digital Rep Workflow",lane:"support",note:"Audience-facing. Pre-save strategy."},
   {id:43,text:"NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
   {id:44,text:"YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
-  {id:45,text:"Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
+  {id:45,text:"Shared asset access (Publicity & Intl)",cat:"Digital Rep Workflow",lane:"support",note:"Replaced manual sending with shared access. No more handoff."},
   {id:46,text:"Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
-  {id:47,text:"TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
+  {id:47,text:"Platform management",cat:"Digital Rep Workflow",lane:"auddev",note:"TikTok, social platform strategy and execution"},
   {id:48,text:"Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud."},
   {id:49,text:"Upstream dependency tracking (Mon)",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody tracks whether inputs arrive. Ops flags.",flag:true},
   {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody flags when it's missed.",flag:true},
   {id:51,text:"Who does Support report to?",cat:"Digital Rep Workflow",lane:"gap",note:"JD says serves CL + Aud Dev + Ops. But who directs priorities?",flag:true},
-  {id:52,text:"Timeline creation",cat:"Strategy & Planning",lane:"leads",note:""},
-  {id:53,text:"Triggering pre-saves, websites, marketing assets",cat:"Content & Assets",lane:"leads",note:"might be 3 different things -"},
-  {id:54,text:"Paid Ads",cat:"Strategy & Planning",lane:"leads",note:"",flag:true}
+  {id:52,text:"Timeline creation & ownership",cat:"Strategy & Planning",lane:"leads",note:""},
+  {id:53,text:"Triggering core, timeline-based assets",cat:"Content & Assets",lane:"leads",note:"Pre-saves, websites, marketing assets — consolidated"},
+  {id:54,text:"Paid Ads",cat:"Strategy & Planning",lane:"leads",note:"Split between CL (strategy) and Aud Dev (execution). Needs finalization.",flag:true},
+  {id:55,text:"Audience growth strategy",cat:"Strategy & Planning",lane:"auddev",note:"New. Defines how to grow artist audience across platforms."},
+  {id:56,text:"Audience engagement strategy",cat:"Strategy & Planning",lane:"auddev",note:"New. Defines how to engage and retain existing audience."},
+  {id:57,text:"Claim management",cat:"Digital Rep Workflow",lane:"support",note:"New. Claims + takedowns across platforms."},
+  {id:58,text:"Finalize bucket naming",cat:"Strategy & Planning",lane:"gap",note:"Open item from meeting. Language needs final pass.",flag:true},
+  {id:59,text:"Create master deliverables checklist",cat:"Content & Assets",lane:"gap",note:"Open item from meeting.",flag:true},
+  {id:60,text:"Define Artist Briefings future-state",cat:"Meetings & Comms",lane:"gap",note:"Open item from meeting. Current: Ops assembles. Future TBD.",flag:true}
 ];
 
 let items = JSON.parse(JSON.stringify(INITIAL));
@@ -656,7 +662,7 @@ function autoLoad() {
   } catch(e) {}
 }
 
-let nextId = 55;
+let nextId = 61;
 let addLane = "gap";
 
 function openAdd(lane) {
