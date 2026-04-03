@@ -61,6 +61,15 @@ h1 span{color:var(--green)}
 .flag-banner{background:rgba(255,74,35,0.06);border-left:3px solid var(--flame);padding:10px 16px;margin-bottom:20px;font-size:13px}
 .flag-banner strong{color:var(--flame);font-family:'Inter',sans-serif;letter-spacing:1px}
 
+.board-key{display:flex;gap:20px;flex-wrap:wrap;align-items:center;padding:12px 16px;background:var(--surface);border:1px solid var(--border);margin-bottom:20px;font-size:11px}
+.board-key .key-section{display:flex;gap:10px;align-items:center}
+.board-key .key-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.board-key .key-item{display:flex;align-items:center;gap:5px;color:var(--text);font-size:11px}
+.board-key .key-swatch{width:10px;height:10px;display:inline-block}
+.board-key .key-flag{width:8px;height:8px;border-radius:50%;background:var(--flame);display:inline-block}
+.board-key .key-border-sample{width:24px;height:14px;border:1px solid rgba(255,74,35,0.4);display:inline-block;background:var(--bg)}
+.board-key .key-sep{width:1px;height:16px;background:var(--border)}
+
 .kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
 .lane{background:var(--card);border:1px solid var(--border);padding:10px;min-height:300px;transition:all .15s ease}
 .lane.hover{background:var(--surface);border-color:var(--dim)}
@@ -163,6 +172,30 @@ h1 span{color:var(--green)}
   </div>
 
   <div class="flag-banner" id="flagBanner"></div>
+
+  <div class="board-key">
+    <span class="key-label">Lanes</span>
+    <div class="key-section">
+      <div class="key-item"><span class="key-swatch" style="background:#CDF851"></span> Campaign Ops</div>
+      <div class="key-item"><span class="key-swatch" style="background:#5BC0BE"></span> Campaign Leads</div>
+      <div class="key-item"><span class="key-swatch" style="background:#7F77DD"></span> Audience Dev</div>
+      <div class="key-item"><span class="key-swatch" style="background:#B0A9BE"></span> Support</div>
+      <div class="key-item"><span class="key-swatch" style="background:#FF4A23"></span> Unresolved</div>
+    </div>
+    <span class="key-sep"></span>
+    <span class="key-label">Symbols</span>
+    <div class="key-section">
+      <div class="key-item"><span class="key-flag"></span> Flagged for discussion</div>
+      <div class="key-item"><span class="key-border-sample"></span> Needs a decision</div>
+    </div>
+    <span class="key-sep"></span>
+    <span class="key-label">Interaction</span>
+    <div class="key-section">
+      <div class="key-item">Drag cards between lanes</div>
+      <div class="key-item">Hover to see notes</div>
+    </div>
+  </div>
+
   <div id="kanbanContainer"></div>
   <div id="galleryContainer" style="display:none"></div>
   <div id="changelogContainer" style="display:none"></div>
@@ -215,7 +248,7 @@ const INITIAL = [
   {id:22,text:"Partner catch-ups & updates",cat:"Platforms & Partners",lane:"leads",note:"CL Partner Lead facilitates"},
   {id:23,text:"Music delivery to partners",cat:"Platforms & Partners",lane:"support",note:"A&R Admin. Ops tracks delivery status."},
   {id:24,text:"Influencer/agency solicitation",cat:"Platforms & Partners",lane:"leads",note:"CL contacts agencies, presents for sign-off"},
-  {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"support",note:"Form submission. Due noon Tuesday."},
+  {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"support",note:"Form submission."},
   {id:26,text:"Cross-dept meeting prep & follow-up",cat:"Meetings & Comms",lane:"ops",note:"Goal Briefs, notes, action tracking"},
   {id:27,text:"Meeting notes distribution",cat:"Meetings & Comms",lane:"ops",note:"Ops produces → SVPs review → Ops distributes"},
   {id:28,text:"Action item tracking",cat:"Meetings & Comms",lane:"ops",note:"98 items tracked from last AP alone"},
@@ -228,19 +261,19 @@ const INITIAL = [
   {id:35,text:"Release Runway data",cat:"Systems & Data",lane:"ops",note:"All depts populate. Ops surfaces."},
   {id:36,text:"Console (financial system)",cat:"Systems & Data",lane:"leads",note:"Finance owns. CL allocates. Ops tracks divergence."},
   {id:37,text:"Linkfire / SMF / Marketing Cloud",cat:"Systems & Data",lane:"support",note:"Link creation, pre-saves, blasts"},
-  {id:38,text:"Mon: Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
-  {id:39,text:"Mon: Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
-  {id:40,text:"Mon: Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
-  {id:41,text:"Tue: VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"support",note:"Form. Due noon ET."},
-  {id:42,text:"Tue: SMF campaign setup",cat:"Digital Rep Workflow",lane:"auddev",note:"Audience-facing. Pre-save strategy."},
-  {id:43,text:"Wed: NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
-  {id:44,text:"Thu: YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
-  {id:45,text:"Thu: Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
-  {id:46,text:"Fri: Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
-  {id:47,text:"Fri: TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
-  {id:48,text:"Fri: Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud. Mgmt approval by Thu."},
+  {id:38,text:"Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
+  {id:39,text:"Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
+  {id:40,text:"Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
+  {id:41,text:"VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"support",note:"Form submission."},
+  {id:42,text:"SMF campaign setup",cat:"Digital Rep Workflow",lane:"auddev",note:"Audience-facing. Pre-save strategy."},
+  {id:43,text:"NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
+  {id:44,text:"YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
+  {id:45,text:"Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
+  {id:46,text:"Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
+  {id:47,text:"TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
+  {id:48,text:"Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud."},
   {id:49,text:"Upstream dependency tracking (Mon)",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody tracks whether inputs arrive. Ops flags.",flag:true},
-  {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Thu deadline. Nobody flags when it's missed.",flag:true},
+  {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody flags when it's missed.",flag:true},
   {id:51,text:"Who does Support report to?",cat:"Digital Rep Workflow",lane:"gap",note:"JD says serves CL + Aud Dev + Ops. But who directs priorities?",flag:true},
 ];
 
