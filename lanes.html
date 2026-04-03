@@ -70,6 +70,14 @@ h1 span{color:var(--green)}
 .lane-count{color:var(--dim);font-size:11px;font-family:'Inter',sans-serif;margin-top:4px}
 
 .card-item{background:var(--bg);border:1px solid var(--border);padding:6px 10px;margin-bottom:4px;cursor:grab;transition:border-color .15s;position:relative}
+.card-item.editing{border-color:var(--green);cursor:default}
+.card-item.editing .card-item-title,.card-item.editing .card-item-note{cursor:text}
+.edit-input{background:transparent;border:none;border-bottom:1px solid var(--green);color:var(--white);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;width:100%;padding:2px 0;outline:none;margin-bottom:2px}
+.edit-note{background:transparent;border:none;border-bottom:1px solid var(--dim);color:var(--dim);font-family:'Inter',sans-serif;font-size:10px;width:100%;padding:2px 0;outline:none;resize:none;line-height:1.4}
+.edit-actions{display:flex;gap:4px;margin-top:4px}
+.edit-actions button{font-size:9px;padding:2px 8px;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif}
+.edit-actions .save-edit{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:700}
+.edit-actions .cancel-edit{background:var(--bg);color:var(--dim)}
 .card-item:hover{border-color:var(--dim)}
 .card-item.flagged{border-color:rgba(255,74,35,0.4)}
 .card-item.dragging{opacity:.4}
@@ -348,11 +356,64 @@ function cardHTML(item) {
   } else if (item.lane === 'gap') {
     deptTag = '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" title="Click to assign department" style="opacity:0.5">+ assign dept</div>';
   }
-  return '<div class="card-item' + (item.flag ? ' flagged' : '') + '" draggable="true" data-id="' + item.id + '">' +
+  return '<div class="card-item' + (item.flag ? ' flagged' : '') + '" draggable="true" data-id="' + item.id + '" ondblclick="editCard(event,' + item.id + ')">' +
     '<div class="card-item-title">' + (item.flag ? '<span class="dot">&#x25CF;</span>' : '') + item.text + '</div>' +
     '<div class="card-item-note">' + item.note + '</div>' +
     deptTag +
     '<div class="card-item-cat">' + item.cat + '</div></div>';
+}
+
+function editCard(e, itemId) {
+  e.stopPropagation();
+  const item = items.find(i => i.id === itemId);
+  if (!item) return;
+  const el = e.currentTarget;
+  el.draggable = false;
+  el.classList.add('editing');
+  const oldTitle = item.text;
+  const oldNote = item.note;
+  el.innerHTML =
+    '<input class="edit-input" id="editTitle' + itemId + '" value="' + item.text.replace(/"/g, '&quot;') + '">' +
+    '<textarea class="edit-note" id="editNote' + itemId + '" rows="2">' + item.note.replace(/</g, '&lt;') + '</textarea>' +
+    '<div class="edit-actions">' +
+    '<button class="cancel-edit" onclick="event.stopPropagation();cancelEdit(' + itemId + ')">Cancel</button>' +
+    '<button class="save-edit" onclick="event.stopPropagation();saveEdit(' + itemId + ')">Save</button>' +
+    '</div>';
+  var titleInput = document.getElementById('editTitle' + itemId);
+  titleInput.focus();
+  titleInput.addEventListener('keydown', function(ev) {
+    if (ev.key === 'Enter') { ev.preventDefault(); saveEdit(itemId); }
+    if (ev.key === 'Escape') { cancelEdit(itemId); }
+  });
+  document.getElementById('editNote' + itemId).addEventListener('keydown', function(ev) {
+    if (ev.key === 'Escape') { cancelEdit(itemId); }
+    if (ev.key === 'Enter' && ev.metaKey) { saveEdit(itemId); }
+  });
+}
+
+function saveEdit(itemId) {
+  const item = items.find(i => i.id === itemId);
+  if (!item) return;
+  const newTitle = document.getElementById('editTitle' + itemId).value.trim();
+  const newNote = document.getElementById('editNote' + itemId).value.trim();
+  if (newTitle && (newTitle !== item.text || newNote !== item.note)) {
+    const changes = [];
+    if (newTitle !== item.text) changes.push('title: "' + item.text + '" → "' + newTitle + '"');
+    if (newNote !== item.note) changes.push('note updated');
+    item.text = newTitle;
+    item.note = newNote;
+    changelog.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: 'EDITED "' + newTitle + '" — ' + changes.join(', '),
+      from: item.lane, to: item.lane
+    });
+    autoSave();
+  }
+  render();
+}
+
+function cancelEdit(itemId) {
+  render();
 }
 
 function render() {
