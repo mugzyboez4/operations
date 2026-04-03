@@ -3,251 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Value vs. Complexity — Campaign Ops Builds</title>
+<title>Value vs. Complexity — Campaign Ops</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0F0E0E; color: #FCFDF8; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-
-  .header {
-    padding: 32px 40px 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .header .label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #CDF851;
-    margin-bottom: 8px;
-  }
-  .header h1 {
-    font-weight: 900;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
-  .header .sub {
-    font-size: 13px;
-    color: #B0A9BE;
-    max-width: 600px;
-  }
-
-  .quad-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px 40px;
-  }
-
-  /* AXIS LABELS */
-  .axis-wrapper {
-    display: grid;
-    grid-template-columns: 28px 1fr;
-    grid-template-rows: 1fr 28px;
-    gap: 0;
-    height: 680px;
-  }
-  .y-label {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #3E3F41;
-  }
-  .x-label {
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #3E3F41;
-  }
-
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 2px;
-    height: 100%;
-    position: relative;
-  }
-  .quadrant {
-    background: #1A1A1A;
-    position: relative;
-    padding: 16px;
-    overflow: visible;
-  }
-  .quadrant .q-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    position: absolute;
-    z-index: 1;
-  }
-  .q-tl .q-label { top: 14px; left: 16px; color: #CDF851; }
-  .q-tr .q-label { top: 14px; right: 16px; color: #B0A9BE; text-align: right; }
-  .q-bl .q-label { bottom: 14px; left: 16px; color: #3E3F41; }
-  .q-br .q-label { bottom: 14px; right: 16px; color: #FF4A23; text-align: right; }
-
-  /* CENTER CROSS */
-  .grid::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #3E3F41;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .grid::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #3E3F41;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  /* ARROW LABELS on axes */
-  .arrow-high-v, .arrow-low-v, .arrow-low-c, .arrow-high-c {
-    position: absolute;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    color: #3E3F41;
-    letter-spacing: 1px;
-    z-index: 3;
-    pointer-events: none;
-  }
-  .arrow-high-v { top: 8px; left: 50%; transform: translateX(-50%); }
-  .arrow-low-v { bottom: 8px; left: 50%; transform: translateX(-50%); }
-  .arrow-low-c { bottom: 8px; left: 8px; }
-  .arrow-high-c { bottom: 8px; right: 8px; }
-
-  /* ITEMS */
-  .item {
-    position: absolute;
-    background: #0F0E0E;
-    border: 1px solid #3E3F41;
-    padding: 8px 12px;
-    cursor: grab;
-    z-index: 10;
-    max-width: 200px;
-    transition: box-shadow 0.15s;
-    user-select: none;
-  }
-  .item:hover { border-color: #CDF851; }
-  .item.dragging {
-    cursor: grabbing;
-    box-shadow: 0 8px 32px rgba(205,248,81,0.15);
-    border-color: #CDF851;
-    z-index: 100;
-  }
-  .item .item-name {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.3;
-    margin-bottom: 2px;
-  }
-  .item .item-detail {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    color: #B0A9BE;
-    line-height: 1.3;
-  }
-  .item .item-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    margin-right: 4px;
-    position: relative;
-    top: -1px;
-  }
-  .dot-live { background: #CDF851; }
-  .dot-building { background: #FF4A23; }
-  .dot-planned { background: #3E3F41; }
-
-  /* LEGEND */
-  .legend {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px 20px;
-    display: flex;
-    gap: 24px;
-    align-items: center;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: #B0A9BE;
-  }
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    display: inline-block;
-  }
-
-  /* CONTROLS */
-  .controls {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px 40px;
-    display: flex;
-    gap: 12px;
-  }
-  .btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    background: #1A1A1A;
-    color: #B0A9BE;
-    border: 1px solid #3E3F41;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn:hover { border-color: #CDF851; color: #CDF851; }
-  .btn.primary { background: #CDF851; color: #0F0E0E; border-color: #CDF851; }
-  .btn.primary:hover { background: #b8e048; }
-
-  .footer {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 16px 40px;
-    border-top: 1px solid #1A1A1A;
-    font-size: 11px;
-    color: #3E3F41;
-  }
-
-  @media (max-width: 768px) {
-    .header, .quad-container, .legend, .controls, .footer { padding-left: 16px; padding-right: 16px; }
-    .axis-wrapper { height: 500px; }
-    .item { max-width: 140px; padding: 6px 8px; }
-    .item .item-name { font-size: 11px; }
-  }
+  :root{--bg:#0F0E0E;--surface:#141414;--card:#181818;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD;--blue:#5B9BD5}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:44px;position:sticky;top:0;z-index:9999}
+  nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+  nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+  nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+  nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+  nav .nav-links{display:flex;align-items:center;gap:2px}
+  nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color .15s}
+  nav .nav-links a:hover{color:var(--white)}
+  nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
+  .sndd{position:relative;display:inline-block}
+  .sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+  .sndd-b:hover{color:var(--white)}
+  .sndd-b.active{font-weight:700;color:var(--green);border-bottom:2px solid var(--green)}
+  .sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:220px;z-index:10000;padding:4px 0}
+  .sndd:hover .sndd-m{display:block}
+  .sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+  .sndd-m a:hover{background:var(--border);color:var(--white)}
+  .sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+  .sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+  .header{padding:28px 40px 20px;max-width:1200px;margin:0 auto}
+  .header .label{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .header h1{font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:6px}
+  .header .sub{font-size:13px;color:var(--text);max-width:600px}
+  .toolbar{max-width:1100px;margin:0 auto;padding:0 40px 16px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .legend{display:flex;gap:16px;align-items:center}
+  .legend-item{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text)}
+  .legend-dot{width:8px;height:8px;display:inline-block}
+  .toolbar-sep{width:1px;height:18px;background:var(--border)}
+  .btn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;background:var(--card);color:var(--text);border:1px solid var(--border);cursor:pointer;transition:all .15s}
+  .btn:hover{border-color:var(--green);color:var(--green)}
+  .btn.primary{background:var(--green);color:var(--bg);border-color:var(--green)}
+  .btn.primary:hover{background:#b8e048}
+  .btn.danger{color:var(--flame);border-color:var(--flame)}
+  .btn.danger:hover{background:var(--flame);color:var(--bg)}
+  .quad-container{max-width:1100px;margin:0 auto;padding:0 40px 40px}
+  .axis-wrapper{display:grid;grid-template-columns:28px 1fr;grid-template-rows:1fr 28px;height:640px}
+  .y-label{writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .x-label{grid-column:2;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;height:100%;position:relative}
+  .quadrant{background:#1A1A1A;position:relative;padding:16px}
+  .quadrant .q-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;position:absolute;z-index:1}
+  .q-tl .q-label{top:14px;left:16px;color:var(--green)}
+  .q-tr .q-label{top:14px;right:16px;color:var(--text);text-align:right}
+  .q-bl .q-label{bottom:14px;left:16px;color:var(--muted)}
+  .q-br .q-label{bottom:14px;right:16px;color:var(--flame);text-align:right}
+  .grid::before{content:'';position:absolute;top:50%;left:0;right:0;height:2px;background:var(--muted);z-index:2;pointer-events:none}
+  .grid::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--muted);z-index:2;pointer-events:none}
+  .item{position:absolute;background:var(--bg);border:1px solid var(--border);padding:7px 11px;cursor:grab;z-index:10;max-width:200px;transition:box-shadow .15s;user-select:none}
+  .item:hover{border-color:var(--green)}
+  .item.dragging{cursor:grabbing;box-shadow:0 8px 32px rgba(205,248,81,.15);border-color:var(--green);z-index:100}
+  .item .item-name{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:2px}
+  .item .item-detail{font-family:'DM Mono',monospace;font-size:9px;color:var(--text);line-height:1.3}
+  .item .item-dot{display:inline-block;width:6px;height:6px;margin-right:4px;position:relative;top:-1px;cursor:pointer}
+  .dot-live{background:var(--green)}
+  .dot-building{background:var(--flame)}
+  .dot-planned{background:var(--muted)}
+  .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:5000;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--card);border:1px solid var(--border);padding:24px;width:360px;max-width:90vw}
+  .modal h3{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:16px}
+  .modal label{display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--text);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;margin-top:12px}
+  .modal input,.modal select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;outline:none}
+  .modal input:focus,.modal select:focus{border-color:var(--green)}
+  .modal .modal-actions{display:flex;gap:8px;margin-top:20px}
+  .modal .modal-actions .btn{flex:1;text-align:center}
+  .footer{max-width:1100px;margin:0 auto;padding:16px 40px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
+  @media(max-width:768px){nav{padding:0 12px;overflow-x:auto}nav .nav-links{flex-wrap:nowrap;white-space:nowrap}.header,.quad-container,.toolbar,.footer{padding-left:16px;padding-right:16px}.axis-wrapper{height:480px}.item{max-width:140px}}
 </style>
 </head>
 <body>
@@ -261,217 +89,98 @@
 <div class="sndd"><span class="sndd-b">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/operational-plan.html">How It Runs</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
 </div>
 </nav>
-
 <div class="header">
-  <div class="label">Campaign Ops</div>
+  <div class="label">Pipeline</div>
   <h1>VALUE VS. COMPLEXITY</h1>
-  <div class="sub">Drag builds to reposition. Top-left = high value, low complexity (quick wins). Screenshot or export for Jordan.</div>
+  <div class="sub">Drag to reposition. Double-click to edit. Click the dot to cycle status. Auto-saves to browser.</div>
 </div>
-
-<div class="legend">
-  <div class="legend-item"><span class="legend-dot dot-live"></span> Live</div>
-  <div class="legend-item"><span class="legend-dot dot-building"></span> Building</div>
-  <div class="legend-item"><span class="legend-dot dot-planned"></span> Planned</div>
+<div class="toolbar">
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot dot-live"></span> Live</div>
+    <div class="legend-item"><span class="legend-dot dot-building"></span> Building</div>
+    <div class="legend-item"><span class="legend-dot dot-planned"></span> Planned</div>
+  </div>
+  <span class="toolbar-sep"></span>
+  <button class="btn primary" onclick="openAdd()">+ Add</button>
+  <button class="btn" onclick="saveFile()">Save .json</button>
+  <button class="btn" onclick="document.getElementById('fileInput').click()">Load .json</button>
+  <button class="btn" onclick="exportMd()">Export</button>
+  <button class="btn" onclick="resetAll()">Reset</button>
+  <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleLoad(event)">
 </div>
-
 <div class="quad-container">
   <div class="axis-wrapper">
-    <div class="y-label">← Value →</div>
+    <div class="y-label">&larr; Value &rarr;</div>
     <div class="grid" id="grid">
-      <!-- Quadrant backgrounds -->
       <div class="quadrant q-tl"><span class="q-label">QUICK WINS</span></div>
       <div class="quadrant q-tr"><span class="q-label">STRATEGIC<br>INVESTMENTS</span></div>
       <div class="quadrant q-bl"><span class="q-label">LOW LIFT,<br>LOW IMPACT</span></div>
       <div class="quadrant q-br"><span class="q-label">RECONSIDER</span></div>
-
-      <!-- Axis markers -->
-      <div class="arrow-high-v">↑ HIGH VALUE</div>
-      <div class="arrow-low-v">LOW VALUE ↓</div>
-      <div class="arrow-low-c">← LOW COMPLEXITY</div>
-      <div class="arrow-high-c">HIGH COMPLEXITY →</div>
-
-      <!-- ITEMS — positions as % of grid -->
-      <!-- Quick Wins (top-left) -->
-      <div class="item" style="left:8%; top:8%;" data-name="Monday AM Digest">
-        <div class="item-name"><span class="item-dot dot-building"></span>Monday AM Digest</div>
-        <div class="item-detail">Power Automate flow</div>
-      </div>
-
-      <div class="item" style="left:6%; top:22%;" data-name="EOD Drop System">
-        <div class="item-name"><span class="item-dot dot-building"></span>EOD Drop System</div>
-        <div class="item-detail">Copilot + SharePoint</div>
-      </div>
-
-      <div class="item" style="left:22%; top:12%;" data-name="Management Dashboard">
-        <div class="item-name"><span class="item-dot dot-building"></span>Management Dashboard</div>
-        <div class="item-detail">Wins + impact tracking</div>
-      </div>
-
-      <div class="item" style="left:18%; top:28%;" data-name="Tarek Translator">
-        <div class="item-name"><span class="item-dot dot-live"></span>Tarek Translator</div>
-        <div class="item-detail">Copilot Studio agent</div>
-      </div>
-
-      <div class="item" style="left:30%; top:18%;" data-name="Ticketing System">
-        <div class="item-name"><span class="item-dot dot-building"></span>Ticketing System</div>
-        <div class="item-detail">Jen Lepley · Airtable · May 1</div>
-      </div>
-
-      <div class="item" style="left:10%; top:38%;" data-name="SharePoint Filing">
-        <div class="item-name"><span class="item-dot dot-building"></span>SharePoint Filing</div>
-        <div class="item-detail">Transcription pipeline</div>
-      </div>
-
-      <!-- Top-right (Strategic) -->
-      <div class="item" style="left:58%; top:6%;" data-name="Orbit Gating System">
-        <div class="item-name"><span class="item-dot dot-building"></span>Orbit Gating System</div>
-        <div class="item-detail">Airtable + TEMPO + RDX</div>
-      </div>
-
-      <div class="item" style="left:72%; top:14%;" data-name="RDX Production Access">
-        <div class="item-name"><span class="item-dot dot-planned"></span>RDX Production Access</div>
-        <div class="item-detail">Azure/Entra ID · Brian Lynch</div>
-      </div>
-
-      <div class="item" style="left:72%; top:38%;" data-name="Artist Insights">
-        <div class="item-name"><span class="item-dot dot-live"></span>Artist Insights</div>
-        <div class="item-detail">Next: Sleepy Hallow</div>
-      </div>
-
-      <div class="item" style="left:30%; top:8%;" data-name="Dashboards">
-        <div class="item-name"><span class="item-dot dot-planned"></span>Dashboards</div>
-        <div class="item-detail">Alexis + Digital asking</div>
-      </div>
-
-      <div class="item" style="left:78%; top:28%;" data-name="DISCO Enterprise">
-        <div class="item-name"><span class="item-dot dot-planned"></span>DISCO Enterprise</div>
-        <div class="item-detail">Full PreAmp migration</div>
-      </div>
-
-      <!-- Bottom-left (low lift, low impact) -->
-
-      <!-- Strategic builds -->
-      <div class="item" style="left:55%; top:16%;" data-name="D2C Build">
-        <div class="item-name"><span class="item-dot dot-planned"></span>D2C Build</div>
-        <div class="item-detail">Checklists, visibility, process</div>
-      </div>
-
     </div>
-    <div class="x-label">← Complexity →</div>
+    <div class="x-label">&larr; Complexity &rarr;</div>
   </div>
 </div>
-
-<div class="controls">
-  <button class="btn primary" onclick="exportImage()">Screenshot</button>
-  <button class="btn" onclick="resetPositions()">Reset</button>
-  <button class="btn" onclick="addItem()">+ Add Build</button>
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3 id="modalTitle">Edit Build</h3>
+    <label>Name</label>
+    <input type="text" id="editName">
+    <label>Detail</label>
+    <input type="text" id="editDetail">
+    <label>Status</label>
+    <select id="editStatus">
+      <option value="live">Live</option>
+      <option value="building">Building</option>
+      <option value="planned">Planned</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn danger" id="deleteBtn" onclick="deleteItem()">Delete</button>
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="saveBtn" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
 </div>
-
-<div class="footer">
-  Campaign Operations · Value vs. Complexity Quadrant · April 2026
-</div>
-
+<div class="footer">Campaign Operations &middot; Value vs. Complexity &middot; April 2026</div>
 <script>
-// Drag functionality
-const grid = document.getElementById('grid');
-const items = document.querySelectorAll('.item');
-let dragItem = null;
-let offsetX = 0, offsetY = 0;
-
-// Store initial positions for reset
-const initialPositions = [];
-items.forEach(item => {
-  initialPositions.push({ left: item.style.left, top: item.style.top });
-
-  item.addEventListener('mousedown', startDrag);
-  item.addEventListener('touchstart', startDragTouch, { passive: false });
-});
-
-function startDrag(e) {
-  dragItem = e.currentTarget;
-  dragItem.classList.add('dragging');
-  const rect = dragItem.getBoundingClientRect();
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
-  document.addEventListener('mousemove', drag);
-  document.addEventListener('mouseup', endDrag);
-  e.preventDefault();
-}
-
-function startDragTouch(e) {
-  dragItem = e.currentTarget;
-  dragItem.classList.add('dragging');
-  const rect = dragItem.getBoundingClientRect();
-  const touch = e.touches[0];
-  offsetX = touch.clientX - rect.left;
-  offsetY = touch.clientY - rect.top;
-  document.addEventListener('touchmove', dragTouch, { passive: false });
-  document.addEventListener('touchend', endDrag);
-  e.preventDefault();
-}
-
-function drag(e) {
-  if (!dragItem) return;
-  const gridRect = grid.getBoundingClientRect();
-  let x = e.clientX - gridRect.left - offsetX;
-  let y = e.clientY - gridRect.top - offsetY;
-  x = Math.max(0, Math.min(x, gridRect.width - dragItem.offsetWidth));
-  y = Math.max(0, Math.min(y, gridRect.height - dragItem.offsetHeight));
-  dragItem.style.left = (x / gridRect.width * 100) + '%';
-  dragItem.style.top = (y / gridRect.height * 100) + '%';
-}
-
-function dragTouch(e) {
-  if (!dragItem) return;
-  const gridRect = grid.getBoundingClientRect();
-  const touch = e.touches[0];
-  let x = touch.clientX - gridRect.left - offsetX;
-  let y = touch.clientY - gridRect.top - offsetY;
-  x = Math.max(0, Math.min(x, gridRect.width - dragItem.offsetWidth));
-  y = Math.max(0, Math.min(y, gridRect.height - dragItem.offsetHeight));
-  dragItem.style.left = (x / gridRect.width * 100) + '%';
-  dragItem.style.top = (y / gridRect.height * 100) + '%';
-  e.preventDefault();
-}
-
-function endDrag() {
-  if (dragItem) dragItem.classList.remove('dragging');
-  dragItem = null;
-  document.removeEventListener('mousemove', drag);
-  document.removeEventListener('mouseup', endDrag);
-  document.removeEventListener('touchmove', dragTouch);
-  document.removeEventListener('touchend', endDrag);
-}
-
-function resetPositions() {
-  items.forEach((item, i) => {
-    item.style.left = initialPositions[i].left;
-    item.style.top = initialPositions[i].top;
-  });
-}
-
-function addItem() {
-  const name = prompt('Build name:');
-  if (!name) return;
-  const detail = prompt('One-line detail (optional):') || '';
-  const el = document.createElement('div');
-  el.className = 'item';
-  el.style.left = '45%';
-  el.style.top = '45%';
-  el.dataset.name = name;
-  el.innerHTML = `
-    <div class="item-name"><span class="item-dot dot-planned"></span>${name}</div>
-    ${detail ? `<div class="item-detail">${detail}</div>` : ''}
-  `;
-  grid.appendChild(el);
-  el.addEventListener('mousedown', startDrag);
-  el.addEventListener('touchstart', startDragTouch, { passive: false });
-}
-
-function exportImage() {
-  alert('Use your browser screenshot tool (Cmd+Shift+4 on Mac) or print to PDF (Cmd+P → Save as PDF). The grid is designed to capture cleanly.');
-}
+const STATUSES=['live','building','planned'];
+const SCLS={live:'dot-live',building:'dot-building',planned:'dot-planned'};
+const grid=document.getElementById('grid');
+let editingEl=null,isAddMode=false;
+const DEFAULTS=[
+  {name:"Monday AM Digest",detail:"Power Automate flow",status:"building",left:8,top:8},
+  {name:"EOD Drop System",detail:"Copilot + SharePoint",status:"building",left:6,top:22},
+  {name:"Management Dashboard",detail:"Wins + impact tracking",status:"building",left:22,top:12},
+  {name:"Tarek Translator",detail:"Copilot Studio agent",status:"live",left:18,top:28},
+  {name:"Ticketing System",detail:"Jen Lepley · Airtable · May 1",status:"building",left:32,top:18},
+  {name:"SharePoint Filing",detail:"Transcription pipeline",status:"building",left:10,top:38},
+  {name:"Dashboards",detail:"Alexis + Digital asking",status:"planned",left:30,top:8},
+  {name:"Orbit Gating System",detail:"Airtable + TEMPO + RDX",status:"building",left:58,top:6},
+  {name:"RDX Production Access",detail:"Azure/Entra ID · Brian Lynch",status:"planned",left:72,top:14},
+  {name:"D2C Build",detail:"Checklists, visibility, process",status:"planned",left:55,top:16},
+  {name:"DISCO Enterprise",detail:"Full PreAmp migration",status:"planned",left:78,top:28},
+  {name:"Artist Insights",detail:"Next: Sleepy Hallow",status:"live",left:72,top:38},
+];
+function loadState(){const s=localStorage.getItem('vcf-items');if(s){try{return JSON.parse(s)}catch(e){}}return DEFAULTS.map(d=>({...d}))}
+function persist(){const items=[];grid.querySelectorAll('.item').forEach(el=>{items.push({name:el.dataset.name,detail:el.dataset.detail||'',status:el.dataset.status,left:parseFloat(el.style.left),top:parseFloat(el.style.top)})});localStorage.setItem('vcf-items',JSON.stringify(items))}
+function makeEl(item){const el=document.createElement('div');el.className='item';el.style.left=item.left+'%';el.style.top=item.top+'%';el.dataset.name=item.name;el.dataset.detail=item.detail||'';el.dataset.status=item.status;render(el);el.addEventListener('mousedown',startDrag);el.addEventListener('touchstart',startDragTouch,{passive:false});el.addEventListener('dblclick',()=>openEdit(el));grid.appendChild(el);return el}
+function render(el){const s=el.dataset.status;el.innerHTML='<div class="item-name"><span class="item-dot '+SCLS[s]+'" title="Click to cycle"></span>'+el.dataset.name+'</div>'+(el.dataset.detail?'<div class="item-detail">'+el.dataset.detail+'</div>':'');el.querySelector('.item-dot').addEventListener('click',e=>{e.stopPropagation();const i=STATUSES.indexOf(el.dataset.status);el.dataset.status=STATUSES[(i+1)%STATUSES.length];render(el);persist()})}
+loadState().forEach(i=>makeEl(i));
+let dI=null,oX=0,oY=0;
+function startDrag(e){dI=e.currentTarget;dI.classList.add('dragging');const r=dI.getBoundingClientRect();oX=e.clientX-r.left;oY=e.clientY-r.top;document.addEventListener('mousemove',drag);document.addEventListener('mouseup',endDrag);e.preventDefault()}
+function startDragTouch(e){dI=e.currentTarget;dI.classList.add('dragging');const r=dI.getBoundingClientRect();oX=e.touches[0].clientX-r.left;oY=e.touches[0].clientY-r.top;document.addEventListener('touchmove',dragT,{passive:false});document.addEventListener('touchend',endDrag);e.preventDefault()}
+function drag(e){if(!dI)return;const r=grid.getBoundingClientRect();let x=Math.max(0,Math.min(e.clientX-r.left-oX,r.width-dI.offsetWidth)),y=Math.max(0,Math.min(e.clientY-r.top-oY,r.height-dI.offsetHeight));dI.style.left=(x/r.width*100)+'%';dI.style.top=(y/r.height*100)+'%'}
+function dragT(e){if(!dI)return;const r=grid.getBoundingClientRect(),t=e.touches[0];let x=Math.max(0,Math.min(t.clientX-r.left-oX,r.width-dI.offsetWidth)),y=Math.max(0,Math.min(t.clientY-r.top-oY,r.height-dI.offsetHeight));dI.style.left=(x/r.width*100)+'%';dI.style.top=(y/r.height*100)+'%';e.preventDefault()}
+function endDrag(){if(dI){dI.classList.remove('dragging');persist()}dI=null;document.removeEventListener('mousemove',drag);document.removeEventListener('mouseup',endDrag);document.removeEventListener('touchmove',dragT);document.removeEventListener('touchend',endDrag)}
+function openEdit(el){editingEl=el;isAddMode=false;document.getElementById('modalTitle').textContent='Edit Build';document.getElementById('editName').value=el.dataset.name;document.getElementById('editDetail').value=el.dataset.detail||'';document.getElementById('editStatus').value=el.dataset.status;document.getElementById('deleteBtn').style.display='';document.getElementById('editModal').classList.add('open')}
+function openAdd(){editingEl=null;isAddMode=true;document.getElementById('modalTitle').textContent='New Build';document.getElementById('editName').value='';document.getElementById('editDetail').value='';document.getElementById('editStatus').value='planned';document.getElementById('deleteBtn').style.display='none';document.getElementById('editModal').classList.add('open')}
+function closeModal(){document.getElementById('editModal').classList.remove('open');editingEl=null;isAddMode=false}
+function saveEdit(){const n=document.getElementById('editName').value.trim();if(!n)return;if(isAddMode){makeEl({name:n,detail:document.getElementById('editDetail').value,status:document.getElementById('editStatus').value,left:45,top:45})}else if(editingEl){editingEl.dataset.name=n;editingEl.dataset.detail=document.getElementById('editDetail').value;editingEl.dataset.status=document.getElementById('editStatus').value;render(editingEl)}persist();closeModal()}
+function deleteItem(){if(!editingEl)return;if(confirm('Delete "'+editingEl.dataset.name+'"?')){editingEl.remove();persist();closeModal()}}
+function saveFile(){const items=[];grid.querySelectorAll('.item').forEach(el=>{items.push({name:el.dataset.name,detail:el.dataset.detail||'',status:el.dataset.status,left:parseFloat(el.style.left),top:parseFloat(el.style.top)})});const b=new Blob([JSON.stringify(items,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='vcf-'+new Date().toISOString().slice(0,10)+'.json';a.click()}
+function handleLoad(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const items=JSON.parse(ev.target.result);grid.querySelectorAll('.item').forEach(el=>el.remove());items.forEach(i=>makeEl(i));persist()}catch(err){alert('Invalid file')}};r.readAsText(f);e.target.value=''}
+function exportMd(){const items=[];grid.querySelectorAll('.item').forEach(el=>{const x=parseFloat(el.style.left),y=parseFloat(el.style.top);let q='';if(x<50&&y<50)q='Quick Wins';else if(x>=50&&y<50)q='Strategic Investments';else if(x<50)q='Low Lift, Low Impact';else q='Reconsider';items.push({name:el.dataset.name,detail:el.dataset.detail,status:el.dataset.status,quad:q})});const g={};items.forEach(i=>{if(!g[i.quad])g[i.quad]=[];g[i.quad].push(i)});let md='# Value vs. Complexity — Campaign Ops\n_Exported '+new Date().toLocaleDateString()+'_\n\n';for(const[q,list]of Object.entries(g)){md+='## '+q+'\n';list.forEach(i=>{md+='- **'+i.name+'** ('+i.status+')'+(i.detail?' — '+i.detail:'')+'\n'});md+='\n'}const b=new Blob([md],{type:'text/markdown'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='vcf-export-'+new Date().toISOString().slice(0,10)+'.md';a.click()}
+function resetAll(){if(confirm('Reset to defaults? Your changes will be lost.')){localStorage.removeItem('vcf-items');grid.querySelectorAll('.item').forEach(el=>el.remove());DEFAULTS.forEach(i=>makeEl(i));persist()}}
+document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 </script>
-
 </body>
 </html>
