@@ -153,7 +153,7 @@ h1 span{color:var(--green)}
 
   <div class="controls" id="controls">
     <select id="filterSelect" onchange="applyFilter()"><option value="all">All Categories</option></select>
-    <button class="btn-green" onclick="toggleView()">&#x229E; Gallery View</button>
+    <button id="viewBtn" class="btn-green" onclick="toggleView()">&#x229E; Gallery View</button>
     <button class="btn-flame" onclick="resetAll()">&#x21BA; Reset</button>
     <button class="btn-green" onclick="saveState()">&#x2B07; Save State</button>
     <label style="color:var(--text)">&#x2B06; Load State<input type="file" accept=".json" onchange="loadState(this)" style="display:none"></label>
@@ -272,7 +272,7 @@ function applyFilter() {
 
 function toggleView() {
   viewMode = viewMode === "kanban" ? "gallery" : "kanban";
-  document.querySelector(".controls .view").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
+  document.getElementById("viewBtn").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
   render();
 }
 
@@ -504,7 +504,7 @@ function loadState(input) {
       currentFilter = state.filter || "all";
       viewMode = state.viewMode || "kanban";
       document.getElementById("filterSelect").value = currentFilter;
-      document.querySelector(".controls .view").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
+      document.getElementById("viewBtn").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
       render();
     } catch(err) {
       alert("Could not load file: " + err.message);
