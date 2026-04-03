@@ -69,14 +69,29 @@ h1 span{color:var(--green)}
 .lane-verbs{color:var(--dim);font-size:10px;font-family:'Inter',sans-serif;margin-top:2px}
 .lane-count{color:var(--dim);font-size:11px;font-family:'Inter',sans-serif;margin-top:4px}
 
-.card-item{background:var(--bg);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px;cursor:grab;transition:border-color .15s}
+.card-item{background:var(--bg);border:1px solid var(--border);padding:6px 10px;margin-bottom:4px;cursor:grab;transition:border-color .15s;position:relative}
 .card-item:hover{border-color:var(--dim)}
 .card-item.flagged{border-color:rgba(255,74,35,0.4)}
 .card-item.dragging{opacity:.4}
-.card-item-title{font-size:12px;font-weight:600;color:var(--white);line-height:1.3;margin-bottom:4px}
-.card-item-title .dot{color:var(--flame);margin-right:4px}
-.card-item-note{font-size:10px;color:var(--dim);line-height:1.4}
-.card-item-cat{font-size:9px;color:var(--muted);font-family:'Inter',sans-serif;margin-top:4px;letter-spacing:.5px}
+.card-item-title{font-size:11px;font-weight:600;color:var(--white);line-height:1.3}
+.card-item-title .dot{color:var(--flame);margin-right:3px}
+.card-item-note{font-size:10px;color:var(--dim);line-height:1.4;max-height:0;overflow:hidden;opacity:0;transition:all .2s ease;margin-top:0}
+.card-item:hover .card-item-note{max-height:80px;opacity:1;margin-top:4px}
+.card-item-cat{display:none}
+
+/* Add task */
+.add-btn{background:var(--bg);border:1px dashed var(--border);padding:6px 10px;cursor:pointer;font-size:10px;color:var(--dim);text-align:center;transition:border-color .15s;margin-top:4px}
+.add-btn:hover{border-color:var(--green);color:var(--green)}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10001;display:flex;align-items:center;justify-content:center}
+.modal{background:var(--card);border:1px solid var(--border);padding:24px;width:400px;max-width:90vw}
+.modal h3{font-size:14px;font-weight:700;color:var(--green);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+.modal input,.modal select,.modal textarea{width:100%;background:var(--bg);color:var(--white);border:1px solid var(--border);padding:8px 10px;font-size:12px;font-family:'Inter',sans-serif;margin-bottom:10px}
+.modal textarea{height:60px;resize:vertical}
+.modal input:focus,.modal select:focus,.modal textarea:focus{outline:none;border-color:var(--green)}
+.modal-actions{display:flex;gap:8px;margin-top:8px}
+.modal-actions button{flex:1;padding:8px;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;border:1px solid var(--border)}
+.modal-actions .save{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:700}
+.modal-actions .cancel{background:var(--bg);color:var(--text)}
 
 .gallery-cat{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:24px}
@@ -141,6 +156,7 @@ h1 span{color:var(--green)}
     <button class="btn-green" onclick="saveState()">&#x2B07; Save State</button>
     <label style="color:var(--text)">&#x2B06; Load State<input type="file" accept=".json" onchange="loadState(this)" style="display:none"></label>
     <button onclick="exportSummary()">&#x1F4CB; Export Summary</button>
+    <button class="btn-green" onclick="openAdd('gap')">+ Add Task</button>
     <div class="counts" id="laneCounts"></div>
   </div>
 
@@ -148,6 +164,7 @@ h1 span{color:var(--green)}
   <div id="kanbanContainer"></div>
   <div id="galleryContainer" style="display:none"></div>
   <div id="changelogContainer" style="display:none"></div>
+  <div id="addModal" style="display:none"></div>
 
   <div class="callout">
     <div class="callout-label">Open Question</div>
@@ -323,6 +340,7 @@ function render() {
       html += '<div class="lane-verbs">' + lane.verbs + '</div>';
       html += '<div class="lane-count">' + li.length + ' items</div></div>';
       li.forEach(item => { html += cardHTML(item); });
+      html += '<div class="add-btn" onclick="openAdd(\'' + lane.id + '\')">+ Add</div>';
       html += '</div>';
     });
     html += '</div>';
@@ -499,15 +517,63 @@ function autoLoad() {
     const saved = localStorage.getItem("laneDefState");
     if (saved) {
       const state = JSON.parse(saved);
-      if (state.items && state.items.length === INITIAL.length) {
-        const changed = state.items.some((item, i) => item.lane !== INITIAL[i].lane);
+      if (state.items && state.items.length > 0) {
+        const changed = state.items.length !== INITIAL.length || state.items.some((item, i) => INITIAL[i] && item.lane !== INITIAL[i].lane);
         if (changed && confirm("Resume from your last session? (Cancel to start fresh)")) {
           items = state.items;
           changelog = state.changelog || [];
+          nextId = Math.max(...items.map(i => i.id)) + 1;
         }
       }
     }
   } catch(e) {}
+}
+
+let nextId = 52;
+let addLane = "gap";
+
+function openAdd(lane) {
+  addLane = lane;
+  const laneName = laneMap[lane] ? laneMap[lane].label : "UNRESOLVED";
+  document.getElementById("addModal").style.display = "";
+  document.getElementById("addModal").innerHTML =
+    '<div class="modal-overlay" onclick="if(event.target===this)closeAdd()">' +
+    '<div class="modal">' +
+    '<h3>Add to ' + laneName + '</h3>' +
+    '<input type="text" id="addText" placeholder="Responsibility name" autofocus>' +
+    '<textarea id="addNote" placeholder="Note (optional)"></textarea>' +
+    '<select id="addCat">' + CATEGORIES.map(c => '<option value="' + c + '">' + c + '</option>').join('') + '</select>' +
+    '<select id="addLane">' + LANES.map(l => '<option value="' + l.id + '"' + (l.id === lane ? ' selected' : '') + '>' + l.label + '</option>').join('') + '</select>' +
+    '<label style="font-size:11px;color:var(--dim);display:flex;align-items:center;gap:6px;margin-bottom:10px"><input type="checkbox" id="addFlag"> Flag as gray area / decision needed</label>' +
+    '<div class="modal-actions">' +
+    '<button class="cancel" onclick="closeAdd()">Cancel</button>' +
+    '<button class="save" onclick="submitAdd()">Add</button>' +
+    '</div></div></div>';
+  setTimeout(function(){ document.getElementById("addText").focus(); }, 100);
+}
+
+function closeAdd() {
+  document.getElementById("addModal").style.display = "none";
+  document.getElementById("addModal").innerHTML = "";
+}
+
+function submitAdd() {
+  const text = document.getElementById("addText").value.trim();
+  if (!text) return;
+  const note = document.getElementById("addNote").value.trim();
+  const cat = document.getElementById("addCat").value;
+  const lane = document.getElementById("addLane").value;
+  const flag = document.getElementById("addFlag").checked;
+  const newItem = { id: nextId++, text: text, cat: cat, lane: lane, note: note || "", flag: flag };
+  items.push(newItem);
+  changelog.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: 'ADDED "' + text + '" to ' + laneMap[lane].label,
+    from: "gap", to: lane
+  });
+  autoSave();
+  closeAdd();
+  render();
 }
 
 document.addEventListener("DOMContentLoaded", init);
