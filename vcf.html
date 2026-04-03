@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Value vs. Complexity — Campaign Ops Builds</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0F0E0E; color: #FCFDF8; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  .header {
+    padding: 32px 40px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #CDF851;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .header .sub {
+    font-size: 13px;
+    color: #B0A9BE;
+    max-width: 600px;
+  }
+
+  .quad-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+  }
+
+  /* AXIS LABELS */
+  .axis-wrapper {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    grid-template-rows: 1fr 28px;
+    gap: 0;
+    height: 680px;
+  }
+  .y-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3E3F41;
+  }
+  .x-label {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3E3F41;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    height: 100%;
+    position: relative;
+  }
+  .quadrant {
+    background: #1A1A1A;
+    position: relative;
+    padding: 16px;
+    overflow: visible;
+  }
+  .quadrant .q-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 1;
+  }
+  .q-tl .q-label { top: 14px; left: 16px; color: #CDF851; }
+  .q-tr .q-label { top: 14px; right: 16px; color: #B0A9BE; text-align: right; }
+  .q-bl .q-label { bottom: 14px; left: 16px; color: #3E3F41; }
+  .q-br .q-label { bottom: 14px; right: 16px; color: #FF4A23; text-align: right; }
+
+  /* CENTER CROSS */
+  .grid::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #3E3F41;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .grid::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #3E3F41;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* ARROW LABELS on axes */
+  .arrow-high-v, .arrow-low-v, .arrow-low-c, .arrow-high-c {
+    position: absolute;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #3E3F41;
+    letter-spacing: 1px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .arrow-high-v { top: 8px; left: 50%; transform: translateX(-50%); }
+  .arrow-low-v { bottom: 8px; left: 50%; transform: translateX(-50%); }
+  .arrow-low-c { bottom: 8px; left: 8px; }
+  .arrow-high-c { bottom: 8px; right: 8px; }
+
+  /* ITEMS */
+  .item {
+    position: absolute;
+    background: #0F0E0E;
+    border: 1px solid #3E3F41;
+    padding: 8px 12px;
+    cursor: grab;
+    z-index: 10;
+    max-width: 200px;
+    transition: box-shadow 0.15s;
+    user-select: none;
+  }
+  .item:hover { border-color: #CDF851; }
+  .item.dragging {
+    cursor: grabbing;
+    box-shadow: 0 8px 32px rgba(205,248,81,0.15);
+    border-color: #CDF851;
+    z-index: 100;
+  }
+  .item .item-name {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .item .item-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #B0A9BE;
+    line-height: 1.3;
+  }
+  .item .item-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
+    position: relative;
+    top: -1px;
+  }
+  .dot-live { background: #CDF851; }
+  .dot-building { background: #FF4A23; }
+  .dot-planned { background: #3E3F41; }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 20px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #B0A9BE;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+  }
+
+  /* CONTROLS */
+  .controls {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    display: flex;
+    gap: 12px;
+  }
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    background: #1A1A1A;
+    color: #B0A9BE;
+    border: 1px solid #3E3F41;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: #CDF851; color: #CDF851; }
+  .btn.primary { background: #CDF851; color: #0F0E0E; border-color: #CDF851; }
+  .btn.primary:hover { background: #b8e048; }
+
+  .footer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 40px;
+    border-top: 1px solid #1A1A1A;
+    font-size: 11px;
+    color: #3E3F41;
+  }
+
+  @media (max-width: 768px) {
+    .header, .quad-container, .legend, .controls, .footer { padding-left: 16px; padding-right: 16px; }
+    .axis-wrapper { height: 500px; }
+    .item { max-width: 140px; padding: 6px 8px; }
+    .item .item-name { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<div class="nav-links">
+<a href="index.html">The Mission</a>
+<a href="orbit.html">The Cycle</a>
+<a href="timeline.html">Accountability</a>
+<div class="sndd"><span class="sndd-b active">Pipeline &#9662;</span><div class="sndd-m"><a href="lanes.html" style="color:#CDF851;">Lane Definition</a><a href="vcf.html">Value vs. Complexity</a></div></div>
+<div class="sndd"><span class="sndd-b">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/operational-plan.html">How It Runs</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+
+<div class="header">
+  <div class="label">Campaign Ops</div>
+  <h1>VALUE VS. COMPLEXITY</h1>
+  <div class="sub">Drag builds to reposition. Top-left = high value, low complexity (quick wins). Screenshot or export for Jordan.</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot dot-live"></span> Live</div>
+  <div class="legend-item"><span class="legend-dot dot-building"></span> Building</div>
+  <div class="legend-item"><span class="legend-dot dot-planned"></span> Planned</div>
+</div>
+
+<div class="quad-container">
+  <div class="axis-wrapper">
+    <div class="y-label">← Value →</div>
+    <div class="grid" id="grid">
+      <!-- Quadrant backgrounds -->
+      <div class="quadrant q-tl"><span class="q-label">QUICK WINS</span></div>
+      <div class="quadrant q-tr"><span class="q-label">STRATEGIC<br>INVESTMENTS</span></div>
+      <div class="quadrant q-bl"><span class="q-label">LOW LIFT,<br>LOW IMPACT</span></div>
+      <div class="quadrant q-br"><span class="q-label">RECONSIDER</span></div>
+
+      <!-- Axis markers -->
+      <div class="arrow-high-v">↑ HIGH VALUE</div>
+      <div class="arrow-low-v">LOW VALUE ↓</div>
+      <div class="arrow-low-c">← LOW COMPLEXITY</div>
+      <div class="arrow-high-c">HIGH COMPLEXITY →</div>
+
+      <!-- ITEMS — positions as % of grid -->
+      <!-- Quick Wins (top-left) -->
+      <div class="item" style="left:8%; top:8%;" data-name="Monday AM Digest">
+        <div class="item-name"><span class="item-dot dot-building"></span>Monday AM Digest</div>
+        <div class="item-detail">Power Automate flow</div>
+      </div>
+
+      <div class="item" style="left:6%; top:22%;" data-name="EOD Drop System">
+        <div class="item-name"><span class="item-dot dot-building"></span>EOD Drop System</div>
+        <div class="item-detail">Copilot + SharePoint</div>
+      </div>
+
+      <div class="item" style="left:22%; top:12%;" data-name="Management Dashboard">
+        <div class="item-name"><span class="item-dot dot-building"></span>Management Dashboard</div>
+        <div class="item-detail">Wins + impact tracking</div>
+      </div>
+
+      <div class="item" style="left:18%; top:28%;" data-name="Tarek Translator">
+        <div class="item-name"><span class="item-dot dot-live"></span>Tarek Translator</div>
+        <div class="item-detail">Copilot Studio agent</div>
+      </div>
+
+      <div class="item" style="left:30%; top:18%;" data-name="Ticketing System">
+        <div class="item-name"><span class="item-dot dot-building"></span>Ticketing System</div>
+        <div class="item-detail">Jen Lepley · Airtable · May 1</div>
+      </div>
+
+      <div class="item" style="left:10%; top:38%;" data-name="SharePoint Filing">
+        <div class="item-name"><span class="item-dot dot-building"></span>SharePoint Filing</div>
+        <div class="item-detail">Transcription pipeline</div>
+      </div>
+
+      <!-- Top-right (Strategic) -->
+      <div class="item" style="left:58%; top:6%;" data-name="Orbit Gating System">
+        <div class="item-name"><span class="item-dot dot-building"></span>Orbit Gating System</div>
+        <div class="item-detail">Airtable + TEMPO + RDX</div>
+      </div>
+
+      <div class="item" style="left:72%; top:14%;" data-name="RDX Production Access">
+        <div class="item-name"><span class="item-dot dot-planned"></span>RDX Production Access</div>
+        <div class="item-detail">Azure/Entra ID · Brian Lynch</div>
+      </div>
+
+      <div class="item" style="left:72%; top:38%;" data-name="Artist Insights">
+        <div class="item-name"><span class="item-dot dot-live"></span>Artist Insights</div>
+        <div class="item-detail">Next: Sleepy Hallow</div>
+      </div>
+
+      <div class="item" style="left:30%; top:8%;" data-name="Dashboards">
+        <div class="item-name"><span class="item-dot dot-planned"></span>Dashboards</div>
+        <div class="item-detail">Alexis + Digital asking</div>
+      </div>
+
+      <div class="item" style="left:78%; top:28%;" data-name="DISCO Enterprise">
+        <div class="item-name"><span class="item-dot dot-planned"></span>DISCO Enterprise</div>
+        <div class="item-detail">Full PreAmp migration</div>
+      </div>
+
+      <!-- Bottom-left (low lift, low impact) -->
+
+      <!-- Strategic builds -->
+      <div class="item" style="left:55%; top:16%;" data-name="D2C Build">
+        <div class="item-name"><span class="item-dot dot-planned"></span>D2C Build</div>
+        <div class="item-detail">Checklists, visibility, process</div>
+      </div>
+
+    </div>
+    <div class="x-label">← Complexity →</div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn primary" onclick="exportImage()">Screenshot</button>
+  <button class="btn" onclick="resetPositions()">Reset</button>
+  <button class="btn" onclick="addItem()">+ Add Build</button>
+</div>
+
+<div class="footer">
+  Campaign Operations · Value vs. Complexity Quadrant · April 2026
+</div>
+
+<script>
+// Drag functionality
+const grid = document.getElementById('grid');
+const items = document.querySelectorAll('.item');
+let dragItem = null;
+let offsetX = 0, offsetY = 0;
+
+// Store initial positions for reset
+const initialPositions = [];
+items.forEach(item => {
+  initialPositions.push({ left: item.style.left, top: item.style.top });
+
+  item.addEventListener('mousedown', startDrag);
+  item.addEventListener('touchstart', startDragTouch, { passive: false });
+});
+
+function startDrag(e) {
+  dragItem = e.currentTarget;
+  dragItem.classList.add('dragging');
+  const rect = dragItem.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('mouseup', endDrag);
+  e.preventDefault();
+}
+
+function startDragTouch(e) {
+  dragItem = e.currentTarget;
+  dragItem.classList.add('dragging');
+  const rect = dragItem.getBoundingClientRect();
+  const touch = e.touches[0];
+  offsetX = touch.clientX - rect.left;
+  offsetY = touch.clientY - rect.top;
+  document.addEventListener('touchmove', dragTouch, { passive: false });
+  document.addEventListener('touchend', endDrag);
+  e.preventDefault();
+}
+
+function drag(e) {
+  if (!dragItem) return;
+  const gridRect = grid.getBoundingClientRect();
+  let x = e.clientX - gridRect.left - offsetX;
+  let y = e.clientY - gridRect.top - offsetY;
+  x = Math.max(0, Math.min(x, gridRect.width - dragItem.offsetWidth));
+  y = Math.max(0, Math.min(y, gridRect.height - dragItem.offsetHeight));
+  dragItem.style.left = (x / gridRect.width * 100) + '%';
+  dragItem.style.top = (y / gridRect.height * 100) + '%';
+}
+
+function dragTouch(e) {
+  if (!dragItem) return;
+  const gridRect = grid.getBoundingClientRect();
+  const touch = e.touches[0];
+  let x = touch.clientX - gridRect.left - offsetX;
+  let y = touch.clientY - gridRect.top - offsetY;
+  x = Math.max(0, Math.min(x, gridRect.width - dragItem.offsetWidth));
+  y = Math.max(0, Math.min(y, gridRect.height - dragItem.offsetHeight));
+  dragItem.style.left = (x / gridRect.width * 100) + '%';
+  dragItem.style.top = (y / gridRect.height * 100) + '%';
+  e.preventDefault();
+}
+
+function endDrag() {
+  if (dragItem) dragItem.classList.remove('dragging');
+  dragItem = null;
+  document.removeEventListener('mousemove', drag);
+  document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', dragTouch);
+  document.removeEventListener('touchend', endDrag);
+}
+
+function resetPositions() {
+  items.forEach((item, i) => {
+    item.style.left = initialPositions[i].left;
+    item.style.top = initialPositions[i].top;
+  });
+}
+
+function addItem() {
+  const name = prompt('Build name:');
+  if (!name) return;
+  const detail = prompt('One-line detail (optional):') || '';
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.style.left = '45%';
+  el.style.top = '45%';
+  el.dataset.name = name;
+  el.innerHTML = `
+    <div class="item-name"><span class="item-dot dot-planned"></span>${name}</div>
+    ${detail ? `<div class="item-detail">${detail}</div>` : ''}
+  `;
+  grid.appendChild(el);
+  el.addEventListener('mousedown', startDrag);
+  el.addEventListener('touchstart', startDragTouch, { passive: false });
+}
+
+function exportImage() {
+  alert('Use your browser screenshot tool (Cmd+Shift+4 on Mac) or print to PDF (Cmd+P → Save as PDF). The grid is designed to capture cleanly.');
+}
+</script>
+
+</body>
+</html>

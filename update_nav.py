@@ -1,16 +1,12 @@
 """
-TEMPO Nav Update Script — March 2026
+TEMPO Nav Update — April 2026
 Updates nav across ALL non-archive HTML pages.
 
 Nav structure:
-  Home | Orbit | Visibility | Insights | Library
+  The Mission | The Cycle | Accountability | Pipeline v | Reference v
 
-Library dropdown sections:
-  Reference: Handoff Map, Airtable Grid, Atlantic UK
-  Meetings: Goal Briefs + Notes
-  Tools: Release View, Meeting Flow, Pipeline, Template
-  Artists: Isaia Huron, Room Full of Mirrors
-  Archive: Archive Index + key items
+Pipeline dropdown: Lane Definition, Value vs. Complexity
+Reference dropdown: Frameworks, Meetings, Tools, Artists, Archive
 """
 
 import os, re, glob
@@ -21,21 +17,30 @@ def make_nav(active_page, prefix=""):
             return f'<span class="active-label">{label}</span>'
         return f'<a href="{prefix}{href}">{label}</a>'
 
-    home = tab("index.html", "Home", "home")
-    orbit = tab("orbit.html", "Orbit", "orbit")
-    vis = tab("visibility.html", "Visibility", "visibility")
-    ins = tab("insights/index.html", "Insights", "insights")
+    home = tab("index.html", "The Mission", "home")
+    orbit = tab("orbit.html", "The Cycle", "orbit")
+    acct = tab("timeline.html", "Accountability", "accountability")
 
-    lib_active = active_page.startswith("library")
-    lib_cls = ' class="sndd-b active"' if lib_active else ' class="sndd-b"'
     p = prefix
 
-    library = (
-        f'<div class="sndd"><span{lib_cls}>Library &#9662;</span><div class="sndd-m">'
-        f'<div class="sep-label">Reference</div>'
+    pipe_active = active_page.startswith("pipeline")
+    pipe_cls = ' class="sndd-b active"' if pipe_active else ' class="sndd-b"'
+    pipeline = (
+        f'<div class="sndd"><span{pipe_cls}>Pipeline &#9662;</span><div class="sndd-m">'
+        f'<a href="{p}lanes.html" style="color:#CDF851;">Lane Definition</a>'
+        f'<a href="{p}vcf.html">Value vs. Complexity</a>'
+        f'</div></div>'
+    )
+
+    ref_active = active_page.startswith("library")
+    ref_cls = ' class="sndd-b active"' if ref_active else ' class="sndd-b"'
+    reference = (
+        f'<div class="sndd"><span{ref_cls}>Reference &#9662;</span><div class="sndd-m">'
+        f'<div class="sep-label">Frameworks</div>'
+        f'<a href="{p}reference/framework-reference.html">Framework Reference</a>'
+        f'<a href="{p}reference/operational-plan.html">How It Runs</a>'
+        f'<a href="{p}reference/active-projects-template.html">Active Projects Template</a>'
         f'<a href="{p}reference/handoff-map.html">Handoff Map</a>'
-        f'<a href="{p}reference/airtable-grid.html">Airtable Grid</a>'
-        f'<a href="{p}reference/atlantic-uk.html">Atlantic UK System</a>'
         f'<div class="sep"></div>'
         f'<div class="sep-label">Meetings</div>'
         f'<a href="{p}meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a>'
@@ -45,25 +50,18 @@ def make_nav(active_page, prefix=""):
         f'<div class="sep"></div>'
         f'<div class="sep-label">Tools</div>'
         f'<a href="{p}release.html">Release View</a>'
+        f'<a href="{p}visibility.html">Visibility (Roster)</a>'
         f'<a href="{p}meetings.html">Meeting Flow</a>'
-        f'<a href="{p}pipeline.html">Pipeline</a>'
-        f'<a href="{p}template.html">Template</a>'
+        f'<a href="{p}insights/index.html">Insights</a>'
+        f'<a href="{p}reference/airtable-grid.html">Airtable Grid</a>'
+        f'<a href="{p}reference/atlantic-uk.html">Atlantic UK System</a>'
         f'<div class="sep"></div>'
         f'<div class="sep-label">Artists</div>'
         f'<a href="{p}artists/isaia-huron.html">Isaia Huron</a>'
         f'<a href="{p}artists/pixy.html">PIXY</a>'
         f'<a href="{p}artists/room-full-of-mirrors.html">Room Full of Mirrors</a>'
         f'<div class="sep"></div>'
-        f'<div class="sep-label">Archive</div>'
-        f'<a href="{p}archive/index.html">Archive Index</a>'
-        f'<a href="{p}archive/pilot.html">Pilot Overview</a>'
-        f'<a href="{p}archive/demos/isaia-huron.html">Pilot MVP &mdash; Isaia</a>'
-        f'<a href="{p}archive/demo.html">Artist Visibility (v1)</a>'
-        f'<a href="{p}archive/cadence.html">Cadence</a>'
-        f'<a href="{p}archive/rollout.html">Rollout</a>'
-        f'<a href="{p}archive/comms.html">Comms</a>'
-        f'<a href="{p}archive/pipeline.html">Pipeline (v1)</a>'
-        f'<a href="{p}archive/prep-isaia.html">Prep Package &mdash; Isaia</a>'
+        f'<a href="{p}archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a>'
         f'</div></div>'
     )
 
@@ -71,9 +69,9 @@ def make_nav(active_page, prefix=""):
         f'<nav>\n'
         f'<a href="{p}index.html" class="logo">'
         f'<img src="{p}tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;">'
-        f'<span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">TEMPO</span></a>\n'
+        f'<span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>\n'
         f'<div class="nav-links">\n'
-        f'{home}\n{orbit}\n{vis}\n{ins}\n{library}\n'
+        f'{home}\n{orbit}\n{acct}\n{pipeline}\n{reference}\n'
         f'</div>\n</nav>'
     )
 
@@ -81,18 +79,19 @@ def make_nav(active_page, prefix=""):
 ROOT_PAGES = {
     "index.html": "home",
     "orbit.html": "orbit",
-    "visibility.html": "visibility",
+    "timeline.html": "accountability",
+    "lanes.html": "pipeline-lanes",
+    "vcf.html": "pipeline-vcf",
     "release.html": "library-tools",
+    "visibility.html": "library-tools",
     "meetings.html": "library-tools",
-    "pipeline.html": "library-tools",
-    "template.html": "library-tools",
 }
 
 SUBFOLDER_MAP = {
     "meetings/": ("library-meetings", "../"),
     "artists/": ("library-artists", "../"),
     "reference/": ("library-reference", "../"),
-    "insights/": ("insights", "../"),
+    "insights/": ("library-insights", "../"),
 }
 
 
@@ -116,7 +115,7 @@ def update_file(filepath, active_page, prefix):
 
 
 def main():
-    print("TEMPO Nav Update — March 2026")
+    print("TEMPO Nav Update — April 2026")
     print("=" * 50)
     count = 0
 
@@ -132,7 +131,7 @@ def main():
                 count += 1
 
     print(f"\nUpdated {count} files.")
-    print("Nav: Home | Orbit | Visibility | Insights | Library")
+    print("Nav: The Mission | The Cycle | Accountability | Pipeline | Reference")
 
 
 if __name__ == "__main__":
