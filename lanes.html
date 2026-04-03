@@ -78,6 +78,8 @@ h1 span{color:var(--green)}
 .card-item-note{font-size:10px;color:var(--dim);line-height:1.4;max-height:0;overflow:hidden;opacity:0;transition:all .2s ease;margin-top:0}
 .card-item:hover .card-item-note{max-height:80px;opacity:1;margin-top:4px}
 .card-item-cat{display:none}
+.dept-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--flame);background:rgba(255,74,35,0.1);padding:2px 6px;margin-top:4px;cursor:pointer;transition:background .15s}
+.dept-tag:hover{background:rgba(255,74,35,0.2)}
 
 /* Add task */
 .add-btn{background:var(--bg);border:1px dashed var(--border);padding:6px 10px;cursor:pointer;font-size:10px;color:var(--dim);text-align:center;transition:border-color .15s;margin-top:4px}
@@ -285,14 +287,44 @@ function moveItem(itemId, targetLane) {
   if (!item || item.lane === targetLane) return;
   const from = laneMap[item.lane];
   const to = laneMap[targetLane];
-  changelog.unshift({
-    time: new Date().toLocaleTimeString(),
-    text: '"' + item.text + '" moved from ' + from.label + ' → ' + to.label,
-    from: item.lane, to: targetLane
-  });
+  if (targetLane === "gap") {
+    const dept = prompt("Which department should own this?\n(e.g. Commercial Partnerships, Finance, A&R, Release Planning — or leave blank)");
+    if (dept !== null) {
+      item.targetDept = dept.trim() || "";
+      const deptNote = item.targetDept ? " → suggested: " + item.targetDept : "";
+      changelog.unshift({
+        time: new Date().toLocaleTimeString(),
+        text: '"' + item.text + '" moved from ' + from.label + ' → UNRESOLVED' + deptNote,
+        from: item.lane, to: targetLane
+      });
+    } else { return; }
+  } else {
+    item.targetDept = "";
+    changelog.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: '"' + item.text + '" moved from ' + from.label + ' → ' + to.label,
+      from: item.lane, to: targetLane
+    });
+  }
   item.lane = targetLane;
   autoSave();
   render();
+}
+
+function changeDept(itemId) {
+  const item = items.find(i => i.id === itemId);
+  if (!item) return;
+  const dept = prompt("Reassign to which department?", item.targetDept || "");
+  if (dept !== null) {
+    item.targetDept = dept.trim();
+    changelog.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: '"' + item.text + '" reassigned to: ' + (item.targetDept || "(cleared)"),
+      from: "gap", to: "gap"
+    });
+    autoSave();
+    render();
+  }
 }
 
 function copyLog() {
@@ -305,9 +337,16 @@ function copyLog() {
 }
 
 function cardHTML(item) {
+  var deptTag = '';
+  if (item.lane === 'gap' && item.targetDept) {
+    deptTag = '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" title="Click to change">→ ' + item.targetDept + '</div>';
+  } else if (item.lane === 'gap') {
+    deptTag = '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" title="Click to assign department" style="opacity:0.5">+ assign dept</div>';
+  }
   return '<div class="card-item' + (item.flag ? ' flagged' : '') + '" draggable="true" data-id="' + item.id + '">' +
     '<div class="card-item-title">' + (item.flag ? '<span class="dot">&#x25CF;</span>' : '') + item.text + '</div>' +
     '<div class="card-item-note">' + item.note + '</div>' +
+    deptTag +
     '<div class="card-item-cat">' + item.cat + '</div></div>';
 }
 
@@ -358,7 +397,11 @@ function render() {
         html += '<div class="gallery-card" draggable="true" data-id="' + item.id + '" style="border-top:3px solid ' + lane.color + '">';
         html += '<div class="lane-tag" style="color:' + lane.color + '">' + lane.label + '</div>';
         html += '<div class="g-title">' + (item.flag ? '<span style="color:#FF4A23;margin-right:4px">&#x25CF;</span>' : '') + item.text + '</div>';
-        html += '<div class="g-note">' + item.note + '</div></div>';
+        html += '<div class="g-note">' + item.note + '</div>';
+        if (item.lane === 'gap' && item.targetDept) {
+          html += '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" style="margin-top:6px">→ ' + item.targetDept + '</div>';
+        }
+        html += '</div>';
       });
       html += '</div>';
     });
@@ -482,6 +525,7 @@ function exportSummary() {
     li.forEach(item => {
       md += "- **" + item.text + "**";
       if (item.flag) md += " ⚠️";
+      if (item.targetDept) md += " → " + item.targetDept;
       md += "\n";
       if (item.note) md += "  _" + item.note + "_\n";
     });
