@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA &mdash; Lane Definition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0E0E;--surface:#141414;--card:#181818;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD;--blue:#5B9BD5}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;height:44px;position:sticky;top:0;z-index:9999}
+nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+nav .nav-links{display:flex;align-items:center;gap:2px}
+nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color 0.15s}
+nav .nav-links a:hover{color:var(--white)}
+nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
+.sndd{position:relative;display:inline-block}
+.sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+.sndd-b:hover{color:var(--white)}
+.sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:220px;z-index:10000;padding:4px 0}
+.sndd:hover .sndd-m{display:block}
+.sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+.sndd-m a:hover{background:var(--border);color:var(--white)}
+.sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+.sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+
+main{max-width:1400px;margin:0 auto;padding:48px 24px 120px}
+.hero-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:inline-block;padding:4px 10px;background:rgba(205,248,81,0.08)}
+h1{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:12px}
+h1 span{color:var(--green)}
+.hero-sub{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:40px;max-width:640px}
+.section-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+
+.team-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:40px}
+.team-card{background:var(--card);border:1px solid var(--border);padding:20px;position:relative}
+.team-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.team-card.ops::before{background:var(--green)}
+.team-card.cl::before{background:var(--teal)}
+.team-card.ad::before{background:var(--purple)}
+.team-name{font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.team-card.ops .team-name{color:var(--green)}
+.team-card.cl .team-name{color:var(--teal)}
+.team-card.ad .team-name{color:var(--purple)}
+.team-verbs{font-family:'DM Mono',monospace;font-size:12px;color:var(--white);margin-bottom:8px;font-weight:500}
+.team-desc{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:8px}
+.team-reports{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+
+.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.controls select,.controls button,.controls label{background:var(--card);color:var(--white);border:1px solid var(--border);padding:7px 14px;font-size:12px;font-family:'DM Mono',monospace;cursor:pointer;transition:border-color 0.15s}
+.controls select:hover,.controls button:hover,.controls label:hover{border-color:var(--green)}
+.controls .btn-green{color:var(--green)}
+.controls .btn-flame{color:var(--flame)}
+.counts{margin-left:auto;display:flex;gap:14px;font-size:11px;font-family:'DM Mono',monospace;color:var(--dim)}
+
+.flag-banner{background:rgba(255,74,35,0.06);border-left:3px solid var(--flame);padding:10px 16px;margin-bottom:20px;font-size:13px}
+.flag-banner strong{color:var(--flame);font-family:'DM Mono',monospace;letter-spacing:1px}
+
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
+.lane{background:var(--card);border:1px solid var(--border);padding:10px;min-height:300px;transition:all .15s ease}
+.lane.hover{background:var(--surface);border-color:var(--dim)}
+.lane-header{padding-bottom:8px;margin-bottom:8px}
+.lane-title{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.lane-verbs{color:var(--dim);font-size:10px;font-family:'DM Mono',monospace;margin-top:2px}
+.lane-count{color:var(--dim);font-size:11px;font-family:'DM Mono',monospace;margin-top:4px}
+
+.card-item{background:var(--bg);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px;cursor:grab;transition:border-color .15s}
+.card-item:hover{border-color:var(--dim)}
+.card-item.flagged{border-color:rgba(255,74,35,0.4)}
+.card-item.dragging{opacity:.4}
+.card-item-title{font-size:12px;font-weight:600;color:var(--white);line-height:1.3;margin-bottom:4px}
+.card-item-title .dot{color:var(--flame);margin-right:4px}
+.card-item-note{font-size:10px;color:var(--dim);line-height:1.4}
+.card-item-cat{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:4px;letter-spacing:.5px}
+
+.gallery-cat{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:24px}
+.gallery-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;cursor:grab;transition:border-color .15s}
+.gallery-card:hover{border-color:var(--dim)}
+.gallery-card .lane-tag{font-size:10px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.gallery-card .g-title{font-size:13px;font-weight:600;color:var(--white);line-height:1.3;margin-bottom:6px}
+.gallery-card .g-note{font-size:11px;color:var(--text);line-height:1.4}
+.drop-zones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
+.drop-zone{border:1px dashed var(--muted);padding:14px 8px;text-align:center;transition:all .15s;min-height:56px}
+.drop-zone.hover{border-style:solid;background:var(--surface)}
+.drop-zone-label{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:1px}
+
+.changelog{background:var(--card);border:1px solid var(--border);padding:16px;margin-bottom:20px}
+.changelog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.changelog-title{font-size:11px;font-weight:900;color:var(--green);letter-spacing:2px;text-transform:uppercase}
+.changelog-copy{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:4px 10px;font-size:10px;font-family:'DM Mono',monospace;cursor:pointer}
+.changelog-list{max-height:200px;overflow-y:auto}
+.changelog-entry{font-size:11px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace}
+
+.callout{background:var(--card);border-left:3px solid var(--flame);padding:16px 20px;margin-bottom:20px}
+.callout-label{font-size:9px;font-family:'DM Mono',monospace;letter-spacing:2px;color:var(--flame);font-weight:700;margin-bottom:6px;text-transform:uppercase}
+.callout-title{font-size:14px;font-weight:700;color:var(--flame);margin-bottom:6px}
+.callout-body{font-size:13px;color:var(--text);line-height:1.6}
+.callout-body em{color:var(--white);font-weight:600;font-style:normal}
+
+.footer{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
+
+@media(max-width:1000px){.kanban{grid-template-columns:repeat(3,1fr)}.drop-zones{grid-template-columns:repeat(3,1fr)}.team-grid{grid-template-columns:1fr}}
+@media(max-width:640px){nav{padding:0 12px;overflow-x:auto}main{padding:32px 16px 80px}h1{font-size:36px;letter-spacing:-1.5px}.kanban{grid-template-columns:1fr 1fr}.drop-zones{grid-template-columns:1fr 1fr}.counts{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo"><img src="tempoicon.png" alt="Campaign Ops" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<div class="nav-links">
+<a href="index.html">The Mission</a>
+<a href="orbit.html">The Cycle</a>
+<a href="timeline.html">Accountability</a>
+<span class="active-label">Lane Definition</span>
+<div class="sndd"><span class="sndd-b">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/operational-plan.html">How It Runs</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+
+<main>
+  <div class="hero-tag">Lane Definition</div>
+  <h1><span>WHO DOES WHAT</span></h1>
+  <div class="hero-sub">Drag responsibilities between lanes. Every move is logged. Campaign Ops &times; Campaign Leads &times; Audience Development.</div>
+
+  <div class="section-label">Three Teams &middot; Three Verb Sets</div>
+  <div class="team-grid">
+    <div class="team-card ops"><p class="team-name">Campaign Ops</p><p class="team-verbs">Track &middot; Surface &middot; Flag &middot; Prompt &middot; Confirm</p><p class="team-desc">The nervous system. Sees all signals. Owns the system, not the strategy.</p><p class="team-reports">Reports to Jordan (SVP Commercial Partnerships)</p></div>
+    <div class="team-card cl"><p class="team-name">Campaign Leads</p><p class="team-verbs">Plan &middot; Build &middot; Execute &middot; Present &middot; Own</p><p class="team-desc">The brain. Decides the story, the plan, the budget.</p><p class="team-reports">Reports to Tarek (SVP Audience Development)</p></div>
+    <div class="team-card ad"><p class="team-name">Audience Development</p><p class="team-verbs">Grow &middot; Target &middot; Optimize &middot; Measure &middot; Amplify</p><p class="team-desc">The growth engine. Gets the story to the audience.</p><p class="team-reports">Led by Murdoc &middot; Reports to Tarek</p></div>
+  </div>
+
+  <div class="controls" id="controls">
+    <select id="filterSelect" onchange="applyFilter()"><option value="all">All Categories</option></select>
+    <button class="btn-green" onclick="toggleView()">&#x229E; Gallery View</button>
+    <button class="btn-flame" onclick="resetAll()">&#x21BA; Reset</button>
+    <button class="btn-green" onclick="saveState()">&#x2B07; Save State</button>
+    <label style="color:var(--text)">&#x2B06; Load State<input type="file" accept=".json" onchange="loadState(this)" style="display:none"></label>
+    <button onclick="exportSummary()">&#x1F4CB; Export Summary</button>
+    <div class="counts" id="laneCounts"></div>
+  </div>
+
+  <div class="flag-banner" id="flagBanner"></div>
+  <div id="kanbanContainer"></div>
+  <div id="galleryContainer" style="display:none"></div>
+  <div id="changelogContainer" style="display:none"></div>
+
+  <div class="callout">
+    <div class="callout-label">Open Question</div>
+    <div class="callout-title">Who does Project Support actually support?</div>
+    <div class="callout-body">The JD says Support serves Campaign Leads, Audience Development, <em>and</em> Campaign Operations. But who directs their priorities? If Support reports to Tarek alongside CL and Aud Dev, then Ops is the only team that has to <em>request</em> Support rather than <em>direct</em> it. This changes how ~15 responsibilities on this board actually work day-to-day.</div>
+  </div>
+
+  <div class="footer"><span>Campaign Operations &middot; RCA Records</span><span>April 2026 &middot; Working Draft</span></div>
+</main>
+
+<script src="sidebar.js"></script>
+<script>
+
+const LANES = [
+  { id:"ops", label:"CAMPAIGN OPS", color:"#CDF851", bg:"rgba(205,248,81,0.08)", verbs:"Track · Surface · Flag · Prompt · Confirm" },
+  { id:"leads", label:"CAMPAIGN LEADS", color:"#5BC0BE", bg:"rgba(91,192,190,0.08)", verbs:"Plan · Build · Execute · Present · Own" },
+  { id:"auddev", label:"AUDIENCE DEV", color:"#7F77DD", bg:"rgba(127,119,221,0.08)", verbs:"Grow · Target · Optimize · Measure · Amplify" },
+  { id:"support", label:"SUPPORT", color:"#B0A9BE", bg:"rgba(176,169,190,0.08)", verbs:"Execute · Coordinate · Deliver · Maintain" },
+  { id:"gap", label:"UNRESOLVED", color:"#FF4A23", bg:"rgba(255,74,35,0.08)", verbs:"Needs a decision" },
+];
+const CATEGORIES = ["Strategy & Planning","Budget","Content & Assets","Platforms & Partners","Meetings & Comms","Systems & Data","Digital Rep Workflow"];
+const laneMap = Object.fromEntries(LANES.map(l=>[l.id,l]));
+
+const INITIAL = [
+  {id:1,text:"Campaign strategy & narrative",cat:"Strategy & Planning",lane:"leads",note:"Ops distributes plan once approved"},
+  {id:2,text:"Digital campaign objective & plan",cat:"Strategy & Planning",lane:"leads",note:"Where does CL digital strategy end and Aud Dev execution begin?",flag:true},
+  {id:3,text:"Audience strategy & segmentation",cat:"Strategy & Planning",lane:"auddev",note:"Present audience strategy pre-rollout"},
+  {id:4,text:"Shortform content planning",cat:"Strategy & Planning",lane:"leads",note:"CL outlines ideas. Shortform executes."},
+  {id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"GAP: Not happening consistently",flag:true},
+  {id:6,text:"Release readiness tracking",cat:"Strategy & Planning",lane:"ops",note:"Ops surfaces gaps → Leads resolves"},
+  {id:7,text:"Per-artist budget creation",cat:"Budget",lane:"leads",note:"CL builds breakdown, submits to PM"},
+  {id:8,text:"Budget visibility & divergence",cat:"Budget",lane:"ops",note:"Surfaces difference between verbal approval and Console"},
+  {id:9,text:"Budget reallocation",cat:"Budget",lane:"leads",note:"Leads → Finance → COO"},
+  {id:10,text:"PO/Invoice submission",cat:"Budget",lane:"leads",note:"CL fills out PO doc"},
+  {id:11,text:"Per-dept spend accountability",cat:"Budget",lane:"gap",note:"Previously Val. VACANT.",flag:true},
+  {id:12,text:"Annual marketing P&L",cat:"Budget",lane:"gap",note:"Not Campaign Ops. Needs title + authority.",flag:true},
+  {id:13,text:"Asset requests (banners, teasers, pre-roll)",cat:"Content & Assets",lane:"support",note:"Serves CL, Aud Dev, and Ops"},
+  {id:14,text:"Paid ads, seeding, organic engagement",cat:"Content & Assets",lane:"auddev",note:"CL defines objective. Aud Dev executes."},
+  {id:15,text:"Social content creation",cat:"Content & Assets",lane:"auddev",note:"Aud Dev creates → CL approves"},
+  {id:16,text:"Social content approval",cat:"Content & Assets",lane:"leads",note:"Management approval overseen by CL"},
+  {id:17,text:"Video deliverables (Earworm, BA)",cat:"Content & Assets",lane:"leads",note:"CL requests treatment, verifies BA"},
+  {id:18,text:"Website management & social profiles",cat:"Content & Assets",lane:"support",note:"Setup, maintenance, consistency"},
+  {id:19,text:"Artist newsletter creation",cat:"Content & Assets",lane:"support",note:"CL provides direction, Support executes"},
+  {id:20,text:"DSP partner pitching",cat:"Platforms & Partners",lane:"gap",note:"Restructuring moves to Commercial. CL To-Do still lists as CL.",flag:true},
+  {id:21,text:"Social platform pitching (TikTok, Meta, Snap)",cat:"Platforms & Partners",lane:"gap",note:"CL preps pitch. Commercial owns relationship?",flag:true},
+  {id:22,text:"Partner catch-ups & updates",cat:"Platforms & Partners",lane:"leads",note:"CL Partner Lead facilitates"},
+  {id:23,text:"Music delivery to partners",cat:"Platforms & Partners",lane:"support",note:"A&R Admin. Ops tracks delivery status."},
+  {id:24,text:"Influencer/agency solicitation",cat:"Platforms & Partners",lane:"leads",note:"CL contacts agencies, presents for sign-off"},
+  {id:25,text:"VEVO playlisting & backstage",cat:"Platforms & Partners",lane:"support",note:"Form submission. Due noon Tuesday."},
+  {id:26,text:"Cross-dept meeting prep & follow-up",cat:"Meetings & Comms",lane:"ops",note:"Goal Briefs, notes, action tracking"},
+  {id:27,text:"Meeting notes distribution",cat:"Meetings & Comms",lane:"ops",note:"Ops produces → SVPs review → Ops distributes"},
+  {id:28,text:"Action item tracking",cat:"Meetings & Comms",lane:"ops",note:"98 items tracked from last AP alone"},
+  {id:29,text:"ICYMI Teams updates",cat:"Meetings & Comms",lane:"gap",note:"CL shares highlights? Ops surfaces signals? Both?",flag:true},
+  {id:30,text:"Artist briefings (13-dept)",cat:"Meetings & Comms",lane:"ops",note:"Ops assembles, CL consumes"},
+  {id:31,text:"RCA newsletter/social post orders",cat:"Meetings & Comms",lane:"support",note:"Plugging releases into sheet. Logistics."},
+  {id:32,text:"Dashboards & tracking tools",cat:"Systems & Data",lane:"ops",note:"TEMPO, Airtable, Orbit"},
+  {id:33,text:"Data layer & system of record",cat:"Systems & Data",lane:"ops",note:"Ops maintains. All teams input."},
+  {id:34,text:"Audience data & KPI measurement",cat:"Systems & Data",lane:"auddev",note:"Aud Dev produces → CL uses"},
+  {id:35,text:"Release Runway data",cat:"Systems & Data",lane:"ops",note:"All depts populate. Ops surfaces."},
+  {id:36,text:"Console (financial system)",cat:"Systems & Data",lane:"leads",note:"Finance owns. CL allocates. Ops tracks divergence."},
+  {id:37,text:"Linkfire / SMF / Marketing Cloud",cat:"Systems & Data",lane:"support",note:"Link creation, pre-saves, blasts"},
+  {id:38,text:"Mon: Airtable asset requests",cat:"Digital Rep Workflow",lane:"support",note:"Requesting from Creative, A&R Admin, Production"},
+  {id:39,text:"Mon: Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
+  {id:40,text:"Mon: Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
+  {id:41,text:"Tue: VEVO playlisting submit",cat:"Digital Rep Workflow",lane:"support",note:"Form. Due noon ET."},
+  {id:42,text:"Tue: SMF campaign setup",cat:"Digital Rep Workflow",lane:"auddev",note:"Audience-facing. Pre-save strategy."},
+  {id:43,text:"Wed: NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
+  {id:44,text:"Thu: YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Execution."},
+  {id:45,text:"Thu: Send assets to Publicity & Intl",cat:"Digital Rep Workflow",lane:"support",note:"Cross-dept handoff. Ops could track."},
+  {id:46,text:"Fri: Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
+  {id:47,text:"Fri: TikTok pin + UGC claims",cat:"Digital Rep Workflow",lane:"auddev",note:"Platform strategy. What to pin, what to claim."},
+  {id:48,text:"Fri: Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud. Mgmt approval by Thu."},
+  {id:49,text:"Upstream dependency tracking (Mon)",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody tracks whether inputs arrive. Ops flags.",flag:true},
+  {id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Thu deadline. Nobody flags when it's missed.",flag:true},
+  {id:51,text:"Who does Support report to?",cat:"Digital Rep Workflow",lane:"gap",note:"JD says serves CL + Aud Dev + Ops. But who directs priorities?",flag:true},
+];
+
+let items = JSON.parse(JSON.stringify(INITIAL));
+let changelog = [];
+let currentFilter = "all";
+let viewMode = "kanban";
+let dragItemId = null;
+
+function init() {
+  autoLoad();
+  const sel = document.getElementById("filterSelect");
+  CATEGORIES.forEach(c => {
+    const o = document.createElement("option");
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+  render();
+}
+
+function getFiltered() {
+  return currentFilter === "all" ? items : items.filter(i => i.cat === currentFilter);
+}
+
+function applyFilter() {
+  currentFilter = document.getElementById("filterSelect").value;
+  render();
+}
+
+function toggleView() {
+  viewMode = viewMode === "kanban" ? "gallery" : "kanban";
+  document.querySelector(".controls .view").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
+  render();
+}
+
+function resetAll() {
+  items = JSON.parse(JSON.stringify(INITIAL));
+  changelog = [];
+  render();
+}
+
+function moveItem(itemId, targetLane) {
+  const item = items.find(i => i.id === itemId);
+  if (!item || item.lane === targetLane) return;
+  const from = laneMap[item.lane];
+  const to = laneMap[targetLane];
+  changelog.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: '"' + item.text + '" moved from ' + from.label + ' → ' + to.label,
+    from: item.lane, to: targetLane
+  });
+  item.lane = targetLane;
+  autoSave();
+  render();
+}
+
+function copyLog() {
+  const text = changelog.map(c => c.time + ": " + c.text).join("\n");
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(".changelog-copy");
+    btn.textContent = "Copied!";
+    setTimeout(() => btn.textContent = "Copy Log", 1500);
+  });
+}
+
+function cardHTML(item) {
+  return '<div class="card' + (item.flag ? ' flagged' : '') + '" draggable="true" data-id="' + item.id + '">' +
+    '<div class="card-title">' + (item.flag ? '<span class="dot">&#x25CF;</span>' : '') + item.text + '</div>' +
+    '<div class="card-note">' + item.note + '</div>' +
+    '<div class="card-cat">' + item.cat + '</div></div>';
+}
+
+function render() {
+  const filtered = getFiltered();
+  const flagged = items.filter(i => i.flag).length;
+
+  // Counts
+  const countsEl = document.getElementById("laneCounts");
+  countsEl.innerHTML = LANES.map(l => {
+    const c = items.filter(i => i.lane === l.id).length;
+    return '<span><span style="color:' + l.color + ';font-weight:700">' + c + '</span> ' + l.label.split(" ").pop() + '</span>';
+  }).join("");
+
+  // Flag banner
+  document.getElementById("flagBanner").innerHTML = '<strong>' + flagged + ' ITEMS FLAGGED</strong><span style="color:#B0A9BE;margin-left:8px">— gray areas and gaps requiring decisions</span>';
+
+  // Kanban
+  const kc = document.getElementById("kanbanContainer");
+  const gc = document.getElementById("galleryContainer");
+
+  if (viewMode === "kanban") {
+    kc.style.display = ""; gc.style.display = "none";
+    let html = '<div class="kanban">';
+    LANES.forEach(lane => {
+      const li = filtered.filter(i => i.lane === lane.id);
+      html += '<div class="lane" data-lane="' + lane.id + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
+      html += '<div class="lane-header" style="border-bottom:2px solid ' + lane.color + '">';
+      html += '<div class="lane-title" style="color:' + lane.color + '">' + lane.label + '</div>';
+      html += '<div class="lane-verbs">' + lane.verbs + '</div>';
+      html += '<div class="lane-count">' + li.length + ' items</div></div>';
+      li.forEach(item => { html += cardHTML(item); });
+      html += '</div>';
+    });
+    html += '</div>';
+    kc.innerHTML = html;
+  } else {
+    kc.style.display = "none"; gc.style.display = "";
+    let html = '<div class="gallery">';
+    const cats = currentFilter === "all" ? CATEGORIES : [currentFilter];
+    cats.forEach(cat => {
+      const ci = filtered.filter(i => i.cat === cat);
+      if (!ci.length) return;
+      html += '<div class="gallery-cat">' + cat + '</div><div class="gallery-grid">';
+      ci.forEach(item => {
+        const lane = laneMap[item.lane];
+        html += '<div class="gallery-card" draggable="true" data-id="' + item.id + '" style="border-top:3px solid ' + lane.color + '">';
+        html += '<div class="lane-tag" style="color:' + lane.color + '">' + lane.label + '</div>';
+        html += '<div class="g-title">' + (item.flag ? '<span style="color:#FF4A23;margin-right:4px">&#x25CF;</span>' : '') + item.text + '</div>';
+        html += '<div class="g-note">' + item.note + '</div></div>';
+      });
+      html += '</div>';
+    });
+    html += '<div class="drop-zones">';
+    LANES.forEach(lane => {
+      html += '<div class="drop-zone" data-lane="' + lane.id + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
+      html += '<div class="drop-zone-label" style="color:' + lane.color + '">&#x2193; DROP TO ' + lane.label + '</div></div>';
+    });
+    html += '</div></div>';
+    gc.innerHTML = html;
+  }
+
+  // Changelog
+  const clc = document.getElementById("changelogContainer");
+  if (changelog.length) {
+    clc.style.display = "";
+    let html = '<div class="changelog"><div class="changelog-header">';
+    html += '<div class="changelog-title">Decision Log (' + changelog.length + ' changes)</div>';
+    html += '<button class="changelog-copy" onclick="copyLog()">Copy Log</button></div>';
+    html += '<div class="changelog-list">';
+    changelog.forEach(c => {
+      const fc = laneMap[c.from]?.color || "#847D96";
+      const tc = laneMap[c.to]?.color || "#847D96";
+      html += '<div class="changelog-entry"><span class="time">' + c.time + '</span> ';
+      html += '<span style="color:' + fc + '">&#x25A0;</span>&#x2192;<span style="color:' + tc + '">&#x25A0;</span> ';
+      html += c.text + '</div>';
+    });
+    html += '</div></div>';
+    clc.innerHTML = html;
+  } else {
+    clc.style.display = "none";
+  }
+
+  attachDragListeners();
+}
+
+function attachDragListeners() {
+  // Cards
+  document.querySelectorAll("[draggable=true][data-id]").forEach(el => {
+    el.addEventListener("dragstart", e => {
+      dragItemId = parseInt(el.dataset.id);
+      el.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", dragItemId);
+    });
+    el.addEventListener("dragend", () => {
+      dragItemId = null;
+      el.classList.remove("dragging");
+      document.querySelectorAll(".lane.hover,.drop-zone.hover").forEach(z => z.classList.remove("hover"));
+    });
+  });
+
+  // Drop targets (lanes and drop zones)
+  document.querySelectorAll(".lane[data-lane],.drop-zone[data-lane]").forEach(el => {
+    el.addEventListener("dragover", e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      el.classList.add("hover");
+    });
+    el.addEventListener("dragleave", () => el.classList.remove("hover"));
+    el.addEventListener("drop", e => {
+      e.preventDefault();
+      el.classList.remove("hover");
+      if (dragItemId != null) {
+        moveItem(dragItemId, el.dataset.lane);
+        dragItemId = null;
+      }
+    });
+  });
+}
+
+
+// === SAVE & EXPORT ===
+function saveState() {
+  const state = {
+    items: items,
+    changelog: changelog,
+    savedAt: new Date().toISOString(),
+    filter: currentFilter,
+    viewMode: viewMode
+  };
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Lane_Definition_State_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function loadState(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const state = JSON.parse(e.target.result);
+      items = state.items;
+      changelog = state.changelog || [];
+      currentFilter = state.filter || "all";
+      viewMode = state.viewMode || "kanban";
+      document.getElementById("filterSelect").value = currentFilter;
+      document.querySelector(".controls .view").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
+      render();
+    } catch(err) {
+      alert("Could not load file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function exportSummary() {
+  let md = "# Lane Definition — Meeting Decisions\n";
+  md += "Exported: " + new Date().toLocaleString() + "\n\n";
+  
+  // Current state by lane
+  LANES.forEach(lane => {
+    const li = items.filter(i => i.lane === lane.id);
+    if (li.length === 0) return;
+    md += "## " + lane.label + " (" + li.length + " items)\n";
+    li.forEach(item => {
+      md += "- **" + item.text + "**";
+      if (item.flag) md += " ⚠️";
+      md += "\n";
+      if (item.note) md += "  _" + item.note + "_\n";
+    });
+    md += "\n";
+  });
+  
+  // Changelog
+  if (changelog.length > 0) {
+    md += "## Decision Log (" + changelog.length + " changes)\n";
+    changelog.forEach(c => {
+      md += "- " + c.time + ": " + c.text + "\n";
+    });
+  }
+  
+  const blob = new Blob([md], {type: "text/markdown"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Lane_Definition_Decisions_" + new Date().toISOString().slice(0,10) + ".md";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Auto-save to localStorage on every change
+function autoSave() {
+  try {
+    localStorage.setItem("laneDefState", JSON.stringify({ items, changelog }));
+  } catch(e) {}
+}
+
+function autoLoad() {
+  try {
+    const saved = localStorage.getItem("laneDefState");
+    if (saved) {
+      const state = JSON.parse(saved);
+      if (state.items && state.items.length === INITIAL.length) {
+        const changed = state.items.some((item, i) => item.lane !== INITIAL[i].lane);
+        if (changed && confirm("Resume from your last session? (Cancel to start fresh)")) {
+          items = state.items;
+          changelog = state.changelog || [];
+        }
+      }
+    }
+  } catch(e) {}
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+</script>
+</body>
+</html>
