@@ -3,713 +3,371 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCA &mdash; Lane Definition</title>
+<title>Lane Definition — Updated 2026-04-03</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;0,9..40,900;1,9..40,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0F0E0E;--surface:#141414;--card:#181818;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD;--blue:#5B9BD5}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0A0A;--surface:#141414;--card:#1A1A1A;--border:#2A2A2A;
+  --text:#FCFDF8;--dim:#B0A9BE;--fog:#847D96;--muted:#3E3F41;
+  --chartreuse:#CDF851;--flame:#FF4A23;
+  --ops:#CDF851;--leads:#3AAFFF;--auddev:#FF6B35;--support:#A78BFA;--commercial:#10B981;--removed:#FF4A23;--unresolved:#FFD600;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
 
-nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;height:44px;position:sticky;top:0;z-index:9999}
-nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
-nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
-nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
-nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
-nav .nav-links{display:flex;align-items:center;gap:2px}
-nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color 0.15s}
-nav .nav-links a:hover{color:var(--white)}
-nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
-.sndd{position:relative;display:inline-block}
-.sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
-.sndd-b:hover{color:var(--white)}
-.sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:220px;z-index:10000;padding:4px 0}
-.sndd:hover .sndd-m{display:block}
-.sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
-.sndd-m a:hover{background:var(--border);color:var(--white)}
-.sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
-.sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+/* Header */
+.header{max-width:1440px;margin:0 auto;padding:40px 24px 24px}
+.header-tag{font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:8px}
+.header h1{font-weight:900;font-size:42px;text-transform:uppercase;letter-spacing:1px;line-height:1.1;margin-bottom:6px}
+.header h1 span{color:var(--chartreuse)}
+.header .sub{font-size:14px;color:var(--dim);margin-bottom:6px}
+.header .meta{font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:11px;color:var(--fog);letter-spacing:0.5px}
+.header .meta em{color:var(--chartreuse);font-style:normal}
+.rule{height:2px;background:var(--chartreuse);margin:20px 0 28px}
 
-main{max-width:1400px;margin:0 auto;padding:48px 24px 120px}
-.hero-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:inline-block;padding:4px 10px;background:rgba(205,248,81,0.08)}
-h1{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:10px}
-h1 span{color:var(--green)}
-.hero-sub{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:32px;max-width:640px}
-.section-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+/* Stats bar */
+.stats{display:flex;gap:24px;flex-wrap:wrap;max-width:1440px;margin:0 auto 24px;padding:0 24px}
+.stat{display:flex;align-items:baseline;gap:6px}
+.stat-n{font-weight:900;font-size:22px}
+.stat-l{font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog)}
 
-.team-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
-.team-card{background:var(--card);border:1px solid var(--border);padding:16px;position:relative}
-.team-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
-.team-card.ops::before{background:var(--green)}
-.team-card.cl::before{background:var(--teal)}
-.team-card.ad::before{background:var(--purple)}
-.team-name{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.team-card.ops .team-name{color:var(--green)}
-.team-card.cl .team-name{color:var(--teal)}
-.team-card.ad .team-name{color:var(--purple)}
-.team-verbs{font-family:'Inter',sans-serif;font-size:12px;color:var(--white);margin-bottom:8px;font-weight:500}
-.team-desc{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:8px}
-.team-reports{font-family:'Inter',sans-serif;font-size:10px;color:var(--dim)}
+/* Kanban */
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.lane{background:var(--surface);border:1px solid var(--border);padding:12px;min-height:400px}
+.lane-header{padding-bottom:10px;margin-bottom:10px;border-bottom:2px solid var(--border)}
+.lane-title{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase}
+.lane-verbs{font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);margin-top:3px;letter-spacing:0.5px}
+.lane-count{font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);margin-top:4px}
 
-.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.controls select,.controls button,.controls label{background:var(--card);color:var(--white);border:1px solid var(--border);padding:7px 14px;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;transition:border-color 0.15s}
-.controls select:hover,.controls button:hover,.controls label:hover{border-color:var(--green)}
-.controls .btn-green{color:var(--green)}
-.controls .btn-flame{color:var(--flame)}
-.counts{margin-left:auto;display:flex;gap:14px;font-size:11px;font-family:'Inter',sans-serif;color:var(--dim)}
+/* Cards */
+.card{background:var(--bg);border:1px solid var(--border);padding:8px 10px;margin-bottom:6px;transition:border-color .15s}
+.card:hover{border-color:var(--fog)}
+.card.flagged{border-left:3px solid var(--flame)}
+.card.new{border-left:3px solid var(--chartreuse)}
+.card.moved{border-left:3px solid var(--leads)}
+.card.renamed{border-left:3px solid var(--auddev)}
+.card-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:3px}
+.card-note{font-size:10px;color:var(--fog);line-height:1.4}
+.card-tag{display:inline-block;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:9px;letter-spacing:0.5px;padding:1px 5px;margin-top:4px;border-radius:2px}
+.tag-new{background:rgba(205,248,81,0.12);color:var(--chartreuse)}
+.tag-moved{background:rgba(58,175,255,0.12);color:var(--leads)}
+.tag-renamed{background:rgba(255,107,53,0.12);color:var(--auddev)}
+.tag-flagged{background:rgba(255,74,35,0.15);color:var(--flame)}
+.tag-confirmed{background:rgba(255,255,255,0.05);color:var(--fog)}
+.tag-shared{background:rgba(167,139,250,0.12);color:var(--support)}
 
-.flag-banner{background:rgba(255,74,35,0.06);border-left:3px solid var(--flame);padding:10px 16px;margin-bottom:20px;font-size:13px}
-.flag-banner strong{color:var(--flame);font-family:'Inter',sans-serif;letter-spacing:1px}
+/* Removed section */
+.removed-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.removed-header{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--flame);margin-bottom:12px}
+.removed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.removed-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--flame);padding:8px 12px;opacity:0.7}
+.removed-card .card-title{text-decoration:line-through;color:var(--fog)}
 
-.kanban{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:16px}
-.lane{background:var(--card);border:1px solid var(--border);padding:10px;min-height:300px;transition:all .15s ease}
-.lane.hover{background:var(--surface);border-color:var(--dim)}
-.lane-header{padding-bottom:8px;margin-bottom:8px}
-.lane-title{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase}
-.lane-verbs{color:var(--dim);font-size:10px;font-family:'Inter',sans-serif;margin-top:2px}
-.lane-count{color:var(--dim);font-size:11px;font-family:'Inter',sans-serif;margin-top:4px}
+/* Unresolved section */
+.unresolved-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.unresolved-header{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--unresolved);margin-bottom:12px}
+.unresolved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px}
+.unresolved-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--unresolved);padding:10px 14px}
 
-.card-item{background:var(--bg);border:1px solid var(--border);padding:6px 10px;margin-bottom:4px;cursor:grab;transition:border-color .15s;position:relative}
-.card-item.editing{border-color:var(--green);cursor:default}
-.card-item.editing .card-item-title,.card-item.editing .card-item-note{cursor:text}
-.edit-input{background:transparent;border:none;border-bottom:1px solid var(--green);color:var(--white);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;width:100%;padding:2px 0;outline:none;margin-bottom:2px}
-.edit-note{background:transparent;border:none;border-bottom:1px solid var(--dim);color:var(--dim);font-family:'Inter',sans-serif;font-size:10px;width:100%;padding:2px 0;outline:none;resize:none;line-height:1.4}
-.edit-actions{display:flex;gap:4px;margin-top:4px}
-.edit-actions button{font-size:9px;padding:2px 8px;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif}
-.edit-actions .save-edit{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:700}
-.edit-actions .cancel-edit{background:var(--bg);color:var(--dim)}
-.card-item:hover{border-color:var(--dim)}
-.card-item.flagged{border-color:rgba(255,74,35,0.4)}
-.card-item.dragging{opacity:.4}
-.card-item-title{font-size:11px;font-weight:600;color:var(--white);line-height:1.3}
-.card-item-title .dot{color:var(--flame);margin-right:3px}
-.card-item-note{font-size:10px;color:var(--dim);line-height:1.4;max-height:0;overflow:hidden;opacity:0;transition:all .2s ease;margin-top:0}
-.card-item:hover .card-item-note{max-height:80px;opacity:1;margin-top:4px}
-.card-item-cat{display:none}
-.dept-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--flame);background:rgba(255,74,35,0.1);padding:2px 6px;margin-top:4px;cursor:pointer;transition:background .15s}
-.dept-tag:hover{background:rgba(255,74,35,0.2)}
+/* Decision log */
+.log-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.log-header{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px}
+.log-table{width:100%;border-collapse:collapse;font-size:11px}
+.log-table th{text-align:left;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);padding:6px 10px;border-bottom:1px solid var(--muted)}
+.log-table td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--dim)}
+.log-table .from{color:var(--flame)}
+.log-table .to{color:var(--chartreuse)}
 
-/* Add task */
-.add-btn{background:var(--bg);border:1px dashed var(--border);padding:6px 10px;cursor:pointer;font-size:10px;color:var(--dim);text-align:center;transition:border-color .15s;margin-top:4px}
-.add-btn:hover{border-color:var(--green);color:var(--green)}
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10001;display:flex;align-items:center;justify-content:center}
-.modal{background:var(--card);border:1px solid var(--border);padding:24px;width:400px;max-width:90vw}
-.modal h3{font-size:14px;font-weight:700;color:var(--green);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
-.modal input,.modal select,.modal textarea{width:100%;background:var(--bg);color:var(--white);border:1px solid var(--border);padding:8px 10px;font-size:12px;font-family:'Inter',sans-serif;margin-bottom:10px}
-.modal textarea{height:60px;resize:vertical}
-.modal input:focus,.modal select:focus,.modal textarea:focus{outline:none;border-color:var(--green)}
-.modal-actions{display:flex;gap:8px;margin-top:8px}
-.modal-actions button{flex:1;padding:8px;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;border:1px solid var(--border)}
-.modal-actions .save{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:700}
-.modal-actions .cancel{background:var(--bg);color:var(--text)}
+/* Key */
+.key{max-width:1440px;margin:0 auto 32px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap}
+.key-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--fog)}
+.key-swatch{width:14px;height:3px;border-radius:1px}
 
-.gallery-cat{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:24px}
-.gallery-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;cursor:grab;transition:border-color .15s}
-.gallery-card:hover{border-color:var(--dim)}
-.gallery-card .lane-tag{font-size:10px;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:1px;margin-bottom:4px}
-.gallery-card .g-title{font-size:13px;font-weight:600;color:var(--white);line-height:1.3;margin-bottom:6px}
-.gallery-card .g-note{font-size:11px;color:var(--text);line-height:1.4}
-.drop-zones{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
-.drop-zone{border:1px dashed var(--muted);padding:14px 8px;text-align:center;transition:all .15s;min-height:56px}
-.drop-zone.hover{border-style:solid;background:var(--surface)}
-.drop-zone-label{font-size:11px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:1px}
+/* Footer */
+.footer{max-width:1440px;margin:0 auto;padding:24px;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;border-top:1px solid var(--border)}
 
-.changelog{background:var(--card);border:1px solid var(--border);padding:16px;margin-bottom:20px}
-.changelog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.changelog-title{font-size:11px;font-weight:900;color:var(--green);letter-spacing:2px;text-transform:uppercase}
-.changelog-copy{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:4px 10px;font-size:10px;font-family:'Inter',sans-serif;cursor:pointer}
-.changelog-list{max-height:200px;overflow-y:auto}
-.changelog-entry{font-size:11px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border);font-family:'Inter',sans-serif}
+/* Support structure note */
+.structure-note{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.structure-box{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--support);padding:16px 20px}
+.structure-box h3{font-weight:900;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--support);margin-bottom:8px}
+.structure-box p{font-size:12px;color:var(--dim);line-height:1.6}
+.structure-box .highlight{color:var(--text);font-weight:600}
 
-.callout{background:var(--card);border-left:3px solid var(--flame);padding:16px 20px;margin-bottom:20px}
-.callout-label{font-size:9px;font-family:'Inter',sans-serif;letter-spacing:2px;color:var(--flame);font-weight:700;margin-bottom:6px;text-transform:uppercase}
-.callout-title{font-size:14px;font-weight:700;color:var(--flame);margin-bottom:6px}
-.callout-body{font-size:13px;color:var(--text);line-height:1.6}
-.callout-body em{color:var(--white);font-weight:600;font-style:normal}
+/* JD Discrepancy section */
+.jd-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.jd-header{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#FF6B35;margin-bottom:4px}
+.jd-sub{font-size:11px;color:var(--fog);margin-bottom:12px}
+.jd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:8px}
+.jd-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid #FF6B35;padding:12px 14px}
+.jd-card .card-title{color:#FF6B35;margin-bottom:4px}
+.jd-card .jd-says{font-size:10px;color:var(--dim);line-height:1.5;margin-bottom:4px}
+.jd-card .jd-says strong{color:var(--text)}
+.jd-card .meeting-says{font-size:10px;color:var(--chartreuse);line-height:1.5;margin-bottom:4px}
+.jd-card .impact{font-size:10px;color:var(--flame);line-height:1.5;font-weight:600}
 
-.gap-section{background:var(--card);border:1px solid rgba(255,74,35,0.3);padding:16px;margin-bottom:20px}
-.gap-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--flame)}
-.gap-section-title{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--flame)}
-.gap-section-count{font-size:11px;color:var(--dim)}
-.gap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
-
-.footer{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
-
-@media(max-width:1000px){.kanban{grid-template-columns:repeat(3,1fr)}.drop-zones{grid-template-columns:repeat(3,1fr)}.team-grid{grid-template-columns:1fr}}
-@media(max-width:640px){nav{padding:0 12px;overflow-x:auto}main{padding:32px 16px 80px}h1{font-size:36px;letter-spacing:-1.5px}.kanban{grid-template-columns:1fr 1fr}.drop-zones{grid-template-columns:1fr 1fr}.counts{display:none}}
+@media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.kanban{grid-template-columns:1fr}.stats{flex-direction:column;gap:8px}}
 </style>
 </head>
 <body>
 
-<nav>
-<a href="index.html" class="logo"><img src="tempoicon.png" alt="Campaign Ops" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
-<div class="nav-links">
-<a href="index.html">The Mission</a>
-<a href="orbit.html">The Cycle</a>
-<a href="timeline.html">Accountability</a>
-<span class="active-label">Lane Definition</span>
-<div class="sndd"><span class="sndd-b">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="reference/framework-reference.html">Framework Reference</a><a href="reference/operational-plan.html">How It Runs</a><a href="reference/active-projects-template.html">Active Projects Template</a><a href="reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="release.html">Release View</a><a href="visibility.html">Visibility (Roster)</a><a href="meetings.html">Meeting Flow</a><a href="insights/index.html">Insights</a><a href="reference/airtable-grid.html">Airtable Grid</a><a href="reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="artists/isaia-huron.html">Isaia Huron</a><a href="artists/pixy.html">PIXY</a><a href="artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+<div class="header">
+  <div class="header-tag">Lane Definition</div>
+  <h1>WHO DOES <span>WHAT</span></h1>
+  <div class="sub">Updated from the Department Workflows meeting — April 3, 2026</div>
+  <div class="meta">Attendees: <em>Jordan</em> (SVP Commercial Partnerships) · <em>Tarek</em> (SVP Audience Development) · <em>Meg</em> (Campaign Ops) · <em>Gerard</em> (Campaign Ops)</div>
+  <div class="rule"></div>
 </div>
-</nav>
 
-<main>
-  <div class="hero-tag">Lane Definition</div>
-  <h1><span>WHO DOES WHAT</span></h1>
-  <div class="hero-sub">Drag responsibilities between lanes. Every move is logged. Campaign Ops &times; Campaign Leads &times; Audience Development.</div>
+<div class="key">
+  <div class="key-item"><div class="key-swatch" style="background:var(--chartreuse)"></div> New — added in meeting</div>
+  <div class="key-item"><div class="key-swatch" style="background:var(--leads)"></div> Moved between lanes</div>
+  <div class="key-item"><div class="key-swatch" style="background:var(--auddev)"></div> Renamed / reworded</div>
+  <div class="key-item"><div class="key-swatch" style="background:var(--flame)"></div> Flagged — needs follow-up</div>
+  <div class="key-item"><div class="key-swatch" style="background:rgba(255,255,255,0.2)"></div> Confirmed — no change</div>
+</div>
 
-  <div class="section-label">Three Teams &middot; Three Verb Sets</div>
-  <div class="team-grid">
-    <div class="team-card cl"><p class="team-name">Campaign Leads</p><p class="team-verbs">Plan &middot; Build &middot; Execute &middot; Present &middot; Own</p><p class="team-desc">Owns campaign strategy, artist relationships, and budget allocation.</p></div>
-    <div class="team-card ad"><p class="team-name">Audience Development</p><p class="team-verbs">Grow &middot; Target &middot; Optimize &middot; Measure &middot; Amplify</p><p class="team-desc">Owns audience strategy, content execution, and performance measurement.</p></div>
-    <div class="team-card ops"><p class="team-name">Campaign Ops</p><p class="team-verbs">Track &middot; Surface &middot; Flag &middot; Prompt &middot; Confirm</p><p class="team-desc">Cross-department visibility. Tracks status, surfaces gaps, confirms handoffs.</p></div>
+<div class="stats">
+  <div class="stat"><span class="stat-n" style="color:var(--ops)">13</span><span class="stat-l">Campaign Ops</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--leads)">6</span><span class="stat-l">Campaign Leads</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--auddev)">11</span><span class="stat-l">Audience Dev</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--support)">10</span><span class="stat-l">Support</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--commercial)">6</span><span class="stat-l">Commercial</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--flame)">6</span><span class="stat-l">Removed</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--unresolved)">2</span><span class="stat-l">Unresolved</span></div>
+</div>
+
+<!-- ============ KANBAN ============ -->
+<div class="kanban">
+
+<!-- CAMPAIGN OPS -->
+<div class="lane" style="--lc:var(--ops)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
+    <div class="lane-verbs">Track · Surface · Flag · Prompt · Confirm</div>
+    <div class="lane-count">13 items</div>
   </div>
 
-  <div class="controls" id="controls">
-    <select id="filterSelect" onchange="applyFilter()"><option value="all">All Categories</option></select>
-    <button id="viewBtn" class="btn-green" onclick="toggleView()">&#x229E; Gallery View</button>
-    <button class="btn-flame" onclick="resetAll()">&#x21BA; Reset</button>
-    <button class="btn-green" onclick="saveState()">&#x2B07; Save State</button>
-    <label style="color:var(--text)">&#x2B06; Load State<input type="file" accept=".json" onchange="loadState(this)" style="display:none"></label>
-    <button onclick="exportSummary()">&#x1F4CB; Export Summary</button>
-    <button class="btn-green" onclick="openAdd('gap')">+ Add Task</button>
-    <div class="counts" id="laneCounts"></div>
+  <div class="card"><div class="card-title">Release Readiness Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Budget Visibility & Divergence</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card moved"><div class="card-title">Video Deliverables (Earworm, BA)</div><div class="card-note">Jordan: "I think that might be campaign ops." Gerard: "assets come from mgmt and creative, so we would route them."</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Cross-Dept Meeting Prep & Follow-up</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Meeting Notes Distribution</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Action Item Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Artist Briefings (13-Dept)</div><div class="card-note">Tarek asked what this was. Jordan: "a future opportunity." Held.</div><span class="card-tag tag-confirmed">confirmed — held</span></div>
+  <div class="card"><div class="card-title">Dashboards & Tracking Tools</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Data Layer & System of Record</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Release Runway Data</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Upstream Dependency Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Management Approval Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card moved"><div class="card-title">Earworm (YouTube Content Review)</div><div class="card-note">Tarek: "specifically platform management." Jordan: "it's a conversation with YouTube." Routes to whoever talks to YouTube.</div><span class="card-tag tag-moved">moved — commercial/ops</span></div>
+</div>
+
+<!-- CAMPAIGN LEADS -->
+<div class="lane" style="--lc:var(--leads)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
+    <div class="lane-verbs">Own · Brief · Trigger · Decide · Approve</div>
+    <div class="lane-count">6 items</div>
   </div>
 
-  <div class="flag-banner" id="flagBanner"></div>
-  <div id="kanbanContainer"></div>
-  <div id="gapContainer"></div>
-  <div id="galleryContainer" style="display:none"></div>
-  <div id="changelogContainer" style="display:none"></div>
-  <div id="addModal" style="display:none"></div>
+  <div class="card"><div class="card-title">Campaign Strategy & Narrative</div><div class="card-note">Tarek: covers real world and digital. "If we just leave it out, the assumption is it's across the board."</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card renamed"><div class="card-title">Budget Oversight & Strategy</div><div class="card-note">Renamed from "Per-artist budget creation" + "Budget reallocation". Tarek: "budget oversight and strategy." Reallocation falls under this.</div><span class="card-tag tag-renamed">renamed — consolidated</span></div>
+  <div class="card new"><div class="card-title">Timeline Creation & Management</div><div class="card-note">Tarek flagged as missing. Creation and ongoing management.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card new"><div class="card-title">Triggering Core Campaign Assets</div><div class="card-note">Pre-saves, websites, marketing assets. Tarek: "might be 3 separate things." CL triggers, Support builds. CL owns QA and copy.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">may need split</span></div>
+  <div class="card new flagged"><div class="card-title">Paid Ads (Gupta Campaigns)</div><div class="card-note">Tarek: Gupta campaigns stay with CL — already discussed with Aaron and Gina. Boundary with Aud Dev paid work TBD.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">boundary tbd</span></div>
+  <div class="card"><div class="card-title">Management Conversation</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan confirmed.</div><span class="card-tag tag-shared">shared with aud dev</span></div>
+</div>
 
+<!-- AUDIENCE DEV -->
+<div class="lane" style="--lc:var(--auddev)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
+    <div class="lane-verbs">Define · Grow · Target · Engage · Optimize · Measure · Amplify</div>
+    <div class="lane-count">11 items</div>
+  </div>
 
-  <div class="footer"><span>Campaign Operations &middot; RCA Records</span><span>April 2026 &middot; Working Draft</span></div>
-</main>
+  <div class="card renamed"><div class="card-title">Audience Definition</div><div class="card-note">Was "Audience strategy & segmentation." Tarek: "Audience definition is what I would call it."</div><span class="card-tag tag-renamed">renamed — tarek</span></div>
+  <div class="card new"><div class="card-title">Audience Growth Strategy</div><div class="card-note">Tarek added as separate pillar.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card new"><div class="card-title">Audience Engagement Strategy</div><div class="card-note">Tarek added. Third pillar alongside definition and growth.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card moved renamed"><div class="card-title">Short Form Strategy & Execution</div><div class="card-note">Was "Short form content planning" in CL. Tarek: "short form strategy and execution" — their responsibility to make sure it gets done.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Social Content Management</div><div class="card-note">Combines creation + approval. Tarek: "social content management." Aud Dev handles management approval conversations too.</div><span class="card-tag tag-renamed">combined + renamed</span></div>
+  <div class="card moved renamed"><div class="card-title">Influencer Marketing</div><div class="card-note">Was "Influencer/agency solicitation" in CL. Tarek: whether agency or direct, it's Aud Dev responsibility.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Social Platform Management</div><div class="card-note">Was "TikTok pin + UGC claims." Tarek: covers pinned content, comments, bio, smart URLs. Jordan helped name: "platform management."</div><span class="card-tag tag-renamed">renamed — tarek/jordan</span></div>
+  <div class="card"><div class="card-title">Seeding</div><div class="card-note">Broken out from "Paid ads, seeding, organic engagement." Tarek: "break those out into three things."</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card"><div class="card-title">Organic Engagement</div><div class="card-note">Broken out from the combined item.</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card renamed"><div class="card-title">Early Audience Research (New Signings)</div><div class="card-note">Was "for A&R." Jordan: not for prospecting, but for newly signed artists entering campaign cycle.</div><span class="card-tag tag-renamed">renamed — jordan</span></div>
+  <div class="card"><div class="card-title">Management Conversation</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan: "Correct."</div><span class="card-tag tag-shared">shared with CL</span></div>
+</div>
 
-<script src="sidebar.js"></script>
-<script>
+<!-- SUPPORT -->
+<div class="lane" style="--lc:var(--support)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--support)">Support</div>
+    <div class="lane-verbs">Build · Execute · Deliver · Maintain</div>
+    <div class="lane-count">10 items</div>
+  </div>
 
-const LANES = [
-  { id:"leads", label:"CAMPAIGN LEADS", color:"#5BC0BE", bg:"rgba(91,192,190,0.08)", verbs:"Plan · Build · Execute · Present · Own" },
-  { id:"auddev", label:"AUDIENCE DEV", color:"#7F77DD", bg:"rgba(127,119,221,0.08)", verbs:"Grow · Target · Optimize · Measure · Amplify" },
-  { id:"support", label:"SUPPORT", color:"#B0A9BE", bg:"rgba(176,169,190,0.08)", verbs:"Execute · Coordinate · Deliver · Maintain" },
-  { id:"ops", label:"CAMPAIGN OPS", color:"#CDF851", bg:"rgba(205,248,81,0.08)", verbs:"Track · Surface · Flag · Prompt · Confirm" },
-  { id:"commercial", label:"COMMERCIAL P'SHIPS", color:"#5B9BD5", bg:"rgba(91,155,213,0.08)", verbs:"Pitch · Manage · Negotiate · Activate · Deliver" },
-  { id:"gap", label:"UNRESOLVED", color:"#FF4A23", bg:"rgba(255,74,35,0.08)", verbs:"Needs a decision" },
-];
-const BOARD_LANES = ["leads","auddev","support","ops","commercial"];
-const CATEGORIES = ["Strategy & Planning","Budget","Content & Assets","Platforms & Partners","Meetings & Comms","Systems & Data","Digital Rep Workflow"];
-const laneMap = Object.fromEntries(LANES.map(l=>[l.id,l]));
+  <div class="card moved"><div class="card-title">PO/Invoice Submission</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Asset Requests</div><div class="card-note">Consolidated — Airtable asset requests = same thing. Likely roster-based solution.</div><span class="card-tag tag-confirmed">confirmed + consolidated</span></div>
+  <div class="card moved"><div class="card-title">SMF Campaign Setup</div><div class="card-note">Tarek: "that actually goes to support. SMF is Sony Music Fans." Support builds the page, CL triggers.</div><span class="card-tag tag-moved">moved from aud dev</span></div>
+  <div class="card renamed"><div class="card-title">Claim Management & Takedowns</div><div class="card-note">Was "UGC claims." Jordan: "claims and takedowns." Covers fingerprint misses, intentional non-claims, erroneous claims. Using Cobrand going forward.</div><span class="card-tag tag-renamed">renamed — jordan/tarek</span></div>
+  <div class="card renamed"><div class="card-title">RCA Newsletter</div><div class="card-note">Was "RCA newsletter/social post orders." Tarek: socials go to Aud Dev. Newsletter stays here.</div><span class="card-tag tag-renamed">renamed — split</span></div>
+  <div class="card moved"><div class="card-title">Console (Financial System)</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Linkfire / Link Generation</div><div class="card-note">Specialized task — one person + backup.</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Website Management & Social Profiles</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">YouTube Descriptions/Tags</div><div class="card-note">Bounced to Commercial then back. Tarek: "leave it in support for now — tour dates and things like that."</div><span class="card-tag tag-confirmed">confirmed — bounced back</span></div>
+  <div class="card"><div class="card-title">Allowlisting Requests</div><span class="card-tag tag-confirmed">confirmed</span></div>
+</div>
 
-const INITIAL = [
-{id:1,text:"Campaign strategy & narrative",cat:"Strategy & Planning",lane:"leads",note:"Ops distributes plan once approved"},
-{id:7,text:"Budget strategy & oversight",cat:"Budget",lane:"leads",note:"Renamed from per-artist budget creation. CL owns strategy, not execution."},
-{id:9,text:"Budget reallocation",cat:"Budget",lane:"leads",note:"Leads → Finance → COO"},
-{id:52,text:"Timeline creation & ownership",cat:"Strategy & Planning",lane:"leads",note:"CL owns the timeline"},
-{id:53,text:"Triggering core, timeline-based assets",cat:"Content & Assets",lane:"leads",note:"Pre-saves, websites, marketing assets. May need splitting."},
-{id:54,text:"Paid Ads (CL portion)",cat:"Strategy & Planning",lane:"leads",note:"Split between CL and Aud Dev. Ownership TBD.",flag:true},
-{id:3,text:"Audience definition",cat:"Strategy & Planning",lane:"auddev",note:"Renamed from audience strategy & segmentation"},
-{id:55,text:"Audience growth strategy",cat:"Strategy & Planning",lane:"auddev",note:"Added in meeting"},
-{id:56,text:"Audience engagement strategy",cat:"Strategy & Planning",lane:"auddev",note:"Added in meeting"},
-{id:4,text:"Short-form strategy & execution",cat:"Content & Assets",lane:"auddev",note:"Renamed from shortform content planning. Aud Dev owns end to end."},
-{id:5,text:"Early audience research for A&R",cat:"Strategy & Planning",lane:"auddev",note:"Rework needed: signed artists only",flag:true},
-{id:14,text:"Paid ads, seeding, organic engagement",cat:"Content & Assets",lane:"auddev",note:"CL defines objective. Aud Dev executes. Paid ads split TBD.",flag:true},
-{id:15,text:"Social content creation",cat:"Content & Assets",lane:"auddev",note:"Aud Dev creates → CL approves"},
-{id:16,text:"Social content approval",cat:"Content & Assets",lane:"auddev",note:"Management approval overseen by CL"},
-{id:24,text:"Influencer marketing",cat:"Platforms & Partners",lane:"auddev",note:"Renamed from influencer/agency solicitation"},
-{id:34,text:"Audience data & KPI measurement",cat:"Systems & Data",lane:"auddev",note:"KPIs defined by Strategic Analytics. Executed by Aud Dev."},
-{id:47,text:"Platform management",cat:"Digital Rep Workflow",lane:"auddev",note:"Renamed from TikTok pin + UGC claims. Broader platform ownership."},
-{id:6,text:"Release readiness tracking",cat:"Strategy & Planning",lane:"ops",note:"Ops surfaces gaps → Leads resolves"},
-{id:8,text:"Budget visibility & divergence",cat:"Budget",lane:"ops",note:"Surfaces difference between verbal approval and Console"},
-{id:17,text:"Video deliverables routing",cat:"Content & Assets",lane:"ops",note:"Earworm, BA approval. Routing and tracking, not creative decisions."},
-{id:26,text:"Cross-dept meeting prep & follow-up",cat:"Meetings & Comms",lane:"ops",note:"Goal Briefs, notes, action tracking"},
-{id:27,text:"Meeting notes distribution",cat:"Meetings & Comms",lane:"ops",note:"Ops produces → SVPs review → Ops distributes"},
-{id:28,text:"Action item tracking",cat:"Meetings & Comms",lane:"ops",note:"98 items tracked from last AP alone"},
-{id:30,text:"Artist briefings (13-dept)",cat:"Meetings & Comms",lane:"ops",note:"Ops assembles, CL consumes. Future-state ownership TBD.",flag:true},
-{id:32,text:"Dashboards & tracking tools",cat:"Systems & Data",lane:"ops",note:"TEMPO, Airtable, Orbit"},
-{id:33,text:"Data layer & system of record",cat:"Systems & Data",lane:"ops",note:"Ops maintains. All teams input."},
-{id:35,text:"Release Runway data",cat:"Systems & Data",lane:"ops",note:"All depts populate. Ops surfaces."},
-{id:49,text:"Upstream dependency tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody tracks whether inputs arrive. Ops flags.",flag:true},
-{id:50,text:"Management approval tracking",cat:"Digital Rep Workflow",lane:"ops",note:"Nobody flags when it's missed.",flag:true},
-{id:10,text:"PO/Invoice submission",cat:"Budget",lane:"support",note:"Task-based execution. CL initiates."},
-{id:13,text:"Asset requests",cat:"Content & Assets",lane:"support",note:"Banners, teasers, pre-roll. Merged with Airtable asset requests."},
-{id:18,text:"Website management & social profiles",cat:"Content & Assets",lane:"support",note:"Setup, maintenance, consistency"},
-{id:19,text:"Artist newsletter creation",cat:"Content & Assets",lane:"support",note:"CL provides direction, Support executes"},
-{id:31,text:"RCA Newsletter",cat:"Meetings & Comms",lane:"support",note:"Renamed from RCA newsletter/social post orders"},
-{id:36,text:"Console (financial system)",cat:"Systems & Data",lane:"support",note:"Finance owns. CL allocates. Ops tracks divergence."},
-{id:37,text:"Linkfire / SMF / Marketing Cloud",cat:"Systems & Data",lane:"support",note:"Link creation, pre-saves, blasts"},
-{id:57,text:"SMF page build & execution",cat:"Digital Rep Workflow",lane:"support",note:"Added in meeting. Execution, not strategy."},
-{id:58,text:"Claim management (claims + takedowns)",cat:"Digital Rep Workflow",lane:"support",note:"Added in meeting"},
-{id:39,text:"Linkfire link creation",cat:"Digital Rep Workflow",lane:"support",note:"Creating DSP links, SMF pre-saves"},
-{id:40,text:"Allowlisting requests",cat:"Digital Rep Workflow",lane:"support",note:"FB/IG whitelisting process"},
-{id:42,text:"SMF campaign setup",cat:"Digital Rep Workflow",lane:"support",note:"Pre-save strategy execution"},
-{id:43,text:"NL/social post orders",cat:"Digital Rep Workflow",lane:"support",note:"Sheet entry. Logistics."},
-{id:44,text:"YouTube descriptions/tags",cat:"Digital Rep Workflow",lane:"support",note:"Metadata via MMT. Kept in Support for now."},
-{id:46,text:"Social skin updates",cat:"Digital Rep Workflow",lane:"support",note:"YouTube, Twitter, FB, SoundCloud"},
-{id:48,text:"Newsletter blast",cat:"Digital Rep Workflow",lane:"support",note:"Marketing Cloud."},
-{id:20,text:"DSP partner pitching",cat:"Platforms & Partners",lane:"commercial",note:"Confirmed: Commercial owns."},
-{id:21,text:"Social platform pitching",cat:"Platforms & Partners",lane:"commercial",note:"TikTok, Meta, Snap. Commercial owns relationship."},
-{id:22,text:"Partner updates & meetings",cat:"Platforms & Partners",lane:"commercial",note:"Renamed from partner catch-ups. Moved in from CL."},
-{id:23,text:"Music delivery to partners",cat:"Platforms & Partners",lane:"commercial",note:"A&R Admin executes. Commercial coordinates."},
-{id:25,text:"VEVO / partner delivery",cat:"Platforms & Partners",lane:"commercial",note:"Playlisting, backstage, submissions. Merged."},
-{id:59,text:"Earworm (YouTube policy review)",cat:"Platforms & Partners",lane:"commercial",note:"Moved in during meeting"},
-{id:60,text:"Platform-level partner conversations",cat:"Platforms & Partners",lane:"commercial",note:"Moved in during meeting"},
-{id:11,text:"Per-dept spend accountability",cat:"Budget",lane:"gap",note:"VACANT. No replacement named.",flag:true},
-{id:12,text:"Annual marketing P&L",cat:"Budget",lane:"gap",note:"Not Campaign Ops. Needs title + authority.",flag:true},
-{id:29,text:"ICYMI Teams updates",cat:"Meetings & Comms",lane:"gap",note:"CL shares highlights? Ops surfaces signals? Both?",flag:true},
-{id:61,text:"Paid ads ownership split",cat:"Strategy & Planning",lane:"gap",note:"Open item: finalize CL vs. Aud Dev split",flag:true},
-{id:62,text:"Bucket naming finalization",cat:"Strategy & Planning",lane:"gap",note:"Open item: finalize language across all cards",flag:true},
-{id:63,text:"Master deliverables checklist",cat:"Content & Assets",lane:"gap",note:"Open item: create unified checklist",flag:true},
-{id:64,text:"Artist Briefings future-state ownership",cat:"Meetings & Comms",lane:"gap",note:"Open item: define long-term ownership",flag:true}
-];
+<!-- COMMERCIAL PARTNERSHIPS -->
+<div class="lane" style="--lc:var(--commercial)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--commercial)">Commercial P'ships</div>
+    <div class="lane-verbs">Pitch · Negotiate · Deliver · Maintain</div>
+    <div class="lane-count">6 items</div>
+  </div>
 
-let items = JSON.parse(JSON.stringify(INITIAL));
-let changelog = [];
-let currentFilter = "all";
-let viewMode = "kanban";
-let dragItemId = null;
+  <div class="card moved"><div class="card-title">DSP Partner Pitching</div><div class="card-note">Resolved from Unresolved. No debate.</div><span class="card-tag tag-moved">moved from unresolved</span></div>
+  <div class="card moved"><div class="card-title">Social Platform Pitching (TikTok, Meta, Snap)</div><span class="card-tag tag-moved">moved from unresolved</span></div>
+  <div class="card moved"><div class="card-title">Partner Catch-ups & Updates</div><div class="card-note">Tarek: "that would be commercial partnerships." Weekly partner meetings.</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card moved"><div class="card-title">Music Delivery to Partners</div><span class="card-tag tag-moved">moved from support</span></div>
+  <div class="card moved"><div class="card-title">VEVO Playlisting & Backstage</div><span class="card-tag tag-moved">moved from support</span></div>
+  <div class="card new"><div class="card-title">Platform Deal Execution</div><div class="card-note">Tarek example: "Catcher may say we got Meta to lock in an $80K boost campaign." Commercial negotiates deal, Aud Dev executes content.</div><span class="card-tag tag-new">new — tarek</span></div>
+</div>
 
-function init() {
-  autoLoad();
-  const sel = document.getElementById("filterSelect");
-  CATEGORIES.forEach(c => {
-    const o = document.createElement("option");
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
-  });
-  render();
-}
+</div><!-- /kanban -->
 
-function getFiltered() {
-  return currentFilter === "all" ? items : items.filter(i => i.cat === currentFilter);
-}
+<!-- ============ SUPPORT STRUCTURE ============ -->
+<div class="structure-note">
+  <div class="structure-box">
+    <h3>Support Team Structure — Confirmed by Tarek</h3>
+    <p>Support serves <span class="highlight">Campaign Leads, Audience Development, and Campaign Ops</span>. Separate resources support Commercial Partnerships. The team will be organized <span class="highlight">by task, not by artist roster</span> — with one exception: asset requests may use a roster-based solution.</p>
+    <p style="margin-top:8px"><span class="highlight">Specialized tasks (1 person + backup):</span> Invoicing · Link generation · Scheduling</p>
+    <p style="margin-top:4px;color:var(--fog);font-size:11px">Source: Tarek at 28:50 — "specialized tasks that will sit with key members...we'll make sure that there's backups across the team"</p>
+  </div>
+</div>
 
-function applyFilter() {
-  currentFilter = document.getElementById("filterSelect").value;
-  render();
-}
+<!-- ============ REMOVED ============ -->
+<div class="removed-section">
+  <div class="removed-header">Removed / Consolidated — 6 items</div>
+  <div class="removed-grid">
+    <div class="removed-card"><div class="card-title">Digital Campaign Objective & Plan</div><div class="card-note">Tarek: "I don't want to call anything a digital campaign unless it's something Aud Dev is running." Absorbed into Campaign Strategy & Narrative.</div></div>
+    <div class="removed-card"><div class="card-title">Per-Artist Budget Creation</div><div class="card-note">Absorbed into "Budget Oversight & Strategy."</div></div>
+    <div class="removed-card"><div class="card-title">Budget Reallocation</div><div class="card-note">Tarek: "reallocation would fall under [budget management and strategy]."</div></div>
+    <div class="removed-card"><div class="card-title">Assets to Publicity & International</div><div class="card-note">Tarek: "we should take that out — we should just create a place for them to get these assets." Replace with self-serve.</div></div>
+    <div class="removed-card"><div class="card-title">Airtable Asset Requests</div><div class="card-note">Tarek: "same as asset requests at the top." Consolidated.</div></div>
+    <div class="removed-card"><div class="card-title">Newsletter/Social Post Orders</div><div class="card-note">Tarek: "same as the RCA newsletter." Consolidated.</div></div>
+  </div>
+</div>
 
-function toggleView() {
-  viewMode = viewMode === "kanban" ? "gallery" : "kanban";
-  document.getElementById("viewBtn").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
-  render();
-}
+<!-- ============ UNRESOLVED ============ -->
+<div class="unresolved-section">
+  <div class="unresolved-header">Unresolved — 2 items</div>
+  <div class="unresolved-grid">
+    <div class="unresolved-card"><div class="card-title">Per-Dept Spend Accountability</div><div class="card-note">Jordan: "I don't think there's anything we need to talk about in those." Budget accountability deferred.</div></div>
+    <div class="unresolved-card"><div class="card-title">Audience Data Flow → Crawley/Strategic Analytics</div><div class="card-note">Tarek: "we don't have a great flow of the data into John." KPIs should come FROM Crawley's team, Aud Dev implements. Needs systematic routing. Alexis aware.</div></div>
+  </div>
+</div>
 
-function resetAll() {
-  items = JSON.parse(JSON.stringify(INITIAL));
-  changelog = [];
-  render();
-}
+<!-- ============ JD DISCREPANCIES ============ -->
+<div class="jd-section">
+  <div class="jd-header">JD Discrepancies — Campaign Lead (Shani, 2026-03-22) vs. Meeting Decisions</div>
+  <div class="jd-sub">7 gaps between the written JD and what Tarek confirmed on April 3. These need resolution before the JD is final.</div>
+  <div class="jd-grid">
 
-function moveItem(itemId, targetLane) {
-  const item = items.find(i => i.id === itemId);
-  if (!item || item.lane === targetLane) return;
-  const from = laneMap[item.lane];
-  const to = laneMap[targetLane];
-  if (targetLane === "gap") {
-    const dept = prompt("Which department should own this?\n(e.g. Commercial Partnerships, Finance, A&R, Release Planning — or leave blank)");
-    if (dept !== null) {
-      item.targetDept = dept.trim() || "";
-      const deptNote = item.targetDept ? " → suggested: " + item.targetDept : "";
-      changelog.unshift({
-        time: new Date().toLocaleTimeString(),
-        text: '"' + item.text + '" moved from ' + from.label + ' → UNRESOLVED' + deptNote,
-        from: item.lane, to: targetLane
-      });
-    } else { return; }
-  } else {
-    item.targetDept = "";
-    changelog.unshift({
-      time: new Date().toLocaleTimeString(),
-      text: '"' + item.text + '" moved from ' + from.label + ' → ' + to.label,
-      from: item.lane, to: targetLane
-    });
-  }
-  item.lane = targetLane;
-  autoSave();
-  render();
-}
+    <div class="jd-card">
+      <div class="card-title">1. "Audience Development Integration" overstates CL authority</div>
+      <div class="jd-says"><strong>JD says:</strong> CL core responsibility — "Audience Development Integration." Implies CL drives integration with Aud Dev.</div>
+      <div class="meeting-says">Meeting says: Aud Dev operates independently on execution. CL sets budget + can request specific things, but Aud Dev owns their own strategy (definition, growth, engagement). Tarek: "if audience development feels like they could do more with more, then that's a conversation."</div>
+      <div class="impact">Impact: JD overstates CL authority. Real relationship = CL briefs the objective, Aud Dev decides how.</div>
+    </div>
 
-function changeDept(itemId) {
-  const item = items.find(i => i.id === itemId);
-  if (!item) return;
-  const dept = prompt("Reassign to which department?", item.targetDept || "");
-  if (dept !== null) {
-    item.targetDept = dept.trim();
-    changelog.unshift({
-      time: new Date().toLocaleTimeString(),
-      text: '"' + item.text + '" reassigned to: ' + (item.targetDept || "(cleared)"),
-      from: "gap", to: "gap"
-    });
-    autoSave();
-    render();
-  }
-}
+    <div class="jd-card">
+      <div class="card-title">2. "OOH Media" — not on the board at all</div>
+      <div class="jd-says"><strong>JD says:</strong> "OOH Media" listed as a core CL responsibility.</div>
+      <div class="meeting-says">Meeting says: Never mentioned in 31 minutes. Not on the lane board. Zero discussion.</div>
+      <div class="impact">Impact: Orphan responsibility — either clearly CL-owned (no debate needed) or a holdover from old structure. Needs confirmation.</div>
+    </div>
 
-function copyLog() {
-  const text = changelog.map(c => c.time + ": " + c.text).join("\n");
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector(".changelog-copy");
-    btn.textContent = "Copied!";
-    setTimeout(() => btn.textContent = "Copy Log", 1500);
-  });
-}
+    <div class="jd-card">
+      <div class="card-title">3. "Budget Alignment and Distribution" vs. "Budget Oversight & Strategy"</div>
+      <div class="jd-says"><strong>JD says:</strong> "Budget Alignment and Distribution" — implies CLs parcel out budget to other teams.</div>
+      <div class="meeting-says">Meeting says: Tarek reframed as "budget oversight and strategy." CLs set the budget available to Aud Dev, who executes within it. There's a "feedback element" — not just CL deciding.</div>
+      <div class="impact">Impact: "Distribution" suggests more hands-on control than Tarek described. Language mismatch.</div>
+    </div>
 
-function cardHTML(item) {
-  var deptTag = '';
-  if (item.lane === 'gap' && item.targetDept) {
-    deptTag = '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" title="Click to change">→ ' + item.targetDept + '</div>';
-  } else if (item.lane === 'gap') {
-    deptTag = '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" title="Click to assign department" style="opacity:0.5">+ assign dept</div>';
-  }
-  return '<div class="card-item' + (item.flag ? ' flagged' : '') + '" draggable="true" data-id="' + item.id + '" ondblclick="editCard(event,' + item.id + ')">' +
-    '<div class="card-item-title">' + (item.flag ? '<span class="dot">&#x25CF;</span>' : '') + item.text + '</div>' +
-    '<div class="card-item-note">' + item.note + '</div>' +
-    deptTag +
-    '<div class="card-item-cat">' + item.cat + '</div></div>';
-}
+    <div class="jd-card">
+      <div class="card-title">4. Three new CL responsibilities missing from JD</div>
+      <div class="jd-says"><strong>JD says:</strong> No mention of triggering assets, paid ads (Gupta), or timeline management as distinct responsibilities.</div>
+      <div class="meeting-says">Meeting says: Tarek added all three — Timeline Creation & Management, Triggering Core Campaign Assets (pre-saves, websites, marketing assets), Paid Ads (Gupta Campaigns). These are net new CL scope.</div>
+      <div class="impact">Impact: JD is missing 3 responsibilities Tarek explicitly assigned. "Campaign Strategy, Planning & Timelines" partially covers timeline, but triggering assets and paid ads are absent.</div>
+    </div>
 
-function editCard(e, itemId) {
-  e.stopPropagation();
-  const item = items.find(i => i.id === itemId);
-  if (!item) return;
-  const el = e.currentTarget;
-  el.draggable = false;
-  el.classList.add('editing');
-  const oldTitle = item.text;
-  const oldNote = item.note;
-  el.innerHTML =
-    '<input class="edit-input" id="editTitle' + itemId + '" value="' + item.text.replace(/"/g, '&quot;') + '">' +
-    '<textarea class="edit-note" id="editNote' + itemId + '" rows="2">' + item.note.replace(/</g, '&lt;') + '</textarea>' +
-    '<div class="edit-actions">' +
-    '<button class="cancel-edit" onclick="event.stopPropagation();cancelEdit(' + itemId + ')">Cancel</button>' +
-    '<button class="save-edit" onclick="event.stopPropagation();saveEdit(' + itemId + ')">Save</button>' +
-    '</div>';
-  var titleInput = document.getElementById('editTitle' + itemId);
-  titleInput.focus();
-  titleInput.addEventListener('keydown', function(ev) {
-    if (ev.key === 'Enter') { ev.preventDefault(); saveEdit(itemId); }
-    if (ev.key === 'Escape') { cancelEdit(itemId); }
-  });
-  document.getElementById('editNote' + itemId).addEventListener('keydown', function(ev) {
-    if (ev.key === 'Escape') { cancelEdit(itemId); }
-    if (ev.key === 'Enter' && ev.metaKey) { saveEdit(itemId); }
-  });
-}
+    <div class="jd-card">
+      <div class="card-title">5. "Interdepartmental Alignment" — unresolved overlap with Campaign Ops</div>
+      <div class="jd-says"><strong>JD says:</strong> "Campaign Leadership and Interdepartmental Alignment" as core CL responsibility.</div>
+      <div class="meeting-says">Meeting says: Campaign Ops also exists as the cross-department coordination layer. The implicit line: CL aligns on strategy/narrative, Ops aligns on execution/tracking/follow-through. But nobody stated this explicitly.</div>
+      <div class="impact">Impact: Two functions claim "interdepartmental alignment." The JD doesn't distinguish CL alignment from Ops alignment.</div>
+    </div>
 
-function saveEdit(itemId) {
-  const item = items.find(i => i.id === itemId);
-  if (!item) return;
-  const newTitle = document.getElementById('editTitle' + itemId).value.trim();
-  const newNote = document.getElementById('editNote' + itemId).value.trim();
-  if (newTitle && (newTitle !== item.text || newNote !== item.note)) {
-    const changes = [];
-    if (newTitle !== item.text) changes.push('title: "' + item.text + '" → "' + newTitle + '"');
-    if (newNote !== item.note) changes.push('note updated');
-    item.text = newTitle;
-    item.note = newNote;
-    changelog.unshift({
-      time: new Date().toLocaleTimeString(),
-      text: 'EDITED "' + newTitle + '" — ' + changes.join(', '),
-      from: item.lane, to: item.lane
-    });
-    autoSave();
-  }
-  render();
-}
+    <div class="jd-card">
+      <div class="card-title">6. JD still references "Digital" as a department</div>
+      <div class="jd-says"><strong>JD says:</strong> CL "aligns efforts across Audience Development, Digital, Publicity, A&R, Creative, Commerce, and International teams."</div>
+      <div class="meeting-says">Meeting says: Tarek was emphatic — "I definitely don't want to be calling anything a digital campaign unless it's something the audience development team is running." The restructuring eliminated "Digital" as a separate function.</div>
+      <div class="impact">Impact: JD uses pre-restructuring language. "Digital" should be removed from the department list. Aud Dev absorbed this function.</div>
+    </div>
 
-function cancelEdit(itemId) {
-  render();
-}
+    <div class="jd-card">
+      <div class="card-title">7. Roster differences confirm multiple CLs — responsibilities must be consistent</div>
+      <div class="jd-says"><strong>JD says:</strong> Shani's roster: D'Angelo, Davido, iAmLyric, Jazmine Sullivan, Jourden, Ose, Reggie, Sasha Keable, Steve Lacy, SZA.</div>
+      <div class="meeting-says">Meeting says: Earlier JD version had a completely different roster (Doja Cat, Kane Brown, Lisa, Three Days Grace, etc.). Multiple CLs with different rosters.</div>
+      <div class="impact">Impact: Lane definitions must be consistent across ALL CLs regardless of roster. These 7 discrepancies apply to every CL JD, not just Shani's.</div>
+    </div>
 
-function render() {
-  const filtered = getFiltered();
-  const flagged = items.filter(i => i.flag).length;
+  </div>
+</div>
 
-  // Counts
-  const countsEl = document.getElementById("laneCounts");
-  countsEl.innerHTML = LANES.map(l => {
-    const c = items.filter(i => i.lane === l.id).length;
-    return '<span><span style="color:' + l.color + ';font-weight:700">' + c + '</span> ' + l.label.split(" ").pop() + '</span>';
-  }).join("");
+<!-- ============ DECISION LOG ============ -->
+<div class="log-section">
+  <div class="log-header">Decision Log — 20+ Decisions</div>
+  <div style="overflow-x:auto">
+  <table class="log-table">
+    <thead><tr><th>Responsibility</th><th>From</th><th>To</th><th>Decision By</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Digital Campaign Objective & Plan</td><td class="from">Campaign Leads</td><td class="to">REMOVED</td><td>Tarek</td><td>Don't call anything "digital campaign" unless Aud Dev runs it</td></tr>
+      <tr><td>Short Form Content Planning → Strategy & Execution</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Renamed + moved. Aud Dev ensures it gets done.</td></tr>
+      <tr><td>Social Content Approval</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Aud Dev talks to management directly on approvals</td></tr>
+      <tr><td>Video Deliverables (Earworm, BA)</td><td class="from">Campaign Leads</td><td class="to">Campaign Ops</td><td>Jordan</td><td>Ops routes assets from mgmt and creative</td></tr>
+      <tr><td>Partner Catch-ups & Updates</td><td class="from">Campaign Leads</td><td class="to">Commercial</td><td>Tarek</td><td>Weekly partner meetings</td></tr>
+      <tr><td>Influencer/Agency Solicitation → Influencer Marketing</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Agency or direct, Aud Dev owns</td></tr>
+      <tr><td>Console (Financial System)</td><td class="from">Campaign Leads</td><td class="to">Support</td><td>Tarek</td><td>"Put this into support"</td></tr>
+      <tr><td>Per-Artist Budget + Reallocation → Budget Oversight & Strategy</td><td class="from">2 items</td><td class="to">1 item — CL</td><td>Tarek/Jordan</td><td>Umbrella approach — "create the umbrella of each thing"</td></tr>
+      <tr><td>Timeline Creation & Management</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Flagged as missing from original board</td></tr>
+      <tr><td>Triggering Core Campaign Assets</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Pre-saves, websites, marketing assets. "Might be 3 things."</td></tr>
+      <tr><td>Paid Ads (Gupta Campaigns)</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Discussed with Aaron and Gina. Boundary with Aud Dev TBD.</td></tr>
+      <tr><td>Audience Strategy & Segmentation → Audience Definition</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek</td><td>"Audience definition is what I would call it"</td></tr>
+      <tr><td>Audience Growth Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
+      <tr><td>Audience Engagement Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
+      <tr><td>TikTok Pin + UGC Claims → Social Platform Management</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Pins, comments, bio, smart URLs</td></tr>
+      <tr><td>SMF Campaign Setup</td><td class="from">Audience Dev</td><td class="to">Support</td><td>Tarek</td><td>Sony Music Fans. Support builds, CL triggers.</td></tr>
+      <tr><td>Music Delivery to Partners</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
+      <tr><td>VEVO Playlisting & Backstage</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
+      <tr><td>YouTube Descriptions/Tags</td><td class="from">Support → Commercial</td><td class="to">Support</td><td>Tarek</td><td>Bounced back — "tour dates and things like that"</td></tr>
+      <tr><td>RCA Newsletter/Social Post Orders → split</td><td class="from">1 item</td><td class="to">RCA Newsletter (Support) + RCA Socials (Aud Dev)</td><td>Tarek</td><td>"RCA socials will be managed by the audience development team"</td></tr>
+      <tr><td>Assets to Publicity & International</td><td class="from">Support</td><td class="to">REMOVED</td><td>Tarek</td><td>"Create a place for them to get these assets" — self-serve</td></tr>
+      <tr><td>UGC Claims → Claim Management & Takedowns</td><td class="from">Renamed</td><td class="to">Support</td><td>Jordan/Tarek</td><td>Fingerprints, Cobrand, erroneous claims, conflicts</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
 
-  // Flag banner
-  document.getElementById("flagBanner").innerHTML = '<strong>' + flagged + ' ITEMS FLAGGED</strong><span style="color:#B0A9BE;margin-left:8px">— gray areas and gaps requiring decisions</span>';
+<div class="footer">
+  Lane Definition Board · Updated 2026-04-03 · Source: Department Workflows meeting transcript · RCA Campaign Ops
+</div>
 
-  // Kanban
-  const kc = document.getElementById("kanbanContainer");
-  const gc = document.getElementById("galleryContainer");
-
-  if (viewMode === "kanban") {
-    kc.style.display = ""; gc.style.display = "none";
-    let html = '<div class="kanban">';
-    BOARD_LANES.forEach(laneId => {
-      const lane = laneMap[laneId];
-      const li = filtered.filter(i => i.lane === laneId);
-      html += '<div class="lane" data-lane="' + laneId + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
-      html += '<div class="lane-header" style="border-bottom:2px solid ' + lane.color + '">';
-      html += '<div class="lane-title" style="color:' + lane.color + '">' + lane.label + '</div>';
-      html += '<div class="lane-verbs">' + lane.verbs + '</div>';
-      html += '<div class="lane-count">' + li.length + ' items</div></div>';
-      li.forEach(item => { html += cardHTML(item); });
-      html += '<div class="add-btn" onclick="openAdd(\'' + laneId + '\')">+ Add</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    kc.innerHTML = html;
-
-    // Gap section at bottom
-    var gapLane = laneMap["gap"];
-    var gapItems = filtered.filter(i => i.lane === "gap");
-    var ghtml = '<div class="gap-section" data-lane="gap">';
-    ghtml += '<div class="gap-section-header"><div class="gap-section-title">&#x25CF; UNRESOLVED — Needs a decision</div>';
-    ghtml += '<div class="gap-section-count">' + gapItems.length + ' items</div></div>';
-    ghtml += '<div class="gap-grid">';
-    gapItems.forEach(item => { ghtml += cardHTML(item); });
-    ghtml += '<div class="add-btn" onclick="openAdd(\'gap\')" style="min-height:40px;display:flex;align-items:center;justify-content:center">+ Add</div>';
-    ghtml += '</div></div>';
-    document.getElementById("gapContainer").innerHTML = ghtml;
-    document.getElementById("gapContainer").style.display = "";
-  } else {
-    kc.style.display = "none"; gc.style.display = "";
-    document.getElementById("gapContainer").style.display = "none";
-    let html = '<div class="gallery">';
-    const cats = currentFilter === "all" ? CATEGORIES : [currentFilter];
-    cats.forEach(cat => {
-      const ci = filtered.filter(i => i.cat === cat);
-      if (!ci.length) return;
-      html += '<div class="gallery-cat">' + cat + '</div><div class="gallery-grid">';
-      ci.forEach(item => {
-        const lane = laneMap[item.lane];
-        html += '<div class="gallery-card" draggable="true" data-id="' + item.id + '" style="border-top:3px solid ' + lane.color + '">';
-        html += '<div class="lane-tag" style="color:' + lane.color + '">' + lane.label + '</div>';
-        html += '<div class="g-title">' + (item.flag ? '<span style="color:#FF4A23;margin-right:4px">&#x25CF;</span>' : '') + item.text + '</div>';
-        html += '<div class="g-note">' + item.note + '</div>';
-        if (item.lane === 'gap' && item.targetDept) {
-          html += '<div class="dept-tag" onclick="event.stopPropagation();changeDept(' + item.id + ')" style="margin-top:6px">→ ' + item.targetDept + '</div>';
-        }
-        html += '</div>';
-      });
-      html += '</div>';
-    });
-    html += '<div class="drop-zones">';
-    LANES.forEach(lane => {
-      html += '<div class="drop-zone" data-lane="' + lane.id + '" style="--lane-color:' + lane.color + ';--lane-bg:' + lane.bg + '">';
-      html += '<div class="drop-zone-label" style="color:' + lane.color + '">&#x2193; DROP TO ' + lane.label + '</div></div>';
-    });
-    html += '</div></div>';
-    gc.innerHTML = html;
-  }
-
-  // Changelog
-  const clc = document.getElementById("changelogContainer");
-  if (changelog.length) {
-    clc.style.display = "";
-    let html = '<div class="changelog"><div class="changelog-header">';
-    html += '<div class="changelog-title">Decision Log (' + changelog.length + ' changes)</div>';
-    html += '<button class="changelog-copy" onclick="copyLog()">Copy Log</button></div>';
-    html += '<div class="changelog-list">';
-    changelog.forEach(c => {
-      const fc = laneMap[c.from]?.color || "#847D96";
-      const tc = laneMap[c.to]?.color || "#847D96";
-      html += '<div class="changelog-entry"><span class="time">' + c.time + '</span> ';
-      html += '<span style="color:' + fc + '">&#x25A0;</span>&#x2192;<span style="color:' + tc + '">&#x25A0;</span> ';
-      html += c.text + '</div>';
-    });
-    html += '</div></div>';
-    clc.innerHTML = html;
-  } else {
-    clc.style.display = "none";
-  }
-
-  attachDragListeners();
-}
-
-function attachDragListeners() {
-  // Cards
-  document.querySelectorAll("[draggable=true][data-id]").forEach(el => {
-    el.addEventListener("dragstart", e => {
-      dragItemId = parseInt(el.dataset.id);
-      el.classList.add("dragging");
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/plain", dragItemId);
-    });
-    el.addEventListener("dragend", () => {
-      dragItemId = null;
-      el.classList.remove("dragging");
-      document.querySelectorAll(".lane.hover,.drop-zone.hover").forEach(z => z.classList.remove("hover"));
-    });
-  });
-
-  // Drop targets (lanes and drop zones)
-  document.querySelectorAll(".lane[data-lane],.drop-zone[data-lane]").forEach(el => {
-    el.addEventListener("dragover", e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-      el.classList.add("hover");
-    });
-    el.addEventListener("dragleave", () => el.classList.remove("hover"));
-    el.addEventListener("drop", e => {
-      e.preventDefault();
-      el.classList.remove("hover");
-      if (dragItemId != null) {
-        moveItem(dragItemId, el.dataset.lane);
-        dragItemId = null;
-      }
-    });
-  });
-}
-
-
-// === SAVE & EXPORT ===
-function saveState() {
-  const state = {
-    items: items,
-    changelog: changelog,
-    savedAt: new Date().toISOString(),
-    filter: currentFilter,
-    viewMode: viewMode
-  };
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Lane_Definition_State_" + new Date().toISOString().slice(0,10) + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function loadState(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const state = JSON.parse(e.target.result);
-      items = state.items;
-      changelog = state.changelog || [];
-      currentFilter = state.filter || "all";
-      viewMode = state.viewMode || "kanban";
-      document.getElementById("filterSelect").value = currentFilter;
-      document.getElementById("viewBtn").innerHTML = viewMode === "kanban" ? "&#x229E; Gallery View" : "&#x2261; Kanban View";
-      render();
-    } catch(err) {
-      alert("Could not load file: " + err.message);
-    }
-  };
-  reader.readAsText(file);
-}
-
-function exportSummary() {
-  let md = "# Lane Definition — Meeting Decisions\n";
-  md += "Exported: " + new Date().toLocaleString() + "\n\n";
-  
-  // Current state by lane
-  LANES.forEach(lane => {
-    const li = items.filter(i => i.lane === lane.id);
-    if (li.length === 0) return;
-    md += "## " + lane.label + " (" + li.length + " items)\n";
-    li.forEach(item => {
-      md += "- **" + item.text + "**";
-      if (item.flag) md += " ⚠️";
-      if (item.targetDept) md += " → " + item.targetDept;
-      md += "\n";
-      if (item.note) md += "  _" + item.note + "_\n";
-    });
-    md += "\n";
-  });
-  
-  // Changelog
-  if (changelog.length > 0) {
-    md += "## Decision Log (" + changelog.length + " changes)\n";
-    changelog.forEach(c => {
-      md += "- " + c.time + ": " + c.text + "\n";
-    });
-  }
-  
-  const blob = new Blob([md], {type: "text/markdown"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Lane_Definition_Decisions_" + new Date().toISOString().slice(0,10) + ".md";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Auto-save to localStorage on every change
-function autoSave() {
-  try {
-    localStorage.setItem("laneDefState", JSON.stringify({ items, changelog }));
-  } catch(e) {}
-}
-
-function autoLoad() {
-  try {
-    const saved = localStorage.getItem("laneDefState");
-    if (saved) {
-      const state = JSON.parse(saved);
-      if (state.items && state.items.length > 0) {
-        const changed = state.items.length !== INITIAL.length || state.items.some((item, i) => INITIAL[i] && item.lane !== INITIAL[i].lane);
-        if (changed && confirm("Resume from your last session? (Cancel to start fresh)")) {
-          items = state.items;
-          changelog = state.changelog || [];
-          nextId = Math.max(...items.map(i => i.id)) + 1;
-        }
-      }
-    }
-  } catch(e) {}
-}
-
-let nextId = 65;
-let addLane = "gap";
-
-function openAdd(lane) {
-  addLane = lane;
-  const laneName = laneMap[lane] ? laneMap[lane].label : "UNRESOLVED";
-  document.getElementById("addModal").style.display = "";
-  document.getElementById("addModal").innerHTML =
-    '<div class="modal-overlay" onclick="if(event.target===this)closeAdd()">' +
-    '<div class="modal">' +
-    '<h3>Add to ' + laneName + '</h3>' +
-    '<input type="text" id="addText" placeholder="Responsibility name" autofocus>' +
-    '<textarea id="addNote" placeholder="Note (optional)"></textarea>' +
-    '<select id="addCat">' + CATEGORIES.map(c => '<option value="' + c + '">' + c + '</option>').join('') + '</select>' +
-    '<select id="addLane">' + LANES.map(l => '<option value="' + l.id + '"' + (l.id === lane ? ' selected' : '') + '>' + l.label + '</option>').join('') + '</select>' +
-    '<label style="font-size:11px;color:var(--dim);display:flex;align-items:center;gap:6px;margin-bottom:10px"><input type="checkbox" id="addFlag"> Flag as gray area / decision needed</label>' +
-    '<div class="modal-actions">' +
-    '<button class="cancel" onclick="closeAdd()">Cancel</button>' +
-    '<button class="save" onclick="submitAdd()">Add</button>' +
-    '</div></div></div>';
-  setTimeout(function(){ document.getElementById("addText").focus(); }, 100);
-}
-
-function closeAdd() {
-  document.getElementById("addModal").style.display = "none";
-  document.getElementById("addModal").innerHTML = "";
-}
-
-function submitAdd() {
-  const text = document.getElementById("addText").value.trim();
-  if (!text) return;
-  const note = document.getElementById("addNote").value.trim();
-  const cat = document.getElementById("addCat").value;
-  const lane = document.getElementById("addLane").value;
-  const flag = document.getElementById("addFlag").checked;
-  const newItem = { id: nextId++, text: text, cat: cat, lane: lane, note: note || "", flag: flag };
-  items.push(newItem);
-  changelog.unshift({
-    time: new Date().toLocaleTimeString(),
-    text: 'ADDED "' + text + '" to ' + laneMap[lane].label,
-    from: "gap", to: lane
-  });
-  autoSave();
-  closeAdd();
-  render();
-}
-
-document.addEventListener("DOMContentLoaded", init);
-
-</script>
 </body>
 </html>
