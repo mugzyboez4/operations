@@ -272,240 +272,61 @@ a{color:inherit;text-decoration:none}
 
 </div><!-- /kanban -->
 
-<!-- ============ CREATIVE (COLLAPSIBLE) ============ -->
-<div class="creative-section">
-  <div class="creative-toggle" onclick="var b=this.nextElementSibling;var a=this.querySelector('.toggle-arrow');b.classList.toggle('open');a.classList.toggle('open')">
+<!-- ============ REFERENCE (SINGLE COLLAPSIBLE) ============ -->
+<div style="max-width:1440px;margin:0 auto 20px;padding:0 24px">
+  <div class="creative-toggle" onclick="var b=document.getElementById('refBody');var a=this.querySelector('.toggle-arrow');b.classList.toggle('open');a.classList.toggle('open')">
     <div>
-      <h3>Creative — Departmental Execution Layer</h3>
-      <div class="toggle-hint">Not a lane. A service layer triggered by multiple lanes. Click to expand.</div>
+      <h3 style="color:var(--fog)">Reference & Context</h3>
+      <div class="toggle-hint">Creative layer · Support structure · Unresolved · JD flags · Removed cards</div>
     </div>
-    <span class="toggle-arrow">▼</span>
+    <span class="toggle-arrow">&#9660;</span>
   </div>
-  <div class="creative-body">
+  <div class="creative-body" id="refBody">
 
-    <div class="cb-intro">
-      Creative doesn't initiate work — it <strong>receives</strong> it. Analysis of 2,307 Airtable tickets shows zero projects initiated by Creative itself. 1,738 were initiated by Marketing, 425 by Marketing + Digital Marketing. Creative is the execution partner that multiple lanes brief into and receive deliverables from. It doesn't need its own verb set — it needs <strong>explicit handoff points</strong> in the existing lanes.
+    <!-- CREATIVE -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin-bottom:8px">Creative — Service Layer (Not a Lane)</div>
+      <div style="font-size:11px;color:var(--dim);margin-bottom:12px">Creative doesn't initiate work — it receives it. 2,307 Airtable tickets analyzed. Three handoff cards proposed:</div>
+      <div class="creative-grid">
+        <div class="creative-card"><div class="cc-lane" style="color:var(--cl)">Campaign Leads</div><div class="cc-title">Brief Creative on Campaign Vision &amp; Assets</div><div class="cc-note">Music videos, press images, OOH, merch, sizzle reels. CL briefs, Creative executes, CL approves.</div></div>
+        <div class="creative-card"><div class="cc-lane" style="color:var(--ops)">Campaign Ops</div><div class="cc-title">Track Creative Deliverables &amp; Flag Delays</div><div class="cc-note">334 tasks across Design/Motion and Creative Direction. No cross-team visibility currently.</div></div>
+        <div class="creative-card"><div class="cc-lane" style="color:var(--ad)">Audience Dev</div><div class="cc-title">Activate Creative for Platform-Native Content</div><div class="cc-note">141 short form content tasks. Tarek: "the creative team manages the actual shoot."</div></div>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:var(--fog)"><strong style="color:#E879F9">Gate dependencies:</strong> Gate 2 &rarr; creative direction set &middot; Gate 3 &rarr; cover art, press images, OOH delivered &middot; Gate 4 &rarr; video cleared, cutdowns delivered</div>
     </div>
 
-    <!-- PROPOSED NEW CARDS -->
-    <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin-bottom:10px">Proposed Cards — Creative Handoffs</div>
-    <div class="creative-grid">
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
 
-      <div class="creative-card">
-        <div class="cc-lane" style="color:var(--cl)">Campaign Leads</div>
-        <div class="cc-title">Brief Creative on Campaign Vision & Assets</div>
-        <div class="cc-note">CL briefs Creative on narrative, art direction, music video vision, press images, OOH. Creative executes. CL approves output before it goes to management. Covers: Music Videos (22 tasks/project), Press Images, OOH, Merch, Sizzle Reels.</div>
-        <span class="cc-tag">proposed — from airtable analysis</span>
-      </div>
-
-      <div class="creative-card">
-        <div class="cc-lane" style="color:var(--ops)">Campaign Ops</div>
-        <div class="cc-title">Track Creative Deliverables & Flag Delays</div>
-        <div class="cc-note">Ops tracks the pipeline of 37 project types flowing through Creative, surfaces when things are behind schedule. The Airtable data shows 334 tasks across Design/Motion and Creative Direction status types. Currently no cross-team visibility into Creative's queue.</div>
-        <span class="cc-tag">proposed — from airtable analysis</span>
-      </div>
-
-      <div class="creative-card">
-        <div class="cc-lane" style="color:var(--ad)">Audience Dev</div>
-        <div class="cc-title">Activate Creative for Platform-Native Content</div>
-        <div class="cc-note">When Aud Dev needs custom short form content or social creative that isn't derivative of album art, they go to Creative directly. Tarek in the meeting: "the creative team ultimately would be the one managing the actual shoot itself." 141 Short Form Content tasks in the data.</div>
-        <span class="cc-tag">proposed — from transcript + airtable</span>
-      </div>
-
+    <!-- SUPPORT STRUCTURE -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--support);margin-bottom:8px">Support Team Structure</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.6">Serves CL, Aud Dev, and Ops. Separate resources for Commercial. Organized <strong style="color:var(--text)">by task, not roster</strong> (except asset requests). <strong style="color:var(--text)">Specialized roles:</strong> Invoicing &middot; Link generation &middot; Scheduling (1 person + backup each).</div>
     </div>
 
-    <!-- EXISTING CARDS THAT TOUCH CREATIVE -->
-    <div class="existing-touch">
-      <div class="existing-touch-title">Existing Cards That Already Touch Creative</div>
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
 
-      <div class="et-card">
-        <span class="et-lane" style="background:rgba(205,248,81,0.12);color:var(--ops)">OPS</span>
-        <div><strong style="font-size:11px;color:var(--text)">Track & Route Video Deliverables</strong><br><span style="font-size:10px;color:var(--fog)">Video deliverables come FROM Creative. Music Videos = biggest project type (311 tasks). This card tracks Creative's output but doesn't name the input.</span></div>
-      </div>
-
-      <div class="et-card">
-        <span class="et-lane" style="background:rgba(58,175,255,0.12);color:var(--cl)">CL</span>
-        <div><strong style="font-size:11px;color:var(--text)">Trigger Pre-saves, Websites & Marketing Assets</strong><br><span style="font-size:10px;color:var(--fog)">The "marketing assets" piece often requires Creative (Design/Motion handles 110 tasks). CL triggers, brief goes to Creative, not just Support.</span></div>
-      </div>
-
-      <div class="et-card">
-        <span class="et-lane" style="background:rgba(255,107,53,0.12);color:var(--ad)">AUD DEV</span>
-        <div><strong style="font-size:11px;color:var(--text)">Build & Activate Short Form Content</strong><br><span style="font-size:10px;color:var(--fog)">Tarek: "short form content shoots are their collaboration with the creative team." Creative manages the actual shoot. 141 tasks in the data.</span></div>
-      </div>
+    <!-- UNRESOLVED -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--unresolved);margin-bottom:8px">Unresolved &mdash; 3</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.8"><strong style="color:var(--text)">Per-Dept Spend Accountability</strong> &mdash; deferred<br><strong style="color:var(--text)">Audience Data Flow &rarr; Crawley</strong> &mdash; KPI routing needs work<br><strong style="color:var(--text)">One Sheets</strong> &mdash; lane TBD</div>
     </div>
 
-    <!-- GATE MAPPING -->
-    <div class="gate-map">
-      <div class="gate-map-title">Creative Dependencies in the Gate System</div>
-      <div style="font-size:11px;color:var(--dim);margin-bottom:10px">Creative is a blocking dependency at every gate. These should be added as prerequisites.</div>
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
 
-      <div class="gate-row" style="font-weight:700;color:var(--fog);border-bottom:1px solid var(--muted)">
-        <div>Gate</div><div>Creative Prerequisite</div><div>Who Owns It</div>
-      </div>
-      <div class="gate-row">
-        <div class="gate-name">Gate 1: Plan</div>
-        <div class="gate-prereq">Creative direction meeting scheduled with artist team</div>
-        <div class="gate-owner">Campaign Lead triggers · Creative attends</div>
-      </div>
-      <div class="gate-row">
-        <div class="gate-name">Gate 2: Execute</div>
-        <div class="gate-prereq">Creative direction set & approved · Music video treatment selected · Design brief submitted</div>
-        <div class="gate-owner">CL + Creative (exists in gate already — needs expansion)</div>
-      </div>
-      <div class="gate-row">
-        <div class="gate-name">Gate 3: Announce</div>
-        <div class="gate-prereq">Cover art finalized · Press images delivered · OOH assets delivered · Sizzle reel complete · All marketing assets QA'd</div>
-        <div class="gate-owner">Creative delivers · CL approves · Ops confirms</div>
-      </div>
-      <div class="gate-row">
-        <div class="gate-name">Gate 4: Deliver</div>
-        <div class="gate-prereq">Video cleared (Earworm) · Social cutdowns delivered · All platform-specific assets formatted</div>
-        <div class="gate-owner">Creative delivers · Ops tracks · Support implements</div>
-      </div>
+    <!-- REMOVED -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--flame);margin-bottom:8px">Removed / Consolidated &mdash; 6</div>
+      <div style="font-size:11px;color:var(--fog);line-height:1.8"><span style="text-decoration:line-through">Digital Campaign Objective</span> &rarr; absorbed into Campaign Strategy<br><span style="text-decoration:line-through">Per-Artist Budget Creation</span> + <span style="text-decoration:line-through">Budget Reallocation</span> &rarr; Budget Oversight &amp; Strategy<br><span style="text-decoration:line-through">Assets to Publicity &amp; Intl</span> &rarr; self-serve<br><span style="text-decoration:line-through">Airtable Asset Requests</span> &rarr; consolidated<br><span style="text-decoration:line-through">Newsletter/Social Post Orders</span> &rarr; consolidated</div>
     </div>
 
-    <!-- DATA SUMMARY -->
-    <div style="margin-top:20px;background:var(--bg);border:1px solid var(--border);padding:12px 16px">
-      <div style="font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin-bottom:8px">From the Airtable Data — 2,307 Tasks Analyzed</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;font-size:11px;color:var(--dim)">
-        <div><strong style="color:var(--text)">311</strong> Music Video tasks (14 projects)</div>
-        <div><strong style="color:var(--text)">141</strong> Short Form Content tasks</div>
-        <div><strong style="color:var(--text)">95</strong> Events / Promo Moments tasks</div>
-        <div><strong style="color:var(--text)">84</strong> Press Content / Editorial tasks</div>
-        <div><strong style="color:var(--text)">40</strong> Press Images tasks</div>
-        <div><strong style="color:var(--text)">50</strong> Brand Sponsorship tasks</div>
-        <div><strong style="color:var(--text)">25</strong> Sizzle Reel tasks</div>
-        <div><strong style="color:var(--text)">22</strong> Traditional OOH tasks</div>
-        <div><strong style="color:var(--text)">3</strong> Design Leads · <strong style="color:var(--text)">3</strong> Motion Leads · <strong style="color:var(--text)">6</strong> Creative Leads</div>
-        <div><strong style="color:var(--text)">100%</strong> In-House (Creative Provider)</div>
-      </div>
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
+
+    <!-- JD DISCREPANCIES -->
+    <div>
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#FF6B35;margin-bottom:8px">JD Discrepancies &mdash; 7 flags</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.8"><strong style="color:var(--text)">1.</strong> "Aud Dev Integration" overstates CL authority<br><strong style="color:var(--text)">2.</strong> "OOH Media" in JD, never discussed<br><strong style="color:var(--text)">3.</strong> Budget language mismatch ("Distribution" vs "Oversight")<br><strong style="color:var(--text)">4.</strong> Three CL responsibilities added in meeting missing from JD<br><strong style="color:var(--text)">5.</strong> Interdepartmental alignment overlap with Ops<br><strong style="color:var(--text)">6.</strong> JD still references "Digital" as a department<br><strong style="color:var(--text)">7.</strong> Roster upkeep &mdash; no centralized ownership</div>
     </div>
 
-  </div><!-- /creative-body -->
-</div>
-
-<!-- ============ SUPPORT STRUCTURE ============ -->
-<div class="structure-note">
-  <div class="structure-box">
-    <h3>Support Team Structure — Confirmed by Tarek</h3>
-    <p>Support serves <span class="highlight">Campaign Leads, Audience Development, and Campaign Ops</span>. Separate resources support Commercial Partnerships. The team will be organized <span class="highlight">by task, not by artist roster</span> — with one exception: asset requests may use a roster-based solution.</p>
-    <p style="margin-top:8px"><span class="highlight">Specialized tasks (1 person + backup):</span> Invoicing · Link generation · Scheduling</p>
-    <p style="margin-top:4px;color:var(--fog);font-size:11px">Source: Tarek at 28:50 — "specialized tasks that will sit with key members...we'll make sure that there's backups across the team"</p>
-  </div>
-</div>
-
-<!-- ============ REMOVED ============ -->
-<div class="removed-section">
-  <div class="removed-header">Removed / Consolidated — 6 items</div>
-  <div class="removed-grid">
-    <div class="removed-card"><div class="card-title">Digital Campaign Objective & Plan</div><div class="card-note">Tarek: "I don't want to call anything a digital campaign unless it's something Aud Dev is running." Absorbed into Campaign Strategy & Narrative.</div></div>
-    <div class="removed-card"><div class="card-title">Per-Artist Budget Creation</div><div class="card-note">Absorbed into "Budget Oversight & Strategy."</div></div>
-    <div class="removed-card"><div class="card-title">Budget Reallocation</div><div class="card-note">Tarek: "reallocation would fall under [budget management and strategy]."</div></div>
-    <div class="removed-card"><div class="card-title">Assets to Publicity & International</div><div class="card-note">Tarek: "we should take that out — we should just create a place for them to get these assets." Replace with self-serve.</div></div>
-    <div class="removed-card"><div class="card-title">Airtable Asset Requests</div><div class="card-note">Tarek: "same as asset requests at the top." Consolidated.</div></div>
-    <div class="removed-card"><div class="card-title">Newsletter/Social Post Orders</div><div class="card-note">Tarek: "same as the RCA newsletter." Consolidated.</div></div>
-  </div>
-</div>
-
-<!-- ============ UNRESOLVED ============ -->
-<div class="unresolved-section">
-  <div class="unresolved-header">Unresolved — 3 items</div>
-  <div class="unresolved-grid">
-    <div class="unresolved-card"><div class="card-title">Per-Dept Spend Accountability</div><div class="card-note">Jordan: "I don't think there's anything we need to talk about in those." Budget accountability deferred.</div></div>
-    <div class="unresolved-card"><div class="card-title">Audience Data Flow → Crawley/Strategic Analytics</div><div class="card-note">Tarek: "we don't have a great flow of the data into John." KPIs should come FROM Crawley's team, Aud Dev implements. Needs systematic routing. Alexis aware.</div></div>
-    <div class="unresolved-card"><div class="card-title">One Sheets</div><div class="card-note">Lane TBD. Needs decision on who owns creation, distribution, and updates.</div></div>
-  </div>
-</div>
-
-<!-- ============ JD DISCREPANCIES ============ -->
-<div class="jd-section">
-  <div class="jd-header">JD Discrepancies — Campaign Lead (Shani, 2026-03-22) vs. Meeting Decisions</div>
-  <div class="jd-sub">7 gaps between the written JD and what Tarek confirmed on April 3. These need resolution before the JD is final.</div>
-  <div class="jd-grid">
-
-    <div class="jd-card">
-      <div class="card-title">1. "Audience Development Integration" overstates CL authority</div>
-      <div class="jd-says"><strong>JD says:</strong> CL core responsibility — "Audience Development Integration." Implies CL drives integration with Aud Dev.</div>
-      <div class="meeting-says">Meeting says: Aud Dev operates independently on execution. CL sets budget + can request specific things, but Aud Dev owns their own strategy (definition, growth, engagement). Tarek: "if audience development feels like they could do more with more, then that's a conversation."</div>
-      <div class="impact">Impact: JD overstates CL authority. Real relationship = CL briefs the objective, Aud Dev decides how.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">2. "OOH Media" — not on the board at all</div>
-      <div class="jd-says"><strong>JD says:</strong> "OOH Media" listed as a core CL responsibility.</div>
-      <div class="meeting-says">Meeting says: Never mentioned in 31 minutes. Not on the lane board. Zero discussion.</div>
-      <div class="impact">Impact: Orphan responsibility — either clearly CL-owned (no debate needed) or a holdover from old structure. Needs confirmation.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">3. "Budget Alignment and Distribution" vs. "Budget Oversight & Strategy"</div>
-      <div class="jd-says"><strong>JD says:</strong> "Budget Alignment and Distribution" — implies CLs parcel out budget to other teams.</div>
-      <div class="meeting-says">Meeting says: Tarek reframed as "budget oversight and strategy." CLs set the budget available to Aud Dev, who executes within it. There's a "feedback element" — not just CL deciding.</div>
-      <div class="impact">Impact: "Distribution" suggests more hands-on control than Tarek described. Language mismatch.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">4. Three new CL responsibilities missing from JD</div>
-      <div class="jd-says"><strong>JD says:</strong> No mention of triggering assets, paid ads (Gupta), or timeline management as distinct responsibilities.</div>
-      <div class="meeting-says">Meeting says: Tarek added all three — Timeline Creation & Management, Triggering Core Campaign Assets (pre-saves, websites, marketing assets), Paid Ads (Gupta Campaigns). These are net new CL scope.</div>
-      <div class="impact">Impact: JD is missing 3 responsibilities Tarek explicitly assigned. "Campaign Strategy, Planning & Timelines" partially covers timeline, but triggering assets and paid ads are absent.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">5. "Interdepartmental Alignment" — unresolved overlap with Campaign Ops</div>
-      <div class="jd-says"><strong>JD says:</strong> "Campaign Leadership and Interdepartmental Alignment" as core CL responsibility.</div>
-      <div class="meeting-says">Meeting says: Campaign Ops also exists as the cross-department coordination layer. The implicit line: CL aligns on strategy/narrative, Ops aligns on execution/tracking/follow-through. But nobody stated this explicitly.</div>
-      <div class="impact">Impact: Two functions claim "interdepartmental alignment." The JD doesn't distinguish CL alignment from Ops alignment.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">6. JD still references "Digital" as a department</div>
-      <div class="jd-says"><strong>JD says:</strong> CL "aligns efforts across Audience Development, Digital, Publicity, A&R, Creative, Commerce, and International teams."</div>
-      <div class="meeting-says">Meeting says: Tarek was emphatic — "I definitely don't want to be calling anything a digital campaign unless it's something the audience development team is running." The restructuring eliminated "Digital" as a separate function.</div>
-      <div class="impact">Impact: JD uses pre-restructuring language. "Digital" should be removed from the department list. Aud Dev absorbed this function.</div>
-    </div>
-
-    <div class="jd-card">
-      <div class="card-title">7. Roster upkeep & dissemination — no centralized ownership</div>
-      <div class="jd-says"><strong>JD says:</strong> Each CL JD includes a printed roster, but there's no defined process for how roster changes get communicated across the company. Multiple CLs maintain separate rosters (Shani's vs. other CLs) with no single source of truth.</div>
-      <div class="meeting-says">Proposal: Departments create and maintain their own one sheets and roster info, but route all updates through Campaign Ops. CO becomes the single point of dissemination — no dept-to-dept roster updates bypassing Ops. CO tracks changes and ensures the rest of the company has current information.</div>
-      <div class="impact">Impact: Without this, roster changes propagate unevenly — some depts find out late, others never. CO should own the system of record for roster assignments and be the routing layer for any updates.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ============ DECISION LOG ============ -->
-<div class="log-section">
-  <div class="log-header">Decision Log — 20+ Decisions</div>
-  <div style="overflow-x:auto">
-  <table class="log-table">
-    <thead><tr><th>Responsibility</th><th>From</th><th>To</th><th>Decision By</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td>Digital Campaign Objective & Plan</td><td class="from">Campaign Leads</td><td class="to">REMOVED</td><td>Tarek</td><td>Don't call anything "digital campaign" unless Aud Dev runs it</td></tr>
-      <tr><td>Short Form Content Planning → Strategy & Execution</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Renamed + moved. Aud Dev ensures it gets done.</td></tr>
-      <tr><td>Social Content Approval</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Aud Dev talks to management directly on approvals</td></tr>
-      <tr><td>Track &amp; Route Video Deliverables</td><td class="from">Campaign Leads</td><td class="to">Campaign Ops</td><td>Jordan</td><td>Ops routes assets from mgmt and creative</td></tr>
-      <tr><td>Report Partner Updates &amp; Opportunities</td><td class="from">Campaign Leads</td><td class="to">Commercial</td><td>Tarek</td><td>Weekly partner meetings</td></tr>
-      <tr><td>Influencer/Agency Solicitation → Influencer Marketing</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Agency or direct, Aud Dev owns</td></tr>
-      <tr><td>Maintain Console Financial Records</td><td class="from">Campaign Leads</td><td class="to">Support</td><td>Tarek</td><td>"Put this into support"</td></tr>
-      <tr><td>Per-Artist Budget + Reallocation → Budget Oversight & Strategy</td><td class="from">2 items</td><td class="to">1 item — CL</td><td>Tarek/Jordan</td><td>Umbrella approach — "create the umbrella of each thing"</td></tr>
-      <tr><td>Plan Campaign Timeline &amp; Milestones</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Flagged as missing from original board</td></tr>
-      <tr><td>Trigger Pre-saves, Websites &amp; Marketing Assets</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Pre-saves, websites, marketing assets. "Might be 3 things."</td></tr>
-      <tr><td>Own Paid Ad Strategy (Gupta Campaigns)</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Discussed with Aaron and Gina. Boundary with Aud Dev TBD.</td></tr>
-      <tr><td>Audience Strategy & Segmentation → Audience Definition</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek</td><td>"Audience definition is what I would call it"</td></tr>
-      <tr><td>Build Audience Growth Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
-      <tr><td>Activate Fan Engagement</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
-      <tr><td>TikTok Pin + UGC Claims → Social Platform Management</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Pins, comments, bio, smart URLs</td></tr>
-      <tr><td>Build SMF Campaign Pages</td><td class="from">Audience Dev</td><td class="to">Support</td><td>Tarek</td><td>Sony Music Fans. Support builds, CL triggers.</td></tr>
-      <tr><td>Execute Music Delivery to Partners</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
-      <tr><td>Execute VEVO Playlisting &amp; Backstage</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
-      <tr><td>Deliver YouTube Metadata &amp; Descriptions</td><td class="from">Support → Commercial</td><td class="to">Support</td><td>Tarek</td><td>Bounced back — "tour dates and things like that"</td></tr>
-      <tr><td>RCA Newsletter/Social Post Orders → split</td><td class="from">1 item</td><td class="to">RCA Newsletter (Support) + RCA Socials (Aud Dev)</td><td>Tarek</td><td>"RCA socials will be managed by the audience development team"</td></tr>
-      <tr><td>Assets to Publicity & International</td><td class="from">Support</td><td class="to">REMOVED</td><td>Tarek</td><td>"Create a place for them to get these assets" — self-serve</td></tr>
-      <tr><td>UGC Claims → Claim Management & Takedowns</td><td class="from">Renamed</td><td class="to">Support</td><td>Jordan/Tarek</td><td>Fingerprints, Cobrand, erroneous claims, conflicts</td></tr>
-    </tbody>
-  </table>
   </div>
 </div>
 
