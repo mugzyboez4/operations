@@ -97,6 +97,37 @@ a{color:inherit;text-decoration:none}
 .structure-box .highlight{color:var(--text);font-weight:600}
 
 /* JD Discrepancy section */
+
+/* Creative collapsible */
+.creative-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
+.creative-toggle{background:var(--surface);border:1px solid var(--border);border-left:3px solid #E879F9;padding:14px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}
+.creative-toggle:hover{background:#1A1A1A}
+.creative-toggle h3{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin:0}
+.creative-toggle .toggle-hint{font-size:10px;color:var(--fog)}
+.creative-toggle .toggle-arrow{font-size:16px;color:#E879F9;transition:transform .2s}
+.creative-toggle .toggle-arrow.open{transform:rotate(180deg)}
+.creative-body{display:none;background:var(--surface);border:1px solid var(--border);border-top:none;padding:20px}
+.creative-body.open{display:block}
+.creative-body .cb-intro{font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:16px;max-width:800px}
+.creative-body .cb-intro strong{color:var(--text)}
+.creative-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:20px}
+.creative-card{background:var(--bg);border:1px solid var(--border);border-left:3px solid #E879F9;padding:10px 12px}
+.creative-card .cc-lane{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin-bottom:3px}
+.creative-card .cc-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.creative-card .cc-note{font-size:10px;color:var(--fog);line-height:1.4}
+.creative-card .cc-tag{display:inline-block;font-size:9px;letter-spacing:0.5px;padding:1px 5px;margin-top:4px;background:rgba(232,121,249,0.12);color:#E879F9}
+.gate-map{margin-top:16px}
+.gate-map-title{font-weight:700;font-size:11px;color:#E879F9;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.gate-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:11px}
+.gate-row:last-child{border-bottom:none}
+.gate-name{font-weight:700;color:var(--flame)}
+.gate-prereq{color:var(--dim)}
+.gate-owner{color:var(--fog)}
+.existing-touch{margin-top:16px}
+.existing-touch-title{font-weight:700;font-size:11px;color:var(--fog);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.et-card{background:var(--bg);border:1px solid var(--border);padding:8px 10px;margin-bottom:5px;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start}
+.et-lane{font-size:9px;letter-spacing:0.5px;padding:2px 6px;font-weight:700;white-space:nowrap}
+
 .jd-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
 .jd-header{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#FF6B35;margin-bottom:4px}
 .jd-sub{font-size:11px;color:var(--fog);margin-bottom:12px}
@@ -151,19 +182,19 @@ a{color:inherit;text-decoration:none}
     <div class="lane-count">13 items</div>
   </div>
 
-  <div class="card"><div class="card-title">Release Readiness Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Budget Visibility & Divergence</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card moved"><div class="card-title">Video Deliverables (Earworm, BA)</div><div class="card-note">Jordan: "I think that might be campaign ops." Gerard: "assets come from mgmt and creative, so we would route them."</div><span class="card-tag tag-moved">moved from CL</span></div>
-  <div class="card"><div class="card-title">Cross-Dept Meeting Prep & Follow-up</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Meeting Notes Distribution</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Action Item Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Artist Briefings (13-Dept)</div><div class="card-note">Tarek asked what this was. Jordan: "a future opportunity." Held.</div><span class="card-tag tag-confirmed">confirmed — held</span></div>
-  <div class="card"><div class="card-title">Dashboards & Tracking Tools</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Data Layer & System of Record</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Release Runway Data</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Upstream Dependency Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Management Approval Tracking</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card moved"><div class="card-title">Earworm (YouTube Content Review)</div><div class="card-note">Tarek: "specifically platform management." Jordan: "it's a conversation with YouTube." Routes to whoever talks to YouTube.</div><span class="card-tag tag-moved">moved — commercial/ops</span></div>
+  <div class="card"><div class="card-title">Track Release Readiness</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Surface Budget Gaps &amp; Divergence</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card moved"><div class="card-title">Track &amp; Route Video Deliverables</div><div class="card-note">Jordan: "I think that might be campaign ops." Gerard: "assets come from mgmt and creative, so we would route them."</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Prompt Cross-Dept Alignment</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Surface Meeting Decisions &amp; Actions</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Track Action Items to Completion</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Surface Artist Context Across Departments</div><div class="card-note">Tarek asked what this was. Jordan: "a future opportunity." Held.</div><span class="card-tag tag-confirmed">confirmed — held</span></div>
+  <div class="card"><div class="card-title">Surface Data via Dashboards &amp; Tools</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Track the System of Record</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Flag Release Runway Status</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Flag Upstream Dependencies</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Track Management Approvals</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card moved"><div class="card-title">Confirm YouTube Content Clearance</div><div class="card-note">Tarek: "specifically platform management." Jordan: "it's a conversation with YouTube." Routes to whoever talks to YouTube.</div><span class="card-tag tag-moved">moved — commercial/ops</span></div>
 </div>
 
 <!-- CAMPAIGN LEADS -->
@@ -174,12 +205,12 @@ a{color:inherit;text-decoration:none}
     <div class="lane-count">6 items</div>
   </div>
 
-  <div class="card"><div class="card-title">Campaign Strategy & Narrative</div><div class="card-note">Tarek: covers real world and digital. "If we just leave it out, the assumption is it's across the board."</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card renamed"><div class="card-title">Budget Oversight & Strategy</div><div class="card-note">Renamed from "Per-artist budget creation" + "Budget reallocation". Tarek: "budget oversight and strategy." Reallocation falls under this.</div><span class="card-tag tag-renamed">renamed — consolidated</span></div>
-  <div class="card new"><div class="card-title">Timeline Creation & Management</div><div class="card-note">Tarek flagged as missing. Creation and ongoing management.</div><span class="card-tag tag-new">new — tarek</span></div>
-  <div class="card new"><div class="card-title">Triggering Core Campaign Assets</div><div class="card-note">Pre-saves, websites, marketing assets. Tarek: "might be 3 separate things." CL triggers, Support builds. CL owns QA and copy.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">may need split</span></div>
-  <div class="card new flagged"><div class="card-title">Paid Ads (Gupta Campaigns)</div><div class="card-note">Tarek: Gupta campaigns stay with CL — already discussed with Aaron and Gina. Boundary with Aud Dev paid work TBD.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">boundary tbd</span></div>
-  <div class="card"><div class="card-title">Management Conversation</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan confirmed.</div><span class="card-tag tag-shared">shared with aud dev</span></div>
+  <div class="card"><div class="card-title">Decide Campaign Strategy &amp; Narrative</div><div class="card-note">Tarek: covers real world and digital. "If we just leave it out, the assumption is it's across the board."</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card renamed"><div class="card-title">Own Campaign Budget &amp; Allocation</div><div class="card-note">Renamed from "Per-artist budget creation" + "Budget reallocation". Tarek: "budget oversight and strategy." Reallocation falls under this.</div><span class="card-tag tag-renamed">renamed — consolidated</span></div>
+  <div class="card new"><div class="card-title">Plan Campaign Timeline &amp; Milestones</div><div class="card-note">Tarek flagged as missing. Creation and ongoing management.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card new"><div class="card-title">Trigger Pre-saves, Websites &amp; Marketing Assets</div><div class="card-note">Pre-saves, websites, marketing assets. Tarek: "might be 3 separate things." CL triggers, Support builds. CL owns QA and copy.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">may need split</span></div>
+  <div class="card new flagged"><div class="card-title">Own Paid Ad Strategy (Gupta Campaigns)</div><div class="card-note">Tarek: Gupta campaigns stay with CL — already discussed with Aaron and Gina. Boundary with Aud Dev paid work TBD.</div><span class="card-tag tag-new">new — tarek</span> <span class="card-tag tag-flagged">boundary tbd</span></div>
+  <div class="card"><div class="card-title">Brief Management on Campaign Direction</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan confirmed.</div><span class="card-tag tag-shared">shared with aud dev</span></div>
 </div>
 
 <!-- AUDIENCE DEV -->
@@ -190,17 +221,17 @@ a{color:inherit;text-decoration:none}
     <div class="lane-count">11 items</div>
   </div>
 
-  <div class="card renamed"><div class="card-title">Audience Definition</div><div class="card-note">Was "Audience strategy & segmentation." Tarek: "Audience definition is what I would call it."</div><span class="card-tag tag-renamed">renamed — tarek</span></div>
-  <div class="card new"><div class="card-title">Audience Growth Strategy</div><div class="card-note">Tarek added as separate pillar.</div><span class="card-tag tag-new">new — tarek</span></div>
-  <div class="card new"><div class="card-title">Audience Engagement Strategy</div><div class="card-note">Tarek added. Third pillar alongside definition and growth.</div><span class="card-tag tag-new">new — tarek</span></div>
-  <div class="card moved renamed"><div class="card-title">Short Form Strategy & Execution</div><div class="card-note">Was "Short form content planning" in CL. Tarek: "short form strategy and execution" — their responsibility to make sure it gets done.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card renamed"><div class="card-title">Social Content Management</div><div class="card-note">Combines creation + approval. Tarek: "social content management." Aud Dev handles management approval conversations too.</div><span class="card-tag tag-renamed">combined + renamed</span></div>
-  <div class="card moved renamed"><div class="card-title">Influencer Marketing</div><div class="card-note">Was "Influencer/agency solicitation" in CL. Tarek: whether agency or direct, it's Aud Dev responsibility.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card renamed"><div class="card-title">Social Platform Management</div><div class="card-note">Was "TikTok pin + UGC claims." Tarek: covers pinned content, comments, bio, smart URLs. Jordan helped name: "platform management."</div><span class="card-tag tag-renamed">renamed — tarek/jordan</span></div>
-  <div class="card"><div class="card-title">Seeding</div><div class="card-note">Broken out from "Paid ads, seeding, organic engagement." Tarek: "break those out into three things."</div><span class="card-tag tag-confirmed">split from original</span></div>
-  <div class="card"><div class="card-title">Organic Engagement</div><div class="card-note">Broken out from the combined item.</div><span class="card-tag tag-confirmed">split from original</span></div>
-  <div class="card renamed"><div class="card-title">Early Audience Research (New Signings)</div><div class="card-note">Was "for A&R." Jordan: not for prospecting, but for newly signed artists entering campaign cycle.</div><span class="card-tag tag-renamed">renamed — jordan</span></div>
-  <div class="card"><div class="card-title">Management Conversation</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan: "Correct."</div><span class="card-tag tag-shared">shared with CL</span></div>
+  <div class="card renamed"><div class="card-title">Define the Audience</div><div class="card-note">Was "Audience strategy & segmentation." Tarek: "Audience definition is what I would call it."</div><span class="card-tag tag-renamed">renamed — tarek</span></div>
+  <div class="card new"><div class="card-title">Build Audience Growth Strategy</div><div class="card-note">Tarek added as separate pillar.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card new"><div class="card-title">Activate Fan Engagement</div><div class="card-note">Tarek added. Third pillar alongside definition and growth.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card moved renamed"><div class="card-title">Build &amp; Activate Short Form Content</div><div class="card-note">Was "Short form content planning" in CL. Tarek: "short form strategy and execution" — their responsibility to make sure it gets done.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Build Social Content &amp; Manage Approvals</div><div class="card-note">Combines creation + approval. Tarek: "social content management." Aud Dev handles management approval conversations too.</div><span class="card-tag tag-renamed">combined + renamed</span></div>
+  <div class="card moved renamed"><div class="card-title">Activate Influencer Campaigns</div><div class="card-note">Was "Influencer/agency solicitation" in CL. Tarek: whether agency or direct, it's Aud Dev responsibility.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Manage &amp; Amplify Platform Presence</div><div class="card-note">Was "TikTok pin + UGC claims." Tarek: covers pinned content, comments, bio, smart URLs. Jordan helped name: "platform management."</div><span class="card-tag tag-renamed">renamed — tarek/jordan</span></div>
+  <div class="card"><div class="card-title">Activate Seeding Campaigns</div><div class="card-note">Broken out from "Paid ads, seeding, organic engagement." Tarek: "break those out into three things."</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card"><div class="card-title">Amplify Organic Engagement</div><div class="card-note">Broken out from the combined item.</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card renamed"><div class="card-title">Define Audience for New Signings</div><div class="card-note">Was "for A&R." Jordan: not for prospecting, but for newly signed artists entering campaign cycle.</div><span class="card-tag tag-renamed">renamed — jordan</span></div>
+  <div class="card"><div class="card-title">Brief Management on Audience Performance</div><div class="card-note">Both CLs and Aud Dev talk to management. Jordan: "Correct."</div><span class="card-tag tag-shared">shared with CL</span></div>
 </div>
 
 <!-- SUPPORT -->
@@ -211,16 +242,16 @@ a{color:inherit;text-decoration:none}
     <div class="lane-count">10 items</div>
   </div>
 
-  <div class="card moved"><div class="card-title">PO/Invoice Submission</div><span class="card-tag tag-moved">moved from CL</span></div>
-  <div class="card"><div class="card-title">Asset Requests</div><div class="card-note">Consolidated — Airtable asset requests = same thing. Likely roster-based solution.</div><span class="card-tag tag-confirmed">confirmed + consolidated</span></div>
-  <div class="card moved"><div class="card-title">SMF Campaign Setup</div><div class="card-note">Tarek: "that actually goes to support. SMF is Sony Music Fans." Support builds the page, CL triggers.</div><span class="card-tag tag-moved">moved from aud dev</span></div>
-  <div class="card renamed"><div class="card-title">Claim Management & Takedowns</div><div class="card-note">Was "UGC claims." Jordan: "claims and takedowns." Covers fingerprint misses, intentional non-claims, erroneous claims. Using Cobrand going forward.</div><span class="card-tag tag-renamed">renamed — jordan/tarek</span></div>
-  <div class="card renamed"><div class="card-title">RCA Newsletter</div><div class="card-note">Was "RCA newsletter/social post orders." Tarek: socials go to Aud Dev. Newsletter stays here.</div><span class="card-tag tag-renamed">renamed — split</span></div>
-  <div class="card moved"><div class="card-title">Console (Financial System)</div><span class="card-tag tag-moved">moved from CL</span></div>
-  <div class="card"><div class="card-title">Linkfire / Link Generation</div><div class="card-note">Specialized task — one person + backup.</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">Website Management & Social Profiles</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card"><div class="card-title">YouTube Descriptions/Tags</div><div class="card-note">Bounced to Commercial then back. Tarek: "leave it in support for now — tour dates and things like that."</div><span class="card-tag tag-confirmed">confirmed — bounced back</span></div>
-  <div class="card"><div class="card-title">Allowlisting Requests</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card moved"><div class="card-title">Receive &amp; Process PO/Invoice Requests</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Receive &amp; Build Requested Assets</div><div class="card-note">Consolidated — Airtable asset requests = same thing. Likely roster-based solution.</div><span class="card-tag tag-confirmed">confirmed + consolidated</span></div>
+  <div class="card moved"><div class="card-title">Build SMF Campaign Pages</div><div class="card-note">Tarek: "that actually goes to support. SMF is Sony Music Fans." Support builds the page, CL triggers.</div><span class="card-tag tag-moved">moved from aud dev</span></div>
+  <div class="card renamed"><div class="card-title">QA &amp; Resolve Claims &amp; Takedowns</div><div class="card-note">Was "UGC claims." Jordan: "claims and takedowns." Covers fingerprint misses, intentional non-claims, erroneous claims. Using Cobrand going forward.</div><span class="card-tag tag-renamed">renamed — jordan/tarek</span></div>
+  <div class="card renamed"><div class="card-title">Build &amp; Deliver RCA Newsletter</div><div class="card-note">Was "RCA newsletter/social post orders." Tarek: socials go to Aud Dev. Newsletter stays here.</div><span class="card-tag tag-renamed">renamed — split</span></div>
+  <div class="card moved"><div class="card-title">Maintain Console Financial Records</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card"><div class="card-title">Build &amp; Deliver Campaign Links</div><div class="card-note">Specialized task — one person + backup.</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Build &amp; Maintain Websites &amp; Profiles</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card"><div class="card-title">Deliver YouTube Metadata &amp; Descriptions</div><div class="card-note">Bounced to Commercial then back. Tarek: "leave it in support for now — tour dates and things like that."</div><span class="card-tag tag-confirmed">confirmed — bounced back</span></div>
+  <div class="card"><div class="card-title">Receive &amp; Process Allowlisting Requests</div><span class="card-tag tag-confirmed">confirmed</span></div>
 </div>
 
 <!-- COMMERCIAL PARTNERSHIPS -->
@@ -231,15 +262,127 @@ a{color:inherit;text-decoration:none}
     <div class="lane-count">6 items</div>
   </div>
 
-  <div class="card moved"><div class="card-title">DSP Partner Pitching</div><div class="card-note">Resolved from Unresolved. No debate.</div><span class="card-tag tag-moved">moved from unresolved</span></div>
-  <div class="card moved"><div class="card-title">Social Platform Pitching (TikTok, Meta, Snap)</div><span class="card-tag tag-moved">moved from unresolved</span></div>
-  <div class="card moved"><div class="card-title">Partner Catch-ups & Updates</div><div class="card-note">Tarek: "that would be commercial partnerships." Weekly partner meetings.</div><span class="card-tag tag-moved">moved from CL</span></div>
-  <div class="card moved"><div class="card-title">Music Delivery to Partners</div><span class="card-tag tag-moved">moved from support</span></div>
-  <div class="card moved"><div class="card-title">VEVO Playlisting & Backstage</div><span class="card-tag tag-moved">moved from support</span></div>
-  <div class="card new"><div class="card-title">Platform Deal Execution</div><div class="card-note">Tarek example: "Catcher may say we got Meta to lock in an $80K boost campaign." Commercial negotiates deal, Aud Dev executes content.</div><span class="card-tag tag-new">new — tarek</span></div>
+  <div class="card moved"><div class="card-title">Pitch DSP Partners</div><div class="card-note">Resolved from Unresolved. No debate.</div><span class="card-tag tag-moved">moved from unresolved</span></div>
+  <div class="card moved"><div class="card-title">Pitch Social Platforms (TikTok, Meta, Snap)</div><span class="card-tag tag-moved">moved from unresolved</span></div>
+  <div class="card moved"><div class="card-title">Report Partner Updates &amp; Opportunities</div><div class="card-note">Tarek: "that would be commercial partnerships." Weekly partner meetings.</div><span class="card-tag tag-moved">moved from CL</span></div>
+  <div class="card moved"><div class="card-title">Execute Music Delivery to Partners</div><span class="card-tag tag-moved">moved from support</span></div>
+  <div class="card moved"><div class="card-title">Execute VEVO Playlisting &amp; Backstage</div><span class="card-tag tag-moved">moved from support</span></div>
+  <div class="card new"><div class="card-title">Negotiate &amp; Execute Platform Deals</div><div class="card-note">Tarek example: "Catcher may say we got Meta to lock in an $80K boost campaign." Commercial negotiates deal, Aud Dev executes content.</div><span class="card-tag tag-new">new — tarek</span></div>
 </div>
 
 </div><!-- /kanban -->
+
+<!-- ============ CREATIVE (COLLAPSIBLE) ============ -->
+<div class="creative-section">
+  <div class="creative-toggle" onclick="var b=this.nextElementSibling;var a=this.querySelector('.toggle-arrow');b.classList.toggle('open');a.classList.toggle('open')">
+    <div>
+      <h3>Creative — Departmental Execution Layer</h3>
+      <div class="toggle-hint">Not a lane. A service layer triggered by multiple lanes. Click to expand.</div>
+    </div>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="creative-body">
+
+    <div class="cb-intro">
+      Creative doesn't initiate work — it <strong>receives</strong> it. Analysis of 2,307 Airtable tickets shows zero projects initiated by Creative itself. 1,738 were initiated by Marketing, 425 by Marketing + Digital Marketing. Creative is the execution partner that multiple lanes brief into and receive deliverables from. It doesn't need its own verb set — it needs <strong>explicit handoff points</strong> in the existing lanes.
+    </div>
+
+    <!-- PROPOSED NEW CARDS -->
+    <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin-bottom:10px">Proposed Cards — Creative Handoffs</div>
+    <div class="creative-grid">
+
+      <div class="creative-card">
+        <div class="cc-lane" style="color:var(--cl)">Campaign Leads</div>
+        <div class="cc-title">Brief Creative on Campaign Vision & Assets</div>
+        <div class="cc-note">CL briefs Creative on narrative, art direction, music video vision, press images, OOH. Creative executes. CL approves output before it goes to management. Covers: Music Videos (22 tasks/project), Press Images, OOH, Merch, Sizzle Reels.</div>
+        <span class="cc-tag">proposed — from airtable analysis</span>
+      </div>
+
+      <div class="creative-card">
+        <div class="cc-lane" style="color:var(--ops)">Campaign Ops</div>
+        <div class="cc-title">Track Creative Deliverables & Flag Delays</div>
+        <div class="cc-note">Ops tracks the pipeline of 37 project types flowing through Creative, surfaces when things are behind schedule. The Airtable data shows 334 tasks across Design/Motion and Creative Direction status types. Currently no cross-team visibility into Creative's queue.</div>
+        <span class="cc-tag">proposed — from airtable analysis</span>
+      </div>
+
+      <div class="creative-card">
+        <div class="cc-lane" style="color:var(--ad)">Audience Dev</div>
+        <div class="cc-title">Activate Creative for Platform-Native Content</div>
+        <div class="cc-note">When Aud Dev needs custom short form content or social creative that isn't derivative of album art, they go to Creative directly. Tarek in the meeting: "the creative team ultimately would be the one managing the actual shoot itself." 141 Short Form Content tasks in the data.</div>
+        <span class="cc-tag">proposed — from transcript + airtable</span>
+      </div>
+
+    </div>
+
+    <!-- EXISTING CARDS THAT TOUCH CREATIVE -->
+    <div class="existing-touch">
+      <div class="existing-touch-title">Existing Cards That Already Touch Creative</div>
+
+      <div class="et-card">
+        <span class="et-lane" style="background:rgba(205,248,81,0.12);color:var(--ops)">OPS</span>
+        <div><strong style="font-size:11px;color:var(--text)">Track & Route Video Deliverables</strong><br><span style="font-size:10px;color:var(--fog)">Video deliverables come FROM Creative. Music Videos = biggest project type (311 tasks). This card tracks Creative's output but doesn't name the input.</span></div>
+      </div>
+
+      <div class="et-card">
+        <span class="et-lane" style="background:rgba(58,175,255,0.12);color:var(--cl)">CL</span>
+        <div><strong style="font-size:11px;color:var(--text)">Trigger Pre-saves, Websites & Marketing Assets</strong><br><span style="font-size:10px;color:var(--fog)">The "marketing assets" piece often requires Creative (Design/Motion handles 110 tasks). CL triggers, brief goes to Creative, not just Support.</span></div>
+      </div>
+
+      <div class="et-card">
+        <span class="et-lane" style="background:rgba(255,107,53,0.12);color:var(--ad)">AUD DEV</span>
+        <div><strong style="font-size:11px;color:var(--text)">Build & Activate Short Form Content</strong><br><span style="font-size:10px;color:var(--fog)">Tarek: "short form content shoots are their collaboration with the creative team." Creative manages the actual shoot. 141 tasks in the data.</span></div>
+      </div>
+    </div>
+
+    <!-- GATE MAPPING -->
+    <div class="gate-map">
+      <div class="gate-map-title">Creative Dependencies in the Gate System</div>
+      <div style="font-size:11px;color:var(--dim);margin-bottom:10px">Creative is a blocking dependency at every gate. These should be added as prerequisites.</div>
+
+      <div class="gate-row" style="font-weight:700;color:var(--fog);border-bottom:1px solid var(--muted)">
+        <div>Gate</div><div>Creative Prerequisite</div><div>Who Owns It</div>
+      </div>
+      <div class="gate-row">
+        <div class="gate-name">Gate 1: Plan</div>
+        <div class="gate-prereq">Creative direction meeting scheduled with artist team</div>
+        <div class="gate-owner">Campaign Lead triggers · Creative attends</div>
+      </div>
+      <div class="gate-row">
+        <div class="gate-name">Gate 2: Execute</div>
+        <div class="gate-prereq">Creative direction set & approved · Music video treatment selected · Design brief submitted</div>
+        <div class="gate-owner">CL + Creative (exists in gate already — needs expansion)</div>
+      </div>
+      <div class="gate-row">
+        <div class="gate-name">Gate 3: Announce</div>
+        <div class="gate-prereq">Cover art finalized · Press images delivered · OOH assets delivered · Sizzle reel complete · All marketing assets QA'd</div>
+        <div class="gate-owner">Creative delivers · CL approves · Ops confirms</div>
+      </div>
+      <div class="gate-row">
+        <div class="gate-name">Gate 4: Deliver</div>
+        <div class="gate-prereq">Video cleared (Earworm) · Social cutdowns delivered · All platform-specific assets formatted</div>
+        <div class="gate-owner">Creative delivers · Ops tracks · Support implements</div>
+      </div>
+    </div>
+
+    <!-- DATA SUMMARY -->
+    <div style="margin-top:20px;background:var(--bg);border:1px solid var(--border);padding:12px 16px">
+      <div style="font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin-bottom:8px">From the Airtable Data — 2,307 Tasks Analyzed</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;font-size:11px;color:var(--dim)">
+        <div><strong style="color:var(--text)">311</strong> Music Video tasks (14 projects)</div>
+        <div><strong style="color:var(--text)">141</strong> Short Form Content tasks</div>
+        <div><strong style="color:var(--text)">95</strong> Events / Promo Moments tasks</div>
+        <div><strong style="color:var(--text)">84</strong> Press Content / Editorial tasks</div>
+        <div><strong style="color:var(--text)">40</strong> Press Images tasks</div>
+        <div><strong style="color:var(--text)">50</strong> Brand Sponsorship tasks</div>
+        <div><strong style="color:var(--text)">25</strong> Sizzle Reel tasks</div>
+        <div><strong style="color:var(--text)">22</strong> Traditional OOH tasks</div>
+        <div><strong style="color:var(--text)">3</strong> Design Leads · <strong style="color:var(--text)">3</strong> Motion Leads · <strong style="color:var(--text)">6</strong> Creative Leads</div>
+        <div><strong style="color:var(--text)">100%</strong> In-House (Creative Provider)</div>
+      </div>
+    </div>
+
+  </div><!-- /creative-body -->
+</div>
 
 <!-- ============ SUPPORT STRUCTURE ============ -->
 <div class="structure-note">
@@ -342,22 +485,22 @@ a{color:inherit;text-decoration:none}
       <tr><td>Digital Campaign Objective & Plan</td><td class="from">Campaign Leads</td><td class="to">REMOVED</td><td>Tarek</td><td>Don't call anything "digital campaign" unless Aud Dev runs it</td></tr>
       <tr><td>Short Form Content Planning → Strategy & Execution</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Renamed + moved. Aud Dev ensures it gets done.</td></tr>
       <tr><td>Social Content Approval</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Aud Dev talks to management directly on approvals</td></tr>
-      <tr><td>Video Deliverables (Earworm, BA)</td><td class="from">Campaign Leads</td><td class="to">Campaign Ops</td><td>Jordan</td><td>Ops routes assets from mgmt and creative</td></tr>
-      <tr><td>Partner Catch-ups & Updates</td><td class="from">Campaign Leads</td><td class="to">Commercial</td><td>Tarek</td><td>Weekly partner meetings</td></tr>
+      <tr><td>Track &amp; Route Video Deliverables</td><td class="from">Campaign Leads</td><td class="to">Campaign Ops</td><td>Jordan</td><td>Ops routes assets from mgmt and creative</td></tr>
+      <tr><td>Report Partner Updates &amp; Opportunities</td><td class="from">Campaign Leads</td><td class="to">Commercial</td><td>Tarek</td><td>Weekly partner meetings</td></tr>
       <tr><td>Influencer/Agency Solicitation → Influencer Marketing</td><td class="from">Campaign Leads</td><td class="to">Audience Dev</td><td>Tarek</td><td>Agency or direct, Aud Dev owns</td></tr>
-      <tr><td>Console (Financial System)</td><td class="from">Campaign Leads</td><td class="to">Support</td><td>Tarek</td><td>"Put this into support"</td></tr>
+      <tr><td>Maintain Console Financial Records</td><td class="from">Campaign Leads</td><td class="to">Support</td><td>Tarek</td><td>"Put this into support"</td></tr>
       <tr><td>Per-Artist Budget + Reallocation → Budget Oversight & Strategy</td><td class="from">2 items</td><td class="to">1 item — CL</td><td>Tarek/Jordan</td><td>Umbrella approach — "create the umbrella of each thing"</td></tr>
-      <tr><td>Timeline Creation & Management</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Flagged as missing from original board</td></tr>
-      <tr><td>Triggering Core Campaign Assets</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Pre-saves, websites, marketing assets. "Might be 3 things."</td></tr>
-      <tr><td>Paid Ads (Gupta Campaigns)</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Discussed with Aaron and Gina. Boundary with Aud Dev TBD.</td></tr>
+      <tr><td>Plan Campaign Timeline &amp; Milestones</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Flagged as missing from original board</td></tr>
+      <tr><td>Trigger Pre-saves, Websites &amp; Marketing Assets</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Pre-saves, websites, marketing assets. "Might be 3 things."</td></tr>
+      <tr><td>Own Paid Ad Strategy (Gupta Campaigns)</td><td class="from">—</td><td class="to">Campaign Leads</td><td>Tarek</td><td>Discussed with Aaron and Gina. Boundary with Aud Dev TBD.</td></tr>
       <tr><td>Audience Strategy & Segmentation → Audience Definition</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek</td><td>"Audience definition is what I would call it"</td></tr>
-      <tr><td>Audience Growth Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
-      <tr><td>Audience Engagement Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
+      <tr><td>Build Audience Growth Strategy</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
+      <tr><td>Activate Fan Engagement</td><td class="from">—</td><td class="to">Audience Dev</td><td>Tarek</td><td>New pillar</td></tr>
       <tr><td>TikTok Pin + UGC Claims → Social Platform Management</td><td class="from">Renamed</td><td class="to">Audience Dev</td><td>Tarek/Jordan</td><td>Pins, comments, bio, smart URLs</td></tr>
-      <tr><td>SMF Campaign Setup</td><td class="from">Audience Dev</td><td class="to">Support</td><td>Tarek</td><td>Sony Music Fans. Support builds, CL triggers.</td></tr>
-      <tr><td>Music Delivery to Partners</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
-      <tr><td>VEVO Playlisting & Backstage</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
-      <tr><td>YouTube Descriptions/Tags</td><td class="from">Support → Commercial</td><td class="to">Support</td><td>Tarek</td><td>Bounced back — "tour dates and things like that"</td></tr>
+      <tr><td>Build SMF Campaign Pages</td><td class="from">Audience Dev</td><td class="to">Support</td><td>Tarek</td><td>Sony Music Fans. Support builds, CL triggers.</td></tr>
+      <tr><td>Execute Music Delivery to Partners</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
+      <tr><td>Execute VEVO Playlisting &amp; Backstage</td><td class="from">Support</td><td class="to">Commercial</td><td>Jordan</td><td></td></tr>
+      <tr><td>Deliver YouTube Metadata &amp; Descriptions</td><td class="from">Support → Commercial</td><td class="to">Support</td><td>Tarek</td><td>Bounced back — "tour dates and things like that"</td></tr>
       <tr><td>RCA Newsletter/Social Post Orders → split</td><td class="from">1 item</td><td class="to">RCA Newsletter (Support) + RCA Socials (Aud Dev)</td><td>Tarek</td><td>"RCA socials will be managed by the audience development team"</td></tr>
       <tr><td>Assets to Publicity & International</td><td class="from">Support</td><td class="to">REMOVED</td><td>Tarek</td><td>"Create a place for them to get these assets" — self-serve</td></tr>
       <tr><td>UGC Claims → Claim Management & Takedowns</td><td class="from">Renamed</td><td class="to">Support</td><td>Jordan/Tarek</td><td>Fingerprints, Cobrand, erroneous claims, conflicts</td></tr>
