@@ -366,6 +366,58 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- ============ UPDATE REQUEST ============ -->
+<div class="update-section" style="max-width:1440px;margin:0 auto 32px;padding:0 24px">
+  <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+    <div style="font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:4px">Submit Update Request</div>
+    <div style="font-size:11px;color:var(--fog);margin-bottom:16px">Card needs to move, rename, add, or remove? Drop it here.</div>
+    <form name="lane-updates" method="POST" data-netlify="true" id="lane-form">
+      <input type="hidden" name="form-name" value="lane-updates">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="display:block;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);letter-spacing:0.5px;margin-bottom:4px">YOUR NAME</label>
+          <input type="text" name="submitter" required style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 10px;font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:12px;outline:none" placeholder="Gerard">
+        </div>
+        <div>
+          <label style="display:block;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);letter-spacing:0.5px;margin-bottom:4px">REQUEST TYPE</label>
+          <select name="request-type" required style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 10px;font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:12px;outline:none;-webkit-appearance:none">
+            <option value="">Select...</option>
+            <option value="move">Move card to different lane</option>
+            <option value="rename">Rename / reword card</option>
+            <option value="add">Add new responsibility</option>
+            <option value="remove">Remove / consolidate</option>
+            <option value="flag">Flag discrepancy</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="display:block;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);letter-spacing:0.5px;margin-bottom:4px">CARD / RESPONSIBILITY</label>
+        <input type="text" name="card-name" required style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 10px;font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:12px;outline:none" placeholder="e.g. 'One Sheets' or 'Paid Ads (Gupta Campaigns)'">
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="display:block;font-family:'DM Mono','SF Mono',Menlo,Consolas,monospace;font-size:10px;color:var(--fog);letter-spacing:0.5px;margin-bottom:4px">DETAILS</label>
+        <textarea name="details" rows="3" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 10px;font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:12px;outline:none;resize:vertical" placeholder="What should change and why? Which lane should it move to?"></textarea>
+      </div>
+      <button type="submit" id="lane-btn" style="background:var(--chartreuse);color:#0A0A0A;border:none;padding:8px 20px;font-family:'DM Sans','Avenir Next','Avenir','Trebuchet MS',Verdana;font-size:12px;font-weight:700;letter-spacing:0.5px;cursor:pointer;text-transform:uppercase">Submit Request</button>
+      <span id="lane-confirm" style="display:none;margin-left:12px;font-size:11px;color:var(--chartreuse)">Submitted — Meg will review.</span>
+    </form>
+    <script>
+    document.getElementById('lane-form').addEventListener('submit',function(e){
+      e.preventDefault();
+      var f=this;var b=document.getElementById('lane-btn');var c=document.getElementById('lane-confirm');
+      b.textContent='Sending...';b.disabled=true;
+      fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(new FormData(f)).toString()
+      }).then(function(){
+        b.textContent='Sent';c.style.display='inline';f.reset();
+        setTimeout(function(){b.textContent='Submit Request';b.disabled=false;c.style.display='none'},4000);
+      }).catch(function(){b.textContent='Error — try again';b.disabled=false});
+    });
+    </script>
+  </div>
+</div>
+
 <div class="footer">
   Lane Definition Board · Updated 2026-04-03 · Source: Department Workflows meeting transcript · RCA Campaign Ops
 </div>
