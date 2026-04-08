@@ -320,9 +320,19 @@ const state = { current: null, notes: {
     { id:'n5', type:'flag', text:'more media to get to the younger audience', ts:'11:12 AM' },
     { id:'n6', type:'flag', text:'off cycle looks from spotify & dsps', ts:'11:12 AM' },
     { id:'n7', type:'flag', text:'lots of radio', ts:'11:13 AM' },
+  ],
+  'cbrown': [
+    { id:'n8', type:'flag', text:'music in - posted on his story that something is coming - not announcing dates', ts:'11:18 AM' },
+    { id:'n9', type:'flag', text:'countdown page - raymond and brown', ts:'11:18 AM' },
+    { id:'n10', type:'flag', text:'album may 8', ts:'11:18 AM' },
+    { id:'n11', type:'flag', text:'presave for brown or obvious set up', ts:'11:19 AM' },
+    { id:'n12', type:'flag', text:'creators and action channels on standby', ts:'11:19 AM' },
+    { id:'n13', type:'flag', text:'artist signup hasnt gone live yet - but the privacy policy will be there when it goes live', ts:'11:20 AM' },
+    { id:'n14', type:'flag', text:'album preorder - gonna be messy', ts:'11:21 AM' },
+    { id:'n15', type:'flag', text:'probably should move the pre-order to the tour announcement on the 16th', ts:'11:21 AM' },
   ]
 }, activeType: null };
-let idc = 7;
+let idc = 15;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
