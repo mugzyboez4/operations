@@ -394,13 +394,42 @@ const state = { current: null, notes: {
     { id:'n57', type:'flag', text:'releasing a song with magnolia park', ts:'12:06 PM' },
     { id:'n58', type:'flag', text:'who is the PM here', ts:'12:09 PM' },
     { id:'n59', type:'flag', text:'music video already shot', ts:'12:09 PM' },
+    { id:'n60', type:'flag', text:'even though she has good engagement we rely on another partner to deliver something - what is it? a note for meg from meg', ts:'12:10 PM' },
+    { id:'n61', type:'flag', text:'engaged fanbase stays there and we cant break out but need to build lookalikes and find new fans', ts:'12:11 PM' },
+  ],
+  'presley': [
+    { id:'n62', type:'flag', text:'lots of fans for coffee shop thing - 25 cap room, ended up being 40 fans', ts:'12:11 PM' },
+    { id:'n63', type:'flag', text:'content - trailer, tease etc', ts:'12:13 PM' },
+    { id:'n64', type:'flag', text:'feeling good about the activity', ts:'12:13 PM' },
+    { id:'n65', type:'flag', text:'murdoc to make sure alexis is setting up the influencer campaign', ts:'12:15 PM' },
+  ],
+  'isabellr': [
+    { id:'n66', type:'flag', text:'5/1 release', ts:'12:16 PM' },
+    { id:'n67', type:'flag', text:'working on re-engaging her fans on socials', ts:'12:16 PM' },
+    { id:'n68', type:'flag', text:'audio for hallucination being mastered today', ts:'12:20 PM' },
+    { id:'n69', type:'flag', text:'no date for hallucination tease', ts:'12:20 PM' },
+    { id:'n70', type:'flag', text:'no visual either', ts:'12:20 PM' },
+    { id:'n71', type:'flag', text:'regroup this time next week for a date', ts:'12:20 PM' },
+  ],
+  'lovespells': [
+    { id:'n72', type:'flag', text:'music video shot already for Crutch', ts:'12:24 PM' },
+    { id:'n73', type:'flag', text:'DSP plan needs to happen', ts:'12:26 PM' },
+  ],
+  'cartervail': [
+    { id:'n74', type:'flag', text:'sync opp with apple', ts:'12:26 PM' },
+    { id:'n75', type:'flag', text:'need to find him a creative director', ts:'12:28 PM' },
+  ],
+  'horsegirl': [
+    { id:'n76', type:'flag', text:'vevo meeting', ts:'12:31 PM' },
+    { id:'n77', type:'flag', text:'should know about sample in the next hour', ts:'12:35 PM' },
+    { id:'n78', type:'flag', text:'music video in to share', ts:'12:36 PM' },
   ],
   'tems': [
   ],
   'victoriam': [
   ]
 }, activeType: null };
-let idc = 59;
+let idc = 78;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
