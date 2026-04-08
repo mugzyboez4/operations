@@ -166,9 +166,9 @@ a{color:inherit;text-decoration:none}
 
 
 <div class="stats">
-  <div class="stat"><span class="stat-n" style="color:var(--ops)">13</span><span class="stat-l">Campaign Ops</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--leads)">6</span><span class="stat-l">Campaign Leads</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--auddev)">11</span><span class="stat-l">Audience Dev</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--ops)">13</span><span class="stat-l">Campaign Ops</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--support)">10</span><span class="stat-l">Support</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--commercial)">6</span><span class="stat-l">Commercial</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--flame)">6</span><span class="stat-l">Removed</span></div>
@@ -178,7 +178,45 @@ a{color:inherit;text-decoration:none}
 <!-- ============ KANBAN ============ -->
 <div class="kanban">
 
-<!-- CAMPAIGN OPS -->
+<div class="lane" style="--lc:var(--leads)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
+    <div class="lane-verbs">Decide · Plan · Brief · Trigger · Own</div>
+    <div class="lane-count">6 items</div>
+  </div>
+
+  <div class="card"><div class="card-title">Decide Campaign Strategy &amp; Narrative</div><div class="card-note">SVP Aud Dev: covers real world and digital. "If we just leave it out, the assumption is it's across the board."</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card renamed"><div class="card-title">Own Campaign Budget &amp; Allocation</div><div class="card-note">Renamed from "Per-artist budget creation" + "Budget reallocation". SVP Aud Dev: "budget oversight and strategy." Reallocation falls under this.</div><span class="card-tag tag-renamed">renamed — consolidated</span></div>
+  <div class="card new"><div class="card-title">Plan Campaign Timeline &amp; Milestones</div><div class="card-note">Flagged as missing. Creation and ongoing management.</div><span class="card-tag tag-new">new</span></div>
+  <div class="card new"><div class="card-title">Trigger Pre-saves, Websites &amp; Marketing Assets</div><div class="card-note">Pre-saves, websites, marketing assets. SVP Aud Dev: "might be 3 separate things." CL triggers, Support builds. CL owns QA and copy.</div><span class="card-tag tag-new">new</span> <span class="card-tag tag-flagged">may need split</span></div>
+  <div class="card new flagged"><div class="card-title">Own Paid Ad Strategy (Gupta Campaigns)</div><div class="card-note">Gupta campaigns stay with CL. Boundary with Aud Dev paid work TBD.</div><span class="card-tag tag-new">new</span> <span class="card-tag tag-flagged">boundary tbd</span></div>
+  <div class="card"><div class="card-title">Brief Management on Campaign Direction</div><div class="card-note">Both CLs and Aud Dev talk to management. Confirmed.</div><span class="card-tag tag-shared">shared with aud dev</span></div>
+</div>
+
+<!-- AUDIENCE DEV -->
+
+<div class="lane" style="--lc:var(--auddev)">
+  <div class="lane-header">
+    <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
+    <div class="lane-verbs">Define · Build · Activate · Measure · Amplify</div>
+    <div class="lane-count">11 items</div>
+  </div>
+
+  <div class="card renamed"><div class="card-title">Define the Audience</div><div class="card-note">Was "Audience strategy & segmentation." SVP Aud Dev: "Audience definition is what I would call it."</div><span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card new"><div class="card-title">Build Audience Growth Strategy</div><div class="card-note">Added as separate pillar.</div><span class="card-tag tag-new">new</span></div>
+  <div class="card new"><div class="card-title">Activate Fan Engagement</div><div class="card-note">Added. Third pillar alongside definition and growth.</div><span class="card-tag tag-new">new</span></div>
+  <div class="card moved renamed"><div class="card-title">Build &amp; Activate Short Form Content</div><div class="card-note">Was "Short form content planning" in CL. SVP Aud Dev: "short form strategy and execution" — their responsibility to make sure it gets done.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Build Social Content &amp; Manage Approvals</div><div class="card-note">Combines creation + approval. SVP Aud Dev: "social content management." Aud Dev handles management approval conversations too.</div><span class="card-tag tag-renamed">combined + renamed</span></div>
+  <div class="card moved renamed"><div class="card-title">Activate Influencer Campaigns</div><div class="card-note">Was "Influencer/agency solicitation" in CL. SVP Aud Dev: whether agency or direct, it's Aud Dev responsibility.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card renamed"><div class="card-title">Manage &amp; Amplify Platform Presence</div><div class="card-note">Was "TikTok pin + UGC claims." SVP Aud Dev: covers pinned content, comments, bio, smart URLs. Jordan helped name: "platform management."</div><span class="card-tag tag-renamed">renamed/jordan</span></div>
+  <div class="card"><div class="card-title">Activate Seeding Campaigns</div><div class="card-note">Broken out from "Paid ads, seeding, organic engagement." SVP Aud Dev: "break those out into three things."</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card"><div class="card-title">Amplify Organic Engagement</div><div class="card-note">Broken out from the combined item.</div><span class="card-tag tag-confirmed">split from original</span></div>
+  <div class="card renamed"><div class="card-title">Define Audience for New Signings</div><div class="card-note">Was "for A&R." SVP Commercial: not for prospecting, but for newly signed artists entering campaign cycle.</div><span class="card-tag tag-renamed">renamed</span></div>
+  <div class="card"><div class="card-title">Brief Management on Audience Performance</div><div class="card-note">Both CLs and Aud Dev talk to management. SVP Commercial: "Correct."</div><span class="card-tag tag-shared">shared with CL</span></div>
+</div>
+
+<!-- SUPPORT -->
+
 <div class="lane" style="--lc:var(--ops)">
   <div class="lane-header">
     <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
@@ -202,43 +240,7 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <!-- CAMPAIGN LEADS -->
-<div class="lane" style="--lc:var(--leads)">
-  <div class="lane-header">
-    <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
-    <div class="lane-verbs">Decide · Plan · Brief · Trigger · Own</div>
-    <div class="lane-count">6 items</div>
-  </div>
 
-  <div class="card"><div class="card-title">Decide Campaign Strategy &amp; Narrative</div><div class="card-note">SVP Aud Dev: covers real world and digital. "If we just leave it out, the assumption is it's across the board."</div><span class="card-tag tag-confirmed">confirmed</span></div>
-  <div class="card renamed"><div class="card-title">Own Campaign Budget &amp; Allocation</div><div class="card-note">Renamed from "Per-artist budget creation" + "Budget reallocation". SVP Aud Dev: "budget oversight and strategy." Reallocation falls under this.</div><span class="card-tag tag-renamed">renamed — consolidated</span></div>
-  <div class="card new"><div class="card-title">Plan Campaign Timeline &amp; Milestones</div><div class="card-note">Flagged as missing. Creation and ongoing management.</div><span class="card-tag tag-new">new</span></div>
-  <div class="card new"><div class="card-title">Trigger Pre-saves, Websites &amp; Marketing Assets</div><div class="card-note">Pre-saves, websites, marketing assets. SVP Aud Dev: "might be 3 separate things." CL triggers, Support builds. CL owns QA and copy.</div><span class="card-tag tag-new">new</span> <span class="card-tag tag-flagged">may need split</span></div>
-  <div class="card new flagged"><div class="card-title">Own Paid Ad Strategy (Gupta Campaigns)</div><div class="card-note">Gupta campaigns stay with CL. Boundary with Aud Dev paid work TBD.</div><span class="card-tag tag-new">new</span> <span class="card-tag tag-flagged">boundary tbd</span></div>
-  <div class="card"><div class="card-title">Brief Management on Campaign Direction</div><div class="card-note">Both CLs and Aud Dev talk to management. Confirmed.</div><span class="card-tag tag-shared">shared with aud dev</span></div>
-</div>
-
-<!-- AUDIENCE DEV -->
-<div class="lane" style="--lc:var(--auddev)">
-  <div class="lane-header">
-    <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
-    <div class="lane-verbs">Define · Build · Activate · Measure · Amplify</div>
-    <div class="lane-count">11 items</div>
-  </div>
-
-  <div class="card renamed"><div class="card-title">Define the Audience</div><div class="card-note">Was "Audience strategy & segmentation." SVP Aud Dev: "Audience definition is what I would call it."</div><span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card new"><div class="card-title">Build Audience Growth Strategy</div><div class="card-note">Added as separate pillar.</div><span class="card-tag tag-new">new</span></div>
-  <div class="card new"><div class="card-title">Activate Fan Engagement</div><div class="card-note">Added. Third pillar alongside definition and growth.</div><span class="card-tag tag-new">new</span></div>
-  <div class="card moved renamed"><div class="card-title">Build &amp; Activate Short Form Content</div><div class="card-note">Was "Short form content planning" in CL. SVP Aud Dev: "short form strategy and execution" — their responsibility to make sure it gets done.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card renamed"><div class="card-title">Build Social Content &amp; Manage Approvals</div><div class="card-note">Combines creation + approval. SVP Aud Dev: "social content management." Aud Dev handles management approval conversations too.</div><span class="card-tag tag-renamed">combined + renamed</span></div>
-  <div class="card moved renamed"><div class="card-title">Activate Influencer Campaigns</div><div class="card-note">Was "Influencer/agency solicitation" in CL. SVP Aud Dev: whether agency or direct, it's Aud Dev responsibility.</div><span class="card-tag tag-moved">moved from CL</span> <span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card renamed"><div class="card-title">Manage &amp; Amplify Platform Presence</div><div class="card-note">Was "TikTok pin + UGC claims." SVP Aud Dev: covers pinned content, comments, bio, smart URLs. Jordan helped name: "platform management."</div><span class="card-tag tag-renamed">renamed/jordan</span></div>
-  <div class="card"><div class="card-title">Activate Seeding Campaigns</div><div class="card-note">Broken out from "Paid ads, seeding, organic engagement." SVP Aud Dev: "break those out into three things."</div><span class="card-tag tag-confirmed">split from original</span></div>
-  <div class="card"><div class="card-title">Amplify Organic Engagement</div><div class="card-note">Broken out from the combined item.</div><span class="card-tag tag-confirmed">split from original</span></div>
-  <div class="card renamed"><div class="card-title">Define Audience for New Signings</div><div class="card-note">Was "for A&R." SVP Commercial: not for prospecting, but for newly signed artists entering campaign cycle.</div><span class="card-tag tag-renamed">renamed</span></div>
-  <div class="card"><div class="card-title">Brief Management on Audience Performance</div><div class="card-note">Both CLs and Aud Dev talk to management. SVP Commercial: "Correct."</div><span class="card-tag tag-shared">shared with CL</span></div>
-</div>
-
-<!-- SUPPORT -->
 <div class="lane" style="--lc:var(--support)">
   <div class="lane-header">
     <div class="lane-title" style="color:var(--support)">Support</div>
@@ -259,6 +261,7 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <!-- COMMERCIAL PARTNERSHIPS -->
+
 <div class="lane" style="--lc:var(--commercial)">
   <div class="lane-header">
     <div class="lane-title" style="color:var(--commercial)">Commercial P'ships</div>
@@ -273,6 +276,7 @@ a{color:inherit;text-decoration:none}
   <div class="card moved"><div class="card-title">Execute VEVO Playlisting &amp; Backstage</div><span class="card-tag tag-moved">moved from support</span></div>
   <div class="card new"><div class="card-title">Negotiate &amp; Execute Platform Deals</div><div class="card-note">Example: "Catcher may say we got Meta to lock in an $80K boost campaign." Commercial negotiates deal, Aud Dev executes content.</div><span class="card-tag tag-new">new</span></div>
 </div>
+
 
 </div><!-- /kanban -->
 
