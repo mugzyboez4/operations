@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Action Items Board — Campaign Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0A0A;--surface:#111;--card:#161616;--border:#222;
+  --text:#FCFDF8;--dim:#B0A9BE;--fog:#847D96;--muted:#3E3F41;
+  --chartreuse:#CDF851;--teal:#5BC0BE;--flame:#FF4A23;--gold:#E8C547;--lavender:#A78BFA;
+  --green-bg:rgba(205,248,81,0.08);--teal-bg:rgba(91,192,190,0.08);
+  --flame-bg:rgba(255,74,35,0.08);--gold-bg:rgba(232,197,71,0.08);--lavender-bg:rgba(167,139,250,0.08);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+.header{max-width:1400px;margin:0 auto;padding:32px 24px 16px}
+.header-tag{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:6px}
+.header h1{font-size:28px;font-weight:900;letter-spacing:-0.5px;color:var(--text)}
+.header h1 span{color:var(--chartreuse)}
+.header-sub{font-size:12px;color:var(--fog);margin-top:4px}
+
+/* CONTROLS */
+.controls{max-width:1400px;margin:0 auto;padding:8px 24px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-group{display:flex;gap:4px;flex-wrap:wrap}
+.filter-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);padding:6px 8px;align-self:center}
+.pill{font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--fog);cursor:pointer;transition:all .15s;white-space:nowrap}
+.pill:hover{border-color:var(--dim);color:var(--dim)}
+.pill.active{background:var(--chartreuse);color:var(--bg);border-color:var(--chartreuse)}
+.pill.active-type-action{background:var(--teal);color:var(--bg);border-color:var(--teal)}
+.pill.active-type-escalation{background:var(--flame);color:#fff;border-color:var(--flame)}
+.pill.active-type-signal{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.pill.active-type-carry{background:var(--lavender);color:var(--bg);border-color:var(--lavender)}
+.pill.active-type-discussed{background:var(--chartreuse);color:var(--bg);border-color:var(--chartreuse)}
+.spacer{flex:1}
+.export-btn{font-size:11px;font-weight:700;padding:6px 14px;border-radius:4px;border:1px solid var(--chartreuse);background:transparent;color:var(--chartreuse);cursor:pointer;transition:all .15s;letter-spacing:0.5px}
+.export-btn:hover{background:var(--chartreuse);color:var(--bg)}
+
+/* STATS */
+.stats{max-width:1400px;margin:0 auto;padding:0 24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+.stat{font-size:11px;color:var(--fog)}
+.stat strong{font-weight:800;font-size:16px;margin-right:3px}
+.stat.s-total strong{color:var(--text)}
+.stat.s-action strong{color:var(--teal)}
+.stat.s-esc strong{color:var(--flame)}
+.stat.s-signal strong{color:var(--gold)}
+.stat.s-carry strong{color:var(--lavender)}
+.stat.s-decided strong{color:var(--chartreuse)}
+.stat.s-open strong{color:#FF6B35}
+.stat.s-complete strong{color:#2E7D32}
+
+/* TABLE */
+.table-wrap{max-width:1400px;margin:0 auto;padding:0 24px 40px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);padding:10px 12px;border-bottom:2px solid var(--border);text-align:left;position:sticky;top:0;background:var(--bg);z-index:10;cursor:pointer;white-space:nowrap;user-select:none}
+thead th:hover{color:var(--text)}
+thead th .sort-arrow{margin-left:4px;font-size:8px;opacity:0.4}
+thead th.sorted .sort-arrow{opacity:1;color:var(--chartreuse)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:8px 12px;vertical-align:top;font-size:12px;color:var(--dim);line-height:1.5}
+tbody td.col-action{color:var(--text);font-weight:400;max-width:400px}
+tbody td[contenteditable]{outline:none;border-radius:2px}
+tbody td[contenteditable]:focus{background:rgba(205,248,81,0.05);box-shadow:inset 0 0 0 1px rgba(205,248,81,0.2)}
+
+/* TYPE BADGE */
+.type-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.type-decided{background:var(--green-bg);color:var(--chartreuse);border:1px solid rgba(205,248,81,0.2)}
+.type-action{background:var(--teal-bg);color:var(--teal);border:1px solid rgba(91,192,190,0.2)}
+.type-escalation{background:var(--flame-bg);color:var(--flame);border:1px solid rgba(255,74,35,0.2)}
+.type-signal{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(232,197,71,0.2)}
+.type-carry{background:var(--lavender-bg);color:var(--lavender);border:1px solid rgba(167,139,250,0.2)}
+
+/* STATUS */
+.status-badge{font-size:10px;font-weight:700;letter-spacing:0.5px}
+.status-open{color:#FF6B35}
+.status-progress{color:var(--teal)}
+.status-complete{color:#4CAF50}
+.status-done{color:#4CAF50}
+
+/* URGENCY */
+.urg{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:1px 6px;border-radius:2px}
+.urg-asap{background:rgba(255,74,35,0.15);color:var(--flame)}
+.urg-week{background:rgba(91,192,190,0.1);color:var(--teal)}
+.urg-ongoing{background:rgba(167,139,250,0.1);color:var(--lavender)}
+
+/* INLINE EDIT */
+.edit-select{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:11px;padding:2px 4px;border-radius:3px;cursor:pointer}
+.edit-select:focus{border-color:var(--chartreuse);outline:none}
+
+/* EXPORT MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:8px;width:90%;max-width:600px;max-height:80vh;overflow:auto;padding:24px}
+.modal h2{font-size:16px;font-weight:800;margin-bottom:16px}
+.modal pre{background:var(--bg);border:1px solid var(--border);padding:16px;font-size:11px;line-height:1.6;overflow:auto;max-height:400px;color:var(--dim);border-radius:4px;white-space:pre-wrap}
+.modal-actions{display:flex;gap:8px;margin-top:16px}
+.modal-btn{font-size:11px;font-weight:700;padding:8px 16px;border-radius:4px;border:none;cursor:pointer;transition:all .15s}
+.modal-btn.primary{background:var(--chartreuse);color:var(--bg)}
+.modal-btn.primary:hover{opacity:0.9}
+.modal-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--fog)}
+.modal-btn.secondary:hover{border-color:var(--dim);color:var(--text)}
+
+/* ADD ROW */
+.add-row-wrap{max-width:1400px;margin:0 auto;padding:0 24px 24px}
+.add-row-btn{font-size:11px;font-weight:700;padding:8px 16px;border-radius:4px;border:1px dashed var(--border);background:transparent;color:var(--fog);cursor:pointer;transition:all .15s;width:100%;text-align:center}
+.add-row-btn:hover{border-color:var(--chartreuse);color:var(--chartreuse)}
+
+.footer{max-width:1400px;margin:0 auto;padding:16px 24px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);letter-spacing:0.5px}
+
+/* Row coloring by type */
+tr.row-escalation{background:rgba(255,74,35,0.03)}
+tr.row-carry{background:rgba(167,139,250,0.03)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Campaign Operations</div>
+  <h1>ACTION ITEMS <span>BOARD</span></h1>
+  <div class="header-sub">Active Projects — Updated with Workability data April 8, 2026 · Click any cell to edit · Export when ready</div>
+</div>
+
+<div class="controls" id="controls">
+  <div class="filter-group" id="type-filters">
+    <span class="filter-label">Type</span>
+  </div>
+  <div class="filter-group" id="status-filters">
+    <span class="filter-label">Status</span>
+  </div>
+  <div class="filter-group" id="cl-filters">
+    <span class="filter-label">Lead</span>
+  </div>
+  <div class="filter-group" id="artist-filters">
+    <span class="filter-label">Artist</span>
+  </div>
+  <div class="spacer"></div>
+  <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+  <button class="export-btn" onclick="exportJSON()">Export JSON</button>
+  <button class="export-btn" onclick="copyMarkdown()">Copy MD</button>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="table-wrap">
+  <table>
+    <thead id="thead"></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="add-row-wrap">
+  <button class="add-row-btn" onclick="addRow()">+ Add Action Item</button>
+</div>
+
+<div class="footer">Campaign Operations · TEMPO · <span id="item-count"></span> items loaded · Editable board</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2 id="modal-title">Export</h2>
+    <pre id="modal-content"></pre>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="copyModalContent()">Copy to Clipboard</button>
+      <button class="modal-btn secondary" onclick="downloadModal()">Download</button>
+      <button class="modal-btn secondary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [{"id": 1, "action": "Ari Abdul \"Ego\" master fully delivered. Good to go. Nick leading.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Ari Abdul", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 2, "action": "Baby J \"Fallen Angel\" may shift out of 4/17. In flux.", "type": "Signal", "status": "Open", "timing": "", "artist": "Baby J", "cl": "Jourdan Washington", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 3, "action": "Chase 5020/Gabby for regional routing plan", "type": "Action", "status": "In Progress", "timing": "ASAP", "artist": "Becky G", "cl": "Gina Messeri", "owner": "Gina Messeri", "dept": "International", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Keep saying they have it but havent seen it", "lastModified": "4/6/2026 4:27pm"}, {"id": 4, "action": "Test influencer/lifestyle campaign angles for Marathon", "type": "Action", "status": "Open", "timing": "Ongoing", "artist": "Becky G", "cl": "Gina Messeri", "owner": "Carlos Cuadros", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Mixed bag \u2014 not straight Latin or pop", "lastModified": "4/2/2026 3:02pm"}, {"id": 5, "action": "Leverage Call Her Daddy \u2014 find wins + seed them + pivot outrage to music", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Becky G", "cl": "Gina Messeri", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Eldest daughter + people pleasing resonated", "lastModified": "4/2/2026 3:02pm"}, {"id": 6, "action": "Explore World Cup fan page / player edit content \u2014 natural fit", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Becky G", "cl": "Gina Messeri", "owner": "", "dept": "Artist Audience,International", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Angel City + boyfriend + Mexican jersey", "lastModified": "4/2/2026 3:02pm"}, {"id": 7, "action": "Becky G still missing full album masters for physical production. No real ETA \u2014 every deadline has been missed. Can't have physical conversation until audio is delivered.", "type": "Escalation", "status": "Open", "timing": "Ongoing", "artist": "Becky G", "cl": "Gina Messeri", "owner": "Thomas Wolfe", "dept": "A&R Admin", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 8, "action": "World Cup could be opportunity not obstacle \u2014 Billboard Latin cover + Hot Ones + Fallon pipeline", "type": "Signal", "status": "Open", "timing": "", "artist": "Becky G", "cl": "Gina Messeri", "owner": "", "dept": "International,Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 9, "action": "Call Her Daddy ran today \u2014 eldest daughter/people pleasing resonated", "type": "Signal", "status": "Open", "timing": "", "artist": "Becky G", "cl": "Gina Messeri", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Seb stuff will linger until addressed directly", "lastModified": "4/2/2026 2:05pm"}, {"id": 10, "action": "Album potentially later July post-World Cup \u2014 no features \u2014 deluxe with features planned", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "Becky G", "cl": "Gina Messeri", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 11, "action": "Three Spotify exclusive live videos \u2014 Haha Apr 7 + Where Apr 13 + Total Apr 20", "type": "Action", "status": "Open", "timing": "This Week", "artist": "CA7RIEL & PACO AMOROSO", "cl": "Gina Messeri", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "TBC dates", "lastModified": "4/2/2026 3:02pm"}, {"id": 12, "action": "Follow up on US ticket help \u2014 LATAM performing best", "type": "Action", "status": "Open", "timing": "This Week", "artist": "CA7RIEL & PACO AMOROSO", "cl": "Gina Messeri", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Jared on Fiji Lake side spearheading", "lastModified": "4/2/2026 3:02pm"}, {"id": 13, "action": "Push Haha TikTok transition trend into any market that drives volume", "type": "Action", "status": "Open", "timing": "This Week", "artist": "CA7RIEL & PACO AMOROSO", "cl": "Gina Messeri", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Argentina ~100/day growing to US ~25/day", "lastModified": "4/2/2026 3:02pm"}, {"id": 14, "action": "Fancsifter 7K to 87K \u2014 doubled with Bandsintown \u2014 18% US", "type": "Signal", "status": "Open", "timing": "", "artist": "CA7RIEL & PACO AMOROSO", "cl": "Gina Messeri", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:56pm"}, {"id": 15, "action": "Japan promo great \u2014 socials more fun post-release \u2014 live show is THE conversion tool", "type": "Signal", "status": "Open", "timing": "", "artist": "CA7RIEL & PACO AMOROSO", "cl": "Gina Messeri", "owner": "", "dept": "International", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:56pm"}, {"id": 16, "action": "Falling ft. Leon Thomas likely first record \u2014 Ant not confirming", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Rockstar producing + on track", "lastModified": "4/2/2026 3:01pm"}, {"id": 17, "action": "37 tracks total \u2014 31-32 delivered \u2014 potential 24 plus deluxe", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 18, "action": "Tour announce moved to April 10 \u2014 came in during meeting", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "7 more days to get music in", "lastModified": "4/2/2026 3:01pm"}, {"id": 19, "action": "Chris Brown single \"Obvious\" rushing for Friday 4/10. Audio in. Master expected tomorrow. Need backup pseudo \u2014 lyric video pending.", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Chris Brown", "cl": "", "owner": "Gabriella Andrean", "dept": "A&R Admin,Creative", "source": "", "meetingDate": "4/6/2026", "notes": "Gabby plugging into Airtable. Local midnights audio, midnight eastern video.", "lastModified": "4/6/2026 12:05pm"}, {"id": 20, "action": "Get music tease into tour announcement \u2014 management not signing off", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Everyone aligned it should happen", "lastModified": "4/2/2026 3:02pm"}, {"id": 21, "action": "Call with Ant + Mark to confirm first record and video", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Mark back from Japan", "lastModified": "4/2/2026 3:02pm"}, {"id": 22, "action": "Confirm track count with Pat \u2014 clarify 24 plus deluxe structure", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Chris Brown", "cl": "", "owner": "Nancy Roof", "dept": "A&R Admin", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 23, "action": "DTC opportunity flagged \u2014 fragmented may need help", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 24, "action": "Resurface last tour clips on fan pages + socials \u2014 Snapchat doing well", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 25, "action": "Coordinate with Usher team \u2014 reel + commercial ready, awaiting LN seeding targets", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Chris Brown", "cl": "", "owner": "Gabriella Andrean", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Agency ready when targets come in", "lastModified": "4/2/2026 3:02pm"}, {"id": 26, "action": "Management still not signing off on music tease for tour announcement", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 27, "action": "Laylo account built for R&D tour \u2014 data capture flowing", "type": "Signal", "status": "Open", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 28, "action": "Rumblings already out \u2014 influencers talking about the tour", "type": "Signal", "status": "Open", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 29, "action": "Chris Brown \"Obvious\" 4/10 \u2014 master done, clearance done, audio + video both in system. Fully published.", "type": "Signal", "status": "Open", "timing": "", "artist": "Chris Brown", "cl": "", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Confirmed via Release Runway. Action item #46 can close.", "lastModified": "4/8/2026"}, {"id": 30, "action": "Get teasing up ASAP \u2014 tons of ideas none executed \u2014 shoots 4/7 + 4/14", "type": "Action", "status": "In Progress", "timing": "ASAP", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/6/2026 4:28pm"}, {"id": 31, "action": "Align on announcement date + visual \u2014 empower Teammate to push back", "type": "Action", "status": "In Progress", "timing": "This Week", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Cole too agreeable with her", "lastModified": "4/6/2026 4:28pm"}, {"id": 32, "action": "Debbii Dawson \"Where Have All The Good Men Gone\" being mixed. Mastering target: end of week. Artwork shooting tomorrow. Kobe still needs to review.", "type": "Action", "status": "In Progress", "timing": "This Week", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "Thomas Wolfe", "dept": "A&R Admin", "source": "", "meetingDate": "4/6/2026", "notes": "Album title waiting on Debbii to triple-confirm. Pre-order launches with Hailey single on 4/24.", "lastModified": "4/6/2026 12:05pm"}, {"id": 33, "action": "Get posting schedule from Teammate BEFORE content shoot next week", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Second time asking", "lastModified": "4/2/2026 3:02pm"}, {"id": 34, "action": "Conversation doesnt replace activity \u2014 nothing online in 2 weeks = same results", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 35, "action": "Debbii Dawson \"Where Have All The Good Men Gone\" 4/24 \u2014 master REQUIRED. EP title still TBD, clearance UNKNOWN. \"Koolaid\" 5/29 also not delivered.", "type": "Signal", "status": "Open", "timing": "", "artist": "Debbii Dawson", "cl": "Gina Messeri", "owner": "Thomas Wolfe", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Being mixed per Production Meeting. Mastering target end of week.", "lastModified": "4/8/2026"}, {"id": 36, "action": "Get deluxe music + artwork update by end of next week", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Charlotte retouching photos \u2014 on time per team", "lastModified": "4/2/2026 3:02pm"}, {"id": 37, "action": "Rework deluxe timeline \u2014 work backwards from actual delivery dates", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Eli", "cl": "Molly Yorkes", "owner": "Molly Yorkes", "dept": "Campaign Leads,Creative", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Currently 4/24 but likely moving", "lastModified": "4/2/2026 3:02pm"}, {"id": 38, "action": "If date changes from 4/24 communicate to Vogue before 4/9", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Day before at latest \u2014 moved 3-4 times already", "lastModified": "4/2/2026 3:02pm"}, {"id": 39, "action": "Sit down with Eli \u2014 reset social strategy post-tour \u2014 give fans action items", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 40, "action": "Vogue date moved repeatedly \u2014 will look insane if moved again", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "John doesnt realize changes look bad on HER", "lastModified": "4/2/2026 3:02pm"}, {"id": 41, "action": "Social dropped on tour \u2014 lesson learned across all artists", "type": "Escalation", "status": "Open", "timing": "Ongoing", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Content wasnt productive \u2014 eczema post went viral not music", "lastModified": "4/2/2026 3:02pm"}, {"id": 42, "action": "Eli album \"The Next Stage Girl\" now showing 5/22 in Workability (was 4/24). Master REQUIRED. Clearance UNKNOWN.", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Date shift confirmed. Vogue communication re: 4/24 may need update.", "lastModified": "4/8/2026"}, {"id": 43, "action": "Tour content banked but underperformed \u2014 Zara remix Epic May 1 \u2014 Therapist shoot 4/22", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "Eli", "cl": "Molly Yorkes", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 44, "action": "Emma Andersen \"Freak In The Streets\" confirmed for May 8.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Emma Andersen", "cl": "Alexis Vaganos", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 45, "action": "Emma Andersen \"Freak In The Streets\" 5/8 \u2014 master REQUIRED. NEW: \"I Can't Even Think Straight\" + TBD EP now visible at 5/29.", "type": "Signal", "status": "Open", "timing": "", "artist": "Emma Andersen", "cl": "Alexis Vaganos", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Second single and EP now in system.", "lastModified": "4/8/2026"}, {"id": 46, "action": "Keep posting \u2014 4-5 TikToks yesterday + another today \u2014 best via phone calls", "type": "Action", "status": "Open", "timing": "Ongoing", "artist": "Flo Milli", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "She responds directly to us", "lastModified": "4/2/2026 3:02pm"}, {"id": 47, "action": "Rolling out freestyles \u2014 2-3 sessions left \u2014 Rihanna cover in works", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Flo Milli", "cl": "Jourdan Washington", "owner": "Skane Dolla", "dept": "A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 48, "action": "Foo Fighters new track dropping as waterfall with three previous IGs. Lyric videos same format. Album street week 4/24. Atmos + 360RA confirmed.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Foo Fighters", "cl": "", "owner": "", "dept": "Release Planning,Creative", "source": "", "meetingDate": "4/6/2026", "notes": "Full album delivered in Atmos in March.", "lastModified": "4/6/2026 12:05pm"}, {"id": 49, "action": "Foo Fighters \"Your Favorite Toy\" album 4/24 \u2014 CD clear but ALL 5 VINYL variants still have master REQUIRED. \"Of All People\" single 4/10 is clear.", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Foo Fighters", "cl": "", "owner": "", "dept": "A&R Admin,Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "16 days to street week. 5 physical configs outstanding.", "lastModified": "4/8/2026"}, {"id": 50, "action": "Creative shoot 4/13-14 captures MV + artwork + visualizer + press images", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Rehearsals starting tomorrow with John Engle", "lastModified": "4/2/2026 3:01pm"}, {"id": 51, "action": "Focus track on EP is Chaotic", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 52, "action": "Hide and Seek on 4/24 \u2014 EP Scars to Prove It on 5/22 surprise announce", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 53, "action": "Check with Dylan \u2014 music finalized enough to share with DSP partners?", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "End of week may be premature", "lastModified": "4/2/2026 3:02pm"}, {"id": 54, "action": "Meet with Dylan today \u2014 learn teasing strategy for Hide and Seek", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "Bird Cooley, Alexis Vaganos", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "She says she has a digital idea she is excited about", "lastModified": "4/2/2026 3:02pm"}, {"id": 55, "action": "TikTok fan account flagged for impersonation \u2014 working with TikTok Ops", "type": "Action", "status": "In Progress", "timing": "ASAP", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Got response \u2014 should be moving forward", "lastModified": "4/2/2026 3:02pm"}, {"id": 56, "action": "Study Bella Kay teasing pattern \u2014 19 teases over 3 months before breakthrough", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Comes up regularly in fan conversation", "lastModified": "4/2/2026 3:02pm"}, {"id": 57, "action": "Get pre-release teases up \u2014 only teased on TikTok live \u2014 3 weeks is tight", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 58, "action": "Hailey Picardi \"hide and seek\" 4/24 \u2014 master REQUIRED. EP \"scars to prove it\" has entries at 4/24 AND 5/22 \u2014 all masters outstanding. \"chaotic\" visualizer 5/22.", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "16 days to single release \u2014 nothing delivered.", "lastModified": "4/8/2026"}, {"id": 59, "action": "Posting cadence still a challenge \u2014 receives wish list but doesnt execute", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "Hailey Picardi", "cl": "Alexis Vaganos", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Today convo with Dylan may unlock better approach", "lastModified": "4/2/2026 2:05pm"}, {"id": 60, "action": "Isabel LaRosa \"Promising Young Woman\" EP pre-order launches May 1 with \"Hallucinations\" single.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Isabel LaRosa", "cl": "Molly Yorkes", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/7/2026 3:41pm"}, {"id": 61, "action": "Isabel LaRosa \"Hallucinations\" + \"Promising Young Woman\" EP both 5/1 \u2014 masters REQUIRED, nothing delivered. EP clearance UNKNOWN.", "type": "Signal", "status": "Open", "timing": "", "artist": "Isabel LaRosa", "cl": "Molly Yorkes", "owner": "", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "23 days to release.", "lastModified": "4/8/2026"}, {"id": 62, "action": "Khalid & Lauv \"Tied Up\" scheduled 4/24 (video) + 5/1 (audio) \u2014 master REQUIRED. Also Alok collab \"Dive Into Me\" remixes 4/17.", "type": "Signal", "status": "Open", "timing": "", "artist": "Khalid", "cl": "Jourdan Washington", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "NEW \u2014 not on existing action items list.", "lastModified": "4/8/2026"}, {"id": 63, "action": "Latto album \"Big Mama\" street date moves to May 29. Physical deadline given to Dave and Mike.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 64, "action": "4/24 release for Get Out My Face Ho \u2014 teasing starts next week", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Physical pre-orders same day", "lastModified": "4/2/2026 3:01pm"}, {"id": 65, "action": "Second phase macro campaign kicking off \u2014 Glo leaned in + Brooklyn ready", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 66, "action": "Split the track \u2014 85-90% TikTok creations on second half + 45% skip rate", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 67, "action": "Lock focus track for album with Kayla \u2014 third single conversation", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Amanda and Jive team heard record today", "lastModified": "4/2/2026 3:02pm"}, {"id": 68, "action": "Figure out content gap \u2014 she is dark camera-wise until second week of May", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Resurface BTS + old content to keep algorithm warm", "lastModified": "4/2/2026 3:02pm"}, {"id": 69, "action": "Follow up with Mike and Dave on physical/DTC status", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 70, "action": "Careful committing to 4/24 \u2014 potential Chris Brown date conflict", "type": "Action", "status": "Open", "timing": "Ongoing", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "Campaign Leads,A&R", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Mike and Dave aware Latto would likely shift", "lastModified": "4/2/2026 3:02pm"}, {"id": 71, "action": "Confirm music in clearance by Friday 4/3 \u2014 DTC deadline with Diggers", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "A&R Admin", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 72, "action": "4/24 date conflict with Chris Brown \u2014 both potentially same day", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Deal with it when we know", "lastModified": "4/2/2026 3:02pm"}, {"id": 73, "action": "YouTube overperforming \u2014 Wk 2 ~2.72M down 28% + lean forward +4% + TikTok 24K creates/day low conversion", "type": "Signal", "status": "Open", "timing": "", "artist": "Latto", "cl": "Jourdan Washington", "owner": "", "dept": "Data & Analytics,Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 74, "action": "Love Spells \"Crutch\" timeline starts Thursday April 30.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Love Spells", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 75, "action": "Noah Noah \"Hot Rod\" scheduled May 8. \"DNA\" scheduled June 12.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Noah Noah", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 76, "action": "Os\u00e9 \"Bother Me\" returns to Wed 4/8. Song at midnight eastern with pseudo. Official video moves to Friday (time TBD). Final video in color review \u2014 should have by tomorrow EOD.", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "Os\u00e9", "cl": "", "owner": "", "dept": "Release Planning,Creative", "source": "", "meetingDate": "4/6/2026", "notes": "If video not ready, pseudo goes live at midnight. Watch page launch for official video if properly delivered.", "lastModified": "4/6/2026 12:05pm"}, {"id": 77, "action": "Os\u00e9 \"Bother Me\" 4/8 \u2014 audio fully delivered, all clear. Official video 4/10 @ 9am EDT.", "type": "Signal", "status": "Complete", "timing": "", "artist": "Os\u00e9", "cl": "", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Drops today. Video Friday.", "lastModified": "4/8/2026"}, {"id": 78, "action": "Presley Regier EP release week 4/24. \"Why Am I Here\" is focus track. Pre-order live but full audio not in house. Being mixed \u2014 may go to mastering Friday.", "type": "Action", "status": "Open", "timing": "This Week", "artist": "Presley Regier", "cl": "Molly Yorkes", "owner": "Thomas Wolfe", "dept": "A&R Admin", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 79, "action": "Presley Regier \"Sensitive to the room\" EP 4/24 \u2014 master PARTIAL. One config clearance UNKNOWN. Live performance videos 4/24 + 5/6.", "type": "Signal", "status": "Open", "timing": "This Week", "artist": "Presley Regier", "cl": "Molly Yorkes", "owner": "Thomas Wolfe", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Some tracks delivered. Pre-order live.", "lastModified": "4/8/2026"}, {"id": 80, "action": "Ray Vaughn \"Vibe Responsibly\" scheduled 4/24 with pseudo video. \"Water\" ft. Ty Dolla Sign moves to TBS (still on project).", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "Ray Vaughn", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 81, "action": "Ray Vaughn \"Vibe Responsibly\" 4/24 \u2014 master REQUIRED on all 3 configs. Clearance done.", "type": "Signal", "status": "Open", "timing": "", "artist": "Ray Vaughn", "cl": "", "owner": "", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "", "lastModified": "4/8/2026"}, {"id": 82, "action": "Sleepy Hallow \"Young & Dumb\" master in. Waiting on sample clearance from BA. On track to deliver tomorrow for 4/17.", "type": "Action", "status": "In Progress", "timing": "ASAP", "artist": "Sleepy Hallow", "cl": "", "owner": "", "dept": "A&R Admin", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 83, "action": "Sleepy Hallow \"Young & Dumb\" 4/17 \u2014 audio clearance YES (sample cleared). Video master still REQUIRED.", "type": "Signal", "status": "Open", "timing": "", "artist": "Sleepy Hallow", "cl": "", "owner": "", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Audio should be good to go for delivery.", "lastModified": "4/8/2026"}, {"id": 84, "action": "Suzy Clue \"Feed\" may shift into mid-May.", "type": "Signal", "status": "Open", "timing": "", "artist": "Suzy Clue", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 85, "action": "Suzy Clue \"Feed\" confirmed at 5/15 (shifted from original). Master required on 2 of 3 configs.", "type": "Signal", "status": "Open", "timing": "", "artist": "Suzy Clue", "cl": "", "owner": "", "dept": "Release Planning", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Date shift confirmed per earlier signal.", "lastModified": "4/8/2026"}, {"id": 86, "action": "Second Strokes single confirmed: \"Falling Out of Love\" on May 15.", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Release Planning", "source": "", "meetingDate": "4/6/2026", "notes": "", "lastModified": "4/6/2026 12:05pm"}, {"id": 87, "action": "Single 4/9 + album 6/12 \u2014 billboard mid-week says new album this summer", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Billboard already submitted", "lastModified": "4/2/2026 3:01pm"}, {"id": 88, "action": "Fan dorm room account launching this week \u2014 cassette data via Laylo", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 89, "action": "Radio locked \u2014 iHeart + Odyssey + Connoisseur + AAA world premieres", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 90, "action": "Check Laylo cassette signup numbers \u2014 management running point", "type": "Action", "status": "Done", "timing": "This Week", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Lengthy process \u2014 phone to text to address", "lastModified": "4/7/2026 8:32am"}, {"id": 91, "action": "Strokes single \"Going Shopping\" + album pre-order both drop Tue 4/7. Time TBC \u2014 currently 5pm ET, may shift to 12:30pm ET pending Aaron/management call. Need 16x9 pseudo from Laura.", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Release Planning,Creative", "source": "", "meetingDate": "4/6/2026", "notes": "Laura sorting 16x9 now.", "lastModified": "4/6/2026 12:05pm"}, {"id": 92, "action": "Lift fingerprint on Going Shopping across socials + YouTube. Turn UGC claims back on Tue/Wed when track is live. Play cleanup on anything that gets through.", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Release Planning,Commercial Partnerships", "source": "", "meetingDate": "4/6/2026", "notes": "Fan leak of audio expected today.", "lastModified": "4/6/2026 12:05pm"}, {"id": 93, "action": "Kick off email chain with Marks team \u2014 creative/website alignment", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "Lara Turner", "dept": "Creative", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Aaron was pushing \u2014 creative call never happened", "lastModified": "4/2/2026 3:02pm"}, {"id": 94, "action": "Lock album date in next few days \u2014 pre-order needs a date", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Release Planning", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Even digital requires a date \u2014 can move but must exist", "lastModified": "4/2/2026 3:02pm"}, {"id": 95, "action": "Follow up on master delivery \u2014 expected today \u2014 absolute wire", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "Scott Sylvester, Ian Fogarty", "dept": "Release Planning", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 96, "action": "Coachella content plan by next meeting \u2014 actionable by that Thursday", "type": "Action", "status": "Open", "timing": "This Week", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Live content critical \u2014 no lip sync to camera", "lastModified": "4/2/2026 3:02pm"}, {"id": 97, "action": "Fan account repost press coverage \u2014 Vice + NME posting about teaser", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 98, "action": "Vice + NME posting about teaser \u2014 Reddit/Discord active", "type": "Signal", "status": "Open", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Some April Fools sentiment", "lastModified": "4/2/2026 2:05pm"}, {"id": 99, "action": "Digital cover in AOMA \u2014 plug and play on creative tickets", "type": "Signal", "status": "Open", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Creative", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 100, "action": "Master still not in \u2014 wire for physical AND announce", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "The Strokes", "cl": "", "owner": "", "dept": "Release Planning", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Creative call with Marks team still hasnt happened", "lastModified": "4/2/2026 2:05pm"}, {"id": 101, "action": "Wave 2 macro refunded \u2014 MD confirmed \u2014 manager by next week \u2014 media coaching suggested", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 102, "action": "700K streams vs 8K prior \u2014 79% lean forward \u2014 15% TikTok conversion vs 2% benchmark", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Stellar", "lastModified": "4/2/2026 3:01pm"}, {"id": 103, "action": "Next single early-mid May \u2014 album mid-June \u2014 she picks between 2 songs", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:01pm"}, {"id": 104, "action": "Schedule next content capture \u2014 get BTS from friend shoot by next week", "type": "Action", "status": "Open", "timing": "This Week", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "Bird Cooley", "dept": "Artist Audience,Creative", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 105, "action": "Set up owned + operated fan page \u2014 circulate and boost content", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 106, "action": "Discord this week \u2014 help her set it up \u2014 also exploring Substack", "type": "Action", "status": "Open", "timing": "This Week", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 107, "action": "DSP playbacks when ready \u2014 Cherise/Spotify huge fans", "type": "Action", "status": "Open", "timing": "This Week", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Joe Hadley loves her", "lastModified": "4/2/2026 3:02pm"}, {"id": 108, "action": "New target list \u2014 who is missing from the sound \u2014 niche expansion", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "Alexis Gorlick, Bird Cooley", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 109, "action": "Send Jordan updated spend plan for wave 2", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "Carlos Cuadros", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Campaigns being refunded", "lastModified": "4/2/2026 3:02pm"}, {"id": 110, "action": "Friday meeting \u2014 creative direction + merch + design", "type": "Action", "status": "Open", "timing": "This Week", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "Jordan Blaugrund, Murdoc Hardy", "dept": "Creative", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 111, "action": "She is posting today \u2014 BTS from tonight shoot \u2014 monitor performance", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 112, "action": "15% TikTok to streaming conversion vs 2% benchmark \u2014 exceptional", "type": "Signal", "status": "Open", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Data & Analytics", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 113, "action": "Male influencers + curators leaning in organically \u2014 audience broadening", "type": "Signal", "status": "Open", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:05pm"}, {"id": 114, "action": "She is shy \u2014 holding press (Fader + Nylon + Daze) until album announce", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "girlsweetvoiced", "cl": "Jourdan Washington", "owner": "", "dept": "Publicity", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Doesnt want to be first voice", "lastModified": "4/2/2026 2:05pm"}, {"id": 115, "action": "\"that's my beach!\" on 4/22 Earth Day \u2014 album + pre-orders same day \u2014 album June 5 \u2014 focus Aura", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/7/2026 3:41pm"}, {"id": 116, "action": "3 live performance videos after Coachella \u2014 appearing at major pop set", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Replacing cancelled underplays", "lastModified": "4/2/2026 3:01pm"}, {"id": 117, "action": "horsegiirL \"that's my beach!\" sample fully reworked. Awaiting BA sign-off before delivery. Target delivery: midweek. Release 4/22 at 9am PT.", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "A&R Admin", "source": "", "meetingDate": "4/6/2026", "notes": "Pseudo at 9am PT with audio. Video may come noon PT (TBC). Album announce likely same day with pre-orders.", "lastModified": "4/6/2026 12:05pm"}, {"id": 118, "action": "Rename Can I Hit Your Vape NOW \u2014 gets flagged everywhere \u2014 change before teasing", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Change to Can I Hit Your or Can I", "lastModified": "4/2/2026 3:02pm"}, {"id": 119, "action": "Get live shoot deck to partners \u2014 Twitch + Meta + YouTube + Stands", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Trying to shoot week after Coachella", "lastModified": "4/2/2026 3:02pm"}, {"id": 120, "action": "Build schedule for LA week after Coachella \u2014 last time before album", "type": "Action", "status": "Open", "timing": "This Week", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "Molly Yorkes", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 121, "action": "Coachella: she is there Friday mask on \u2014 capture content everywhere", "type": "Action", "status": "Open", "timing": "This Week", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Maybe Sunday too", "lastModified": "4/2/2026 3:02pm"}, {"id": 122, "action": "Cross-artist photo ops at Coachella \u2014 she is open \u2014 connect w/ RCA artists", "type": "Action", "status": "Open", "timing": "This Week", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 123, "action": "Budget: no more money from RCA \u2014 need partner support for live shoot \u2014 50K cap", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "Commercial Partnerships", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 124, "action": "horsegiirL \"that's my beach!\" 4/22 @ 12pm EDT \u2014 master still REQUIRED. Album \"NATURE IS HEALING\" also 4/22, clearance UNKNOWN. Video at 3pm EDT.", "type": "Escalation", "status": "Open", "timing": "ASAP", "artist": "horsegiirL", "cl": "Molly Yorkes", "owner": "", "dept": "A&R Admin", "source": "Workability", "meetingDate": "4/8/2026", "notes": "Sample rework done but BA sign-off + delivery still outstanding. 14 days to release.", "lastModified": "4/8/2026"}, {"id": 125, "action": "Toronto this weekend \u2014 push for story-driven content not just set posts", "type": "Action", "status": "Open", "timing": "This Week", "artist": "kwn", "cl": "Jourdan Washington", "owner": "", "dept": "Artist Audience", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Birthday + performance", "lastModified": "4/2/2026 3:02pm"}, {"id": 126, "action": "Get plan from management on Friday \u2014 proper eyes on full rollout", "type": "Action", "status": "Open", "timing": "ASAP", "artist": "kwn", "cl": "Jourdan Washington", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 127, "action": "Pour all focus into next 2 tracks \u2014 steady stream needed", "type": "Action", "status": "Open", "timing": "Ongoing", "artist": "kwn", "cl": "Jourdan Washington", "owner": "", "dept": "Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 3:02pm"}, {"id": 128, "action": "7 of 9 EP songs to master \u2014 momentum over silver bullet", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Mixer moving slow \u2014 Hunter monitoring", "lastModified": "4/2/2026 3:01pm"}, {"id": 129, "action": "4/17 not happening \u2014 two-pack bundle Idea of Love plus Touch Myself", "type": "Discussed in the Room", "status": "Complete", "timing": "", "artist": "", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "6 weeks teasing before release", "lastModified": "4/2/2026 3:01pm"}, {"id": 130, "action": "Put tour engagement plan in front of management \u2014 first-party data + giveaways", "type": "Action", "status": "Open", "timing": "This Week", "artist": "", "cl": "", "owner": "Carlos Cuadros", "dept": "Artist Audience,Campaign Leads", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Call with 5020 team + Dusko + Mel + Nisha", "lastModified": "4/2/2026 3:02pm"}, {"id": 131, "action": "Repeating history \u2014 another 4-6 weeks is the same delay cycle", "type": "Escalation", "status": "Open", "timing": "Ongoing", "artist": "", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "Cannot let 6 become 12", "lastModified": "4/2/2026 3:02pm"}, {"id": 132, "action": "EP date now a question mark \u2014 Ty Dolla Sign still on + potential Destin + Brak features", "type": "Carry-Forward", "status": "Open", "timing": "", "artist": "", "cl": "", "owner": "", "dept": "", "source": "Active Projects", "meetingDate": "4/1/2026", "notes": "", "lastModified": "4/2/2026 2:09pm"}];
+
+const COLS = [
+  {key:'type',label:'Type',w:'130px'},
+  {key:'action',label:'Action Item',w:'auto'},
+  {key:'status',label:'Status',w:'100px'},
+  {key:'timing',label:'Timing',w:'90px'},
+  {key:'artist',label:'Artist',w:'140px'},
+  {key:'cl',label:'Campaign Lead',w:'140px'},
+  {key:'owner',label:'Owner',w:'150px'},
+  {key:'dept',label:'Department',w:'160px'},
+  {key:'source',label:'Source',w:'120px'},
+  {key:'meetingDate',label:'Meeting Date',w:'100px'},
+  {key:'notes',label:'Notes',w:'200px'},
+  {key:'lastModified',label:'Last Modified',w:'120px'}
+];
+
+const TYPE_MAP = {
+  'Discussed in the Room':'decided','Action':'action','Escalation':'escalation','Signal':'signal','Carry-Forward':'carry'
+};
+const STATUS_MAP = {'Open':'open','In Progress':'progress','Complete':'complete','Done':'done'};
+
+let items = DATA.map((d,i)=>({...d, _id:i}));
+let filters = {type:null, status:null, cl:null, artist:null};
+let sortCol = null, sortDir = 'asc';
+let modalData = {content:'',filename:''};
+
+function getFilteredItems(){
+  return items.filter(it=>{
+    if(filters.type && it.type !== filters.type) return false;
+    if(filters.status && it.status !== filters.status) return false;
+    if(filters.cl && it.cl !== filters.cl) return false;
+    if(filters.artist && it.artist !== filters.artist) return false;
+    return true;
+  });
+}
+
+function buildFilters(){
+  const types = [...new Set(items.map(i=>i.type))].filter(Boolean).sort();
+  const statuses = [...new Set(items.map(i=>i.status))].filter(Boolean).sort();
+  const cls = [...new Set(items.map(i=>i.cl))].filter(Boolean).sort();
+  const artists = [...new Set(items.map(i=>i.artist))].filter(Boolean).sort();
+
+  const typeDiv = document.getElementById('type-filters');
+  typeDiv.innerHTML = '<span class="filter-label">Type</span>';
+  types.forEach(t=>{
+    const p = document.createElement('button');
+    p.className = 'pill' + (filters.type===t?' active-type-'+(TYPE_MAP[t]||'action'):'');
+    p.textContent = t === 'Discussed in the Room' ? 'Decided' : t;
+    p.onclick = ()=>{ filters.type = filters.type===t?null:t; render(); };
+    typeDiv.appendChild(p);
+  });
+
+  const statusDiv = document.getElementById('status-filters');
+  statusDiv.innerHTML = '<span class="filter-label">Status</span>';
+  statuses.forEach(s=>{
+    const p = document.createElement('button');
+    p.className = 'pill'+(filters.status===s?' active':'');
+    p.textContent = s;
+    p.onclick = ()=>{ filters.status = filters.status===s?null:s; render(); };
+    statusDiv.appendChild(p);
+  });
+
+  const clDiv = document.getElementById('cl-filters');
+  clDiv.innerHTML = '<span class="filter-label">Lead</span>';
+  cls.forEach(c=>{
+    const p = document.createElement('button');
+    p.className = 'pill'+(filters.cl===c?' active':'');
+    p.textContent = c.split(' ')[0];
+    p.onclick = ()=>{ filters.cl = filters.cl===c?null:c; render(); };
+    clDiv.appendChild(p);
+  });
+
+  // Artist dropdown instead of pills (too many)
+  const artDiv = document.getElementById('artist-filters');
+  artDiv.innerHTML = '<span class="filter-label">Artist</span>';
+  const sel = document.createElement('select');
+  sel.className = 'edit-select';
+  sel.innerHTML = '<option value="">All Artists</option>' + artists.map(a=>`<option value="${a}"${filters.artist===a?' selected':''}>${a}</option>`).join('');
+  sel.onchange = ()=>{ filters.artist = sel.value||null; render(); };
+  artDiv.appendChild(sel);
+}
+
+function buildStats(){
+  const vis = getFilteredItems();
+  const byType = (t)=>vis.filter(i=>i.type===t).length;
+  const byStatus = (s)=>vis.filter(i=>i.status===s).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat s-total"><strong>${vis.length}</strong>showing</div>
+    <div class="stat s-decided"><strong>${byType('Discussed in the Room')}</strong>decided</div>
+    <div class="stat s-action"><strong>${byType('Action')}</strong>actions</div>
+    <div class="stat s-esc"><strong>${byType('Escalation')}</strong>escalations</div>
+    <div class="stat s-signal"><strong>${byType('Signal')}</strong>signals</div>
+    <div class="stat s-carry"><strong>${byType('Carry-Forward')}</strong>carry-fwd</div>
+    <div class="stat" style="margin-left:16px"><strong class="status-open">${byStatus('Open')}</strong>open</div>
+    <div class="stat"><strong class="status-progress">${byStatus('In Progress')}</strong>in progress</div>
+    <div class="stat"><strong class="status-complete">${byStatus('Complete')+byStatus('Done')}</strong>complete</div>
+  `;
+}
+
+function buildHeader(){
+  const thead = document.getElementById('thead');
+  thead.innerHTML = '<tr>' + COLS.map(c=>{
+    const sorted = sortCol===c.key;
+    const arrow = sorted ? (sortDir==='asc'?'▲':'▼') : '▲';
+    return `<th class="${sorted?'sorted':''}" style="width:${c.w}" onclick="sortBy('${c.key}')">${c.label}<span class="sort-arrow">${arrow}</span></th>`;
+  }).join('') + '<th style="width:40px"></th></tr>';
+}
+
+function buildRows(){
+  let vis = getFilteredItems();
+  if(sortCol){
+    vis.sort((a,b)=>{
+      const av = (a[sortCol]||'').toLowerCase();
+      const bv = (b[sortCol]||'').toLowerCase();
+      return sortDir==='asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+    });
+  }
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = vis.map(it=>{
+    const typeClass = TYPE_MAP[it.type]||'';
+    const statusClass = STATUS_MAP[it.status]||'';
+    const rowClass = it.type==='Escalation'?'row-escalation':it.type==='Carry-Forward'?'row-carry':'';
+    const urgClass = it.timing==='ASAP'?'urg-asap':it.timing==='This Week'?'urg-week':it.timing==='Ongoing'?'urg-ongoing':'';
+
+    return `<tr class="${rowClass}" data-id="${it._id}">
+      <td><span class="type-badge type-${typeClass}">${it.type==='Discussed in the Room'?'Decided':it.type}</span></td>
+      <td class="col-action" contenteditable="true" data-key="action">${esc(it.action)}</td>
+      <td><select class="edit-select" data-key="status" onchange="updateField(${it._id},'status',this.value)">
+        ${['Open','In Progress','Complete','Done'].map(s=>`<option${it.status===s?' selected':''}>${s}</option>`).join('')}
+      </select></td>
+      <td><select class="edit-select" data-key="timing" onchange="updateField(${it._id},'timing',this.value)">
+        ${['','ASAP','This Week','Ongoing'].map(s=>`<option value="${s}"${it.timing===s?' selected':''}>${s||'—'}</option>`).join('')}
+      </select></td>
+      <td contenteditable="true" data-key="artist">${esc(it.artist)}</td>
+      <td contenteditable="true" data-key="cl">${esc(it.cl)}</td>
+      <td contenteditable="true" data-key="owner">${esc(it.owner)}</td>
+      <td contenteditable="true" data-key="dept">${esc(it.dept)}</td>
+      <td>${esc(it.source)}</td>
+      <td>${esc(it.meetingDate)}</td>
+      <td contenteditable="true" data-key="notes">${esc(it.notes)}</td>
+      <td style="font-size:11px;color:var(--fog);white-space:nowrap">${esc(it.lastModified)}</td>
+      <td><button style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px" onclick="deleteRow(${it._id})" title="Delete">×</button></td>
+    </tr>`;
+  }).join('');
+
+  // Attach blur handlers for contenteditable
+  tbody.querySelectorAll('[contenteditable]').forEach(el=>{
+    el.addEventListener('blur', function(){
+      const id = parseInt(this.closest('tr').dataset.id);
+      const key = this.dataset.key;
+      updateField(id, key, this.textContent.trim());
+    });
+  });
+
+  document.getElementById('item-count').textContent = vis.length;
+}
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function updateField(id, key, val){
+  const item = items.find(i=>i._id===id);
+  if(item) item[key] = val;
+  buildStats();
+}
+
+function sortBy(col){
+  if(sortCol===col) sortDir = sortDir==='asc'?'desc':'asc';
+  else { sortCol=col; sortDir='asc'; }
+  render();
+}
+
+function addRow(){
+  const newId = items.length ? Math.max(...items.map(i=>i._id))+1 : 0;
+  items.push({_id:newId, id:items.length+1, action:'', type:'Action', status:'Open', timing:'', artist:'', cl:'', owner:'', dept:'', source:'Active Projects', meetingDate:'4/8/2026', notes:''});
+  render();
+  // Scroll to bottom
+  const tbody = document.getElementById('tbody');
+  tbody.lastElementChild?.scrollIntoView({behavior:'smooth'});
+}
+
+function deleteRow(id){
+  items = items.filter(i=>i._id!==id);
+  render();
+}
+
+function render(){
+  buildFilters();
+  buildStats();
+  buildHeader();
+  buildRows();
+}
+
+// EXPORT
+function exportCSV(){
+  const vis = getFilteredItems();
+  const headers = COLS.map(c=>c.label);
+  const rows = vis.map(it=>COLS.map(c=>{
+    let v = it[c.key]||'';
+    if(v.includes(',') || v.includes('"') || v.includes('\n')) v = '"'+v.replace(/"/g,'""')+'"';
+    return v;
+  }));
+  const csv = [headers.join(','), ...rows.map(r=>r.join(','))].join('\n');
+  modalData = {content:csv, filename:'Action_Items_'+new Date().toISOString().slice(0,10)+'.csv'};
+  document.getElementById('modal-title').textContent = 'Export CSV';
+  document.getElementById('modal-content').textContent = csv;
+  document.getElementById('modal').classList.add('show');
+}
+
+function exportJSON(){
+  const vis = getFilteredItems();
+  const clean = vis.map(it=>{
+    const o = {};
+    COLS.forEach(c=>o[c.label]=it[c.key]||'');
+    return o;
+  });
+  const json = JSON.stringify(clean, null, 2);
+  modalData = {content:json, filename:'Action_Items_'+new Date().toISOString().slice(0,10)+'.json'};
+  document.getElementById('modal-title').textContent = 'Export JSON';
+  document.getElementById('modal-content').textContent = json;
+  document.getElementById('modal').classList.add('show');
+}
+
+function copyMarkdown(){
+  const vis = getFilteredItems();
+  const byArtist = {};
+  vis.forEach(it=>{
+    const a = it.artist || 'No Artist';
+    if(!byArtist[a]) byArtist[a] = [];
+    byArtist[a].push(it);
+  });
+  let md = '# Action Items — Campaign Ops\n\n';
+  Object.keys(byArtist).sort().forEach(artist=>{
+    md += `## ${artist}\n`;
+    byArtist[artist].forEach(it=>{
+      const tag = it.type==='Discussed in the Room'?'DECIDED':it.type.toUpperCase();
+      const status = it.status ? ` [${it.status}]` : '';
+      const owner = it.owner ? ` → ${it.owner}` : '';
+      const timing = it.timing ? ` (${it.timing})` : '';
+      md += `- **${tag}**${status}${timing}: ${it.action}${owner}\n`;
+      if(it.notes) md += `  - _${it.notes}_\n`;
+    });
+    md += '\n';
+  });
+  modalData = {content:md, filename:'Action_Items_'+new Date().toISOString().slice(0,10)+'.md'};
+  document.getElementById('modal-title').textContent = 'Markdown Export';
+  document.getElementById('modal-content').textContent = md;
+  document.getElementById('modal').classList.add('show');
+}
+
+function copyModalContent(){
+  navigator.clipboard.writeText(modalData.content).then(()=>{
+    const btn = document.querySelector('.modal-btn.primary');
+    btn.textContent = '✓ Copied';
+    setTimeout(()=>btn.textContent='Copy to Clipboard', 1500);
+  });
+}
+
+function downloadModal(){
+  const blob = new Blob([modalData.content], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = modalData.filename;
+  a.click();
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+}
+
+document.getElementById('modal').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+
+render();
+</script>
+</body>
+</html>
