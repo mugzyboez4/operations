@@ -358,9 +358,25 @@ const state = { current: null, notes: {
     { id:'n35', type:'flag', text:'big pre-release, big post release, IG growth has slowed', ts:'11:38 AM' },
     { id:'n36', type:'flag', text:'she MUST tease next week and the post MUST go up this week', ts:'11:38 AM' },
     { id:'n37', type:'flag', text:'sensitivity about it calling an ALBUM', ts:'11:39 AM' },
+  ],
+  'rcs': [
+    { id:'n38', type:'flag', text:'well set up across the board - there seems to be some issue with spotify that RCS keeps passing', ts:'11:43 AM' },
+    { id:'n39', type:'flag', text:'maybe a way that spotify could lean into the SMA fest / underplay', ts:'11:44 AM' },
+  ],
+  'beckyg': [
+    { id:'n40', type:'flag', text:'feedback from 5020 has been crickets', ts:'11:45 AM' },
+    { id:'n41', type:'flag', text:'gina has engaged with leo', ts:'11:45 AM' },
+    { id:'n42', type:'flag', text:'fleck reaching out to bruno again', ts:'11:46 AM' },
+    { id:'n43', type:'flag', text:'management has the data on the record - not really falling in latin or pop. maybe need to rejig the strategy a little but they dont care', ts:'11:47 AM' },
+    { id:'n44', type:'flag', text:'gina said a lot of what management said - make sure to note it', ts:'11:47 AM' },
+    { id:'n45', type:'flag', text:'tarek says we\'re not seeing enough signals but we need to monitor that', ts:'11:47 AM' },
+    { id:'n46', type:'flag', text:'budget is really spent', ts:'11:49 AM' },
+  ],
+  'latto': [
+    { id:'n47', type:'flag', text:'on stage this friday and shooting content', ts:'11:53 AM' },
   ]
 }, activeType: null };
-let idc = 37;
+let idc = 47;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
