@@ -348,9 +348,12 @@ const state = { current: null, notes: {
     { id:'n27', type:'flag', text:'flag for the room - two mentions of content calendars - maybe we have that as a thing in our timeline?', ts:'11:29 AM' },
     { id:'n28', type:'flag', text:'well funded', ts:'11:29 AM' },
     { id:'n29', type:'flag', text:'can continue to invest into the campaign if numbers continue to grow', ts:'11:30 AM' },
+    { id:'n30', type:'flag', text:'working through clearances/delivery of music', ts:'11:31 AM' },
+    { id:'n31', type:'flag', text:'goal will be to get the ep to partners next week', ts:'11:31 AM' },
+    { id:'n32', type:'flag', text:'should have conversations with vevo about a discover piece - Bird action item', ts:'11:31 AM' },
   ]
 }, activeType: null };
-let idc = 29;
+let idc = 32;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
