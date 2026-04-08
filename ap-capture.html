@@ -374,9 +374,24 @@ const state = { current: null, notes: {
   ],
   'latto': [
     { id:'n47', type:'flag', text:'on stage this friday and shooting content', ts:'11:53 AM' },
+    { id:'n48', type:'flag', text:'action item for tiktok sound', ts:'11:55 AM' },
+    { id:'n49', type:'flag', text:'should point to the second half version of this track', ts:'11:55 AM' },
+    { id:'n50', type:'flag', text:'get it to link back to that version of the track', ts:'11:56 AM' },
+    { id:'n51', type:'flag', text:'ryan submitted for it to do just that - we cant change the official sound but we can have it point to the updated version', ts:'11:56 AM' },
+    { id:'n52', type:'flag', text:'we already delivered a new sound that points directly to it', ts:'11:56 AM' },
+  ],
+  'flomilli': [
+    { id:'n53', type:'flag', text:'need to improve the video', ts:'12:01 PM' },
+    { id:'n54', type:'flag', text:'making more content in general', ts:'12:02 PM' },
+    { id:'n55', type:'flag', text:'song is still growing - has slowed, but still reaching new peaks', ts:'12:02 PM' },
+  ],
+  'ari': [
+    { id:'n56', type:'flag', text:'we deliver the sound, ari does the post', ts:'12:05 PM' },
+    { id:'n57', type:'flag', text:'releasing a song with magnolia park', ts:'12:06 PM' },
+    { id:'n58', type:'flag', text:'who is the PM here', ts:'12:09 PM' },
   ]
 }, activeType: null };
-let idc = 47;
+let idc = 58;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
