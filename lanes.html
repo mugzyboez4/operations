@@ -172,7 +172,7 @@ a{color:inherit;text-decoration:none}
   <div class="stat"><span class="stat-n" style="color:var(--support)">10</span><span class="stat-l">Support</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--commercial)">6</span><span class="stat-l">Commercial</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--flame)">6</span><span class="stat-l">Removed</span></div>
-  <div class="stat"><span class="stat-n" style="color:var(--unresolved)">4</span><span class="stat-l">Unresolved</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--unresolved)">4</span><span class="stat-l">TBD</span></div>
 </div>
 
 <!-- ============ KANBAN ============ -->
@@ -281,20 +281,10 @@ a{color:inherit;text-decoration:none}
   <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--unresolved);padding:16px 20px">
     <div style="font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--unresolved);margin-bottom:10px">TBD — Needs Decision</div>
     <div style="font-size:12px;color:var(--dim);line-height:2">
-      <strong style="color:var(--text)">1.</strong> Paid ads — where is the Campaign Lead vs. Audience Dev line?<br>
-      <strong style="color:var(--text)">2.</strong> Trigger Pre-saves, Websites &amp; Marketing Assets — split into 3 cards or keep as one?<br>
-      <strong style="color:var(--text)">3.</strong> Missing from Audience Dev — KPI reporting? RCA Socials? Audience strategy for platform deals?<br>
-      <strong style="color:var(--text)">4.</strong> Missing from Campaign Leads — Artist &amp; Management Relationship? Creative briefing?<br>
-      <strong style="color:var(--text)">5.</strong> One Sheets — who owns creation, versioning, and distribution?<br>
-      <strong style="color:var(--text)">6.</strong> Verb sets — do the 5-verb-per-team alignments work?<br>
-      <strong style="color:var(--text)">7.</strong> CL JD lists Audience Development Integration — overstates CL authority vs. what was decided<br>
-      <strong style="color:var(--text)">8.</strong> CL JD lists OOH Media — never discussed, not on the board<br>
-      <strong style="color:var(--text)">9.</strong> CL JD says Budget Alignment and Distribution — meeting decided Oversight &amp; Strategy<br>
-      <strong style="color:var(--text)">10.</strong> CL JD still references Digital as a department<br>
-      <strong style="color:var(--text)">11.</strong> Roster upkeep &amp; dissemination — no centralized ownership<br>
-      <strong style="color:var(--text)">12.</strong> Per-department spend accountability — deferred, no owner<br>
-      <strong style="color:var(--text)">13.</strong> Audience data flow to Strategic Analytics — routing needs work<br>
-      <strong style="color:var(--text)">14.</strong> Physical packaging &amp; D2C production handoff — no defined handoff, needs visibility
+      <strong style="color:var(--text)">1.</strong> Paid ads &mdash; where is the Campaign Lead vs. Audience Dev line?<br>
+      <strong style="color:var(--text)">2.</strong> Trigger Pre-saves, Websites &amp; Marketing Assets &mdash; split into 3 cards or keep as one?<br>
+      <strong style="color:var(--text)">3.</strong> Missing from Audience Dev &mdash; KPI reporting? RCA Socials? Audience strategy for platform deals?<br>
+      <strong style="color:var(--text)">4.</strong> Missing from Campaign Leads &mdash; Artist &amp; Management Relationship? Creative briefing?
     </div>
   </div>
 </div>
@@ -304,7 +294,7 @@ a{color:inherit;text-decoration:none}
   <div class="creative-toggle" onclick="var b=document.getElementById('refBody');var a=this.querySelector('.toggle-arrow');b.classList.toggle('open');a.classList.toggle('open')">
     <div>
       <h3 style="color:var(--fog)">Reference & Context</h3>
-      <div class="toggle-hint">Creative layer · Support structure · Unresolved · JD flags · Removed cards</div>
+      <div class="toggle-hint">Creative · Budget &amp; JD · Analytics · Packaging · Support · Removed</div>
     </div>
     <span class="toggle-arrow">&#9660;</span>
   </div>
@@ -312,14 +302,45 @@ a{color:inherit;text-decoration:none}
 
     <!-- CREATIVE -->
     <div style="margin-bottom:24px">
-      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin-bottom:8px">Creative — Service Layer (Not a Lane)</div>
-      <div style="font-size:11px;color:var(--dim);margin-bottom:12px">Creative doesn't initiate work — it receives it. 2,307 Airtable tickets analyzed. Three handoff cards proposed:</div>
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin-bottom:8px">Creative &mdash; Service Layer (Not a Lane)</div>
+      <div style="font-size:11px;color:var(--dim);margin-bottom:12px">Creative doesn't initiate work &mdash; it receives it. 2,307 Airtable tickets analyzed. Three handoff cards proposed:</div>
       <div class="creative-grid">
-        <div class="creative-card"><div class="cc-lane" style="color:var(--cl)">Campaign Leads</div><div class="cc-title">Brief Creative on Campaign Vision &amp; Assets</div><div class="cc-note">Music videos, press images, OOH, merch, sizzle reels. CL briefs, Creative executes, CL approves.</div></div>
-        <div class="creative-card"><div class="cc-lane" style="color:var(--ops)">Campaign Ops</div><div class="cc-title">Track Creative Deliverables &amp; Flag Delays</div><div class="cc-note">334 tasks across Design/Motion and Creative Direction. No cross-team visibility currently.</div></div>
-        <div class="creative-card"><div class="cc-lane" style="color:var(--ad)">Audience Dev</div><div class="cc-title">Activate Creative for Platform-Native Deliverables</div><div class="cc-note">141 short form content tasks. SVP Aud Dev: "the creative team manages the actual shoot."</div></div>
+        <div class="creative-card"><div class="cc-lane" style="color:var(--cl)">Campaign Leads</div><div class="cc-title">Brief Creative on Campaign Vision &amp; Assets</div><div class="cc-note">Music videos, press images, OOH, merch, sizzle reels.</div></div>
+        <div class="creative-card"><div class="cc-lane" style="color:var(--ops)">Campaign Ops</div><div class="cc-title">Track Creative Deliverables &amp; Flag Delays</div><div class="cc-note">334 tasks across Design/Motion and Creative Direction.</div></div>
+        <div class="creative-card"><div class="cc-lane" style="color:var(--ad)">Audience Dev</div><div class="cc-title">Activate Creative for Platform-Native Deliverables</div><div class="cc-note">141 short form content tasks.</div></div>
       </div>
       <div style="margin-top:10px;font-size:10px;color:var(--fog)"><strong style="color:#E879F9">Gate dependencies:</strong> Gate 2 &rarr; creative direction set &middot; Gate 3 &rarr; cover art, press images, OOH delivered &middot; Gate 4 &rarr; video cleared, cutdowns delivered</div>
+    </div>
+
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
+
+    <!-- BUDGET & JD ALIGNMENT -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#FF6B6B;margin-bottom:8px">Budget &amp; JD Alignment</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.8">
+        The CL job description has several mismatches with what was decided in the April 3 meeting. Not blocking lane definition, but needs resolution before JDs are final.<br><br>
+        <strong style="color:var(--text)">Aud Dev Integration</strong> &mdash; JD overstates CL authority. Meeting established Aud Dev operates independently.<br>
+        <strong style="color:var(--text)">OOH Media</strong> &mdash; in the JD, never discussed, not on the board.<br>
+        <strong style="color:var(--text)">Budget language</strong> &mdash; JD says Alignment and Distribution. Meeting decided Oversight &amp; Strategy.<br>
+        <strong style="color:var(--text)">Digital as a department</strong> &mdash; JD still lists it separately. Restructuring absorbed it into Audience Dev.<br>
+        <strong style="color:var(--text)">Per-department spend accountability</strong> &mdash; deferred, no owner assigned.
+      </div>
+    </div>
+
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
+
+    <!-- AUDIENCE DATA / STRATEGIC ANALYTICS -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#38BDF8;margin-bottom:8px">Audience Data &amp; Strategic Analytics</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.8">KPIs should come from Strategic Analytics. Audience Dev implements them. The data flow between the two isn't working &mdash; no systematic routing exists. Needs a defined handoff: who sends what, in what format, on what cadence.</div>
+    </div>
+
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
+
+    <!-- PHYSICAL PACKAGING / D2C -->
+    <div style="margin-bottom:24px">
+      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#10B981;margin-bottom:8px">Physical Packaging &amp; D2C Production</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.8">No defined handoff from Creative to Commerce/D2C for physical packaging. Someone is filling the gap but it's not in anyone's lane. Needs visibility into who owns the cost-out process, the production timeline, and the handoff from creative direction to manufacturing.</div>
     </div>
 
     <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
@@ -332,26 +353,10 @@ a{color:inherit;text-decoration:none}
 
     <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
 
-    <!-- UNRESOLVED -->
-    <div style="margin-bottom:24px">
-      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--unresolved);margin-bottom:8px">Unresolved &mdash; 4</div>
-      <div style="font-size:11px;color:var(--dim);line-height:1.8"><strong style="color:var(--text)">Per-Dept Spend Accountability</strong> &mdash; deferred<br><strong style="color:var(--text)">Audience Data Flow &rarr; Strategic Analytics</strong> &mdash; KPI routing needs work<br><strong style="color:var(--text)">One Sheets</strong> &mdash; lane TBD<br><strong style="color:var(--text)">Physical Packaging &amp; D2C Production Handoff</strong> &mdash; no defined handoff from Creative to Commerce/D2C. No defined handoff, needs visibility.</div>
-    </div>
-
-    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
-
     <!-- REMOVED -->
-    <div style="margin-bottom:24px">
+    <div>
       <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--flame);margin-bottom:8px">Removed / Consolidated &mdash; 6</div>
       <div style="font-size:11px;color:var(--fog);line-height:1.8"><span style="text-decoration:line-through">Digital Campaign Objective</span> &rarr; absorbed into Campaign Strategy<br><span style="text-decoration:line-through">Per-Artist Budget Creation</span> + <span style="text-decoration:line-through">Budget Reallocation</span> &rarr; Budget Oversight &amp; Strategy<br><span style="text-decoration:line-through">Assets to Publicity &amp; Intl</span> &rarr; self-serve<br><span style="text-decoration:line-through">Airtable Asset Requests</span> &rarr; consolidated<br><span style="text-decoration:line-through">Newsletter/Social Post Orders</span> &rarr; consolidated</div>
-    </div>
-
-    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
-
-    <!-- JD DISCREPANCIES -->
-    <div>
-      <div style="font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#FF6B35;margin-bottom:8px">JD Discrepancies &mdash; 7 flags</div>
-      <div style="font-size:11px;color:var(--dim);line-height:1.8"><strong style="color:var(--text)">1.</strong> "Aud Dev Integration" overstates CL authority<br><strong style="color:var(--text)">2.</strong> "OOH Media" in JD, never discussed<br><strong style="color:var(--text)">3.</strong> Budget language mismatch ("Distribution" vs "Oversight")<br><strong style="color:var(--text)">4.</strong> Three CL responsibilities added in meeting missing from JD<br><strong style="color:var(--text)">5.</strong> Interdepartmental alignment overlap with Ops<br><strong style="color:var(--text)">6.</strong> JD still references "Digital" as a department<br><strong style="color:var(--text)">7.</strong> Roster upkeep &mdash; no centralized ownership</div>
     </div>
 
   </div>
