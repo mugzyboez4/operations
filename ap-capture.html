@@ -311,8 +311,18 @@ const NOTE_TYPES = {
   context: { label:'CONTEXT', cls:'nt-context', cardCls:'context', icon:'◈', desc:'Background for whoever processes the transcript' },
 };
 
-const state = { current: null, notes: {}, activeType: null };
-let idc = 0;
+const state = { current: null, notes: {
+  'strokes': [
+    { id:'n1', type:'flag', text:'expecting 500k/600k', ts:'11:11 AM' },
+    { id:'n2', type:'flag', text:'spotify marquee happening - trying to decide on which agency to use', ts:'11:11 AM' },
+    { id:'n3', type:'flag', text:'no masters in and nothing expected until tues of next week', ts:'11:11 AM' },
+    { id:'n4', type:'context', text:'lower on the 18/22 side - higher 23/34 (mostly 23/27)', ts:'11:12 AM' },
+    { id:'n5', type:'flag', text:'more media to get to the younger audience', ts:'11:12 AM' },
+    { id:'n6', type:'flag', text:'off cycle looks from spotify & dsps', ts:'11:12 AM' },
+    { id:'n7', type:'flag', text:'lots of radio', ts:'11:13 AM' },
+  ]
+}, activeType: null };
+let idc = 7;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
