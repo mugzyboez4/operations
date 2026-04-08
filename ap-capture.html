@@ -303,6 +303,10 @@ const ARTISTS = [
     context:'"Fairyloot Birdwatchers" 5/8.' },
   { id:'horsegirl',  num:'16', name:'horsegiirL',       lead:'Molly Yorkes',        ops:'Meg',    priority:'watch',
     context:'Single 4/22 9am PT. Sample awaiting BA. Album 6/5. Coachella Fri. Budget escalation — 50K cap, need partner support.' },
+  { id:'tems',       num:'17', name:'Tems',              lead:'Jourdan Washington',  ops:'Meg',    priority:'track',
+    context:'Added during meeting.' },
+  { id:'victoriam',  num:'18', name:'Victoria Monet',    lead:'Gina Messeri',        ops:'Meg',    priority:'track',
+    context:'Added during meeting.' },
 ];
 
 const NOTE_TYPES = {
@@ -389,9 +393,14 @@ const state = { current: null, notes: {
     { id:'n56', type:'flag', text:'we deliver the sound, ari does the post', ts:'12:05 PM' },
     { id:'n57', type:'flag', text:'releasing a song with magnolia park', ts:'12:06 PM' },
     { id:'n58', type:'flag', text:'who is the PM here', ts:'12:09 PM' },
+    { id:'n59', type:'flag', text:'music video already shot', ts:'12:09 PM' },
+  ],
+  'tems': [
+  ],
+  'victoriam': [
   ]
 }, activeType: null };
-let idc = 58;
+let idc = 59;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
