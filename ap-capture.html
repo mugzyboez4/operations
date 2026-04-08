@@ -330,9 +330,27 @@ const state = { current: null, notes: {
     { id:'n13', type:'flag', text:'artist signup hasnt gone live yet - but the privacy policy will be there when it goes live', ts:'11:20 AM' },
     { id:'n14', type:'flag', text:'album preorder - gonna be messy', ts:'11:21 AM' },
     { id:'n15', type:'flag', text:'probably should move the pre-order to the tour announcement on the 16th', ts:'11:21 AM' },
+    { id:'n16', type:'flag', text:'27 songs for regular deluxe at 37', ts:'11:22 AM' },
+  ],
+  'kwn': [
+    { id:'n17', type:'flag', text:'may 22nd bundle - idea of love, touch myself', ts:'11:23 AM' },
+    { id:'n18', type:'flag', text:'WORKABILITY: 5/15 bundle workable but moved to 5/22.', ts:'11:24 AM' },
+    { id:'n19', type:'flag', text:'call with carlyn on monday - to chat through creative', ts:'11:24 AM' },
+    { id:'n20', type:'flag', text:'may shooting long form elements', ts:'11:24 AM' },
+    { id:'n21', type:'flag', text:'just started teasing idea of love - shooting content tomorrow to move that along', ts:'11:25 AM' },
+    { id:'n22', type:'flag', text:'grid for posting accountability', ts:'11:26 AM' },
+  ],
+  'hpicardi': [
+    { id:'n23', type:'flag', text:'bit of an increase in creations (12%) views 26%)', ts:'11:27 AM' },
+    { id:'n24', type:'flag', text:'lean forward streams slight lift - could be the start of something', ts:'11:27 AM' },
+    { id:'n25', type:'flag', text:'friday. had a new influencer campaign - macro influencers go live this week', ts:'11:28 AM' },
+    { id:'n26', type:'flag', text:'only influencers who use the bella kay sound - wondering the strategy there (scalable, etc.)? we\'re following very closely from bella kay', ts:'11:28 AM' },
+    { id:'n27', type:'flag', text:'flag for the room - two mentions of content calendars - maybe we have that as a thing in our timeline?', ts:'11:29 AM' },
+    { id:'n28', type:'flag', text:'well funded', ts:'11:29 AM' },
+    { id:'n29', type:'flag', text:'can continue to invest into the campaign if numbers continue to grow', ts:'11:30 AM' },
   ]
 }, activeType: null };
-let idc = 15;
+let idc = 29;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
