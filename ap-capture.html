@@ -351,9 +351,16 @@ const state = { current: null, notes: {
     { id:'n30', type:'flag', text:'working through clearances/delivery of music', ts:'11:31 AM' },
     { id:'n31', type:'flag', text:'goal will be to get the ep to partners next week', ts:'11:31 AM' },
     { id:'n32', type:'flag', text:'should have conversations with vevo about a discover piece - Bird action item', ts:'11:31 AM' },
+  ],
+  'gsv': [
+    { id:'n33', type:'flag', text:'discord stuff - top of next week', ts:'11:33 AM' },
+    { id:'n34', type:'flag', text:'did substack go away entirely? not yet - helpful north star', ts:'11:34 AM' },
+    { id:'n35', type:'flag', text:'big pre-release, big post release, IG growth has slowed', ts:'11:38 AM' },
+    { id:'n36', type:'flag', text:'she MUST tease next week and the post MUST go up this week', ts:'11:38 AM' },
+    { id:'n37', type:'flag', text:'sensitivity about it calling an ALBUM', ts:'11:39 AM' },
   ]
 }, activeType: null };
-let idc = 32;
+let idc = 37;
 const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
 const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
 const allNotes = () => Object.values(state.notes).flat();
