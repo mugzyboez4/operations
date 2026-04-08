@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Annotations — April 8, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0C0C0E;
+  --surface: #111113;
+  --surface2: #17171B;
+  --surface3: #1E1E24;
+  --border: #232328;
+  --border2: #2C2C34;
+  --lime: #CDF851;
+  --teal: #5BC0BE;
+  --flame: #FF4A23;
+  --gold: #E8C547;
+  --fog: #8A8A9A;
+  --muted: #45454F;
+  --white: #F0F0F2;
+  --mono: 'Space Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--white); font-family: var(--body); font-size: 13px; overflow: hidden; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 48px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; background: var(--surface);
+  border-bottom: 2px solid var(--lime); flex-shrink: 0;
+  position: sticky; top: 0; z-index: 200;
+}
+.tl { display: flex; align-items: center; gap: 12px; }
+.meeting-name { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--lime); letter-spacing: 0.02em; }
+.meeting-sub { font-family: var(--mono); font-size: 8px; color: var(--fog); letter-spacing: 0.1em; text-transform: uppercase; }
+.live-pill {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(205,248,81,0.07); border: 1px solid rgba(205,248,81,0.2);
+  border-radius: 20px; padding: 3px 10px;
+  font-family: var(--mono); font-size: 8px; color: var(--lime); letter-spacing: 0.1em;
+}
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+.tr { display: flex; gap: 8px; align-items: center; }
+.export-btn {
+  background: var(--lime); color: #0C0C0E;
+  font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  border: none; padding: 6px 13px; cursor: pointer; border-radius: 3px; transition: opacity 0.15s;
+}
+.export-btn:hover { opacity: 0.85; }
+.note-count { font-family: var(--mono); font-size: 10px; color: var(--fog); }
+
+/* ── LAYOUT ── */
+.app { display: flex; height: calc(100vh - 48px); overflow: hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 186px; flex-shrink: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sidebar-hdr {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em; color: var(--fog); text-transform: uppercase;
+  flex-shrink: 0;
+}
+.artist-list { flex: 1; overflow-y: auto; }
+.tier-label {
+  padding: 8px 14px 3px;
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase;
+}
+.artist-btn {
+  width: 100%; text-align: left; background: none; border: none;
+  border-left: 2px solid transparent;
+  padding: 7px 14px; cursor: pointer; transition: background 0.1s;
+  display: flex; align-items: center; gap: 8px;
+}
+.artist-btn:hover { background: var(--surface2); }
+.artist-btn.active { background: var(--surface2); border-left-color: var(--lime); }
+.artist-btn.has-notes { border-left-color: var(--teal); }
+.artist-btn.has-notes.active { border-left-color: var(--lime); }
+.artist-btn.has-flags { border-left-color: var(--flame); }
+.artist-btn.has-flags.active { border-left-color: var(--lime); }
+.pdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.pdot-crit { background: var(--flame); }
+.pdot-watch { background: var(--gold); }
+.pdot-track { background: var(--muted); }
+.ab-inner { flex: 1; min-width: 0; }
+.ab-name { font-size: 11px; font-weight: 500; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ab-sub { font-family: var(--mono); font-size: 7px; color: var(--muted); margin-top: 1px; }
+.ab-indicators { display: flex; gap: 3px; margin-top: 2px; }
+.ind { font-family: var(--mono); font-size: 7px; padding: 1px 3px; border-radius: 1px; }
+.ind-flag { background: rgba(255,74,35,0.15); color: var(--flame); }
+.ind-note { background: rgba(91,192,190,0.12); color: var(--teal); }
+.ind-ctx { background: rgba(232,197,71,0.12); color: var(--gold); }
+
+/* ── MAIN ── */
+.main { flex: 1; overflow-y: auto; min-width: 0; }
+
+.artist-hdr {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--bg); border-bottom: 1px solid var(--border2);
+  padding: 14px 24px 12px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+.ah-left { flex: 1; }
+.ah-num { font-family: var(--mono); font-size: 8px; color: var(--fog); letter-spacing: 0.08em; margin-bottom: 2px; }
+.ah-name { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: -0.02em; line-height: 1; }
+.ah-meta { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.chip { font-size: 11px; color: var(--fog); background: var(--surface2); border: 1px solid var(--border2); border-radius: 3px; padding: 2px 8px; }
+.chip.crit { color: var(--flame); border-color: rgba(255,74,35,0.25); background: rgba(255,74,35,0.06); }
+.chip.watch { color: var(--gold); border-color: rgba(232,197,71,0.25); background: rgba(232,197,71,0.06); }
+.context-line {
+  margin: 0 24px; padding: 8px 14px;
+  background: var(--surface2); border: 1px solid var(--border); border-top: none;
+  border-radius: 0 0 4px 4px;
+  font-size: 11px; color: var(--fog); line-height: 1.55;
+}
+.ctx-label { font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+
+/* ── NOTE TYPES ── */
+.note-area { padding: 16px 24px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Big type buttons */
+.type-row { display: flex; gap: 8px; }
+.type-btn {
+  flex: 1; padding: 10px 8px; text-align: center;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 4px; cursor: pointer; transition: all 0.12s;
+  font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--fog);
+}
+.type-btn:hover { background: var(--surface2); }
+.type-btn.t-flag:hover, .type-btn.t-flag.sel { border-color: var(--flame); color: var(--flame); background: rgba(255,74,35,0.06); }
+.type-btn.t-note:hover, .type-btn.t-note.sel { border-color: var(--teal); color: var(--teal); background: rgba(91,192,190,0.06); }
+.type-btn.t-ctx:hover, .type-btn.t-ctx.sel  { border-color: var(--gold); color: var(--gold); background: rgba(232,197,71,0.06); }
+.type-icon { font-size: 14px; display: block; margin-bottom: 4px; }
+
+/* Input area */
+.input-area { display: none; }
+.input-area.show { display: block; }
+.big-input {
+  width: 100%; background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 4px; color: var(--white); font-family: var(--body); font-size: 13px;
+  padding: 12px 14px; outline: none; resize: none; line-height: 1.55; min-height: 72px;
+  transition: border-color 0.12s;
+}
+.big-input:focus { border-color: var(--lime); }
+.big-input::placeholder { color: var(--muted); }
+.input-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 7px; }
+.cancel-btn { background: transparent; border: 1px solid var(--border2); color: var(--fog); font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 12px; cursor: pointer; border-radius: 3px; }
+.save-btn { background: var(--lime); border: none; color: #0C0C0E; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 14px; cursor: pointer; border-radius: 3px; transition: opacity 0.15s; }
+.save-btn:hover { opacity: 0.85; }
+
+/* Notes list */
+.notes-list { display: flex; flex-direction: column; gap: 6px; }
+
+.note-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 10px 14px;
+  display: flex; gap: 10px; align-items: flex-start;
+  animation: noteIn 0.2s ease;
+}
+@keyframes noteIn { from{opacity:0;transform:translateY(-2px)} to{opacity:1;transform:translateY(0)} }
+.note-card.flag { border-left: 2px solid var(--flame); }
+.note-card.whisper { border-left: 2px solid var(--teal); }
+.note-card.context { border-left: 2px solid var(--gold); }
+
+.note-tag {
+  font-family: var(--mono); font-size: 7px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 5px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+}
+.nt-flag { background: rgba(255,74,35,0.12); color: var(--flame); border: 1px solid rgba(255,74,35,0.25); }
+.nt-whisper { background: rgba(91,192,190,0.1); color: var(--teal); border: 1px solid rgba(91,192,190,0.25); }
+.nt-context { background: rgba(232,197,71,0.1); color: var(--gold); border: 1px solid rgba(232,197,71,0.25); }
+
+.note-text { flex: 1; font-size: 12px; color: var(--white); line-height: 1.5; }
+.note-time { font-family: var(--mono); font-size: 8px; color: var(--muted); margin-top: 3px; }
+.note-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 0; transition: color 0.12s; flex-shrink: 0; margin-top: 2px; }
+.note-del:hover { color: var(--flame); }
+
+/* Empty artist */
+.artist-empty { padding: 32px 24px; text-align: center; color: var(--muted); }
+.ae-icon { font-size: 24px; margin-bottom: 8px; opacity: 0.4; }
+.ae-text { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; line-height: 1.7; }
+
+/* Welcome */
+.welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 40px; text-align: center; }
+.w-icon { font-size: 28px; margin-bottom: 12px; opacity: 0.25; }
+.w-head { font-family: var(--mono); font-size: 10px; color: var(--fog); letter-spacing: 0.1em; text-transform: uppercase; }
+.w-sub { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+
+/* ── EXPORT MODAL ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; display: none; align-items: flex-start; justify-content: center; padding: 28px 20px; overflow-y: auto; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; width: 100%; max-width: 680px; flex-shrink: 0; }
+.modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border2); }
+.modal-title { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--lime); letter-spacing: 0.06em; }
+.modal-close { background: none; border: none; color: var(--fog); font-size: 16px; cursor: pointer; padding: 0; }
+.modal-close:hover { color: var(--white); }
+.modal-body { padding: 18px; max-height: 68vh; overflow-y: auto; font-size: 12px; line-height: 1.6; }
+.exp-artist { margin-bottom: 18px; }
+.exp-name { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.exp-note { padding: 5px 0 5px 12px; border-left: 2px solid var(--border2); margin-bottom: 3px; }
+.exp-note.flag { border-left-color: var(--flame); }
+.exp-note.whisper { border-left-color: var(--teal); }
+.exp-note.context { border-left-color: var(--gold); }
+.exp-label { font-family: var(--mono); font-size: 8px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.06em; }
+.exp-text { color: var(--white); margin-top: 2px; }
+.modal-footer { padding: 12px 18px; border-top: 1px solid var(--border2); display: flex; justify-content: flex-end; gap: 8px; }
+.copy-btn { background: var(--lime); border: none; color: #0C0C0E; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; border-radius: 3px; transition: opacity 0.15s; }
+.copy-btn:hover { opacity: 0.85; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tl">
+    <div>
+      <div class="meeting-sub">Campaign Operations · RCA Records</div>
+      <div class="meeting-name">ACTIVE PROJECTS — APR 8, 2026</div>
+    </div>
+    <div class="live-pill"><div class="live-dot"></div>ANNOTATING</div>
+  </div>
+  <div class="tr">
+    <span class="note-count" id="note-count">0 notes</span>
+    <button class="export-btn" onclick="openExport()">Export for Transcript ↗</button>
+  </div>
+</div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-hdr">16 artists · tap to annotate</div>
+    <div class="artist-list" id="artist-list"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="main-panel">
+    <div class="welcome">
+      <div class="w-icon">←</div>
+      <div class="w-head">Select an artist</div>
+      <div class="w-sub">Three note types:<br><span style="color:var(--flame)">Flag</span> — something to verify or highlight<br><span style="color:var(--teal)">Whisper</span> — context you know, not said aloud<br><span style="color:var(--gold)">Context</span> — background for the transcript reader</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="export-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">ANNOTATION EXPORT — APR 8, 2026</div>
+      <button class="modal-close" onclick="closeExport()">✕</button>
+    </div>
+    <div class="modal-body" id="export-body"></div>
+    <div class="modal-footer">
+      <button class="copy-btn" onclick="copyExport()">Copy All</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ARTISTS = [
+  { id:'strokes',    num:'01', name:'The Strokes',     lead:'Aaron Stern',        ops:'Gerard', priority:'crit',
+    context:'Single + pre-order launched Tue. Album 6/26. 2nd single 5/15. Coachella Sat.' },
+  { id:'cbrown',     num:'02', name:'Chris Brown',      lead:'Carlos Cuadros',     ops:'Gerard', priority:'crit',
+    context:'"Obvious" rushing Fri 4/10. Tour announce Fri. Album 5/5. Mgmt not signing off on music tease.' },
+  { id:'kwn',        num:'03', name:'KWN',              lead:'Jourdan Washington',  ops:'Meg',    priority:'crit',
+    context:'5/15 two-track bundle confirmed. Brooklyn Steel Wed, Webster Hall Thu.' },
+  { id:'hpicardi',   num:'04', name:'Hailey Picardi',  lead:'Lexi Vaganos',        ops:'Meg',    priority:'crit',
+    context:'First record through Promo Tool. Creative shoot 4/13–14.' },
+  { id:'gsv',        num:'05', name:'girlsweetvoiced', lead:'Carlos Cuadros',      ops:'Gerard', priority:'watch',
+    context:'700K streams, 15% TikTok conversion. Next single early-mid May.' },
+  { id:'rcs',        num:'06', name:'Red Clay Strays', lead:'Aaron Stern',         ops:'Gerard', priority:'watch',
+    context:'Single 4/23. Stagecoach 4/24.' },
+  { id:'beckyg',     num:'07', name:'Becky G',          lead:'Gina Messeri',        ops:'Meg',    priority:'watch',
+    context:'Album masters still missing. World Cup angle. Call Her Daddy momentum.' },
+  { id:'latto',      num:'08', name:'Latto',            lead:'Jourdan Washington',  ops:'Meg',    priority:'watch',
+    context:'GOMF confirmed 4/24. Album "Big Mama" 5/29. 4/24 conflict w/ Chris Brown.' },
+  { id:'eemtriplin', num:'09', name:'Eem Triplin',      lead:'Carlos Cuadros',      ops:'Gerard', priority:'track',
+    context:'EP.' },
+  { id:'flomilli',   num:'10', name:'Flo Milli',        lead:'Jourdan Washington',  ops:'Meg',    priority:'track',
+    context:'Freestyles rolling. 4–5 TikToks/day.' },
+  { id:'ari',        num:'11', name:'Ari Abdul',        lead:'Aaron Stern',         ops:'Gerard', priority:'track',
+    context:'Ego workable for 5/1. Master delivered.' },
+  { id:'presley',    num:'12', name:'Presley Regier',   lead:'Molly Yorkes',        ops:'Meg',    priority:'track',
+    context:'EP 4/24. Pre-order live. Full audio being mixed.' },
+  { id:'isabellr',   num:'13', name:'Isabel LaRosa',    lead:'Molly Yorkes',        ops:'Meg',    priority:'track',
+    context:'EP pre-order 5/1 with "Hallucinations."' },
+  { id:'lovespells', num:'14', name:'Love Spells',      lead:'Natalie Ho',          ops:'Gerard', priority:'track',
+    context:'"Crutch" timeline starts 4/30.' },
+  { id:'cartervail', num:'15', name:'Carter Vail',      lead:'Gina Messeri',        ops:'Meg',    priority:'track',
+    context:'"Fairyloot Birdwatchers" 5/8.' },
+  { id:'horsegirl',  num:'16', name:'horsegiirL',       lead:'Molly Yorkes',        ops:'Meg',    priority:'watch',
+    context:'Single 4/22 9am PT. Sample awaiting BA. Album 6/5. Coachella Fri. Budget escalation — 50K cap, need partner support.' },
+];
+
+const NOTE_TYPES = {
+  flag:    { label:'FLAG',    cls:'nt-flag',    cardCls:'flag',    icon:'⚑', desc:'Verify in transcript / highlight for processing' },
+  whisper: { label:'WHISPER', cls:'nt-whisper', cardCls:'whisper', icon:'◎', desc:'Context you know that won\'t be in the recording' },
+  context: { label:'CONTEXT', cls:'nt-context', cardCls:'context', icon:'◈', desc:'Background for whoever processes the transcript' },
+};
+
+const state = { current: null, notes: {}, activeType: null };
+let idc = 0;
+const getNotes = id => { if(!state.notes[id]) state.notes[id]=[]; return state.notes[id]; };
+const now = () => new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+const allNotes = () => Object.values(state.notes).flat();
+
+// ── SIDEBAR ──
+function buildSidebar() {
+  const list = document.getElementById('artist-list');
+  const tiers = [{key:'crit',label:'Critical'},{key:'watch',label:'Watch'},{key:'track',label:'Tracking'}];
+  tiers.forEach(tier => {
+    const arts = ARTISTS.filter(a => a.priority === tier.key);
+    if (!arts.length) return;
+    const d = document.createElement('div'); d.className='tier-label'; d.textContent=tier.label;
+    list.appendChild(d);
+    arts.forEach(a => {
+      const btn = document.createElement('button');
+      btn.className = 'artist-btn'; btn.id = `ab-${a.id}`; btn.onclick = () => select(a.id);
+      btn.innerHTML = `
+        <div class="pdot pdot-${a.priority}"></div>
+        <div class="ab-inner">
+          <div class="ab-name">${a.name}</div>
+          <div class="ab-indicators" id="ind-${a.id}"></div>
+        </div>
+      `;
+      list.appendChild(btn);
+    });
+  });
+}
+
+function updateSidebarIndicators(id) {
+  const notes = getNotes(id);
+  const el = document.getElementById(`ind-${id}`);
+  if (!el) return;
+  const f = notes.filter(n=>n.type==='flag').length;
+  const w = notes.filter(n=>n.type==='whisper').length;
+  const c = notes.filter(n=>n.type==='context').length;
+  el.innerHTML = [
+    f ? `<span class="ind ind-flag">${f} flag${f>1?'s':''}</span>` : '',
+    w ? `<span class="ind ind-note">${w} whisper${w>1?'s':''}</span>` : '',
+    c ? `<span class="ind ind-ctx">${c} ctx</span>` : '',
+  ].join('');
+  const btn = document.getElementById(`ab-${id}`);
+  if (!btn) return;
+  btn.classList.remove('has-notes','has-flags');
+  if (f > 0) btn.classList.add('has-flags');
+  else if (w > 0 || c > 0) btn.classList.add('has-notes');
+}
+
+function updateNoteCount() {
+  const n = allNotes().length;
+  document.getElementById('note-count').textContent = n + (n===1?' note':' notes');
+}
+
+// ── SELECT ──
+function select(id) {
+  state.current = id;
+  state.activeType = null;
+  document.querySelectorAll('.artist-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`ab-${id}`)?.classList.add('active');
+  render();
+}
+
+// ── RENDER ──
+function render() {
+  const id = state.current;
+  if (!id) return;
+  const a = ARTISTS.find(x=>x.id===id);
+  const notes = getNotes(id);
+  const pChip = a.priority==='crit'?`<span class="chip crit">● Critical</span>`:a.priority==='watch'?`<span class="chip watch">● Watch</span>`:'';
+
+  const typeBtns = Object.entries(NOTE_TYPES).map(([key,t]) =>
+    `<button class="type-btn t-${key} ${state.activeType===key?'sel':''}" onclick="selectType('${id}','${key}')">
+      <span class="type-icon">${t.icon}</span>${t.label}
+    </button>`
+  ).join('');
+
+  const inputPlaceholders = {
+    flag:    'What needs to be flagged or verified in the transcript?',
+    whisper: 'What do you know that won\'t be said aloud in the meeting?',
+    context: 'What background should the transcript processor know?',
+  };
+
+  const inputHtml = state.activeType ? `
+    <div class="input-area show">
+      <textarea class="big-input" id="note-input" placeholder="${inputPlaceholders[state.activeType]}" onkeydown="handleKey(event,'${id}')"></textarea>
+      <div class="input-row">
+        <button class="cancel-btn" onclick="cancelType()">Cancel</button>
+        <button class="save-btn" onclick="saveNote('${id}')">Add ${NOTE_TYPES[state.activeType].label} ↵</button>
+      </div>
+    </div>` : '';
+
+  const notesHtml = notes.length ? `
+    <div class="notes-list">
+      ${notes.map(n => `
+        <div class="note-card ${n.type}" id="nc-${n.id}">
+          <span class="note-tag ${NOTE_TYPES[n.type].cls}">${NOTE_TYPES[n.type].icon} ${NOTE_TYPES[n.type].label}</span>
+          <div style="flex:1">
+            <div class="note-text">${n.text}</div>
+            <div class="note-time">${n.ts}</div>
+          </div>
+          <button class="note-del" onclick="delNote('${id}','${n.id}')">✕</button>
+        </div>
+      `).join('')}
+    </div>` : (!state.activeType ? `
+    <div class="artist-empty">
+      <div class="ae-icon">◌</div>
+      <div class="ae-text">Nothing annotated yet.<br>Choose a note type above.</div>
+    </div>` : '');
+
+  document.getElementById('main-panel').innerHTML = `
+    <div class="artist-hdr">
+      <div class="ah-left">
+        <div class="ah-num">ARTIST ${a.num} / 16</div>
+        <div class="ah-name">${a.name}</div>
+        <div class="ah-meta">
+          <span class="chip">CL: ${a.lead}</span>
+          <span class="chip">Ops: ${a.ops}</span>
+          ${pChip}
+        </div>
+      </div>
+    </div>
+    <div class="context-line">
+      <div class="ctx-label">Context</div>
+      ${a.context}
+    </div>
+    <div class="note-area">
+      <div class="type-row">${typeBtns}</div>
+      ${inputHtml}
+      ${notesHtml}
+    </div>
+  `;
+
+  if (state.activeType) {
+    setTimeout(() => document.getElementById('note-input')?.focus(), 40);
+  }
+}
+
+function selectType(id, type) {
+  state.activeType = state.activeType === type ? null : type;
+  render();
+}
+
+function cancelType() {
+  state.activeType = null;
+  render();
+}
+
+function handleKey(e, id) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveNote(id); }
+  if (e.key === 'Escape') cancelType();
+}
+
+function saveNote(id) {
+  const input = document.getElementById('note-input');
+  const text = input?.value.trim();
+  if (!text || !state.activeType) return;
+  getNotes(id).push({ id:`n${++idc}`, type: state.activeType, text, ts: now(), artistId: id, artistName: ARTISTS.find(a=>a.id===id)?.name });
+  state.activeType = null;
+  render();
+  updateSidebarIndicators(id);
+  updateNoteCount();
+}
+
+function delNote(id, nid) {
+  state.notes[id] = state.notes[id].filter(n=>n.id!==nid);
+  render();
+  updateSidebarIndicators(id);
+  updateNoteCount();
+}
+
+// ── EXPORT ──
+function openExport() {
+  const body = document.getElementById('export-body');
+  const annotated = ARTISTS.filter(a => getNotes(a.id).length > 0);
+  if (!annotated.length) {
+    body.innerHTML = '<div style="padding:20px;color:var(--fog);font-family:var(--mono);font-size:10px;text-align:center;">No annotations yet.</div>';
+    document.getElementById('export-modal').classList.add('open');
+    return;
+  }
+  body.innerHTML = annotated.map(a => {
+    const notes = getNotes(a.id);
+    return `<div class="exp-artist">
+      <div class="exp-name">${a.num}. ${a.name.toUpperCase()}</div>
+      <div style="font-size:10px;color:var(--fog);margin-bottom:6px;font-style:italic;">${a.context}</div>
+      ${notes.map(n=>`
+        <div class="exp-note ${n.type}">
+          <div class="exp-label">${NOTE_TYPES[n.type].icon} ${NOTE_TYPES[n.type].label} · ${n.ts}</div>
+          <div class="exp-text">${n.text}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('<div style="border-top:1px solid var(--border);margin:12px 0;"></div>');
+  document.getElementById('export-modal').classList.add('open');
+}
+
+function closeExport() { document.getElementById('export-modal').classList.remove('open'); }
+
+function copyExport() {
+  const annotated = ARTISTS.filter(a => getNotes(a.id).length > 0);
+  let text = `ACTIVE PROJECTS ANNOTATIONS — April 8, 2026\nFor transcript processing · Campaign Ops\n${'─'.repeat(48)}\n\n`;
+  annotated.forEach(a => {
+    const notes = getNotes(a.id);
+    text += `${a.num}. ${a.name.toUpperCase()}\nContext: ${a.context}\n\n`;
+    notes.forEach(n => { text += `[${NOTE_TYPES[n.type].label}] ${n.text}  (${n.ts})\n`; });
+    text += '\n';
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = 'Copy All', 2000);
+  });
+}
+
+buildSidebar();
+</script>
+</body>
+</html>
