@@ -1,71 +1,81 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Artist Insights &mdash; Hailey Picardi</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0F0E0E;--dark:#141414;--card:#1A1A1A;--slate:#3E3F41;--white:#FCFDF8;--off-white:#E8E6EC;--fog:#B0A9BE;--fog-dim:#847D96;--chartreuse:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD;--amber:#FFB347;--pink:#FF6B9D}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--off-white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
-.c{max-width:760px;margin:0 auto;padding:0 32px}
-.hero{padding:60px 0 40px;border-bottom:1px solid var(--slate)}
-.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:16px}
-.hero-title{font-size:48px;font-weight:900;color:var(--chartreuse);text-transform:uppercase;letter-spacing:-1px;line-height:1.05;margin-bottom:12px}
-.hero-sub{font-size:14px;color:var(--fog-dim);max-width:520px;line-height:1.7}
-.hero-meta{margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--slate);line-height:1.8}
-.sec{padding:40px 0;border-bottom:1px solid var(--slate)}
-.sec-bar{display:flex;align-items:baseline;gap:12px;margin-bottom:24px;padding-bottom:8px;border-bottom:2px solid var(--chartreuse)}
+<style>:root{--black:#0F0E0E;--dark:#1A1A1A;--off-white:#FCFDF8;--chartreuse:#CDF851;--data-us:#B8E64A;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--fog-dim:#706B7A;--teal:#5BC0BE;--pink:#FF6B9D;--amber:#FFB347;--eval-green:#4ADE80;--eval-red:#EF4444;--gender-a:#CDF851;--gender-b:#5BC0BE}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:56px}
+body{background:var(--black);color:var(--off-white);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.c{max-width:960px;margin:0 auto;padding:0 32px}
+.hero{padding:72px 0 48px;border-bottom:2px solid var(--chartreuse);position:relative;overflow:hidden}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:14px}
+.hero-title{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(52px,8vw,84px);line-height:0.9;color:var(--chartreuse);letter-spacing:-2px;text-transform:uppercase;margin-bottom:14px}
+.hero-sub{font-size:15px;color:var(--fog);max-width:520px}
+.hero-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);margin-top:20px;line-height:1.8}
+.sec{padding:56px 0 0}.sec-bar{display:flex;align-items:baseline;gap:12px;padding-bottom:6px;border-bottom:2px solid var(--chartreuse);margin-bottom:28px}
 .sec-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse)}
-.sec-title{font-size:18px;font-weight:800;color:var(--white)}
-.sub{margin-bottom:32px}
-.sub-title{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:12px}
-.cm{font-size:14px;color:var(--off-white);line-height:1.7;margin-top:14px;opacity:0.88}
-.cm strong{font-weight:700;color:var(--off-white)}
-.cm em{color:var(--chartreuse);font-style:normal;font-weight:600}
-.stats{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
-.st{flex:1;min-width:120px;background:var(--dark);padding:12px 14px}
-.st-n{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;line-height:1.1}
-.st-n.g{color:var(--chartreuse)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.r{color:var(--flame)}
-.st-l{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim);margin-top:4px}
-.st-s{font-size:9px;color:var(--slate);font-family:'DM Mono',monospace;margin-top:2px}
-.chart-wrap{background:var(--dark);padding:20px;margin-top:12px;position:relative}
-.chart-wrap canvas{width:100%!important}
-.bars{margin-top:12px}
-.br{display:grid;grid-template-columns:160px 1fr 60px;align-items:center;gap:8px;margin-bottom:4px}
-.br-l{font-size:11px;color:var(--fog);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.br-l.hi{color:var(--white);font-weight:600}
-.br-t{height:16px;background:var(--dark)}
-.br-f{height:100%}
-.br-f.g{background:var(--chartreuse)}.br-f.t{background:var(--teal)}
-.br-v{font-size:11px;font-family:'DM Mono',monospace;color:var(--fog)}
-.br-v.hi{color:var(--chartreuse);font-weight:600}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.dt{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+.sec-title{font-family:'Inter',sans-serif;font-weight:900;font-size:32px;color:var(--off-white);letter-spacing:-0.5px;line-height:1}
+.sub{padding:32px 0 0}.sub-title{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--slate)}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.st{background:var(--dark);padding:18px 22px;flex:1;min-width:130px;border-top:3px solid var(--slate);transition:border-color 0.3s}.st:hover{border-top-color:var(--chartreuse)}
+.st-n{font-family:'Inter',sans-serif;font-weight:900;font-size:40px;line-height:1;letter-spacing:-1px}
+.st-n.g{color:var(--data-us)}.st-n.f{color:var(--flame)}.st-n.t{color:var(--teal)}.st-n.w{color:var(--off-white)}.st-n.sm{font-size:30px}
+.st-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-top:4px}
+.st-s{font-size:11px;color:var(--fog-dim);margin-top:2px}.st-s.up{color:var(--eval-green)}.st-s.dn{color:var(--eval-red)}
+.cm{font-size:14px;color:var(--off-white);line-height:1.7;margin-top:14px;opacity:0.88}.cm+.cm{margin-top:8px}
+.cm strong{font-weight:700;color:var(--off-white)}.cm em{color:var(--chartreuse);font-style:normal;font-weight:600}
+.chart-wrap{background:var(--dark);padding:20px;margin-top:16px;position:relative}.chart-wrap canvas{width:100%!important}
+.dt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
 .dt th{text-align:left;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);padding:6px 10px;border-bottom:1px solid var(--slate)}
-.dt th.r{text-align:right}.dt td{padding:7px 10px;border-bottom:1px solid rgba(62,63,65,0.4);font-variant-numeric:tabular-nums}
-.dt td.r{text-align:right}.dt tr:hover{background:rgba(205,248,81,0.02)}
-.ix{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:1px 5px}
-.ix.o{color:var(--chartreuse)}.ix.u{color:var(--flame)}.ix.n{color:var(--fog-dim)}
+.dt th.r{text-align:right}.dt td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4);font-variant-numeric:tabular-nums}
+.dt td.r{text-align:right}.dt td.d{color:var(--fog-dim);font-size:11px}.dt tr:last-child td{border-bottom:none}.dt tr{transition:background 0.2s}.dt tr:hover{background:rgba(205,248,81,0.02)}
+.ix{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:1px 7px;font-variant-numeric:tabular-nums}
+.ix.o{background:rgba(74,222,128,0.12);color:var(--eval-green)}.ix.u{background:rgba(239,68,68,0.12);color:var(--eval-red)}.ix.n{background:rgba(176,169,190,0.08);color:var(--fog)}
+.bars{margin-top:14px}.br{display:grid;grid-template-columns:220px 1fr 55px;gap:10px;align-items:center;margin-bottom:5px}
+.br-l{font-size:12px;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.br-l.hi{color:var(--data-us);font-weight:700}
+.br-t{background:rgba(62,63,65,0.2);height:24px;position:relative;overflow:hidden}.br-f{height:100%}.br-f.g{background:var(--data-us)}.br-f.t{background:var(--teal)}
+.br-v{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fog)}.br-v.hi{color:var(--data-us);font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.card{background:var(--dark);padding:18px;border-top:3px solid var(--slate);transition:border-color 0.3s}.card:hover{border-top-color:var(--chartreuse)}
+.card-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.tag{background:var(--dark);padding:5px 10px;font-size:11px;color:var(--fog);border:1px solid var(--slate)}
+.tag{font-size:11px;font-weight:600;padding:4px 12px;background:rgba(176,169,190,0.08);color:var(--fog);transition:background 0.2s}.tag:hover{background:rgba(176,169,190,0.15)}
+.eng-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.eng-card{background:var(--dark);padding:20px;border-top:3px solid var(--slate)}
+.eng-card .big{font-family:'Inter',sans-serif;font-weight:900;font-size:48px;line-height:1;margin-bottom:2px;letter-spacing:-2px}
+.eng-card .lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:12px}
+.eng-card .metric{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(62,63,65,0.3);font-size:13px}
+.eng-card .metric:last-child{border-bottom:none}
+.eng-card .metric .k{color:var(--fog)}.eng-card .metric .v{font-weight:600;font-variant-numeric:tabular-nums}
+.gender-bar{display:flex;height:28px;margin-top:8px;overflow:hidden}.gender-bar .f{background:var(--gender-a)}.gender-bar .m{background:var(--gender-b)}
+.gender-label{display:flex;justify-content:space-between;margin-top:4px;font-family:'DM Mono',monospace;font-size:10px}
+.gender-label .fl{color:var(--gender-a)}.gender-label .ml{color:var(--gender-b)}
+.idx-bars{display:flex;flex-direction:column;gap:5px;padding:8px 0}
+.idx-row{display:flex;align-items:center;gap:8px;height:22px}
+.idx-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--off-white);min-width:85px;text-align:right;white-space:nowrap}
+.idx-track{flex:1;height:14px;background:rgba(62,63,65,0.3);position:relative;overflow:hidden}
+.idx-fill{height:100%;transition:width 0.6s ease}
+.idx-fill.over{background:linear-gradient(90deg,rgba(74,222,128,0.25),rgba(74,222,128,0.5))}
+.idx-fill.under{background:rgba(255,74,35,0.2)}.idx-fill.neutral{background:rgba(176,169,190,0.2)}
+.idx-baseline{position:absolute;left:32.9%;top:0;bottom:0;width:1px;background:var(--fog-dim);opacity:0.4}
+.idx-val{font-family:'DM Mono',monospace;font-size:10px;min-width:28px;text-align:right}
+.idx-val.o{color:var(--eval-green)}.idx-val.n{color:var(--fog-dim)}.idx-val.u{color:var(--flame)}
 .five-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .five-item{display:grid;grid-template-columns:20px 1fr;gap:8px;padding:8px 12px;background:var(--dark);align-items:start}
 .five-item.full{grid-column:1/-1}
 .five-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);padding-top:2px}
 .five-text{font-size:12px;line-height:1.55}
-.gps-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:16px}
+.gps-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}
 .gps-tbl th{text-align:left;padding:8px 10px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);border-bottom:2px solid var(--chartreuse);background:var(--dark)}
-.gps-tbl td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4)}
-.gps-tbl tr:hover{background:rgba(205,248,81,0.02)}
-.gps-overall{background:var(--dark);border-left:3px solid var(--chartreuse);padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:20px}
-.gps-big{font-size:32px;font-weight:900;font-family:'DM Mono',monospace;color:var(--chartreuse)}
-.gps-meta{font-size:11px;color:var(--fog-dim)}
-.foot{padding:40px 0 56px;text-align:center}
-.foot .rca{font-size:14px;font-weight:900;letter-spacing:2px;color:var(--chartreuse);margin-bottom:8px}
+.gps-tbl td{padding:8px 10px;border-bottom:1px solid rgba(62,63,65,0.4)}.gps-tbl tr:hover{background:rgba(205,248,81,0.02)}
+.gps-overall{background:var(--dark);border-left:3px solid var(--chartreuse);padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:24px}
+.gps-big{font-family:'Inter',sans-serif;font-weight:900;font-size:48px;line-height:1;letter-spacing:-2px}
+.div{height:1px;background:var(--slate);margin-top:48px}
+.foot{padding:40px 0 56px;text-align:center}.foot .rca{font-family:'Inter',sans-serif;font-weight:900;font-size:24px;color:var(--chartreuse);letter-spacing:3px;margin-bottom:8px}
 .foot p{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog-dim);letter-spacing:0.5px}
-@media(max-width:700px){.c{padding:0 20px}.hero-title{font-size:36px}.two{grid-template-columns:1fr}.five-grid{grid-template-columns:1fr}.stats{flex-direction:column}.br{grid-template-columns:100px 1fr 50px}}
-</style>
-</head><body>
+@media(max-width:700px){.c{padding:0 20px}.hero-title{font-size:44px}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr}.stats{flex-direction:column}.eng-grid{grid-template-columns:1fr}.br{grid-template-columns:140px 1fr 44px}}
+.hero::before{content:'HAILEYPICARDI';position:absolute;top:-10px;right:-30px;font-family:'Inter',sans-serif;font-weight:900;font-size:160px;color:rgba(205,248,81,0.03);letter-spacing:4px;pointer-events:none;line-height:1}
+</style></head><body>
 <script>// Password gate — injected at top of each GPS page
 (function(){
   const HASH = 'aca649258462260c79e63076444dc8f1fa9d255620ba43ef16be7cd4813eb636';
@@ -120,10 +130,8 @@ body{background:var(--bg);color:var(--off-white);font-family:'Inter',sans-serif;
 <!-- 5 THINGS -->
 <div style="padding:24px 0;border-bottom:1px solid var(--slate)">
 <p style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px">5 Things to Know</p>
-<div class="five-grid"><div class="five-item"><span class="five-num">01</span><span class="five-text"><strong>The audience is ahead of the music.</strong> IG engagement at 23% (bench 4.9%) and TikTok like-to-view at 22.7% (bench 10.4%) are both top 1% of all artists in the dataset. The person is generating heat. The catalog is not converting it &mdash; catalog momentum sits at P17.</span></div><div class="five-item"><span class="five-num">02</span><span class="five-text"><strong>Youngest audience on the roster.</strong> Core streaming age 20.8, core socials age 19.6 &mdash; both 99th+ percentile. 14% of Spotify listeners are 13&ndash;17 (index 262 vs benchmark). 53% of IG followers are 18&ndash;24. This is a Gen Z artist with a Gen Z audience.</span></div><div class="five-item"><span class="five-num">03</span><span class="five-text"><strong>Only 18 weeks of streaming data.</strong> She&rsquo;s brand new. 4-week US average of 821K is solid for an artist this early, but the trajectory is still being written. Peak week hit 1.28M in late February.</span></div><div class="five-item"><span class="five-num">04</span><span class="five-text"><strong>84.8% female audience</strong> on Spotify (index 177). The male index is 24 &mdash; among the most female-skewing profiles in the dataset. Brand and sync targeting should reflect this.</span></div><div class="five-item full"><span class="five-num">05</span><span class="five-text"><strong>Over-indexes heavily in rural/small-market US:</strong> Clarksburg WV (238), Terre Haute IN (231), Rochester MN (222). Internationally: Norway (299), Ireland (290), Great Britain (193). The UK/Ireland corridor is her strongest international lane.</span></div></div></div>
-
-<div class="sec" id="streaming">
-<div class="sec-bar"><div class="sec-label">Streaming</div><div class="sec-title">Artist Level Streams</div></div>
+<div class="five-grid"><div class="five-item"><span class="five-num">01</span><span class="five-text"><strong>The audience is ahead of the music.</strong> IG engagement at 23% (bench 4.9%) and TikTok like-to-view at 22.7% (bench 10.4%) are both top 1% of all artists in the dataset. The person is generating heat. The catalog is not converting it &mdash; catalog momentum sits at P17.</span></div><div class="five-item"><span class="five-num">02</span><span class="five-text"><strong>Youngest audience on the roster.</strong> Core streaming age 20.8, core socials age 19.6 &mdash; both 99th+ percentile. 14% of Spotify listeners are 13&ndash;17 (index 262 vs benchmark). 53% of IG followers are 18&ndash;24. This is a Gen Z artist with a Gen Z audience.</span></div><div class="five-item"><span class="five-num">03</span><span class="five-text"><strong>Only 18 weeks of streaming data.</strong> She&rsquo;s brand new. 4-week US average of 821K is solid for an artist this early, but the trajectory is still being written. Peak week hit 1.28M in late February.</span></div><div class="five-item"><span class="five-num">04</span><span class="five-text"><strong>84.8% female audience</strong> on Spotify (index 177). The male index is 24 &mdash; among the most female-skewing profiles in the dataset. Brand and sync targeting should reflect this.</span></div><div class="five-item full"><span class="five-num">05</span><span class="five-text"><strong>Over-indexes in rural/small-market US and Northern Europe.</strong> Clarksburg WV (238), Terre Haute IN (231), Rochester MN (222). Internationally: Norway (299), Ireland (290), Great Britain (193). The UK/Ireland corridor is her strongest international lane.</span></div></div></div>
+<div class="sec" id="streaming"><div class="sec-bar"><div class="sec-label">Streaming</div><div class="sec-title">Artist Level Streams</div></div>
 <div class="stats">
 <div class="st"><div class="st-n g">821K</div><div class="st-l">Weekly US</div><div class="st-s">4-week average</div></div>
 <div class="st"><div class="st-n t">2.3M</div><div class="st-l">Weekly Global</div><div class="st-s">4-week average</div></div>
@@ -131,64 +139,69 @@ body{background:var(--bg);color:var(--off-white);font-family:'Inter',sans-serif;
 <div class="st"><div class="st-n g">1.3M</div><div class="st-l">US Peak</div></div>
 </div>
 <div class="sub"><div class="sub-title">Weekly ODA &mdash; US vs Global</div>
-<div class="chart-wrap"><canvas id="chartStreams" height="280"></canvas></div>
+<div class="chart-wrap"><canvas id="cStreams" height="280"></canvas></div>
 <p class="cm">Only 18 weeks of history, but the shape is promising. The floor started at ~77K weekly and has risen to 600&ndash;800K range in under 5 months. The February peak (1.28M) coincided with the Double Edged Sword release. The question is whether the floor holds post-spike.</p></div>
 <div class="sub"><div class="sub-title">Week 1 Debuts &mdash; US ODA</div><div class="bars"><div class="br"><div class="br-l">TEACH YOU TO LOVE ME</div><div class="br-t"><div class="br-f t" style="width:71%"></div></div><div class="br-v">84K</div></div>
 <div class="br"><div class="br-l">DOUBLE EDGED SWORD</div><div class="br-t"><div class="br-f t" style="width:77%"></div></div><div class="br-v">91K</div></div>
 <div class="br"><div class="br-l">double edged sword</div><div class="br-t"><div class="br-f t" style="width:77%"></div></div><div class="br-v">91K</div></div>
-<div class="br"><div class="br-l hi">CAR CRASH</div><div class="br-t"><div class="br-f g" style="width:100%"></div></div><div class="br-v hi">118K</div></div>
+<div class="br"><div class="br-lhi">CAR CRASH</div><div class="br-t"><div class="br-f g" style="width:100%"></div></div><div class="br-v hi">118K</div></div>
 </div><p class="cm">Three releases in the data, all opening above 83K. Car Crash (Dec 2025) debuted highest at 118K. The most recent release (Teach You To Love Me) opened lower at 84K &mdash; a small red flag given the social momentum. Release momentum sits at P23, meaning debut sizes are trending down rather than up.</p></div></div>
-<div class="sec" id="audience">
-<div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Who's Listening</div></div><div class="sub"><div class="sub-title">Top Markets (by Index)</div><div class="two"><div><table class="dt"><tr><th>Global Market</th><th class="r">Index</th><th class="r">Share</th></tr><tr><td>Norway</td><td class="r"><span class="ix o">299</span></td><td class="r">1.22%</td></tr><tr><td>Ireland</td><td class="r"><span class="ix o">290</span></td><td class="r">1.41%</td></tr><tr><td>Great Britain</td><td class="r"><span class="ix n">193</span></td><td class="r">11.63%</td></tr><tr><td>Lebanon</td><td class="r"><span class="ix n">174</span></td><td class="r">0.04%</td></tr><tr><td>Denmark</td><td class="r"><span class="ix n">174</span></td><td class="r">0.63%</td></tr><tr><td>Bahrain</td><td class="r"><span class="ix n">168</span></td><td class="r">0.01%</td></tr><tr><td>Sweden</td><td class="r"><span class="ix n">160</span></td><td class="r">1.02%</td></tr><tr><td>Netherlands</td><td class="r"><span class="ix n">158</span></td><td class="r">1.87%</td></tr></table></div><div><table class="dt"><tr><th>US Market (DMA)</th><th class="r">Index</th></tr><tr><td>Clarksburg-Weston, WV</td><td class="r"><span class="ix o">238</span></td></tr><tr><td>Terre Haute, IN</td><td class="r"><span class="ix o">231</span></td></tr><tr><td>Rochester et al, MN-IA</td><td class="r"><span class="ix o">222</span></td></tr><tr><td>Paducah et al, KY-MI-IL</td><td class="r"><span class="ix o">221</span></td></tr><tr><td>Watertown, NY</td><td class="r"><span class="ix o">221</span></td></tr><tr><td>Helena, MT</td><td class="r"><span class="ix o">212</span></td></tr><tr><td>Marquette, MI</td><td class="r"><span class="ix o">210</span></td></tr><tr><td>Parkersburg, WV</td><td class="r"><span class="ix o">205</span></td></tr></table></div></div><p class="cm">International over-indexing clusters in Northern Europe: Norway (299), Ireland (290), Great Britain (193), Denmark (174). In the US, the pattern is striking &mdash; she over-indexes heavily in small, rural markets (Clarksburg WV, Terre Haute IN, Helena MT) rather than major metros. This may indicate organic, word-of-mouth discovery rather than playlist-driven metro penetration.</p></div>
-<div class="sub"><div class="sub-title">Age Distribution</div>
-<div class="two"><div><div class="chart-wrap"><canvas id="chartAge" height="220"></canvas></div></div>
-<div><div class="chart-wrap"><canvas id="chartAgeIG" height="220"></canvas></div></div></div>
-<p class="cm"><strong>The streaming audience is young but the IG audience is even younger.</strong> On Spotify, 18&ndash;22 (31.6%, index 158) and 13&ndash;17 (14.1%, index 262) dominate. On Instagram, 18&ndash;24 is 53% of followers and 13&ndash;17 over-indexes at 385. The social audience is a younger subset of the streaming audience &mdash; the content is reaching teens who haven&rsquo;t fully converted to streaming yet.</p></div><div class="sub"><div class="sub-title">Gender &mdash; Spotify (WW)</div>
-<div class="chart-wrap" style="max-width:300px"><canvas id="chartGender" height="180"></canvas></div>
-<p class="cm"><strong>One of the most female-skewing profiles in the dataset.</strong> 84.8% female on Spotify (index 177). Male listeners are an afterthought at 11.3%. This isn&rsquo;t unusual for a young female pop artist, but the degree of skew is notable &mdash; it suggests the appeal is strongly identity-driven.</p></div><div class="sub"><div class="sub-title">Ethnicity &mdash; IG Followers (WW)</div><table class="dt"><tr><th>Ethnicity</th><th class="r">%</th><th class="r">Index</th></tr><tr><td>White / Caucasian</td><td class="r">78.3%</td><td class="r"><span class="ix o">146</span></td></tr><tr><td>Black / African American</td><td class="r">15.7%</td><td class="r"><span class="ix o">137</span></td></tr><tr><td>Hispanic</td><td class="r">6.0%</td><td class="r"><span class="ix u">44</span></td></tr><tr><td>Asian</td><td class="r">0.0%</td><td class="r"><span class="ix u">0</span></td></tr></table></div>
-<div class="sub"><div class="sub-title">Spotify Fans Also Like</div><div class="tags"><div class="tag">Alyssa Grace</div><div class="tag">Bella Kay</div><div class="tag">Isabella Contadini</div><div class="tag">Lydia Kenny</div><div class="tag">Mulaa Joans</div><div class="tag">Lara Buchanan</div><div class="tag">Joely</div><div class="tag">STELLA LEFTY</div><div class="tag">Dirty Blond</div><div class="tag">Erin LeCount</div></div><p class="cm">The Fans Also Like cluster is almost entirely emerging female pop artists &mdash; none are household names. This is a peer group, not an aspiration group. The audience is discovering these artists together through the same channels.</p></div></div>
-<div class="sec" id="socials">
-<div class="sec-bar"><div class="sec-label">Socials</div><div class="sec-title">Social Performance</div></div>
+<div class="div"></div>
+<div class="sec" id="socials"><div class="sec-bar"><div class="sec-label">Socials</div><div class="sec-title">Social Performance</div></div>
 <div class="sub"><div class="sub-title">Followers &amp; Growth</div>
-<div class="stats">
-<div class="st"><div class="st-n g">752K</div><div class="st-l">TikTok Followers</div></div>
-<div class="st"><div class="st-n t">6.6%</div><div class="st-l">IG 1M Growth</div><div class="st-s">P95 &mdash; Excellent</div></div>
-<div class="st"><div class="st-n t">2.5%</div><div class="st-l">TT 1M Growth</div><div class="st-s">P83 &mdash; Very Strong</div></div>
-</div></div>
-<div class="sub"><div class="sub-title">Engagement</div>
-<div class="stats"><div class="st"><div class="st-n g">23.1%</div><div class="st-l">IG Engagement</div><div class="st-s">Bench: 4.9% &middot; P98</div></div><div class="st"><div class="st-n t">22.7%</div><div class="st-l">TT Like/View</div><div class="st-s">Bench: 10.4% &middot; P99</div></div></div><p class="cm"><strong>Instagram engagement is nearly 5x benchmark</strong> &mdash; 23.1% vs 4.9%. When she posts, nearly a quarter of her followers engage. TikTok like-to-view (22.7% vs 10.4% bench) tells the same story: content quality is exceptionally high. IG growth of 6.6% per million puts her at P95. Both platforms show an artist whose content dramatically outperforms expectations.</p></div></div>
-<div class="sec" id="gps">
-<div class="sec-bar"><div class="sec-label">artistGPS</div><div class="sec-title">Evaluation Summary</div></div>
-<div class="gps-overall">
-<div class="gps-big" style="color:#24693d">P98</div>
-<div><div style="font-size:16px;font-weight:700;color:#24693d">Excellent</div>
-<div class="gps-meta">Score: 77.6 / 100 &middot; 10 KPIs available</div></div>
-</div>
+<div class="eng-grid">
+<div class="eng-card" style="border-top-color:var(--chartreuse)">
+<div class="card-label" style="color:var(--chartreuse)">Instagram</div>
+<div class="big" style="color:var(--chartreuse)">6.6%</div>
+<div class="lbl">1M Follower Growth</div>
+<div class="metric"><span class="k">Growth Percentile</span><span class="v" style="color:#24693d">Excellent &mdash; P95</span></div><div class="metric"><span class="k">Engagement Rate</span><span class="v">23.1% (bench 4.9%)</span></div></div>
+<div class="eng-card" style="border-top-color:var(--flame)">
+<div class="card-label" style="color:var(--flame)">TikTok</div>
+<div class="big" style="color:var(--flame)">752K</div>
+<div class="lbl">Followers</div>
+<div class="metric"><span class="k">1M Growth Rate</span><span class="v">2.5%</span></div>
+<div class="metric"><span class="k">Growth Percentile</span><span class="v" style="color:#45924e">Very Strong &mdash; P83</span></div><div class="metric"><span class="k">Like-to-View</span><span class="v">22.7% (bench 10.4%)</span></div></div></div>
+<p class="cm"><strong>Instagram engagement is nearly 5x benchmark</strong> &mdash; 23.1% vs 4.9%. When she posts, nearly a quarter of her followers engage. IG growth of 6.6% per million puts her at P95 &mdash; Excellent. The social presence is generating real heat.</p>
+<p class="cm"><strong>TikTok like-to-view at 22.7%</strong> vs 10.4% benchmark tells the same story: content quality is exceptionally high. Growth at 2.5% per million (P83) is Very Strong. Both platforms show an artist whose content dramatically outperforms expectations.</p>
+</div><div class="sub"><div class="sub-title">Engagement</div><div class="eng-grid"><div class="eng-card" style="border-top-color:var(--chartreuse)"><div class="big" style="color:var(--chartreuse)">23.1%</div><div class="lbl">IG Engagement Rate</div><div class="metric"><span class="k">Benchmark</span><span class="v">4.9%</span></div><div class="metric"><span class="k">vs Benchmark</span><span class="v" style="color:var(--eval-green)">+18.2pp</span></div><div class="metric"><span class="k">Percentile</span><span class="v" style="color:#24693d">P98 &mdash; Excellent</span></div></div><div class="eng-card" style="border-top-color:var(--flame)"><div class="big" style="color:var(--flame)">22.7%</div><div class="lbl">TT Like-to-View Ratio</div><div class="metric"><span class="k">Benchmark</span><span class="v">10.4%</span></div><div class="metric"><span class="k">vs Benchmark</span><span class="v" style="color:var(--eval-green)">+12.3pp</span></div><div class="metric"><span class="k">Percentile</span><span class="v" style="color:#24693d">P99 &mdash; Excellent</span></div></div></div></div></div>
+<div class="div"></div>
+<div class="sec" id="audience"><div class="sec-bar"><div class="sec-label">Audience</div><div class="sec-title">Where They Listen</div></div><div class="sub"><div class="sub-title">Global Markets</div><div class="idx-bars"><div class="idx-row"><div class="idx-label">Norway</div><div class="idx-track"><div class="idx-fill over" style="width:100%"></div><div class="idx-baseline"></div></div><div class="idx-val o">299</div></div><div class="idx-row"><div class="idx-label">Ireland</div><div class="idx-track"><div class="idx-fill over" style="width:97%"></div><div class="idx-baseline"></div></div><div class="idx-val o">290</div></div><div class="idx-row"><div class="idx-label">Great Britain</div><div class="idx-track"><div class="idx-fill over" style="width:65%"></div><div class="idx-baseline"></div></div><div class="idx-val o">193</div></div><div class="idx-row"><div class="idx-label">Lebanon</div><div class="idx-track"><div class="idx-fill over" style="width:58%"></div><div class="idx-baseline"></div></div><div class="idx-val o">174</div></div><div class="idx-row"><div class="idx-label">Denmark</div><div class="idx-track"><div class="idx-fill over" style="width:58%"></div><div class="idx-baseline"></div></div><div class="idx-val o">174</div></div><div class="idx-row"><div class="idx-label">Bahrain</div><div class="idx-track"><div class="idx-fill over" style="width:56%"></div><div class="idx-baseline"></div></div><div class="idx-val o">168</div></div><div class="idx-row"><div class="idx-label">Sweden</div><div class="idx-track"><div class="idx-fill over" style="width:54%"></div><div class="idx-baseline"></div></div><div class="idx-val o">160</div></div><div class="idx-row"><div class="idx-label">Netherlands</div><div class="idx-track"><div class="idx-fill over" style="width:53%"></div><div class="idx-baseline"></div></div><div class="idx-val o">158</div></div></div></div>
+<div class="sub"><div class="sub-title">US Markets</div><div class="idx-bars"><div class="idx-row"><div class="idx-label">Clarksburg-Weston, W</div><div class="idx-track"><div class="idx-fill over" style="width:100%"></div><div class="idx-baseline"></div></div><div class="idx-val o">238</div></div><div class="idx-row"><div class="idx-label">Terre Haute, IN</div><div class="idx-track"><div class="idx-fill over" style="width:97%"></div><div class="idx-baseline"></div></div><div class="idx-val o">231</div></div><div class="idx-row"><div class="idx-label">Rochester et al, MN-</div><div class="idx-track"><div class="idx-fill over" style="width:93%"></div><div class="idx-baseline"></div></div><div class="idx-val o">222</div></div><div class="idx-row"><div class="idx-label">Paducah et al, KY-MI</div><div class="idx-track"><div class="idx-fill over" style="width:93%"></div><div class="idx-baseline"></div></div><div class="idx-val o">221</div></div><div class="idx-row"><div class="idx-label">Watertown, NY</div><div class="idx-track"><div class="idx-fill over" style="width:93%"></div><div class="idx-baseline"></div></div><div class="idx-val o">221</div></div><div class="idx-row"><div class="idx-label">Helena, MT</div><div class="idx-track"><div class="idx-fill over" style="width:89%"></div><div class="idx-baseline"></div></div><div class="idx-val o">212</div></div><div class="idx-row"><div class="idx-label">Marquette, MI</div><div class="idx-track"><div class="idx-fill over" style="width:88%"></div><div class="idx-baseline"></div></div><div class="idx-val o">210</div></div><div class="idx-row"><div class="idx-label">Parkersburg, WV</div><div class="idx-track"><div class="idx-fill over" style="width:86%"></div><div class="idx-baseline"></div></div><div class="idx-val o">205</div></div></div><p class="cm">International over-indexing clusters in Northern Europe: Norway (299), Ireland (290), Great Britain (193), Denmark (174). In the US, the pattern is striking &mdash; she over-indexes heavily in small, rural markets (Clarksburg WV, Terre Haute IN, Helena MT) rather than major metros. This may indicate organic, word-of-mouth discovery rather than playlist-driven metro penetration.</p></div>
+<div class="sub"><div class="sub-title">Age Distribution</div><div class="two"><div><div class="chart-wrap"><canvas id="cAge" height="220"></canvas></div></div><div><div class="chart-wrap"><canvas id="cAgeIG" height="220"></canvas></div></div></div><p class="cm"><strong>The streaming audience is young but the IG audience is even younger.</strong> On Spotify, 18&ndash;22 (31.6%, index 158) and 13&ndash;17 (14.1%, index 262) dominate. On Instagram, 18&ndash;24 is 53% of followers and 13&ndash;17 over-indexes at 385. The social audience is a younger subset of the streaming audience &mdash; the content is reaching teens who haven&rsquo;t fully converted to streaming yet.</p></div><div class="sub"><div class="sub-title">Gender Split</div>
+<div class="card" style="border-top-color:var(--chartreuse);max-width:480px">
+<div class="card-label" style="color:var(--chartreuse)">Spotify &mdash; Worldwide</div>
+<div class="gender-bar"><div class="f" style="width:84.8%"></div><div class="m" style="width:11.3%"></div></div>
+<div class="gender-label"><span class="fl">Female 84.8%</span><span class="ml">Male 11.3%</span></div>
+</div><p class="cm"><strong>One of the most female-skewing profiles in the dataset.</strong> 84.8% female on Spotify (index 177). Male listeners are an afterthought at 11.3%. This isn&rsquo;t unusual for a young female pop artist, but the degree of skew is notable &mdash; it suggests the appeal is strongly identity-driven.</p></div><div class="sub"><div class="sub-title">Ethnicity &amp; Language (Instagram)</div><div class="two"><div><table class="dt"><tr><th>Ethnicity</th><th class="r">%</th><th class="r">Index</th></tr><tr><td>White / Caucasian</td><td class="r">78.3%</td><td class="r"><span class="ix o">146</span></td></tr><tr><td>Black / African American</td><td class="r">15.7%</td><td class="r"><span class="ix o">137</span></td></tr><tr><td>Hispanic</td><td class="r">6.0%</td><td class="r"><span class="ix u">44</span></td></tr><tr><td>Asian</td><td class="r">0.0%</td><td class="r"><span class="ix u">0</span></td></tr></table></div><div><table class="dt"><tr><th>Language</th><th class="r">%</th><th class="r">Index</th></tr><tr><td>English</td><td class="r">90.0%</td><td class="r"><span class="ix o">163</span></td></tr><tr><td>Spanish</td><td class="r">2.6%</td><td class="r"><span class="ix u">20</span></td></tr><tr><td>German</td><td class="r">1.2%</td><td class="r"><span class="ix u">42</span></td></tr><tr><td>French</td><td class="r">1.0%</td><td class="r"><span class="ix u">27</span></td></tr><tr><td>Portugese</td><td class="r">0.8%</td><td class="r"><span class="ix u">11</span></td></tr></table></div></div><p class="cm"><strong>Predominantly White/Caucasian audience</strong> (78.3%, index 146) with Black/African American as the second largest segment (15.7%, index 137). Hispanic representation is low at 6.0% (index 44). This is a narrow demographic profile &mdash; campaigns should reflect the audience that&rsquo;s actually there.</p></div><div class="sub"><div class="sub-title">Fans Also Like</div><div class="tags"><div class="tag">Alyssa Grace</div><div class="tag">Bella Kay</div><div class="tag">Isabella Contadini</div><div class="tag">Lydia Kenny</div><div class="tag">Mulaa Joans</div><div class="tag">Lara Buchanan</div><div class="tag">Joely</div><div class="tag">STELLA LEFTY</div><div class="tag">Dirty Blond</div><div class="tag">Erin LeCount</div></div><p class="cm">The Fans Also Like cluster is almost entirely emerging female pop artists &mdash; none are household names. This is a peer group, not an aspiration group. The audience is discovering these artists together through the same channels.</p></div></div>
+<div class="div"></div>
+<div class="sec" id="gps"><div class="sec-bar"><div class="sec-label">artistGPS</div><div class="sec-title">Evaluation Summary</div></div>
+<div class="gps-overall"><div class="gps-big" style="color:#24693d">P98</div>
+<div><div style="font-size:18px;font-weight:800;color:#24693d">Excellent</div>
+<div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--fog-dim);margin-top:2px">Score: 77.6 / 100 &middot; 10 KPIs</div></div></div>
 <table class="gps-tbl"><tr><th>KPI</th><th>Value</th><th>Percentile</th><th>Rating</th></tr><tr><td>Catalog Momentum</td><td style="font-family:DM Mono">-9.9%</td><td style="font-family:DM Mono;font-weight:700;color:#ae123a">P17</td><td style="color:#ae123a">Very Weak</td></tr>
 <tr><td>Release Momentum</td><td style="font-family:DM Mono">-15.6%</td><td style="font-family:DM Mono;font-weight:700;color:#e33f43">P23</td><td style="color:#e33f43">Weak</td></tr>
 <tr><td>IG 1M Follower Growth</td><td style="font-family:DM Mono">6.6%</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P95</td><td style="color:#24693d">Excellent</td></tr>
 <tr><td>TikTok 1M Follower Growth</td><td style="font-family:DM Mono">2.5%</td><td style="font-family:DM Mono;font-weight:700;color:#45924e">P83</td><td style="color:#45924e">Very Strong</td></tr>
-<tr><td>Instagram Engagement Rate</td><td style="font-family:DM Mono">23.1%</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P98</td><td style="color:#24693d">Excellent</td></tr>
-<tr><td>TikTok Like-to-View Ratio</td><td style="font-family:DM Mono">22.7%</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P99</td><td style="color:#24693d">Excellent</td></tr>
+<tr><td>Instagram Engagement</td><td style="font-family:DM Mono">23.1%</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P98</td><td style="color:#24693d">Excellent</td></tr>
+<tr><td>TikTok Like-to-View</td><td style="font-family:DM Mono">22.7%</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P99</td><td style="color:#24693d">Excellent</td></tr>
 <tr><td>Lean Forward %</td><td style="font-family:DM Mono">69.0%</td><td style="font-family:DM Mono;font-weight:700;color:#d4d4d4">P69</td><td style="color:#d4d4d4">Solid</td></tr>
-<tr><td>Lean Forward Streams/User</td><td style="font-family:DM Mono">9.49</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P93</td><td style="color:#24693d">Excellent</td></tr>
+<tr><td>LF Streams/User</td><td style="font-family:DM Mono">9.49</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P93</td><td style="color:#24693d">Excellent</td></tr>
 <tr><td>Core Streaming Age</td><td style="font-family:DM Mono">20.8</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P99</td><td style="color:#24693d">Excellent</td></tr>
 <tr><td>Core Socials Age</td><td style="font-family:DM Mono">19.6</td><td style="font-family:DM Mono;font-weight:700;color:#24693d">P100</td><td style="color:#24693d">Exceptional</td></tr>
 </table></div>
+<div class="div"></div>
 <div class="foot"><div class="rca">RCA</div><p>Artist Insights &middot; Data: Strategic Analytics &middot; Internal Use Only &middot; April 2026</p></div>
 </div>
 <script>
-Chart.defaults.color='#847D96';Chart.defaults.borderColor='#3E3F41';Chart.defaults.font.family="'Inter',sans-serif";Chart.defaults.font.size=11;
-new Chart(document.getElementById('chartStreams'),{type:'line',data:{labels:["2025-12-04", "2025-12-11", "2025-12-18", "2025-12-25", "2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-05", "2026-02-12", "2026-02-19", "2026-02-26", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-26", "2026-04-02"],datasets:[
-{label:'US ODA',data:[4, 118270, 95805, 83617, 78788, 80639, 77791, 81018, 263158, 490221, 694033, 904777, 1282191, 765469, 727418, 949069, 814004, 794895],borderColor:'#CDF851',backgroundColor:'rgba(205,248,81,0.08)',fill:true,borderWidth:1.5,pointRadius:0,tension:0.3},
+Chart.defaults.color='#706B7A';Chart.defaults.borderColor='#3E3F41';Chart.defaults.font.family="'Inter',sans-serif";Chart.defaults.font.size=11;
+new Chart(document.getElementById('cStreams'),{type:'line',data:{labels:["2025-12-04", "2025-12-11", "2025-12-18", "2025-12-25", "2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-05", "2026-02-12", "2026-02-19", "2026-02-26", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-26", "2026-04-02"],datasets:[
+{label:'US ODA',data:[4, 118270, 95805, 83617, 78788, 80639, 77791, 81018, 263158, 490221, 694033, 904777, 1282191, 765469, 727418, 949069, 814004, 794895],borderColor:'#B8E64A',backgroundColor:'rgba(184,230,74,0.08)',fill:true,borderWidth:1.5,pointRadius:0,tension:0.3},
 {label:'Global ODA',data:[233, 410424, 338608, 289677, 272873, 278601, 277143, 287425, 861437, 1528598, 2109000, 2441322, 3243329, 2002177, 1960923, 2596707, 2275836, 2200605],borderColor:'#5BC0BE',backgroundColor:'transparent',borderWidth:1,pointRadius:0,tension:0.3,borderDash:[4,4]}
 ]},options:{responsive:true,plugins:{legend:{labels:{boxWidth:12}}},scales:{x:{ticks:{maxTicksLimit:8}},y:{ticks:{callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'K':v}}}}});
-new Chart(document.getElementById('chartAge'),{type:'bar',data:{labels:["23-27", "18-22", "35-44", "13-17", "45+", "28-34"],datasets:[
-{label:'Artist',data:[31.5, 31.6, 7.7, 14.1, 7.3, 7.7],backgroundColor:'#CDF851'},
-{label:'Benchmark',data:[29.8, 20.0, 14.7, 5.4, 10.3, 19.8],backgroundColor:'#3E3F41'}
-]},options:{responsive:true,plugins:{title:{display:true,text:'Spotify (WW)',color:'#847D96',font:{size:10,weight:600}}},scales:{y:{ticks:{callback:v=>v+'%'}}}}});
-new Chart(document.getElementById('chartAgeIG'),{type:'bar',data:{labels:["45-64", "35-44", "65+", "13-17", "25-34", "18-24"],datasets:[
+new Chart(document.getElementById('cAge'),{type:'bar',data:{labels:["23-27", "18-22", "35-44", "13-17", "45+", "28-34"],datasets:[
+{label:'Artist',data:[31.5, 31.6, 7.7, 14.1, 7.3, 7.7],backgroundColor:'#B8E64A'},{label:'Benchmark',data:[29.8, 20.0, 14.7, 5.4, 10.3, 19.8],backgroundColor:'#3E3F41'}
+]},options:{responsive:true,plugins:{title:{display:true,text:'Spotify (WW)',color:'#706B7A',font:{size:10,weight:600}}},scales:{y:{ticks:{callback:v=>v+'%'}}}}});
+new Chart(document.getElementById('cAgeIG'),{type:'bar',data:{labels:["45-64", "35-44", "65+", "13-17", "25-34", "18-24"],datasets:[
 {label:'IG Followers',data:[1.2, 4.2, 0.0, 16.0, 25.6, 53.0],backgroundColor:'#5BC0BE'}
-]},options:{responsive:true,plugins:{title:{display:true,text:'Instagram (WW)',color:'#847D96',font:{size:10,weight:600}}},scales:{y:{ticks:{callback:v=>v+'%'}}}}});
-new Chart(document.getElementById('chartGender'),{type:'doughnut',data:{labels:["Female", "Male"],datasets:[{data:[84.8, 11.3],backgroundColor:['#CDF851','#5BC0BE'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right'}}}});
+]},options:{responsive:true,plugins:{title:{display:true,text:'Instagram (WW)',color:'#706B7A',font:{size:10,weight:600}}},scales:{y:{ticks:{callback:v=>v+'%'}}}}});
 </script></body></html>
