@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>artistGPS — Campaign Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0E0E;--card:#1A1A1A;--card-hover:#222;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+.topbar{border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:12px}
+.topbar-logo{font-weight:900;font-size:14px;letter-spacing:2px;color:var(--green)}
+.topbar-sep{color:var(--muted);font-size:10px}
+.topbar-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+.topbar-right{margin-left:auto;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted)}
+
+.c{max-width:760px;margin:0 auto;padding:0 32px}
+
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--border)}
+.hero-eye{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:inline-block;padding:4px 10px;background:rgba(205,248,81,0.08)}
+.hero-title{font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+.hero-title span{color:var(--green)}
+.hero-sub{font-size:13px;color:var(--dim);max-width:520px;line-height:1.7}
+
+.section{padding:40px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.sec-desc{font-size:12px;color:var(--dim);margin-bottom:16px;line-height:1.5;max-width:520px}
+
+.card-grid{display:grid;gap:8px}
+.card{display:block;background:var(--card);padding:20px 24px;border-left:3px solid var(--muted);transition:all .15s;position:relative}
+.card:hover{border-left-color:var(--green);background:var(--card-hover)}
+.card::after{content:'→';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:16px;color:var(--muted);transition:color .15s}
+.card:hover::after{color:var(--green)}
+.card-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+.card-title{font-size:16px;font-weight:800;line-height:1.2}
+.card-tag{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;background:var(--bg)}
+.card-desc{font-size:12px;color:var(--dim);line-height:1.5;padding-right:28px}
+
+.card.green{border-left-color:var(--green)}
+.card.teal{border-left-color:var(--teal)}
+.card.purple{border-left-color:var(--purple)}
+.card.flame{border-left-color:var(--flame)}
+
+.dl-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #1a1a1a}
+.dl-row:hover{background:var(--card)}
+.dl-icon{font-size:16px;width:32px;text-align:center}
+.dl-info{flex:1}
+.dl-name{font-weight:600;font-size:13px}
+.dl-meta{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace}
+.dl-btn{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green);padding:4px 10px;border:1px solid var(--green);transition:all .15s}
+.dl-btn:hover{background:var(--green);color:var(--bg)}
+
+.footer{padding:32px 0;text-align:center;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="topbar-logo">RCA</div>
+<div class="topbar-sep">·</div>
+<div class="topbar-label">artistGPS</div>
+<div class="topbar-right">Restricted Access · April 2026</div>
+</div>
+
+<div class="c">
+
+<div class="hero">
+<div class="hero-eye">Campaign Operations × Strategic Analytics</div>
+<div class="hero-title">artist<span>GPS</span></div>
+<div class="hero-sub">Full roster scoring system, individual artist profiles, campaign playbook framework, and roster gap analysis. 292 artists, 10 KPIs, one evaluation system.</div>
+</div>
+
+<!-- TOOLS -->
+<div class="section">
+<div class="sec-label">Tools</div>
+<div class="sec-desc">Interactive dashboards for exploring the data.</div>
+<div class="card-grid">
+<a href="dashboard.html" class="card green">
+<div class="card-row"><div class="card-title">Full Roster Dashboard</div><div class="card-tag" style="color:var(--green)">292 Artists</div></div>
+<div class="card-desc">Search, filter, sort, and drill into every artist's GPS scores. Filter by genre, Sony/Non-Sony, rating tier. Click any artist to expand KPI detail.</div>
+</a>
+<a href="gap-analysis.html" class="card flame">
+<div class="card-row"><div class="card-title">Roster Gap Analysis</div><div class="card-tag" style="color:var(--flame)">5 Gap Layers</div></div>
+<div class="card-desc">Where are the holes? Fans-also-like gaps, genre health, archetype balance, geographic reach, and non-Sony signing targets.</div>
+</a>
+<a href="playbooks.html" class="card purple">
+<div class="card-row"><div class="card-title">Campaign Playbooks & KPI Guide</div><div class="card-tag" style="color:var(--purple)">10 KPIs</div></div>
+<div class="card-desc">What each KPI actually means, the four campaign archetypes, and specific playbooks for the four profiled artists.</div>
+</a>
+</div>
+</div>
+
+<!-- ARTIST REPORTS -->
+<div class="section">
+<div class="sec-label">Artist Insights</div>
+<div class="sec-desc">Full individual reports — streaming, audience, socials, and GPS scoring.</div>
+<div class="card-grid">
+<a href="hailey-picardi.html" class="card">
+<div class="card-row"><div class="card-title">Hailey Picardi</div><div class="card-tag" style="color:#24693d">P98 · Excellent</div></div>
+<div class="card-desc">The Converter — youngest audience on the roster, explosive social growth, but catalog momentum needs work.</div>
+</a>
+<a href="eli.html" class="card">
+<div class="card-row"><div class="card-title">Eli</div><div class="card-tag" style="color:#24693d">P95 · Excellent</div></div>
+<div class="card-desc">The Engine — catalog momentum at P95, music-driven discovery, modest social but strong lean-forward metrics.</div>
+</a>
+<a href="tate-mcrae.html" class="card">
+<div class="card-row"><div class="card-title">Tate McRae</div><div class="card-tag" style="color:#45924e">P82 · Very Strong</div></div>
+<div class="card-desc">The Iceberg — massive reach but low lean-forward %. Small fanatical core, large passive majority.</div>
+</a>
+<a href="don-west.html" class="card">
+<div class="card-row"><div class="card-title">Don West</div><div class="card-tag" style="color:#ae123a">P19 · Very Weak</div></div>
+<div class="card-desc">The Evaluation — unsigned, 7/10 KPIs available. Data raises questions about audience age and platform fit.</div>
+</a>
+</div>
+</div>
+
+<!-- DOWNLOADS -->
+<div class="section">
+<div class="sec-label">Data</div>
+<div class="sec-desc">Raw GPS scores for all 292 artists.</div>
+<div class="dl-row">
+<div class="dl-icon">📊</div>
+<div class="dl-info"><div class="dl-name">artistGPS — All Artists (CSV)</div><div class="dl-meta">292 artists · 10 KPIs · percentiles + overall score</div></div>
+<a href="artistGPS_all_artists.csv" download class="dl-btn">Download</a>
+</div>
+</div>
+
+</div>
+
+<div class="footer">RCA Records · Campaign Operations · Data: Strategic Analytics · Internal Use Only</div>
+
+<script>
+// Password gate — injected at top of each GPS page
+(function(){
+  const HASH = 'aca649258462260c79e63076444dc8f1fa9d255620ba43ef16be7cd4813eb636';
+  const KEY = 'gps_auth';
+  
+  if (sessionStorage.getItem(KEY) === 'true') return;
+  
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#0F0E0E;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:360px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#CDF851;margin-bottom:4px">RCA</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE;margin-bottom:32px">artistGPS · Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#1A1A1A;border:1px solid #2a2a2a;color:#FCFDF8;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#e33f43;min-height:20px;margin-bottom:8px"></div>
+        <div style="font-size:10px;color:#666;margin-top:16px">Internal Use Only · Campaign Operations</div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+  
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+  
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+
+</script>
+</body>
+</html>

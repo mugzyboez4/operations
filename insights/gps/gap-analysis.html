@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCA Roster Gap Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0F0E0E;color:#FCFDF8;font-family:'Inter',sans-serif;font-size:13px;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+
+.hdr{border-bottom:1px solid #2a2a2a;padding:14px 24px;display:flex;align-items:center;gap:16px}
+.logo{font-weight:900;font-size:14px;letter-spacing:2px;color:#CDF851}
+.hdr-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE}
+.hdr-badge{margin-left:auto;background:#1A1A1A;padding:3px 8px;font-size:10px;font-family:'DM Mono',monospace;color:#CDF851}
+
+.hero{padding:48px 0 36px;border-bottom:1px solid #2a2a2a}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B0A9BE;margin-bottom:10px}
+.hero-title{font-size:38px;font-weight:900;color:#CDF851;text-transform:uppercase;letter-spacing:-1px;line-height:1.1;margin-bottom:12px}
+.hero-sub{font-size:14px;color:#B0A9BE;max-width:640px;line-height:1.7}
+
+.sec{padding:48px 0;border-bottom:1px solid #2a2a2a}
+.sec-bar{display:flex;align-items:baseline;gap:12px;margin-bottom:28px;padding-bottom:10px;border-bottom:2px solid #CDF851}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CDF851}
+.sec-title{font-size:20px;font-weight:800}
+.sec-desc{font-size:13px;color:#B0A9BE;margin-bottom:24px;max-width:640px}
+
+.gap-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #1a1a1a}
+.gap-row:hover{background:#1A1A1A}
+.gap-rank{width:28px;font-size:10px;font-family:'DM Mono',monospace;color:#666;text-align:right}
+.gap-bar-wrap{flex:1;display:flex;align-items:center;gap:10px}
+.gap-name{width:200px;font-weight:600;font-size:13px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gap-bar{flex:1;height:16px;background:#1A1A1A}
+.gap-fill{height:100%;transition:width .4s}
+.gap-count{width:30px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#CDF851;text-align:right}
+.gap-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.gap-tag{font-size:9px;padding:1px 5px;background:#1A1A1A;color:#B0A9BE;border:1px solid #2a2a2a}
+
+.target-card{background:#1A1A1A;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:16px;border-left:3px solid #3E3F41;transition:border-color .15s}
+.target-card:hover{border-color:#CDF851}
+.target-name{font-weight:700;font-size:14px;width:200px;flex-shrink:0}
+.target-genre{font-size:10px;padding:2px 6px;background:#0F0E0E;color:#B0A9BE;width:100px;text-align:center;flex-shrink:0}
+.target-score{font-family:'DM Mono',monospace;font-weight:700;font-size:14px;width:60px;text-align:center;flex-shrink:0}
+.target-overlap{font-family:'DM Mono',monospace;font-size:12px;color:#CDF851;width:80px;flex-shrink:0}
+.target-connected{font-size:11px;color:#B0A9BE;flex:1}
+
+.genre-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #1a1a1a}
+.genre-name{width:180px;font-weight:600;flex-shrink:0}
+.genre-n{width:30px;font-family:'DM Mono',monospace;font-size:11px;color:#B0A9BE;text-align:center}
+.genre-bar-wrap{flex:1;display:flex;gap:2px;height:20px}
+.genre-strong{background:#24693d;height:100%}
+.genre-mid{background:#3E3F41;height:100%}
+.genre-weak{background:#e33f43;height:100%}
+.genre-score{width:50px;font-family:'DM Mono',monospace;font-size:12px;text-align:right}
+.genre-age{width:50px;font-family:'DM Mono',monospace;font-size:11px;color:#B0A9BE;text-align:right}
+.genre-legend{display:flex;gap:16px;margin-top:12px;font-size:10px;color:#B0A9BE}
+.genre-legend-dot{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:middle}
+
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.arch-card{background:#1A1A1A;padding:14px;border-left:3px solid #3E3F41}
+.arch-name{font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:1px;color:#CDF851;margin-bottom:4px}
+.arch-count{font-family:'DM Mono',monospace;font-size:24px;font-weight:700;margin-bottom:6px}
+.arch-pct{font-size:11px;color:#B0A9BE;margin-bottom:8px}
+.arch-artists{font-size:11px;color:#666;line-height:1.5}
+
+.geo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:640px){.geo-grid{grid-template-columns:1fr}}
+.geo-col-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.geo-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #1a1a1a;font-size:12px}
+.geo-country{flex:1}
+.geo-idx{font-family:'DM Mono',monospace;font-weight:700;font-size:12px}
+
+.callout{background:#1A1A1A;border-left:3px solid #FF4A23;padding:16px;margin:24px 0;font-size:13px;color:#B0A9BE;line-height:1.7}
+.callout strong{color:#FCFDF8}
+.callout em{color:#CDF851;font-style:normal}
+
+.footer{padding:24px;text-align:center;font-size:10px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-top:40px;border-top:1px solid #1e1e1e}
+</style>
+</head>
+<body>
+<script>
+// Password gate — injected at top of each GPS page
+(function(){
+  const HASH = 'aca649258462260c79e63076444dc8f1fa9d255620ba43ef16be7cd4813eb636';
+  const KEY = 'gps_auth';
+  
+  if (sessionStorage.getItem(KEY) === 'true') return;
+  
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#0F0E0E;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:360px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#CDF851;margin-bottom:4px">RCA</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE;margin-bottom:32px">artistGPS · Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#1A1A1A;border:1px solid #2a2a2a;color:#FCFDF8;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#e33f43;min-height:20px;margin-bottom:8px"></div>
+        <div style="font-size:10px;color:#666;margin-top:16px">Internal Use Only · Campaign Operations</div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+  
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+  
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+
+</script>
+<div class="hdr">
+<div class="logo">RCA</div>
+<div class="hdr-title">Roster Gap Analysis</div>
+<div class="hdr-badge">INTERNAL USE ONLY</div>
+</div>
+
+<div class="wrap">
+<div class="hero">
+<div class="hero-eye">Campaign Operations · Strategic Analytics</div>
+<div class="hero-title">Where Are<br>the Gaps?</div>
+<div class="hero-sub">Using fans-also-like data, GPS scores, audience demographics, and geographic streaming patterns to identify what the RCA roster is missing — and where the opportunities are.</div>
+</div>
+
+<div id="content"></div>
+
+<div class="footer">RCA Records · Campaign Operations · Data: Strategic Analytics · Internal Use Only · April 2026</div>
+</div>
+
+<script>
+const D = {"ext_gaps": [{"artist": "Ty Dolla $ign", "refs": 46, "connected": ["A$AP Rocky", "Flo Milli", "Chris Brown", "Travis Scott", "Tems"]}, {"artist": "Metro Boomin", "refs": 29, "connected": ["A$AP Rocky", "Travis Scott", "FERG", "Future", "21 Savage"]}, {"artist": "Offset", "refs": 22, "connected": ["Travis Scott", "FERG", "Future", "21 Savage", "Young Nudy"]}, {"artist": "Swae Lee", "refs": 20, "connected": ["Travis Scott", "Normani", "Khalid", "G-Eazy", "Lil Nas X"]}, {"artist": "Mustard", "refs": 20, "connected": ["Travis Scott", "FERG", "Future", "21 Savage", "London on Da Track"]}, {"artist": "benny blanco", "refs": 19, "connected": ["Halsey", "Khalid", "Normani", "G-Eazy", "The Kid LAROI"]}, {"artist": "Lil Wayne", "refs": 18, "connected": ["Chris Brown", "Travis Scott", "FERG", "Future", "21 Savage"]}, {"artist": "Marshmello", "refs": 18, "connected": ["Halsey", "Khalid", "Lil Nas X", "The Kid LAROI", "Kygo"]}, {"artist": "Rihanna", "refs": 17, "connected": ["Miley Cyrus", "Chris Brown", "Shakira", "Britney Spears", "Tyla"]}, {"artist": "Quavo", "refs": 17, "connected": ["Future", "21 Savage", "FERG", "Travis Scott"]}, {"artist": "Burna Boy", "refs": 17, "connected": ["Wizkid", "Tems", "Davido", "Skillibeng"]}, {"artist": "Ayra Starr", "refs": 17, "connected": ["Wizkid", "Tems", "Davido", "Skillibeng"]}, {"artist": "The Weeknd", "refs": 16, "connected": ["Doja Cat", "SZA", "Childish Gambino", "G-Eazy", "The Kid LAROI"]}, {"artist": "GIV?ON", "refs": 16, "connected": ["Yebba", "Lucky Daye", "H.E.R.", "Tems", "Bryson Tiller"]}, {"artist": "Migos", "refs": 16, "connected": ["Future", "21 Savage", "FERG"]}, {"artist": "Diplo", "refs": 15, "connected": ["Khalid", "G-Eazy", "The Kid LAROI"]}, {"artist": "Sia", "refs": 15, "connected": ["Mark Ronson", "Miley Cyrus", "Shakira", "Halsey", "Meghan Trainor"]}, {"artist": "Katy Perry", "refs": 14, "connected": ["Mark Ronson", "Miley Cyrus", "Shakira", "Britney Spears", "Justin Timberlake"]}, {"artist": "Ellie Goulding", "refs": 14, "connected": ["Miley Cyrus", "Zara Larsson", "Halsey", "Khalid", "G-Eazy"]}, {"artist": "Juice WRLD", "refs": 13, "connected": ["Polo G", "Sleepy Hallow", "The Kid LAROI"]}, {"artist": "Adekunle Gold", "refs": 13, "connected": ["Wizkid", "Davido", "The Cavemen."]}, {"artist": "Joony", "refs": 12, "connected": ["Eem Triplin", "Teezo Touchdown"]}, {"artist": "sosocamo", "refs": 12, "connected": ["Eem Triplin", "Teezo Touchdown"]}, {"artist": "Summer Walker", "refs": 12, "connected": ["Lucky Daye", "H.E.R.", "kwn", "Bryson Tiller", "SZA"]}, {"artist": "TiaCorine", "refs": 12, "connected": ["Kenny Mason", "Eem Triplin"]}, {"artist": "Victony", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Joeboy", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Ruger", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "BNXN", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Sarz", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Kehlani", "refs": 12, "connected": ["H.E.R.", "Latto", "kwn", "Chris Brown", "Tems"]}, {"artist": "Fireboy DML", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Olamide", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "OMAH LAY", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Che Ecru", "refs": 12, "connected": ["Eem Triplin", "Teezo Touchdown"]}, {"artist": "Wande Coal", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "Tiwa Savage", "refs": 12, "connected": ["Wizkid", "Davido"]}, {"artist": "SahBabii", "refs": 11, "connected": ["Lancey Foux", "Eem Triplin"]}, {"artist": "Ari Lennox", "refs": 11, "connected": ["D'Angelo", "Lucky Daye", "H.E.R.", "Victoria Mon\u00e9t", "Jazmine Sullivan"]}, {"artist": "PinkPantheress", "refs": 11, "connected": ["Madison Beer", "JENNIE", "Doja Cat", "Harry Styles", "Addison Rae"]}], "ns_targets": [{"artist": "Drake", "genre": "Hip-Hop & Rap", "score": 39.7, "pctile": 23, "connections": 37, "connected_to": ["A$AP Rocky", "Travis Scott", "Chris Brown", "Tems"]}, {"artist": "Don Toliver", "genre": "Hip-Hop & Rap", "score": 50.9, "pctile": 53, "connections": 34, "connected_to": ["Yebba", "A$AP Rocky", "Travis Scott", "Tems"]}, {"artist": "Lil Uzi Vert", "genre": "Hip-Hop & Rap", "score": 52.4, "pctile": 58, "connections": 30, "connected_to": ["A$AP Rocky", "Travis Scott", "Future", "21 Savage"]}, {"artist": "Lil Yachty", "genre": "Hip-Hop & Rap", "score": 42.1, "pctile": 31, "connections": 30, "connected_to": ["Eem Triplin", "A$AP Rocky", "Future", "21 Savage"]}, {"artist": "Gunna", "genre": "Hip-Hop & Rap", "score": 54.6, "pctile": 65, "connections": 23, "connected_to": ["Travis Scott", "Lil Durk", "Future", "21 Savage"]}, {"artist": "Young Thug", "genre": "Hip-Hop & Rap", "score": 33.3, "pctile": 13, "connections": 23, "connected_to": ["Travis Scott", "Lil Durk", "Future", "21 Savage"]}, {"artist": "Lil Baby", "genre": "Hip-Hop & Rap", "score": 47.9, "pctile": 46, "connections": 22, "connected_to": ["Nardo Wick", "Sleepy Hallow", "Lil Durk", "Future"]}, {"artist": "Brent Faiyaz", "genre": "R&B", "score": 46.4, "pctile": 42, "connections": 22, "connected_to": ["Yebba", "Eem Triplin", "Tems", "Bryson Tiller"]}, {"artist": "Playboi Carti", "genre": "Hip-Hop & Rap", "score": 40.6, "pctile": 27, "connections": 22, "connected_to": ["Tyler, The Creator", "A$AP Rocky", "Travis Scott", "Future"]}, {"artist": "Kodak Black", "genre": "Hip-Hop & Rap", "score": 44.9, "pctile": 37, "connections": 21, "connected_to": ["Sleepy Hallow", "Young Nudy", "Lil Durk", "Future"]}, {"artist": "J. Cole", "genre": "Hip-Hop & Rap", "score": 40.0, "pctile": 24, "connections": 21, "connected_to": ["Yebba", "A$AP Rocky", "FERG", "Future"]}, {"artist": "Justin Bieber", "genre": "Pop", "score": 22.0, "pctile": 1, "connections": 19, "connected_to": ["Latto", "Zara Larsson", "Chris Brown", "Khalid"]}, {"artist": "Frank Ocean", "genre": "R&B", "score": 58.5, "pctile": 74, "connections": 18, "connected_to": ["Tyler, The Creator", "Yebba", "A$AP Rocky", "Blood Orange"]}, {"artist": "Post Malone", "genre": "Pop", "score": 36.2, "pctile": 17, "connections": 18, "connected_to": ["Khalid", "G-Eazy", "Lil Nas X", "The Kid LAROI"]}, {"artist": "Kendrick Lamar", "genre": "Hip-Hop & Rap", "score": 44.6, "pctile": 36, "connections": 17, "connected_to": ["Tyler, The Creator", "A$AP Rocky", "Travis Scott", "SZA"]}, {"artist": "Selena Gomez", "genre": "Pop", "score": 33.4, "pctile": 14, "connections": 17, "connected_to": ["Miley Cyrus", "Madison Beer", "Shakira", "Khalid"]}, {"artist": "Camila Cabello", "genre": "Pop", "score": 45.0, "pctile": 38, "connections": 15, "connected_to": ["Miley Cyrus", "Halsey", "Khalid", "Doja Cat"]}, {"artist": "Sam Smith", "genre": "Pop", "score": 37.7, "pctile": 20, "connections": 13, "connected_to": ["Mark Ronson", "Miley Cyrus", "Halsey", "Khalid"]}, {"artist": "Maroon 5", "genre": "Pop", "score": 30.9, "pctile": 7, "connections": 13, "connected_to": ["Mark Ronson", "Miley Cyrus", "Justin Timberlake", "Meghan Trainor"]}, {"artist": "Snoh Aalegra", "genre": "R&B", "score": 25.5, "pctile": 3, "connections": 13, "connected_to": ["Lucky Daye", "H.E.R.", "Victoria Mon\u00e9t", "Foushe\u00e9"]}], "genres": [{"genre": "Pop", "n": 43, "mean": 52.5, "strong": 14, "weak": 10, "avg_age": 22.9}, {"genre": "Hip-Hop & Rap", "n": 42, "mean": 52.8, "strong": 12, "weak": 7, "avg_age": 25.1}, {"genre": "R&B", "n": 27, "mean": 48.4, "strong": 4, "weak": 5, "avg_age": 26.7}, {"genre": "Dance & Electronic", "n": 14, "mean": 41.2, "strong": 1, "weak": 6, "avg_age": 27.8}, {"genre": "Country", "n": 12, "mean": 43.7, "strong": 1, "weak": 5, "avg_age": 34.9}, {"genre": "Alternative / Indie", "n": 10, "mean": 52.0, "strong": 1, "weak": 1, "avg_age": 24.7}, {"genre": "Latin", "n": 7, "mean": 44.7, "strong": 2, "weak": 3, "avg_age": 25.5}, {"genre": "Afrobeats", "n": 6, "mean": 43.1, "strong": 0, "weak": 2, "avg_age": 28.3}, {"genre": "Rock", "n": 6, "mean": 51.8, "strong": 0, "weak": 0, "avg_age": 27.3}, {"genre": "K-Pop", "n": 5, "mean": 68.6, "strong": 4, "weak": 0, "avg_age": 20.9}, {"genre": "Reggae / Caribbean", "n": 2, "mean": 52.0, "strong": 1, "weak": 0, "avg_age": 28.8}, {"genre": "Blues", "n": 1, "mean": 32.8, "strong": 0, "weak": 1, "avg_age": null}], "archetypes": [{"archetype": "Balanced", "count": 99, "artists": ["Girlsweetvoiced", "Ari Abdul", "Stray Kids", "Eli", "Freddie Dredd"]}, {"archetype": "Converter", "count": 10, "artists": ["Hailey Picardi", "Eem Triplin", "RIIZE", "Teezo Touchdown", "kwn"]}, {"archetype": "Engine", "count": 25, "artists": ["Dominic Fike", "Blessing Jolie", "Future", "Shawny Binladen", "Nutso Thugn"]}, {"archetype": "Evaluation", "count": 21, "artists": ["Jharrel Jerome", "Mark Ronson", "Skepta", "Jazmine Sullivan", "Adele"]}, {"archetype": "Iceberg", "count": 21, "artists": ["JENNIE", "Zara Larsson", "Lizzy McAlpine", "Doja Cat", "Tate McRae"]}], "geo_over": [{"country": "Ghana", "idx": 586.0}, {"country": "Nigeria", "idx": 220.1}, {"country": "Yemen", "idx": 214.5}, {"country": "Japan", "idx": 151.9}, {"country": "Great Britain", "idx": 124.0}, {"country": "Australia", "idx": 121.8}, {"country": "South Africa", "idx": 120.4}, {"country": "New Zealand", "idx": 120.0}, {"country": "Switzerland", "idx": 119.7}, {"country": "Canada", "idx": 116.8}], "geo_under": [{"country": "Bolivia", "idx": 45.6}, {"country": "Colombia", "idx": 48.5}, {"country": "Ecuador", "idx": 49.2}, {"country": "Philippines", "idx": 50.1}, {"country": "Mexico", "idx": 50.9}, {"country": "Peru", "idx": 52.4}, {"country": "Indonesia", "idx": 54.0}, {"country": "Argentina", "idx": 60.2}, {"country": "Chile", "idx": 63.9}, {"country": "Malaysia", "idx": 64.0}]};
+
+function pColor(p) {
+  if (!p) return '#d4d4d4';
+  if (p>=90) return '#24693d';
+  if (p>=80) return '#45924e';
+  if (p>=70) return '#73ba67';
+  if (p>=60) return '#d4d4d4';
+  if (p>=40) return '#d4d4d4';
+  if (p>=30) return '#f8816b';
+  if (p>=20) return '#e33f43';
+  return '#ae123a';
+}
+
+const c = document.getElementById('content');
+let h = '';
+
+// ═══════ SECTION 1: EXTERNAL GAPS ═══════
+const maxRef = D.ext_gaps[0]?.refs || 1;
+h += `<div class="sec">
+<div class="sec-bar"><div class="sec-label">Gap 1</div><div class="sec-title">Artists Our Fans Want That We Don't Have</div></div>
+<div class="sec-desc">When Spotify says "fans of [Sony artist] also like [X]" — and X isn't on the roster — that's a gap. These are the artists who appear most frequently across our Sony roster's fans-also-like data. Higher count = more Sony artists share audience overlap with this person.</div>
+<div class="callout"><strong>What to do with this:</strong> This isn't a signing target list — most of these artists are signed elsewhere. It's a <em>audience map</em>. It tells you which sounds, styles, and scenes RCA's existing audience gravitates toward but can't find on the roster. The artists who appear 15+ times represent genuine audience demand that RCA isn't serving.</div>`;
+
+D.ext_gaps.forEach((g, i) => {
+  const w = (g.refs / maxRef) * 100;
+  h += `<div class="gap-row">
+    <div class="gap-rank">${i+1}</div>
+    <div class="gap-bar-wrap">
+      <div class="gap-name">${g.artist}</div>
+      <div class="gap-bar"><div class="gap-fill" style="width:${w}%;background:#CDF851"></div></div>
+    </div>
+    <div class="gap-count">${g.refs}x</div>
+  </div>`;
+});
+h += '</div>';
+
+// ═══════ SECTION 2: INTERNAL NON-SONY TARGETS ═══════
+h += `<div class="sec">
+<div class="sec-bar"><div class="sec-label">Gap 2</div><div class="sec-title">Non-Sony Artists With Highest Sony Audience Overlap</div></div>
+<div class="sec-desc">These artists are already in the dataset as competitive benchmarks. They're not on Sony — but their audiences overlap heavily with RCA's signed roster. Combined with their GPS scores, this is the closest thing to a data-driven signing target list.</div>`;
+
+D.ns_targets.forEach(t => {
+  const col = pColor(t.pctile);
+  h += `<div class="target-card">
+    <div class="target-name">${t.artist}</div>
+    <div class="target-genre">${t.genre}</div>
+    <div class="target-score" style="color:${col}">P${t.pctile || '—'}</div>
+    <div class="target-overlap">${t.connections}x overlap</div>
+    <div class="target-connected">← ${t.connected_to.join(', ')}</div>
+  </div>`;
+});
+h += '</div>';
+
+// ═══════ SECTION 3: GENRE COVERAGE ═══════
+h += `<div class="sec">
+<div class="sec-bar"><div class="sec-label">Gap 3</div><div class="sec-title">Genre Health Check</div></div>
+<div class="sec-desc">How each genre on the Sony roster is performing. The bar shows the ratio of strong (GPS >60) to weak (<40) artists. A genre with mostly green is healthy. A genre with mostly red is underperforming — either the artists need more support or the roster needs stronger additions.</div>`;
+
+D.genres.forEach(g => {
+  const total = g.n;
+  const mid = total - g.strong - g.weak;
+  const sw = (g.strong/total)*100;
+  const mw = (mid/total)*100;
+  const ww = (g.weak/total)*100;
+  const scoreCol = g.mean >= 55 ? '#73ba67' : g.mean >= 45 ? '#d4d4d4' : '#f8816b';
+  h += `<div class="genre-row">
+    <div class="genre-name">${g.genre}</div>
+    <div class="genre-n">${g.n}</div>
+    <div class="genre-bar-wrap">
+      <div class="genre-strong" style="width:${sw}%"></div>
+      <div class="genre-mid" style="width:${mw}%"></div>
+      <div class="genre-weak" style="width:${ww}%"></div>
+    </div>
+    <div class="genre-score" style="color:${scoreCol}">${g.mean}</div>
+    <div class="genre-age">${g.avg_age || '—'}</div>
+  </div>`;
+});
+h += `<div class="genre-legend">
+<span><span class="genre-legend-dot" style="background:#24693d"></span>Strong (GPS >60)</span>
+<span><span class="genre-legend-dot" style="background:#3E3F41"></span>Middle</span>
+<span><span class="genre-legend-dot" style="background:#e33f43"></span>Weak (GPS <40)</span>
+<span style="margin-left:auto">Score | Avg Age</span>
+</div>`;
+
+h += `<div class="callout"><strong>The red flags:</strong> <em>Dance & Electronic</em> has the lowest mean GPS score (41.2) with 6 of 14 artists scoring weak — nearly half the genre is underperforming. <em>Country</em> is similar: 5 of 12 weak, and the oldest average audience age on the roster (34.9). <em>K-Pop</em> is the clear outperformer: 4 of 5 strong, youngest audience (20.9), highest mean score (68.6).</div>`;
+h += '</div>';
+
+// ═══════ SECTION 4: ARCHETYPES ═══════
+h += `<div class="sec">
+<div class="sec-bar"><div class="sec-label">Gap 4</div><div class="sec-title">Campaign Archetype Balance</div></div>
+<div class="sec-desc">How the Sony roster breaks down by the four campaign archetypes. A healthy roster has mostly Balanced and Engine artists. Too many Icebergs means playlist dependency risk. Too many Evaluations means the development pipeline isn't converting.</div>
+<div class="arch-grid">`;
+
+const archColors = {'Balanced':'#d4d4d4','Engine':'#24693d','Converter':'#CDF851','Iceberg':'#5BC0BE','Evaluation':'#e33f43'};
+const archOrder = ['Balanced','Engine','Iceberg','Evaluation','Converter'];
+const sonyTotal = D.archetypes.reduce((s,a) => s+a.count, 0);
+
+archOrder.forEach(name => {
+  const a = D.archetypes.find(x => x.archetype === name);
+  if (!a) return;
+  const pct = (a.count/sonyTotal*100).toFixed(1);
+  h += `<div class="arch-card" style="border-color:${archColors[name]||'#3E3F41'}">
+    <div class="arch-name" style="color:${archColors[name]||'#CDF851'}">${name}</div>
+    <div class="arch-count">${a.count}</div>
+    <div class="arch-pct">${pct}% of Sony roster</div>
+    <div class="arch-artists">${a.artists.join(', ')}</div>
+  </div>`;
+});
+h += '</div>';
+h += `<div class="callout"><strong>Key finding:</strong> <em>21 Icebergs</em> (12% of roster) is significant — these are artists whose streaming numbers look healthy but are fragile because they depend on playlist support. That's a concentration risk. If platform priorities shift, 12% of the roster's streaming base is vulnerable. On the flip side, only <em>10 Converters</em> (6%) — artists with hot social audiences but cold streaming — suggests the A&R pipeline is generally doing its job getting social heat to translate into music consumption.</div>`;
+h += '</div>';
+
+// ═══════ SECTION 5: GEOGRAPHIC ═══════
+h += `<div class="sec">
+<div class="sec-bar"><div class="sec-label">Gap 5</div><div class="sec-title">Geographic Reach</div></div>
+<div class="sec-desc">Where the Sony roster over- and under-indexes relative to global streaming benchmarks. Under-indexed markets represent audiences that are streaming music but not finding RCA/Sony artists.</div>
+<div class="geo-grid">
+<div>
+<div class="geo-col-title" style="color:#24693d">Over-indexed (strength)</div>`;
+D.geo_over.forEach(g => {
+  h += `<div class="geo-row"><div class="geo-country">${g.country}</div><div class="geo-idx" style="color:#24693d">${g.idx}</div></div>`;
+});
+h += '</div><div>';
+h += '<div class="geo-col-title" style="color:#e33f43">Under-indexed (gap)</div>';
+D.geo_under.forEach(g => {
+  h += `<div class="geo-row"><div class="geo-country">${g.country}</div><div class="geo-idx" style="color:#e33f43">${g.idx}</div></div>`;
+});
+h += '</div></div>';
+h += `<div class="callout"><strong>The Latin America gap is structural.</strong> Bolivia (45.6), Colombia (48.5), Ecuador (49.2), Mexico (50.9), Peru (52.4) — the entire region is under-indexed. With only 7 Sony Latin artists on the roster, the coverage doesn't match the market size. The <em>Southeast Asia gap</em> (Philippines 50.1, Indonesia 54.0, Malaysia 64.0, Vietnam 65.8) is worth watching as those streaming markets grow. Ghana (586) and Nigeria (220) are massively over-indexed, almost entirely driven by the Afrobeats roster.</div>`;
+h += '</div>';
+
+c.innerHTML = h;
+</script>
+</body>
+</html>

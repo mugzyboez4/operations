@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>artistGPS — Campaign Playbooks & KPI Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0F0E0E;color:#FCFDF8;font-family:'Inter',sans-serif;font-size:14px;line-height:1.65}
+a{color:#CDF851;text-decoration:none}
+
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.hdr{border-bottom:1px solid #2a2a2a;padding:14px 0}
+.hdr-inner{max-width:960px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:16px}
+.logo{font-weight:900;font-size:14px;letter-spacing:2px;color:#CDF851}
+.hdr-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE}
+.hdr-badge{margin-left:auto;background:#1A1A1A;padding:3px 8px;font-size:10px;font-family:'DM Mono',monospace;color:#CDF851;letter-spacing:1px}
+
+/* Hero */
+.hero{padding:60px 0 48px;border-bottom:1px solid #2a2a2a}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B0A9BE;margin-bottom:12px}
+.hero-title{font-size:42px;font-weight:900;color:#CDF851;text-transform:uppercase;letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
+.hero-sub{font-size:15px;color:#B0A9BE;max-width:680px;line-height:1.7}
+
+/* TOC */
+.toc{padding:32px 0;border-bottom:1px solid #2a2a2a}
+.toc-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:12px}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toc a{display:block;padding:8px 12px;background:#1A1A1A;font-size:13px;font-weight:500;color:#B0A9BE;border-left:3px solid #3E3F41;transition:all .15s}
+.toc a:hover{border-color:#CDF851;color:#CDF851;background:#222}
+
+/* Section */
+.sec{padding:56px 0;border-bottom:1px solid #2a2a2a}
+.sec-bar{display:flex;align-items:baseline;gap:12px;margin-bottom:32px;padding-bottom:12px;border-bottom:2px solid #CDF851}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CDF851}
+.sec-title{font-size:22px;font-weight:800;color:#FCFDF8}
+
+/* Artist playbook cards */
+.playbook{margin-bottom:48px}
+.pb-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.pb-name{font-size:24px;font-weight:900;text-transform:uppercase;color:#FCFDF8}
+.pb-score{font-family:'DM Mono',monospace;font-weight:700;font-size:14px;padding:4px 10px}
+.pb-genre{font-size:11px;padding:4px 8px;background:#1A1A1A;color:#B0A9BE;letter-spacing:.5px}
+
+.pb-profile{background:#1A1A1A;padding:20px;margin-bottom:16px;border-left:3px solid #CDF851}
+.pb-profile-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#666;margin-bottom:8px}
+.pb-profile-text{font-size:14px;color:#FCFDF8;line-height:1.7}
+.pb-profile-text strong{color:#CDF851}
+.pb-profile-text em{color:#CDF851;font-style:normal}
+
+.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:640px){.pb-grid{grid-template-columns:1fr}}
+
+.pb-do{padding:16px;border-left:3px solid #24693d}
+.pb-do .pb-card-label{color:#24693d}
+.pb-dont{padding:16px;border-left:3px solid #e33f43}
+.pb-dont .pb-card-label{color:#e33f43}
+.pb-watch{padding:16px;border-left:3px solid #FF4A23}
+.pb-watch .pb-card-label{color:#FF4A23}
+.pb-invest{padding:16px;border-left:3px solid #5BC0BE}
+.pb-invest .pb-card-label{color:#5BC0BE}
+
+.pb-card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.pb-card-text{font-size:13px;color:#B0A9BE;line-height:1.6}
+.pb-card-text strong{color:#FCFDF8}
+
+.pb-kpis{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pb-kpi{font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;background:#0F0E0E}
+
+/* KPI cards */
+.kpi-card{margin-bottom:32px;padding:24px;background:#1A1A1A;border-left:4px solid #3E3F41}
+.kpi-card.momentum{border-color:#CDF851}
+.kpi-card.social{border-color:#5BC0BE}
+.kpi-card.engagement{border-color:#7F77DD}
+.kpi-card.audience{border-color:#FF4A23}
+
+.kpi-name{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:4px}
+.kpi-source{font-size:10px;font-family:'DM Mono',monospace;color:#666;margin-bottom:12px}
+.kpi-q{font-size:15px;font-weight:600;color:#CDF851;margin-bottom:12px;font-style:italic}
+.kpi-body{font-size:13px;color:#B0A9BE;line-height:1.7}
+.kpi-body strong{color:#FCFDF8}
+.kpi-body em{color:#CDF851;font-style:normal}
+
+.kpi-signals{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.kpi-signals{grid-template-columns:1fr}}
+.kpi-sig{padding:10px;background:#0F0E0E}
+.kpi-sig-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.kpi-sig-text{font-size:12px;color:#B0A9BE}
+.kpi-sig.high .kpi-sig-label{color:#24693d}
+.kpi-sig.low .kpi-sig-label{color:#e33f43}
+
+/* Matrix */
+.matrix{overflow-x:auto;margin:24px 0}
+.matrix table{width:100%;border-collapse:collapse;font-size:12px}
+.matrix th{text-align:left;padding:10px 12px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE;border-bottom:2px solid #CDF851;background:#0F0E0E}
+.matrix td{padding:10px 12px;border-bottom:1px solid #1e1e1e;vertical-align:top}
+.matrix tr:hover td{background:#222}
+
+.footer{padding:32px 0;text-align:center;font-size:10px;color:#666;letter-spacing:1px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<script>
+// Password gate — injected at top of each GPS page
+(function(){
+  const HASH = 'aca649258462260c79e63076444dc8f1fa9d255620ba43ef16be7cd4813eb636';
+  const KEY = 'gps_auth';
+  
+  if (sessionStorage.getItem(KEY) === 'true') return;
+  
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#0F0E0E;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:360px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#CDF851;margin-bottom:4px">RCA</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#B0A9BE;margin-bottom:32px">artistGPS · Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#1A1A1A;border:1px solid #2a2a2a;color:#FCFDF8;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#e33f43;min-height:20px;margin-bottom:8px"></div>
+        <div style="font-size:10px;color:#666;margin-top:16px">Internal Use Only · Campaign Operations</div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+  
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+  
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+
+</script>
+
+<div class="hdr">
+<div class="hdr-inner">
+<div class="logo">RCA</div>
+<div class="hdr-title">artistGPS — Playbooks & KPI Guide</div>
+<div class="hdr-badge">INTERNAL USE ONLY</div>
+</div>
+</div>
+
+<div class="wrap">
+
+<div class="hero">
+<div class="hero-eye">Campaign Operations · Strategic Analytics</div>
+<div class="hero-title">What the Data<br>Actually Tells Us</div>
+<div class="hero-sub">The artistGPS system produces scores. This document explains what those scores mean in practice — what each KPI is actually measuring, what the four profiled artists need, and why the same playbook shouldn't apply to everyone.</div>
+</div>
+
+<div class="toc">
+<div class="toc-label">Contents</div>
+<div class="toc-grid">
+<a href="#playbooks">Campaign Playbooks — 4 Artists</a>
+<a href="#archetypes">The Four Campaign Archetypes</a>
+<a href="#kpis">KPI Guide — What Each Metric Tells You</a>
+<a href="#combinations">Reading KPIs in Combination</a>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PLAYBOOKS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="sec" id="playbooks">
+<div class="sec-bar"><div class="sec-label">Part 1</div><div class="sec-title">Campaign Playbooks</div></div>
+
+<!-- HAILEY PICARDI -->
+<div class="playbook">
+<div class="pb-header">
+<div class="pb-name">Hailey Picardi</div>
+<div class="pb-score" style="color:#24693d;background:rgba(36,105,61,.15)">P98 · Excellent</div>
+<div class="pb-genre">Pop · Sony</div>
+</div>
+
+<div class="pb-profile">
+<div class="pb-profile-label">The GPS Profile</div>
+<div class="pb-profile-text">
+<strong>The person is ahead of the catalog.</strong> Hailey has the youngest audience on the entire roster — P100 on socials age, P99 on streaming age. Her IG growth (P95) and TikTok engagement (P99) say people are showing up to watch her. But catalog momentum at P17 and release momentum at P23 say they're not staying to listen. The audience is growing around <em>who she is</em>, not <em>what she's releasing</em>.
+</div>
+</div>
+
+<div class="pb-grid">
+<div class="pb-do">
+<div class="pb-card-label">The Playbook</div>
+<div class="pb-card-text">
+<strong>Conversion campaign.</strong> The audience exists — you don't need to find them. Every initiative should connect the social audience to the music. Pre-save campaigns tied to content she's already making. Audio-first content on TikTok and Reels (not just personality content). Playlist seeding in the exact demographic her IG skews to. The goal is closing the gap between followers and listeners.
+</div>
+</div>
+<div class="pb-dont">
+<div class="pb-card-label">What to Avoid</div>
+<div class="pb-card-text">
+<strong>Don't spend on audience growth.</strong> She doesn't need more followers — she needs the ones she has to stream. A paid social campaign that grows her IG from 200K to 400K without moving streaming numbers is wasted money. Also avoid over-indexing on release week push — her releases aren't gaining traction through traditional rollout. The problem is upstream of marketing.
+</div>
+</div>
+<div class="pb-invest">
+<div class="pb-card-label">Where to Invest</div>
+<div class="pb-card-text">
+<strong>A&R and creative.</strong> This is fundamentally a music-market fit question. The data suggests the audience wants more from her than the current catalog is delivering. Investment in songwriting sessions, features with artists whose audiences overlap, and creative content that showcases the music (not just the personality) will have the highest ROI.
+</div>
+</div>
+<div class="pb-watch">
+<div class="pb-card-label">Watch For</div>
+<div class="pb-card-text">
+<strong>Social fatigue without music payoff.</strong> An audience that follows someone but doesn't stream them has a shelf life. If catalog momentum stays below P30 for another two quarters while social growth continues, the window between "rising creator" and "creator who makes music" starts to close.
+</div>
+</div>
+</div>
+<div class="pb-kpis">
+<span class="pb-kpi" style="color:#ae123a">Cat Mom P17</span>
+<span class="pb-kpi" style="color:#e33f43">Rel Mom P23</span>
+<span class="pb-kpi" style="color:#24693d">IG Grw P95</span>
+<span class="pb-kpi" style="color:#24693d">TT Eng P99</span>
+<span class="pb-kpi" style="color:#24693d">Stream Age P99</span>
+<span class="pb-kpi" style="color:#24693d">Social Age P100</span>
+</div>
+</div>
+
+<!-- ELI -->
+<div class="playbook">
+<div class="pb-header">
+<div class="pb-name">Eli</div>
+<div class="pb-score" style="color:#24693d;background:rgba(36,105,61,.15)">P95 · Excellent</div>
+<div class="pb-genre">Pop · Sony</div>
+</div>
+
+<div class="pb-profile">
+<div class="pb-profile-label">The GPS Profile</div>
+<div class="pb-profile-text">
+<strong>The music is doing the work.</strong> Catalog momentum at P95 means listeners are going back to her older tracks and streaming them more — that's organic catalog pull, not playlist placement. Release momentum at P79 shows each new release outperforming the last. Lean forward at P86 with 8.3 LF streams per user (P90) means her listeners are <em>choosing</em> to play her. Social numbers are more modest — TikTok growth P55, IG engagement P41 — which means this isn't a social-media-driven artist. Discovery is happening through the music itself.
+</div>
+</div>
+
+<div class="pb-grid">
+<div class="pb-do">
+<div class="pb-card-label">The Playbook</div>
+<div class="pb-card-text">
+<strong>Catalog-forward release strategy.</strong> His strength is the library. Every new release should be an entry point that pulls listeners deeper into the back catalog. "If you liked this, start here" playlist strategies. Lean into the lean-forward behavior — ther audience responds to music discovery, not content. Prioritize editorial playlist pitching, algorithmic seeding, and radio over social campaigns.
+</div>
+</div>
+<div class="pb-dont">
+<div class="pb-card-label">What to Avoid</div>
+<div class="pb-card-text">
+<strong>Don't force a social-first strategy.</strong> His IG engagement is P41 and TikTok growth is P55 — both middling. That's not a problem to solve, it's information about where her audience lives. Pushing her into a TikTok content grind would divert energy from what's actually working (the music) into a channel that isn't naturally converting for her.
+</div>
+</div>
+<div class="pb-invest">
+<div class="pb-card-label">Where to Invest</div>
+<div class="pb-card-text">
+<strong>Release velocity and Commercial Partnerships.</strong> Keep the release pipeline full — each release compounds the catalog effect. DSP relationship investment has the highest payoff here. This is an artist where a Spotify editorial feature or an Apple Music "New Artist" placement moves the needle more than a million TikTok views.
+</div>
+</div>
+<div class="pb-watch">
+<div class="pb-card-label">Watch For</div>
+<div class="pb-card-text">
+<strong>Streaming age drift.</strong> Core streaming age is P60 (age 27.6) — solid but not exceptionally young. If this drifts older without new younger listeners backfilling, the catalog growth becomes a retention metric rather than a discovery metric. Monitor the age breakdown quarterly.
+</div>
+</div>
+</div>
+<div class="pb-kpis">
+<span class="pb-kpi" style="color:#24693d">Cat Mom P95</span>
+<span class="pb-kpi" style="color:#73ba67">Rel Mom P79</span>
+<span class="pb-kpi" style="color:#d4d4d4">TT Grw P55</span>
+<span class="pb-kpi" style="color:#d4d4d4">IG Eng P41</span>
+<span class="pb-kpi" style="color:#45924e">LF% P86</span>
+<span class="pb-kpi" style="color:#24693d">LF/User P90</span>
+</div>
+</div>
+
+<!-- TATE McRAE -->
+<div class="playbook">
+<div class="pb-header">
+<div class="pb-name">Tate McRae</div>
+<div class="pb-score" style="color:#45924e;background:rgba(69,146,78,.15)">P82 · Very Strong</div>
+<div class="pb-genre">Pop · Sony</div>
+</div>
+
+<div class="pb-profile">
+<div class="pb-profile-label">The GPS Profile</div>
+<div class="pb-profile-text">
+<strong>Massive reach, fragile base.</strong> This is the most complex profile of the four. Lean forward at P27 means only about a quarter of her audience is actively choosing to play her — the rest are hearing her through playlists, radio, algorithmic recommendations. But lean forward streams per user at P96 means the small core that <em>does</em> choose her listens obsessively. She has a huge passive audience and a tiny but fanatical active one. Catalog momentum at P15 is concerning — people aren't going back to her older music. Her youngest-skewing audience (streaming age P96, socials age P93) is a real asset, but one that's currently underactivated.
+</div>
+</div>
+
+<div class="pb-grid">
+<div class="pb-do">
+<div class="pb-card-label">The Playbook</div>
+<div class="pb-card-text">
+<strong>Passive-to-active conversion.</strong> The campaign brief is: turn the 73% passive audience into active listeners. Fan community investment — not in the "Discord server" sense, but in the sense of giving her core base reasons to evangelize. Exclusive content drops, fan-first access, merch tied to catalog deep cuts. The core fans are there and they're intense. Give them tools to recruit.
+</div>
+</div>
+<div class="pb-dont">
+<div class="pb-card-label">What to Avoid</div>
+<div class="pb-card-text">
+<strong>Don't optimize for reach.</strong> She already has reach — 53M weekly US ODA streams. More playlisting adds more passive listeners to an already passive-heavy base. The risk is building a streaming profile that looks big on a dashboard but collapses the moment playlist support is pulled. Also: don't read IG engagement (P88) as proof the social strategy is working — high engagement on a small post volume can be misleading.
+</div>
+</div>
+<div class="pb-invest">
+<div class="pb-card-label">Where to Invest</div>
+<div class="pb-card-text">
+<strong>Tour and live.</strong> Nothing converts passive to active faster than a live experience. Her audience age (21.5) is peak concert demographic. Tour marketing, festival placements, and live content that gives the passive audience a reason to become fans — not just listeners. Also: catalog reactivation campaigns (anniversary pushes, "from the vault" content, catalog playlists).
+</div>
+</div>
+<div class="pb-watch">
+<div class="pb-card-label">Watch For</div>
+<div class="pb-card-text">
+<strong>Playlist dependency.</strong> If lean forward % drops below P20 while total streams stay flat, that's a red flag — it means she's becoming more playlist-dependent, not less. Track this metric monthly. Also watch TikTok growth at P30 — for an artist at her scale with a Gen Z audience, flat TikTok growth suggests cultural conversation is moving on.
+</div>
+</div>
+</div>
+<div class="pb-kpis">
+<span class="pb-kpi" style="color:#ae123a">Cat Mom P15</span>
+<span class="pb-kpi" style="color:#d4d4d4">Rel Mom P46</span>
+<span class="pb-kpi" style="color:#e33f43">LF% P27</span>
+<span class="pb-kpi" style="color:#24693d">LF/User P96</span>
+<span class="pb-kpi" style="color:#f8816b">TT Grw P30</span>
+<span class="pb-kpi" style="color:#24693d">Stream Age P96</span>
+</div>
+</div>
+
+<!-- DON WEST -->
+<div class="playbook">
+<div class="pb-header">
+<div class="pb-name">Don West</div>
+<div class="pb-score" style="color:#ae123a;background:rgba(174,18,58,.15)">P19 · Very Weak</div>
+<div class="pb-genre">R&B · Non-Sony (Unsigned)</div>
+</div>
+
+<div class="pb-profile">
+<div class="pb-profile-label">The GPS Profile</div>
+<div class="pb-profile-text">
+<strong>The data is asking questions, not giving answers.</strong> Don West scores P19 overall, but the number alone isn't the story — the <em>shape</em> of the profile is. As a non-Sony artist, three KPIs are missing (lean forward, LF streams/user, core streaming age), so we're evaluating on 7 of 10 metrics. His core socials age of 31.7 (P11) is the single most important data point: he's reaching a 30+ audience in a genre that typically skews younger. IG growth at P71 is genuinely strong. TikTok engagement at P5 with only 24.5K followers says the platform isn't working for him at all. Catalog momentum at P11 shows declining interest in existing music.
+</div>
+</div>
+
+<div class="pb-grid">
+<div class="pb-do">
+<div class="pb-card-label">The Playbook (If Signing)</div>
+<div class="pb-card-text">
+<strong>Traditional artist development, not viral play.</strong> Their audience profile doesn't support a social-first campaign. The 30+ R&B listener discovers music through editorial playlists, Apple Music, radio, and word of mouth — not TikTok. Campaign should lean into IG (where he's growing), playlist pitching to R&B editorial, and potentially sync licensing where his demographic aligns with placement targets. Think Brent Faiyaz early career playbook, not Ice Spice.
+</div>
+</div>
+<div class="pb-dont">
+<div class="pb-card-label">What to Avoid</div>
+<div class="pb-card-text">
+<strong>Don't invest in TikTok.</strong> 24.5K followers and P5 engagement means the platform isn't where his audience lives. Spending money on TikTok promotion or creator campaigns would be fighting the data. Also don't assume the low overall score means "bad artist" — it means the <em>current trajectory</em> is flat. A signing changes the trajectory by adding resources that don't currently exist.
+</div>
+</div>
+<div class="pb-invest">
+<div class="pb-card-label">Signing Evaluation Questions</div>
+<div class="pb-card-text">
+<strong>Is the audience age a feature or a bug?</strong> A 31-year-old core audience for an R&B artist could mean: (a) the music is mature and sophisticated, which is a real market, or (b) he hasn't broken through to younger listeners yet. The answer changes the signing thesis entirely. Need Sony-side data (lean forward %, streaming age) to complete the picture — that data becomes available post-signing.
+</div>
+</div>
+<div class="pb-watch">
+<div class="pb-card-label">Decision Framework</div>
+<div class="pb-card-text">
+<strong>What makes this a yes:</strong> if the music quality justifies traditional development investment, and the team believes in a 12-18 month runway before breakout. <strong>What makes this a no:</strong> if the label is looking for a quick return or needs social-driven virality to justify the investment. The data says this is a slow build, not a lightning strike.
+</div>
+</div>
+</div>
+<div class="pb-kpis">
+<span class="pb-kpi" style="color:#ae123a">Cat Mom P11</span>
+<span class="pb-kpi" style="color:#d4d4d4">Rel Mom P47</span>
+<span class="pb-kpi" style="color:#73ba67">IG Grw P71</span>
+<span class="pb-kpi" style="color:#ae123a">TT Eng P5</span>
+<span class="pb-kpi" style="color:#ae123a">Social Age P11</span>
+<span class="pb-kpi" style="color:#d4d4d4">7/10 KPIs</span>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ARCHETYPES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="sec" id="archetypes">
+<div class="sec-bar"><div class="sec-label">Part 2</div><div class="sec-title">The Four Campaign Archetypes</div></div>
+
+<p style="color:#B0A9BE;margin-bottom:24px;max-width:680px">These four artists aren't random — they represent four fundamentally different campaign shapes that recur across the roster. Recognizing which archetype an artist fits changes the resource allocation conversation before anyone opens a spreadsheet.</p>
+
+<div class="matrix">
+<table>
+<tr>
+<th style="width:25%">Archetype</th>
+<th>Signature</th>
+<th>Primary Lever</th>
+<th>Anti-Pattern</th>
+</tr>
+<tr>
+<td style="color:#CDF851;font-weight:700">The Converter<br><span style="color:#B0A9BE;font-weight:400;font-size:11px">Hailey Picardi model</span></td>
+<td>High social growth + low streaming momentum. Audience exists but isn't consuming music.</td>
+<td>A&R / creative. Bridge the gap between personality audience and music audience.</td>
+<td>Spending on audience growth when the audience is already there.</td>
+</tr>
+<tr>
+<td style="color:#CDF851;font-weight:700">The Engine<br><span style="color:#B0A9BE;font-weight:400;font-size:11px">Eli model</span></td>
+<td>High catalog + release momentum, high lean forward, modest social. The music drives discovery.</td>
+<td>Release velocity + DSP partnerships. Feed the machine that's already working.</td>
+<td>Forcing a social-first strategy on an artist whose audience discovers through music, not content.</td>
+</tr>
+<tr>
+<td style="color:#CDF851;font-weight:700">The Iceberg<br><span style="color:#B0A9BE;font-weight:400;font-size:11px">Tate McRae model</span></td>
+<td>Massive reach, low lean forward %, high LF per user. Big passive base, small intense core.</td>
+<td>Fan activation + tour/live. Convert passive listeners to active fans.</td>
+<td>Optimizing for more reach when the base is already fragile.</td>
+</tr>
+<tr>
+<td style="color:#CDF851;font-weight:700">The Evaluation<br><span style="color:#B0A9BE;font-weight:400;font-size:11px">Don West model</span></td>
+<td>Low overall score, mixed signals, incomplete data. The data raises questions, doesn't answer them.</td>
+<td>Targeted investment thesis. Identify whether the gaps are fixable or structural.</td>
+<td>Treating a low score as a verdict rather than a diagnostic.</td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- KPI GUIDE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="sec" id="kpis">
+<div class="sec-bar"><div class="sec-label">Part 3</div><div class="sec-title">KPI Guide — What Each Metric Tells You</div></div>
+
+<p style="color:#B0A9BE;margin-bottom:32px;max-width:680px">Each KPI answers a specific question. None of them is sufficient on its own. The value is in how they combine — a high score on one metric means something completely different depending on what the other metrics say.</p>
+
+<!-- CATALOG MOMENTUM -->
+<div class="kpi-card momentum">
+<div class="kpi-name">Catalog Momentum</div>
+<div class="kpi-source">Source: artist_stream_trends.csv · Recent 4 weeks vs. prior 4 weeks · Tracks ≥8 weeks old</div>
+<div class="kpi-q">"Are people going back to the old stuff?"</div>
+<div class="kpi-body">
+This is the single best indicator of whether an artist has <strong>staying power</strong>. It measures growth in streaming of tracks that are at least 8 weeks old — so it excludes new release spikes entirely. When catalog momentum is high, it means people are <em>discovering or rediscovering</em> the artist's existing library. That's organic pull — the kind of streaming behavior that doesn't require marketing spend to sustain.
+<br><br>
+Think of it as the answer to: <strong>"If we stopped promoting this artist today, would their numbers go up or down?"</strong> High catalog momentum = they'd hold or grow. Low catalog momentum = they'd fall.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">Organic discovery is happening. Algorithmic recommendations are working. Catalog is pulling its weight. Each new release potentially adds another track that compounds the effect.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">The catalog is fading. Listeners aren't going back. This is normal for artists between cycles, but concerning if it persists during active campaign periods. May indicate playlist dependency — streams came from placement, not fandom.</div></div>
+</div>
+</div>
+
+<!-- RELEASE MOMENTUM -->
+<div class="kpi-card momentum">
+<div class="kpi-name">Release Momentum</div>
+<div class="kpi-source">Source: track_stream_debuts.csv · Avg % change between consecutive debut weeks · Past 12 months</div>
+<div class="kpi-q">"Is each new release bigger than the last?"</div>
+<div class="kpi-body">
+Release momentum measures the <strong>trajectory of debut week performance</strong> — not the size of any single release, but whether the trend line is going up or down. An artist whose releases debut at 50K, 80K, 120K, 200K has strong release momentum even if those numbers are small in absolute terms. An artist going from 5M to 3M to 2M has weak release momentum even though the numbers are huge.
+<br><br>
+This is your <strong>leading indicator for campaign effectiveness</strong>. If marketing, playlisting, and promotion are working, each release should be reaching more people than the last. When release momentum declines, something in the pipeline is broken — it could be music quality, rollout timing, playlist support, or audience fatigue.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The artist is building. Each release expands the audience. This is the trajectory that justifies increasing investment — the returns are compounding.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">Releases are shrinking. The audience isn't growing with each new drop. Could indicate: release fatigue (too many drops), declining music-market fit, or loss of platform support. Requires diagnosis — the metric tells you something is wrong, not what.</div></div>
+</div>
+</div>
+
+<!-- IG GROWTH -->
+<div class="kpi-card social">
+<div class="kpi-name">Instagram 1M Follower Growth</div>
+<div class="kpi-source">Source: KPIs.csv · Growth rate per 1M followers</div>
+<div class="kpi-q">"Is the artist's cultural footprint expanding?"</div>
+<div class="kpi-body">
+Instagram follower growth normalized per million followers measures <strong>cultural momentum beyond music</strong>. People follow artists on IG for lifestyle, personality, visual identity — not just songs. High IG growth often precedes streaming growth because it indicates expanding cultural relevance.
+<br><br>
+The normalization per 1M followers matters because gaining 10K followers when you have 50K is very different from gaining 10K when you have 10M. This lets you compare artists across scales. <strong>Note:</strong> Crawley's instructions call for percentiling within follower buckets, but we're missing the follower count data — current percentiles are global.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">People want to follow this person. Cultural relevance is expanding. If streaming metrics are also high, the whole picture is healthy. If streaming is low but IG is high, you have the "Converter" archetype — the person is ahead of the music.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">The artist isn't growing their cultural presence. For established artists this is normal (hard to grow a 20M following). For developing artists, it's a warning — the content or positioning isn't resonating.</div></div>
+</div>
+</div>
+
+<!-- TIKTOK GROWTH -->
+<div class="kpi-card social">
+<div class="kpi-name">TikTok 1M Follower Growth</div>
+<div class="kpi-source">Source: KPIs.csv · Growth rate per 1M followers</div>
+<div class="kpi-q">"Is the artist relevant on the discovery platform?"</div>
+<div class="kpi-body">
+TikTok is the primary music discovery platform for listeners under 25. Growth here signals that the artist (or their music) is <strong>entering the cultural conversation</strong> — whether through their own content, UGC, or sound trends. Unlike IG, TikTok growth can be music-driven even when the artist isn't posting, because sounds travel independently.
+<br><br>
+<strong>Critical context:</strong> low TikTok growth isn't always a problem. For artists whose audience is 30+, or whose genre doesn't travel well on TikTok (jazz, classical, heritage rock), this metric is less relevant. The score should be read alongside audience age and genre.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The artist or their sounds are gaining cultural traction on the primary discovery platform. For developing artists, this is one of the strongest leading indicators of streaming breakout.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">Before reacting: check the audience age. If the core audience is 28+, low TikTok growth is expected and not actionable. If the audience is under 25 and TikTok growth is low, the music or content isn't finding the discovery channel.</div></div>
+</div>
+</div>
+
+<!-- IG ENGAGEMENT -->
+<div class="kpi-card engagement">
+<div class="kpi-name">Instagram Engagement Rate</div>
+<div class="kpi-source">Source: ig_engagement.csv · Worldwide</div>
+<div class="kpi-q">"Do the followers actually care?"</div>
+<div class="kpi-body">
+Follower count measures reach. Engagement rate measures <strong>intensity of connection</strong>. An artist with 200K highly engaged followers has a more actionable audience than one with 2M passive followers. Engagement rate answers whether the audience is paying attention — liking, commenting, sharing, saving — or just scrolling past.
+<br><br>
+For Campaign Ops, this is a <strong>campaign readiness indicator</strong>. High engagement means announcements land. Tour on-sales convert. Merch drops sell. Low engagement means the follower count is decorative.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The audience is activated. Content resonates. Campaign announcements through this channel will reach people who act on them.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">The followers are there but they're not engaging. Could mean: content quality, posting frequency, or an audience that was acquired through paid campaigns and doesn't have organic connection.</div></div>
+</div>
+</div>
+
+<!-- TIKTOK ENGAGEMENT -->
+<div class="kpi-card engagement">
+<div class="kpi-name">TikTok Like-to-View Ratio</div>
+<div class="kpi-source">Source: tiktok_engagement.csv · Worldwide</div>
+<div class="kpi-q">"When people see the content, do they react?"</div>
+<div class="kpi-body">
+TikTok's algorithm gives everyone impressions — the like-to-view ratio measures what happens next. A high ratio means <strong>content quality is high</strong>: when TikTok shows this artist's content to someone, that person likes it. This is different from follower growth (which measures whether people come back) — it measures whether individual pieces of content hit.
+<br><br>
+For music specifically, high like-to-view ratios on an artist's TikTok content correlate with UGC pickup — creators are more likely to use sounds from artists whose content performs well, because they've seen the engagement proof.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The content is connecting. Each post pulls its weight. This is an artist where TikTok-native campaign strategies (challenges, creator partnerships, sound seeding) have a high probability of working.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">Content isn't landing. Could be a content strategy issue (fixable) or a platform-audience mismatch (structural). Check against follower count — very low followers with low engagement means insufficient data, not necessarily bad content.</div></div>
+</div>
+</div>
+
+<!-- LEAN FORWARD % -->
+<div class="kpi-card audience">
+<div class="kpi-name">Lean Forward %</div>
+<div class="kpi-source">Source: KPIs.csv · Sony artists only</div>
+<div class="kpi-q">"What percentage of the audience is actively choosing this artist?"</div>
+<div class="kpi-body">
+This is arguably <strong>the most important metric in the entire system</strong>. Lean forward percentage measures how much of an artist's streaming comes from listeners who actively sought them out — searched their name, went to their profile, added them to a personal playlist — versus listeners who encountered them passively through algorithmic playlists, radio, or someone else's queue.
+<br><br>
+<strong>Why this matters more than total streams:</strong> An artist with 50M weekly streams and 25% lean forward has 12.5M "real" streams. An artist with 5M weekly streams and 80% lean forward has 4M "real" streams. The first artist looks bigger, but the second artist has a more durable, defensible audience. Pull the playlist support from the first artist and they lose 37.5M streams. Pull it from the second and they lose 1M.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The audience is self-sustaining. These streams don't depend on platform support. The artist has genuine fans, not just listeners. Campaign should focus on growing the base, not maintaining it — it maintains itself.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">The artist is playlist-dependent. The streaming number is real but fragile. Campaign strategy should shift toward fan conversion — turning passive listeners into active seekers. This is the "Iceberg" archetype: big on the surface, thin underneath.</div></div>
+</div>
+</div>
+
+<!-- LF STREAMS PER USER -->
+<div class="kpi-card audience">
+<div class="kpi-name">Lean Forward Streams per User</div>
+<div class="kpi-source">Source: KPIs.csv · Sony artists only</div>
+<div class="kpi-q">"How obsessive is the core audience?"</div>
+<div class="kpi-body">
+If lean forward % tells you <em>how many</em> active fans there are, LF streams per user tells you <strong>how intense</strong> they are. An active listener streaming 3 tracks and moving on is a casual fan. An active listener streaming 12 tracks per session is obsessed. High LF per user is the strongest predictor of <strong>merch sales, ticket purchases, and superfan monetization potential</strong>.
+<br><br>
+<strong>Read this alongside lean forward %:</strong> High LF% + high LF/user = large, intense fanbase (best case). Low LF% + high LF/user = small but fanatical core surrounded by a passive majority (Tate McRae pattern). High LF% + low LF/user = lots of active but casual listeners. Low LF% + low LF/user = nobody is actively engaging (worst case).
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's high (P70+)</div><div class="kpi-sig-text">The core fans are deeply engaged. These are the listeners who buy vinyl, attend shows, buy merch, and recruit friends. Monetization and fan community strategies have high ROI with ther audience.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's low (P30−)</div><div class="kpi-sig-text">Even the active listeners aren't going deep. The music may lack replay value, or the catalog may be too thin. This can be a timing issue (new artist with only 3 tracks) rather than a structural one.</div></div>
+</div>
+</div>
+
+<!-- CORE STREAMING AGE -->
+<div class="kpi-card audience">
+<div class="kpi-name">Core Streaming Age</div>
+<div class="kpi-source">Source: KPIs.csv · Sony artists only · Weighted average from Spotify age distribution</div>
+<div class="kpi-q">"How old is the listening audience?"</div>
+<div class="kpi-body">
+Audience age determines <strong>which campaigns work</strong>. A 20-year-old audience is on TikTok, buys concert tickets impulsively, and discovers music through social. A 35-year-old audience uses Spotify's Discover Weekly, responds to email marketing, and discovers music through editorial coverage. Same artist, same music — completely different campaign playbook depending on this number.
+<br><br>
+<strong>The system scores younger audiences higher.</strong> This is an editorial choice that reflects the music industry's structural preference for younger demographics (longer lifetime value, higher social amplification, more platform discovery surface). It doesn't mean older audiences are worse — it means the label's marketing infrastructure is more optimized for younger ones.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it's young / high percentile</div><div class="kpi-sig-text">Social-first campaigns, TikTok strategies, and cultural moment marketing are most effective. Their audience discovers through platforms and peers. Tour marketing should lean into festival and event strategies.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it's older / low percentile</div><div class="kpi-sig-text">Editorial, playlist, radio, and sync strategies become more effective. Their audience discovers through curation, not virality. Campaign should prioritize quality touchpoints over volume of impressions.</div></div>
+</div>
+</div>
+
+<!-- CORE SOCIALS AGE -->
+<div class="kpi-card audience">
+<div class="kpi-name">Core Socials Age</div>
+<div class="kpi-source">Source: KPIs.csv (originally labeled instagram_followers) · IG follower age distribution</div>
+<div class="kpi-q">"How old is the social audience — and does it match the streaming audience?"</div>
+<div class="kpi-body">
+This is the <strong>companion metric to core streaming age</strong> — and the gap between them is often more interesting than either number alone. When streaming age and socials age are similar, the audience is coherent: the people following on IG are the same people streaming. When they diverge, you have <strong>two different audiences</strong> — one that follows the person (social) and one that listens to the music (streaming).
+<br><br>
+A common pattern: socials age younger than streaming age. This means the social audience is discovering the artist through content and personality, while the streaming audience is older and music-driven. That divergence tells you content strategy and music strategy are reaching different people — which may or may not be intentional.
+</div>
+<div class="kpi-signals">
+<div class="kpi-sig high"><div class="kpi-sig-label">When it matches streaming age</div><div class="kpi-sig-text">The audience is coherent. Marketing messages can be consistent across channels. Campaign strategy can be unified.</div></div>
+<div class="kpi-sig low"><div class="kpi-sig-label">When it diverges from streaming age</div><div class="kpi-sig-text">Two audiences. Social content is reaching one group, music is reaching another. This isn't necessarily bad — but the campaign needs to acknowledge the split and potentially serve both, or deliberately choose one to prioritize.</div></div>
+</div>
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- COMBINATIONS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="sec" id="combinations">
+<div class="sec-bar"><div class="sec-label">Part 4</div><div class="sec-title">Reading KPIs in Combination</div></div>
+
+<p style="color:#B0A9BE;margin-bottom:24px;max-width:680px">No single KPI tells a complete story. The real insight comes from reading them together. These are the combinations that surface the most actionable information.</p>
+
+<div class="matrix">
+<table>
+<tr>
+<th>Combination</th>
+<th>What It Reveals</th>
+<th>Campaign Implication</th>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">High Social + Low Streaming</td>
+<td>Audience exists for the person but not the music. The "Converter" pattern. Gap between cultural relevance and music consumption.</td>
+<td>A&R / creative investment. Don't market harder — make better music-audience connections. Content strategy should pivot from personality to music.</td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">High Catalog Mom + Low Release Mom</td>
+<td>Older catalog is growing but new releases aren't landing. Could mean: audience prefers the old sound, or new music isn't reaching the existing base.</td>
+<td>A&R flag. Consider whether recent creative direction has diverged from what the audience responded to. New releases may need sonic callbacks or featuring established catalog in rollout.</td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">Low LF% + High LF/User</td>
+<td>Small fanatical core, large passive majority. "Iceberg" profile. Streaming number is misleading — most of it is platform-driven.</td>
+<td>Fan activation, not audience growth. Convert passive to active through tour, community, exclusive content. Protect against playlist dependency.</td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">Young Stream Age + Old Social Age</td>
+<td>The music reaches young listeners but the social presence attracts an older follow. Two different audiences seeing two different artists.</td>
+<td>Content audit. The social presence may be attracting the wrong demographic. Align visual identity and content strategy to the audience that's actually streaming.</td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">High TT Engagement + Low TT Growth</td>
+<td>Content quality is there but the audience isn't growing. The algorithm is showing the content to people who like it, but it's not reaching new audiences.</td>
+<td>Sound seeding and creator partnerships. The content works — it just needs wider distribution. UGC campaigns and trending sound strategies can unlock the growth that the engagement rate predicts.</td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#CDF851">High Everything + Low Catalog Mom</td>
+<td>The artist is growing everywhere except the back catalog. New music works, social works, but older tracks are fading.</td>
+<td>Catalog reactivation. Anniversary campaigns, "from the vault" content, catalog playlists, sync licensing of older tracks. The artist is healthy — the library needs maintenance.</td>
+</tr>
+</table>
+</div>
+</div>
+
+<div class="footer">RCA Records · Campaign Operations · Data: Strategic Analytics · Internal Use Only · April 2026</div>
+
+</div>
+</body>
+</html>
