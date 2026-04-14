@@ -482,5 +482,38 @@ renderCapture();
   Lane Definition Board · Updated 2026-04-03 · Source: Department Workflows meeting transcript · RCA Campaign Ops
 </div>
 
+
+<script>
+// Click card title to edit
+document.querySelectorAll('.card-title').forEach(function(el) {
+  el.style.cursor = 'text';
+  el.setAttribute('contenteditable', 'true');
+  el.setAttribute('spellcheck', 'false');
+  el.addEventListener('focus', function() {
+    this.style.outline = '1px solid #CDF851';
+    this.style.outlineOffset = '2px';
+  });
+  el.addEventListener('blur', function() {
+    this.style.outline = 'none';
+  });
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); this.blur(); }
+  });
+});
+
+// Click card note to edit
+document.querySelectorAll('.card-note').forEach(function(el) {
+  el.setAttribute('contenteditable', 'true');
+  el.setAttribute('spellcheck', 'false');
+  el.style.cursor = 'text';
+  el.addEventListener('focus', function() {
+    this.style.outline = '1px solid #847D96';
+    this.style.outlineOffset = '2px';
+  });
+  el.addEventListener('blur', function() {
+    this.style.outline = 'none';
+  });
+});
+</script>
 </body>
 </html>
