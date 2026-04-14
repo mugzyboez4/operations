@@ -309,6 +309,102 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- ============ LIVE CAPTURE ============ -->
+<div style="max-width:1440px;margin:0 auto 24px;padding:0 24px" id="captureSection">
+  <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid #CDF851;padding:16px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#CDF851">Live Capture</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="exportCapture()" style="background:none;border:1px solid #3E3F41;color:#B0A9BE;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Copy All</button>
+        <button onclick="clearCapture()" style="background:none;border:1px solid #3E3F41;color:#847D96;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Clear</button>
+      </div>
+    </div>
+
+    <!-- Input row -->
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <select id="capType" style="background:#0F0E0E;border:1px solid #3E3F41;color:#FCFDF8;padding:8px 10px;font-size:12px;font-family:inherit;width:140px;-webkit-appearance:none">
+        <option value="decision">Decision</option>
+        <option value="action">Action Item</option>
+        <option value="tbd">Still TBD</option>
+        <option value="note">Note</option>
+      </select>
+      <input id="capText" type="text" placeholder="What was decided or noted..." style="background:#0F0E0E;border:1px solid #3E3F41;color:#FCFDF8;padding:8px 12px;font-size:12px;font-family:inherit;flex:1;outline:none" onkeydown="if(event.key==='Enter')addCapture()">
+      <button onclick="addCapture()" style="background:#CDF851;color:#0A0A0A;border:none;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">+ Add</button>
+    </div>
+
+    <!-- Captured items -->
+    <div id="capList"></div>
+  </div>
+</div>
+
+<script>
+var captures = [];
+
+function addCapture() {
+  var text = document.getElementById('capText').value.trim();
+  if (!text) return;
+  var type = document.getElementById('capType').value;
+  captures.push({ type: type, text: text, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
+  document.getElementById('capText').value = '';
+  renderCapture();
+}
+
+function removeCapture(i) {
+  captures.splice(i, 1);
+  renderCapture();
+}
+
+function editCapture(i) {
+  var item = captures[i];
+  var newText = prompt('Edit:', item.text);
+  if (newText !== null && newText.trim()) {
+    captures[i].text = newText.trim();
+    renderCapture();
+  }
+}
+
+function renderCapture() {
+  var el = document.getElementById('capList');
+  if (!captures.length) { el.innerHTML = '<div style="font-size:11px;color:#847D96;padding:4px 0">No items captured yet.</div>'; return; }
+  var colors = { decision: '#CDF851', action: '#FF4A23', tbd: '#FFD600', note: '#B0A9BE' };
+  var labels = { decision: 'DECIDED', action: 'ACTION', tbd: 'TBD', note: 'NOTE' };
+  var html = '';
+  captures.forEach(function(c, i) {
+    html += '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #2A2A2A">';
+    html += '<span style="font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;background:rgba(255,255,255,0.05);color:' + colors[c.type] + ';white-space:nowrap;margin-top:1px">' + labels[c.type] + '</span>';
+    html += '<span style="font-size:12px;color:#FCFDF8;flex:1;line-height:1.4">' + c.text + '</span>';
+    html += '<span style="font-size:9px;color:#847D96;white-space:nowrap;margin-top:2px">' + c.time + '</span>';
+    html += '<button onclick="editCapture(' + i + ')" style="background:none;border:none;color:#847D96;cursor:pointer;font-size:10px;padding:0 4px" title="Edit">✎</button>';
+    html += '<button onclick="removeCapture(' + i + ')" style="background:none;border:none;color:#FF4A23;cursor:pointer;font-size:12px;padding:0 4px" title="Remove">×</button>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function exportCapture() {
+  if (!captures.length) return;
+  var labels = { decision: 'DECIDED', action: 'ACTION', tbd: 'TBD', note: 'NOTE' };
+  var text = 'LANE DEFINITION — MEETING CAPTURE\n' + new Date().toLocaleDateString() + '\n\n';
+  captures.forEach(function(c) {
+    text += '[' + labels[c.type] + '] ' + c.text + ' (' + c.time + ')\n';
+  });
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('#captureSection button');
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy All'; }, 2000);
+  });
+}
+
+function clearCapture() {
+  if (captures.length && confirm('Clear all captured items?')) {
+    captures = [];
+    renderCapture();
+  }
+}
+
+renderCapture();
+</script>
+
 <!-- ============ REFERENCE (SINGLE COLLAPSIBLE) ============ -->
 <div style="max-width:1440px;margin:0 auto 20px;padding:0 24px">
   <div class="creative-toggle" onclick="var b=document.getElementById('refBody');var a=this.querySelector('.toggle-arrow');b.classList.toggle('open');a.classList.toggle('open')">
