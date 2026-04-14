@@ -141,6 +141,12 @@ a{color:inherit;text-decoration:none}
 .jd-card .meeting-says{font-size:10px;color:var(--chartreuse);line-height:1.5;margin-bottom:4px}
 .jd-card .impact{font-size:10px;color:var(--flame);line-height:1.5;font-weight:600}
 
+.card{position:relative}
+.card .card-note{display:none;position:absolute;left:0;right:0;top:100%;z-index:100;background:#0F0E0E;border:1px solid #3E3F41;padding:8px 10px;font-size:10px;color:#B0A9BE;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.card:hover .card-note{display:block}
+.card-tag{display:none}
+.card:hover .card-tag{display:inline-block}
+
 @media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.kanban{grid-template-columns:1fr}.stats{flex-direction:column;gap:8px}}
 </style>
@@ -168,11 +174,11 @@ a{color:inherit;text-decoration:none}
 <div class="stats">
   <div class="stat"><span class="stat-n" style="color:var(--leads)">6</span><span class="stat-l">Campaign Leads</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--auddev)">11</span><span class="stat-l">Audience Dev</span></div>
-  <div class="stat"><span class="stat-n" style="color:var(--ops)">13</span><span class="stat-l">Campaign Ops</span></div>
-  <div class="stat"><span class="stat-n" style="color:var(--support)">10</span><span class="stat-l">Support</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--ops)">15</span><span class="stat-l">Campaign Ops</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--support)">15</span><span class="stat-l">Support</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--commercial)">6</span><span class="stat-l">Commercial</span></div>
   <div class="stat"><span class="stat-n" style="color:var(--flame)">6</span><span class="stat-l">Removed</span></div>
-  <div class="stat"><span class="stat-n" style="color:var(--unresolved)">4</span><span class="stat-l">TBD</span></div>
+  <div class="stat"><span class="stat-n" style="color:var(--unresolved)">7</span><span class="stat-l">TBD</span></div>
 </div>
 
 <!-- ============ KANBAN ============ -->
@@ -221,7 +227,7 @@ a{color:inherit;text-decoration:none}
   <div class="lane-header">
     <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
     <div class="lane-verbs">Track · Surface · Flag · Prompt · Confirm</div>
-    <div class="lane-count">13 items</div>
+    <div class="lane-count">15 items</div>
   </div>
 
   <div class="card"><div class="card-title">Track Release Readiness</div><span class="card-tag tag-confirmed">confirmed</span></div>
@@ -237,6 +243,8 @@ a{color:inherit;text-decoration:none}
   <div class="card"><div class="card-title">Flag Upstream Dependencies</div><span class="card-tag tag-confirmed">confirmed</span></div>
   <div class="card"><div class="card-title">Track Management Approvals</div><span class="card-tag tag-confirmed">confirmed</span></div>
   <div class="card moved"><div class="card-title">Confirm YouTube Content Clearance</div><div class="card-note">SVP Aud Dev: "specifically platform management." SVP Commercial: "it's a conversation with YouTube." Routes to whoever talks to YouTube.</div><span class="card-tag tag-moved">moved — commercial/ops</span></div>
+  <div class="card new"><div class="card-title">Track Release Scheduling Requests</div><div class="card-note">CL communicates release scheduling to CO. CO drops into Airtable, Support takes from there.</div><span class="card-tag tag-new">new — from CL duties</span></div>
+  <div class="card new"><div class="card-title">Track Asset Readiness &amp; Deadlines</div><div class="card-note">Making sure all assets needed for release are accounted for and hitting deadlines. Checklist of typical asset needs shared by CLs.</div><span class="card-tag tag-new">new — from CL duties</span></div>
 </div>
 
 <!-- CAMPAIGN LEADS -->
@@ -245,7 +253,7 @@ a{color:inherit;text-decoration:none}
   <div class="lane-header">
     <div class="lane-title" style="color:var(--support)">Support</div>
     <div class="lane-verbs">Receive · Build · QA · Deliver · Maintain</div>
-    <div class="lane-count">10 items</div>
+    <div class="lane-count">15 items</div>
   </div>
 
   <div class="card moved"><div class="card-title">Receive &amp; Process PO/Invoice Requests</div><span class="card-tag tag-moved">moved from CL</span></div>
@@ -258,6 +266,11 @@ a{color:inherit;text-decoration:none}
   <div class="card"><div class="card-title">Build &amp; Maintain Websites &amp; Profiles</div><span class="card-tag tag-confirmed">confirmed</span></div>
   <div class="card"><div class="card-title">Deliver YouTube Metadata &amp; Descriptions</div><div class="card-note">Bounced to Commercial then back. SVP Aud Dev: "leave it in support for now — tour dates and things like that."</div><span class="card-tag tag-confirmed">confirmed — bounced back</span></div>
   <div class="card"><div class="card-title">Receive &amp; Process Allowlisting Requests</div><span class="card-tag tag-confirmed">confirmed</span></div>
+  <div class="card new"><div class="card-title">Build &amp; Deliver DSP Asset Grid</div><div class="card-note">Automated weekly grid for sales team — artwork, photos, pitch blurb, genre for each upcoming release. Currently manual, consolidation opportunity.</div><span class="card-tag tag-new">new — from CL duties</span></div>
+  <div class="card new"><div class="card-title">Maintain Distribution Lists</div><div class="card-note">Distro list management and updates. Training needed for Support team.</div><span class="card-tag tag-new">new — from CL duties</span></div>
+  <div class="card new"><div class="card-title">Ship Marketing Materials &amp; Promo</div><div class="card-note">FedEx coordination for marketing tools, promo items, fan shipments. Support handles if demand is manageable.</div><span class="card-tag tag-new">new — from CL duties</span></div>
+  <div class="card new"><div class="card-title">Process Gratis Product Orders</div><div class="card-note">Likely Support. To be confirmed.</div><span class="card-tag tag-new">new — from CL duties</span></div>
+  <div class="card new"><div class="card-title">Manage Department Calendar</div><div class="card-note">Project meetings and department calendar, not personal CL calendars. CLs manage their own for the most part.</div><span class="card-tag tag-new">new — from CL duties</span></div>
 </div>
 
 <!-- COMMERCIAL PARTNERSHIPS -->
@@ -288,7 +301,10 @@ a{color:inherit;text-decoration:none}
       <strong style="color:var(--text)">1.</strong> Paid ads &mdash; where is the Campaign Lead vs. Audience Dev line?<br>
       <strong style="color:var(--text)">2.</strong> Trigger Pre-saves, Websites &amp; Marketing Assets &mdash; split into 3 cards or keep as one?<br>
       <strong style="color:var(--text)">3.</strong> Missing from Audience Dev &mdash; KPI reporting? RCA Socials? Audience strategy for platform deals?<br>
-      <strong style="color:var(--text)">4.</strong> Missing from Campaign Leads &mdash; Artist &amp; Management Relationship? Creative briefing?
+      <strong style="color:var(--text)">4.</strong> Missing from Campaign Leads &mdash; Artist &amp; Management Relationship? Creative briefing?<br>
+      <strong style="color:var(--text)">5.</strong> Circulating music to teams &mdash; who triggers, who automates the flagging?<br>
+      <strong style="color:var(--text)">6.</strong> Budget transfer requests &mdash; CO/Support/Finance coordination model<br>
+      <strong style="color:var(--text)">7.</strong> One Sheets / sizzle reels &mdash; auto-generation, Support involvement
     </div>
   </div>
 </div>
