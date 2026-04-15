@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lane Definition — RCA Campaign Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FCFDF8;--surface:#F3F3F0;--card:#FFFFFF;--border:#E2E2DE;
+  --text:#0F0E0E;--dim:#6B6B6B;--fog:#999;--muted:#CCC;
+  --accent:#0F0E0E;
+  --leads:#2563EB;--auddev:#EA580C;--ops:#16A34A;--support:#7C3AED;--commercial:#0891B2;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.header{max-width:1440px;margin:0 auto;padding:32px 24px 20px}
+.header-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase;color:var(--text)}
+.sub{font-size:13px;color:var(--fog);margin-top:6px}
+
+.view-bar{max-width:1440px;margin:0 auto 16px;padding:0 24px;display:flex;gap:8px;align-items:center}
+.view-btn{background:none;border:1px solid var(--border);color:var(--dim);padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border-radius:4px}
+.view-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.view-btn:hover:not(.active){border-color:var(--dim)}
+.export-btn{background:none;border:1px solid var(--border);color:var(--dim);padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:auto;border-radius:4px}
+.export-btn:hover{border-color:var(--dim)}
+
+.kanban{max-width:1440px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.lane{background:var(--surface);border:1px solid var(--border);padding:14px;border-top:3px solid var(--lc,var(--muted));border-radius:6px}
+.lane-title{font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+.lane-count{font-size:10px;color:var(--fog);margin-top:4px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--lc,var(--muted));padding:8px 10px;margin-bottom:6px;border-radius:3px}
+.card-title{font-size:11px;font-weight:600;color:var(--text);line-height:1.35}
+
+.list-view{max-width:1440px;margin:0 auto;padding:0 24px;display:none}
+.list-lane{margin-bottom:28px}
+.list-lane-header{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;padding-bottom:6px;border-bottom:3px solid var(--lc,var(--muted))}
+.list-lane-title{font-weight:900;font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
+.list-lane-count{font-size:10px;color:var(--fog)}
+.list-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;font-weight:500;color:var(--text)}
+.list-item:last-child{border-bottom:none}
+.list-num{color:var(--fog);font-size:10px;margin-right:8px}
+
+/* PROCESS SECTION */
+.process-section{max-width:1440px;margin:24px auto 0;padding:0 24px}
+.process-header{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.process-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.process-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.process-card-title{font-weight:700;font-size:13px;color:var(--text);margin-bottom:6px}
+.process-card-body{font-size:11px;color:var(--dim);line-height:1.6}
+.process-step{display:flex;gap:8px;padding:3px 0}
+.process-step-num{font-weight:700;color:var(--fog);min-width:16px}
+
+.footer{max-width:1440px;margin:0 auto;padding:24px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
+
+@media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}.process-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.kanban{grid-template-columns:1fr}}
+@media print{
+  .view-bar{display:none}
+  .kanban{display:none}
+  .list-view{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Lane Definition</div>
+  <h1>WHO DOES WHAT</h1>
+  <div class="sub">RCA Records · Campaign Operations · April 2026</div>
+</div>
+
+<div class="view-bar">
+  <button class="view-btn active" onclick="toggleView('kanban')">Board</button>
+  <button class="view-btn" onclick="toggleView('list')">List</button>
+  <button class="export-btn" onclick="copyColumns()">Copy as Columns</button><button class="export-btn" onclick="copyList()">Copy as List</button>
+</div>
+
+<!-- KANBAN VIEW -->
+<div class="kanban" id="kanbanView">
+
+<div class="lane" style="--lc:var(--leads)">
+  <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
+  <div class="lane-count">8 items</div>
+  <div class="card"><div class="card-title">Decide Campaign Strategy &amp; Narrative</div></div>
+  <div class="card"><div class="card-title">Own Campaign Budget &amp; Allocation</div></div>
+  <div class="card"><div class="card-title">Plan Campaign Timeline &amp; Milestones</div></div>
+  <div class="card"><div class="card-title">Official Asset Management</div></div>
+  <div class="card"><div class="card-title">Website Oversight</div></div>
+  <div class="card"><div class="card-title">Paid Ad Strategy &amp; Assets</div></div>
+  <div class="card"><div class="card-title">Artist &amp; Management Buy-in</div></div>
+</div>
+
+<div class="lane" style="--lc:var(--auddev)">
+  <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
+  <div class="lane-count">16 items</div>
+  <div class="card"><div class="card-title">Define the Audience</div></div>
+  <div class="card"><div class="card-title">Build Audience Growth Strategy</div></div>
+  <div class="card"><div class="card-title">Activate Fan Engagement</div></div>
+  <div class="card"><div class="card-title">Build &amp; Activate Short Form Content</div></div>
+  <div class="card"><div class="card-title">Build Social Content &amp; Manage Approvals</div></div>
+  <div class="card"><div class="card-title">Activate Influencer Campaigns</div></div>
+  <div class="card"><div class="card-title">Manage &amp; Amplify Platform Presence</div></div>
+  <div class="card"><div class="card-title">Activate Seeding Campaigns</div></div>
+  <div class="card"><div class="card-title">Amplify Organic Engagement</div></div>
+  <div class="card"><div class="card-title">Define Audience for New Signings</div></div>
+  <div class="card"><div class="card-title">Brief Management on Audience Performance</div></div>
+  <div class="card"><div class="card-title">RCA Social Properties Management</div></div>
+  <div class="card"><div class="card-title">UGC Campaigns</div></div>
+  <div class="card"><div class="card-title">Paid Ad Execution</div></div>
+  <div class="card"><div class="card-title">Campaign Reporting</div></div>
+  <div class="card"><div class="card-title">DSP Marketing Tools</div></div>
+</div>
+
+<div class="lane" style="--lc:var(--ops)">
+  <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
+  <div class="lane-count">15 items</div>
+  <div class="card"><div class="card-title">Track Release Readiness</div></div>
+  <div class="card"><div class="card-title">Surface Budget Gaps &amp; Divergence</div></div>
+  <div class="card"><div class="card-title">Track &amp; Route Video Deliverables</div></div>
+  <div class="card"><div class="card-title">Prompt Cross-Dept Alignment</div></div>
+  <div class="card"><div class="card-title">Surface Meeting Decisions &amp; Actions</div></div>
+  <div class="card"><div class="card-title">Track Action Items to Completion</div></div>
+  <div class="card"><div class="card-title">Surface Artist Context Across Departments</div></div>
+  <div class="card"><div class="card-title">Surface Data via Dashboards &amp; Tools</div></div>
+  <div class="card"><div class="card-title">Track the System of Record</div></div>
+  <div class="card"><div class="card-title">Flag Release Runway Status</div></div>
+  <div class="card"><div class="card-title">Flag Upstream Dependencies</div></div>
+  <div class="card"><div class="card-title">Track Management Approvals</div></div>
+  <div class="card"><div class="card-title">Confirm YouTube Content Clearance</div></div>
+  <div class="card"><div class="card-title">Track Release Scheduling Requests</div></div>
+  <div class="card"><div class="card-title">Track Asset Readiness &amp; Deadlines</div></div>
+</div>
+
+<div class="lane" style="--lc:var(--support)">
+  <div class="lane-title" style="color:var(--support)">Support</div>
+  <div class="lane-count">16 items</div>
+  <div class="card"><div class="card-title">Vendor Setup, Maintenance &amp; Invoice Processing</div></div>
+  <div class="card"><div class="card-title">Asset Management</div></div>
+  <div class="card"><div class="card-title">Artist Pre-save Setup</div></div>
+  <div class="card"><div class="card-title">Content Claims &amp; Takedowns</div></div>
+  <div class="card"><div class="card-title">Artist &amp; Label Newsletters and Texts</div></div>
+  <div class="card"><div class="card-title">Internal Fund Transfers</div></div>
+  <div class="card"><div class="card-title">Short Link Creation, Update &amp; Distribution</div></div>
+  <div class="card"><div class="card-title">Site Requests, Web Ops &amp; Pixel Management</div></div>
+  <div class="card"><div class="card-title">Deliver YouTube Metadata &amp; Descriptions</div></div>
+  <div class="card"><div class="card-title">Build &amp; Deliver DSP Asset Grid</div></div>
+  <div class="card"><div class="card-title">Maintain Distribution Lists</div></div>
+  <div class="card"><div class="card-title">Ship Marketing Materials &amp; Promo</div></div>
+  <div class="card"><div class="card-title">Process Gratis Product Orders</div></div>
+  <div class="card"><div class="card-title">Manage Department Calendar</div></div>
+  <div class="card"><div class="card-title">Verification Requests</div></div>
+  <div class="card"><div class="card-title">Profile Maintenance &amp; Channel Creation</div></div>
+</div>
+
+<div class="lane" style="--lc:var(--commercial)">
+  <div class="lane-title" style="color:var(--commercial)">Commercial P'ships</div>
+  <div class="lane-count">6 items</div>
+  <div class="card"><div class="card-title">Pitch DSP Partners</div></div>
+  <div class="card"><div class="card-title">Pitch Social Platforms (TikTok, Meta, Snap)</div></div>
+  <div class="card"><div class="card-title">Report Partner Updates &amp; Opportunities</div></div>
+  <div class="card"><div class="card-title">Execute Music Delivery to Partners</div></div>
+  <div class="card"><div class="card-title">Execute VEVO Playlisting &amp; Backstage</div></div>
+  <div class="card"><div class="card-title">Negotiate &amp; Execute Platform Deals</div></div>
+</div>
+
+</div>
+
+<!-- LIST VIEW -->
+<div class="list-view" id="listView"></div>
+
+<!-- PROCESSES -->
+<div class="process-section">
+  <div class="process-header">Key Processes</div>
+  <div class="process-grid">
+
+    <div class="process-card">
+      <div class="process-card-title">Release Scheduling</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead identifies target release date</div>
+        <div class="process-step"><span class="process-step-num">2.</span>CL confirms with Campaign Ops — CO checks the landscape</div>
+        <div class="process-step"><span class="process-step-num">3.</span>CO submits scheduling request (requires: art clearance confidence, final master on track, music circulated to SMT, rough plan in place)</div>
+        <div class="process-step"><span class="process-step-num">4.</span>Reviewed at Friday executive scheduling meeting</div>
+        <div class="process-step"><span class="process-step-num">5.</span>If approved → entered into GRPS, shows on Release Runway</div>
+        <div class="process-step"><span class="process-step-num">6.</span>If denied → CO communicates back to CL with reasoning</div>
+        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">No date is confirmed to artists or management until approved by the executive team.</div>
+      </div>
+    </div>
+
+    <div class="process-card">
+      <div class="process-card-title">Paid Ads</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">CL</span>Owns strategy and provides ad assets (artwork, clips, copy)</div>
+        <div class="process-step"><span class="process-step-num">AD</span>Executes campaigns — targeting, optimization, platform-native delivery</div>
+        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Budget requests must include target audience and goals — "10K for influencer and 10K for seeding" without audience detail will not be approved.</div>
+      </div>
+    </div>
+
+    <div class="process-card">
+      <div class="process-card-title">Budget Reallocation</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead decides funds need to shift (e.g., promo appearances → digital advertising)</div>
+        <div class="process-step"><span class="process-step-num">2.</span>CL directs Support to make the transfer in Console</div>
+        <div class="process-step"><span class="process-step-num">3.</span>Support executes the admin task — they do not initiate transfers on their own</div>
+        <div class="process-step"><span class="process-step-num">4.</span>Campaign Ops tracks for budget visibility</div>
+      </div>
+    </div>
+
+    <div class="process-card">
+      <div class="process-card-title">Creative Asset Requests</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead provides brief to Support (what's needed, dimensions, timeline)</div>
+        <div class="process-step"><span class="process-step-num">2.</span>Support enters request into Airtable with correct specs</div>
+        <div class="process-step"><span class="process-step-num">3.</span>Support tracks delivery and routes for approval</div>
+        <div class="process-step"><span class="process-step-num">4.</span>Campaign Ops tracks overall asset readiness against release deadlines</div>
+      </div>
+    </div>
+
+    <div class="process-card">
+      <div class="process-card-title">Music Circulation</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">1.</span>Once music is ready or a release is being scheduled, CL flags with A&amp;R Admin</div>
+        <div class="process-step"><span class="process-step-num">2.</span>Music is circulated to internal teams via standard distribution list</div>
+        <div class="process-step"><span class="process-step-num">3.</span>External music approvals handled separately through existing process</div>
+        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Standard distribution lists are maintained by Support. One-off requests go through CL.</div>
+      </div>
+    </div>
+
+    <div class="process-card">
+      <div class="process-card-title">Profile &amp; Channel Setup</div>
+      <div class="process-card-body">
+        <div class="process-step"><span class="process-step-num">AD</span>Audience Dev decides strategy — what the bio says, what the featured image is, platform-specific positioning</div>
+        <div class="process-step"><span class="process-step-num">SUP</span>Support executes updates across all social and DSP profiles to ensure consistency</div>
+        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Whatever is updated on Instagram should be reflected across all DSPs and platforms.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  Lane Definition · April 2026 · Campaign Operations · RCA Records
+</div>
+
+<script>
+var lanes = [
+  { name: 'Campaign Leads', color: 'var(--leads)', items: ['Decide Campaign Strategy & Narrative','Own Campaign Budget & Allocation','Plan Campaign Timeline & Milestones','Official Asset Management','Website Oversight','Paid Ad Strategy & Assets','Artist & Management Buy-in'] },
+  { name: 'Audience Dev', color: 'var(--auddev)', items: ['Define the Audience','Build Audience Growth Strategy','Activate Fan Engagement','Build & Activate Short Form Content','Build Social Content & Manage Approvals','Activate Influencer Campaigns','Manage & Amplify Platform Presence','Activate Seeding Campaigns','Amplify Organic Engagement','Define Audience for New Signings','Brief Management on Audience Performance','RCA Social Properties Management','UGC Campaigns','Paid Ad Execution','Campaign Reporting','DSP Marketing Tools'] },
+  { name: 'Campaign Ops', color: 'var(--ops)', items: ['Track Release Readiness','Surface Budget Gaps & Divergence','Track & Route Video Deliverables','Prompt Cross-Dept Alignment','Surface Meeting Decisions & Actions','Track Action Items to Completion','Surface Artist Context Across Departments','Surface Data via Dashboards & Tools','Track the System of Record','Flag Release Runway Status','Flag Upstream Dependencies','Track Management Approvals','Confirm YouTube Content Clearance','Track Release Scheduling Requests','Track Asset Readiness & Deadlines'] },
+  { name: 'Support', color: 'var(--support)', items: ['Vendor Setup, Maintenance & Invoice Processing','Asset Management','Artist Pre-save Setup','Content Claims & Takedowns','Artist & Label Newsletters and Texts','Internal Fund Transfers','Short Link Creation, Update & Distribution','Site Requests, Web Ops & Pixel Management','Deliver YouTube Metadata & Descriptions','Build & Deliver DSP Asset Grid','Maintain Distribution Lists','Ship Marketing Materials & Promo','Process Gratis Product Orders','Manage Department Calendar','Verification Requests','Profile Maintenance & Channel Creation'] },
+  { name: "Commercial P'ships", color: 'var(--commercial)', items: ['Pitch DSP Partners','Pitch Social Platforms (TikTok, Meta, Snap)','Report Partner Updates & Opportunities','Execute Music Delivery to Partners','Execute VEVO Playlisting & Backstage','Negotiate & Execute Platform Deals'] }
+];
+
+function buildListView() {
+  var el = document.getElementById('listView');
+  var html = '';
+  lanes.forEach(function(lane) {
+    html += '<div class="list-lane">';
+    html += '<div class="list-lane-header" style="border-bottom-color:' + lane.color + '">';
+    html += '<div class="list-lane-title" style="color:' + lane.color + '">' + lane.name + '</div>';
+    html += '<div class="list-lane-count">' + lane.items.length + ' items</div>';
+    html += '</div>';
+    lane.items.forEach(function(item, i) {
+      html += '<div class="list-item"><span class="list-num">' + (i + 1) + '.</span>' + item + '</div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function toggleView(view) {
+  var btns = document.querySelectorAll('.view-btn');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  if (view === 'kanban') {
+    document.getElementById('kanbanView').style.display = 'grid';
+    document.getElementById('listView').style.display = 'none';
+    btns[0].classList.add('active');
+  } else {
+    document.getElementById('kanbanView').style.display = 'none';
+    document.getElementById('listView').style.display = 'block';
+    btns[1].classList.add('active');
+  }
+}
+
+function copyList() {
+  var text = 'LANE DEFINITION — WHO DOES WHAT\nRCA Records · Campaign Operations · April 2026\n';
+  lanes.forEach(function(lane) {
+    text += '\n' + lane.name.toUpperCase() + ' (' + lane.items.length + ')\n';
+    lane.items.forEach(function(item, i) {
+      text += '  ' + (i + 1) + '. ' + item + '\n';
+    });
+  });
+  text += '\nKEY PROCESSES\n';
+  text += '\nRelease Scheduling: CL identifies date → CO checks landscape → CO submits request (requires: art clearance, master, music circulated, plan) → Friday exec review → approved/denied → CO communicates back\n';
+  text += '\nPaid Ads: CL owns strategy + assets. Aud Dev executes campaigns. Budget requests must include target audience.\n';
+  text += '\nBudget Reallocation: CL decides → directs Support → Support executes in Console → CO tracks\n';
+  text += '\nCreative Asset Requests: CL briefs Support → Support enters in Airtable → Support tracks delivery → CO tracks readiness\n';
+  text += '\nMusic Circulation: CL flags A&R Admin → circulated via standard distro list → external approvals separate\n';
+  text += '\nProfile & Channel Setup: Aud Dev decides strategy → Support executes across all platforms\n';
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.export-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy as Text'; }, 2000);
+  });
+}
+
+
+function copyColumns() {
+  // Build tab-separated columns that paste into Sheets/Excel
+  var maxRows = Math.max.apply(null, lanes.map(function(l){ return l.items.length; }));
+  var header = lanes.map(function(l){ return l.name.toUpperCase() + ' (' + l.items.length + ')'; }).join('\t');
+  var rows = [header];
+  for (var i = 0; i < maxRows; i++) {
+    var row = lanes.map(function(l){ return l.items[i] || ''; }).join('\t');
+    rows.push(row);
+  }
+  // Add processes below with a gap
+  rows.push('');
+  rows.push('KEY PROCESSES');
+  rows.push('');
+  rows.push('Release Scheduling\tPaid Ads\tBudget Reallocation\tCreative Asset Requests\tMusic Circulation\tProfile & Channel Setup');
+  rows.push('1. CL identifies target date\tCL owns strategy + assets\t1. CL decides funds need to shift\t1. CL provides brief to Support\t1. CL flags A&R Admin\tAud Dev decides strategy');
+  rows.push('2. CL confirms with CO\tAud Dev executes campaigns\t2. CL directs Support\t2. Support enters in Airtable\t2. Music circulated via standard list\tSupport executes across all platforms');
+  rows.push('3. CO submits request\tBudget must include audience\t3. Support executes in Console\t3. Support tracks delivery\t3. External approvals separate\tConsistency across social + DSP');
+  rows.push('4. Friday exec review\t\t4. CO tracks for visibility\t4. CO tracks readiness\tDistro lists maintained by Support\t');
+  rows.push('5. Approved → GRPS + Runway\t\t\t\t\t');
+  rows.push('6. Denied → CO communicates back\t\t\t\t\t');
+  
+  var text = rows.join('\n');
+  navigator.clipboard.writeText(text).then(function() {
+    var btns = document.querySelectorAll('.export-btn');
+    btns[0].textContent = 'Copied!';
+    setTimeout(function() { btns[0].textContent = 'Copy as Columns'; }, 2000);
+  });
+}
+
+buildListView();
+</script>
+
+</body>
+</html>
