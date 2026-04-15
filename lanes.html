@@ -468,7 +468,62 @@ renderCapture();
 
 
 <script>
-// Click card title to edit
+// === SAVE/LOAD SYSTEM ===
+var SAVE_KEY = 'lanes-board-state';
+
+function saveState() {
+  var state = { titles: [], notes: [], saved: new Date().toISOString() };
+  document.querySelectorAll('.card-title').forEach(function(el, i) {
+    state.titles.push(el.textContent);
+  });
+  document.querySelectorAll('.card-note').forEach(function(el, i) {
+    state.notes.push(el.textContent);
+  });
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+  showSaveStatus('Saved');
+}
+
+function loadState() {
+  var raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return false;
+  var state = JSON.parse(raw);
+  var titles = document.querySelectorAll('.card-title');
+  var notes = document.querySelectorAll('.card-note');
+  state.titles.forEach(function(t, i) { if (titles[i]) titles[i].textContent = t; });
+  state.notes.forEach(function(n, i) { if (notes[i]) notes[i].textContent = n; });
+  showSaveStatus('Loaded edits from ' + new Date(state.saved).toLocaleString());
+  return true;
+}
+
+function resetState() {
+  if (confirm('Reset all edits to the last published version? This removes your local changes.')) {
+    localStorage.removeItem(SAVE_KEY);
+    location.reload();
+  }
+}
+
+function exportState() {
+  var text = 'LANE DEFINITION — BOARD STATE\n' + new Date().toLocaleString() + '\n\n';
+  document.querySelectorAll('.lane').forEach(function(lane) {
+    var title = lane.querySelector('.lane-title');
+    if (title) {
+      text += '\n=== ' + title.textContent.toUpperCase() + ' ===\n';
+      lane.querySelectorAll('.card-title').forEach(function(ct) {
+        text += '  • ' + ct.textContent + '\n';
+      });
+    }
+  });
+  navigator.clipboard.writeText(text).then(function() { showSaveStatus('Copied to clipboard'); });
+}
+
+function showSaveStatus(msg) {
+  var el = document.getElementById('saveStatus');
+  el.textContent = msg;
+  el.style.opacity = '1';
+  setTimeout(function() { el.style.opacity = '0'; }, 3000);
+}
+
+// Click card title to edit — auto-saves on blur
 document.querySelectorAll('.card-title').forEach(function(el) {
   el.style.cursor = 'text';
   el.setAttribute('contenteditable', 'true');
@@ -479,13 +534,14 @@ document.querySelectorAll('.card-title').forEach(function(el) {
   });
   el.addEventListener('blur', function() {
     this.style.outline = 'none';
+    saveState();
   });
   el.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); this.blur(); }
   });
 });
 
-// Click card note to edit
+// Click card note to edit — auto-saves on blur
 document.querySelectorAll('.card-note').forEach(function(el) {
   el.setAttribute('contenteditable', 'true');
   el.setAttribute('spellcheck', 'false');
@@ -496,8 +552,20 @@ document.querySelectorAll('.card-note').forEach(function(el) {
   });
   el.addEventListener('blur', function() {
     this.style.outline = 'none';
+    saveState();
   });
 });
+
+// Load saved state on page load
+loadState();
 </script>
+
+<!-- SAVE BAR -->
+<div style="position:fixed;bottom:0;left:0;right:0;background:#0F0E0E;border-top:1px solid #2A2A2A;padding:8px 24px;display:flex;align-items:center;gap:12px;z-index:9999">
+  <button onclick="saveState()" style="background:#CDF851;color:#0A0A0A;border:none;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Save</button>
+  <button onclick="exportState()" style="background:none;border:1px solid #3E3F41;color:#B0A9BE;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Copy All</button>
+  <button onclick="resetState()" style="background:none;border:1px solid #3E3F41;color:#847D96;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Reset</button>
+  <span id="saveStatus" style="font-size:10px;color:#CDF851;opacity:0;transition:opacity 0.3s"></span>
+</div>
 </body>
 </html>
