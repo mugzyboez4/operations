@@ -147,6 +147,13 @@ a{color:inherit;text-decoration:none}
 .card-tag{display:none}
 .card:hover .card-tag{display:inline-block}
 
+
+/* Drag and drop */
+.card{cursor:grab;transition:transform 0.1s,opacity 0.1s}
+.card.dragging{opacity:0.4;transform:scale(0.95)}
+.card.drag-over{border-top:2px solid #CDF851}
+.lane.drag-over-lane{background:#1A1A1A;outline:2px dashed #CDF851;outline-offset:-2px}
+
 @media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.kanban{grid-template-columns:1fr}.stats{flex-direction:column;gap:8px}}
 </style>
@@ -496,16 +503,113 @@ renderCapture();
 
 
 <script>
+// === DRAG AND DROP ===
+var draggedCard = null;
+var dragSource = null;
+
+function initDragDrop() {
+  document.querySelectorAll('.card').forEach(function(card) {
+    card.setAttribute('draggable', 'true');
+    
+    card.addEventListener('dragstart', function(e) {
+      draggedCard = this;
+      dragSource = this.parentElement;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    
+    card.addEventListener('dragend', function() {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.drag-over,.drag-over-lane').forEach(function(el) {
+        el.classList.remove('drag-over','drag-over-lane');
+      });
+      draggedCard = null;
+      dragSource = null;
+      updateCounts();
+      saveState();
+    });
+    
+    card.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (this !== draggedCard) {
+        this.classList.add('drag-over');
+      }
+    });
+    
+    card.addEventListener('dragleave', function() {
+      this.classList.remove('drag-over');
+    });
+    
+    card.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over');
+      if (draggedCard && this !== draggedCard) {
+        var parent = this.parentElement;
+        var cards = Array.from(parent.querySelectorAll('.card'));
+        var dropIndex = cards.indexOf(this);
+        var dragIndex = cards.indexOf(draggedCard);
+        
+        if (draggedCard.parentElement === parent && dragIndex < dropIndex) {
+          parent.insertBefore(draggedCard, this.nextSibling);
+        } else {
+          parent.insertBefore(draggedCard, this);
+        }
+      }
+    });
+  });
+  
+  // Allow dropping on lanes (for moving between lanes)
+  document.querySelectorAll('.lane').forEach(function(lane) {
+    lane.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      this.classList.add('drag-over-lane');
+    });
+    
+    lane.addEventListener('dragleave', function(e) {
+      if (!this.contains(e.relatedTarget)) {
+        this.classList.remove('drag-over-lane');
+      }
+    });
+    
+    lane.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over-lane');
+      if (draggedCard && !e.target.classList.contains('card')) {
+        this.appendChild(draggedCard);
+      }
+    });
+  });
+}
+
+function updateCounts() {
+  document.querySelectorAll('.lane').forEach(function(lane) {
+    var count = lane.querySelectorAll('.card').length;
+    var countEl = lane.querySelector('.lane-count');
+    if (countEl) countEl.textContent = count + ' items';
+  });
+}
+
 // === SAVE/LOAD SYSTEM ===
 var SAVE_KEY = 'lanes-board-state';
 
 function saveState() {
-  var state = { titles: [], notes: [], saved: new Date().toISOString() };
-  document.querySelectorAll('.card-title').forEach(function(el, i) {
-    state.titles.push(el.textContent);
-  });
-  document.querySelectorAll('.card-note').forEach(function(el, i) {
-    state.notes.push(el.textContent);
+  var state = { lanes: [], saved: new Date().toISOString() };
+  document.querySelectorAll('.lane').forEach(function(lane) {
+    var laneData = { cards: [] };
+    var titleEl = lane.querySelector('.lane-title');
+    if (titleEl) laneData.name = titleEl.textContent;
+    lane.querySelectorAll('.card').forEach(function(card) {
+      var title = card.querySelector('.card-title');
+      var note = card.querySelector('.card-note');
+      laneData.cards.push({
+        title: title ? title.textContent : '',
+        note: note ? note.textContent : '',
+        html: card.outerHTML
+      });
+    });
+    state.lanes.push(laneData);
   });
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   showSaveStatus('Saved');
@@ -515,10 +619,21 @@ function loadState() {
   var raw = localStorage.getItem(SAVE_KEY);
   if (!raw) return false;
   var state = JSON.parse(raw);
-  var titles = document.querySelectorAll('.card-title');
-  var notes = document.querySelectorAll('.card-note');
-  state.titles.forEach(function(t, i) { if (titles[i]) titles[i].textContent = t; });
-  state.notes.forEach(function(n, i) { if (notes[i]) notes[i].textContent = n; });
+  if (!state.lanes) return false;
+  var lanes = document.querySelectorAll('.lane');
+  state.lanes.forEach(function(laneData, i) {
+    if (!lanes[i]) return;
+    // Remove existing cards
+    lanes[i].querySelectorAll('.card').forEach(function(c) { c.remove(); });
+    // Rebuild from saved state
+    laneData.cards.forEach(function(cardData) {
+      var temp = document.createElement('div');
+      temp.innerHTML = cardData.html;
+      var card = temp.firstChild;
+      lanes[i].appendChild(card);
+    });
+  });
+  updateCounts();
   showSaveStatus('Loaded edits from ' + new Date(state.saved).toLocaleString());
   return true;
 }
@@ -586,6 +701,7 @@ document.querySelectorAll('.card-note').forEach(function(el) {
 
 // Load saved state on page load
 loadState();
+initDragDrop();
 </script>
 
 <!-- SAVE BAR -->
