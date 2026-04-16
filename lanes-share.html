@@ -7,229 +7,104 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#FCFDF8;--surface:#F3F3F0;--card:#FFFFFF;--border:#E2E2DE;
-  --text:#0F0E0E;--dim:#6B6B6B;--fog:#999;--muted:#CCC;
-  --accent:#0F0E0E;
-  --leads:#2563EB;--auddev:#EA580C;--ops:#16A34A;--support:#7C3AED;--commercial:#0F0E0E;
-}
-body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
-
-.header{max-width:1440px;margin:0 auto;padding:32px 24px 20px}
-.header-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase;color:var(--text)}
-.sub{font-size:13px;color:var(--fog);margin-top:6px}
-
-
-
-
-
-
-
-
-.kanban{max-width:1440px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.lane{background:var(--surface);border:1px solid var(--border);padding:14px;border-top:3px solid var(--lc,var(--muted));border-radius:6px}
-.lane-title{font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--border);padding:8px 10px;margin-bottom:6px;border-radius:3px}
-.card-title{font-size:11px;font-weight:600;color:var(--text);line-height:1.35}
-
-
-
-
-
-
-
-
-
-
-/* PROCESS SECTION */
-.process-section{max-width:1440px;margin:24px auto 0;padding:0 24px}
-.process-header{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
-.process-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
-.process-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
-.process-card-title{font-weight:700;font-size:13px;color:var(--text);margin-bottom:6px}
-.process-card-body{font-size:11px;color:var(--dim);line-height:1.6}
-.process-step{display:flex;gap:8px;padding:3px 0}
-.process-step-num{font-weight:700;color:var(--fog);min-width:16px}
-
-.footer{max-width:1440px;margin:0 auto;padding:24px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
-
-@media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}.process-grid{grid-template-columns:1fr}}
-@media(max-width:640px){.kanban{grid-template-columns:1fr}}
-
-</style>
 </head>
-<body>
+<body style="margin:0; padding:24px; background-color:#FCFDF8; font-family:'Inter',-apple-system,sans-serif; font-size:13px; color:#0F0E0E;">
 
-<div class="header">
-  <div class="header-tag">Lane Definition</div>
-  <h1>WHO DOES WHAT</h1>
-  <div class="sub">RCA Records · Campaign Operations · April 2026</div>
-</div>
+<p style="margin:0 0 4px 0; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#999;">LANE DEFINITION</p>
+<p style="margin:0 0 6px 0; font-size:28px; font-weight:900; letter-spacing:-0.5px; text-transform:uppercase;">WHO DOES WHAT</p>
+<p style="margin:0 0 20px 0; font-size:13px; color:#999;">RCA Records · Campaign Operations · April 2026</p>
 
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse; table-layout:fixed;">
+<tr valign="top">
 
+<!-- CAMPAIGN LEADS -->
+<td width="25%" style="padding:0 6px 0 0;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+<tr><td style="background:#F3F3F0; border-top:3px solid #2563EB; padding:10px 12px; font-weight:900; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#2563EB;">Campaign Leads</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Decide Campaign Strategy &amp; Narrative</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Own Campaign Budget &amp; Allocation</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Plan Campaign Timeline &amp; Milestones</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Official Asset Management</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Website Oversight</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Paid Ad Strategy &amp; Assets</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Artist &amp; Management Buy-in</td></tr>
+</table>
+</td>
 
-<!-- KANBAN VIEW -->
-<div class="kanban" id="kanbanView">
+<!-- AUDIENCE DEV -->
+<td width="25%" style="padding:0 6px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+<tr><td style="background:#F3F3F0; border-top:3px solid #EA580C; padding:10px 12px; font-weight:900; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#EA580C;">Audience Dev</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Define the Audience</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Build Audience Growth Strategy</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Activate Fan Engagement</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Build &amp; Activate Short Form Content</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Build Social Content &amp; Manage Approvals</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Activate Influencer Campaigns</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Manage &amp; Amplify Platform Presence</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Activate Seeding Campaigns</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Amplify Organic Engagement</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Define Audience for New Signings</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Brief Management on Audience Performance</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">RCA Social Properties Management</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">UGC Campaigns</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Paid Ad Execution</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Campaign Reporting</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">DSP Marketing Tools</td></tr>
+</table>
+</td>
 
-<div class="lane" style="--lc:var(--leads)">
-  <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
-  <div class="card"><div class="card-title">Decide Campaign Strategy &amp; Narrative</div></div>
-  <div class="card"><div class="card-title">Own Campaign Budget &amp; Allocation</div></div>
-  <div class="card"><div class="card-title">Plan Campaign Timeline &amp; Milestones</div></div>
-  <div class="card"><div class="card-title">Official Asset Management</div></div>
-  <div class="card"><div class="card-title">Website Oversight</div></div>
-  <div class="card"><div class="card-title">Paid Ad Strategy &amp; Assets</div></div>
-  <div class="card"><div class="card-title">Artist &amp; Management Buy-in</div></div>
-</div>
+<!-- CAMPAIGN OPS -->
+<td width="25%" style="padding:0 6px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+<tr><td style="background:#F3F3F0; border-top:3px solid #16A34A; padding:10px 12px; font-weight:900; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#16A34A;">Campaign Ops</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track Release Readiness</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Surface Budget Gaps &amp; Divergence</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track &amp; Route Video Deliverables</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Prompt Cross-Dept Alignment</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Surface Meeting Decisions &amp; Actions</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track Action Items to Completion</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Surface Artist Context Across Departments</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Surface Data via Dashboards &amp; Tools</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track the System of Record</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Flag Release Runway Status</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Flag Upstream Dependencies</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track Management Approvals</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Confirm YouTube Content Clearance</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track Release Scheduling Requests</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Track Asset Readiness &amp; Deadlines</td></tr>
+</table>
+</td>
 
-<div class="lane" style="--lc:var(--auddev)">
-  <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
-  <div class="card"><div class="card-title">Define the Audience</div></div>
-  <div class="card"><div class="card-title">Build Audience Growth Strategy</div></div>
-  <div class="card"><div class="card-title">Activate Fan Engagement</div></div>
-  <div class="card"><div class="card-title">Build &amp; Activate Short Form Content</div></div>
-  <div class="card"><div class="card-title">Build Social Content &amp; Manage Approvals</div></div>
-  <div class="card"><div class="card-title">Activate Influencer Campaigns</div></div>
-  <div class="card"><div class="card-title">Manage &amp; Amplify Platform Presence</div></div>
-  <div class="card"><div class="card-title">Activate Seeding Campaigns</div></div>
-  <div class="card"><div class="card-title">Amplify Organic Engagement</div></div>
-  <div class="card"><div class="card-title">Define Audience for New Signings</div></div>
-  <div class="card"><div class="card-title">Brief Management on Audience Performance</div></div>
-  <div class="card"><div class="card-title">RCA Social Properties Management</div></div>
-  <div class="card"><div class="card-title">UGC Campaigns</div></div>
-  <div class="card"><div class="card-title">Paid Ad Execution</div></div>
-  <div class="card"><div class="card-title">Campaign Reporting</div></div>
-  <div class="card"><div class="card-title">DSP Marketing Tools</div></div>
-</div>
+<!-- SUPPORT -->
+<td width="25%" style="padding:0 0 0 6px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+<tr><td style="background:#F3F3F0; border-top:3px solid #7C3AED; padding:10px 12px; font-weight:900; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#7C3AED;">Support</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Vendor Setup, Maintenance &amp; Invoice Processing</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Asset Management</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Artist Pre-save Setup</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Content Claims &amp; Takedowns</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Artist &amp; Label Newsletters and Texts</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Internal Fund Transfers</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Short Link Creation, Update &amp; Distribution</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Site Requests, Web Ops &amp; Pixel Management</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Deliver YouTube Metadata &amp; Descriptions</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Build &amp; Deliver DSP Asset Grid</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Maintain Distribution Lists</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Ship Marketing Materials &amp; Promo</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Process Gratis Product Orders</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Manage Department Calendar</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Verification Requests</td></tr>
+<tr><td style="background:#FFF; border:1px solid #E2E2DE; border-top:none; padding:6px 10px; font-size:11px; font-weight:600;">Profile Maintenance &amp; Channel Creation</td></tr>
+</table>
+</td>
 
-<div class="lane" style="--lc:var(--ops)">
-  <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
-  <div class="card"><div class="card-title">Track Release Readiness</div></div>
-  <div class="card"><div class="card-title">Surface Budget Gaps &amp; Divergence</div></div>
-  <div class="card"><div class="card-title">Track &amp; Route Video Deliverables</div></div>
-  <div class="card"><div class="card-title">Prompt Cross-Dept Alignment</div></div>
-  <div class="card"><div class="card-title">Surface Meeting Decisions &amp; Actions</div></div>
-  <div class="card"><div class="card-title">Track Action Items to Completion</div></div>
-  <div class="card"><div class="card-title">Surface Artist Context Across Departments</div></div>
-  <div class="card"><div class="card-title">Surface Data via Dashboards &amp; Tools</div></div>
-  <div class="card"><div class="card-title">Track the System of Record</div></div>
-  <div class="card"><div class="card-title">Flag Release Runway Status</div></div>
-  <div class="card"><div class="card-title">Flag Upstream Dependencies</div></div>
-  <div class="card"><div class="card-title">Track Management Approvals</div></div>
-  <div class="card"><div class="card-title">Confirm YouTube Content Clearance</div></div>
-  <div class="card"><div class="card-title">Track Release Scheduling Requests</div></div>
-  <div class="card"><div class="card-title">Track Asset Readiness &amp; Deadlines</div></div>
-</div>
+</tr>
+</table>
 
-<div class="lane" style="--lc:var(--support)">
-  <div class="lane-title" style="color:var(--support)">Support</div>
-  <div class="card"><div class="card-title">Vendor Setup, Maintenance &amp; Invoice Processing</div></div>
-  <div class="card"><div class="card-title">Asset Management</div></div>
-  <div class="card"><div class="card-title">Artist Pre-save Setup</div></div>
-  <div class="card"><div class="card-title">Content Claims &amp; Takedowns</div></div>
-  <div class="card"><div class="card-title">Artist &amp; Label Newsletters and Texts</div></div>
-  <div class="card"><div class="card-title">Internal Fund Transfers</div></div>
-  <div class="card"><div class="card-title">Short Link Creation, Update &amp; Distribution</div></div>
-  <div class="card"><div class="card-title">Site Requests, Web Ops &amp; Pixel Management</div></div>
-  <div class="card"><div class="card-title">Deliver YouTube Metadata &amp; Descriptions</div></div>
-  <div class="card"><div class="card-title">Build &amp; Deliver DSP Asset Grid</div></div>
-  <div class="card"><div class="card-title">Maintain Distribution Lists</div></div>
-  <div class="card"><div class="card-title">Ship Marketing Materials &amp; Promo</div></div>
-  <div class="card"><div class="card-title">Process Gratis Product Orders</div></div>
-  <div class="card"><div class="card-title">Manage Department Calendar</div></div>
-  <div class="card"><div class="card-title">Verification Requests</div></div>
-  <div class="card"><div class="card-title">Profile Maintenance &amp; Channel Creation</div></div>
-</div>
+<p style="margin:20px 0 0 0; padding:14px 18px; background:#F3F3F0; border:1px solid #E2E2DE; border-radius:6px; font-size:11px; color:#6B6B6B; line-height:1.6;"><strong style="color:#0F0E0E;">Additional departments</strong> &mdash; Data &amp; Analytics, Commercial Partnerships, Creative, and other departments will be mapped separately and added to this document as those conversations are completed.</p>
 
-
-
-</div>
-
-
-
-<!-- PROCESSES -->
-<div class="process-section">
-  <div class="process-header">Key Processes</div>
-  <div class="process-grid">
-
-    <div class="process-card">
-      <div class="process-card-title">Release Scheduling</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead identifies target release date</div>
-        <div class="process-step"><span class="process-step-num">2.</span>CL confirms with Campaign Ops — CO checks the landscape</div>
-        <div class="process-step"><span class="process-step-num">3.</span>CO submits scheduling request (requires: art clearance confidence, final master on track, music circulated to SMT, rough plan in place)</div>
-        <div class="process-step"><span class="process-step-num">4.</span>Reviewed at Friday executive scheduling meeting</div>
-        <div class="process-step"><span class="process-step-num">5.</span>If approved → entered into GRPS, shows on Release Runway</div>
-        <div class="process-step"><span class="process-step-num">6.</span>If denied → CO communicates back to CL with reasoning</div>
-        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">No date is confirmed to artists or management until approved by the executive team.</div>
-      </div>
-    </div>
-
-    <div class="process-card">
-      <div class="process-card-title">Paid Ads</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">CL</span>Owns strategy and provides ad assets (artwork, clips, copy)</div>
-        <div class="process-step"><span class="process-step-num">AD</span>Executes campaigns — targeting, optimization, platform-native delivery</div>
-        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Budget requests must include target audience and goals — "10K for influencer and 10K for seeding" without audience detail will not be approved.</div>
-      </div>
-    </div>
-
-    <div class="process-card">
-      <div class="process-card-title">Budget Reallocation</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead decides funds need to shift (e.g., promo appearances → digital advertising)</div>
-        <div class="process-step"><span class="process-step-num">2.</span>CL directs Support to make the transfer in Console</div>
-        <div class="process-step"><span class="process-step-num">3.</span>Support executes the admin task — they do not initiate transfers on their own</div>
-        <div class="process-step"><span class="process-step-num">4.</span>Campaign Ops tracks for budget visibility</div>
-      </div>
-    </div>
-
-    <div class="process-card">
-      <div class="process-card-title">Creative Asset Requests</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">1.</span>Campaign Lead provides brief to Support (what's needed, dimensions, timeline)</div>
-        <div class="process-step"><span class="process-step-num">2.</span>Support enters request into Airtable with correct specs</div>
-        <div class="process-step"><span class="process-step-num">3.</span>Support tracks delivery and routes for approval</div>
-        <div class="process-step"><span class="process-step-num">4.</span>Campaign Ops tracks overall asset readiness against release deadlines</div>
-      </div>
-    </div>
-
-    <div class="process-card">
-      <div class="process-card-title">Music Circulation</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">1.</span>Once music is ready or a release is being scheduled, CL flags with A&amp;R Admin</div>
-        <div class="process-step"><span class="process-step-num">2.</span>Music is circulated to internal teams via standard distribution list</div>
-        <div class="process-step"><span class="process-step-num">3.</span>External music approvals handled separately through existing process</div>
-        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Standard distribution lists are maintained by Support. One-off requests go through CL.</div>
-      </div>
-    </div>
-
-    <div class="process-card">
-      <div class="process-card-title">Profile &amp; Channel Setup</div>
-      <div class="process-card-body">
-        <div class="process-step"><span class="process-step-num">AD</span>Audience Dev decides strategy — what the bio says, what the featured image is, platform-specific positioning</div>
-        <div class="process-step"><span class="process-step-num">SUP</span>Support executes updates across all social and DSP profiles to ensure consistency</div>
-        <div class="process-step" style="padding-top:6px;font-style:italic;color:var(--fog)">Whatever is updated on Instagram should be reflected across all DSPs and platforms.</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div style="max-width:1440px;margin:20px auto 0;padding:0 24px;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;font-size:11px;color:var(--dim);line-height:1.6;">
-    <strong style="color:var(--text)">Additional departments</strong> &mdash; Data &amp; Analytics, Commercial Partnerships, Creative, and other departments will be mapped separately and added to this document as those conversations are completed.
-  </div>
-</div>
-
-<div class="footer">
-  Lane Definition &middot; April 2026 &middot; Campaign Operations &middot; RCA Records
-</div>
-
-
+<p style="margin:20px 0 0 0; font-size:10px; color:#CCC;">Lane Definition &middot; April 2026 &middot; Campaign Operations &middot; RCA Records</p>
 
 </body>
 </html>
