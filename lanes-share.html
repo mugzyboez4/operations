@@ -13,7 +13,7 @@
   --bg:#FCFDF8;--surface:#F3F3F0;--card:#FFFFFF;--border:#E2E2DE;
   --text:#0F0E0E;--dim:#6B6B6B;--fog:#999;--muted:#CCC;
   --accent:#0F0E0E;
-  --leads:#2563EB;--auddev:#EA580C;--ops:#16A34A;--support:#7C3AED;--commercial:#0891B2;
+  --leads:#0F0E0E;--auddev:#0F0E0E;--ops:#0F0E0E;--support:#0F0E0E;--commercial:#0F0E0E;
 }
 body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
@@ -29,7 +29,7 @@ h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase
 .export-btn{background:none;border:1px solid var(--border);color:var(--dim);padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:auto;border-radius:4px}
 .export-btn:hover{border-color:var(--dim)}
 
-.kanban{max-width:1440px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kanban{max-width:1440px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .lane{background:var(--surface);border:1px solid var(--border);padding:14px;border-top:3px solid var(--lc,var(--muted));border-radius:6px}
 .lane-title{font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
 .lane-count{font-size:10px;color:var(--fog);margin-top:4px;margin-bottom:12px}
@@ -157,16 +157,7 @@ h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase
   <div class="card"><div class="card-title">Profile Maintenance &amp; Channel Creation</div></div>
 </div>
 
-<div class="lane" style="--lc:var(--commercial)">
-  <div class="lane-title" style="color:var(--commercial)">Commercial P'ships</div>
-  <div class="lane-count">6 items</div>
-  <div class="card"><div class="card-title">Pitch DSP Partners</div></div>
-  <div class="card"><div class="card-title">Pitch Social Platforms (TikTok, Meta, Snap)</div></div>
-  <div class="card"><div class="card-title">Report Partner Updates &amp; Opportunities</div></div>
-  <div class="card"><div class="card-title">Execute Music Delivery to Partners</div></div>
-  <div class="card"><div class="card-title">Execute VEVO Playlisting &amp; Backstage</div></div>
-  <div class="card"><div class="card-title">Negotiate &amp; Execute Platform Deals</div></div>
-</div>
+
 
 </div>
 
@@ -242,8 +233,14 @@ h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase
   </div>
 </div>
 
+<div style="max-width:1440px;margin:20px auto 0;padding:0 24px;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;font-size:11px;color:var(--dim);line-height:1.6;">
+    <strong style="color:var(--text)">Additional departments</strong> &mdash; Data &amp; Analytics, Commercial Partnerships, Creative, and other departments will be mapped separately and added to this document as those conversations are completed.
+  </div>
+</div>
+
 <div class="footer">
-  Lane Definition · April 2026 · Campaign Operations · RCA Records
+  Lane Definition &middot; April 2026 &middot; Campaign Operations &middot; RCA Records
 </div>
 
 <script>
@@ -251,8 +248,7 @@ var lanes = [
   { name: 'Campaign Leads', color: 'var(--leads)', items: ['Decide Campaign Strategy & Narrative','Own Campaign Budget & Allocation','Plan Campaign Timeline & Milestones','Official Asset Management','Website Oversight','Paid Ad Strategy & Assets','Artist & Management Buy-in'] },
   { name: 'Audience Dev', color: 'var(--auddev)', items: ['Define the Audience','Build Audience Growth Strategy','Activate Fan Engagement','Build & Activate Short Form Content','Build Social Content & Manage Approvals','Activate Influencer Campaigns','Manage & Amplify Platform Presence','Activate Seeding Campaigns','Amplify Organic Engagement','Define Audience for New Signings','Brief Management on Audience Performance','RCA Social Properties Management','UGC Campaigns','Paid Ad Execution','Campaign Reporting','DSP Marketing Tools'] },
   { name: 'Campaign Ops', color: 'var(--ops)', items: ['Track Release Readiness','Surface Budget Gaps & Divergence','Track & Route Video Deliverables','Prompt Cross-Dept Alignment','Surface Meeting Decisions & Actions','Track Action Items to Completion','Surface Artist Context Across Departments','Surface Data via Dashboards & Tools','Track the System of Record','Flag Release Runway Status','Flag Upstream Dependencies','Track Management Approvals','Confirm YouTube Content Clearance','Track Release Scheduling Requests','Track Asset Readiness & Deadlines'] },
-  { name: 'Support', color: 'var(--support)', items: ['Vendor Setup, Maintenance & Invoice Processing','Asset Management','Artist Pre-save Setup','Content Claims & Takedowns','Artist & Label Newsletters and Texts','Internal Fund Transfers','Short Link Creation, Update & Distribution','Site Requests, Web Ops & Pixel Management','Deliver YouTube Metadata & Descriptions','Build & Deliver DSP Asset Grid','Maintain Distribution Lists','Ship Marketing Materials & Promo','Process Gratis Product Orders','Manage Department Calendar','Verification Requests','Profile Maintenance & Channel Creation'] },
-  { name: "Commercial P'ships", color: 'var(--commercial)', items: ['Pitch DSP Partners','Pitch Social Platforms (TikTok, Meta, Snap)','Report Partner Updates & Opportunities','Execute Music Delivery to Partners','Execute VEVO Playlisting & Backstage','Negotiate & Execute Platform Deals'] }
+  { name: 'Support', color: 'var(--support)', items: ['Vendor Setup, Maintenance & Invoice Processing','Asset Management','Artist Pre-save Setup','Content Claims & Takedowns','Artist & Label Newsletters and Texts','Internal Fund Transfers','Short Link Creation, Update & Distribution','Site Requests, Web Ops & Pixel Management','Deliver YouTube Metadata & Descriptions','Build & Deliver DSP Asset Grid','Maintain Distribution Lists','Ship Marketing Materials & Promo','Process Gratis Product Orders','Manage Department Calendar','Verification Requests','Profile Maintenance & Channel Creation'] }
 ];
 
 function buildListView() {
