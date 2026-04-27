@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lane Definition — RCA Campaign Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FCFDF8;--surface:#F3F3F0;--card:#FFFFFF;--border:#E2E2DE;
+  --text:#0F0E0E;--dim:#6B6B6B;--fog:#999;--muted:#CCC;
+  --leads:#2563EB;--auddev:#EA580C;--ops:#16A34A;--support:#7C3AED;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:24px}
+
+.header{max-width:1440px;margin:0 auto;padding:0 0 12px}
+.header-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase;color:var(--text);display:inline}
+.sub{font-size:13px;color:var(--fog);margin-top:6px}
+
+/* SEARCH */
+.search-bar{max-width:1440px;margin:0 auto 16px;position:relative}
+.search-bar input{width:100%;padding:10px 14px 10px 36px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;color:var(--text);background:var(--card);outline:none}
+.search-bar input:focus{border-color:var(--dim)}
+.search-bar input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+.search-results{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;max-height:300px;overflow-y:auto;display:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.search-result{padding:8px 14px;cursor:pointer;border-bottom:1px solid var(--border)}
+.search-result:hover{background:var(--surface)}
+.search-result:last-child{border-bottom:none}
+.sr-lane{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.sr-title{font-size:12px;font-weight:600;color:var(--text)}
+.sr-desc{font-size:10px;color:var(--fog);margin-top:1px}
+.sr-match{background:#FFF3BF;padding:0 2px;border-radius:2px}
+
+/* AGENT */
+.agent-bar{max-width:1440px;margin:0 auto 16px;display:flex;gap:8px}
+.agent-bar input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;color:var(--text);background:var(--card);outline:none}
+.agent-bar input:focus{border-color:var(--dim)}
+.agent-bar input::placeholder{color:var(--muted)}
+.agent-bar button{background:var(--text);color:var(--bg);border:none;padding:10px 18px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.agent-bar button:hover{opacity:0.85}
+.agent-bar button:disabled{opacity:0.4;cursor:not-allowed}
+.agent-response{max-width:1440px;margin:0 auto 16px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.6;display:none}
+.agent-response .thinking{color:var(--fog);font-style:italic}
+
+table.board{width:100%;max-width:1440px;margin:0 auto;border-collapse:collapse;table-layout:fixed}
+table.board td{vertical-align:top;padding:0 6px}
+table.board td:first-child{padding-left:0}
+table.board td:last-child{padding-right:0}
+
+.lane-inner{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--lc);border-radius:6px;padding:14px;margin-bottom:12px}
+.lane-title{font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--border);padding:8px 10px;margin-bottom:5px;border-radius:3px;transition:all 0.15s}
+.card.highlighted{border-color:var(--text);box-shadow:0 0 0 2px rgba(15,14,14,0.15)}
+.card.dimmed{opacity:0.25}
+.card-t{font-size:11px;font-weight:600;color:var(--text);line-height:1.35}
+.card-d{font-size:9px;color:var(--fog);line-height:1.4;margin-top:2px}
+
+.note{max-width:1440px;margin:16px auto 0;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--dim);line-height:1.6}
+.note strong{color:var(--text)}
+
+.footer{max-width:1440px;margin:16px auto 0;font-size:10px;color:var(--muted)}
+
+@media(max-width:960px){table.board td{display:block;width:100%!important;padding:0 0 12px 0}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Lane Definition</div>
+  <h1>WHO DOES WHAT</h1>
+  <div class="sub">RCA Records · Campaign Operations · April 2026</div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <span class="search-icon">⌕</span>
+  <input type="text" id="searchInput" placeholder="Search responsibilities..." autocomplete="off">
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- AGENT -->
+<div class="agent-bar">
+  <input type="text" id="agentInput" placeholder="Ask: Who handles pre-saves? What does Support do with invoices?" autocomplete="off">
+  <button id="agentBtn" onclick="askAgent()">Ask</button>
+</div>
+<div class="agent-response" id="agentResponse"></div>
+
+<table class="board" role="presentation">
+<tr valign="top">
+
+<!-- CAMPAIGN LEADS -->
+<td width="25%">
+<div class="lane-inner" style="border-top-color:var(--leads)">
+  <div class="lane-title" style="color:var(--leads)">Campaign Leads</div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Campaign Strategy &amp; Narrative</div><div class="card-d">Defining how the story &amp; narrative of the campaign go to market.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Timeline &amp; Milestones</div><div class="card-d">Create and maintain the campaign timeline.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Artist &amp; Management Relations</div><div class="card-d">Primary point of contact throughout the campaign lifecycle. Secure buy-in on direction and key decisions.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Budget &amp; Allocation</div><div class="card-d">Build the budget, manage allocation across departments, own spend decisions.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Trigger Key Asset Creation</div><div class="card-d">Kick off the asset creation process — ads, announcements, highlight reels, UGC mashups.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Website Oversight</div><div class="card-d">Trigger and oversee process of website creation and campaign tie-ins.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Out of Home &amp; Trades Marketing</div><div class="card-d">Oversee IRL media/trade media bookings and messaging.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Award Show Alignment</div><div class="card-d">Oversee asset creation, advertising spends &amp; placements and communication for Award Shows.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Pitch Deck Oversight</div><div class="card-d">Responsible for the flow of Artist/Project Pitch Decks and department copy/content delivery timelines.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Physical Product Management</div><div class="card-d">Oversee the configuration details and departmental follow-through for physical releases.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Artist Image Alignment</div><div class="card-d">Oversee the process of image selects across Press, Partnerships and Packaging.</div></div>
+  <div class="card" data-lane="Campaign Leads"><div class="card-t">Promo Item Oversight</div><div class="card-d">Ideate and oversee product content, budgeting, execution and distribution.</div></div>
+</div>
+</td>
+
+<!-- AUDIENCE DEV -->
+<td width="25%">
+<div class="lane-inner" style="border-top-color:var(--auddev)">
+  <div class="lane-title" style="color:var(--auddev)">Audience Dev</div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Audience Definition &amp; Research</div><div class="card-d">Research and define target audience — demos, engagement rate, listening behavior and psychographics. In partnership with Strategic Analytics.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">New Signing Audience Profiles</div><div class="card-d">Baseline audience profile for newly signed artists entering the campaign cycle.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Performance &amp; Reporting</div><div class="card-d">Campaign reporting, KPIs, audience metrics. Present performance to leadership.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Audience Growth</div><div class="card-d">Builds the strategy for audience growth and engagement in line with Creative's output and the overall campaign strategy.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Shortform Strategy &amp; Execution</div><div class="card-d">Taking artist shortform execution to the extent they will allow. Includes ideation, 3rd party booking and maintenance, first-person shoots and coaching.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Influencer Marketing</div><div class="card-d">Responsible for all aspects of influencer campaigns from ideation through execution.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Seeding</div><div class="card-d">Responsible for all paid narrative and discovery campaigns across social platforms.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">UGC &amp; Clipping</div><div class="card-d">Ideation and execution of all UGC &amp; clipping campaigns. Collaborates with CL, Creative and Publicity to identify key moments.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Paid Media Campaign Execution</div><div class="card-d">Online advertising campaigns across social channels, search and programmatic, leveraging internal data tools (FanSifter, etc.) to optimize performance.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">Engagement Campaigns</div><div class="card-d">Building web-based campaigns (library scans, contests, etc.) to collect fan data and engage core audiences.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">RCA Web &amp; Social Property Management</div><div class="card-d">Responsible for the flow and content across RCA's websites, newsletter and social properties.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">IRL Event Collaboration</div><div class="card-d">Collaborate with Creative to ensure the fan component of IRL events is prioritized to deliver reach and impact online during and/or following the event.</div></div>
+  <div class="card" data-lane="Audience Dev"><div class="card-t">DSP &amp; Partner Tools</div><div class="card-d">Manage DSP marketing tools and partner marketing features.</div></div>
+</div>
+</td>
+
+<!-- CAMPAIGN OPS -->
+<td width="25%">
+<div class="lane-inner" style="border-top-color:var(--ops)">
+  <div class="lane-title" style="color:var(--ops)">Campaign Ops</div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Release Readiness</div><div class="card-d">Monitor whether all departments, assets, and runway fields are on track for upcoming releases.</div></div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Cross-Department Visibility</div><div class="card-d">Ensure every team has the context they need — artist status, budget gaps, dependencies, and blockers.</div></div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Action Items &amp; Approvals</div><div class="card-d">Follow up on action items to completion. Monitor pending management approvals.</div></div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Meeting Operations</div><div class="card-d">Prep, capture, and distribute decisions and action items from all meetings.</div></div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Dashboards &amp; System of Record</div><div class="card-d">Build and maintain operational dashboards and the data infrastructure.</div></div>
+</div>
+</td>
+
+<!-- SUPPORT -->
+<td width="25%">
+<div class="lane-inner" style="border-top-color:var(--support)">
+  <div class="lane-title" style="color:var(--support)">Support</div>
+  <div class="card" data-lane="Support"><div class="card-t">Asset Routing</div><div class="card-d">Submit creative tickets at the direction of Campaign Lead and Community Manager. Drive follow-through, prioritization, QA and approvals/routing.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Pre-Save Setup</div><div class="card-d">Create and manage pre-saves at the Campaign Lead's direction. Includes SMF, third-party platforms (CoBrand, Laylo, etc.), and delivery of signup code for custom development.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Content Claims</div><div class="card-d">Submit content claims across social platforms at the direction of the Campaign Lead and Community Manager.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Allow-Listing</div><div class="card-d">Execute allow-listing requests for content teasing and social sharing for artist, fan, brands/licensees and friends/family accounts.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Takedowns</div><div class="card-d">Submit takedown requests across social platforms. Source links as needed.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Profile Verification</div><div class="card-d">Submit artist profile verification requests across socials.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Artist Newsletter Builds</div><div class="card-d">Build, QA and send artist newsletters via FanSifter at the direction of the Community Manager.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Shortlink Generation</div><div class="card-d">Manage all shortlink generation, pixel integration &amp; QA across the roster.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Website Support</div><div class="card-d">Submit creative requests, manage WebOps process and oversee pixel management. Drive follow-through, prioritization, QA and approvals/routing.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Vendors &amp; Invoices</div><div class="card-d">Oversee vendor and invoicing process inclusive of vendor setup, maintenance and invoice trafficking/processing across Campaign Strategy &amp; Audience Development. Police the process with Campaign Operations.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Gratis Orders</div><div class="card-d">Submit gratis orders at the direction of the Campaign Lead.</div></div>
+  <div class="card" data-lane="Support"><div class="card-t">Team/Project Meeting Setup</div><div class="card-d">Schedule and maintain multi-department meetings centered around artists/projects. Does not extend to huddles, regroups, etc.</div></div>
+</div>
+</td>
+
+</tr>
+</table>
+
+<div class="note">
+  <strong>Additional departments</strong> &mdash; Data &amp; Analytics, Commercial Partnerships, Creative, and other departments will be mapped separately and added to this document as those conversations are completed.
+</div>
+
+<div class="footer">
+  Lane Definition &middot; April 2026 &middot; Campaign Operations &middot; RCA Records
+</div>
+
+<script>
+// Build the data index from DOM
+var cards = [];
+document.querySelectorAll('.card[data-lane]').forEach(function(el) {
+  var t = el.querySelector('.card-t');
+  var d = el.querySelector('.card-d');
+  cards.push({
+    lane: el.getAttribute('data-lane'),
+    title: t ? t.textContent : '',
+    desc: d ? d.textContent : '',
+    el: el
+  });
+});
+
+// SEARCH — instant filter
+var searchInput = document.getElementById('searchInput');
+var searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', function() {
+  var q = this.value.toLowerCase().trim();
+  if (q.length < 2) {
+    searchResults.style.display = 'none';
+    cards.forEach(function(c) { c.el.classList.remove('highlighted','dimmed'); });
+    return;
+  }
+  
+  var matches = cards.filter(function(c) {
+    return c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q);
+  });
+  
+  // Highlight matching cards, dim others
+  cards.forEach(function(c) {
+    if (matches.includes(c)) {
+      c.el.classList.add('highlighted');
+      c.el.classList.remove('dimmed');
+    } else {
+      c.el.classList.remove('highlighted');
+      c.el.classList.add('dimmed');
+    }
+  });
+  
+  // Show dropdown
+  if (matches.length > 0) {
+    var laneColors = { 'Campaign Leads': 'var(--leads)', 'Audience Dev': 'var(--auddev)', 'Campaign Ops': 'var(--ops)', 'Support': 'var(--support)' };
+    searchResults.innerHTML = matches.map(function(m) {
+      return '<div class="search-result" onclick="scrollToCard(this)" data-title="' + m.title + '">' +
+        '<div class="sr-lane" style="color:' + (laneColors[m.lane] || 'var(--dim)') + '">' + m.lane + '</div>' +
+        '<div class="sr-title">' + m.title + '</div>' +
+        '<div class="sr-desc">' + m.desc + '</div>' +
+      '</div>';
+    }).join('');
+    searchResults.style.display = 'block';
+  } else {
+    searchResults.innerHTML = '<div class="search-result"><div class="sr-title" style="color:var(--fog)">No matches</div></div>';
+    searchResults.style.display = 'block';
+  }
+});
+
+searchInput.addEventListener('blur', function() {
+  setTimeout(function() { searchResults.style.display = 'none'; }, 200);
+});
+
+function scrollToCard(el) {
+  var title = el.getAttribute('data-title');
+  var match = cards.find(function(c) { return c.title === title; });
+  if (match) {
+    match.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    match.el.classList.add('highlighted');
+    setTimeout(function() { match.el.classList.remove('highlighted'); }, 2000);
+  }
+}
+
+// AGENT — AI-powered "who handles X?"
+var agentInput = document.getElementById('agentInput');
+var agentBtn = document.getElementById('agentBtn');
+var agentResponse = document.getElementById('agentResponse');
+
+agentInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') askAgent();
+});
+
+async function askAgent() {
+  var q = agentInput.value.trim();
+  if (!q) return;
+  
+  agentBtn.disabled = true;
+  agentResponse.style.display = 'block';
+  agentResponse.innerHTML = '<span class="thinking">Looking through the lane definitions...</span>';
+  
+  // Build context from all cards
+  var context = cards.map(function(c) {
+    return c.lane + ' → ' + c.title + ': ' + c.desc;
+  }).join('\n');
+  
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'You are answering questions about RCA Records department responsibilities. Answer in 2-3 short sentences max. Name the specific team and responsibility. If multiple teams are involved, explain the handoff. Be direct.\n\nHere are all the defined responsibilities:\n' + context,
+        messages: [{ role: 'user', content: q }]
+      })
+    });
+    
+    var data = await response.json();
+    var answer = data.content.map(function(b) { return b.text || ''; }).join('');
+    agentResponse.innerHTML = '<strong>Answer:</strong> ' + answer;
+    
+    // Highlight relevant cards
+    cards.forEach(function(c) { c.el.classList.remove('highlighted','dimmed'); });
+    var answerLower = answer.toLowerCase();
+    cards.forEach(function(c) {
+      var titleWords = c.title.toLowerCase().split(/\s+/);
+      var isRelevant = titleWords.some(function(w) { return w.length > 3 && answerLower.includes(w); });
+      if (isRelevant) {
+        c.el.classList.add('highlighted');
+      }
+    });
+    
+  } catch (err) {
+    agentResponse.innerHTML = '<span class="thinking">Error: ' + err.message + '. Try searching instead.</span>';
+  }
+  
+  agentBtn.disabled = false;
+}
+</script>
+
+</body>
+</html>
