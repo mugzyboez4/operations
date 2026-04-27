@@ -37,15 +37,7 @@ h1{font-weight:900;font-size:28px;letter-spacing:-0.5px;text-transform:uppercase
 .sr-match{background:#FFF3BF;padding:0 2px;border-radius:2px}
 
 /* AGENT */
-.agent-bar{max-width:1440px;margin:0 auto 16px;display:flex;gap:8px}
-.agent-bar input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;color:var(--text);background:var(--card);outline:none}
-.agent-bar input:focus{border-color:var(--dim)}
-.agent-bar input::placeholder{color:var(--muted)}
-.agent-bar button{background:var(--text);color:var(--bg);border:none;padding:10px 18px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
-.agent-bar button:hover{opacity:0.85}
-.agent-bar button:disabled{opacity:0.4;cursor:not-allowed}
-.agent-response{max-width:1440px;margin:0 auto 16px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.6;display:none}
-.agent-response .thinking{color:var(--fog);font-style:italic}
+
 
 table.board{width:100%;max-width:1440px;margin:0 auto;border-collapse:collapse;table-layout:fixed}
 table.board td{vertical-align:top;padding:0 6px}
@@ -83,12 +75,7 @@ table.board td:last-child{padding-right:0}
   <div class="search-results" id="searchResults"></div>
 </div>
 
-<!-- AGENT -->
-<div class="agent-bar">
-  <input type="text" id="agentInput" placeholder="Ask: Who handles pre-saves? What does Support do with invoices?" autocomplete="off">
-  <button id="agentBtn" onclick="askAgent()">Ask</button>
-</div>
-<div class="agent-response" id="agentResponse"></div>
+
 
 <table class="board" role="presentation">
 <tr valign="top">
@@ -141,6 +128,7 @@ table.board td:last-child{padding-right:0}
   <div class="card" data-lane="Campaign Ops"><div class="card-t">Action Items &amp; Approvals</div><div class="card-d">Follow up on action items to completion. Monitor pending management approvals.</div></div>
   <div class="card" data-lane="Campaign Ops"><div class="card-t">Meeting Operations</div><div class="card-d">Prep, capture, and distribute decisions and action items from all meetings.</div></div>
   <div class="card" data-lane="Campaign Ops"><div class="card-t">Dashboards &amp; System of Record</div><div class="card-d">Build and maintain operational dashboards and the data infrastructure.</div></div>
+  <div class="card" data-lane="Campaign Ops"><div class="card-t">Release Scheduling</div><div class="card-d">Check landscape and prerequisites, submit scheduling requests for executive review. Communicate approvals and denials back to Campaign Leads.</div></div>
 </div>
 </td>
 
@@ -246,61 +234,7 @@ function scrollToCard(el) {
   }
 }
 
-// AGENT — AI-powered "who handles X?"
-var agentInput = document.getElementById('agentInput');
-var agentBtn = document.getElementById('agentBtn');
-var agentResponse = document.getElementById('agentResponse');
 
-agentInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') askAgent();
-});
-
-async function askAgent() {
-  var q = agentInput.value.trim();
-  if (!q) return;
-  
-  agentBtn.disabled = true;
-  agentResponse.style.display = 'block';
-  agentResponse.innerHTML = '<span class="thinking">Looking through the lane definitions...</span>';
-  
-  // Build context from all cards
-  var context = cards.map(function(c) {
-    return c.lane + ' → ' + c.title + ': ' + c.desc;
-  }).join('\n');
-  
-  try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: 'You are answering questions about RCA Records department responsibilities. Answer in 2-3 short sentences max. Name the specific team and responsibility. If multiple teams are involved, explain the handoff. Be direct.\n\nHere are all the defined responsibilities:\n' + context,
-        messages: [{ role: 'user', content: q }]
-      })
-    });
-    
-    var data = await response.json();
-    var answer = data.content.map(function(b) { return b.text || ''; }).join('');
-    agentResponse.innerHTML = '<strong>Answer:</strong> ' + answer;
-    
-    // Highlight relevant cards
-    cards.forEach(function(c) { c.el.classList.remove('highlighted','dimmed'); });
-    var answerLower = answer.toLowerCase();
-    cards.forEach(function(c) {
-      var titleWords = c.title.toLowerCase().split(/\s+/);
-      var isRelevant = titleWords.some(function(w) { return w.length > 3 && answerLower.includes(w); });
-      if (isRelevant) {
-        c.el.classList.add('highlighted');
-      }
-    });
-    
-  } catch (err) {
-    agentResponse.innerHTML = '<span class="thinking">Error: ' + err.message + '. Try searching instead.</span>';
-  }
-  
-  agentBtn.disabled = false;
-}
 </script>
 
 </body>
