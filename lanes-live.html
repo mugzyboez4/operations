@@ -46,6 +46,11 @@ table.board td:last-child{padding-right:0}
 
 .lane-inner{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--lc);border-radius:6px;padding:14px;margin-bottom:12px}
 .lane-title{font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+
+.card{cursor:grab;transition:all 0.15s}
+.card.dragging{opacity:0.4;transform:scale(0.95)}
+.card.drag-over{border-top:2px solid var(--text)}
+.lane-inner.drag-over-lane{outline:2px dashed var(--text);outline-offset:-2px}
 .card{background:var(--card);border:1px solid var(--border);padding:8px 10px;margin-bottom:5px;border-radius:3px;transition:all 0.15s}
 .card.highlighted{border-color:var(--text);box-shadow:0 0 0 2px rgba(15,14,14,0.15)}
 .card.dimmed{opacity:0.25}
@@ -235,6 +240,84 @@ function scrollToCard(el) {
 }
 
 
+
+
+// DRAG AND DROP
+var draggedCard = null;
+
+document.querySelectorAll('.card[data-lane]').forEach(function(card) {
+  card.setAttribute('draggable', 'true');
+  
+  card.addEventListener('dragstart', function(e) {
+    draggedCard = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  
+  card.addEventListener('dragend', function() {
+    this.classList.remove('dragging');
+    document.querySelectorAll('.drag-over,.drag-over-lane').forEach(function(el) {
+      el.classList.remove('drag-over','drag-over-lane');
+    });
+    draggedCard = null;
+    // Rebuild search index
+    cards = [];
+    document.querySelectorAll('.card[data-lane]').forEach(function(el) {
+      var t = el.querySelector('.card-t');
+      var d = el.querySelector('.card-d');
+      var lane = el.closest('.lane-inner');
+      var laneTitle = lane ? lane.querySelector('.lane-title') : null;
+      var laneName = laneTitle ? laneTitle.textContent.trim() : '';
+      el.setAttribute('data-lane', laneName);
+      cards.push({ lane: laneName, title: t ? t.textContent : '', desc: d ? d.textContent : '', el: el });
+    });
+  });
+  
+  card.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (this !== draggedCard) this.classList.add('drag-over');
+  });
+  
+  card.addEventListener('dragleave', function() {
+    this.classList.remove('drag-over');
+  });
+  
+  card.addEventListener('drop', function(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+    if (draggedCard && this !== draggedCard) {
+      var parent = this.parentElement;
+      var cards = Array.from(parent.querySelectorAll('.card'));
+      var dropIdx = cards.indexOf(this);
+      var dragIdx = cards.indexOf(draggedCard);
+      if (draggedCard.parentElement === parent && dragIdx < dropIdx) {
+        parent.insertBefore(draggedCard, this.nextSibling);
+      } else {
+        parent.insertBefore(draggedCard, this);
+      }
+    }
+  });
+});
+
+// Allow dropping on lanes
+document.querySelectorAll('.lane-inner').forEach(function(lane) {
+  lane.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    this.classList.add('drag-over-lane');
+  });
+  lane.addEventListener('dragleave', function(e) {
+    if (!this.contains(e.relatedTarget)) this.classList.remove('drag-over-lane');
+  });
+  lane.addEventListener('drop', function(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over-lane');
+    if (draggedCard && !e.target.classList.contains('card')) {
+      this.appendChild(draggedCard);
+    }
+  });
+});
 </script>
 
 </body>
