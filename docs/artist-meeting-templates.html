@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Meeting Templates — Campaign Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0F0E0E;--card:#1A1A1A;--card2:#222121;--w:#FCFDF8;--lime:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--teal:#5BC0BE;--gold:#E8C547;--border:#2A2A2A;--green:#4CAF50;--red:#E53935}
+html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{padding:32px 20px 80px}
+.container{max-width:900px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:10px}
+.title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:0.95;text-transform:uppercase;margin-bottom:8px}
+.subtitle{font-size:14px;color:var(--fog);margin-bottom:28px}
+.tabs{position:sticky;top:0;background:var(--bg);padding:14px 0 0;z-index:50;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:0}
+.tab{background:transparent;color:var(--fog);border:none;padding:12px 18px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px}
+.tab:hover{color:var(--w)}
+.tab.active{color:var(--lime);border-bottom-color:var(--lime)}
+.tab .num{font-family:'DM Mono',monospace;font-size:9px;opacity:.6}
+.panel{display:none;padding:36px 0 0}
+.panel.active{display:block}
+h2{font-size:24px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:var(--w);border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:20px}
+h3{font-size:16px;font-weight:800;letter-spacing:-.3px;color:var(--w);margin-top:28px;margin-bottom:12px}
+h4{font-family:'DM Mono',monospace;font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--lime);margin-top:18px;margin-bottom:8px}
+p{margin-bottom:12px;color:var(--fog);font-size:13px}
+.meta{display:flex;gap:20px;flex-wrap:wrap;padding:14px 18px;background:var(--card);border-left:3px solid var(--lime);margin-bottom:24px;font-size:12px}
+.meta div{display:flex;flex-direction:column;gap:2px}
+.meta .label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog)}
+.meta .val{color:var(--w);font-weight:600}
+.gate-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;margin-bottom:16px}
+.section-block{background:var(--card);padding:18px 20px;margin-bottom:12px;border-left:3px solid var(--slate)}
+.section-block.lime{border-left-color:var(--lime)}
+.section-block.teal{border-left-color:var(--teal)}
+.section-block.flame{border-left-color:var(--flame)}
+.section-block.gold{border-left-color:var(--gold)}
+.section-block.fog{border-left-color:var(--fog)}
+.section-block h4{margin-top:0}
+.capture{border:1px dashed var(--slate);padding:12px 16px;margin-top:8px;font-size:12px;color:var(--slate);font-style:italic;min-height:50px}
+.time{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog);float:right}
+.footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:10px;color:var(--slate)}
+.footer .tag{color:var(--teal);font-style:italic}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="eyebrow">Campaign Operations · Artist Meeting Templates</div>
+  <div class="title">Ritual <span style="color:var(--lime)">Spine</span></div>
+  <div class="subtitle">Six milestone-triggered meetings. Each one maps to a phase and a gate. Click a tab to see the template.</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show(0)"><span class="num">01</span>Onboarding</button>
+    <button class="tab" onclick="show(1)"><span class="num">02</span>Pre-Kickoff</button>
+    <button class="tab" onclick="show(2)"><span class="num">03</span>Kickoff</button>
+    <button class="tab" onclick="show(3)"><span class="num">04</span>Blueprint Review</button>
+    <button class="tab" onclick="show(4)"><span class="num">05</span>Pre-Release Check</button>
+    <button class="tab" onclick="show(5)"><span class="num">06</span>Post-Release Wrap</button>
+  </div>
+
+  <!-- 01 ONBOARDING -->
+  <div class="panel active" id="p0">
+    <div class="gate-badge" style="background:var(--fog);color:var(--bg)">GATE: CAN WE PLAN?</div>
+    <h2>Onboarding Meeting</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">Deal signed</span></div>
+      <div><span class="label">Owner</span><span class="val">A&R Operations (Adonis)</span></div>
+      <div><span class="label">Phase</span><span class="val">→ PLAN</span></div>
+      <div><span class="label">Type</span><span class="val">Working Session</span></div>
+      <div><span class="label">Timing</span><span class="val">Within 7 days of signing</span></div>
+      <div><span class="label">Duration</span><span class="val">45 min</span></div>
+    </div>
+    <p>First meeting after a deal is signed. The goal is to assign the team, frame the budget, and distribute the Prep Package so everyone knows who they're working with.</p>
+
+    <h4>Attendees</h4>
+    <p>Signing A&R · COO · Creative Lead · Marketing Lead · Audience Dev Lead · Publicity Lead</p>
+
+    <h4>Pre-Read Required</h4>
+    <div class="section-block lime">
+      <h4 style="color:var(--w)">Prep Package (distributed 3 days before)</h4>
+      <p>Music links · Social handles & metrics · Management contact · Affiliations · Previous milestones · Upcoming release plans · Upcoming tentpoles · Suggested team/pod reps (draft)</p>
+    </div>
+
+    <h3>Agenda</h3>
+    <div class="section-block"><h4>01 · Review Artist Dossier</h4><span class="time">10 min</span><p>Walk through the Prep Package. First impressions from the room.</p><div class="capture">Capture: key reactions, questions, flags</div></div>
+    <div class="section-block"><h4>02 · Confirm Pod Assignments</h4><span class="time">10 min</span><p>Lock the team. Who's the campaign lead? Who's the A&R admin? Who's creative?</p><div class="capture">Capture: confirmed assignments</div></div>
+    <div class="section-block"><h4>03 · Frame Budget Tier</h4><span class="time">10 min</span><p>Transparent conversation about resource level — High / Mid / Dev. Not the exact number, just the tier.</p><div class="capture">Capture: tier assignment + any caveats</div></div>
+    <div class="section-block"><h4>04 · Next Steps</h4><span class="time">5 min</span><p>Dossier distributed to pod. Pre-Kickoff scheduled. Artist Brief assigned to Signing A&R.</p><div class="capture">Capture: deadlines + owners</div></div>
+
+    <h4>Exit Ticket</h4>
+    <div class="section-block teal">
+      <p style="color:var(--teal);font-weight:600">Pod assignments confirmed in Airtable → dossier distributed to pod → Pre-Kickoff scheduled within 7-10 days</p>
+    </div>
+  </div>
+
+  <!-- 02 PRE-KICKOFF -->
+  <div class="panel" id="p1">
+    <div class="gate-badge" style="background:var(--fog);color:var(--bg)">PHASE: PLAN</div>
+    <h2>Pre-Kickoff Alignment Call</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">Onboarding complete</span></div>
+      <div><span class="label">Owner</span><span class="val">Signing A&R</span></div>
+      <div><span class="label">Phase</span><span class="val">PLAN</span></div>
+      <div><span class="label">Type</span><span class="val">Alignment</span></div>
+      <div><span class="label">Timing</span><span class="val">7-10 days post-onboarding</span></div>
+      <div><span class="label">Duration</span><span class="val">30 min</span></div>
+    </div>
+    <p>The artist and management get heard. This is not the label telling the artist what to do — it's the artist telling the label who they are, what they want, and what's coming.</p>
+
+    <h4>Attendees</h4>
+    <p>Signing A&R · Pod Leads · Artist & Management</p>
+
+    <h3>Agenda</h3>
+    <div class="section-block"><h4>01 · Artist POV</h4><span class="time">15 min</span><p>Archetype, aspirations, creative references, tentpoles. Let the artist talk.</p><div class="capture">Capture: artist's own words on direction</div></div>
+    <div class="section-block"><h4>02 · Upcoming Plans</h4><span class="time">10 min</span><p>What does management already have in motion? Tour? Content? Features? Collabs?</p><div class="capture">Capture: existing commitments + timelines</div></div>
+    <div class="section-block"><h4>03 · Draft Artist Brief</h4><span class="time">5 min</span><p>Confirm A&R will complete the Artist Brief in Airtable based on this conversation. This triggers the Kickoff.</p><div class="capture">Capture: brief deadline + any open questions</div></div>
+
+    <h4>Exit Ticket</h4>
+    <div class="section-block teal">
+      <p style="color:var(--teal);font-weight:600">Artist Brief completed in Airtable → triggers Kickoff scheduling + packet distribution</p>
+    </div>
+  </div>
+
+  <!-- 03 KICKOFF -->
+  <div class="panel" id="p2">
+    <div class="gate-badge" style="background:var(--lime);color:var(--bg)">GATE: CAN WE ANNOUNCE?</div>
+    <h2>Kickoff Meeting</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">Artist Brief complete</span></div>
+      <div><span class="label">Owner</span><span class="val">Signing A&R + A&R Operations</span></div>
+      <div><span class="label">Phase</span><span class="val">PLAN → ANNOUNCE</span></div>
+      <div><span class="label">Type</span><span class="val">Decision Meeting</span></div>
+      <div><span class="label">Timing</span><span class="val">7-10 days post-Pre-Kickoff</span></div>
+      <div><span class="label">Duration</span><span class="val">60 min</span></div>
+    </div>
+    <p>The biggest meeting in the lifecycle. Leadership reviews and pressure-tests the Artist Brief. The room locks narrative, audience, direction, and goals. Passing this gate means the project can go public.</p>
+
+    <h4>Attendees</h4>
+    <p>CEO · COO · SVPs (Creative, Marketing, Audience Dev, Publicity) · Pod Leads</p>
+
+    <h3>Agenda</h3>
+    <div class="section-block"><h4>01 · Review Artist Brief</h4><span class="time">15 min</span><p>A&R presents the brief. Who is this artist? What's the story? What's the audience?</p><div class="capture">Capture: leadership reactions + questions</div></div>
+    <div class="section-block"><h4>02 · Pressure Test</h4><span class="time">20 min</span><p>Leadership pushes back. Is the narrative clear? Is the audience real? Is the timeline realistic?</p><div class="capture">Capture: challenges + revisions</div></div>
+    <div class="section-block"><h4>03 · Lock Direction</h4><span class="time">15 min</span><p>Agree on narrative, audience, goals. Lock the release date if ready. Set workability targets.</p><div class="capture">Capture: decisions — what's locked, what's conditional</div></div>
+    <div class="section-block"><h4>04 · Blueprint Assignment</h4><span class="time">10 min</span><p>Marketing assigned to build the Blueprint (calendar, asset tracker, KPI linkage). Deadline set.</p><div class="capture">Capture: Blueprint owner + deadline</div></div>
+
+    <h4>Exit Ticket</h4>
+    <div class="section-block lime">
+      <p style="color:var(--lime);font-weight:600">Artist Brief signed off in Airtable → release date locked (or conditional) → unlocks Blueprint stage → artist moves from PLAN to ANNOUNCE</p>
+    </div>
+    <p style="color:var(--fog);font-size:11px;font-style:italic">Shape, Then Build: A&R + Creative + Digital lock the story. Marketing builds the system. We don't build what we haven't shaped.</p>
+  </div>
+
+  <!-- 04 BLUEPRINT REVIEW -->
+  <div class="panel" id="p3">
+    <div class="gate-badge" style="background:var(--lime);color:var(--bg)">PHASE: ANNOUNCE</div>
+    <h2>Blueprint Review</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">Kickoff signed off</span></div>
+      <div><span class="label">Owner</span><span class="val">Marketing</span></div>
+      <div><span class="label">Phase</span><span class="val">ANNOUNCE</span></div>
+      <div><span class="label">Type</span><span class="val">Working Session</span></div>
+      <div><span class="label">Cadence</span><span class="val">Biweekly (recurring)</span></div>
+      <div><span class="label">Duration</span><span class="val">30 min</span></div>
+    </div>
+    <p>The recurring check-in during ANNOUNCE phase. Are we on track? Is workability moving? Are the marketing beats landing? This is the meeting that feeds the Tuesday Workability Check at the roster level.</p>
+
+    <h4>Attendees</h4>
+    <p>A&R Ops · Creative · Audience Dev · Pod Leads</p>
+
+    <h3>Agenda</h3>
+    <div class="section-block"><h4>01 · Workability Status</h4><span class="time">5 min</span><p>Art, music, clearances. Workability score from Release Runway. Red items only.</p><div class="capture">Capture: what's red + who owns fixing it + deadline</div></div>
+    <div class="section-block"><h4>02 · Timeline Review</h4><span class="time">10 min</span><p>Walk through the campaign timeline. Any dates shifting? Any beats missed?</p><div class="capture">Capture: date changes + new dependencies</div></div>
+    <div class="section-block"><h4>03 · KPI Health</h4><span class="time">10 min</span><p>Are pre-saves tracking? Social engagement? Press confirmations? Early signals.</p><div class="capture">Capture: metrics + flags</div></div>
+    <div class="section-block"><h4>04 · Blockers + Pivots</h4><span class="time">5 min</span><p>Anything blocked? Anything we need to change? Escalations?</p><div class="capture">Capture: blockers → escalation path + deadline</div></div>
+
+    <h4>Escalation Rules</h4>
+    <div class="section-block flame">
+      <p style="color:var(--flame);font-weight:600">Blocker > 2 weeks → Department Head escalation<br>KPI misses 2 cycles → COO + A&R Ops notified<br>Narrative misfire → Immediate escalation to CEO, COO, SVPs, Pod Leads</p>
+    </div>
+  </div>
+
+  <!-- 05 PRE-RELEASE CHECK -->
+  <div class="panel" id="p4">
+    <div class="gate-badge" style="background:var(--teal);color:var(--bg)">GATE: CAN WE EXECUTE?</div>
+    <h2>Pre-Release Check</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">T-14 days from release</span></div>
+      <div><span class="label">Owner</span><span class="val">Campaign Ops + Campaign Lead</span></div>
+      <div><span class="label">Phase</span><span class="val">ANNOUNCE → EXECUTE</span></div>
+      <div><span class="label">Type</span><span class="val">Standup</span></div>
+      <div><span class="label">Duration</span><span class="val">15 min</span></div>
+    </div>
+    <p>The final gate check before release. Everything needs to be in position. This is a yes/no meeting — are we ready? If not, what's missing and can it be fixed in 14 days?</p>
+
+    <h4>Attendees</h4>
+    <p>Campaign Lead · Ops · whoever owns the open items</p>
+
+    <h3>Checklist</h3>
+    <div class="section-block teal">
+      <h4 style="color:var(--w)">Workability</h4>
+      <p>Art delivered? Master approved? Samples cleared?<br>Workability must be >70% to pass this gate.</p>
+      <div class="capture">Status: ___% · Red items: ___</div>
+    </div>
+    <div class="section-block"><h4>Assets</h4><p>Pre-save/pre-order live? Video delivered? Press release ready? Smart links built?</p><div class="capture">Status: Y / N per item</div></div>
+    <div class="section-block"><h4>DSP</h4><p>Pitches submitted? Playlist targets identified? Editorial confirmed?</p><div class="capture">Status: Y / N per item</div></div>
+    <div class="section-block"><h4>Physical</h4><p>Product at distribution center? Retail confirmed? Pre-order street date set?</p><div class="capture">Status: Y / N per item</div></div>
+    <div class="section-block"><h4>Promo</h4><p>Radio submitted? Press interviews scheduled? Content calendar live?</p><div class="capture">Status: Y / N per item</div></div>
+
+    <h4>Exit Ticket</h4>
+    <div class="section-block teal">
+      <p style="color:var(--teal);font-weight:600">All critical items green → artist moves to EXECUTE<br>Red items remaining → escalate with deadline, or date moves</p>
+    </div>
+  </div>
+
+  <!-- 06 POST-RELEASE WRAP -->
+  <div class="panel" id="p5">
+    <div class="gate-badge" style="background:var(--gold);color:var(--bg)">GATE: CAN WE DELIVER?</div>
+    <h2>Post-Release Wrap</h2>
+    <div class="meta">
+      <div><span class="label">Trigger</span><span class="val">T+14 days from release</span></div>
+      <div><span class="label">Owner</span><span class="val">Campaign Lead + Campaign Ops</span></div>
+      <div><span class="label">Phase</span><span class="val">EXECUTE → DELIVER</span></div>
+      <div><span class="label">Type</span><span class="val">Working Session</span></div>
+      <div><span class="label">Duration</span><span class="val">30 min</span></div>
+    </div>
+    <p>What happened? What worked? What didn't? What's the sustain plan? This meeting produces the DELIVER recap that feeds into the Friday async wrap.</p>
+
+    <h4>Attendees</h4>
+    <p>Campaign Lead · Ops · Analytics · Audience Dev</p>
+
+    <h3>Agenda</h3>
+    <div class="section-block"><h4>01 · Performance Review</h4><span class="time">10 min</span><p>First-week numbers. Streaming trajectory, playlist adds, chart position, social engagement. How does it compare to projections?</p><div class="capture">Capture: key metrics vs. targets</div></div>
+    <div class="section-block"><h4>02 · What Worked</h4><span class="time">5 min</span><p>Which marketing beats drove results? What surprised us? What should we repeat?</p><div class="capture">Capture: wins + replicable tactics</div></div>
+    <div class="section-block"><h4>03 · What Didn't</h4><span class="time">5 min</span><p>What fell flat? What do we wish we'd done differently? No blame — just data.</p><div class="capture">Capture: misses + root causes</div></div>
+    <div class="section-block"><h4>04 · Sustain Plan</h4><span class="time">10 min</span><p>What's the tail strategy? Tour support? Next single? Catalog positioning? How long do we sustain spend?</p><div class="capture">Capture: sustain plan + timeline + budget</div></div>
+
+    <h4>Exit Ticket</h4>
+    <div class="section-block gold">
+      <p style="color:var(--gold);font-weight:600">Post-release recap complete → sustain plan set → learnings documented in Airtable → artist moves to DELIVER (or cycles back to PLAN for next project)</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Campaign Operations · Artist Meeting Templates · May 2026</span>
+    <span class="tag">Building together. Every phase. Every gate. Together.</span>
+  </div>
+</div>
+
+<script>
+function show(n){
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+}
+</script>
+</body>
+</html>
