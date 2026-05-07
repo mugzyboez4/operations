@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tarek Bot — Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0F0E0E;color:#FCFDF8;font-family:'Inter',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:#CDF851;color:#0F0E0E}
+  input::placeholder,textarea::placeholder{color:#3E3F41}
+  textarea:focus,input:focus,button:focus{outline:none}
+  @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg);opacity:.8}100%{transform:translateY(220px) rotate(720deg);opacity:0}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes bdayFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+  /* Password gate */
+  .gate{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:fadeIn 0.5s ease-out}
+  .gate h1{font-size:clamp(32px,7vw,52px);font-weight:900;letter-spacing:-2px;margin-bottom:8px;text-align:center}
+  .gate h1 span{color:#CDF851}
+  .gate-sub{font-size:13px;color:#847D96;margin-bottom:32px;text-align:center}
+  .gate-input{background:#1A1A1A;border:1px solid #3E3F41;border-radius:8px;padding:14px 20px;color:#FCFDF8;font-size:16px;font-family:inherit;width:280px;text-align:center;letter-spacing:2px}
+  .gate-input:focus{border-color:#CDF851}
+  .gate-input.error{border-color:#FF4A23;animation:shake 0.4s ease-out}
+  .gate-hint{font-size:11px;color:#3E3F41;margin-top:12px}
+  .gate-tag{font-size:10px;letter-spacing:4px;color:#3E3F41;margin-bottom:20px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useRef, useEffect, useCallback } = React;
+
+/* ═══ STORAGE SHIM (localStorage since no window.storage on static site) ═══ */
+const storage = {
+  async get(key) {
+    try { const v = localStorage.getItem(key); return v ? { key, value: v } : null; } catch { return null; }
+  },
+  async set(key, value) {
+    try { localStorage.setItem(key, value); return { key, value }; } catch { return null; }
+  },
+};
+
+/* ═══ PASSWORD GATE ═══ */
+function PasswordGate({ onAuth }) {
+  const [pw, setPw] = useState("");
+  const [error, setError] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("tarek-bot-auth") === "1") onAuth();
+    inputRef.current?.focus();
+  }, []);
+
+  const check = (e) => {
+    e.preventDefault();
+    if (pw === "KidA") {
+      sessionStorage.setItem("tarek-bot-auth", "1");
+      onAuth();
+    } else {
+      setError(true);
+      setPw("");
+      setTimeout(() => setError(false), 500);
+    }
+  };
+
+  return (
+    <div className="gate">
+      <div className="gate-tag">CAMPAIGN OPS</div>
+      <h1>THE <span>TAREK</span> BOT</h1>
+      <div className="gate-sub">Password required</div>
+      <form onSubmit={check}>
+        <input
+          ref={inputRef}
+          type="password"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          className={`gate-input ${error ? "error" : ""}`}
+          placeholder="••••"
+          autoComplete="off"
+        />
+      </form>
+      <div className="gate-hint">Ask Meg.</div>
+    </div>
+  );
+}
+
+/* ═══ DATA ═══ */
+const COMM_MODES = [
+  { id: "translate", label: "TRANSLATE", emoji: "📡", desc: "Your words → Tarek-ready" },
+  { id: "route", label: "ROUTE", emoji: "🚦", desc: "Categorize + format" },
+  { id: "decode", label: "DECODE", emoji: "🔮", desc: "His novel → the point" },
+];
+const OPS_MODES = [
+  { id: "wwtd", label: "WWTD", emoji: "🧠", desc: "What Would Tarek Do?" },
+  { id: "reroute", label: "REROUTE", emoji: "↪️", desc: "Send to his team instead" },
+  { id: "budget", label: "BUDGET", emoji: "💰", desc: "Get spend approved" },
+  { id: "schedule", label: "SCHEDULE", emoji: "📅", desc: "Actually get a meeting" },
+];
+const ROUTE_TYPES = [
+  { id: "decision", label: "DECISION", color: "#FF4A23", emoji: "🔴" },
+  { id: "input", label: "INPUT", color: "#FFD600", emoji: "🟡" },
+  { id: "fyi", label: "FYI", color: "#CDF851", emoji: "🟢" },
+  { id: "urgent", label: "URGENT", color: "#FF4A23", emoji: "🚨" },
+];
+const AUD_DEV = [
+  { id: "murdoc", name: "Murdoc Hardy", role: "Lead — strategy, roster decisions, audience approach", color: "#FF6B35" },
+  { id: "cassidy", name: "Cassidy Carson", role: "Execution — platform campaigns, content plans", color: "#3AAFFF" },
+  { id: "alexis", name: "Alexis Gorlick", role: "Execution — digital campaigns, dashboards", color: "#A78BFA" },
+  { id: "bird", name: "Bird Cooley", role: "Execution — social, creator/influencer", color: "#10B981" },
+  { id: "christian_e", name: "Christian Edusada", role: "Execution — platform ops, data pulls", color: "#FFD600" },
+];
+
+const CTX = `CONTEXT: Tarek Al-Hamdouni is SVP of Audience Development at RCA Records (Sony Music). He runs the Active Projects meeting (Wednesday, ~15 artists). Extremely busy, works primarily 6-11pm PT, difficult to reach. Growing scope (Columbia responsibilities, NY every 6-8 weeks). Team is 3 people down. He endorsed Campaign Ops as routing layer: "dump info to me in its purest form."
+
+TAREK'S COMMUNICATION RULES:
+- Headline first — the single most important thing
+- Explicit ask in sentences 1-3
+- Max 4 bullets
+- Leave room for him to problem-solve
+- Forward motion framing
+- For risk: lead with "Heads up —"
+- Never bury the ask. Max 120 words. No passive voice.
+
+TAREK'S DECISION PATTERNS:
+- Values speed over perfection
+- Wants people to own their lanes
+- Prefers options with a recommendation
+- Responds to "this is moving with or without you" energy (respectfully)
+- Prioritizes artists with momentum or imminent dates
+- Distrusts dependency on one person
+- Hates stale reports`;
+
+const getSys = (mode, rt, rr) => {
+  const b = `You are the Tarek Bot — built by Campaign Ops at RCA Records.\n\n${CTX}\n\nTONE: Direct, confident, zero fluff.`;
+  if (mode==="translate") return `${b}\n\nMODE: TRANSLATE\nRewrite following Tarek's rules. Output ONLY the rewritten message. No preamble.`;
+  if (mode==="route") {
+    const t = ROUTE_TYPES.find(r=>r.id===rt);
+    const f = {decision:"Start with 'DECISION NEEDED:' then headline. 2-3 options. End with 'Recommend:' line.",input:"Start with 'INPUT REQUESTED:' then headline. What's done, where his perspective changes direction.",fyi:"Start with 'FYI:' then headline. 2-3 sentences. End 'No action needed — just visibility.'",urgent:"Start with '🚨 URGENT:' then headline. Risk, deadline, what NOW. Max 3 sentences."};
+    return `${b}\n\nMODE: ROUTE (${t?.label})\n${f[rt]||""}\n\nOutput ONLY the formatted message.`;
+  }
+  if (mode==="decode") return `${b}\n\nMODE: DECODE\nTarek is long-winded. Paste = long message FROM Tarek. Extract what matters.\n\n**THE POINT:** (one sentence)\n**THE ACTION:** (concrete next step)\n**THE CONTEXT THAT MATTERS:** (1-2 bullets)\n**IGNORE:** (filler to skip)\n**URGENCY:** (🟢/🟡/🔴)\n\n500 words → 60.`;
+  if (mode==="wwtd") return `${b}\n\nMODE: WHAT WOULD TAREK DO?\nPredict his decision.\n\n**TAREK WOULD SAY:** (likely direction, his voice)\n**HIS REASONING:** (1-2 sentences)\n**CONFIDENCE:** (🟢 High / 🟡 Medium / 🔴 Low — if low, wait for him)\n**IF YOU'RE WRONG:** (risk + CYA)\n\nBe honest about confidence.`;
+  if (mode==="reroute") {
+    const m = AUD_DEV.find(t=>t.id===rr);
+    return `${b}\n\nMODE: REROUTE to ${m?.name} (${m?.role})\nRewrite for ${m?.name} — collegial tone, add context they'd need, frame as "routing since Tarek's unavailable." Output ONLY the message.`;
+  }
+  if (mode==="budget") return `${b}\n\nMODE: BUDGET\nFormat spend approval:\n\n**Subject:** [SPEND APPROVAL] $[amount] — [what] — [artist]\n\nBody: Dollar amount + what it buys (1 sentence). Why now / risk (1-2 sentences). Max 2 bullets. Close: "Approve? Need answer by [deadline]."\n\nUnder 80 words. Output ONLY formatted message with subject.`;
+  if (mode==="schedule") return `${b}\n\nMODE: SCHEDULE\nBuild meeting package for 6-11pm PT window:\n\n**SUBJECT LINE:** (short, urgent-feeling)\n**OPTIMAL WINDOW:** (6:30-7pm PT sweet spot)\n**PRE-READ:** (2-3 bullets, 30-sec prep)\n**TIME NEEDED:** (bias 15min)\n**BACKUP PLAN:** (48hr no-response plan)\n\nOutput ONLY the package.`;
+  return b;
+};
+
+/* ═══ CONFETTI ═══ */
+function Confetti() {
+  const cs = ["#CDF851","#FF4A23","#FFD600","#A78BFA","#3AAFFF","#FF6B35"];
+  const pcs = Array.from({length:40},(_,i)=>({id:i,left:Math.random()*100,delay:Math.random()*3,dur:2+Math.random()*3,color:cs[Math.floor(Math.random()*cs.length)],size:4+Math.random()*6,rot:Math.random()*360}));
+  return React.createElement("div",{style:{position:"absolute",top:0,left:0,right:0,height:"200px",overflow:"hidden",pointerEvents:"none",zIndex:0}},
+    pcs.map(p=>React.createElement("div",{key:p.id,style:{position:"absolute",left:`${p.left}%`,top:"-10px",width:`${p.size}px`,height:`${p.size*1.5}px`,backgroundColor:p.color,borderRadius:"1px",transform:`rotate(${p.rot}deg)`,animation:`confettiFall ${p.dur}s ${p.delay}s ease-in infinite`,opacity:0.7}}))
+  );
+}
+
+/* ═══ TODO ═══ */
+function TodoPanel() {
+  const [todos, setTodos] = useState([]);
+  const [newText, setNewText] = useState("");
+  const [newArtist, setNewArtist] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const [filter, setFilter] = useState("open");
+
+  const load = useCallback(async () => {
+    const r = await storage.get("tarek-todos");
+    if (r?.value) try { setTodos(JSON.parse(r.value)); } catch {}
+    setLoaded(true);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const save = async (u) => { setTodos(u); await storage.set("tarek-todos", JSON.stringify(u)); };
+  const add = () => {
+    if (!newText.trim()) return;
+    save([{ id: Date.now().toString(), text: newText.trim(), artist: newArtist.trim() || null, status: "open", added: new Date().toISOString() }, ...todos]);
+    setNewText(""); setNewArtist("");
+  };
+  const toggle = (id) => save(todos.map(t => t.id === id ? { ...t, status: t.status === "open" ? "done" : "open", doneDate: t.status === "open" ? new Date().toISOString() : null } : t));
+  const del = (id) => save(todos.filter(t => t.id !== id));
+
+  const filtered = todos.filter(t => filter === "all" ? true : t.status === filter);
+  const openC = todos.filter(t => t.status === "open").length;
+  const doneC = todos.filter(t => t.status === "done").length;
+
+  if (!loaded) return <div style={{ color: "#847D96", textAlign: "center", padding: "40px" }}>Loading...</div>;
+
+  const pill = (a) => ({ background: a ? "#1A1A1A" : "transparent", border: a ? "1px solid #CDF851" : "1px solid #3E3F41", color: a ? "#CDF851" : "#847D96", borderRadius: "100px", padding: "4px 14px", fontSize: "11px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.5px" });
+
+  return (
+    <div style={{ animation: "slideUp 0.3s ease-out" }}>
+      <div style={{ display: "flex", gap: "16px", alignItems: "center", marginBottom: "20px", padding: "12px 16px", background: "#1A1A1A", borderRadius: "8px", border: "1px solid #2A2A2A", flexWrap: "wrap" }}>
+        <div style={{ fontSize: "11px", color: "#847D96", fontWeight: 600 }}><span style={{ color: "#FF4A23", fontWeight: 900, fontSize: "18px" }}>{openC}</span> open</div>
+        <div style={{ fontSize: "11px", color: "#847D96", fontWeight: 600 }}><span style={{ color: "#CDF851", fontWeight: 900, fontSize: "18px" }}>{doneC}</span> done</div>
+        <div style={{ flex: 1 }} />
+        <button onClick={() => setFilter("open")} style={pill(filter === "open")}>Open</button>
+        <button onClick={() => setFilter("done")} style={pill(filter === "done")}>Done</button>
+        <button onClick={() => setFilter("all")} style={pill(filter === "all")}>All</button>
+      </div>
+
+      <div style={{ background: "#1A1A1A", border: "1px solid #3E3F41", borderRadius: "10px", padding: "16px", marginBottom: "16px" }}>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <input value={newText} onChange={e => setNewText(e.target.value)} onKeyDown={e => e.key === "Enter" && add()} placeholder="What does Tarek owe?" style={{ flex: "1 1 200px", background: "#0F0E0E", border: "1px solid #3E3F41", borderRadius: "6px", padding: "10px 12px", color: "#FCFDF8", fontSize: "13px", fontFamily: "inherit" }} />
+          <input value={newArtist} onChange={e => setNewArtist(e.target.value)} onKeyDown={e => e.key === "Enter" && add()} placeholder="Artist (optional)" style={{ width: "140px", background: "#0F0E0E", border: "1px solid #3E3F41", borderRadius: "6px", padding: "10px 12px", color: "#FCFDF8", fontSize: "13px", fontFamily: "inherit" }} />
+          <button onClick={add} style={{ background: "#CDF851", color: "#0F0E0E", border: "none", borderRadius: "6px", padding: "10px 16px", fontWeight: 800, fontSize: "12px", cursor: "pointer", whiteSpace: "nowrap" }}>+ ADD</button>
+        </div>
+      </div>
+
+      {filtered.length === 0 && <div style={{ textAlign: "center", padding: "40px 20px", color: "#3E3F41" }}>
+        <div style={{ fontSize: "28px", marginBottom: "8px" }}>{filter === "done" ? "🫠" : "✨"}</div>
+        <div style={{ fontSize: "13px" }}>{filter === "done" ? "Nothing completed yet" : "No outstanding items — is this real life?"}</div>
+      </div>}
+
+      {filtered.map(t => (
+        <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: "12px", padding: "14px 16px", marginBottom: "6px", background: "#1A1A1A", borderRadius: "8px", borderLeft: `3px solid ${t.status === "done" ? "#3E3F41" : "#FF4A23"}`, opacity: t.status === "done" ? 0.5 : 1, transition: "all 0.2s" }}>
+          <button onClick={() => toggle(t.id)} style={{ width: "20px", height: "20px", borderRadius: "4px", flexShrink: 0, background: t.status === "done" ? "#CDF851" : "transparent", border: t.status === "done" ? "1px solid #CDF851" : "1px solid #3E3F41", cursor: "pointer", color: "#0F0E0E", fontSize: "12px", fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>{t.status === "done" ? "✓" : ""}</button>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: "13px", color: "#FCFDF8", lineHeight: 1.5, textDecoration: t.status === "done" ? "line-through" : "none" }}>{t.text}</div>
+            <div style={{ display: "flex", gap: "8px", marginTop: "4px", flexWrap: "wrap" }}>
+              {t.artist && <span style={{ fontSize: "10px", fontWeight: 700, color: "#3AAFFF", background: "rgba(58,175,255,0.1)", padding: "2px 8px", borderRadius: "3px" }}>{t.artist}</span>}
+              <span style={{ fontSize: "10px", color: "#3E3F41" }}>{new Date(t.added).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+              {t.doneDate && <span style={{ fontSize: "10px", color: "#3E3F41" }}>done {new Date(t.doneDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>}
+            </div>
+          </div>
+          <button onClick={() => del(t.id)} style={{ background: "none", border: "none", color: "#3E3F41", cursor: "pointer", fontSize: "14px", padding: "0 4px", flexShrink: 0 }}>×</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ═══ MAIN ═══ */
+function TarekBot() {
+  const [mode, setMode] = useState("translate");
+  const [input, setInput] = useState("");
+  const [routeType, setRouteType] = useState(null);
+  const [rerouteTarget, setRerouteTarget] = useState(null);
+  const [output, setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showBday, setShowBday] = useState(true);
+  const outputRef = useRef(null);
+
+  useEffect(() => { const t = setTimeout(() => setShowBday(false), 8000); return () => clearTimeout(t); }, []);
+
+  const isAi = mode !== "todo";
+  const canSubmit = input.trim() && !(mode === "route" && !routeType) && !(mode === "reroute" && !rerouteTarget);
+
+  const handleSubmit = async () => {
+    if (!canSubmit) return;
+    setLoading(true); setOutput(""); setCopied(false);
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": "placeholder", "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: getSys(mode, routeType, rerouteTarget), messages: [{ role: "user", content: input }] }),
+      });
+      const d = await r.json();
+      setOutput(d.content?.map(b => b.text || "").join("\n") || "Something went wrong.");
+      setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    } catch { setOutput("Connection error — try again."); }
+    finally { setLoading(false); }
+  };
+
+  const handleCopy = () => { navigator.clipboard.writeText(output); setCopied(true); setTimeout(() => setCopied(false), 2000); };
+  const handleKey = (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleSubmit(); };
+  const sw = (id) => { setMode(id); setOutput(""); setInput(""); setRouteType(null); setRerouteTarget(null); };
+
+  const ph = {
+    translate: "e.g. Hey Tarek, I wanted to loop you in on the Chris Brown situation...",
+    route: "e.g. We need to decide whether to push the Ray Vaughn single...",
+    decode: "e.g. Paste Tarek's full email or Teams message here...",
+    wwtd: "e.g. Latto's album assets are 5 days late, release in 2 weeks. Push or ship?",
+    reroute: "e.g. Need approval on the girlsweetvoiced influencer campaign — $15K...",
+    budget: "e.g. Need $25K for Hailey Picardi video reshoot, release June 3...",
+    schedule: "e.g. Need 15 minutes to walk through the AP restructure proposal...",
+  };
+  const labels = { translate: "YOUR MESSAGE (THE LONG VERSION)", route: "WHAT YOU NEED FROM TAREK", decode: "PASTE TAREK'S RESPONSE (ALL OF IT)", wwtd: "DESCRIBE THE SITUATION + DECISION NEEDED", reroute: "WHAT YOU NEED (WE'LL REWRITE FOR THE RIGHT PERSON)", budget: "WHAT'S THE SPEND AND WHY", schedule: "WHAT DO YOU NEED TO DISCUSS" };
+  const btnL = { translate: "TRANSLATE", route: "FORMAT", decode: "DECODE", wwtd: "PREDICT", reroute: "REROUTE", budget: "FORMAT", schedule: "BUILD" };
+  const outL = { translate: "✓ TAREK-READY", route: "✓ FORMATTED", decode: "✓ DECODED", wwtd: "✓ PREDICTION", reroute: "✓ REROUTED", budget: "✓ BUDGET REQUEST", schedule: "✓ MEETING PACKAGE" };
+  const loadMsg = { translate: "Cutting the fluff...", route: "Formatting for maximum response probability...", decode: "Finding the point in all of that...", wwtd: "Channeling Tarek's energy...", reroute: "Finding the right person...", budget: "Making the number impossible to miss...", schedule: "Optimizing for the 6-11pm window..." };
+
+  const MBtn = ({ m, active }) => (
+    <button onClick={() => sw(m.id)} style={{ background: active ? "#1A1A1A" : "transparent", border: active ? "1px solid #CDF851" : "1px solid #2A2A2A", borderRadius: "8px", padding: "12px 8px", cursor: "pointer", textAlign: "center", transition: "all 0.15s", flex: 1, minWidth: 0 }}>
+      <div style={{ fontSize: "18px", marginBottom: "4px" }}>{m.emoji}</div>
+      <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "1.5px", color: active ? "#CDF851" : "#B0A9BE" }}>{m.label}</div>
+      <div style={{ fontSize: "9px", color: "#847D96", marginTop: "2px", lineHeight: 1.2 }}>{m.desc}</div>
+    </button>
+  );
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#0F0E0E", color: "#FCFDF8", fontFamily: "'Inter',-apple-system,system-ui,sans-serif", position: "relative", overflow: "hidden" }}>
+      {showBday && <Confetti />}
+      <div style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 20px 80px", position: "relative", zIndex: 1 }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: "36px", textAlign: "center" }}>
+          <div style={{ fontSize: "10px", letterSpacing: "4px", color: "#847D96", fontWeight: 600, marginBottom: "14px" }}>CAMPAIGN OPS · BIRTHDAY EDITION</div>
+          <h1 style={{ fontSize: "clamp(32px,7vw,52px)", fontWeight: 900, lineHeight: 1, marginBottom: "10px", letterSpacing: "-2px" }}>
+            THE <span style={{ color: "#CDF851" }}>TAREK</span> BOT
+          </h1>
+          <div style={{ display: "inline-block", fontSize: "13px", color: "#B0A9BE", fontWeight: 500, padding: "5px 14px", border: "1px solid #2A2A2A", borderRadius: "100px", background: "#1A1A1A", animation: showBday ? "bdayFloat 2s ease-in-out infinite" : "none" }}>
+            {showBday ? "🎂 Happy Birthday Tarek! Now let's get you to answer your emails." : "The complete Tarek management system"}
+          </div>
+        </div>
+
+        {/* COMMUNICATE */}
+        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "2px", color: "#3E3F41", marginBottom: "8px", paddingLeft: "4px" }}>COMMUNICATE</div>
+        <div style={{ display: "flex", gap: "6px", marginBottom: "16px" }}>{COMM_MODES.map(m => <MBtn key={m.id} m={m} active={mode === m.id} />)}</div>
+
+        {/* CAN'T REACH HIM */}
+        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "2px", color: "#3E3F41", marginBottom: "8px", paddingLeft: "4px" }}>CAN'T REACH HIM</div>
+        <div style={{ display: "flex", gap: "6px", marginBottom: "16px" }}>{OPS_MODES.map(m => <MBtn key={m.id} m={m} active={mode === m.id} />)}</div>
+
+        {/* TRACK */}
+        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "2px", color: "#3E3F41", marginBottom: "8px", paddingLeft: "4px" }}>TRACK</div>
+        <div style={{ display: "flex", gap: "6px", marginBottom: "28px" }}>
+          <button onClick={() => sw("todo")} style={{ background: mode === "todo" ? "#1A1A1A" : "transparent", border: mode === "todo" ? "1px solid #FF4A23" : "1px solid #2A2A2A", borderRadius: "8px", padding: "12px 16px", cursor: "pointer", textAlign: "left", transition: "all 0.15s", width: "100%", display: "flex", alignItems: "center", gap: "12px" }}>
+            <span style={{ fontSize: "18px" }}>📋</span>
+            <div>
+              <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "1.5px", color: mode === "todo" ? "#FF4A23" : "#B0A9BE" }}>TAREK'S TO-DO LIST</div>
+              <div style={{ fontSize: "9px", color: "#847D96", marginTop: "1px" }}>Outstanding items — just for you and him</div>
+            </div>
+          </button>
+        </div>
+
+        {mode === "todo" && <TodoPanel />}
+
+        {/* Route types */}
+        {mode === "route" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "6px", marginBottom: "20px", animation: "slideUp 0.2s ease-out" }}>
+            {ROUTE_TYPES.map(rt => (
+              <button key={rt.id} onClick={() => setRouteType(rt.id)} style={{ background: routeType === rt.id ? "#1A1A1A" : "transparent", border: routeType === rt.id ? `1px solid ${rt.color}` : "1px solid #2A2A2A", borderRadius: "6px", padding: "10px 6px", cursor: "pointer", textAlign: "center" }}>
+                <div style={{ fontSize: "14px", marginBottom: "2px" }}>{rt.emoji}</div>
+                <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "1px", color: routeType === rt.id ? rt.color : "#847D96" }}>{rt.label}</div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Reroute targets */}
+        {mode === "reroute" && (
+          <div style={{ marginBottom: "20px", animation: "slideUp 0.2s ease-out" }}>
+            <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px", color: "#847D96", marginBottom: "8px" }}>WHO SHOULD HANDLE THIS?</div>
+            {AUD_DEV.map(m => (
+              <button key={m.id} onClick={() => setRerouteTarget(m.id)} style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", background: rerouteTarget === m.id ? "#1A1A1A" : "transparent", border: rerouteTarget === m.id ? `1px solid ${m.color}` : "1px solid #2A2A2A", borderRadius: "6px", padding: "10px 14px", cursor: "pointer", marginBottom: "4px", textAlign: "left", transition: "all 0.1s" }}>
+                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: rerouteTarget === m.id ? m.color : "#3E3F41", flexShrink: 0 }} />
+                <div>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: rerouteTarget === m.id ? "#FCFDF8" : "#B0A9BE" }}>{m.name}</div>
+                  <div style={{ fontSize: "10px", color: "#847D96" }}>{m.role}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* AI input/output */}
+        {isAi && (<>
+          <div style={{ background: "#1A1A1A", border: "1px solid #3E3F41", borderRadius: "12px", padding: "20px", marginBottom: "16px" }}>
+            <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2px", color: "#847D96", marginBottom: "10px" }}>{labels[mode]}</div>
+            <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKey} placeholder={ph[mode]} rows={mode === "decode" ? 8 : 5} style={{ width: "100%", background: "transparent", border: "none", color: "#FCFDF8", fontSize: "14px", lineHeight: 1.6, resize: "vertical", fontFamily: "inherit", minHeight: "100px" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #2A2A2A" }}>
+              <span style={{ fontSize: "11px", color: "#3E3F41" }}>⌘+Enter to send</span>
+              <button onClick={handleSubmit} disabled={loading || !canSubmit} style={{ background: loading ? "#3E3F41" : "#CDF851", color: "#0F0E0E", border: "none", borderRadius: "6px", padding: "8px 24px", fontSize: "12px", fontWeight: 800, letterSpacing: "1px", cursor: loading ? "wait" : "pointer", opacity: !canSubmit ? 0.3 : 1, transition: "all 0.15s" }}>
+                {loading ? "WORKING..." : btnL[mode]}
+              </button>
+            </div>
+          </div>
+
+          {loading && <div style={{ textAlign: "center", padding: "32px", animation: "pulse 1.5s ease-in-out infinite" }}><div style={{ fontSize: "13px", color: "#B0A9BE" }}>{loadMsg[mode]}</div></div>}
+
+          {output && !loading && (
+            <div ref={outputRef} style={{ background: "#1A1A1A", border: "1px solid #CDF851", borderRadius: "12px", padding: "24px", animation: "slideUp 0.3s ease-out" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2px", color: "#CDF851" }}>{outL[mode]}</div>
+                <button onClick={handleCopy} style={{ background: copied ? "#CDF851" : "transparent", color: copied ? "#0F0E0E" : "#B0A9BE", border: copied ? "1px solid #CDF851" : "1px solid #3E3F41", borderRadius: "4px", padding: "4px 12px", fontSize: "11px", fontWeight: 600, cursor: "pointer", transition: "all 0.15s" }}>{copied ? "COPIED ✓" : "COPY"}</button>
+              </div>
+              <div style={{ fontSize: "14px", lineHeight: 1.7, color: "#FCFDF8", whiteSpace: "pre-wrap" }}>
+                {output.split(/(\*\*[^*]+\*\*)/).map((part, i) => {
+                  if (part.startsWith("**") && part.endsWith("**")) return <strong key={i} style={{ color: "#CDF851", fontWeight: 700 }}>{part.slice(2, -2)}</strong>;
+                  return <span key={i}>{part}</span>;
+                })}
+              </div>
+            </div>
+          )}
+        </>)}
+
+        {/* Footer */}
+        <div style={{ marginTop: "48px", textAlign: "center", fontSize: "10px", color: "#3E3F41", letterSpacing: "1px" }}>
+          CAMPAIGN OPS · THE TAREK BOT · {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
+          <br /><span style={{ color: "#847D96" }}>built with love (and operational frustration)</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══ APP WRAPPER ═══ */
+function App() {
+  const [authed, setAuthed] = useState(false);
+  return authed ? <TarekBot /> : <PasswordGate onAuth={() => setAuthed(true)} />;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
