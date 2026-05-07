@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops &mdash; Department Inputs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:#CDF851}
+nav a{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent}
+nav a:hover{color:#0F0E0E;border-color:#ECEAE3}
+nav a.active{color:#FF4A23;border-color:#FF4A23}
+.content{max-width:1180px;margin:0 auto;padding:48px 32px 64px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+h1{font-family:'Inter',sans-serif;font-size:48px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:0.95;margin:8px 0 4px}
+.lead{font-size:15px;color:#0F0E0E;line-height:1.55;margin-top:14px;max-width:760px}
+.lead strong{font-weight:700}
+.header-block{border-bottom:2px solid #0F0E0E;padding-bottom:24px;margin-bottom:32px}
+
+/* Promise block — sits above the table to communicate intent */
+.promise{background:#0F0E0E;color:#FCFDF8;padding:22px 26px;margin-bottom:28px;}
+.promise .eyebrow{color:#888;margin-bottom:8px}
+.promise .body{font-size:15px;line-height:1.55;}
+.promise .body strong{color:#CDF851;font-weight:700;}
+
+/* Table */
+.inputs-table{width:100%;background:#FFFFFF;border:1px solid #ECEAE3;border-collapse:collapse;margin-bottom:24px;}
+.inputs-table th{background:#0F0E0E;color:#FCFDF8;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:left;padding:12px 14px;border:none;}
+.inputs-table td{padding:14px;border-top:1px solid #ECEAE3;vertical-align:top;font-size:13px;line-height:1.5;}
+.inputs-table tr:hover td{background:#FAFAF5}
+
+/* Stage badges */
+.stage{display:inline-block;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;line-height:1.4;}
+.stage-scoping{background:#F5F2EB;color:#888;border:1px solid #ECEAE3;}
+.stage-build{background:#FFF8E1;color:#8B6900;border:1px solid #E8C547;}
+.stage-input{background:#E0F4F2;color:#2A8581;border:1px solid #5BC0BE;}
+.stage-locked{background:#0F0E0E;color:#CDF851;}
+.stage-shipped{background:#F0FAD0;color:#5C7A1A;border:1px solid #B8E83D;}
+
+/* Deliverable column */
+.deliverable strong{font-weight:700;color:#0F0E0E;display:block;margin-bottom:2px;}
+.deliverable .sub{font-size:11px;color:#888;line-height:1.4;}
+
+/* Departments column — pills */
+.dept-pills{display:flex;flex-wrap:wrap;gap:4px;}
+.dept-pill{display:inline-block;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#0F0E0E;background:#F5F2EB;padding:2px 7px;border:1px solid #ECEAE3;}
+
+/* Window column */
+.window{font-size:12px;color:#0F0E0E;}
+.window .sub{font-size:10px;color:#888;margin-top:2px;}
+
+/* Legend */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;font-size:11px;color:#888;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:6px;}
+
+/* How to use note (visible to readers, but small) */
+.helper-note{background:#F5F2EB;border-left:3px solid #5BC0BE;padding:14px 18px;margin-bottom:24px;font-size:13px;color:#0F0E0E;line-height:1.5;}
+.helper-note strong{color:#0F0E0E;}
+
+.depth-block{border-top:1px solid #ECEAE3;padding-top:18px;margin-top:32px;font-size:11px;color:#888;line-height:1.6;}
+.depth-block strong{color:#0F0E0E;}
+.depth-block a{color:#0F0E0E;text-decoration:underline;}
+.depth-block .row{margin-top:6px;}
+.footer{padding:24px 32px;border-top:1px solid #ECEAE3;text-align:center;font-size:9px;color:#CCC;max-width:1180px;margin:0 auto;}
+
+@media (max-width: 900px) {
+  .inputs-table{display:block;overflow-x:auto;}
+  .content{padding:32px 20px 48px;}
+  h1{font-size:36px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/stage-gate.html">Stage-Gate</a>
+  <a href="/department-inputs.html" class="active">Department Inputs</a>
+  <a href="/todo.html">To Do</a>
+  <a href="/tracker.html">Tracker</a>
+  <a href="/resources.html">Resources</a>
+</nav>
+
+<div class="content">
+
+<div class="header-block">
+  <div class="eyebrow">Campaign Operations &middot; What's In Build</div>
+  <h1>Department Inputs</h1>
+  <div class="lead">
+    What's being built, where it's at, and where your voice shapes it. <strong>This is not a finished system.</strong> Every entry below has a place where the department it touches gives input &mdash; in a meeting, async over email, or 1:1.
+  </div>
+</div>
+
+<!-- PROMISE BLOCK — communicates the intent of the page -->
+<div class="promise">
+  <div class="eyebrow">The Promise</div>
+  <div class="body">
+    Campaign Ops drafts the system. <strong>Your department shapes it.</strong> Every deliverable here has an open input window with a named contact and a closing date. If something on this list affects your team and you don't see your department named, that's a bug &mdash; tell us.
+  </div>
+</div>
+
+<!-- HELPER NOTE: how this page works -->
+<div class="helper-note">
+  <strong>How to read this:</strong> Each row = one deliverable. <strong>Stage</strong> shows where it sits today. <strong>Input window</strong> tells you when feedback is being gathered. <strong>How to give input</strong> names the path &mdash; meeting, email, or 1:1. After the window closes, the deliverable goes live and starts iterating in production.
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><span class="stage stage-scoping">Scoping</span> <span>defining the work</span></div>
+  <div class="legend-item"><span class="stage stage-build">In Build</span> <span>drafting</span></div>
+  <div class="legend-item"><span class="stage stage-input">Open for Input</span> <span>your voice goes here</span></div>
+  <div class="legend-item"><span class="stage stage-locked">Locked</span> <span>shipped, in iteration</span></div>
+  <div class="legend-item"><span class="stage stage-shipped">Shipped</span> <span>live in production</span></div>
+</div>
+
+<!-- ====================================================================== -->
+<!-- INSTRUCTIONS FOR EDITING:                                              -->
+<!-- 1. Each row below is a deliverable. Add new rows by copying any        -->
+<!--    existing row and updating the cells.                                -->
+<!-- 2. Stage badge classes:                                                -->
+<!--    stage-scoping | stage-build | stage-input | stage-locked | stage-shipped -->
+<!-- 3. Department pills: copy <span class="dept-pill">Department</span>    -->
+<!--    Common ones: Marketing, A&R, A&R Admin, BA, Commercial Partnerships,-->
+<!--    Audience Development, Publicity, Radio, Creative, Sync & Licensing  -->
+<!-- 4. Keep "How to give input" specific — name a meeting, person, or path -->
+<!-- ====================================================================== -->
+
+<table class="inputs-table">
+  <thead>
+    <tr>
+      <th style="width:24%;">Deliverable</th>
+      <th style="width:13%;">Stage</th>
+      <th style="width:20%;">Departments</th>
+      <th style="width:25%;">How to give input</th>
+      <th style="width:18%;">Input window</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- ROW 1 — example: Locked, no further input needed -->
+    <tr>
+      <td class="deliverable">
+        <strong>[Deliverable name]</strong>
+        <div class="sub">[1 sentence explaining what this is]</div>
+      </td>
+      <td><span class="stage stage-locked">Locked</span></td>
+      <td>
+        <div class="dept-pills">
+          <span class="dept-pill">[Dept A]</span>
+          <span class="dept-pill">[Dept B]</span>
+        </div>
+      </td>
+      <td>Closed &mdash; locked at [working session date]</td>
+      <td class="window">[Status]<div class="sub">[Note]</div></td>
+    </tr>
+
+    <!-- ROW 2 — example: In Build, async input -->
+    <tr>
+      <td class="deliverable">
+        <strong>[Deliverable name]</strong>
+        <div class="sub">[1 sentence explaining what this is]</div>
+      </td>
+      <td><span class="stage stage-build">In Build</span></td>
+      <td>
+        <div class="dept-pills">
+          <span class="dept-pill">[Dept]</span>
+        </div>
+      </td>
+      <td>Async review &mdash; draft to [SVP name] [date]</td>
+      <td class="window">Through [date]<div class="sub">[Sprint #]</div></td>
+    </tr>
+
+    <!-- ROW 3 — example: Open for Input, in a meeting -->
+    <tr>
+      <td class="deliverable">
+        <strong>[Deliverable name]</strong>
+        <div class="sub">[1 sentence explaining what this is]</div>
+      </td>
+      <td><span class="stage stage-input">Open for Input</span></td>
+      <td>
+        <div class="dept-pills">
+          <span class="dept-pill">[Dept A]</span>
+          <span class="dept-pill">[Dept B]</span>
+          <span class="dept-pill">[Dept C]</span>
+        </div>
+      </td>
+      <td>Live in [Meeting name, day] &mdash; feedback in meeting or to [contact] after</td>
+      <td class="window">Through [date]<div class="sub">[Sprint #]</div></td>
+    </tr>
+
+    <!-- ROW 4 — example: Scoping, 1:1 input -->
+    <tr>
+      <td class="deliverable">
+        <strong>[Deliverable name]</strong>
+        <div class="sub">[1 sentence explaining what this is]</div>
+      </td>
+      <td><span class="stage stage-scoping">Scoping</span></td>
+      <td>
+        <div class="dept-pills">
+          <span class="dept-pill">[Dept]</span>
+        </div>
+      </td>
+      <td>1:1 with [SVP name] &mdash; [working session approach]</td>
+      <td class="window">[Sprint #]<div class="sub">scope-out first</div></td>
+    </tr>
+
+    <!-- ROW 5 — example: Shipped, in iteration -->
+    <tr>
+      <td class="deliverable">
+        <strong>[Deliverable name]</strong>
+        <div class="sub">[1 sentence explaining what this is]</div>
+      </td>
+      <td><span class="stage stage-shipped">Shipped</span></td>
+      <td>
+        <div class="dept-pills">
+          <span class="dept-pill">All</span>
+        </div>
+      </td>
+      <td>In production &mdash; flag issues to Campaign Ops as they come up</td>
+      <td class="window">Live<div class="sub">v1, iterating</div></td>
+    </tr>
+
+    <!-- ============================================================ -->
+    <!-- ADD NEW ROWS HERE — copy any row above and update all cells   -->
+    <!-- Remove example rows above once you have real content          -->
+    <!-- ============================================================ -->
+
+  </tbody>
+</table>
+
+<div class="depth-block">
+  <div><strong>Don't see your department?</strong> Or want to add a deliverable to this list? &rarr; reach out to Campaign Ops directly.</div>
+  <div class="row"><strong>Framework reference:</strong> <a href="/stage-gate.html">/stage-gate.html</a> &middot; <strong>Full language framework:</strong> <a href="/docs/language-framework.html">/docs/language-framework.html</a></div>
+</div>
+
+</div>
+
+<div class="footer">
+  Campaign Operations &middot; RCA Records &middot; Internal use only
+</div>
+
+</body>
+</html>
