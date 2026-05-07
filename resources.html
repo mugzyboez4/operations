@@ -58,10 +58,14 @@ function checkPw(){
     document.getElementById("pw").value="";document.getElementById("pw").focus();
   }
 }
-if(sessionStorage.getItem("camops_auth")==="1"){
-  document.getElementById("gate").style.display="none";
-  document.getElementById("app").style.display="block";
-} else { document.addEventListener("DOMContentLoaded",function(){document.getElementById("pw").focus()}); }
+document.addEventListener("DOMContentLoaded",function(){
+  if(sessionStorage.getItem("camops_auth")==="1"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+});
 </script>
 
 <div id="app" style="display:none">
