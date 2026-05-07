@@ -23,7 +23,7 @@ nav a.active{color:var(--flame);border-color:var(--flame)}
 .sprint-dates{font-family:'DM Mono',monospace;font-size:9px;color:var(--fog)}
 
 .board-wrap{display:flex;justify-content:center;padding:20px 16px 0;overflow-x:auto}
-.board-container{position:relative;width:880px;height:720px;flex-shrink:0}
+.board-container{position:relative;width:100%;max-width:1400px;aspect-ratio:880/720;flex-shrink:0}
 
 /* Tooltip */
 .tip{position:absolute;background:var(--w);color:#fff;padding:10px 14px;font-size:11px;line-height:1.5;max-width:220px;z-index:20;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:0 4px 16px rgba(0,0,0,.15)}
@@ -224,17 +224,17 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
     </svg>
 
-    <!-- Clickable hotspots (invisible, positioned over circles) -->
-    <a href="/resources.html#language" style="position:absolute;left:92px;top:72px;width:56px;height:56px;border-radius:50%" title="Define the Language"></a>
-    <a href="/resources.html#meetings" style="position:absolute;left:272px;top:72px;width:56px;height:56px;border-radius:50%" title="Design the Meetings"></a>
-    <a href="/resources.html#tools" style="position:absolute;left:452px;top:72px;width:56px;height:56px;border-radius:50%" title="Build the Tools"></a>
-    <a href="/resources.html#deck" style="position:absolute;left:728px;top:68px;width:64px;height:64px;border-radius:50%" title="Pitch Stage-Gate"></a>
-    <a href="/todo.html" style="position:absolute;left:634px;top:194px;width:52px;height:52px;border-radius:50%" title="Launch the Cadence"></a>
-    <a href="/tracker.html" style="position:absolute;left:454px;top:194px;width:52px;height:52px;border-radius:50%" title="Run the Pilot"></a>
-    <a href="/todo.html" style="position:absolute;left:274px;top:194px;width:52px;height:52px;border-radius:50%" title="Wire the Systems"></a>
-    <a href="/todo.html" style="position:absolute;left:174px;top:374px;width:52px;height:52px;border-radius:50%" title="Prove the System"></a>
-    <a href="/todo.html" style="position:absolute;left:354px;top:374px;width:52px;height:52px;border-radius:50%" title="Scale to Roster"></a>
-    <a href="/todo.html" style="position:absolute;left:534px;top:374px;width:52px;height:52px;border-radius:50%" title="The Standard"></a>
+    <!-- Clickable hotspots (percentage-based to scale with board) -->
+    <a href="/resources.html#language" style="position:absolute;left:10.5%;top:10%;width:6.4%;height:7.8%;border-radius:50%" title="Define the Language"></a>
+    <a href="/resources.html#meetings" style="position:absolute;left:30.9%;top:10%;width:6.4%;height:7.8%;border-radius:50%" title="Design the Meetings"></a>
+    <a href="/resources.html#tools" style="position:absolute;left:51.4%;top:10%;width:6.4%;height:7.8%;border-radius:50%" title="Build the Tools"></a>
+    <a href="/resources.html#deck" style="position:absolute;left:82.7%;top:9.4%;width:7.3%;height:8.9%;border-radius:50%" title="Pitch Stage-Gate"></a>
+    <a href="/todo.html" style="position:absolute;left:72%;top:27%;width:5.9%;height:7.2%;border-radius:50%" title="Launch the Cadence"></a>
+    <a href="/tracker.html" style="position:absolute;left:51.6%;top:27%;width:5.9%;height:7.2%;border-radius:50%" title="Run the Pilot"></a>
+    <a href="/todo.html" style="position:absolute;left:31.1%;top:27%;width:5.9%;height:7.2%;border-radius:50%" title="Wire the Systems"></a>
+    <a href="/todo.html" style="position:absolute;left:19.8%;top:51.9%;width:5.9%;height:7.2%;border-radius:50%" title="Prove the System"></a>
+    <a href="/todo.html" style="position:absolute;left:40.2%;top:51.9%;width:5.9%;height:7.2%;border-radius:50%" title="Scale to Roster"></a>
+    <a href="/todo.html" style="position:absolute;left:60.7%;top:51.9%;width:5.9%;height:7.2%;border-radius:50%" title="The Standard"></a>
   </div>
 </div>
 
