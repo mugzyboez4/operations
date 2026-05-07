@@ -3,106 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Restructured AP Agenda — Stage-Gate Format</title>
+<title>Active Projects — Restructured Agenda</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;padding:32px;max-width:800px;margin:0 auto}
-h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;margin-bottom:4px}
-.sub{font-size:13px;color:#888;margin-bottom:24px}
-.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#E8C547;margin-bottom:8px}
+body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.page{max-width:820px;margin:0 auto;padding:32px 32px 48px}
+hr.top{border:none;border-top:3px solid #0F0E0E;margin-bottom:16px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#888;margin-bottom:6px}
+h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;line-height:.95;margin-bottom:4px}
+.dateline{font-family:'DM Mono',monospace;font-size:11px;color:#888;margin-bottom:4px}
+.format{font-family:'DM Mono',monospace;font-size:11px;color:#FF4A23;font-weight:600;margin-bottom:24px}
+
 .section{margin-bottom:28px}
-.section-head{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-.3px;padding-bottom:6px;border-bottom:2px solid #ECEAE3;margin-bottom:12px}
-.section-head .phase{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;font-weight:700;padding:2px 8px;display:inline-block;margin-left:8px;vertical-align:middle}
-.deliver{color:#FF4A23;background:#FFEBEE;border:1px solid #FF4A23}
-.execute{color:#E8C547;background:#FFF8E1;border:1px solid #E8C547}
-.announce{color:#5BC0BE;background:#E0F7FA;border:1px solid #5BC0BE}
-.plan{color:#6B8F00;background:#F0FFF4;border:1px solid #CDF851}
-.item{padding:10px 14px;background:#FFFFFF;border:1px solid #ECEAE3;margin-bottom:6px}
-.item-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:4px}
-.item-text{font-size:13px;font-weight:600;line-height:1.4}
-.item-meta{font-size:10px;color:#888;margin-top:4px}
-.time{font-family:'DM Mono',monospace;font-size:9px;color:#888;float:right}
-.note{background:#FFF8E1;border-left:3px solid #E8C547;padding:10px 14px;font-size:11px;color:#666;line-height:1.5;margin-bottom:20px}
-.footer{padding-top:16px;border-top:1px solid #ECEAE3;font-size:9px;color:#BBB;text-align:center}
+.sbar{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:6px;border-bottom:2px solid #ECEAE3;margin-bottom:4px}
+.sname{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-.3px}
+.stime{font-family:'DM Mono',monospace;font-size:11px;color:#888;font-weight:600}
+.smeta{font-size:11px;color:#888;margin-bottom:12px;line-height:1.5}
+.sfmt{font-size:11px;color:#666;background:#FAFAF5;padding:10px 14px;border-left:3px solid #ECEAE3;margin-bottom:14px;line-height:1.5}
+
+.phase{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;font-weight:700;padding:2px 8px;display:inline-block;vertical-align:middle;text-transform:uppercase}
+.p-d{color:#FF4A23;background:#FFEBEE;border:1px solid #FF4A23}
+.p-e{color:#E8C547;background:#FFF8E1;border:1px solid #E8C547}
+.p-a{color:#5BC0BE;background:#E0F7FA;border:1px solid #5BC0BE}
+.p-p{color:#6B8F00;background:#F0FFF4;border:1px solid #CDF851}
+
+.art{background:#FFFFFF;border:1px solid #ECEAE3;padding:12px 16px;margin-bottom:6px}
+.art-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.art-name{font-size:13px;font-weight:800;letter-spacing:-.3px}
+.art-rel{font-size:10px;color:#888}
+.art-body{font-size:11px;color:#666;line-height:1.5}
+
+.camp{background:#FFFFFF;border:1px solid #ECEAE3;padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden}
+.camp-num{font-family:'DM Mono',monospace;font-size:48px;font-weight:700;color:#ECEAE3;position:absolute;top:6px;right:14px;line-height:1}
+.camp-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.camp-name{font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase}
+.camp-det{font-family:'DM Mono',monospace;font-size:10px;color:#888;margin-bottom:8px}
+.camp-why{font-size:11px;color:#0F0E0E;line-height:1.5;margin-bottom:8px;padding:8px 12px;background:#FAFAF5;border-left:3px solid #FF4A23}
+.camp-dec{font-size:11px;font-weight:700;color:#FF4A23;line-height:1.4}
+.wb{font-family:'DM Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;display:inline-block}
+.wb-low{color:#991B1B;background:#FEE2E2}
+.wb-mid{color:#92400E;background:#FEF3C7}
+
+.held{background:#FAFAF5;border:1px solid #ECEAE3;padding:12px 16px;margin-bottom:6px}
+.held-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:6px}
+.held-text{font-size:11px;color:#666;line-height:1.5}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.cbox{padding:14px 16px;border:1px solid #ECEAE3}
+.cbox-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:6px}
+.cbox-bad{background:#FFF5F2;border-color:#FF4A23}
+.cbox-good{background:#F0FFF4;border-color:#CDF851}
+.cbox ul{font-size:11px;color:#666;line-height:1.7;padding-left:16px}
+@media(max-width:700px){.compare{grid-template-columns:1fr}}
+
+.total{background:#0F0E0E;color:#FCFDF8;padding:16px 20px;margin-top:24px}
+.total-row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid #333}
+.total-row:last-child{border-bottom:none}
+.total-name{font-weight:600}
+.total-time{font-family:'DM Mono',monospace;color:#888}
+.total-head{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#CDF851;margin-bottom:8px}
+
+.footer{padding-top:20px;border-top:1px solid #ECEAE3;font-size:9px;color:#BBB;text-align:center;margin-top:28px}
 </style>
 </head>
 <body>
+<div class="page">
 
-<div class="eyebrow">Active Projects Meeting — Restructured</div>
-<h1>WEDNESDAY AP AGENDA</h1>
-<div class="sub">45 minutes. Decision meeting — not a status update. Phase-tagged. Gate-aligned.</div>
+<hr class="top">
+<div class="eyebrow">Active Projects — Restructured</div>
+<h1>HOW TODAY COULD HAVE RUN</h1>
+<div class="dateline">May 6, 2026</div>
+<div class="format">60 minutes · 3 sections · Phase-tagged · Decision-driven</div>
 
-<div class="note">
-  <strong>How this works:</strong> CL submissions come in via Teams message before the meeting (PLAN/ANNOUNCE/EXECUTE/DELIVER phase tag + what needs discussion). The meeting opens with DELIVER artists (release this week/next), then works backward through EXECUTE and ANNOUNCE. PLAN artists are async unless escalated.
-</div>
-
-<!-- DELIVER -->
+<!-- TRENDING -->
 <div class="section">
-  <div class="section-head">Section 1: DELIVER <span class="phase deliver">DELIVER</span> <span class="time">15 MIN</span></div>
-  <div class="item">
-    <div class="item-label">Format</div>
-    <div class="item-text">Artists releasing this week or next. What's live, what's blocked, what needs a decision right now.</div>
-    <div class="item-meta">Gate 4: CAN WE DELIVER? — All DSP deliveries confirmed, playlist pitches acknowledged, social calendar locked, press embargoes set.</div>
-  </div>
-  <div class="item">
-    <div class="item-label">Who speaks</div>
-    <div class="item-text">Campaign Lead for each DELIVER artist. 2-3 minutes max per artist.</div>
-  </div>
-  <div class="item">
-    <div class="item-label">Output</div>
-    <div class="item-text">Decisions captured. Blockers escalated. Action items assigned with owners.</div>
-  </div>
+  <div class="sbar"><div class="sname">Trending</div><div class="stime">5 min</div></div>
+  <div class="smeta">All Phases · Quick signals only · Show the clip, name it, move on</div>
+  <div class="sfmt">Crawley has clips/data ready. Meg shares screen. Each artist gets ~60 seconds. No strategy discussion — if it needs a deeper conversation, it goes on next week's Campaign Conversations.</div>
+  <div class="art"><div class="art-head"><span class="art-name">Flo Milli</span></div></div>
+  <div class="art"><div class="art-head"><span class="art-name">Tems</span></div></div>
+  <div class="art"><div class="art-head"><span class="art-name">Elle King</span></div></div>
+  <div class="art"><div class="art-head"><span class="art-name">Doja Cat</span></div></div>
+  <div class="art"><div class="art-head"><span class="art-name">Audrey</span></div></div>
 </div>
 
-<!-- EXECUTE -->
+<!-- RECENT / UPCOMING -->
 <div class="section">
-  <div class="section-head">Section 2: ANNOUNCE / EXECUTE <span class="phase execute">EXECUTE</span> <span class="phase announce">ANNOUNCE</span> <span class="time">20 MIN</span></div>
-  <div class="item">
-    <div class="item-label">Format</div>
-    <div class="item-text">Artists in active campaign or pre-announcement. Only items that need the room — not status updates.</div>
-    <div class="item-meta">Gate 2: CAN WE ANNOUNCE? / Gate 3: CAN WE EXECUTE? — Budget approved, creative set, departments briefed, masters delivered, DSP pitches submitted.</div>
-  </div>
-  <div class="item">
-    <div class="item-label">Who speaks</div>
-    <div class="item-text">CLs only speak if they flagged something in their pre-submission. No round-robin.</div>
-  </div>
-  <div class="item">
-    <div class="item-label">Output</div>
-    <div class="item-text">Cross-department dependencies surfaced. Blocked items identified. Next steps confirmed.</div>
-  </div>
+  <div class="sbar"><div class="sname">Recent / Upcoming Releases</div><div class="stime">10 min</div></div>
+  <div class="smeta">EXECUTE + DELIVER · Results, blockers, next steps · 2 min each max</div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Chris Brown</span> <span class="art-rel">"Fallin'" (ft. Leon Thomas)</span> <span class="phase p-d">DELIVER</span></div><div class="art-body">How did it perform? What's the radio story? Album status?</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Love Spells</span> <span class="art-rel">"Crutch"</span> <span class="phase p-d">DELIVER</span></div><div class="art-body">Results since drop. Sustain plan.</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Bryson Tiller</span> <span class="art-rel">"It's OK"</span> <span class="phase p-d">DELIVER</span></div><div class="art-body">Quick results check.</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Red Clay Strays</span> <span class="art-rel">"Demons In Your Choir"</span> <span class="phase p-e">EXECUTE</span></div><div class="art-body">Release results. Stagecoach momentum.</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Hailey Picardi</span> <span class="art-rel">"hide and seek"</span> <span class="phase p-e">EXECUTE</span></div><div class="art-body">First Promo Tool record — how's it tracking?</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Khalid</span> <span class="art-rel">"Tied Up" (w/ Lauv)</span> <span class="phase p-d">DELIVER</span></div><div class="art-body">← Moved from Campaign Conversations. Single released 4/24. Tour starts 5/16. Quick update: streaming, tour readiness.</div></div>
+
+  <div class="art"><div class="art-head"><span class="art-name">Myles Smith</span> <span class="art-rel">"Hold Me In The Dark"</span> <span class="phase p-e">EXECUTE</span></div><div class="art-body">← Moved from Campaign Conversations. Track drops 5/8. Quick workability check. Album 6/12 — comes back as Campaign Conversation when 4 weeks out.</div></div>
 </div>
 
-<!-- PLAN -->
+<!-- CAMPAIGN CONVERSATIONS -->
 <div class="section">
-  <div class="section-head">Section 3: PLAN <span class="phase plan">PLAN</span> <span class="time">10 MIN</span></div>
-  <div class="item">
-    <div class="item-label">Format</div>
-    <div class="item-text">New artists entering cycle. Scheduling requests. Only if escalated from async.</div>
-    <div class="item-meta">Gate 1: CAN WE PLAN? — A&R confirmed, physical projection returned, spend data pulled, audience profile delivered.</div>
+  <div class="sbar"><div class="sname">Campaign Conversations</div><div class="stime">40 min</div></div>
+  <div class="smeta">ANNOUNCE + EXECUTE · Deep dives · 8 min each · 5 artists this week</div>
+  <div class="sfmt">Campaign lead opens with goal and audience. Timeline + workability on screen. Team fills gaps. If it needs more than 8 min → name people, name a deadline, take it offline.</div>
+
+  <div class="camp"><div class="camp-num">①</div>
+    <div class="camp-head"><span class="camp-name">KWN</span> <span class="phase p-a">ANNOUNCE</span> <span class="wb wb-low">31% ⚠️</span></div>
+    <div class="camp-det">Bundle · 5/22 (16 days) · Approaching GO LIVE gate</div>
+    <div class="camp-why">Workability critically low at 16 days. Cover/VSC ✗, Master ✗, potential sample in "idea of love" needs clearance. Cannot pass GO LIVE until resolved. Colors Show single 5/11.</div>
+    <div class="camp-dec">DECISION: Who owns the sample clearance? Fallback if it doesn't clear by 5/15?</div>
   </div>
-  <div class="item">
-    <div class="item-label">Default</div>
-    <div class="item-text">PLAN artists are handled async via Monday Foundation Room unless a CL escalates to the room.</div>
+
+  <div class="camp"><div class="camp-num">②</div>
+    <div class="camp-head"><span class="camp-name">Steve Lacy</span> <span class="phase p-a">ANNOUNCE</span></div>
+    <div class="camp-det">Single · 5/22 (16 days) · Approaching GO LIVE gate</div>
+    <div class="camp-why">Video shoot happening NOW (5/8). Rough due 5/11. Final due 5/18. Everything compressed into 2 weeks. Album announce tied to single launch.</div>
+    <div class="camp-dec">DECISION: Is the video on track? Album announce confirmed for 5/22? "Doom" single #2 teasing strategy for 6/1?</div>
+  </div>
+
+  <div class="camp"><div class="camp-num">③</div>
+    <div class="camp-head"><span class="camp-name">Isabel LaRosa</span> <span class="phase p-a">ANNOUNCE → EXECUTE</span> <span class="wb wb-mid">50%</span></div>
+    <div class="camp-det">EP · 6/5 (30 days)</div>
+    <div class="camp-why">Currently on Madison Beer EU tour (5/11–5/31). "Hallucination" MV premieres 5/11. EP masters due 5/22. Agreements blocked.</div>
+    <div class="camp-dec">DECISION: Agreements status — who's unblocking? London promo 6/1 confirmed?</div>
+  </div>
+
+  <div class="camp"><div class="camp-num">④</div>
+    <div class="camp-head"><span class="camp-name">Victoria Monét</span> <span class="phase p-a">ANNOUNCE</span></div>
+    <div class="camp-det">Single · 6/12 (37 days)</div>
+    <div class="camp-why">Socials wipe 5/1 (signal is live). "Let Me" video drops 5/11. Album + Juicy content day 5/15. Video shoot target week 5/25. Bruno Mars tour starts 6/18.</div>
+    <div class="camp-dec">DECISION: Is 6/12 "Juicy" still the album announce moment? Video shoot logistics locked?</div>
+  </div>
+
+  <div class="camp"><div class="camp-num">⑤</div>
+    <div class="camp-head"><span class="camp-name">Becky G</span> <span class="phase p-p">PLAN</span> <span class="wb wb-low">27% ⚠️</span></div>
+    <div class="camp-det">Album · 9/11 (128 days) · Approaching GREEN LIGHT gate</div>
+    <div class="camp-why">Miami promo week is THIS WEEK (5/6–7). EPA standalone single + video 5/15. Physical workability at 27% — most categories blocked. Album date is a placeholder.</div>
+    <div class="camp-dec">DECISION: Is 9/11 real or placeholder? Physical blockers — who's chasing? EPA video on track for 5/13 delivery?</div>
   </div>
 </div>
 
-<!-- LOGISTICS -->
+<!-- HELD / MOVED -->
 <div class="section">
-  <div class="section-head">Meeting Rules</div>
-  <div class="item">
-    <div class="item-text">CL submissions due by 10am ET Wednesday via Teams message</div>
-    <div class="item-meta">Format: Artist name · Phase tag · What needs discussion or decision</div>
+  <div class="held">
+    <div class="held-label">Held for next week</div>
+    <div class="held-text"><strong>The Strokes</strong> — Single 5/15, Album 6/26. Phase: ANNOUNCE. Comes back next week when single is imminent. No urgent blocker this week.</div>
   </div>
-  <div class="item">
-    <div class="item-text">Recap distributed same day — decisions, action items, carry-forwards</div>
-  </div>
-  <div class="item">
-    <div class="item-text">No status updates in the room. If it doesn't need a decision, it doesn't need a meeting.</div>
+  <div class="held">
+    <div class="held-label">Moved to Developing Artists Meeting</div>
+    <div class="held-text">Emma Andersen, girlsweetvoiced, Suzy Clue, Carter Vail, Baby J, Ally Salort, Presley Regier, Lancey Foux, Ray Vaughn — All PLAN phase, no release dates. Proper time in Developing Artists where the conversation is "where are they, what do they need."</div>
   </div>
 </div>
 
-<div class="footer">Campaign Operations · RCA Records · May 2026</div>
+<!-- WRAP -->
+<div class="section">
+  <div class="sbar"><div class="sname">Wrap + Actions</div><div class="stime">5 min</div></div>
+  <div class="smeta">Recap decisions. Name owners. Set deadlines. Goal Brief fills live.</div>
+</div>
 
+<!-- TOTAL -->
+<div class="total">
+  <div class="total-head">TOTAL: 60 MINUTES</div>
+  <div class="total-row"><span class="total-name">Trending</span><span class="total-time">5 min (5 artists)</span></div>
+  <div class="total-row"><span class="total-name">Recent / Upcoming</span><span class="total-time">10 min (7 artists)</span></div>
+  <div class="total-row"><span class="total-name">Campaign Conversations</span><span class="total-time">40 min (5 artists)</span></div>
+  <div class="total-row"><span class="total-name">Wrap</span><span class="total-time">5 min</span></div>
+</div>
+
+<!-- COMPARISON -->
+<div class="compare">
+  <div class="cbox cbox-bad">
+    <div class="cbox-label">Today's Actual</div>
+    <ul>
+      <li>Tried to cover 27 artists in one meeting</li>
+      <li>Got through ~7 Trending/Releases + 2 Campaigns</li>
+      <li>Developing Artists: 0 of 9</li>
+      <li>Multiple conversations ran long, no timeboxes</li>
+    </ul>
+  </div>
+  <div class="cbox cbox-good">
+    <div class="cbox-label">With This Structure</div>
+    <ul>
+      <li>12 artists get the right conversation</li>
+      <li>9 artists move to their own meeting</li>
+      <li>6 artists held for next week (not urgent)</li>
+      <li>Every conversation has a phase label, a "why this week" rationale, and a specific decision needed</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">Campaign Operations · Building together. · Every phase · Every gate · Together.</div>
+
+</div>
 </body>
 </html>
