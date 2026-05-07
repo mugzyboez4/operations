@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0F0E0E;--card:#1A1A1A;--w:#FCFDF8;--lime:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--teal:#5BC0BE;--gold:#E8C547;--border:#2A2A2A;--green:#4CAF50;--purple:#7B1FA2}
+:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--slate:#CCCCCC;--fog:#888888;--teal:#5BC0BE;--gold:#E8C547;--border:#ECEAE3;--green:#4CAF50;--purple:#7B1FA2}
 html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
 body{padding:32px 20px 80px}
 .container{max-width:900px;margin:0 auto}
@@ -30,12 +30,18 @@ p{margin-bottom:10px;color:var(--fog);font-size:13px}
 .artist-name{font-weight:700;font-size:14px;color:var(--w)}
 .artist-release{font-size:11px;color:var(--fog);font-style:italic}
 .artist-stat{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);text-align:right}
-.placeholder{border:1px dashed var(--slate);padding:12px;font-size:11px;color:var(--slate);font-style:italic;margin-top:8px}
+.placeholder{border:1px dashed #CCC;padding:12px;font-size:11px;color:var(--slate);font-style:italic;margin-top:8px}
 .footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:10px;color:var(--slate)}
 .footer .tag{color:var(--teal);font-style:italic}
 </style>
 </head>
 <body>
+<nav style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
+  <a href="/" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
+  <a href="/todo.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">To Do</a>
+  <a href="/resources.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;text-decoration:none;padding:5px 10px;border:1px solid #FF4A23">Resources</a>
+</nav>
 <div class="container">
   <div class="eyebrow">Campaign Operations · DELIVER Phase</div>
   <div class="title">Deliver <span style="color:var(--gold)">Wrap</span></div>

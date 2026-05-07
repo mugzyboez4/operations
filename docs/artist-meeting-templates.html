@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0F0E0E;--card:#1A1A1A;--card2:#222121;--w:#FCFDF8;--lime:#CDF851;--flame:#FF4A23;--slate:#3E3F41;--fog:#B0A9BE;--teal:#5BC0BE;--gold:#E8C547;--border:#2A2A2A;--green:#4CAF50;--red:#E53935}
+:root{--bg:#F5F2EB;--card:#FFFFFF;--card2:#F0EDE6;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--slate:#CCCCCC;--fog:#888888;--teal:#5BC0BE;--gold:#E8C547;--border:#ECEAE3;--green:#4CAF50;--red:#E53935}
 html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
 body{padding:32px 20px 80px}
 .container{max-width:900px;margin:0 auto}
@@ -37,13 +37,19 @@ p{margin-bottom:12px;color:var(--fog);font-size:13px}
 .section-block.gold{border-left-color:var(--gold)}
 .section-block.fog{border-left-color:var(--fog)}
 .section-block h4{margin-top:0}
-.capture{border:1px dashed var(--slate);padding:12px 16px;margin-top:8px;font-size:12px;color:var(--slate);font-style:italic;min-height:50px}
+.capture{border:1px dashed #CCC;padding:12px 16px;margin-top:8px;font-size:12px;color:var(--slate);font-style:italic;min-height:50px}
 .time{font-family:'DM Mono',monospace;font-size:10px;color:var(--fog);float:right}
 .footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:10px;color:var(--slate)}
 .footer .tag{color:var(--teal);font-style:italic}
 </style>
 </head>
 <body>
+<nav style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
+  <a href="/" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
+  <a href="/todo.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">To Do</a>
+  <a href="/resources.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;text-decoration:none;padding:5px 10px;border:1px solid #FF4A23">Resources</a>
+</nav>
 <div class="container">
   <div class="eyebrow">Campaign Operations · Artist Meeting Templates</div>
   <div class="title">Ritual <span style="color:var(--lime)">Spine</span></div>

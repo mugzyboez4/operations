@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — Language Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:#CDF851}
+nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent}
+nav a:hover{color:#0F0E0E;border-color:#ECEAE3}
+nav a.active{color:#FF4A23;border-color:#FF4A23}
+.content{max-width:800px;margin:0 auto;padding:32px 32px 80px}
+h1{font-size:36px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;margin:32px 0 8px;line-height:1}
+h2{font-size:22px;font-weight:900;letter-spacing:-1px;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid #ECEAE3}
+h3{font-size:16px;font-weight:800;margin:24px 0 8px}
+h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;margin:16px 0 6px}
+p{margin-bottom:12px;font-size:14px;line-height:1.7;color:#444}
+strong{color:#0F0E0E}
+em{color:#888}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+th{background:#ECEAE3;text-align:left;padding:8px 12px;font-weight:700;font-size:12px;letter-spacing:.5px;border:1px solid #DDD}
+td{padding:8px 12px;border:1px solid #ECEAE3;vertical-align:top}
+tr:nth-child(even){background:#FAFAF5}
+code{font-family:'DM Mono',monospace;background:#ECEAE3;padding:1px 5px;font-size:12px}
+hr{border:none;border-top:1px solid #ECEAE3;margin:24px 0}
+ul,ol{margin:8px 0 12px 24px;font-size:14px;line-height:1.7;color:#444}
+li{margin-bottom:4px}
+.footer{padding:24px 32px;border-top:1px solid #ECEAE3;text-align:center;font-size:9px;color:#CCC;max-width:800px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/todo.html">To Do</a>
+  <a href="/resources.html" class="active">Resources</a>
+</nav>
+<div class="content">
+<h1>Campaign Operations — Language Framework</h1>
+<h2>The canonical reference. Same words everywhere.</h2>
+<hr />
+<h2>THE FOUR PHASES</h2>
+<p>Every campaign moves through four phases. Phase names are verbs — campaigns are things we <em>do</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What It Means</th>
+<th>Workability Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PLAN</strong></td>
+<td>Strategy, setup, marketing plan, timeline, audience research. The campaign exists on paper.</td>
+<td>Workability tracking begins. Art, music, clearances being assembled.</td>
+</tr>
+<tr>
+<td><strong>ANNOUNCE</strong></td>
+<td>The project goes public. Pre-save, pre-order, press, first single, socials live.</td>
+<td>Workability must reach &gt;70% to pass the next gate. Art delivered, master approved, samples cleared.</td>
+</tr>
+<tr>
+<td><strong>EXECUTE</strong></td>
+<td>Release window. Music out, videos dropping, promo running, radio working, retail stocked.</td>
+<td>Workability should be 100%. Everything is in position.</td>
+</tr>
+<tr>
+<td><strong>DELIVER</strong></td>
+<td>Results, sustain, next steps. What worked, what didn't, tail strategy, tour support.</td>
+<td>Post-release. Workability is no longer the question — performance is.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Workability = art, music, and clearances are done. That's it. Art delivered, master approved, samples cleared.</strong></p>
+<hr />
+<h2>THE FOUR GATES</h2>
+<p>Gates are checkpoints between phases. Each gate is a question. You don't move until the answer is yes.</p>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Between</th>
+<th>Question</th>
+<th>Key Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CAN WE PLAN?</strong></td>
+<td>→ PLAN</td>
+<td>Do we know enough to start?</td>
+<td>Deal signed · Artist brief exists · Pod assigned</td>
+</tr>
+<tr>
+<td><strong>CAN WE ANNOUNCE?</strong></td>
+<td>PLAN → ANNOUNCE</td>
+<td>Are we ready to go public?</td>
+<td>Release date locked · Workability &gt;70% · Marketing plan approved · Timeline built</td>
+</tr>
+<tr>
+<td><strong>CAN WE EXECUTE?</strong></td>
+<td>ANNOUNCE → EXECUTE</td>
+<td>Is everything in place for release?</td>
+<td>Assets live · Pre-save/pre-order active · Press plan confirmed · Lead single released</td>
+</tr>
+<tr>
+<td><strong>CAN WE DELIVER?</strong></td>
+<td>EXECUTE → DELIVER</td>
+<td>Did we hit the targets?</td>
+<td>Release week complete · Focus track performing · All marketing beats hit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The system says no, not us.</strong> Campaign Ops never approves or denies. The gate does. Campaign Ops helps you clear the gate.</p>
+<hr />
+<h2>THE WEEKLY CADENCE</h2>
+<p>Information flows forward through the week. Each day has a purpose.</p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Meeting</th>
+<th>Type</th>
+<th>Phase</th>
+<th>Status</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MON</strong></td>
+<td>Production Meeting</td>
+<td>Standup</td>
+<td>All</td>
+<td>Existing (Terenia tightening)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>MON</strong></td>
+<td>Foundation Room</td>
+<td>Working Session</td>
+<td>PLAN</td>
+<td><strong>NEW</strong></td>
+<td>30 min</td>
+</tr>
+<tr>
+<td><strong>TUE</strong></td>
+<td>Workability Check</td>
+<td>Standup</td>
+<td>ANNOUNCE</td>
+<td><strong>NEW</strong></td>
+<td>15 min</td>
+</tr>
+<tr>
+<td><strong>TUE</strong></td>
+<td>SMT</td>
+<td>Alignment</td>
+<td>All</td>
+<td>Existing</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>WED</strong></td>
+<td>Active Projects</td>
+<td>Decision</td>
+<td>EXECUTE + Trending</td>
+<td><strong>Restructured</strong></td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>THU</strong></td>
+<td>A&amp;R / President</td>
+<td>Alignment</td>
+<td>All</td>
+<td>Existing (Ops routes changes)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>FRI</strong></td>
+<td>Exec Scheduling</td>
+<td>Decision</td>
+<td>All</td>
+<td>Existing (gate transitions happen here)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>FRI</strong></td>
+<td>DELIVER Wrap</td>
+<td>Async</td>
+<td>DELIVER</td>
+<td><strong>NEW</strong></td>
+<td>0 min</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The flow:</strong> MON surfaces what's blocked → TUE catches ANNOUNCE blockers before SMT → WED makes decisions on EXECUTE artists → THU shifts A&amp;R direction → FRI locks dates + results go out async.</p>
+<p><strong>Total new meeting time:</strong> 45 min (30 + 15). Wednesday drops from ~127 to 45. Net: less total time, every artist covered.</p>
+<p><strong>Campaign Ops is the connective tissue.</strong> Nobody discovers something Wednesday that was decided Tuesday.</p>
+<hr />
+<h2>THE ARTIST LIFECYCLE (RITUAL SPINE)</h2>
+<p>Six milestone-triggered meetings, mapped to phases and gates. Built on A&amp;R Operations' Ritual Spine (Adonis Sutherlin, March 2026), updated with phase language.</p>
+<table>
+<thead>
+<tr>
+<th>Meeting</th>
+<th>Trigger</th>
+<th>Owner</th>
+<th>Phase/Gate</th>
+<th>Type</th>
+<th>Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Onboarding</strong></td>
+<td>Deal signed</td>
+<td>A&amp;R Ops</td>
+<td>CAN WE PLAN?</td>
+<td>Working Session</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>Pre-Kickoff</strong></td>
+<td>Onboarding done</td>
+<td>Signing A&amp;R</td>
+<td>PLAN</td>
+<td>Alignment</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td><strong>Kickoff</strong></td>
+<td>Brief complete</td>
+<td>A&amp;R + Ops</td>
+<td>CAN WE ANNOUNCE?</td>
+<td>Decision</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td><strong>Blueprint Review</strong></td>
+<td>Kickoff signed off</td>
+<td>Marketing</td>
+<td>ANNOUNCE</td>
+<td>Working Session (biweekly)</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td><strong>Pre-Release Check</strong></td>
+<td>T-14 days</td>
+<td>Ops + CL</td>
+<td>CAN WE EXECUTE?</td>
+<td>Standup</td>
+<td>15 min</td>
+</tr>
+<tr>
+<td><strong>Post-Release Wrap</strong></td>
+<td>T+14 days</td>
+<td>CL + Ops</td>
+<td>CAN WE DELIVER?</td>
+<td>Working Session</td>
+<td>30 min</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Shape, Then Build:</strong> A&amp;R + Creative + Digital lock the story (shape). Marketing builds the system (build). We don't build what we haven't shaped.</p>
+<hr />
+<h2>FRIDAY DELIVER WRAP</h2>
+<p>Not a meeting. A weekly intelligence product compiled by Campaign Ops, distributed Friday afternoon.</p>
+<p><strong>Sections:</strong></p>
+<ol>
+<li><strong>What Released This Week</strong> — results from recent drops. CL submissions + trackGPS data.</li>
+<li><strong>Playlist Recap</strong> — from Commercial Partnerships' weekly report. Major adds, position changes, editorial features.</li>
+<li><strong>Press &amp; Media Moments</strong> — big hits from Publicity. Interviews, TV, coverage.</li>
+<li><strong>Trends &amp; Signals</strong> — streaming signals from Analytics + social/cultural moments from Audience Dev.</li>
+<li><strong>Looking Ahead</strong> — next week's releases + gate transitions (who passed a gate, who's approaching one).</li>
+</ol>
+<p><strong>Input sources:</strong> CL submissions (Airtable/email) · trackGPS · Commercial Partnerships weekly report · Publicity team · Audience Dev · Strategic Analytics.</p>
+<hr />
+<h2>HOW EVERYTHING MAPS</h2>
+<h3>Meetings → Phases</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Weekly Meeting</th>
+<th>Artist Meeting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLAN (no date)</td>
+<td>Foundation Room (Mon)</td>
+<td>Onboarding + Pre-Kickoff</td>
+</tr>
+<tr>
+<td>PLAN (date set)</td>
+<td>Workability Check (Tue)</td>
+<td>Kickoff</td>
+</tr>
+<tr>
+<td>ANNOUNCE</td>
+<td>Workability Check (Tue)</td>
+<td>Blueprint Reviews</td>
+</tr>
+<tr>
+<td>EXECUTE</td>
+<td>Active Projects (Wed)</td>
+<td>Pre-Release Check</td>
+</tr>
+<tr>
+<td>DELIVER</td>
+<td>DELIVER Wrap (Fri async)</td>
+<td>Post-Release Wrap</td>
+</tr>
+</tbody>
+</table>
+<h3>Tools → Meetings</h3>
+<table>
+<thead>
+<tr>
+<th>Meeting</th>
+<th>On Screen</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Foundation Room</td>
+<td>Artist audience snapshots</td>
+<td>Crawley one-pagers</td>
+</tr>
+<tr>
+<td>Workability Check</td>
+<td>Workability dashboard (red items only)</td>
+<td>Release Runway</td>
+</tr>
+<tr>
+<td>Active Projects</td>
+<td>Campaign timelines + workability</td>
+<td>Airtable + Runway</td>
+</tr>
+<tr>
+<td>DELIVER Wrap</td>
+<td>Release results + playlist recap + press</td>
+<td>trackGPS + Commercial Partnerships</td>
+</tr>
+</tbody>
+</table>
+<h3>Airtable Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase</td>
+<td>PLAN · ANNOUNCE · EXECUTE · DELIVER</td>
+</tr>
+<tr>
+<td>Gate Status</td>
+<td>Not at gate · At gate · Passed</td>
+</tr>
+<tr>
+<td>Meeting</td>
+<td>Foundation Room · Workability Check · Active Projects · Off Agenda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>LANGUAGE RULES</h2>
+<ol>
+<li><strong>Phase names always ALL CAPS</strong> when referring to the phase: "KWN is in ANNOUNCE."</li>
+<li><strong>Gate names are always the question:</strong> "They haven't passed CAN WE EXECUTE? yet."</li>
+<li><strong>Phase names are verbs, gates are questions.</strong> We plan, announce, execute, deliver. We ask: can we plan? Can we announce?</li>
+<li><strong>Don't say "stage" when you mean "phase."</strong> Phases are what we do. Gates are what we pass through.</li>
+<li><strong>Same words in Airtable, briefs, agendas, timelines, conversation.</strong> No synonyms. PLAN is always PLAN, not "setup" or "pre-campaign" or "development" or "foundation."</li>
+<li><strong>Workability has one definition:</strong> art, music, and clearances are done. Art delivered, master approved, samples cleared.</li>
+</ol>
+<hr />
+<h2>WHAT CAMPAIGN OPS OWNS</h2>
+<p><strong>Track</strong> — what phase is each artist in
+<strong>Surface</strong> — what's blocked, what's next
+<strong>Flag</strong> — red items before they become crises
+<strong>Prompt</strong> — departments to clear their gates
+<strong>Confirm</strong> — decisions are captured and routed</p>
+<p><strong>We don't own:</strong> Approve · Decide · Manage</p>
+<hr />
+<h2>EXAMPLES</h2>
+<h3>KWN (May 6, 2026)</h3>
+<ul>
+<li><strong>Phase:</strong> ANNOUNCE (bundle release date set for 5/22)</li>
+<li><strong>Gate status:</strong> Passed CAN WE ANNOUNCE? — approaching CAN WE EXECUTE? (workability at 31%, NOT ready)</li>
+<li><strong>Weekly meeting:</strong> Workability Check (Tue) — flagged as red</li>
+<li><strong>Flag:</strong> Cover/VSC ✗, Master ✗, potential sample in "idea of love." Cannot pass CAN WE EXECUTE? until resolved.</li>
+</ul>
+<h3>girlsweetvoiced (May 6, 2026)</h3>
+<ul>
+<li><strong>Phase:</strong> PLAN (no release date)</li>
+<li><strong>Gate status:</strong> Not at CAN WE ANNOUNCE?</li>
+<li><strong>Weekly meeting:</strong> Foundation Room (Mon)</li>
+<li><strong>Next step:</strong> Define release strategy, lock a date → pass CAN WE ANNOUNCE? → move to Workability Check (Tue)</li>
+</ul>
+<hr />
+<p><em>Campaign Operations · Building together.</em>
+<em>Every phase · Every gate · Together.</em></p>
+</div>
+<div class="footer">Campaign Operations · Language Framework · May 2026</div>
+</body>
+</html>
