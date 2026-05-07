@@ -315,7 +315,7 @@ function TarekBot() {
             THE <span style={{ color: "#CDF851" }}>TAREK</span> BOT
           </h1>
           <div style={{ display: "inline-block", fontSize: "13px", color: "#B0A9BE", fontWeight: 500, padding: "5px 14px", border: "1px solid #2A2A2A", borderRadius: "100px", background: "#1A1A1A", animation: showBday ? "bdayFloat 2s ease-in-out infinite" : "none" }}>
-            {showBday ? "🎂 Happy Birthday Tarek! Now let's get you to answer your emails." : "The complete Tarek management system"}
+            {showBday ? "🎂 Happy Birthday Tarek!" : "The complete Tarek management system"}
           </div>
         </div>
 
@@ -334,7 +334,7 @@ function TarekBot() {
             <span style={{ fontSize: "18px" }}>📋</span>
             <div>
               <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "1.5px", color: mode === "todo" ? "#FF4A23" : "#B0A9BE" }}>TAREK'S TO-DO LIST</div>
-              <div style={{ fontSize: "9px", color: "#847D96", marginTop: "1px" }}>Outstanding items — just for you and him</div>
+              <div style={{ fontSize: "9px", color: "#847D96", marginTop: "1px" }}>Your open action items</div>
             </div>
           </button>
         </div>
@@ -403,7 +403,7 @@ function TarekBot() {
         {/* Footer */}
         <div style={{ marginTop: "48px", textAlign: "center", fontSize: "10px", color: "#3E3F41", letterSpacing: "1px" }}>
           CAMPAIGN OPS · THE TAREK BOT · {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
-          <br /><span style={{ color: "#847D96" }}>built with love (and operational frustration)</span>
+          <br /><span style={{ color: "#847D96" }}>from Campaign Ops, with love</span>
         </div>
       </div>
     </div>
