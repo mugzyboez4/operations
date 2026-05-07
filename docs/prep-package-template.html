@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Prep Package — Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;padding:32px;max-width:900px;margin:0 auto}
+h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;margin-bottom:4px}
+.sub{font-size:13px;color:#888;margin-bottom:24px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5BC0BE;margin-bottom:8px}
+
+.tabs{display:flex;gap:0;border-bottom:2px solid #ECEAE3;margin-bottom:24px}
+.tab{padding:10px 20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;color:#888;transition:all .15s}
+.tab:hover{color:#0F0E0E}
+.tab.active{color:#FF4A23;border-bottom-color:#FF4A23}
+.panel{display:none}.panel.active{display:block}
+
+.card{background:#FFFFFF;border:1px solid #ECEAE3;padding:16px 20px;margin-bottom:10px}
+.card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:6px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.card-body{font-size:12px;color:#666;line-height:1.5}
+.placeholder{color:#CCC;font-style:italic}
+
+.section-head{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:-.3px;padding-bottom:6px;border-bottom:2px solid #ECEAE3;margin:20px 0 12px}
+
+.gate-card{background:#FFFFFF;border:1px solid #ECEAE3;padding:14px 18px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px}
+.gate-check{width:18px;height:18px;border:2px solid #CCC;flex-shrink:0;margin-top:2px}
+.gate-text{font-size:12px;font-weight:500;line-height:1.4}
+.gate-owner{font-family:'DM Mono',monospace;font-size:9px;color:#888;margin-top:2px}
+
+.dept-row{display:flex;gap:10px;margin-bottom:6px}
+.dept-name{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;width:120px;flex-shrink:0;padding-top:3px;color:#888}
+.dept-field{flex:1;border:1px solid #ECEAE3;padding:8px 12px;font-size:11px;min-height:32px;background:#FAFAF5}
+
+.footer{padding-top:16px;border-top:1px solid #ECEAE3;font-size:9px;color:#BBB;text-align:center;margin-top:32px}
+</style>
+</head>
+<body>
+
+<div class="eyebrow">Artist Prep Package — Template</div>
+<h1><span class="placeholder">[ARTIST NAME]</span></h1>
+<div class="sub">Campaign preparation package. Four tabs: Overview, Gate Status, Department Briefs, Timeline.</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab(0)">Overview</div>
+  <div class="tab" onclick="showTab(1)">Gate Status</div>
+  <div class="tab" onclick="showTab(2)">Department Briefs</div>
+  <div class="tab" onclick="showTab(3)">Timeline</div>
+</div>
+
+<!-- TAB 1: OVERVIEW -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <div class="card-label">Artist</div>
+    <div class="card-title placeholder">[Artist Name]</div>
+    <div class="card-body placeholder">[Genre · Label · JV/Distribution · Signing date]</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Campaign Lead</div>
+    <div class="card-title placeholder">[CL Name]</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Current Phase</div>
+    <div class="card-title placeholder">[PLAN / ANNOUNCE / EXECUTE / DELIVER]</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Release</div>
+    <div class="card-title placeholder">[Project Title — Format — Street Date]</div>
+    <div class="card-body placeholder">[Single / EP / Album · Physical Y/N · Vinyl Y/N]</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Key Context</div>
+    <div class="card-body placeholder">[What does anyone walking into a meeting about this artist need to know? Tour dates, prior release performance, audience size, social following, notable collaborations, any sensitivities.]</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Audience Snapshot</div>
+    <div class="card-body placeholder">[Monthly listeners · Top markets · Age skew · Gender split · Platform breakdown]</div>
+  </div>
+</div>
+
+<!-- TAB 2: GATE STATUS -->
+<div class="panel" id="panel-1">
+  <div class="section-head">Gate 1: CAN WE PLAN?</div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">A&R confirmed artist, format, and approximate timing</div><div class="gate-owner">A&R</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Physical projection requested and returned</div><div class="gate-owner">Commercial Partnerships</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Historical spend data pulled for artist or comparables</div><div class="gate-owner">Campaign Ops</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Baseline audience profile delivered</div><div class="gate-owner">Audience Development + Strategic Analytics</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Legacy team engaged (if catalog artist)</div><div class="gate-owner">Campaign Lead</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Campaign Lead assigned and briefed</div><div class="gate-owner">Campaign Ops</div></div></div>
+
+  <div class="section-head">Gate 2: CAN WE ANNOUNCE?</div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Timeline locked (SVP sign-off)</div><div class="gate-owner">Campaign Lead → SVP</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Budget submitted and approved</div><div class="gate-owner">Campaign Ops → Finance → COO</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Creative direction set with artist team</div><div class="gate-owner">Campaign Lead + Creative</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Internal kickoff meeting held</div><div class="gate-owner">Campaign Lead (Ops captures notes)</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">All departments briefed on plan</div><div class="gate-owner">Campaign Ops confirms</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Audience strategy presented</div><div class="gate-owner">Audience Development</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Cover art and visual assets approved</div><div class="gate-owner">Creative + A&R</div></div></div>
+
+  <div class="section-head">Gate 3: CAN WE EXECUTE?</div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Masters QC'd and delivered</div><div class="gate-owner">A&R</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">DSP pitches submitted</div><div class="gate-owner">Commercial Partnerships</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Radio servicing confirmed</div><div class="gate-owner">Radio</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Publicity plan finalized and pitches sent</div><div class="gate-owner">Publicity</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Marketing assets delivered to all channels</div><div class="gate-owner">Creative</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Pre-save/pre-order live</div><div class="gate-owner">Audience Development</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">International territories briefed and activated</div><div class="gate-owner">International</div></div></div>
+
+  <div class="section-head">Gate 4: CAN WE DELIVER?</div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">All DSP deliveries confirmed in system</div><div class="gate-owner">Release Planning</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Playlist pitches acknowledged by partners</div><div class="gate-owner">Commercial Partnerships</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Social content calendar locked and scheduled</div><div class="gate-owner">Audience Development</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Press embargo dates confirmed</div><div class="gate-owner">Publicity</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">Release week media plan activated</div><div class="gate-owner">Campaign Lead</div></div></div>
+  <div class="gate-card"><div class="gate-check"></div><div><div class="gate-text">D2C / merch launch ready (if applicable)</div><div class="gate-owner">Commercial Partnerships</div></div></div>
+</div>
+
+<!-- TAB 3: DEPARTMENT BRIEFS -->
+<div class="panel" id="panel-2">
+  <div class="section-head">Department Status</div>
+  <div class="dept-row"><div class="dept-name">A&R</div><div class="dept-field placeholder">[Status, key contact, outstanding items]</div></div>
+  <div class="dept-row"><div class="dept-name">Creative</div><div class="dept-field placeholder">[Photo shoot status, video, asset delivery]</div></div>
+  <div class="dept-row"><div class="dept-name">Audience Dev</div><div class="dept-field placeholder">[Strategy, social plan, creator/influencer]</div></div>
+  <div class="dept-row"><div class="dept-name">Commercial</div><div class="dept-field placeholder">[DSP pitches, playlist strategy, partner relationships]</div></div>
+  <div class="dept-row"><div class="dept-name">Radio</div><div class="dept-field placeholder">[Impact date, format, servicing status]</div></div>
+  <div class="dept-row"><div class="dept-name">Publicity</div><div class="dept-field placeholder">[Press plan, embargo, confirmed coverage]</div></div>
+  <div class="dept-row"><div class="dept-name">International</div><div class="dept-field placeholder">[Territory priorities, local team activation]</div></div>
+  <div class="dept-row"><div class="dept-name">Brand/Sync</div><div class="dept-field placeholder">[Active deals, placement opportunities]</div></div>
+  <div class="dept-row"><div class="dept-name">Finance</div><div class="dept-field placeholder">[Budget status, approval level, spend to date]</div></div>
+</div>
+
+<!-- TAB 4: TIMELINE -->
+<div class="panel" id="panel-3">
+  <div class="section-head">Release Timeline</div>
+  <div class="card">
+    <div class="card-label">Key Dates</div>
+    <div class="card-body">
+      <div class="placeholder" style="margin-bottom:6px">[Date] — [Milestone: e.g., Single 1 announce]</div>
+      <div class="placeholder" style="margin-bottom:6px">[Date] — [Milestone: e.g., Music video shoot]</div>
+      <div class="placeholder" style="margin-bottom:6px">[Date] — [Milestone: e.g., Album announce]</div>
+      <div class="placeholder" style="margin-bottom:6px">[Date] — [Milestone: e.g., Pre-order live]</div>
+      <div class="placeholder" style="margin-bottom:6px">[Date] — [Milestone: e.g., Street date]</div>
+      <div class="placeholder">[Date] — [Milestone: e.g., Tour starts]</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Gate Deadlines (backward-calculated from street date)</div>
+    <div class="card-body">
+      <div class="placeholder" style="margin-bottom:6px">G1 CAN WE PLAN? — [Date] (16+ weeks before release)</div>
+      <div class="placeholder" style="margin-bottom:6px">G2 CAN WE ANNOUNCE? — [Date] (8-12 weeks before release)</div>
+      <div class="placeholder" style="margin-bottom:6px">G3 CAN WE EXECUTE? — [Date] (4-6 weeks before release)</div>
+      <div class="placeholder">G4 CAN WE DELIVER? — [Date] (1 week before release)</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Campaign Operations · Artist Prep Package Template · May 2026</div>
+
+<script>
+function showTab(i){
+  document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});
+  document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i)});
+}
+</script>
+</body>
+</html>
