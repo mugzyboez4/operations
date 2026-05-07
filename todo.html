@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — To Do</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#888888;--slate:#CCCCCC;--border:#ECEAE3}
+html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid var(--border);gap:20px;position:sticky;top:0;background:var(--bg);z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:var(--lime)}
+nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
+nav a:hover{color:var(--w);border-color:var(--border)}
+nav a.active{color:var(--lime);border-color:var(--lime)}
+
+.header{padding:32px 32px 20px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--flame);margin-bottom:8px}
+.title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:.95;text-transform:uppercase;margin-bottom:8px}
+.sub{font-size:13px;color:var(--fog);max-width:600px}
+
+.columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px 32px}
+@media(max-width:900px){.columns{grid-template-columns:1fr}}
+
+.col{background:var(--card);border:1px solid var(--border);padding:0;overflow:hidden}
+.col-header{padding:14px 16px;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:-.3px;display:flex;align-items:center;justify-content:space-between}
+.col-header .count{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--fog)}
+.col.inn .col-header{border-bottom:3px solid var(--flame);color:var(--flame)}
+.col.pm .col-header{border-bottom:3px solid var(--lime);color:#6B8F00}
+.col.sys .col-header{border-bottom:3px solid var(--teal);color:var(--teal)}
+
+.task{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .1s}
+.task:hover{background:#FAFAF5}
+.task:last-child{border-bottom:none}
+.task.done{opacity:.35}
+.task.done .task-name{text-decoration:line-through}
+.task-check{width:18px;height:18px;border:2px solid var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s}
+.task-check:hover{border-color:var(--fog)}
+.task.done .task-check{background:var(--lime);border-color:var(--lime)}
+.task.done .task-check::after{content:'\2713';color:#fff;font-size:11px;font-weight:900}
+.task-body{flex:1;min-width:0}
+.task-name{font-size:12px;font-weight:600;line-height:1.4;cursor:text}
+.task-meta{display:flex;gap:6px;margin-top:3px;align-items:center}
+.task-status{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:2px 5px;cursor:pointer}
+.task-status.active{color:#8B6900;background:#FFF8E1}
+.task-status.next{color:var(--fog);background:var(--bg)}
+.task-status.blocked{color:var(--flame);background:#FFEBEE}
+.task-status.done{color:#2E7D32;background:#E8F5E9}
+.task-owner{font-family:'DM Mono',monospace;font-size:8px;color:var(--fog)}
+.task-delete{color:var(--slate);cursor:pointer;font-size:14px;opacity:0;transition:opacity .15s;flex-shrink:0;margin-top:1px}
+.task:hover .task-delete{opacity:1}
+
+.add-row{display:flex;gap:6px;padding:10px 12px;border-top:1px solid var(--border)}
+.add-input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--w);padding:7px 10px;font-family:'Inter',sans-serif;font-size:11px;outline:none}
+.add-input:focus{border-color:var(--fog)}
+.add-input::placeholder{color:var(--slate)}
+.add-btn{background:var(--w);color:var(--bg);border:none;padding:7px 12px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;font-weight:700;cursor:pointer}
+.add-btn:hover{opacity:.7}
+
+.footer{padding:24px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:9px;color:#BBB}
+.footer .tag{color:var(--teal);font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
+  <div style="font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,Arial,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,Arial,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+</div>
+<script>
+function checkPw(){
+  if(document.getElementById("pw").value==="campaignops26"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="block";
+    sessionStorage.setItem("camops_auth","1");
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  if(!g||!a) return;
+  if(sessionStorage.getItem("camops_auth")==="1"){
+    g.style.display="none";
+    a.style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else {
+  initGate();
+}
+</script>
+
+<div id="app" style="display:none">
+
+<nav>
+  <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/todo.html" class="active">To Do</a>
+  <a href="/resources.html">Resources</a>
+</nav>
+
+<div class="header">
+  <div class="eyebrow">Campaign Operations</div>
+  <div class="title">TO <span style="color:var(--flame)">DO</span></div>
+  <div class="sub">Three buckets. One checklist. Add tasks, check them off, track status.</div>
+</div>
+
+<div class="columns">
+  <div class="col inn" id="col-inn">
+    <div class="col-header">Innovation <span class="count" id="count-inn"></span></div>
+    <div id="list-inn"></div>
+    <div class="add-row">
+      <input class="add-input" id="add-inn" placeholder="Add task..." onkeydown="if(event.key==='Enter')addTask('inn')">
+      <button class="add-btn" onclick="addTask('inn')">+</button>
+    </div>
+  </div>
+  <div class="col pm" id="col-pm">
+    <div class="col-header">Project Management <span class="count" id="count-pm"></span></div>
+    <div id="list-pm"></div>
+    <div class="add-row">
+      <input class="add-input" id="add-pm" placeholder="Add task..." onkeydown="if(event.key==='Enter')addTask('pm')">
+      <button class="add-btn" onclick="addTask('pm')">+</button>
+    </div>
+  </div>
+  <div class="col sys" id="col-sys">
+    <div class="col-header">Systems <span class="count" id="count-sys"></span></div>
+    <div id="list-sys"></div>
+    <div class="add-row">
+      <input class="add-input" id="add-sys" placeholder="Add task..." onkeydown="if(event.key==='Enter')addTask('sys')">
+      <button class="add-btn" onclick="addTask('sys')">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Campaign Operations · To Do · May 2026</span>
+  <span class="tag">Building together.</span>
+</div>
+
+<script>
+var data = JSON.parse(localStorage.getItem('camops_todo') || 'null') || {
+  inn: [
+    {n:"Azure Foundry — API connections for Airtable/Chartmetric",s:"active",o:"M",d:false},
+    {n:"RDX production access — escalate via Mike Chang → Jacob",s:"blocked",o:"G",d:false},
+    {n:"Creatorcore — book demo, check Copilot for Sony relationship",s:"next",o:"M",d:false},
+    {n:"Benchmarking — Crawley data feed into Streamlit/Snowflake",s:"active",o:"M",d:false},
+    {n:"D2C Strategy — 12-month Greenhouse timeline",s:"next",o:"M",d:false},
+    {n:"Artist Insights V7 — Crawley rules integration",s:"done",o:"M",d:true},
+    {n:"Spend Intelligence — Layer 3 gap (Console → streaming)",s:"next",o:"M",d:false},
+  ],
+  pm: [
+    {n:"Stage-Gate deck — Jordan review",s:"active",o:"M",d:false},
+    {n:"Stage-Gate deck — Fleck presentation",s:"next",o:"M",d:false},
+    {n:"Weekly cadence — Tue Workability Check (May 12)",s:"next",o:"M",d:false},
+    {n:"Weekly cadence — Mon Foundation Room (May 19)",s:"next",o:"M",d:false},
+    {n:"DELIVER Wrap — first real Friday population",s:"next",o:"M",d:false},
+    {n:"Lizzy McAlpine — stage-gate pilot G1-G4",s:"active",o:"M",d:false},
+    {n:"Budget framework — Maegan pre-read May 9",s:"active",o:"M",d:false},
+    {n:"Aud Dev lanes — Tarek conversation",s:"blocked",o:"M",d:false},
+    {n:"Dept workflows — Creative/Niki meeting",s:"next",o:"M",d:false},
+    {n:"Stage-gate checklist v0 — Marketing, Creative, Radio",s:"active",o:"C",d:false},
+    {n:"Lane Definition V2",s:"done",o:"M",d:true},
+    {n:"CL Submissions pilot",s:"done",o:"M",d:true},
+    {n:"AP Recap system",s:"done",o:"M",d:true},
+    {n:"Meeting Design research",s:"done",o:"M",d:true},
+    {n:"Meeting templates (Ritual Spine)",s:"done",o:"M",d:true},
+  ],
+  sys: [
+    {n:"Airtable artist detail page rebuild",s:"active",o:"G",d:false},
+    {n:"Airtable — Phase + Meeting + Gate Status fields",s:"next",o:"G",d:false},
+    {n:"Airtable — team feedback survey",s:"active",o:"G",d:false},
+    {n:"Val knowledge capture — URGENT",s:"blocked",o:"G",d:false},
+    {n:"Christian — Airtable view access + backend training",s:"active",o:"C",d:false},
+    {n:"SharePoint hub — EOD Drop flow",s:"active",o:"G",d:false},
+    {n:"CARMA Combined Rights Master — Airtable import",s:"next",o:"G",d:false},
+    {n:"Campaign timelines tool",s:"done",o:"M",d:true},
+    {n:"TEMPO site — archive v1, launch v2",s:"active",o:"M",d:false},
+    {n:"Workability tracking — live Runway connection",s:"next",o:"G",d:false},
+  ]
+};
+
+function save(){localStorage.setItem('camops_todo',JSON.stringify(data))}
+
+function render(col){
+  var cols = col ? [col] : ['inn','pm','sys'];
+  cols.forEach(function(c){
+    var list = data[c];
+    var el = document.getElementById('list-'+c);
+    var active = list.filter(function(t){return !t.d}).length;
+    document.getElementById('count-'+c).textContent = active + ' active';
+    el.innerHTML = list.map(function(t,i){
+      var sc = t.s==='active'?'active':t.s==='blocked'?'blocked':t.s==='done'?'done':'next';
+      return '<div class="task'+(t.d?' done':'')+'">' +
+        '<div class="task-check" onclick="toggle(\''+c+'\','+i+')"></div>' +
+        '<div class="task-body">' +
+          '<div class="task-name" contenteditable="true" onblur="rename(\''+c+'\','+i+',this.textContent)">'+t.n+'</div>' +
+          '<div class="task-meta">' +
+            '<div class="task-status '+sc+'" onclick="cycleStatus(\''+c+'\','+i+')">'+t.s.toUpperCase()+'</div>' +
+            '<div class="task-owner">'+t.o+'</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="task-delete" onclick="del(\''+c+'\','+i+')">×</div>' +
+      '</div>';
+    }).join('');
+  });
+}
+
+function toggle(c,i){data[c][i].d=!data[c][i].d;data[c][i].s=data[c][i].d?'done':'active';save();render(c)}
+function rename(c,i,v){data[c][i].n=v.trim();save()}
+function del(c,i){data[c].splice(i,1);save();render(c)}
+function cycleStatus(c,i){
+  var order=['active','next','blocked'];
+  var cur=order.indexOf(data[c][i].s);
+  data[c][i].s=order[(cur+1)%order.length];
+  save();render(c);
+}
+function addTask(c){
+  var input=document.getElementById('add-'+c);
+  if(!input.value.trim())return;
+  data[c].unshift({n:input.value.trim(),s:'active',o:'M',d:false});
+  input.value='';
+  save();render(c);
+}
+
+render();
+</script>
+
+<script>
+(function(){
+  var a=document.getElementById("app");
+  var g=document.getElementById("gate");
+  if(a && g && sessionStorage.getItem("camops_auth")==="1"){
+    g.style.display="none";
+    a.style.display="block";
+  }
+})();
+</script>
+</div><!-- end app -->
+</body>
+</html>

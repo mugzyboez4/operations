@@ -7,316 +7,129 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#888888;--slate:#CCCCCC;--border:#ECEAE3}
-html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body{padding-bottom:100px}
-
+:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#888;--slate:#CCC;--border:#ECEAE3;--road:#D4D0C8}
+html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding-bottom:110px}
 nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid var(--border);gap:20px;position:sticky;top:0;background:var(--bg);z-index:50}
 nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
 nav .logo span{color:var(--lime)}
 nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
 nav a:hover{color:var(--w);border-color:var(--border)}
-nav a.active{color:var(--lime);border-color:var(--lime)}
-
+nav a.active{color:var(--flame);border-color:var(--flame)}
 .sprint{padding:12px 32px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.sprint-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--bg);background:var(--lime);padding:3px 8px;font-weight:700}
+.sprint-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#fff;background:var(--flame);padding:3px 8px;font-weight:700}
 .sprint-focus{font-size:12px;font-weight:600;flex:1}
 .sprint-dates{font-family:'DM Mono',monospace;font-size:9px;color:var(--fog)}
-
-.map-wrap{position:relative;width:100%;max-width:1100px;margin:0 auto;padding:20px}
-.map-svg{width:100%;height:auto;display:block}
-
-/* Milestone cards overlaid on the map */
-.stop{
-  position:absolute;
-  width:140px;padding:10px 12px;
-  background:var(--card);border:1px solid var(--border);
-  font-size:10px;transition:all .2s;z-index:3;
-}
-.stop:hover{transform:scale(1.08);z-index:10;border-color:var(--fog);cursor:pointer}
-.stop .num{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;letter-spacing:-1px;line-height:1;margin-bottom:2px}
-.stop .title{font-size:11px;font-weight:800;letter-spacing:-.3px;text-transform:uppercase;line-height:1.2;margin-bottom:3px}
-.stop .sub{font-size:8px;color:var(--fog);line-height:1.3}
-
-.stop.done{opacity:.5;border-bottom:2px solid var(--lime)}
-.stop.done:hover{opacity:.8}
-.stop.done .num{color:var(--lime)}
-
-.stop.now{border:2px solid var(--lime);background:#151a10;box-shadow:0 0 30px rgba(205,248,81,0.15);animation:glow 3s infinite}
-.stop.now .num{color:var(--lime);font-size:24px}
-@keyframes glow{0%,100%{box-shadow:0 0 30px rgba(205,248,81,0.15)}50%{box-shadow:0 0 50px rgba(205,248,81,0.25)}}
-
-.stop.next{opacity:.25}
-.stop.next:hover{opacity:.5}
-.stop.next .num{color:#BBBBBB}
-
-.now-tag{font-family:'DM Mono',monospace;font-size:6px;font-weight:700;letter-spacing:2px;color:var(--bg);background:var(--lime);padding:1px 5px;display:inline-block;margin-bottom:3px}
-
-/* Phase zone labels on the map */
-.zone{position:absolute;z-index:2}
-.zone .zone-name{font-size:28px;font-weight:900;letter-spacing:-1px;text-transform:uppercase;opacity:.08}
-
-/* Lizzy strip */
-.lizzy{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--teal);padding:8px 32px;display:flex;align-items:center;gap:14px;z-index:50}
+.hero{text-align:center;padding:40px 32px 10px}
+.hero img{width:80px;height:80px;border-radius:12px;margin-bottom:12px}
+.hero-title{font-size:56px;font-weight:900;letter-spacing:-3px;text-transform:uppercase;line-height:.9}
+.hero-sub{font-size:13px;color:var(--fog);margin-top:10px}
+.board{max-width:1000px;margin:30px auto;padding:0 20px;display:flex;flex-direction:column;gap:0}
+.row{display:flex;justify-content:center;gap:10px}
+.row.rev{flex-direction:row-reverse}
+.connector{display:flex;padding:6px 0}
+.connector.r{justify-content:flex-end;padding-right:60px}
+.connector.l{justify-content:flex-start;padding-left:60px}
+.conn-pipe{width:4px;height:30px;background:var(--road);border-radius:2px}
+.tile{width:260px;padding:20px;background:var(--card);border:2px solid var(--border);text-align:left;transition:all .2s;text-decoration:none;color:var(--w);display:block}
+.tile:hover{border-color:var(--fog);transform:translateY(-3px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.tile .step{font-family:'DM Mono',monospace;font-size:36px;font-weight:700;letter-spacing:-2px;line-height:1;margin-bottom:4px}
+.tile .name{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:-.3px;line-height:1.2;margin-bottom:6px}
+.tile .desc{font-size:11px;color:var(--fog);line-height:1.4}
+.tile.done{opacity:.45;border-bottom:3px solid var(--lime)}.tile.done:hover{opacity:.7}.tile.done .step{color:#6B8F00}
+.tile.now{border:3px solid var(--flame);box-shadow:0 0 0 6px rgba(255,74,35,0.08)}.tile.now .step{color:var(--flame);font-size:40px}
+.tile.next{opacity:.3}.tile.next:hover{opacity:.55}.tile.next .step{color:var(--slate)}
+.now-tag{font-family:'DM Mono',monospace;font-size:8px;font-weight:700;letter-spacing:2px;color:#fff;background:var(--flame);padding:3px 8px;display:inline-block;margin-bottom:6px}
+.phase{text-align:center;padding:16px 0 8px}
+.phase-text{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--fog);display:inline-block;padding:0 16px;position:relative}
+.phase-text::before,.phase-text::after{content:'';position:absolute;top:50%;width:60px;height:1px;background:var(--border)}
+.phase-text::before{right:100%}.phase-text::after{left:100%}
+.lizzy{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--teal);padding:10px 32px;display:flex;align-items:center;gap:16px;z-index:50}
 .lizzy-info{flex-shrink:0}
-.lizzy-info .artist{font-size:12px;font-weight:800;letter-spacing:-.5px}
+.lizzy-info .artist{font-size:13px;font-weight:800;letter-spacing:-.5px}
 .lizzy-info .sub{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog)}
-.gates{display:flex;flex:1;gap:2px;align-items:center}
-.g{flex:1;padding:6px 4px;text-align:center}
+.gates{display:flex;flex:1;gap:3px;align-items:center}
+.g{flex:1;padding:7px 4px;text-align:center;border:1px solid var(--border)}
 .g .gn{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.5px;text-transform:uppercase;font-weight:700}
-.g.cleared{background:#E8F5E9;border:1px solid var(--lime)}.g.cleared .gn{color:var(--lime)}
-.g.working{background:#FFF8E1;border:1px solid var(--gold)}.g.working .gn{color:var(--gold)}
-.g.ns{background:var(--bg);border:1px solid var(--border)}.g.ns .gn{color:#BBBBBB}
+.g.working{background:#FFF8E1;border-color:var(--gold)}.g.working .gn{color:#8B6900}
+.g.ns .gn{color:var(--slate)}
 .ga{color:var(--slate);font-size:10px;flex-shrink:0}
-.lizzy-pct{flex-shrink:0;text-align:center;padding-left:10px;border-left:1px solid var(--border)}
+.lizzy-pct{flex-shrink:0;text-align:center;padding-left:12px;border-left:1px solid var(--border)}
 .lizzy-pct .n{font-size:18px;font-weight:900;letter-spacing:-1px}
 .lizzy-pct .l{font-family:'DM Mono',monospace;font-size:6px;letter-spacing:1px;text-transform:uppercase;color:var(--fog)}
+.footer{padding:20px 32px;text-align:center;font-size:9px;color:#BBB}
 </style>
 </head>
 <body>
-<!-- PASSWORD GATE -->
 <div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
   <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
-  <div style="font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
-  <div style="font-family:Inter,Arial,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
-  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,Arial,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
-  <button onclick="checkPw()" style="font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
   <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
 </div>
 <script>
-function checkPw(){
-  if(document.getElementById("pw").value==="campaignops26"){
-    document.getElementById("gate").style.display="none";
-    document.getElementById("app").style.display="block";
-    sessionStorage.setItem("camops_auth","1");
-  } else {
-    document.getElementById("err").textContent="Incorrect password";
-    document.getElementById("pw").value="";document.getElementById("pw").focus();
-  }
-}
-function initGate(){
-  var g=document.getElementById("gate");
-  var a=document.getElementById("app");
-  if(!g||!a) return;
-  if(sessionStorage.getItem("camops_auth")==="1"){
-    g.style.display="none";
-    a.style.display="block";
-  } else {
-    document.getElementById("pw").focus();
-  }
-}
-if(document.readyState==="loading"){
-  document.addEventListener("DOMContentLoaded",initGate);
-} else {
-  initGate();
-}
+function checkPw(){if(document.getElementById("pw").value==="campaignops26"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("camops_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
 </script>
-
 <div id="app" style="display:none">
-
 <nav>
   <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
   <a href="/" class="active">Roadmap</a>
-  <a href="/innovation.html">Innovation</a>
-  <a href="/pm.html">Project Management</a>
-  <a href="/systems.html">Systems</a>
+  <a href="/todo.html">To Do</a>
   <a href="/resources.html">Resources</a>
 </nav>
-
 <div class="sprint">
   <div class="sprint-badge">SPRINT 1</div>
   <div class="sprint-focus">Land the stage-gate language. Ship the deck. Prove it on Lizzy.</div>
   <div class="sprint-dates">MAY 6 – 9</div>
 </div>
-
-<div class="map-wrap">
-
-<!-- THE MAP SVG — winding road with scenery -->
-<svg viewBox="0 0 1000 800" class="map-svg" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background texture — subtle grid -->
-  <defs>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1A1A1A" stroke-width="0.5"/>
-    </pattern>
-    <filter id="roadGlow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <rect width="1000" height="800" fill="url(#grid)"/>
-
-  <!-- Phase zone backgrounds -->
-  <rect x="0" y="0" width="500" height="250" fill="#0F0E0E" opacity="0.5" rx="0"/>
-  <text x="40" y="60" font-family="Inter" font-size="48" font-weight="900" fill="#FCFDF8" opacity="0.04" letter-spacing="-2">PLAN</text>
-
-  <rect x="500" y="150" width="500" height="250" fill="#0F0E0E" opacity="0.5"/>
-  <text x="540" y="220" font-family="Inter" font-size="48" font-weight="900" fill="#CDF851" opacity="0.04" letter-spacing="-2">ANNOUNCE</text>
-
-  <rect x="0" y="350" width="500" height="250" fill="#0F0E0E" opacity="0.5"/>
-  <text x="40" y="420" font-family="Inter" font-size="48" font-weight="900" fill="#5BC0BE" opacity="0.04" letter-spacing="-2">EXECUTE</text>
-
-  <rect x="500" y="500" width="500" height="300" fill="#0F0E0E" opacity="0.5"/>
-  <text x="540" y="570" font-family="Inter" font-size="48" font-weight="900" fill="#E8C547" opacity="0.04" letter-spacing="-2">DELIVER</text>
-
-  <!-- THE ROAD — winding path -->
-  <path d="M 80,130 C 150,130 200,130 280,130 S 420,130 500,180 S 600,280 700,280 S 850,280 900,350 S 900,450 800,480 S 650,500 550,520 S 400,550 300,580 S 150,620 150,680 S 250,740 400,740 S 600,740 750,700 S 900,660 920,620" 
-    stroke="#2A2A2A" stroke-width="40" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 80,130 C 150,130 200,130 280,130 S 420,130 500,180 S 600,280 700,280 S 850,280 900,350 S 900,450 800,480 S 650,500 550,520 S 400,550 300,580 S 150,620 150,680 S 250,740 400,740 S 600,740 750,700 S 900,660 920,620" 
-    stroke="#3E3F41" stroke-width="36" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Road dashes -->
-  <path d="M 80,130 C 150,130 200,130 280,130 S 420,130 500,180 S 600,280 700,280 S 850,280 900,350 S 900,450 800,480 S 650,500 550,520 S 400,550 300,580 S 150,620 150,680 S 250,740 400,740 S 600,740 750,700 S 900,660 920,620" 
-    stroke="#666" stroke-width="2" fill="none" stroke-dasharray="12 8" stroke-linecap="round"/>
-
-  <!-- Gate markers on the road (checkpoints) -->
-  <!-- G1: CAN WE PLAN? -->
-  <rect x="55" y="105" width="50" height="50" rx="4" fill="#1A1A1A" stroke="#B0A9BE" stroke-width="2"/>
-  <text x="80" y="127" font-family="DM Mono" font-size="7" fill="#B0A9BE" text-anchor="middle" letter-spacing="1">GATE 1</text>
-  <text x="80" y="140" font-family="Inter" font-size="6" fill="#666" text-anchor="middle">CAN WE PLAN?</text>
-  <circle cx="80" cy="148" r="3" fill="#CDF851"/>
-
-  <!-- G2: CAN WE ANNOUNCE? -->
-  <rect x="475" y="155" width="50" height="50" rx="4" fill="#1A1A1A" stroke="#CDF851" stroke-width="2"/>
-  <text x="500" y="177" font-family="DM Mono" font-size="7" fill="#CDF851" text-anchor="middle" letter-spacing="1">GATE 2</text>
-  <text x="500" y="190" font-family="Inter" font-size="6" fill="#666" text-anchor="middle">ANNOUNCE?</text>
-
-  <!-- G3: CAN WE EXECUTE? -->
-  <rect x="875" y="325" width="50" height="50" rx="4" fill="#1A1A1A" stroke="#5BC0BE" stroke-width="2"/>
-  <text x="900" y="347" font-family="DM Mono" font-size="7" fill="#5BC0BE" text-anchor="middle" letter-spacing="1">GATE 3</text>
-  <text x="900" y="360" font-family="Inter" font-size="6" fill="#666" text-anchor="middle">EXECUTE?</text>
-
-  <!-- G4: CAN WE DELIVER? -->
-  <rect x="125" y="655" width="50" height="50" rx="4" fill="#1A1A1A" stroke="#E8C547" stroke-width="2"/>
-  <text x="150" y="677" font-family="DM Mono" font-size="7" fill="#E8C547" text-anchor="middle" letter-spacing="1">GATE 4</text>
-  <text x="150" y="690" font-family="Inter" font-size="6" fill="#666" text-anchor="middle">DELIVER?</text>
-
-  <!-- Scenery — trees (small triangles) -->
-  <polygon points="170,90 180,55 190,90" fill="#1A1A1A" stroke="#3E3F41" stroke-width="1"/>
-  <polygon points="430,100 440,70 450,100" fill="#1A1A1A" stroke="#3E3F41" stroke-width="1"/>
-  <polygon points="760,240 770,210 780,240" fill="#1A1A1A" stroke="#3E3F41" stroke-width="1"/>
-  <polygon points="440,480 450,450 460,480" fill="#1A1A1A" stroke="#3E3F41" stroke-width="1"/>
-  <polygon points="650,650 660,620 670,650" fill="#1A1A1A" stroke="#3E3F41" stroke-width="1"/>
-
-  <!-- Scenery — mountains (bigger triangles, far back) -->
-  <polygon points="820,160 870,80 920,160" fill="none" stroke="#2A2A2A" stroke-width="1.5"/>
-  <polygon points="860,160 900,100 940,160" fill="none" stroke="#2A2A2A" stroke-width="1"/>
-  <polygon points="50,550 100,480 150,550" fill="none" stroke="#2A2A2A" stroke-width="1.5"/>
-
-  <!-- Scenery — water (wavy lines) -->
-  <path d="M 600,450 Q 620,440 640,450 Q 660,460 680,450 Q 700,440 720,450" stroke="#5BC0BE" stroke-width="1" fill="none" opacity="0.2"/>
-  <path d="M 610,460 Q 630,450 650,460 Q 670,470 690,460 Q 710,450 730,460" stroke="#5BC0BE" stroke-width="1" fill="none" opacity="0.15"/>
-
-  <!-- Flag at the end -->
-  <line x1="920" y1="580" x2="920" y2="620" stroke="#FCFDF8" stroke-width="2"/>
-  <polygon points="920,580 950,590 920,600" fill="#CDF851"/>
-
-  <!-- Game piece — "YOU ARE HERE" marker -->
-  <circle cx="350" cy="130" r="12" fill="#CDF851" stroke="#0F0E0E" stroke-width="3"/>
-  <text x="350" y="134" font-family="Inter" font-size="9" font-weight="900" fill="#0F0E0E" text-anchor="middle">▲</text>
-
-  <!-- START label -->
-  <text x="80" y="170" font-family="DM Mono" font-size="8" fill="#666" text-anchor="middle" letter-spacing="2">START</text>
-
-  <!-- FINISH label -->
-  <text x="920" y="610" font-family="DM Mono" font-size="8" fill="#CDF851" text-anchor="middle" letter-spacing="2">THE STANDARD</text>
-
-</svg>
-
-<!-- Milestone stop cards overlaid on the map -->
-<div class="stop done" style="left:10%;top:3%">
-  <div class="num" style="color:var(--lime)">01</div>
-  <div class="title"><a href="resources.html#language" style="color:inherit;text-decoration:none">Define the Language</a></div>
-  <div class="sub">Four phases. Four gates. One vocabulary.</div>
+<div class="hero">
+  <img src="/logo_glow.png" alt="Campaign Ops">
+  <div class="hero-title">THE <span style="color:var(--flame)">ROAD</span></div>
+  <div class="hero-sub">From idea to operating system. Ten milestones.</div>
 </div>
-
-<div class="stop done" style="left:24%;top:3%">
-  <div class="num" style="color:var(--lime)">02</div>
-  <div class="title"><a href="resources.html#meetings" style="color:inherit;text-decoration:none">Design the Meetings</a></div>
-  <div class="sub">Six types. Weekly cadence mapped.</div>
+<div class="board">
+  <div class="phase"><span class="phase-text">Built</span></div>
+  <div class="row">
+    <a class="tile done" href="/resources.html#language"><div class="step">01</div><div class="name">Define the Language</div><div class="desc">PLAN · ANNOUNCE · EXECUTE · DELIVER. Four phases. Four gates.</div></a>
+    <a class="tile done" href="/resources.html#meetings"><div class="step">02</div><div class="name">Design the Meetings</div><div class="desc">Weekly cadence. Artist lifecycle. Every meeting typed.</div></a>
+    <a class="tile done" href="/resources.html#tools"><div class="step">03</div><div class="name">Build the Tools</div><div class="desc">Timelines. Workability. Recaps. Templates.</div></a>
+  </div>
+  <div class="connector r"><div class="conn-pipe"></div></div>
+  <div class="phase"><span class="phase-text">Now</span></div>
+  <div class="row rev">
+    <a class="tile now" href="/resources.html#deck"><div class="now-tag">▲ YOU ARE HERE</div><div class="step">04</div><div class="name">Pitch Stage-Gate</div><div class="desc">Deck to Jordan. Then Fleck. Then Board.</div></a>
+    <a class="tile next" href="/todo.html"><div class="step">05</div><div class="name">Launch the Cadence</div><div class="desc">Tuesday + Monday + Wednesday tight + Friday async.</div></a>
+  </div>
+  <div class="connector l"><div class="conn-pipe"></div></div>
+  <div class="phase"><span class="phase-text">Prove</span></div>
+  <div class="row">
+    <a class="tile next" href="/todo.html"><div class="step">06</div><div class="name">Run the Pilot</div><div class="desc">Lizzy McAlpine through all four gates.</div></a>
+    <a class="tile next" href="/todo.html"><div class="step">07</div><div class="name">Wire the Systems</div><div class="desc">Airtable. Brief. Phase fields. One vocabulary.</div></a>
+  </div>
+  <div class="connector r"><div class="conn-pipe"></div></div>
+  <div class="phase"><span class="phase-text">Scale</span></div>
+  <div class="row rev">
+    <a class="tile next" href="/todo.html"><div class="step">08</div><div class="name">Prove the System</div><div class="desc">Results. Before and after. The evidence.</div></a>
+    <a class="tile next" href="/todo.html"><div class="step">09</div><div class="name">Scale to Roster</div><div class="desc">Second pilot. Third. Then everyone.</div></a>
+    <a class="tile next" href="/todo.html"><div class="step">10</div><div class="name">The Standard</div><div class="desc">Stage-gate is how RCA runs campaigns.</div></a>
+  </div>
 </div>
-
-<div class="stop done" style="left:38%;top:5%">
-  <div class="num" style="color:var(--lime)">03</div>
-  <div class="title"><a href="resources.html#tools" style="color:inherit;text-decoration:none">Build the Tools</a></div>
-  <div class="sub">Timelines. Workability. Recaps.</div>
-</div>
-
-<div class="stop now" style="left:42%;top:18%">
-  <div class="now-tag">▲ YOU ARE HERE</div>
-  <div class="num">04</div>
-  <div class="title"><a href="resources.html#deck" style="color:inherit;text-decoration:none">Pitch Stage-Gate</a></div>
-  <div class="sub">Deck to Jordan. Then Fleck. Then Board.</div>
-</div>
-
-<div class="stop next" style="left:62%;top:26%">
-  <div class="num">05</div>
-  <div class="title"><a href="pm.html#cadence" style="color:inherit;text-decoration:none">Launch the Cadence</a></div>
-  <div class="sub">Tue + Mon + Wed tight + Fri async.</div>
-</div>
-
-<div class="stop next" style="left:78%;top:32%">
-  <div class="num">06</div>
-  <div class="title"><a href="pm.html#pilot" style="color:inherit;text-decoration:none">Run the Pilot</a></div>
-  <div class="sub">Lizzy through all four gates.</div>
-</div>
-
-<div class="stop next" style="left:70%;top:52%">
-  <div class="num">07</div>
-  <div class="title"><a href="systems.html" style="color:inherit;text-decoration:none">Wire the Systems</a></div>
-  <div class="sub">Airtable. Brief. Phase fields.</div>
-</div>
-
-<div class="stop next" style="left:38%;top:60%">
-  <div class="num">08</div>
-  <div class="title"><a href="pm.html#proof" style="color:inherit;text-decoration:none">Prove the System</a></div>
-  <div class="sub">Results. Before/after. Evidence.</div>
-</div>
-
-<div class="stop next" style="left:22%;top:75%">
-  <div class="num">09</div>
-  <div class="title"><a href="pm.html#scale" style="color:inherit;text-decoration:none">Scale to Roster</a></div>
-  <div class="sub">Second pilot. Third. Then everyone.</div>
-</div>
-
-<div class="stop next" style="left:72%;top:82%">
-  <div class="num">10</div>
-  <div class="title"><a href="resources.html#language" style="color:inherit;text-decoration:none">The Standard</a></div>
-  <div class="sub">Stage-gate is how RCA runs campaigns.</div>
-</div>
-
-</div><!-- end map-wrap -->
-
-<!-- LIZZY STRIP -->
+<div class="footer">Campaign Operations · May 2026 · <span style="color:var(--teal);font-style:italic">Building together.</span></div>
 <div class="lizzy">
-  <div class="lizzy-info">
-    <div class="artist">Lizzy McAlpine</div>
-    <div class="sub">Stage-Gate Pilot</div>
-  </div>
+  <div class="lizzy-info"><div class="artist">Lizzy McAlpine</div><div class="sub">Stage-Gate Pilot</div></div>
   <div class="gates">
-    <div class="g working"><div class="gn">G1 · PLAN?</div></div>
-    <div class="ga">→</div>
-    <div class="g ns"><div class="gn">G2 · ANNOUNCE?</div></div>
-    <div class="ga">→</div>
-    <div class="g ns"><div class="gn">G3 · EXECUTE?</div></div>
-    <div class="ga">→</div>
-    <div class="g ns"><div class="gn">G4 · DELIVER?</div></div>
+    <div class="g working"><div class="gn">G1 · CAN WE PLAN?</div></div><div class="ga">→</div>
+    <div class="g ns"><div class="gn">G2 · CAN WE ANNOUNCE?</div></div><div class="ga">→</div>
+    <div class="g ns"><div class="gn">G3 · CAN WE EXECUTE?</div></div><div class="ga">→</div>
+    <div class="g ns"><div class="gn">G4 · CAN WE DELIVER?</div></div>
   </div>
-  <div class="lizzy-pct">
-    <div class="n" style="color:var(--fog)">—</div>
-    <div class="l">Workability</div>
-  </div>
+  <div class="lizzy-pct"><div class="n" style="color:var(--fog)">—</div><div class="l">Workability</div></div>
 </div>
-
-<script>
-// Backup auth check — runs after app div exists
-(function(){
-  var a=document.getElementById("app");
-  var g=document.getElementById("gate");
-  if(a && g && sessionStorage.getItem("camops_auth")==="1"){
-    g.style.display="none";
-    a.style.display="block";
-  }
-})();
-</script>
-</div><!-- end app -->
+<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
+</div>
 </body>
 </html>
