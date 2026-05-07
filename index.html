@@ -94,14 +94,22 @@ function checkPw(){
     document.getElementById("pw").value="";document.getElementById("pw").focus();
   }
 }
-document.addEventListener("DOMContentLoaded",function(){
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  if(!g||!a) return;
   if(sessionStorage.getItem("camops_auth")==="1"){
-    document.getElementById("gate").style.display="none";
-    document.getElementById("app").style.display="block";
+    g.style.display="none";
+    a.style.display="block";
   } else {
     document.getElementById("pw").focus();
   }
-});
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else {
+  initGate();
+}
 </script>
 
 <div id="app" style="display:none">
@@ -298,6 +306,17 @@ document.addEventListener("DOMContentLoaded",function(){
   </div>
 </div>
 
+<script>
+// Backup auth check — runs after app div exists
+(function(){
+  var a=document.getElementById("app");
+  var g=document.getElementById("gate");
+  if(a && g && sessionStorage.getItem("camops_auth")==="1"){
+    g.style.display="none";
+    a.style.display="block";
+  }
+})();
+</script>
 </div><!-- end app -->
 </body>
 </html>
