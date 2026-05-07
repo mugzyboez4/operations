@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — Resources</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0F0E0E;--card:#1A1A1A;--w:#FCFDF8;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#B0A9BE;--slate:#3E3F41;--border:#2A2A2A}
+html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid var(--border);gap:20px;position:sticky;top:0;background:var(--bg);z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:var(--lime)}
+nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
+nav a:hover{color:var(--w);border-color:var(--border)}
+nav a.active{color:var(--lime);border-color:var(--lime)}
+
+.header{padding:32px 32px 20px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
+.title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:.95;text-transform:uppercase;margin-bottom:8px}
+.sub{font-size:13px;color:var(--fog);max-width:600px}
+
+.section{padding:20px 32px}
+.section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.section-label .dot{width:8px;height:8px;border-radius:50%}
+
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:8px}
+.doc{display:block;padding:16px;background:var(--card);border:1px solid var(--border);text-decoration:none;color:var(--w);transition:all .15s}
+.doc:hover{border-color:var(--fog);transform:translateY(-2px)}
+.doc .doc-type{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:4px}
+.doc .doc-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.doc .doc-desc{font-size:10px;color:var(--fog);line-height:1.4}
+.doc .doc-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;display:inline-block;margin-top:8px}
+
+.footer{padding:24px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:9px;color:var(--slate)}
+.footer .tag{color:var(--teal);font-style:italic}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/innovation.html">Innovation</a>
+  <a href="/pm.html">Project Management</a>
+  <a href="/systems.html">Systems</a>
+  <a href="/resources.html" class="active">Resources</a>
+</nav>
+
+<div class="header">
+  <div class="eyebrow">Campaign Operations</div>
+  <div class="title">RESO<span style="color:var(--lime)">URCES</span></div>
+  <div class="sub">Every document, tool, and template we've built. Organized by what it is, not when we made it.</div>
+</div>
+
+<!-- FRAMEWORKS -->
+<div class="section" id="language">
+  <div class="section-label"><div class="dot" style="background:var(--lime)"></div>Frameworks & Strategy</div>
+  <div class="doc-grid">
+    <a class="doc" href="#">
+      <div class="doc-type">Framework</div>
+      <div class="doc-name">Stage-Gate Language Framework</div>
+      <div class="doc-desc">PLAN / ANNOUNCE / EXECUTE / DELIVER. Four phases, four gates. The canonical reference.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Markdown</div>
+    </a>
+    <a class="doc" href="#" id="deck">
+      <div class="doc-type">Presentation</div>
+      <div class="doc-name">Stage-Gate Framework Deck</div>
+      <div class="doc-desc">14 slides. Phases, gates, weekly cadence, roster split, rollout. For Jordan → Fleck → Board.</div>
+      <div class="doc-tag" style="color:var(--gold);background:#2a2a1a">PPTX</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Presentation</div>
+      <div class="doc-name">OTA Deck V2</div>
+      <div class="doc-desc">Operational Transformation Assessment. Four workstreams. Nine pilot artists. The original pitch.</div>
+      <div class="doc-tag" style="color:var(--gold);background:#2a2a1a">PPTX</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Document</div>
+      <div class="doc-name">Lane Definition V2</div>
+      <div class="doc-desc">54-item responsibility map across all teams. Jordan feedback applied.</div>
+      <div class="doc-tag" style="color:var(--teal);background:#1a2a2a">DOCX</div>
+    </a>
+  </div>
+</div>
+
+<!-- MEETINGS -->
+<div class="section" id="meetings">
+  <div class="section-label"><div class="dot" style="background:var(--teal)"></div>Meetings & Cadence</div>
+  <div class="doc-grid">
+    <a class="doc" href="#">
+      <div class="doc-type">Email</div>
+      <div class="doc-name">Weekly Cadence — Jordan Email</div>
+      <div class="doc-desc">Full Mon-Fri view. Existing meetings + new additions. Information flow mapped.</div>
+      <div class="doc-tag" style="color:var(--flame);background:#2a1a1a">HTML Email</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Email</div>
+      <div class="doc-name">Restructured AP Agenda</div>
+      <div class="doc-desc">How May 6 could have gone. DELIVER + ANNOUNCE/EXECUTE sections. Phase tags on every artist.</div>
+      <div class="doc-tag" style="color:var(--flame);background:#2a1a1a">HTML Email</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Template</div>
+      <div class="doc-name">Artist Meeting Templates (Ritual Spine)</div>
+      <div class="doc-desc">6 milestone-triggered meetings. Onboarding through Post-Release Wrap. Gate-aligned.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Interactive HTML</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Template</div>
+      <div class="doc-name">DELIVER Wrap Template</div>
+      <div class="doc-desc">Friday async. What released, playlist recap, press, trends, looking ahead.</div>
+      <div class="doc-tag" style="color:var(--gold);background:#2a2a1a">HTML</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Research</div>
+      <div class="doc-name">Meeting Design Framework</div>
+      <div class="doc-desc">Six meeting types. Decision / Status Update / Working Session / Brainstorm / Standup / Alignment.</div>
+      <div class="doc-tag" style="color:var(--fog);background:var(--card)">Reference</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Analysis</div>
+      <div class="doc-name">Meeting Cadence Models (A/B/C/D)</div>
+      <div class="doc-desc">Four options for splitting AP. Daily rhythm, three meetings, two meetings, hybrid.</div>
+      <div class="doc-tag" style="color:var(--fog);background:var(--card)">Markdown</div>
+    </a>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="section" id="tools">
+  <div class="section-label"><div class="dot" style="background:var(--gold)"></div>Live Tools</div>
+  <div class="doc-grid">
+    <a class="doc" href="#">
+      <div class="doc-type">Tool</div>
+      <div class="doc-name">Campaign Timelines</div>
+      <div class="doc-desc">Interactive dot timelines per artist. Workability data. Editable. Password protected.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Interactive HTML</div>
+    </a>
+    <a class="doc" href="/archive/v1/ap-capture.html">
+      <div class="doc-type">Tool</div>
+      <div class="doc-name">AP Capture Tool</div>
+      <div class="doc-desc">Live meeting capture. 16 artists, priority tiers, carry-forwards, Generate Recap.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Interactive HTML</div>
+    </a>
+    <a class="doc" href="/archive/v1/priorities.html">
+      <div class="doc-type">Tool</div>
+      <div class="doc-name">Priorities Tracker</div>
+      <div class="doc-desc">Status toggles, filter pills, stats bar, export. From Meg/Gerard syncs.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Interactive HTML</div>
+    </a>
+    <a class="doc" href="/archive/v1/lanes.html">
+      <div class="doc-type">Tool</div>
+      <div class="doc-name">Lane Definition Board</div>
+      <div class="doc-desc">Dark kanban board. 54 items. Editable. Department-by-department.</div>
+      <div class="doc-tag" style="color:var(--lime);background:#1a2a1a">Interactive HTML</div>
+    </a>
+    <a class="doc" href="/archive/v1/finance-intake.html">
+      <div class="doc-type">Template</div>
+      <div class="doc-name">Finance Intake</div>
+      <div class="doc-desc">Department workflow meeting template. First of 13 departments.</div>
+      <div class="doc-tag" style="color:var(--teal);background:#1a2a2a">HTML</div>
+    </a>
+  </div>
+</div>
+
+<!-- DATA -->
+<div class="section">
+  <div class="section-label"><div class="dot" style="background:var(--flame)"></div>Data & Rights</div>
+  <div class="doc-grid">
+    <a class="doc" href="#">
+      <div class="doc-type">Data</div>
+      <div class="doc-name">CARMA Combined Rights Master</div>
+      <div class="doc-desc">89 artists, 27 columns. Merch/D2C + artwork/likeness combined. Ready for Airtable.</div>
+      <div class="doc-tag" style="color:var(--fog);background:var(--card)">CSV</div>
+    </a>
+    <a class="doc" href="#">
+      <div class="doc-type">Data</div>
+      <div class="doc-name">Roster Assignments</div>
+      <div class="doc-desc">88 artists with campaign lead, ops owner, in-cycle status.</div>
+      <div class="doc-tag" style="color:var(--fog);background:var(--card)">CSV</div>
+    </a>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="section">
+  <div class="section-label"><div class="dot" style="background:var(--slate)"></div>Archive (V1 Site)</div>
+  <div class="doc-grid">
+    <a class="doc" href="/archive/v1/" style="opacity:.5">
+      <div class="doc-type">Archive</div>
+      <div class="doc-name">TEMPO V1 — Full Site</div>
+      <div class="doc-desc">All 21 pages from the original TEMPO site. Orbit, meetings, visibility, release views, etc.</div>
+      <div class="doc-tag" style="color:var(--slate);background:var(--bg)">Archive</div>
+    </a>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Campaign Operations · Resources · May 2026</span>
+  <span class="tag">Building together.</span>
+</div>
+
+</body>
+</html>
