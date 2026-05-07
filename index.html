@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0F0E0E;--card:#1A1A1A;--w:#FCFDF8;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#B0A9BE;--slate:#3E3F41;--border:#2A2A2A}
+:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#888888;--slate:#CCCCCC;--border:#ECEAE3}
 html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body{padding-bottom:100px}
 
@@ -48,7 +48,7 @@ nav a.active{color:var(--lime);border-color:var(--lime)}
 
 .stop.next{opacity:.25}
 .stop.next:hover{opacity:.5}
-.stop.next .num{color:var(--slate)}
+.stop.next .num{color:#BBBBBB}
 
 .now-tag{font-family:'DM Mono',monospace;font-size:6px;font-weight:700;letter-spacing:2px;color:var(--bg);background:var(--lime);padding:1px 5px;display:inline-block;margin-bottom:3px}
 
@@ -64,9 +64,9 @@ nav a.active{color:var(--lime);border-color:var(--lime)}
 .gates{display:flex;flex:1;gap:2px;align-items:center}
 .g{flex:1;padding:6px 4px;text-align:center}
 .g .gn{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.5px;text-transform:uppercase;font-weight:700}
-.g.cleared{background:#1a2a1a;border:1px solid var(--lime)}.g.cleared .gn{color:var(--lime)}
-.g.working{background:#2a2a1a;border:1px solid var(--gold)}.g.working .gn{color:var(--gold)}
-.g.ns{background:var(--bg);border:1px solid var(--border)}.g.ns .gn{color:var(--slate)}
+.g.cleared{background:#E8F5E9;border:1px solid var(--lime)}.g.cleared .gn{color:var(--lime)}
+.g.working{background:#FFF8E1;border:1px solid var(--gold)}.g.working .gn{color:var(--gold)}
+.g.ns{background:var(--bg);border:1px solid var(--border)}.g.ns .gn{color:#BBBBBB}
 .ga{color:var(--slate);font-size:10px;flex-shrink:0}
 .lizzy-pct{flex-shrink:0;text-align:center;padding-left:10px;border-left:1px solid var(--border)}
 .lizzy-pct .n{font-size:18px;font-weight:900;letter-spacing:-1px}
@@ -74,9 +74,36 @@ nav a.active{color:var(--lime);border-color:var(--lime)}
 </style>
 </head>
 <body>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <img src="/tempoicon.png" style="width:56px;height:56px;margin-bottom:16px;border-radius:8px">
+  <div style="font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,Arial,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,Arial,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+</div>
+<script>
+function checkPw(){
+  if(document.getElementById("pw").value==="campaignops26"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="block";
+    sessionStorage.setItem("camops_auth","1");
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";document.getElementById("pw").focus();
+  }
+}
+if(sessionStorage.getItem("camops_auth")==="1"){
+  document.getElementById("gate").style.display="none";
+  document.getElementById("app").style.display="block";
+} else { document.addEventListener("DOMContentLoaded",function(){document.getElementById("pw").focus()}); }
+</script>
+
+<div id="app" style="display:none">
 
 <nav>
-  <div class="logo">Campaign <span>Ops</span></div>
+  <div class="logo"><img src="/tempoicon.png" style="width:22px;height:22px;border-radius:3px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
   <a href="/" class="active">Roadmap</a>
   <a href="/innovation.html">Innovation</a>
   <a href="/pm.html">Project Management</a>
@@ -267,5 +294,6 @@ nav a.active{color:var(--lime);border-color:var(--lime)}
   </div>
 </div>
 
+</div><!-- end app -->
 </body>
 </html>
