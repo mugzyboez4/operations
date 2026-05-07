@@ -6,12 +6,23 @@
 <title>D2C Annual Activation Grid · April 2026 – March 2027</title>
 <style>
   :root {
-    --bg: #FCFDF8; --bg-card: #FFFFFF; --bg-sunken: #F4F3EE;
-    --text: #0F0E0E; --text-dim: #6B6B68; --text-soft: #9A9A95;
-    --border: #D4D4D0; --border-faint: #E8E7E2;
-    --chartreuse: #CDF851; --chartreuse-dark: #8FBF20; --chartreuse-soft: #F0FAD0;
-    --flame: #FF4A23; --flame-soft: #FFE4DD;
-    --teal: #5BC0BE; --teal-soft: #DDF0F0;
+    --bg: #FCFDF8;
+    --bg-card: #FFFFFF;
+    --bg-sunken: #F4F3EE;
+    --bg-chip: #EDF2F4;       /* Runway-style pale blue-grey for cards */
+    --bg-chip-hover: #E0E8EC;
+    --text: #0F0E0E;
+    --text-dim: #6B6B68;
+    --text-soft: #9A9A95;
+    --border: #D4D4D0;
+    --border-faint: #E8E7E2;
+    --border-chip: #D5DEE2;
+    --chartreuse: #CDF851;
+    --chartreuse-dark: #8FBF20;
+    --chartreuse-soft: #F0FAD0;
+    --flame: #FF4A23;
+    --flame-soft: #FFE4DD;
+    --teal: #5BC0BE;
     --gold: #E8C547;
     --fog: #B0A9BE;
   }
@@ -22,7 +33,7 @@
     line-height: 1.5; -webkit-font-smoothing: antialiased;
   }
 
-  /* ---------- PASSWORD GATE ---------- */
+  /* GATE */
   .gate {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     padding: 20px; background: var(--bg);
@@ -54,7 +65,7 @@
   .gate-btn:hover { background: #B8E83D; }
   .gate-error { color: var(--flame); font-size: 13px; margin-top: 10px; min-height: 16px; }
 
-  /* ---------- MAIN ---------- */
+  /* MAIN */
   .app { display: none; }
   .app.unlocked { display: block; }
   .wrap { max-width: 1700px; margin: 0 auto; padding: 32px 24px 64px; }
@@ -81,26 +92,50 @@
 
   .toolbar {
     display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
-    justify-content: flex-end;
+    justify-content: space-between; align-items: center;
+  }
+  .toolbar-left, .toolbar-right {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
   }
   .tb-btn {
     background: var(--bg-card); border: 1px solid var(--border);
-    padding: 10px 16px; font-size: 11px; font-weight: 600;
+    padding: 8px 14px; font-size: 11px; font-weight: 600;
     letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--text-dim); cursor: pointer; font-family: inherit;
   }
   .tb-btn:hover { border-color: var(--text); color: var(--text); }
+  .tb-btn.active {
+    background: var(--text); color: var(--chartreuse); border-color: var(--text);
+  }
+  .tb-group {
+    display: inline-flex; border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  .tb-group .tb-btn {
+    border: none; border-right: 1px solid var(--border);
+  }
+  .tb-group .tb-btn:last-child { border-right: none; }
+  .tb-label {
+    font-size: 10px; color: var(--text-dim); font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-right: 8px;
+  }
 
-  /* ---------- GRID ---------- */
+  /* GRID */
   .grid-container {
     background: var(--bg-card); border: 1px solid var(--border);
     overflow-x: auto;
   }
   .grid {
     display: grid;
-    grid-template-columns: 160px repeat(12, minmax(140px, 1fr));
-    min-width: 1840px;
+    grid-template-columns: 180px repeat(12, minmax(160px, 1fr));
+    min-width: 2100px;
   }
+  /* Compact zoom adjustments — applied to grid root */
+  .grid.compact {
+    grid-template-columns: 150px repeat(12, minmax(120px, 1fr));
+    min-width: 1590px;
+  }
+
   .grid-header {
     background: var(--text); color: var(--bg);
     padding: 14px 10px;
@@ -119,7 +154,11 @@
     display: block; font-size: 10px; color: var(--chartreuse);
     font-weight: 600; letter-spacing: 0.1em; margin-top: 3px;
   }
+  .grid.compact .grid-header { padding: 10px 8px; font-size: 11px; }
+  .grid.compact .grid-header .month-name { font-size: 12px; }
+  .grid.compact .grid-header .month-yr { font-size: 9px; }
 
+  /* ROW LABEL with collapse chevron */
   .row-label {
     background: var(--bg-sunken); padding: 14px 14px;
     border-right: 2px solid var(--text);
@@ -127,82 +166,164 @@
     font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--text);
     display: flex; flex-direction: column; justify-content: center;
-    min-height: 130px;
+    cursor: pointer; user-select: none;
+    position: relative;
+  }
+  .row-label:hover { background: #EAE9E2; }
+  .row-label .row-label-top {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .row-label .row-label-chevron {
+    font-size: 10px; color: var(--text-dim);
+    transition: transform 0.15s ease;
+    display: inline-block; width: 12px;
+  }
+  .row-label.collapsed .row-label-chevron { transform: rotate(-90deg); }
+  .row-label .row-label-name { flex: 1; }
+  .row-label .row-label-count {
+    font-size: 10px; font-weight: 600; color: var(--text-dim);
+    letter-spacing: 0.04em; text-transform: none;
   }
   .row-label .row-label-sub {
     font-size: 10px; font-weight: 500; color: var(--text-dim);
     letter-spacing: 0.04em; text-transform: none; margin-top: 5px;
-    line-height: 1.4;
+    line-height: 1.4; padding-left: 18px;
   }
+  .row-label.collapsed .row-label-sub { display: none; }
+  .grid.compact .row-label { padding: 10px 12px; font-size: 11px; }
+  .grid.compact .row-label .row-label-sub { font-size: 9px; margin-top: 3px; }
 
+  /* CELL — Runway-style: white background, light border, generous padding */
   .cell {
+    background: var(--bg);
     border-right: 1px solid var(--border-faint);
     border-bottom: 1px solid var(--border-faint);
-    padding: 8px 8px 8px 8px;
+    padding: 10px 8px;
     min-height: 130px;
-    display: flex; flex-direction: column; gap: 5px;
+    display: flex; flex-direction: column; gap: 6px;
     position: relative;
   }
-  .cell.empty {
-    background: repeating-linear-gradient(
-      45deg, transparent, transparent 9px,
-      rgba(176, 169, 190, 0.07) 9px, rgba(176, 169, 190, 0.07) 18px
-    );
-  }
-  .cell.pre-window { background: rgba(0, 0, 0, 0.018); }
+  .grid.compact .cell { padding: 6px 5px; min-height: 80px; gap: 4px; }
+  .cell.pre-window { background: #FAFAF7; }
+  /* When row is collapsed, cells in that row are hidden via JS — no special CSS needed */
+  .cell.row-hidden { display: none; }
+  .row-label.row-hidden { display: none; }
 
-  /* ---------- CHIPS (one color rule, no opp distinctions) ---------- */
+  /* Collapsed row: single thin bar replacing the row */
+  .row-collapsed-bar {
+    grid-column: 1 / -1;
+    background: var(--bg-sunken);
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-faint);
+    border-right: 2px solid var(--text);
+    display: none;
+    align-items: center;
+    cursor: pointer;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text);
+    user-select: none;
+  }
+  .row-collapsed-bar.shown { display: flex; }
+  .row-collapsed-bar:hover { background: #EAE9E2; }
+  .row-collapsed-bar .row-collapsed-chevron {
+    font-size: 10px; color: var(--text-dim);
+    margin-right: 8px; display: inline-block;
+    transform: rotate(-90deg);
+  }
+  .row-collapsed-bar .row-collapsed-count {
+    margin-left: auto;
+    font-size: 10px; font-weight: 600; color: var(--text-dim);
+    letter-spacing: 0.04em; text-transform: none;
+  }
+
+  /* CHIP — Runway-style card */
   .chip {
-    background: var(--chartreuse); color: var(--text);
-    padding: 6px 8px; font-size: 12px; line-height: 1.35;
-    cursor: pointer; font-weight: 600;
-    border-left: 3px solid var(--chartreuse-dark);
-    transition: transform 0.08s ease;
+    background: var(--bg-chip);
+    border: 1px solid var(--border-chip);
+    padding: 9px 11px;
+    cursor: pointer;
+    transition: background 0.1s ease;
     position: relative;
+    min-height: 50px;
+    display: flex; flex-direction: column; justify-content: center;
   }
   .chip:hover {
-    transform: translateX(2px);
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+    background: var(--bg-chip-hover);
+    border-color: #B8C4CA;
   }
-  .chip .chip-artist {
-    display: block; font-weight: 700; font-size: 12px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  .chip-row {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 2px;
   }
-  .chip .chip-detail {
-    display: block; font-size: 11px; font-weight: 500; opacity: 0.8;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    margin-top: 1px;
+  .chip-icon {
+    flex-shrink: 0; width: 14px; height: 14px;
+    color: var(--text-dim); display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 11px;
   }
+  .chip-icon svg { width: 14px; height: 14px; display: block; }
+  .chip-artist {
+    font-weight: 700; font-size: 13px; color: var(--text);
+    line-height: 1.25;
+    overflow: hidden; text-overflow: ellipsis;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .chip-content {
+    font-size: 12px; color: var(--text-dim); line-height: 1.3;
+    margin-top: 2px;
+    overflow: hidden; text-overflow: ellipsis;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .chip-content .chip-date {
+    font-size: 11px; color: var(--text-soft); font-weight: 500;
+  }
+  /* Compact zoom for chips */
+  .grid.compact .chip { padding: 6px 7px; min-height: 38px; }
+  .grid.compact .chip-artist { font-size: 11px; -webkit-line-clamp: 1; }
+  .grid.compact .chip-content { font-size: 10px; -webkit-line-clamp: 1; margin-top: 1px; }
+  .grid.compact .chip-icon { width: 11px; height: 11px; font-size: 9px; }
+  .grid.compact .chip-icon svg { width: 11px; height: 11px; }
+
+  /* Subtle marker for cadence chips */
+  .chip.is-cadence {
+    background: #F5F8E8; border-color: #DCE9B8;
+    border-left: 2px solid var(--chartreuse-dark);
+  }
+  .chip.is-cadence:hover { background: #EFF4DC; }
+  .chip.is-cadence .chip-artist { color: #4A5A1F; }
+  /* Subtle marker for user-added */
   .chip.user-added::after {
-    content: '+'; position: absolute; top: 3px; right: 5px;
-    font-size: 12px; font-weight: 900; opacity: 0.5;
+    content: '+'; position: absolute; top: 4px; right: 6px;
+    font-size: 11px; font-weight: 700; color: var(--text-soft);
   }
 
-  /* ---------- CADENCE: single dot per cell, with optional count ---------- */
+  /* CADENCE indicator (single dot per cell, in merch row) */
   .cadence-mark {
     position: absolute; top: 6px; right: 6px;
-    display: flex; align-items: center; gap: 3px;
-    background: var(--chartreuse-soft); border: 1px solid var(--chartreuse-dark);
+    background: var(--chartreuse-soft);
+    border: 1px solid var(--chartreuse-dark);
     padding: 2px 6px; border-radius: 10px;
     font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
-    color: var(--chartreuse-dark); text-transform: uppercase;
-    cursor: help;
+    color: #4A5A1F; text-transform: uppercase;
+    cursor: help; line-height: 1;
+    display: flex; align-items: center; gap: 3px;
+    z-index: 2;
   }
   .cadence-mark .cadence-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--chartreuse-dark); display: inline-block;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--chartreuse-dark);
   }
+  .grid.compact .cadence-mark { font-size: 8px; padding: 1px 4px; top: 3px; right: 3px; }
 
-  /* ---------- ADD ---------- */
+  /* ADD button on hover */
   .cell-add {
-    position: absolute; bottom: 5px; right: 5px;
-    width: 22px; height: 22px;
+    position: absolute; bottom: 6px; right: 6px;
+    width: 24px; height: 24px;
     background: var(--text); color: var(--bg);
     border: none; border-radius: 50%;
     font-size: 14px; font-weight: 700; line-height: 1;
     cursor: pointer; opacity: 0; transition: opacity 0.12s ease;
     display: flex; align-items: center; justify-content: center;
-    font-family: inherit;
+    font-family: inherit; z-index: 3;
   }
   .cell:hover .cell-add { opacity: 0.85; }
   .cell-add:hover { opacity: 1 !important; background: var(--chartreuse); color: var(--text); }
@@ -212,7 +333,7 @@
     line-height: 1.55; font-style: italic;
   }
 
-  /* ---------- MODAL ---------- */
+  /* MODAL — keep current */
   .modal-backdrop {
     position: fixed; inset: 0; background: rgba(15, 14, 14, 0.55);
     display: none; align-items: flex-start; justify-content: center;
@@ -262,7 +383,6 @@
   .modal-actions button.primary:hover { background: var(--chartreuse); color: var(--text); }
   .modal-actions button.danger:hover { border-color: var(--flame); color: var(--flame); }
 
-  /* form */
   .form-row { margin-bottom: 16px; }
   .form-row label {
     display: block; font-size: 10px; font-weight: 700;
@@ -279,41 +399,6 @@
     outline: none; border-color: var(--text);
   }
   .form-row-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  /* ---------- ROW COLORS ---------- */
-  /* Official Music Releases — black */
-  .chip.row-official {
-    background: var(--text); color: var(--bg);
-    border-left-color: #2A2A2A;
-  }
-  .row-label.row-label-official {
-    border-left: 4px solid var(--text);
-  }
-  /* Merch Drops — chartreuse (default keep) */
-  .chip.row-merch {
-    background: var(--chartreuse); color: var(--text);
-    border-left-color: var(--chartreuse-dark);
-  }
-  .row-label.row-label-merch {
-    border-left: 4px solid var(--chartreuse);
-  }
-  /* Music Specials — teal */
-  .chip.row-nonofficial {
-    background: var(--teal-soft); color: #0F4F4D;
-    border-left-color: var(--teal);
-  }
-  .row-label.row-label-nonofficial {
-    border-left: 4px solid var(--teal);
-  }
-  /* Seasonal & Cultural — gold */
-  .chip.row-seasonal {
-    background: #FAF1CC; color: #7A5C00;
-    border-left-color: var(--gold);
-  }
-  .row-label.row-label-seasonal {
-    border-left: 4px solid var(--gold);
-  }
-
 </style>
 </head>
 <body>
@@ -338,14 +423,25 @@
       </div>
       <div class="meta">
         <strong>April 2026 – March 2027</strong><br>
-        Click any chip to view, edit, or delete<br>
-        Hover any cell, click + to add new
+        Click chip to view, edit, or delete · Hover cell, click + to add<br>
+        Click row label to collapse
       </div>
     </header>
 
     <div class="toolbar">
-      <button class="tb-btn" id="tb-export">Download CSV</button>
-      <button class="tb-btn" id="tb-reset">Reset to baseline</button>
+      <div class="toolbar-left">
+        <span class="tb-label">View</span>
+        <div class="tb-group">
+          <button class="tb-btn active" id="zoom-default" data-zoom="default">Default</button>
+          <button class="tb-btn" id="zoom-compact" data-zoom="compact">Compact</button>
+        </div>
+        <button class="tb-btn" id="tb-collapse-all">Collapse all rows</button>
+        <button class="tb-btn" id="tb-expand-all">Expand all rows</button>
+      </div>
+      <div class="toolbar-right">
+        <button class="tb-btn" id="tb-export">Download CSV</button>
+        <button class="tb-btn" id="tb-reset">Reset to baseline</button>
+      </div>
     </div>
 
     <div class="grid-container">
@@ -388,23 +484,27 @@ const ROWS = [
 
 const STORAGE_KEY = 'd2c-grid-activations-v3';
 const SESSION_KEY = 'd2c-grid-unlocked';
+const ROW_STATE_KEY = 'd2c-grid-collapsed-rows-v1';
+const ZOOM_STATE_KEY = 'd2c-grid-zoom-v1';
 
 let activations = [];
+let collapsedRows = new Set();
+let zoom = 'default';
 
+// ---------- AUTH ----------
 async function sha256(text) {
   const buf = new TextEncoder().encode(text);
   const hash = await crypto.subtle.digest('SHA-256', buf);
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
-
 function unlock() {
   sessionStorage.setItem(SESSION_KEY, '1');
   document.getElementById('gate').style.display = 'none';
   document.getElementById('app').classList.add('unlocked');
   loadActivations();
+  loadViewState();
   renderGrid();
 }
-
 document.getElementById('gate-submit').addEventListener('click', async () => {
   const pw = document.getElementById('gate-pw').value;
   const err = document.getElementById('gate-error');
@@ -420,6 +520,7 @@ document.getElementById('gate-pw').addEventListener('keydown', e => {
 });
 if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
 
+// ---------- DATA ----------
 function loadActivations() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -427,14 +528,34 @@ function loadActivations() {
       activations = JSON.parse(stored);
       return;
     }
-  } catch (e) { console.warn('Failed to load:', e); }
+  } catch (e) { console.warn('load fail:', e); }
   activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
 }
-
 function saveActivations() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(activations)); }
+  catch (e) { console.warn('save fail:', e); }
+}
+
+// ---------- VIEW STATE (collapsed rows + zoom) ----------
+function loadViewState() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(activations));
-  } catch (e) { console.warn('Failed to save:', e); }
+    const stored = sessionStorage.getItem(ROW_STATE_KEY);
+    if (stored) collapsedRows = new Set(JSON.parse(stored));
+  } catch (e) {}
+  try {
+    const z = sessionStorage.getItem(ZOOM_STATE_KEY);
+    if (z === 'compact' || z === 'default') zoom = z;
+  } catch (e) {}
+  // Sync zoom buttons
+  document.querySelectorAll('[data-zoom]').forEach(b => {
+    b.classList.toggle('active', b.dataset.zoom === zoom);
+  });
+}
+function saveViewState() {
+  try {
+    sessionStorage.setItem(ROW_STATE_KEY, JSON.stringify([...collapsedRows]));
+    sessionStorage.setItem(ZOOM_STATE_KEY, zoom);
+  } catch (e) {}
 }
 
 function esc(s) {
@@ -445,8 +566,13 @@ function esc(s) {
 function getActivations(rowKey, year, month) {
   return activations.filter(a => a.row === rowKey && a.year === year && a.month === month);
 }
+function getRowTotalCount(rowKey) {
+  return activations.filter(a => a.row === rowKey).length;
+}
+function isCadenceChip(a) {
+  return (a.title || '').startsWith('What do we bundle?');
+}
 
-// One cadence dot per cell, with count if multiple album anchors fall on this month.
 function getCadenceMarkers() {
   const markers = {};
   const albums = activations.filter(a => a.row === 'official');
@@ -466,21 +592,50 @@ function getCadenceMarkers() {
   return markers;
 }
 
+// ---------- RENDER ----------
 function renderGrid() {
   const grid = document.getElementById('grid');
+  grid.className = 'grid' + (zoom === 'compact' ? ' compact' : '');
   let html = '';
+
+  // Header row
   html += '<div class="grid-header label-cell"></div>';
   for (const w of WINDOW) {
-    html += '<div class="grid-header"><span class="month-name">' + MONTHS_SHORT[w.month-1] + '</span><span class="month-yr">' + w.year + '</span></div>';
+    html += '<div class="grid-header"><span class="month-name">' + MONTHS_SHORT[w.month-1] +
+            '</span><span class="month-yr">' + w.year + '</span></div>';
   }
+
   const cadenceMarkers = getCadenceMarkers();
 
   for (const row of ROWS) {
-    html += '<div class="row-label row-label-' + row.key + '">' + esc(row.label) + '<span class="row-label-sub">' + esc(row.sub) + '</span></div>';
+    const isCollapsed = collapsedRows.has(row.key);
+    const totalCount = getRowTotalCount(row.key);
+
+    if (isCollapsed) {
+      // Single collapsed bar spanning all columns
+      html += '<div class="row-collapsed-bar shown" data-row-key="' + esc(row.key) + '">' +
+              '<span class="row-collapsed-chevron">▾</span>' +
+              esc(row.label) +
+              '<span class="row-collapsed-count">' + totalCount + ' item' + (totalCount === 1 ? '' : 's') + ' • click to expand</span>' +
+              '</div>';
+      continue;
+    }
+
+    // Row label
+    html += '<div class="row-label" data-row-key="' + esc(row.key) + '">' +
+            '<div class="row-label-top">' +
+              '<span class="row-label-chevron">▾</span>' +
+              '<span class="row-label-name">' + esc(row.label) + '</span>' +
+              '<span class="row-label-count">' + totalCount + '</span>' +
+            '</div>' +
+            '<span class="row-label-sub">' + esc(row.sub) + '</span>' +
+            '</div>';
+
+    // Cells
     for (const w of WINDOW) {
       const acts = getActivations(row.key, w.year, w.month);
       const inActive = (w.year === 2026 && w.month >= 9) || w.year === 2027;
-      const cellCls = 'cell ' + (acts.length === 0 ? 'empty' : '') + ' ' + (inActive ? 'in-window' : 'pre-window');
+      const cellCls = 'cell ' + (inActive ? 'in-window' : 'pre-window');
       html += '<div class="' + cellCls + '" data-row="' + esc(row.key) + '" data-year="' + w.year + '" data-month="' + w.month + '">';
 
       // Cadence marker (merch row only)
@@ -495,16 +650,27 @@ function renderGrid() {
       }
 
       // Add button
-      html += '<button class="cell-add" data-action="add" data-row="' + esc(row.key) + '" data-year="' + w.year + '" data-month="' + w.month + '" title="Add activation">+</button>';
+      html += '<button class="cell-add" data-row="' + esc(row.key) + '" data-year="' + w.year + '" data-month="' + w.month + '" title="Add activation">+</button>';
 
-      // Chips
+      // Chips (Runway-card style)
       for (const a of acts) {
         const idx = activations.indexOf(a);
+        const cadenceCls = isCadenceChip(a) ? ' is-cadence' : '';
         const userCls = a.userAdded ? ' user-added' : '';
         const artistDisplay = a.artist || '—';
-        html += '<div class="chip row-' + row.key + userCls + '" data-idx="' + idx + '">' +
-                '<span class="chip-artist">' + esc(artistDisplay) + '</span>' +
-                '<span class="chip-detail">' + esc(a.title) + '</span>' +
+
+        // Build chip content — Runway pattern: artist (line 1), content + date (line 2)
+        let chipDate = '';
+        if (a.date) chipDate = ' <span class="chip-date">(' + esc(a.date) + ')</span>';
+
+        // Icon: ~ for cadence, otherwise nothing inline
+        const iconHtml = isCadenceChip(a)
+          ? '<span class="chip-icon" title="Cadence opportunity">∼</span>'
+          : '';
+
+        html += '<div class="chip' + cadenceCls + userCls + '" data-idx="' + idx + '">' +
+                '<div class="chip-row">' + iconHtml + '<span class="chip-artist">' + esc(artistDisplay) + '</span></div>' +
+                '<div class="chip-content">' + esc(a.title) + chipDate + '</div>' +
                 '</div>';
       }
       html += '</div>';
@@ -512,6 +678,7 @@ function renderGrid() {
   }
   grid.innerHTML = html;
 
+  // Wire chip clicks
   grid.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', e => {
       e.stopPropagation();
@@ -519,6 +686,7 @@ function renderGrid() {
       showActivationModal(idx);
     });
   });
+  // Wire add buttons
   grid.querySelectorAll('.cell-add').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -529,8 +697,25 @@ function renderGrid() {
       });
     });
   });
+  // Wire row-label collapse toggles
+  grid.querySelectorAll('.row-label').forEach(rl => {
+    rl.addEventListener('click', () => {
+      collapsedRows.add(rl.dataset.rowKey);
+      saveViewState();
+      renderGrid();
+    });
+  });
+  // Wire collapsed-bar expand
+  grid.querySelectorAll('.row-collapsed-bar').forEach(bar => {
+    bar.addEventListener('click', () => {
+      collapsedRows.delete(bar.dataset.rowKey);
+      saveViewState();
+      renderGrid();
+    });
+  });
 }
 
+// ---------- MODALS ----------
 function showActivationModal(idx) {
   const a = activations[idx];
   if (!a) return;
@@ -613,7 +798,7 @@ function showFormModal(a, idx) {
       title: document.getElementById('f-title').value.trim(),
       artist: document.getElementById('f-artist').value.trim() || null,
       row: document.getElementById('f-row').value,
-      opp: a.opp || 'internal',  // preserved internally for legacy data, not surfaced visually
+      opp: a.opp || 'internal',
       year: parseInt(monthVal[0]),
       month: parseInt(monthVal[1]),
       date: document.getElementById('f-date').value.trim() || null,
@@ -645,6 +830,30 @@ document.getElementById('modal-backdrop').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
+});
+
+// ---------- TOOLBAR ----------
+document.querySelectorAll('[data-zoom]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    zoom = btn.dataset.zoom;
+    document.querySelectorAll('[data-zoom]').forEach(b => {
+      b.classList.toggle('active', b.dataset.zoom === zoom);
+    });
+    saveViewState();
+    renderGrid();
+  });
+});
+
+document.getElementById('tb-collapse-all').addEventListener('click', () => {
+  for (const r of ROWS) collapsedRows.add(r.key);
+  saveViewState();
+  renderGrid();
+});
+
+document.getElementById('tb-expand-all').addEventListener('click', () => {
+  collapsedRows.clear();
+  saveViewState();
+  renderGrid();
 });
 
 document.getElementById('tb-export').addEventListener('click', () => {
