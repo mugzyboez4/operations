@@ -36,6 +36,23 @@ p{margin-bottom:10px;color:var(--fog);font-size:13px}
 </style>
 </head>
 <body>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
+  <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+</div>
+<script>
+function checkPw(){if(document.getElementById("pw").value==="campaignops26"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("camops_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
+</script>
+
+<div id="app" style="display:none">
+
 <nav style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
   <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
   <a href="/" style="font-family:Inter,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
@@ -142,6 +159,9 @@ p{margin-bottom:10px;color:var(--fog);font-size:13px}
     <span>Campaign Operations · DELIVER Wrap · [DATE]</span>
     <span class="tag">Building together. Every phase. Every gate. Together.</span>
   </div>
+</div>
+
+<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
 </div>
 </body>
 </html>
