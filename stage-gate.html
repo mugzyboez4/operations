@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops &mdash; Stage-Gate</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:#CDF851}
+nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent}
+nav a:hover{color:#0F0E0E;border-color:#ECEAE3}
+nav a.active{color:#FF4A23;border-color:#FF4A23}
+.content{max-width:1180px;margin:0 auto;padding:48px 32px 64px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+h1{font-family:'Inter',sans-serif;font-size:48px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:0.95;margin:8px 0 4px}
+.lead{font-size:15px;color:#0F0E0E;line-height:1.5;margin-top:12px;max-width:720px}
+.lead strong{font-weight:700}
+.header-block{border-bottom:2px solid #0F0E0E;padding-bottom:18px;margin-bottom:32px}
+.gates-table{width:100%;background:#FFFFFF;border:1px solid #ECEAE3;border-collapse:collapse}
+.gate-cell{vertical-align:top;padding:24px 20px;background:#FFFFFF;width:25%}
+.gate-cell + .gate-cell{border-left:1px solid #ECEAE3}
+.gate-num{font-family:'Inter',sans-serif;font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.gate-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:900;letter-spacing:-0.5px;color:#0F0E0E;text-transform:uppercase;margin-top:6px;line-height:1.1}
+.gate-trans{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1px;color:#888;text-transform:uppercase;margin-top:8px}
+.gate-divider{border-top:1px solid #ECEAE3;margin:14px 0}
+.gate-q{font-family:'Inter',sans-serif;font-size:13px;font-weight:900;letter-spacing:-0.3px;color:#0F0E0E;text-transform:uppercase;line-height:1.2}
+.gate-sub{font-size:11px;color:#888;font-style:italic;margin-top:4px;line-height:1.4}
+.gate-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;font-weight:700;margin-top:14px}
+.gate-text{font-size:11px;color:#0F0E0E;line-height:1.5;margin-top:4px}
+.pilot-block{background:#0F0E0E;color:#FCFDF8;padding:20px 24px;margin-top:32px}
+.pilot-block .eyebrow{color:#888;margin-bottom:8px}
+.pilot-block .body{font-size:14px;line-height:1.5}
+.pilot-block .body strong{color:#CDF851}
+.depth-block{border-top:1px solid #ECEAE3;padding-top:18px;margin-top:32px;font-size:11px;color:#888;line-height:1.6}
+.depth-block strong{color:#0F0E0E}
+.depth-block a{color:#0F0E0E;text-decoration:underline}
+.depth-block .row{margin-top:6px}
+.footer{padding:24px 32px;border-top:1px solid #ECEAE3;text-align:center;font-size:9px;color:#CCC;max-width:1180px;margin:0 auto}
+@media (max-width: 900px) {
+  .gates-table, .gates-table tbody, .gates-table tr, .gate-cell { display: block; width: 100%; }
+  .gate-cell + .gate-cell { border-left: none; border-top: 1px solid #ECEAE3; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/stage-gate.html" class="active">Stage-Gate</a>
+  <a href="/todo.html">To Do</a>
+  <a href="/tracker.html">Tracker</a>
+  <a href="/resources.html">Resources</a>
+</nav>
+
+<div class="content">
+
+<div class="header-block">
+  <div class="eyebrow">Campaign Operations &middot; Framework</div>
+  <h1>Stage-Gate</h1>
+  <div class="lead">
+    Every campaign moves through four phases. Between each phase is a gate &mdash; a checkpoint, asked as a question. <strong>You don't move until the answer is yes.</strong> The system says no, not us.
+  </div>
+</div>
+
+<table class="gates-table"><tr>
+
+<td class="gate-cell" style="border-top:6px solid #5BC0BE;">
+  <div class="gate-num" style="color:#5BC0BE;">01</div>
+  <div class="gate-name">PLAN</div>
+  <div class="gate-trans">&rarr; PLAN</div>
+  <div class="gate-divider"></div>
+  <div class="gate-q">CAN WE PLAN?</div>
+  <div class="gate-sub">Do we know enough to start?</div>
+  <div class="gate-label">Closes when</div>
+  <div class="gate-text">Deal signed, artist brief exists, pod assigned.</div>
+</td>
+
+<td class="gate-cell" style="border-top:6px solid #E8C547;">
+  <div class="gate-num" style="color:#E8C547;">02</div>
+  <div class="gate-name">EXECUTE</div>
+  <div class="gate-trans">PLAN &rarr; EXECUTE</div>
+  <div class="gate-divider"></div>
+  <div class="gate-q">CAN WE EXECUTE?</div>
+  <div class="gate-sub">Are we ready to build the campaign?</div>
+  <div class="gate-label">Closes when</div>
+  <div class="gate-text">Release date locked, marketing plan approved, timeline built, budget approved.</div>
+</td>
+
+<td class="gate-cell" style="border-top:6px solid #CDF851;">
+  <div class="gate-num" style="color:#CDF851;">03</div>
+  <div class="gate-name">ANNOUNCE</div>
+  <div class="gate-trans">EXECUTE &rarr; ANNOUNCE</div>
+  <div class="gate-divider"></div>
+  <div class="gate-q">CAN WE ANNOUNCE?</div>
+  <div class="gate-sub">Are we ready to go public?</div>
+  <div class="gate-label">Closes when</div>
+  <div class="gate-text">Workability &gt;70%, assets live, pre-save active, press plan confirmed, lead single ready.</div>
+</td>
+
+<td class="gate-cell" style="border-top:6px solid #FF4A23;">
+  <div class="gate-num" style="color:#FF4A23;">04</div>
+  <div class="gate-name">DELIVER</div>
+  <div class="gate-trans">ANNOUNCE &rarr; DELIVER</div>
+  <div class="gate-divider"></div>
+  <div class="gate-q">CAN WE DELIVER?</div>
+  <div class="gate-sub">Did we hit the targets?</div>
+  <div class="gate-label">Closes when</div>
+  <div class="gate-text">Release week complete, focus track performing, all marketing beats hit.</div>
+</td>
+
+</tr></table>
+
+<div class="pilot-block">
+  <div class="eyebrow">Q3 Pilot</div>
+  <div class="body"><strong>Lizzy McAlpine &mdash; Angel</strong> (RCA / alt, street date 9/18/26). Currently at Gate 1, 2 of 6 prereqs cleared. First full pass through the framework end-to-end.</div>
+</div>
+
+<div class="depth-block">
+  <div><strong>Depth:</strong> Full language framework, weekly cadence, worked examples &rarr; <a href="/docs/language-framework.html">operations.mugzyboez.co/docs/language-framework.html</a></div>
+  <div class="row"><strong>Tracker:</strong> Live tool, any artist, any gate &rarr; <a href="/tracker.html">operations.mugzyboez.co/tracker.html</a></div>
+</div>
+
+</div>
+
+<div class="footer">
+  Campaign Operations &middot; RCA Records &middot; Internal use only
+</div>
+
+</body>
+</html>
