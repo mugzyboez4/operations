@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D2C Annual Activation Grid · April 2026 – March 2027</title>
+<style>
+  :root {
+    --bg: #FCFDF8; --bg-card: #FFFFFF; --bg-sunken: #F4F3EE;
+    --text: #0F0E0E; --text-dim: #6B6B68; --text-soft: #9A9A95;
+    --border: #D4D4D0; --border-faint: #E8E7E2;
+    --chartreuse: #CDF851; --chartreuse-dark: #8FBF20; --chartreuse-soft: #F0FAD0;
+    --flame: #FF4A23; --flame-soft: #FFE4DD;
+    --teal: #5BC0BE; --teal-soft: #DDF0F0;
+    --gold: #E8C547; --gold-soft: #FAF1CC;
+    --fog: #B0A9BE; --fog-soft: #ECE9F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+
+  /* PASSWORD GATE */
+  .gate {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px; background: var(--bg);
+  }
+  .gate-card {
+    background: var(--text); color: var(--bg);
+    padding: 40px 36px; max-width: 380px; width: 100%;
+    border: 2px solid var(--text);
+  }
+  .gate-eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    color: var(--chartreuse); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .gate-title {
+    font-size: 22px; font-weight: 900; letter-spacing: -0.02em;
+    text-transform: uppercase; line-height: 1; margin-bottom: 14px;
+  }
+  .gate-sub {
+    font-size: 13px; color: #B0B0AA; margin-bottom: 22px; line-height: 1.5;
+  }
+  .gate-input {
+    width: 100%; background: transparent; border: 1px solid #3A3A3A;
+    padding: 12px 14px; color: var(--bg); font-family: inherit; font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .gate-input:focus { outline: none; border-color: var(--chartreuse); }
+  .gate-btn {
+    width: 100%; background: var(--chartreuse); color: var(--text);
+    border: none; padding: 12px; font-family: inherit; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .gate-btn:hover { background: #B8E83D; }
+  .gate-error { color: var(--flame); font-size: 12px; margin-top: 10px; min-height: 16px; }
+
+  /* MAIN APP */
+  .app { display: none; }
+  .app.unlocked { display: block; }
+  .wrap { max-width: 1500px; margin: 0 auto; padding: 28px 22px 60px; }
+
+  .header {
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 16px; margin-bottom: 18px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .header .title-block { flex: 1; min-width: 0; }
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  h1 {
+    font-size: 36px; font-weight: 900; letter-spacing: -0.03em;
+    text-transform: uppercase; line-height: 0.95; margin-top: 6px;
+  }
+  .header .meta {
+    font-size: 12px; color: var(--text-dim); text-align: right;
+  }
+  .header .meta strong { color: var(--text); }
+
+  .toolbar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
+    justify-content: flex-end;
+  }
+  .tb-btn {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 7px 12px; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-dim); cursor: pointer; font-family: inherit;
+  }
+  .tb-btn:hover { border-color: var(--text); color: var(--text); }
+  .tb-btn.primary {
+    background: var(--text); color: var(--chartreuse); border-color: var(--text);
+  }
+  .tb-btn.primary:hover { background: var(--chartreuse); color: var(--text); }
+
+  .legend {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center;
+    font-size: 11px; color: var(--text-dim);
+  }
+  .legend .legend-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--text); text-transform: uppercase; margin-right: 4px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-sw {
+    display: inline-block; width: 12px; height: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .sw-internal { background: var(--chartreuse); }
+  .sw-external-none { background: var(--fog-soft); }
+  .sw-external-partner { background: var(--flame-soft); border-color: var(--flame); }
+  .sw-cadence {
+    background: var(--chartreuse); border-radius: 50%;
+    width: 8px; height: 8px;
+  }
+
+  .grid-container {
+    background: var(--bg-card); border: 1px solid var(--border);
+    overflow-x: auto; margin-bottom: 16px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 130px repeat(12, minmax(110px, 1fr));
+    min-width: 1450px;
+  }
+  .grid-header {
+    background: var(--text); color: var(--bg);
+    padding: 10px 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-right: 1px solid #2E2E35;
+    text-align: center;
+  }
+  .grid-header.label-cell {
+    text-align: left; padding-left: 12px; background: #0F0E0E;
+  }
+  .grid-header .month-name {
+    display: block; font-size: 12px; line-height: 1.1;
+  }
+  .grid-header .month-yr {
+    display: block; font-size: 9px; color: var(--chartreuse);
+    font-weight: 600; letter-spacing: 0.1em; margin-top: 2px;
+  }
+  .row-label {
+    background: var(--bg-sunken); padding: 12px 12px;
+    border-right: 2px solid var(--text);
+    border-bottom: 1px solid var(--border-faint);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text);
+    display: flex; flex-direction: column; justify-content: center;
+    min-height: 110px;
+  }
+  .row-label .row-label-sub {
+    font-size: 9px; font-weight: 500; color: var(--text-dim);
+    letter-spacing: 0.04em; text-transform: none; margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  .cell {
+    border-right: 1px solid var(--border-faint);
+    border-bottom: 1px solid var(--border-faint);
+    padding: 6px 6px 24px 6px;
+    min-height: 110px;
+    display: flex; flex-direction: column; gap: 4px;
+    position: relative;
+  }
+  .cell.empty {
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 8px,
+      rgba(176, 169, 190, 0.08) 8px, rgba(176, 169, 190, 0.08) 16px
+    );
+  }
+  .cell.pre-window { background: rgba(0, 0, 0, 0.02); }
+
+  /* CADENCE MARKERS */
+  .cadence-strip {
+    position: absolute; bottom: 4px; left: 6px; right: 6px;
+    display: flex; gap: 4px; flex-wrap: wrap;
+    align-items: center; min-height: 14px;
+  }
+  .cadence-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--chartreuse); border: 1px solid var(--chartreuse-dark);
+    cursor: help;
+    flex-shrink: 0;
+  }
+  .cadence-dot[data-offset="2"] { background: var(--chartreuse); }
+  .cadence-dot[data-offset="4"] { background: rgba(205, 248, 81, 0.5); }
+  .cadence-dot[data-offset="6"] { background: rgba(205, 248, 81, 0.25); }
+  .cadence-dot:hover { transform: scale(1.4); }
+  .cadence-label {
+    font-size: 8px; color: var(--chartreuse-dark);
+    font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-left: 2px;
+  }
+
+  /* CHIPS */
+  .chip {
+    background: var(--chartreuse); color: var(--text);
+    padding: 4px 6px; font-size: 10px; line-height: 1.3;
+    cursor: pointer; font-weight: 600;
+    border-left: 3px solid var(--chartreuse-dark);
+    transition: transform 0.08s ease;
+    position: relative;
+  }
+  .chip:hover {
+    transform: translateX(2px);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+  }
+  .chip.opp-internal {
+    background: var(--chartreuse); border-left-color: var(--chartreuse-dark);
+    color: var(--text);
+  }
+  .chip.opp-external-none {
+    background: var(--fog-soft); border-left-color: var(--fog);
+    color: var(--text-dim);
+  }
+  .chip.opp-external-partner {
+    background: var(--flame-soft); border-left-color: var(--flame);
+    color: #8C2310;
+  }
+  .chip.user-added::after {
+    content: '+'; position: absolute; top: 2px; right: 4px;
+    font-size: 11px; font-weight: 900; opacity: 0.5;
+  }
+  .chip .chip-artist {
+    display: block; font-weight: 700; font-size: 10px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .chip .chip-detail {
+    display: block; font-size: 9px; font-weight: 500; opacity: 0.85;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin-top: 1px;
+  }
+
+  /* ADD AFFORDANCE */
+  .cell-add {
+    position: absolute; top: 4px; right: 4px;
+    width: 18px; height: 18px;
+    background: var(--text); color: var(--bg);
+    border: none; border-radius: 50%;
+    font-size: 14px; font-weight: 700; line-height: 1;
+    cursor: pointer; opacity: 0; transition: opacity 0.12s ease;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit;
+  }
+  .cell:hover .cell-add { opacity: 0.85; }
+  .cell-add:hover { opacity: 1 !important; background: var(--chartreuse); color: var(--text); }
+
+  .window-indicator {
+    margin-bottom: 14px; padding: 10px 14px;
+    background: var(--chartreuse-soft); border-left: 3px solid var(--chartreuse);
+    font-size: 12px; line-height: 1.5; color: var(--text);
+  }
+  .window-indicator strong { color: var(--text); font-weight: 700; }
+
+  .footer {
+    margin-top: 18px; font-size: 11px; color: var(--text-soft);
+    line-height: 1.5; font-style: italic;
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(15, 14, 14, 0.55);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 60px 20px 20px; z-index: 100; overflow-y: auto;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--bg-card); max-width: 600px; width: 100%;
+    border: 1px solid var(--border); position: relative;
+  }
+  .modal-head {
+    padding: 18px 22px; background: var(--bg-sunken);
+    border-bottom: 1px solid var(--border-faint);
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
+  }
+  .modal-eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .modal-title {
+    font-size: 19px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .modal-subtitle { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .modal-close {
+    background: transparent; border: 1px solid var(--border);
+    width: 30px; height: 30px; cursor: pointer; font-size: 16px;
+    color: var(--text-dim); flex-shrink: 0; font-family: inherit;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-body { padding: 18px 22px; font-size: 13px; line-height: 1.6; color: var(--text); }
+  .modal-detail { margin-bottom: 14px; }
+  .modal-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px;
+    padding-top: 12px; border-top: 1px solid var(--border-faint);
+  }
+  .modal-meta-item { font-size: 11px; }
+  .modal-meta-item .mm-label {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 2px;
+  }
+  .modal-meta-item .mm-value { font-weight: 600; color: var(--text); }
+  .modal-actions {
+    margin-top: 18px; padding-top: 14px;
+    border-top: 1px solid var(--border-faint);
+    display: flex; gap: 8px; justify-content: flex-end;
+  }
+  .modal-actions button {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 8px 14px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim); cursor: pointer; font-family: inherit;
+  }
+  .modal-actions button:hover { border-color: var(--text); color: var(--text); }
+  .modal-actions button.primary {
+    background: var(--text); color: var(--chartreuse); border-color: var(--text);
+  }
+  .modal-actions button.primary:hover { background: var(--chartreuse); color: var(--text); }
+  .modal-actions button.danger:hover { border-color: var(--flame); color: var(--flame); }
+
+  /* FORM */
+  .form-row { margin-bottom: 14px; }
+  .form-row label {
+    display: block; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--text-dim);
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .form-row input, .form-row select, .form-row textarea {
+    width: 100%; padding: 8px 10px; font-family: inherit;
+    font-size: 13px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text);
+  }
+  .form-row textarea { min-height: 70px; resize: vertical; }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+    outline: none; border-color: var(--text);
+  }
+  .form-row-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-eyebrow">Commercial Partnerships</div>
+    <div class="gate-title">D2C Activation Grid</div>
+    <div class="gate-sub">Internal planning surface for RCA Records D2C activation strategy. Enter team password to continue.</div>
+    <input type="password" class="gate-input" id="gate-pw" placeholder="Password" autofocus>
+    <button class="gate-btn" id="gate-submit">Unlock</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+  <div class="wrap">
+    <header class="header">
+      <div class="title-block">
+        <div class="eyebrow">Commercial Partnerships · D2C</div>
+        <h1>D2C Annual<br>Activation Grid</h1>
+      </div>
+      <div class="meta">
+        <strong>April 2026 – March 2027</strong><br>
+        Click any chip to view, edit, or delete. Click + to add new.<br>
+        Local edits saved on this device.
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="tb-btn" id="tb-export">Download CSV</button>
+      <button class="tb-btn" id="tb-reset">Reset to baseline</button>
+    </div>
+
+    <div class="window-indicator">
+      <strong>Active opportunity window: September 2026 onward.</strong> April–August 2026 holds aspirational planning and groundwork — current label release pipeline does not produce actionable D2C product until September. Use the gap visibility below to identify where merch, non-official music, or seasonal moments can fill the early months.
+    </div>
+
+    <div class="legend">
+      <span class="legend-title">Opportunity:</span>
+      <span class="legend-item"><span class="legend-sw sw-internal"></span> Internal (RCA controls)</span>
+      <span class="legend-item"><span class="legend-sw sw-external-partner"></span> External — partnership opportunity</span>
+      <span class="legend-item"><span class="legend-sw sw-external-none"></span> External — no acquisition target</span>
+      <span class="legend-title" style="margin-left: 16px;">Cadence:</span>
+      <span class="legend-item"><span class="legend-sw sw-cadence"></span> +2 mo from album</span>
+      <span class="legend-item"><span class="legend-sw sw-cadence" style="opacity: 0.5;"></span> +4 mo</span>
+      <span class="legend-item"><span class="legend-sw sw-cadence" style="opacity: 0.25;"></span> +6 mo</span>
+    </div>
+
+    <div class="grid-container">
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="footer">
+      Compiled by Campaign Operations from Katrin Weber's monthly D2C breakout (with Andjelina Belcastro's additions), the Greenhouse D2C Overview (April 2026), the Product Launches master sheet, and Jordan Blaugrund's restructure direction. Cadence dots mark months that are +2/+4/+6 from each album release per Jordan's productize-every-2-months rule. Local edits persist in browser; export to CSV for sharing.
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+
+const PW_HASH = "5c98bab8a64c7de86432bde2872fd6fd035b1230733908f07f743a0156eed125";
+const BASELINE_ACTIVATIONS = [{"row":"official","year":2026,"month":4,"opp":"internal","artist":"A$AP Rocky","title":"Don't Be Dumb wide release","date":"April 3","detail":"Wide release follows specialty drop. Multiple SKUs in market — see Long-Lead Planning tool for full variant list."},{"row":"official","year":2026,"month":4,"opp":"internal","artist":"Foo Fighters","title":"Your Favorite Toy","date":"April 24","detail":"New album. 7 variants in master sheet. Greenhouse rights gap: D2C secured but online store and merch ecom not yet locked."},{"row":"official","year":2026,"month":4,"opp":"internal","artist":"Lizzy McAlpine","title":"Older (And Wiser)","date":"April 17","detail":"Album release. CoR has merch ecom rights."},{"row":"official","year":2026,"month":4,"opp":"internal","artist":"Audrey Hobert","title":"Who's The Clown?","date":"April 3","detail":"Greenhouse rights gap: bundles-only merch ecom, no online store."},{"row":"official","year":2026,"month":4,"opp":"internal","artist":"Sleepy Hallow","title":"AIN'T NO DAMN WAY!","date":"April 18"},{"row":"official","year":2026,"month":5,"opp":"internal","artist":"Sleep Token","title":"Even In Arcadia","date":"May 9"},{"row":"official","year":2026,"month":6,"opp":"internal","artist":"Red Clay Strays","title":"Grateful · RCA Exclusive LP","date":"June 5","detail":"15 variants in master. RCA Exclusive — D2C-anchored."},{"row":"official","year":2026,"month":6,"opp":"internal","artist":"Myles Smith","title":"My Mess, My Heart, My Life.","date":"June","detail":"7 variants in master sheet."},{"row":"official","year":2026,"month":7,"opp":"internal","artist":"Snipe Hunter","title":"Snipe Hunter","date":"July 25"},{"row":"official","year":2026,"month":8,"opp":"internal","artist":"Joey Valence & Brae","title":"HYPERYOUTH","date":"August"},{"row":"official","year":2026,"month":9,"opp":"internal","artist":"Lizzy McAlpine","title":"Angel · RCA Exclusive LP","date":"September 18","detail":"D2C-anchored. CoR merch rights secured."},{"row":"merch","year":2026,"month":4,"opp":"internal","artist":"Lizzy McAlpine","title":"Album-cycle capsule","date":"April","detail":"Tied to Older (And Wiser) album release. Capsule via CoR. Aspirational scope: 3 tees, 2 hoodies, accessories."},{"row":"merch","year":2026,"month":4,"opp":"external-partner","artist":"Foo Fighters","title":"[Partnership target]","date":"April","detail":"Album cycle moment but D2C merch rights not yet secured. Partnership opportunity: pursue Greenhouse-led acquisition before Q3."},{"row":"merch","year":2026,"month":5,"opp":"internal","artist":"Sleep Token","title":"Even In Arcadia capsule","date":"May","detail":"Album-cycle merch. Sleep Token operates anti-industry posture — \"merch\" framing gets pushback. Position as creative project."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"SZA · LISA · Rex Orange County","title":"Pride collection drop","date":"June","detail":"CoR-rights artists with Pride relevance. Per Katrin: store merch drop for gay icons. Confirm with Andjelina."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"Red Clay Strays","title":"Grateful capsule","date":"June","detail":"Pairs with album release."},{"row":"merch","year":2026,"month":7,"opp":"external-none","artist":"[Quarterly quiet]","title":"No internal merch programmed","date":"July","detail":"Gap. Per Andjelina: ideal is no more than 2-3 months between drops on rights-secured artists. Plug a P!nk or Nardo Wick collection here."},{"row":"merch","year":2026,"month":8,"opp":"external-partner","artist":"Tate McRae","title":"[Acquisition target]","date":"August","detail":"Greenhouse rights gap — D2C secured but online store and merch ecom not. Largest projected ODA in window (165M, Feb 2027). Highest-priority acquisition."},{"row":"merch","year":2026,"month":9,"opp":"internal","artist":"Audrey Hobert","title":"1YA capsule","date":"September 16","detail":"Bundles-only merch ecom rights — full standalone capsule blocked. Position as bundle with vinyl re-issue."},{"row":"merch","year":2026,"month":9,"opp":"internal","artist":"Lizzy McAlpine","title":"Angel capsule","date":"September 18","detail":"Pairs with RCA Exclusive LP. CoR merch rights secured."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"P!nk · Nardo Wick","title":"Q4 catalog drop","date":"October","detail":"CoR-rights catalog play. Aspirational concept — confirm with Andjelina + CoR."},{"row":"merch","year":2026,"month":11,"opp":"internal","artist":"BFCM cross-store","title":"All artist stores + RCA Shop","date":"November","detail":"Per Andjelina: every store runs BFCM, not just RCA Shop. Biggest sales window of the year."},{"row":"merch","year":2026,"month":12,"opp":"internal","artist":"Elle King · Rex Orange County","title":"Holiday catalog repress","date":"December","detail":"CoR-rights legacy titles. Pair with Christmas Red Disc concept."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"A$AP Rocky","title":"Follow-on collection (+2mo from Don't Be Dumb)","date":"June 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Don't Be Dumb (released Apr 2026). Confirm collection scope with Andjelina + CoR."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"A$AP Rocky","title":"Follow-on collection (+4mo from Don't Be Dumb)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Don't Be Dumb (released Apr 2026). Confirm collection scope with Andjelina + CoR."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"A$AP Rocky","title":"Follow-on collection (+6mo from Don't Be Dumb)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Don't Be Dumb (released Apr 2026). Confirm collection scope with Andjelina + CoR."},{"row":"merch","year":2026,"month":6,"opp":"external-partner","artist":"Foo Fighters","title":"Follow-on collection (+2mo from Your Favorite Toy)","date":"June 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Your Favorite Toy (released Apr 2026). Greenhouse rights gap — merch ecom not secured. Partnership pursuit target."},{"row":"merch","year":2026,"month":8,"opp":"external-partner","artist":"Foo Fighters","title":"Follow-on collection (+4mo from Your Favorite Toy)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Your Favorite Toy (released Apr 2026). Greenhouse rights gap — merch ecom not secured. Partnership pursuit target."},{"row":"merch","year":2026,"month":10,"opp":"external-partner","artist":"Foo Fighters","title":"Follow-on collection (+6mo from Your Favorite Toy)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Your Favorite Toy (released Apr 2026). Greenhouse rights gap — merch ecom not secured. Partnership pursuit target."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+2mo from Older (And Wiser))","date":"June 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Older (And Wiser) (released Apr 2026). CoR merch rights. Capsule via CoR."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+4mo from Older (And Wiser))","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Older (And Wiser) (released Apr 2026). CoR merch rights. Capsule via CoR."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+6mo from Older (And Wiser))","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Older (And Wiser) (released Apr 2026). CoR merch rights. Capsule via CoR."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"Audrey Hobert","title":"Follow-on collection (+2mo from Who's The Clown?)","date":"June 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Who's The Clown? (released Apr 2026). Bundles-only merch ecom — standalone capsule blocked. Position as bundle."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"Audrey Hobert","title":"Follow-on collection (+4mo from Who's The Clown?)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Who's The Clown? (released Apr 2026). Bundles-only merch ecom — standalone capsule blocked. Position as bundle."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Audrey Hobert","title":"Follow-on collection (+6mo from Who's The Clown?)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Who's The Clown? (released Apr 2026). Bundles-only merch ecom — standalone capsule blocked. Position as bundle."},{"row":"merch","year":2026,"month":6,"opp":"internal","artist":"Sleepy Hallow","title":"Follow-on collection (+2mo from AIN'T NO DAMN WAY!)","date":"June 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: AIN'T NO DAMN WAY! (released Apr 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"Sleepy Hallow","title":"Follow-on collection (+4mo from AIN'T NO DAMN WAY!)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: AIN'T NO DAMN WAY! (released Apr 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Sleepy Hallow","title":"Follow-on collection (+6mo from AIN'T NO DAMN WAY!)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: AIN'T NO DAMN WAY! (released Apr 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":7,"opp":"internal","artist":"Sleep Token","title":"Follow-on collection (+2mo from Even In Arcadia)","date":"July 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Even In Arcadia (released May 2026). Sleep Token anti-merch posture — frame as creative project not capsule."},{"row":"merch","year":2026,"month":9,"opp":"internal","artist":"Sleep Token","title":"Follow-on collection (+4mo from Even In Arcadia)","date":"September 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Even In Arcadia (released May 2026). Sleep Token anti-merch posture — frame as creative project not capsule."},{"row":"merch","year":2026,"month":11,"opp":"internal","artist":"Sleep Token","title":"Follow-on collection (+6mo from Even In Arcadia)","date":"November 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Even In Arcadia (released May 2026). Sleep Token anti-merch posture — frame as creative project not capsule."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"Red Clay Strays","title":"Follow-on collection (+2mo from Grateful)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Grateful (released Jun 2026). Country audience. Tour-leftover overflow could fold in."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Red Clay Strays","title":"Follow-on collection (+4mo from Grateful)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Grateful (released Jun 2026). Country audience. Tour-leftover overflow could fold in."},{"row":"merch","year":2026,"month":12,"opp":"internal","artist":"Red Clay Strays","title":"Follow-on collection (+6mo from Grateful)","date":"December 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Grateful (released Jun 2026). Country audience. Tour-leftover overflow could fold in."},{"row":"merch","year":2026,"month":8,"opp":"internal","artist":"Myles Smith","title":"Follow-on collection (+2mo from My Mess, My Heart, My Life.)","date":"August 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: My Mess, My Heart, My Life. (released Jun 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Myles Smith","title":"Follow-on collection (+4mo from My Mess, My Heart, My Life.)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: My Mess, My Heart, My Life. (released Jun 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":12,"opp":"internal","artist":"Myles Smith","title":"Follow-on collection (+6mo from My Mess, My Heart, My Life.)","date":"December 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: My Mess, My Heart, My Life. (released Jun 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":9,"opp":"internal","artist":"Snipe Hunter","title":"Follow-on collection (+2mo from Snipe Hunter)","date":"September 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Snipe Hunter (released Jul 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":11,"opp":"internal","artist":"Snipe Hunter","title":"Follow-on collection (+4mo from Snipe Hunter)","date":"November 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Snipe Hunter (released Jul 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2027,"month":1,"opp":"internal","artist":"Snipe Hunter","title":"Follow-on collection (+6mo from Snipe Hunter)","date":"January 2027","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Snipe Hunter (released Jul 2026). Confirm rights with BA before scoping."},{"row":"merch","year":2026,"month":10,"opp":"internal","artist":"Joey Valence & Brae","title":"Follow-on collection (+2mo from HYPERYOUTH)","date":"October 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: HYPERYOUTH (released Aug 2026). JVB inventory caveat — may need to time around 1YA bundle drop August 1."},{"row":"merch","year":2026,"month":12,"opp":"internal","artist":"Joey Valence & Brae","title":"Follow-on collection (+4mo from HYPERYOUTH)","date":"December 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: HYPERYOUTH (released Aug 2026). JVB inventory caveat — may need to time around 1YA bundle drop August 1."},{"row":"merch","year":2027,"month":2,"opp":"internal","artist":"Joey Valence & Brae","title":"Follow-on collection (+6mo from HYPERYOUTH)","date":"February 2027","detail":"Per Jordan cadence rule: every 2 months post-release. Album: HYPERYOUTH (released Aug 2026). JVB inventory caveat — may need to time around 1YA bundle drop August 1."},{"row":"merch","year":2026,"month":11,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+2mo from Angel)","date":"November 2026","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Angel (released Sep 2026). CoR merch rights. Pairs with prior Older (And Wiser) capsule cadence."},{"row":"merch","year":2027,"month":1,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+4mo from Angel)","date":"January 2027","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Angel (released Sep 2026). CoR merch rights. Pairs with prior Older (And Wiser) capsule cadence."},{"row":"merch","year":2027,"month":3,"opp":"internal","artist":"Lizzy McAlpine","title":"Follow-on collection (+6mo from Angel)","date":"March 2027","detail":"Per Jordan cadence rule: every 2 months post-release. Album: Angel (released Sep 2026). CoR merch rights. Pairs with prior Older (And Wiser) capsule cadence."},{"row":"nonofficial","year":2026,"month":4,"opp":"internal","artist":"[TBD]","title":"Earth Day Bio-Vinyl release","date":"April 22","detail":"Memphis-pressed recycled vinyl. Color \"blend\" — vendor produces from recycled stock. Title selection TBD."},{"row":"nonofficial","year":2026,"month":5,"opp":"internal","artist":"Sleep Token","title":"Even In Arcadia 1YA · Instrumental","date":"May 9","detail":"D2C-exclusive instrumental version of the 1YA album. Aesthetic fits band brand."},{"row":"nonofficial","year":2026,"month":7,"opp":"external-partner","artist":"Tate · Doja · LISA · SZA","title":"Pop Girls 7\" — A-side / B-side demo","date":"July","detail":"Aspirational. Licensing across four artists not actionable on this cycle. Revisit July 2027."},{"row":"nonofficial","year":2026,"month":8,"opp":"internal","artist":"Joey Valence & Brae","title":"HYPERYOUTH 1YA · discounted bundle","date":"August 1","detail":"Test pressing + wide version sold together. Resolves ~1,000 + ~3,500 unsold inventory. Pre-order opens August 1."},{"row":"nonofficial","year":2026,"month":10,"opp":"external-partner","artist":"Chris Brown · Bryson · H.E.R. · SZA · Miguel","title":"Cuffing Season R&B box sets","date":"October","detail":"Aspirational. Same multi-artist licensing constraint as July Pop Girls concept."},{"row":"nonofficial","year":2026,"month":12,"opp":"internal","artist":"Pentatonix + legacy","title":"Christmas Red Disc repress","date":"December","detail":"Best-selling legacy holiday catalog. Title selection TBD."},{"row":"nonofficial","year":2027,"month":1,"opp":"internal","artist":"A$AP Rocky","title":"Don't Be Dumb 1YA · disc color variant","date":"January 15","detail":"Limited-run colorway pressing, capped quantity, D2C-only allocation."},{"row":"seasonal","year":2026,"month":4,"opp":"external-none","artist":"—","title":"Record Store Day (April 18)","date":"April 18","detail":"RCA participates through standard RSD slate."},{"row":"seasonal","year":2026,"month":4,"opp":"internal","artist":"—","title":"Earth Day (April 22)","date":"April 22","detail":"Anchor for Bio-Vinyl release (see Non-Official Music row)."},{"row":"seasonal","year":2026,"month":5,"opp":"internal","artist":"—","title":"AAPI Heritage Month","date":"May","detail":"Editorial moment for AAPI artists. Format and titles TBD."},{"row":"seasonal","year":2026,"month":5,"opp":"internal","artist":"P!nk · Victoria Monét","title":"Mother's Day title highlight","date":"May 10","detail":"Editorial moment, no product attached."},{"row":"seasonal","year":2026,"month":6,"opp":"internal","artist":"—","title":"Pride Month","date":"June","detail":"Anchor for merch drop (see Merch row)."},{"row":"seasonal","year":2026,"month":6,"opp":"external-none","artist":"—","title":"UO Pride Campaign (12\" + 7\")","date":"June","detail":"Urban Outfitters partner-led; RCA participates."},{"row":"seasonal","year":2026,"month":6,"opp":"internal","artist":"—","title":"Father's Day (June 21)","date":"June 21"},{"row":"seasonal","year":2026,"month":9,"opp":"internal","artist":"—","title":"Back-to-School / End of Summer (Sept 1–15)","date":"September","detail":"Pairs with Audrey Hobert 1YA + Lizzy McAlpine RCA Exclusive cluster."},{"row":"seasonal","year":2026,"month":10,"opp":"internal","artist":"Becky G adjacent","title":"Hispanic Heritage Month (Sept 15 – Oct 15)","date":"October","detail":"Becky G Mala Santa 7YA (Oct 17) provides natural anchor."},{"row":"seasonal","year":2026,"month":11,"opp":"external-none","artist":"—","title":"Record Store Day Black Friday","date":"November 27"},{"row":"seasonal","year":2026,"month":11,"opp":"external-none","artist":"—","title":"Urban Outfitters Singles Day (Nov 11)","date":"November 11"},{"row":"seasonal","year":2026,"month":11,"opp":"internal","artist":"—","title":"Black Friday / Cyber Monday","date":"November 27–30","detail":"Cross-store sale across RCA Shop + artist stores per Andjelina."},{"row":"seasonal","year":2026,"month":12,"opp":"internal","artist":"—","title":"Christmas + Free Shipping (Dec 1–14)","date":"December","detail":"Holiday-gifting window. Anchor for Christmas Red Disc repress."},{"row":"seasonal","year":2027,"month":2,"opp":"external-none","artist":"—","title":"UO Vertigo Vinyl Valentine's Singles Day","date":"February","detail":"Partner-led; RCA participates."},{"row":"seasonal","year":2027,"month":2,"opp":"internal","artist":"—","title":"Black History Month","date":"February","detail":"Editorial; no bespoke product yet defined."},{"row":"seasonal","year":2027,"month":3,"opp":"internal","artist":"—","title":"International Women's Day / Women's History Month","date":"March","detail":"Format TBD."}];
+
+const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const WINDOW = [
+  {year: 2026, month: 4}, {year: 2026, month: 5}, {year: 2026, month: 6},
+  {year: 2026, month: 7}, {year: 2026, month: 8}, {year: 2026, month: 9},
+  {year: 2026, month: 10}, {year: 2026, month: 11}, {year: 2026, month: 12},
+  {year: 2027, month: 1}, {year: 2027, month: 2}, {year: 2027, month: 3},
+];
+
+const ROWS = [
+  {key: 'official', label: 'Official Music Releases', sub: 'Album cycles & EPs from the label release calendar'},
+  {key: 'merch', label: 'Merch Drops', sub: 'Collections, capsules, and apparel — own + aspirational'},
+  {key: 'nonofficial', label: 'Non-Official Music', sub: '1YAs, RCA Exclusives, color variants, special pressings'},
+  {key: 'seasonal', label: 'Seasonal & Cultural', sub: 'Heritage months, holidays, retail moments, RSD'},
+];
+
+const STORAGE_KEY = 'd2c-grid-activations-v1';
+const SESSION_KEY = 'd2c-grid-unlocked';
+
+let activations = []; // working copy
+
+// ---------- AUTH ----------
+async function sha256(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword(pw) {
+  const h = await sha256(pw);
+  return h === PW_HASH;
+}
+
+function unlock() {
+  sessionStorage.setItem(SESSION_KEY, '1');
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').classList.add('unlocked');
+  loadActivations();
+  renderGrid();
+}
+
+document.getElementById('gate-submit').addEventListener('click', async () => {
+  const pw = document.getElementById('gate-pw').value;
+  const err = document.getElementById('gate-error');
+  if (await checkPassword(pw)) {
+    err.textContent = '';
+    unlock();
+  } else {
+    err.textContent = 'Incorrect password';
+  }
+});
+
+document.getElementById('gate-pw').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('gate-submit').click();
+});
+
+if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  unlock();
+}
+
+// ---------- DATA ----------
+function loadActivations() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      activations = JSON.parse(stored);
+      return;
+    }
+  } catch (e) { console.warn('Failed to load:', e); }
+  activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
+}
+
+function saveActivations() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(activations));
+  } catch (e) { console.warn('Failed to save:', e); }
+}
+
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function getActivations(rowKey, year, month) {
+  return activations.filter(a => a.row === rowKey && a.year === year && a.month === month);
+}
+
+// Compute cadence markers: which (year,month) pairs are +2/+4/+6 from any album release
+function getCadenceMarkers() {
+  const markers = {}; // key: "year-month" -> [{album, artist, offset}, ...]
+  const albums = activations.filter(a => a.row === 'official');
+  for (const album of albums) {
+    for (const offset of [2, 4, 6]) {
+      const total = album.year * 12 + (album.month - 1) + offset;
+      const ny = Math.floor(total / 12);
+      const nm = (total % 12) + 1;
+      const key = `${ny}-${nm}`;
+      if (!markers[key]) markers[key] = [];
+      markers[key].push({
+        album: album.title, artist: album.artist,
+        baseYear: album.year, baseMonth: album.month, offset
+      });
+    }
+  }
+  return markers;
+}
+
+// ---------- RENDER ----------
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  let html = '';
+  html += '<div class="grid-header label-cell"></div>';
+  for (const w of WINDOW) {
+    html += `<div class="grid-header">
+      <span class="month-name">${MONTHS_SHORT[w.month-1]}</span>
+      <span class="month-yr">${w.year}</span>
+    </div>`;
+  }
+  const cadenceMarkers = getCadenceMarkers();
+
+  for (const row of ROWS) {
+    html += `<div class="row-label">
+      ${esc(row.label)}
+      <span class="row-label-sub">${esc(row.sub)}</span>
+    </div>`;
+    for (const w of WINDOW) {
+      const acts = getActivations(row.key, w.year, w.month);
+      const inActiveWindow = (w.year === 2026 && w.month >= 9) || w.year === 2027;
+      const cellCls = `cell ${acts.length === 0 ? 'empty' : ''} ${inActiveWindow ? 'in-window' : 'pre-window'}`;
+      html += `<div class="${cellCls}" data-row="${esc(row.key)}" data-year="${w.year}" data-month="${w.month}">`;
+      // Add button (visible on hover)
+      html += `<button class="cell-add" data-action="add" data-row="${esc(row.key)}" data-year="${w.year}" data-month="${w.month}" title="Add activation">+</button>`;
+      // Chips
+      for (const a of acts) {
+        const idx = activations.indexOf(a);
+        const oppCls = `opp-${a.opp}`;
+        const userCls = a.userAdded ? ' user-added' : '';
+        const artistDisplay = a.artist || '—';
+        html += `<div class="chip ${oppCls}${userCls}" data-idx="${idx}">
+          <span class="chip-artist">${esc(artistDisplay)}</span>
+          <span class="chip-detail">${esc(a.title)}</span>
+        </div>`;
+      }
+      // Cadence markers (only on merch row to avoid clutter; this is where Jordan said to productize)
+      if (row.key === 'merch') {
+        const key = `${w.year}-${w.month}`;
+        const ms = cadenceMarkers[key] || [];
+        if (ms.length > 0) {
+          html += `<div class="cadence-strip">`;
+          for (const m of ms) {
+            const tooltip = `+${m.offset}mo from ${m.artist} — ${m.album} (${MONTHS_SHORT[m.baseMonth-1]} ${m.baseYear})`;
+            html += `<span class="cadence-dot" data-offset="${m.offset}" title="${esc(tooltip)}"></span>`;
+          }
+          html += `<span class="cadence-label">cadence</span>`;
+          html += `</div>`;
+        }
+      }
+      html += '</div>';
+    }
+  }
+  grid.innerHTML = html;
+
+  // Wire chip clicks
+  grid.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(chip.dataset.idx);
+      showActivationModal(idx);
+    });
+  });
+  // Wire add buttons
+  grid.querySelectorAll('.cell-add').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      showAddModal({
+        row: btn.dataset.row,
+        year: parseInt(btn.dataset.year),
+        month: parseInt(btn.dataset.month),
+      });
+    });
+  });
+}
+
+// ---------- MODALS ----------
+function showActivationModal(idx, editMode = false) {
+  const a = activations[idx];
+  if (!a) return;
+  if (editMode) {
+    showFormModal(a, idx);
+    return;
+  }
+  const oppLabels = {
+    'internal': 'Internal opportunity (RCA controls)',
+    'external-partner': 'External — partnership opportunity',
+    'external-none': 'External — no acquisition target',
+  };
+  const rowLabels = {
+    'official': 'Official Music Release',
+    'merch': 'Merch Drop',
+    'nonofficial': 'Non-Official Music',
+    'seasonal': 'Seasonal / Cultural Moment',
+  };
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow">${esc(rowLabels[a.row])} · ${esc(MONTHS_FULL[a.month-1])} ${a.year}</div>
+        <div class="modal-title">${esc(a.artist || '—')} · ${esc(a.title)}</div>
+        ${a.date ? `<div class="modal-subtitle">${esc(a.date)}</div>` : ''}
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      ${a.detail ? `<div class="modal-detail">${esc(a.detail)}</div>` : '<div class="modal-detail" style="color:var(--text-soft);font-style:italic;">No additional detail yet.</div>'}
+      <div class="modal-meta">
+        <div class="modal-meta-item">
+          <div class="mm-label">Opportunity Type</div>
+          <div class="mm-value">${esc(oppLabels[a.opp])}</div>
+        </div>
+        <div class="modal-meta-item">
+          <div class="mm-label">Row</div>
+          <div class="mm-value">${esc(rowLabels[a.row])}</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="danger" id="modal-delete">Delete</button>
+        <button class="primary" id="modal-edit">Edit</button>
+      </div>
+    </div>
+  `;
+  openModal();
+  document.getElementById('modal-edit').addEventListener('click', () => showFormModal(a, idx));
+  document.getElementById('modal-delete').addEventListener('click', () => {
+    if (confirm(`Delete "${a.title}"?`)) {
+      activations.splice(idx, 1);
+      saveActivations();
+      renderGrid();
+      closeModal();
+    }
+  });
+}
+
+function showAddModal(prefill) {
+  showFormModal({
+    row: prefill.row,
+    year: prefill.year,
+    month: prefill.month,
+    opp: 'internal',
+    artist: '',
+    title: '',
+    date: '',
+    detail: '',
+    userAdded: true,
+  }, null);
+}
+
+function showFormModal(a, idx) {
+  const isNew = idx === null;
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow">${isNew ? 'Add new activation' : 'Edit activation'}</div>
+        <div class="modal-title">${esc(MONTHS_FULL[a.month-1])} ${a.year}</div>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Title</label>
+        <input type="text" id="f-title" value="${esc(a.title || '')}" placeholder="e.g. Pride collection drop">
+      </div>
+      <div class="form-row">
+        <label>Artist (or — for none)</label>
+        <input type="text" id="f-artist" value="${esc(a.artist || '')}" placeholder="e.g. Lizzy McAlpine">
+      </div>
+      <div class="form-row form-row-group">
+        <div>
+          <label>Row</label>
+          <select id="f-row">
+            <option value="official"${a.row==='official'?' selected':''}>Official Music Release</option>
+            <option value="merch"${a.row==='merch'?' selected':''}>Merch Drop</option>
+            <option value="nonofficial"${a.row==='nonofficial'?' selected':''}>Non-Official Music</option>
+            <option value="seasonal"${a.row==='seasonal'?' selected':''}>Seasonal & Cultural</option>
+          </select>
+        </div>
+        <div>
+          <label>Opportunity Type</label>
+          <select id="f-opp">
+            <option value="internal"${a.opp==='internal'?' selected':''}>Internal — RCA controls</option>
+            <option value="external-partner"${a.opp==='external-partner'?' selected':''}>External — partnership opportunity</option>
+            <option value="external-none"${a.opp==='external-none'?' selected':''}>External — no acquisition target</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row form-row-group">
+        <div>
+          <label>Month</label>
+          <select id="f-month">
+            ${WINDOW.map(w => `<option value="${w.year}-${w.month}"${a.year===w.year && a.month===w.month?' selected':''}>${MONTHS_FULL[w.month-1]} ${w.year}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label>Date (optional)</label>
+          <input type="text" id="f-date" value="${esc(a.date || '')}" placeholder="e.g. June 5">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Detail / Notes</label>
+        <textarea id="f-detail" placeholder="Context, constraints, follow-ups...">${esc(a.detail || '')}</textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="form-cancel">Cancel</button>
+        <button class="primary" id="form-save">${isNew ? 'Add' : 'Save'}</button>
+      </div>
+    </div>
+  `;
+  openModal();
+  document.getElementById('form-cancel').addEventListener('click', closeModal);
+  document.getElementById('form-save').addEventListener('click', () => {
+    const monthVal = document.getElementById('f-month').value.split('-');
+    const newRecord = {
+      title: document.getElementById('f-title').value.trim(),
+      artist: document.getElementById('f-artist').value.trim() || null,
+      row: document.getElementById('f-row').value,
+      opp: document.getElementById('f-opp').value,
+      year: parseInt(monthVal[0]),
+      month: parseInt(monthVal[1]),
+      date: document.getElementById('f-date').value.trim() || null,
+      detail: document.getElementById('f-detail').value.trim() || null,
+      userAdded: isNew ? true : a.userAdded,
+    };
+    if (!newRecord.title) {
+      alert('Title is required.');
+      return;
+    }
+    if (isNew) {
+      activations.push(newRecord);
+    } else {
+      activations[idx] = newRecord;
+    }
+    saveActivations();
+    renderGrid();
+    closeModal();
+  });
+}
+
+function openModal() {
+  document.getElementById('modal-backdrop').classList.add('open');
+  const closeBtn = document.getElementById('modal-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+}
+
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('open');
+}
+
+document.getElementById('modal-backdrop').addEventListener('click', e => {
+  if (e.target.id === 'modal-backdrop') closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ---------- TOOLBAR ----------
+document.getElementById('tb-export').addEventListener('click', () => {
+  const headers = ['Row', 'Year', 'Month', 'Date', 'Artist', 'Title', 'Opportunity Type', 'Detail', 'User Added'];
+  const oppLabels = {
+    'internal': 'Internal — RCA controls',
+    'external-partner': 'External — partnership opportunity',
+    'external-none': 'External — no acquisition target',
+  };
+  const rowLabels = {
+    'official': 'Official Music Release', 'merch': 'Merch Drop',
+    'nonofficial': 'Non-Official Music', 'seasonal': 'Seasonal & Cultural',
+  };
+  const escCsv = v => {
+    if (v === null || v === undefined) return '';
+    const s = String(v);
+    return (s.includes(',') || s.includes('"') || s.includes('\n')) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const rows = activations.map(a => [
+    rowLabels[a.row], a.year, MONTHS_FULL[a.month-1], a.date || '',
+    a.artist || '', a.title, oppLabels[a.opp], a.detail || '',
+    a.userAdded ? 'Yes' : 'No'
+  ].map(escCsv).join(','));
+  const csv = headers.join(',') + '\n' + rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `d2c-activation-grid-${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('tb-reset').addEventListener('click', () => {
+  if (confirm('Reset all activations to baseline? Your local edits will be lost.')) {
+    activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
+    saveActivations();
+    renderGrid();
+  }
+});
+</script>
+</body>
+</html>
