@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sprint / Stage-Gate Update — Template</title>
+<title>Sprint 1 — Stage-Gate Update</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -19,22 +19,21 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
 .sprint-header .focus{font-size:13px;font-weight:600;flex:1;min-width:200px}
 .sprint-header .dates{font-family:'DM Mono',monospace;font-size:10px;color:#888}
 
+/* At a Glance tiles */
+.glance{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+@media(max-width:700px){.glance{grid-template-columns:1fr 1fr}}
+.glance-tile{background:#FFFFFF;border:1px solid #ECEAE3;padding:14px 16px;text-align:center}
+.glance-n{font-size:32px;font-weight:900;letter-spacing:-1px}
+.glance-l{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-top:2px}
+
 .section{margin-bottom:24px}
 .sbar{display:flex;align-items:center;gap:10px;padding-bottom:6px;border-bottom:2px solid #ECEAE3;margin-bottom:10px}
 .sname{font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:-.3px}
 .sdot{width:10px;height:10px;border-radius:50%}
 
-/* Phase row */
-.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:20px}
-@media(max-width:700px){.phase-row{grid-template-columns:1fr 1fr}}
-.phase-card{padding:12px 14px;background:#FFFFFF;border:1px solid #ECEAE3}
-.phase-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
-.phase-gate{font-size:10px;color:#888;margin-bottom:6px}
-.phase-status{font-size:11px;line-height:1.5}
-
 /* Items */
 .item{background:#FFFFFF;border:1px solid #ECEAE3;padding:12px 16px;margin-bottom:6px;display:flex;gap:12px;align-items:flex-start}
-.item-status{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;font-weight:700;flex-shrink:0;margin-top:2px}
+.item-status{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;font-weight:700;flex-shrink:0;margin-top:2px;min-width:62px;text-align:center}
 .s-shipped{color:#166534;background:#DCFCE7}
 .s-active{color:#92400E;background:#FEF3C7}
 .s-blocked{color:#991B1B;background:#FEE2E2}
@@ -51,16 +50,33 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
 .day-meeting{font-size:11px;font-weight:700;margin-bottom:2px}
 .day-phase{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;font-weight:700;padding:2px 6px;display:inline-block}
 .day-time{font-family:'DM Mono',monospace;font-size:9px;color:#888;margin-top:4px}
-.day.highlight{border-color:#FF4A23;border-width:2px}
+.day.hl{border-color:#FF4A23;border-width:2px}
 
-/* Metrics */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
-@media(max-width:700px){.metrics{grid-template-columns:1fr 1fr}}
-.metric{background:#FFFFFF;border:1px solid #ECEAE3;padding:12px 14px;text-align:center}
-.metric-n{font-size:28px;font-weight:900;letter-spacing:-1px}
-.metric-l{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-top:2px}
+/* Stage-gate phases */
+.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:20px}
+@media(max-width:700px){.phase-row{grid-template-columns:1fr 1fr}}
+.phase-card{padding:12px 14px;background:#FFFFFF;border:1px solid #ECEAE3}
+.phase-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.phase-gate{font-size:10px;color:#888;margin-bottom:6px}
+.phase-status{font-size:11px;line-height:1.5}
 
-.note{background:#FFF8E1;border-left:3px solid #E8C547;padding:10px 14px;font-size:11px;color:#666;line-height:1.5;margin-bottom:20px}
+/* Stage-gate movement */
+.gate-move{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.gate-box{padding:6px 10px;border:1px solid #ECEAE3;background:#FFFFFF;text-align:center;flex:1}
+.gate-box .gn{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.5px;font-weight:700;text-transform:uppercase}
+.gate-box.working{background:#FFF8E1;border-color:#E8C547}.gate-box.working .gn{color:#8B6900}
+.gate-box.ns .gn{color:#CCC}
+.gate-arrow{color:#CCC;font-size:12px;flex-shrink:0}
+
+/* Board asks */
+.board-box{background:#0F0E0E;color:#FCFDF8;padding:18px 22px;margin-bottom:20px}
+.board-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#CDF851;margin-bottom:10px}
+.board-text{font-size:13px;line-height:1.7;color:#ccc}
+
+/* Next sprint */
+.next-box{background:#FAFAF5;border:1px solid #ECEAE3;padding:14px 18px}
+.next-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:8px}
+.next-items{font-size:12px;line-height:1.7;color:#666}
 
 .footer{padding-top:16px;border-top:1px solid #ECEAE3;font-size:9px;color:#BBB;text-align:center;margin-top:20px}
 </style>
@@ -70,13 +86,73 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
 
 <hr class="top">
 <div class="eyebrow">Campaign Operations</div>
-<h1>SPRINT UPDATE</h1>
-<div class="sub">Weekly stage-gate progress. What shipped, what's active, what's blocked.</div>
+<h1>SPRINT 1 UPDATE</h1>
+<div class="sub">Week of May 6–9, 2026</div>
 
 <div class="sprint-header">
   <div class="badge">SPRINT 1</div>
   <div class="focus">Land the stage-gate language. Ship the deck. Prove it on Lizzy.</div>
   <div class="dates">MAY 6 – 9</div>
+</div>
+
+<!-- AT A GLANCE -->
+<div class="glance">
+  <div class="glance-tile"><div class="glance-n" style="color:#166534">7</div><div class="glance-l">Shipped</div></div>
+  <div class="glance-tile"><div class="glance-n" style="color:#92400E">4</div><div class="glance-l">Active</div></div>
+  <div class="glance-tile"><div class="glance-n" style="color:#991B1B">1</div><div class="glance-l">Blocked</div></div>
+  <div class="glance-tile"><div class="glance-n" style="color:#888">3</div><div class="glance-l">Next Sprint</div></div>
+</div>
+
+<!-- SHIPPED THIS SPRINT -->
+<div class="section">
+  <div class="sbar"><div class="sdot" style="background:#4ADE80"></div><div class="sname">Shipped This Sprint</div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Stage-Gate Language Framework</div><div class="item-detail">PLAN / ANNOUNCE / EXECUTE / DELIVER. Four phases, four gates, one vocabulary. Canonical reference locked. Same words everywhere — no synonyms.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Stage-Gate Deck (14 slides)</div><div class="item-detail">Phases, gates, weekly cadence, roster split, rollout sequence. Ready for Jordan review.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Restructured AP Agenda</div><div class="item-detail">May 6 proof: Trending (5min) → Recent/Upcoming (10min) → Campaign Conversations (40min) → Wrap. 12 artists get the right conversation. 9 move to Developing Artists. Before vs. After documented.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Meeting Templates (Ritual Spine)</div><div class="item-detail">6 milestone-triggered meetings mapped to gates. Onboarding through Post-Release Wrap. Gate-aligned.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">DELIVER Wrap Template</div><div class="item-detail">Friday async format. What released, playlist recap, press, trends, looking ahead.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Stage-Gate Tracker</div><div class="item-detail">Live tool. Track artists through all four gates with checkable prerequisites. Lizzy McAlpine seeded as pilot.</div></div></div>
+  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Artist Prep Package Template</div><div class="item-detail">4-tab blank template: Overview, Gate Status (all prerequisites), Department Briefs, Timeline. Ready for any artist.</div></div></div>
+</div>
+
+<!-- ACTIVE -->
+<div class="section">
+  <div class="sbar"><div class="sdot" style="background:#E8C547"></div><div class="sname">Active</div></div>
+  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Stage-Gate Deck → Jordan Review</div><div class="item-detail">Deck is built. Needs 30 min with Jordan for endorsement. Then Fleck. Then Board.</div></div></div>
+  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Lizzy McAlpine — G1 Pilot</div><div class="item-detail">First artist through the gate system. Tracking CAN WE PLAN? prerequisites. A&R confirmed, audience profile needed, spend data pull in progress.</div></div></div>
+  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Airtable Artist Detail Page Rebuild</div><div class="item-detail">Gerard gathering feedback from all teams. Jordan directive: open with "what is the problem / what is Airtable." Survey every team on what they always need.</div></div></div>
+  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Budget Framework — Maegan Pre-Read</div><div class="item-detail">Finance meeting prep. Budget line items, approval routing, stage-gate alignment.</div></div></div>
+</div>
+
+<!-- BLOCKED -->
+<div class="section">
+  <div class="sbar"><div class="sdot" style="background:#FF4A23"></div><div class="sname">Blocked (Needs Jordan)</div></div>
+  <div class="item"><div class="item-status s-blocked">Blocked</div><div class="item-body"><div class="item-name">Aud Dev Lanes — Tarek Conversation</div><div class="item-detail">Lane Definition V2 ready (54 items, Jordan feedback applied). Need 30 min with Tarek to walk through Aud Dev lanes. Jordan was out Tue-Wed. Cannot proceed on Creative/Niki meeting or Commercial Partnerships lanes doc until this ships.</div></div></div>
+</div>
+
+<!-- CARRY-FORWARD -->
+<div class="section">
+  <div class="sbar"><div class="sdot" style="background:#888"></div><div class="sname">Carry-Forward</div></div>
+  <div class="item"><div class="item-status s-next">Carry</div><div class="item-body"><div class="item-name">Val Knowledge Capture</div><div class="item-detail">Departing. Holds institutional Airtable knowledge. Gerard needs session before she leaves. Urgent but not escalation-level.</div></div></div>
+  <div class="item"><div class="item-status s-next">Carry</div><div class="item-body"><div class="item-name">RDX Production Access</div><div class="item-detail">Escalation pending via Mike Chang → Jacob. Gerard reaching out to Rick. Jordan is executive sponsor. Single largest data unlock for Campaign Ops.</div></div></div>
+</div>
+
+<!-- STAGE-GATE MOVEMENT -->
+<div class="section">
+  <div class="sbar"><div class="sdot" style="background:#5BC0BE"></div><div class="sname">Stage-Gate Movement</div></div>
+  <div style="margin-bottom:12px">
+    <div style="font-size:13px;font-weight:800;margin-bottom:6px">Lizzy McAlpine — G1: CAN WE PLAN?</div>
+    <div class="gate-move">
+      <div class="gate-box working"><div class="gn">G1 · PLAN</div></div>
+      <div class="gate-arrow">→</div>
+      <div class="gate-box ns"><div class="gn">G2 · ANNOUNCE</div></div>
+      <div class="gate-arrow">→</div>
+      <div class="gate-box ns"><div class="gn">G3 · EXECUTE</div></div>
+      <div class="gate-arrow">→</div>
+      <div class="gate-box ns"><div class="gn">G4 · DELIVER</div></div>
+    </div>
+    <div style="font-size:11px;color:#666;line-height:1.5">G1 prerequisites: A&R confirmed ✓ · Campaign Lead assigned ✓ · Physical projection requested · Historical spend data in progress · Baseline audience profile needed · Legacy team N/A</div>
+  </div>
 </div>
 
 <!-- WEEKLY CADENCE -->
@@ -89,13 +165,13 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
       <div class="day-phase" style="color:#6B8F00;background:#F0FFF4">PLAN</div>
       <div class="day-time">30 min</div>
     </div>
-    <div class="day highlight">
+    <div class="day">
       <div class="day-name">Tue</div>
       <div class="day-meeting">Workability Check</div>
       <div class="day-phase" style="color:#5BC0BE;background:#E0F7FA">ANNOUNCE</div>
       <div class="day-time">15 min standup</div>
     </div>
-    <div class="day">
+    <div class="day hl">
       <div class="day-name">Wed</div>
       <div class="day-meeting">Active Projects</div>
       <div class="day-phase" style="color:#E8C547;background:#FFF8E1">EXECUTE</div>
@@ -113,59 +189,23 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
       <div class="day-time">Async</div>
     </div>
   </div>
-  <div class="note">Ritual Spine: 6 artist meetings mapped to gates. Mon Foundation Room (PLAN, 30min) + Tue Workability Check (ANNOUNCE, 15min standup before SMT) + Wed AP restructured (EXECUTE, 45min) + Fri DELIVER Wrap (async).</div>
 </div>
 
-<!-- STAGE-GATE STATUS -->
-<div class="section">
-  <div class="sbar"><div class="sdot" style="background:#E8C547"></div><div class="sname">Stage-Gate Status</div></div>
-  <div class="phase-row">
-    <div class="phase-card">
-      <div class="phase-label" style="color:#6B8F00">PLAN</div>
-      <div class="phase-gate">CAN WE PLAN?</div>
-      <div class="phase-status">Foundation Room reviews new entries. Scheduling requests validated against prerequisites.</div>
-    </div>
-    <div class="phase-card">
-      <div class="phase-label" style="color:#5BC0BE">ANNOUNCE</div>
-      <div class="phase-gate">CAN WE ANNOUNCE?</div>
-      <div class="phase-status">Workability Check catches blockers before SMT. Cover/VSC, masters, clearances.</div>
-    </div>
-    <div class="phase-card">
-      <div class="phase-label" style="color:#E8C547">EXECUTE</div>
-      <div class="phase-gate">CAN WE EXECUTE?</div>
-      <div class="phase-status">AP restructured as decision meeting. CLs lead. Phase tags on every artist.</div>
-    </div>
-    <div class="phase-card">
-      <div class="phase-label" style="color:#FF4A23">DELIVER</div>
-      <div class="phase-gate">CAN WE DELIVER?</div>
-      <div class="phase-status">Friday async wrap. What released, results, what's next. No meeting needed.</div>
-    </div>
+<!-- IF THE BOARD ASKS -->
+<div class="board-box">
+  <div class="board-label">If the Board Asks</div>
+  <div class="board-text">Campaign Ops shipped a complete stage-gate framework this week — four phases (PLAN/ANNOUNCE/EXECUTE/DELIVER), four gates with named prerequisites and department owners, a weekly meeting cadence mapped to each phase, and a restructured AP agenda that turns a 27-artist status meeting into a 12-artist decision meeting. We have one pilot artist (Lizzy McAlpine) actively moving through Gate 1. The deck is ready for Jordan's review. One blocker: the Aud Dev lanes conversation with Tarek needs scheduling before we can roll department workflows to Creative and Commercial Partnerships.</div>
+</div>
+
+<!-- NEXT SPRINT PREVIEW -->
+<div class="next-box">
+  <div class="next-label">Sprint 2 Preview · May 12–16</div>
+  <div class="next-items">
+    Jordan reviews stage-gate deck · Tue Workability Check launches (May 13) · Mon Foundation Room launches (May 19) · Tarek lanes meeting · Lizzy G1 target clearance · First real DELIVER Wrap population (Friday) · Creative/Niki meeting scheduled · Christian Airtable backend training
   </div>
 </div>
 
-<!-- THIS SPRINT -->
-<div class="section">
-  <div class="sbar"><div class="sdot" style="background:#FF4A23"></div><div class="sname">This Sprint</div></div>
-  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Stage-Gate Language Framework</div><div class="item-detail">PLAN / ANNOUNCE / EXECUTE / DELIVER. Four phases, four gates. Canonical reference locked.</div></div></div>
-  <div class="item"><div class="item-status s-shipped">Shipped</div><div class="item-body"><div class="item-name">Meeting Templates (Ritual Spine)</div><div class="item-detail">6 milestone-triggered meetings mapped to gates. Onboarding through Post-Release Wrap.</div></div></div>
-  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Stage-Gate Deck for Jordan</div><div class="item-detail">14 slides. Phases, gates, weekly cadence, roster split, rollout. Review pending.</div></div></div>
-  <div class="item"><div class="item-status s-active">Active</div><div class="item-body"><div class="item-name">Lizzy McAlpine — G1 Pilot</div><div class="item-detail">First artist through the gate system. Tracking prerequisites for CAN WE PLAN?</div></div></div>
-  <div class="item"><div class="item-status s-blocked">Blocked</div><div class="item-body"><div class="item-name">Aud Dev Lanes — Tarek Conversation</div><div class="item-detail">Needs scheduling. Jordan was out Tue-Wed. Blocked until meeting happens.</div></div></div>
-  <div class="item"><div class="item-status s-next">Next</div><div class="item-body"><div class="item-name">Weekly Cadence Launch</div><div class="item-detail">Tue Workability Check target: May 12. Mon Foundation Room target: May 19.</div></div></div>
-</div>
-
-<!-- METRICS -->
-<div class="section">
-  <div class="sbar"><div class="sdot" style="background:#CDF851"></div><div class="sname">Sprint Metrics</div></div>
-  <div class="metrics">
-    <div class="metric"><div class="metric-n">—</div><div class="metric-l">Gates Cleared</div></div>
-    <div class="metric"><div class="metric-n">—</div><div class="metric-l">Artists in System</div></div>
-    <div class="metric"><div class="metric-n">—</div><div class="metric-l">Shipped This Sprint</div></div>
-    <div class="metric"><div class="metric-n">—</div><div class="metric-l">Blocked Items</div></div>
-  </div>
-</div>
-
-<div class="footer">Campaign Operations · Sprint Update Template · May 2026</div>
+<div class="footer">Campaign Operations · Sprint 1 Update · May 6–9, 2026</div>
 
 </div>
 </body>
