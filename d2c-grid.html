@@ -488,16 +488,37 @@
     font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
     text-transform: uppercase; color: var(--text-dim);
   }
-  .modal-color-input {
-    width: 36px; height: 36px; border: 2px solid var(--border);
-    cursor: pointer; padding: 0; background: transparent;
+  .modal-color-swatches {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    flex: 1; min-width: 0;
   }
-  .modal-color-input::-webkit-color-swatch-wrapper { padding: 0; }
-  .modal-color-input::-webkit-color-swatch { border: none; }
-  .modal-color-hex {
-    font-family: 'Courier New', monospace; font-size: 12px;
+  .modal-swatch {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    cursor: pointer; padding: 0;
+    transition: transform 0.1s ease, border-color 0.1s ease;
+    position: relative;
+  }
+  .modal-swatch:hover {
+    transform: scale(1.1);
+    border-color: var(--text);
+  }
+  .modal-swatch.selected {
+    border-color: var(--text);
+    border-width: 3px;
+  }
+  .modal-swatch.selected::after {
+    content: '';
+    position: absolute; inset: 0;
+    border: 2px solid #FFF;
+    pointer-events: none;
+  }
+  .modal-color-current {
+    font-family: 'Courier New', monospace; font-size: 11px;
     color: var(--text-dim); letter-spacing: 0.04em;
+    width: 100%;
   }
+  .modal-color-current strong { color: var(--text); }
   .modal-color-reset {
     margin-left: auto;
     font-family: inherit; font-size: 11px; font-weight: 600;
@@ -1083,13 +1104,27 @@ function showActivationModal(idx) {
     '<div class="modal-body">' + detailHtml + deadlinesHtml +
     (function() {
       const currentColor = getChipColor(a);
-      const displayColor = currentColor || '#DDE7EC';
       const isCustom = !!currentColor;
+      const swatches = [
+        { hex: '#DDE7EC', label: 'Cool blue (Official default)' },
+        { hex: '#D6EDED', label: 'Teal soft (Non-official default)' },
+        { hex: '#F8EDC1', label: 'Gold soft (Seasonal default)' },
+        { hex: '#ECF5C7', label: 'Chartreuse soft (Merch default)' },
+        { hex: '#F0FAD0', label: 'Chartreuse pale' },
+        { hex: '#FFE4DD', label: 'Flame soft' },
+        { hex: '#E8E4F0', label: 'Fog soft' },
+        { hex: '#FCE7C8', label: 'Peach' },
+        { hex: '#E0F4F2', label: 'Mint' }
+      ];
+      const swatchHtml = swatches.map(s => {
+        const sel = (currentColor && currentColor.toUpperCase() === s.hex.toUpperCase()) ? ' selected' : '';
+        return '<button type="button" class="modal-swatch' + sel + '" data-color="' + s.hex + '" title="' + s.label + '" style="background:' + s.hex + ';"></button>';
+      }).join('');
       return '<div class="modal-color">' +
         '<div class="modal-color-label">Chip color</div>' +
-        '<input type="color" class="modal-color-input" id="modal-color-input" value="' + displayColor + '">' +
-        '<span class="modal-color-hex" id="modal-color-hex">' + (isCustom ? displayColor.toUpperCase() : 'default') + '</span>' +
+        '<div class="modal-color-swatches">' + swatchHtml + '</div>' +
         (isCustom ? '<button class="modal-color-reset" id="modal-color-reset">Reset to default</button>' : '') +
+        '<div class="modal-color-current">' + (isCustom ? '<strong>' + currentColor.toUpperCase() + '</strong> applied' : 'Using <strong>row default</strong>') + '</div>' +
         '<div class="modal-color-note">Saved to your browser only. Other viewers see defaults until they set their own.</div>' +
       '</div>';
     })() +
@@ -1108,37 +1143,46 @@ function showActivationModal(idx) {
     }
   });
 
-  // Wire up color picker
-  const colorInput = document.getElementById('modal-color-input');
-  if (colorInput) {
-    colorInput.addEventListener('change', (e) => {
-      const newColor = e.target.value;
+  // Wire up swatch buttons
+  document.querySelectorAll('.modal-swatch').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const newColor = e.currentTarget.dataset.color;
       setChipColor(a, newColor);
-      // Update hex display + show reset button
-      document.getElementById('modal-color-hex').textContent = newColor.toUpperCase();
+      // Update selected state visually
+      document.querySelectorAll('.modal-swatch').forEach(b => b.classList.remove('selected'));
+      e.currentTarget.classList.add('selected');
+      // Update current color line
+      const currentEl = document.querySelector('.modal-color-current');
+      if (currentEl) {
+        currentEl.innerHTML = '<strong>' + newColor.toUpperCase() + '</strong> applied';
+      }
+      // Show reset button if not present
       const colorSection = document.querySelector('.modal-color');
       if (colorSection && !document.getElementById('modal-color-reset')) {
         const resetBtn = document.createElement('button');
         resetBtn.className = 'modal-color-reset';
         resetBtn.id = 'modal-color-reset';
         resetBtn.textContent = 'Reset to default';
-        const noteEl = colorSection.querySelector('.modal-color-note');
-        colorSection.insertBefore(resetBtn, noteEl);
+        const swatchesEl = colorSection.querySelector('.modal-color-swatches');
+        if (swatchesEl) swatchesEl.parentNode.insertBefore(resetBtn, swatchesEl.nextSibling);
         resetBtn.addEventListener('click', resetColorHandler);
       }
       renderGrid();
     });
-  }
+  });
   function resetColorHandler() {
     setChipColor(a, null);
-    document.getElementById('modal-color-hex').textContent = 'default';
-    document.getElementById('modal-color-input').value = '#DDE7EC';
+    document.querySelectorAll('.modal-swatch').forEach(b => b.classList.remove('selected'));
+    const currentEl = document.querySelector('.modal-color-current');
+    if (currentEl) {
+      currentEl.innerHTML = 'Using <strong>row default</strong>';
+    }
     const resetBtn = document.getElementById('modal-color-reset');
     if (resetBtn) resetBtn.remove();
     renderGrid();
   }
-  const resetBtn = document.getElementById('modal-color-reset');
-  if (resetBtn) resetBtn.addEventListener('click', resetColorHandler);
+  const initialResetBtn = document.getElementById('modal-color-reset');
+  if (initialResetBtn) initialResetBtn.addEventListener('click', resetColorHandler);
 }
 
 function showAddModal(prefill) {
