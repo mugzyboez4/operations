@@ -477,6 +477,40 @@
   .deadline-item.urgency-distant .deadline-label {
     color: var(--text-soft);
   }
+
+  /* Color picker section in modal */
+  .modal-color {
+    margin-top: 18px; padding: 14px 16px;
+    background: var(--bg-sunken); border: 1px solid var(--border-faint);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .modal-color-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+  .modal-color-input {
+    width: 36px; height: 36px; border: 2px solid var(--border);
+    cursor: pointer; padding: 0; background: transparent;
+  }
+  .modal-color-input::-webkit-color-swatch-wrapper { padding: 0; }
+  .modal-color-input::-webkit-color-swatch { border: none; }
+  .modal-color-hex {
+    font-family: 'Courier New', monospace; font-size: 12px;
+    color: var(--text-dim); letter-spacing: 0.04em;
+  }
+  .modal-color-reset {
+    margin-left: auto;
+    font-family: inherit; font-size: 11px; font-weight: 600;
+    background: transparent; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 6px 12px;
+    cursor: pointer; letter-spacing: 0.04em;
+  }
+  .modal-color-reset:hover { color: var(--text); border-color: var(--text); }
+  .modal-color-note {
+    font-size: 11px; color: var(--text-soft); font-style: italic;
+    width: 100%; margin-top: 4px;
+  }
+
   .modal-actions {
     margin-top: 18px; padding-top: 16px;
     border-top: 1px solid var(--border-faint);
@@ -727,6 +761,43 @@ function getCadenceMarkers() {
 }
 
 // ---------- RENDER ----------
+
+
+// ── PER-CHIP COLOR OVERRIDES (LOCAL) ──
+// Stable per-chip identifier — survives reordering, breaks if you rename
+function chipKey(a) {
+  return [a.row || '', a.year || '', a.month || '', a.artist || '', a.title || '', a.date || ''].join('|');
+}
+function loadChipColors() {
+  try { return JSON.parse(localStorage.getItem('d2c_chip_colors') || '{}'); }
+  catch(e) { return {}; }
+}
+function saveChipColors(obj) {
+  try { localStorage.setItem('d2c_chip_colors', JSON.stringify(obj)); } catch(e) {}
+}
+function getChipColor(a) {
+  const colors = loadChipColors();
+  return colors[chipKey(a)] || null;
+}
+function setChipColor(a, hex) {
+  const colors = loadChipColors();
+  if (hex) colors[chipKey(a)] = hex;
+  else delete colors[chipKey(a)];
+  saveChipColors(colors);
+}
+// Derive a slightly darker border color from a hex bg
+function deriveBorderColor(hex) {
+  if (!hex || !hex.startsWith('#') || hex.length !== 7) return null;
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  // Multiply by 0.78 for ~22% darker
+  const dr = Math.max(0, Math.round(r * 0.78));
+  const dg = Math.max(0, Math.round(g * 0.78));
+  const db = Math.max(0, Math.round(b * 0.78));
+  return '#' + [dr,dg,db].map(v => v.toString(16).padStart(2,'0')).join('');
+}
+
 function renderGrid() {
   const grid = document.getElementById('grid');
   grid.className = 'grid' + (zoom === 'compact' ? ' compact' : '');
@@ -826,7 +897,10 @@ function renderGrid() {
         const rowCls = ' row-' + a.row;
         const rightsCls = (a.row === 'official' && a.rightsStatus === 'gap') ? ' rights-gap' : '';
 
-        html += '<div class="chip' + rowCls + cadenceCls + userCls + rightsCls + '" data-idx="' + idx + '">' +
+        const chipColor = getChipColor(a);
+        const chipBorderColor = chipColor ? deriveBorderColor(chipColor) : null;
+        const chipStyle = chipColor ? ' style="background:' + chipColor + ';border-color:' + chipBorderColor + ';"' : '';
+        html += '<div class="chip' + rowCls + cadenceCls + userCls + rightsCls + '" data-idx="' + idx + '"' + chipStyle + '>' +
                 '<div class="chip-row">' + iconHtml + '<span class="chip-artist">' + esc(artistDisplay) + '</span></div>' +
                 '<div class="chip-content">' + esc(a.title) + chipDate + '</div>' +
                 '</div>';
@@ -1007,6 +1081,18 @@ function showActivationModal(idx) {
     (a.date ? '<div class="modal-subtitle">' + esc(a.date) + '</div>' : '') +
     '</div><button class="modal-close" id="modal-close" aria-label="Close">×</button></div>' +
     '<div class="modal-body">' + detailHtml + deadlinesHtml +
+    (function() {
+      const currentColor = getChipColor(a);
+      const displayColor = currentColor || '#DDE7EC';
+      const isCustom = !!currentColor;
+      return '<div class="modal-color">' +
+        '<div class="modal-color-label">Chip color</div>' +
+        '<input type="color" class="modal-color-input" id="modal-color-input" value="' + displayColor + '">' +
+        '<span class="modal-color-hex" id="modal-color-hex">' + (isCustom ? displayColor.toUpperCase() : 'default') + '</span>' +
+        (isCustom ? '<button class="modal-color-reset" id="modal-color-reset">Reset to default</button>' : '') +
+        '<div class="modal-color-note">Saved to your browser only. Other viewers see defaults until they set their own.</div>' +
+      '</div>';
+    })() +
     '<div class="modal-actions">' +
     '<button class="danger" id="modal-delete">Delete</button>' +
     '<button class="primary" id="modal-edit">Edit</button>' +
@@ -1021,6 +1107,38 @@ function showActivationModal(idx) {
       closeModal();
     }
   });
+
+  // Wire up color picker
+  const colorInput = document.getElementById('modal-color-input');
+  if (colorInput) {
+    colorInput.addEventListener('change', (e) => {
+      const newColor = e.target.value;
+      setChipColor(a, newColor);
+      // Update hex display + show reset button
+      document.getElementById('modal-color-hex').textContent = newColor.toUpperCase();
+      const colorSection = document.querySelector('.modal-color');
+      if (colorSection && !document.getElementById('modal-color-reset')) {
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'modal-color-reset';
+        resetBtn.id = 'modal-color-reset';
+        resetBtn.textContent = 'Reset to default';
+        const noteEl = colorSection.querySelector('.modal-color-note');
+        colorSection.insertBefore(resetBtn, noteEl);
+        resetBtn.addEventListener('click', resetColorHandler);
+      }
+      renderGrid();
+    });
+  }
+  function resetColorHandler() {
+    setChipColor(a, null);
+    document.getElementById('modal-color-hex').textContent = 'default';
+    document.getElementById('modal-color-input').value = '#DDE7EC';
+    const resetBtn = document.getElementById('modal-color-reset');
+    if (resetBtn) resetBtn.remove();
+    renderGrid();
+  }
+  const resetBtn = document.getElementById('modal-color-reset');
+  if (resetBtn) resetBtn.addEventListener('click', resetColorHandler);
 }
 
 function showAddModal(prefill) {
