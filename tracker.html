@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — Stage-Gate Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#F5F2EB;--card:#FFFFFF;--w:#0F0E0E;--lime:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--fog:#888;--slate:#CCC;--border:#ECEAE3;--clear:#4ADE80;--blocked:#FF4A23}
+html,body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid var(--border);gap:20px;position:sticky;top:0;background:var(--bg);z-index:50;flex-wrap:wrap}
+nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo span{color:var(--lime)}
+nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
+nav a:hover{color:var(--w);border-color:var(--border)}
+nav a.active{color:var(--gold);border-color:var(--gold)}
+
+.header{padding:32px 32px 20px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:.95;text-transform:uppercase;margin-bottom:8px}
+.sub{font-size:13px;color:var(--fog);max-width:600px}
+
+/* Artist selector */
+.artist-bar{padding:0 32px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.artist-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;padding:6px 14px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s;color:var(--fog)}
+.artist-btn:hover{border-color:var(--fog);color:var(--w)}
+.artist-btn.sel{background:var(--w);color:var(--bg);border-color:var(--w)}
+.artist-btn.add{border-style:dashed;color:var(--slate)}
+.artist-btn.add:hover{border-color:var(--fog);color:var(--fog)}
+
+/* Phase flow */
+.phase-flow{display:flex;align-items:center;justify-content:center;padding:10px 32px 24px;gap:0;flex-wrap:wrap}
+.phase-node{text-align:center;padding:6px 14px}
+.phase-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--fog)}
+.phase-label.active-phase{color:var(--w);font-weight:700}
+.phase-label.done-phase{color:var(--clear)}
+.phase-arrow{color:var(--slate);font-size:14px;padding:0 2px}
+.gate-node{text-align:center;padding:4px 10px;border:2px solid var(--border);background:var(--card);min-width:60px}
+.gate-node .gn{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;font-weight:700;color:var(--fog)}
+.gate-node.cleared{border-color:var(--clear);background:#F0FFF4}.gate-node.cleared .gn{color:var(--clear)}
+.gate-node.current{border-color:var(--flame);background:#FFF5F2;box-shadow:0 0 0 4px rgba(255,74,35,.08)}.gate-node.current .gn{color:var(--flame)}
+.gate-node.blocked{border-color:var(--flame);background:#FFEBEE}.gate-node.blocked .gn{color:var(--flame)}
+
+/* Gate cards */
+.gates-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 32px 32px}
+@media(max-width:900px){.gates-grid{grid-template-columns:1fr}}
+
+.gate-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:all .2s}
+.gate-card.current-card{border-color:var(--flame);box-shadow:0 0 0 4px rgba(255,74,35,.06)}
+.gate-card.cleared-card{border-color:var(--clear)}
+
+.gate-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.gate-head:hover{background:#FAFAF5}
+.gate-title-block{display:flex;align-items:center;gap:10px}
+.gate-number{font-family:'DM Mono',monospace;font-size:24px;font-weight:700;letter-spacing:-1px;color:var(--slate);line-height:1}
+.gate-name{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:-.3px}
+.gate-question{font-size:10px;color:var(--fog);font-weight:500}
+.gate-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;font-weight:700;padding:3px 10px;text-transform:uppercase}
+.badge-cleared{color:#166534;background:#DCFCE7}
+.badge-active{color:#92400E;background:#FEF3C7}
+.badge-blocked{color:#991B1B;background:#FEE2E2}
+.badge-pending{color:var(--fog);background:var(--bg)}
+
+.gate-body{padding:0 16px 16px;display:none}
+.gate-card.open .gate-body{display:block}
+
+.prereq{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.prereq:last-of-type{border-bottom:none}
+.prereq-check{width:20px;height:20px;border:2px solid var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .12s}
+.prereq-check:hover{border-color:var(--fog)}
+.prereq-check.on{background:var(--clear);border-color:var(--clear)}
+.prereq-check.on::after{content:'\2713';color:#fff;font-size:11px;font-weight:900}
+.prereq-text{font-size:12px;font-weight:500;line-height:1.4}
+.prereq-owner{font-family:'DM Mono',monospace;font-size:9px;color:var(--fog);margin-top:2px}
+.prereq-row.checked .prereq-text{text-decoration:line-through;color:var(--fog)}
+
+.gate-progress{padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:4px;background:var(--border);overflow:hidden}
+.progress-fill{height:100%;transition:width .3s ease}
+.fill-clear{background:var(--clear)}
+.fill-active{background:var(--gold)}
+.fill-blocked{background:var(--flame)}
+.progress-text{font-family:'DM Mono',monospace;font-size:9px;color:var(--fog);flex-shrink:0;min-width:40px;text-align:right}
+
+.gate-result{font-size:11px;padding:10px 12px;margin-top:8px;line-height:1.4}
+.result-cleared{background:#F0FFF4;border-left:3px solid var(--clear);color:#166534}
+.result-blocked{background:#FFF5F2;border-left:3px solid var(--flame);color:#991B1B}
+
+/* Summary bar */
+.summary{padding:16px 32px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.summary-stat{text-align:center;padding:8px 16px;background:var(--card);border:1px solid var(--border)}
+.summary-stat .n{font-size:22px;font-weight:900;letter-spacing:-1px}
+.summary-stat .l{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-top:2px}
+
+/* Principle */
+.principle{margin:0 32px 24px;padding:12px 16px;background:var(--card);border-left:3px solid var(--lime);font-size:11px;color:var(--fog);line-height:1.5}
+.principle strong{color:var(--w)}
+
+.footer{padding:24px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:9px;color:#BBB}
+.footer .tag{color:var(--teal);font-style:italic}
+
+/* Notes */
+.notes-area{padding:0 32px 24px}
+.notes-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:6px}
+.notes-input{width:100%;min-height:60px;padding:10px 12px;border:1px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:11px;color:var(--w);resize:vertical;outline:none}
+.notes-input:focus{border-color:var(--fog)}
+.notes-input::placeholder{color:var(--slate)}
+</style>
+</head>
+<body>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
+  <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+</div>
+<script>
+function checkPw(){if(document.getElementById("pw").value==="campaignops26"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("camops_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
+</script>
+
+<div id="app" style="display:none">
+
+<nav>
+  <div class="logo"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span>Ops</span></div>
+  <a href="/">Roadmap</a>
+  <a href="/todo.html">To Do</a>
+  <a href="/tracker.html" class="active">Tracker</a>
+  <a href="/resources.html">Resources</a>
+</nav>
+
+<div class="header">
+  <div class="eyebrow">Stage-Gate Tracker</div>
+  <div class="title">TRACK<span style="color:var(--gold)">ER</span></div>
+  <div class="sub">Track artists through the four gates. Check prerequisites. The system says no — not a person.</div>
+</div>
+
+<div class="artist-bar" id="artist-bar"></div>
+<div class="phase-flow" id="phase-flow"></div>
+<div class="summary" id="summary"></div>
+<div class="gates-grid" id="gates-grid"></div>
+
+<div class="notes-area">
+  <div class="notes-label">Notes</div>
+  <textarea class="notes-input" id="notes" placeholder="Add context, blockers, decisions..." oninput="saveNotes()"></textarea>
+</div>
+
+<div class="principle">
+  <strong>Campaign Ops never says no.</strong> The system says no. Campaign Ops helps you clear the gate. Accountability lives in the system, not in a person.
+</div>
+
+<div class="footer">
+  <span>Campaign Operations · Stage-Gate Tracker · May 2026</span>
+  <span class="tag">The system says no — not a person.</span>
+</div>
+
+<script>
+// ── GATE DATA (canonical) ──
+var GATE_DEFS = [
+  {
+    id: "g1", num: "G1", name: "PLAN", question: "CAN WE PLAN?",
+    phase_from: "PLAN", phase_to: "ANNOUNCE",
+    items: [
+      {text: "A&R confirmed artist, format, and approximate timing", owner: "A&R"},
+      {text: "Physical projection requested and returned", owner: "Commercial Partnerships"},
+      {text: "Historical spend data pulled for artist or comparables", owner: "Campaign Ops"},
+      {text: "Baseline audience profile delivered", owner: "Audience Development + Strategic Analytics"},
+      {text: "Legacy team engaged (if catalog artist)", owner: "Campaign Lead"},
+      {text: "Campaign Lead assigned and briefed", owner: "Campaign Ops"}
+    ]
+  },
+  {
+    id: "g2", num: "G2", name: "ANNOUNCE", question: "CAN WE ANNOUNCE?",
+    phase_from: "ANNOUNCE", phase_to: "EXECUTE",
+    items: [
+      {text: "Timeline locked (SVP sign-off)", owner: "Campaign Lead → SVP"},
+      {text: "Budget submitted and approved", owner: "Campaign Ops → Finance → COO"},
+      {text: "Creative direction set with artist team", owner: "Campaign Lead + Creative"},
+      {text: "Internal kickoff meeting held", owner: "Campaign Lead (Ops captures notes)"},
+      {text: "All departments briefed on plan", owner: "Campaign Ops confirms"},
+      {text: "Audience strategy presented", owner: "Audience Development"},
+      {text: "Cover art and visual assets approved", owner: "Creative + A&R"}
+    ]
+  },
+  {
+    id: "g3", num: "G3", name: "EXECUTE", question: "CAN WE EXECUTE?",
+    phase_from: "EXECUTE", phase_to: "DELIVER",
+    items: [
+      {text: "Masters QC'd and delivered", owner: "A&R"},
+      {text: "DSP pitches submitted", owner: "Commercial Partnerships"},
+      {text: "Radio servicing confirmed", owner: "Radio"},
+      {text: "Publicity plan finalized and pitches sent", owner: "Publicity"},
+      {text: "Marketing assets delivered to all channels", owner: "Creative"},
+      {text: "Pre-save/pre-order live", owner: "Audience Development"},
+      {text: "International territories briefed and activated", owner: "International"}
+    ]
+  },
+  {
+    id: "g4", num: "G4", name: "DELIVER", question: "CAN WE DELIVER?",
+    phase_from: "DELIVER", phase_to: "RELEASE",
+    items: [
+      {text: "All DSP deliveries confirmed in system", owner: "Release Planning"},
+      {text: "Playlist pitches acknowledged by partners", owner: "Commercial Partnerships"},
+      {text: "Social content calendar locked and scheduled", owner: "Audience Development"},
+      {text: "Press embargo dates confirmed", owner: "Publicity"},
+      {text: "Release week media plan activated", owner: "Campaign Lead"},
+      {text: "D2C / merch launch ready (if applicable)", owner: "Commercial Partnerships"}
+    ]
+  }
+];
+
+var PHASES = ["PLAN", "ANNOUNCE", "EXECUTE", "DELIVER", "RELEASE"];
+
+// ── STATE ──
+var allData = JSON.parse(localStorage.getItem('camops_tracker') || '{}');
+
+// Seed Lizzy if no data
+if (!allData['Lizzy McAlpine']) {
+  allData['Lizzy McAlpine'] = {
+    gates: GATE_DEFS.map(function(g){ return g.items.map(function(){ return false; }); }),
+    notes: ""
+  };
+  saveAll();
+}
+
+var currentArtist = Object.keys(allData)[0] || 'Lizzy McAlpine';
+
+function saveAll() {
+  localStorage.setItem('camops_tracker', JSON.stringify(allData));
+}
+
+function getArtistData() {
+  return allData[currentArtist];
+}
+
+function gateStatus(gi) {
+  var d = getArtistData();
+  var items = d.gates[gi];
+  var done = items.filter(function(v){ return v; }).length;
+  var total = items.length;
+  if (done === total) return 'cleared';
+  if (gi === 0) return 'active';
+  // Active if previous gate is cleared
+  var prevCleared = d.gates[gi-1].every(function(v){ return v; });
+  if (prevCleared) return 'active';
+  return 'pending';
+}
+
+function currentPhaseIndex() {
+  var d = getArtistData();
+  for (var i = 0; i < 4; i++) {
+    if (!d.gates[i].every(function(v){ return v; })) return i;
+  }
+  return 4; // All gates cleared = RELEASE
+}
+
+// ── RENDER ──
+function render() {
+  renderArtistBar();
+  renderPhaseFlow();
+  renderSummary();
+  renderGates();
+  renderNotes();
+}
+
+function renderArtistBar() {
+  var bar = document.getElementById('artist-bar');
+  var html = '';
+  Object.keys(allData).forEach(function(name) {
+    html += '<button class="artist-btn' + (name === currentArtist ? ' sel' : '') + '" onclick="selectArtist(\'' + name.replace(/'/g, "\\'") + '\')">' + name + '</button>';
+  });
+  html += '<button class="artist-btn add" onclick="addArtist()">+ Add Artist</button>';
+  bar.innerHTML = html;
+}
+
+function renderPhaseFlow() {
+  var el = document.getElementById('phase-flow');
+  var cpi = currentPhaseIndex();
+  var html = '';
+  for (var i = 0; i < PHASES.length; i++) {
+    if (i > 0) {
+      // Gate between phases
+      var gi = i - 1;
+      var gs = gateStatus(gi);
+      var cls = gs === 'cleared' ? 'cleared' : gs === 'active' ? 'current' : '';
+      html += '<div class="phase-arrow">→</div>';
+      html += '<div class="gate-node ' + cls + '"><div class="gn">G' + (gi+1) + '</div></div>';
+      html += '<div class="phase-arrow">→</div>';
+    }
+    var pc = i < cpi ? 'done-phase' : i === cpi ? 'active-phase' : '';
+    html += '<div class="phase-node"><div class="phase-label ' + pc + '">' + PHASES[i] + '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderSummary() {
+  var el = document.getElementById('summary');
+  var d = getArtistData();
+  var totalItems = 0, doneItems = 0, gatesCleared = 0;
+  for (var i = 0; i < 4; i++) {
+    var items = d.gates[i];
+    totalItems += items.length;
+    var done = items.filter(function(v){ return v; }).length;
+    doneItems += done;
+    if (done === items.length) gatesCleared++;
+  }
+  var pct = Math.round(doneItems / totalItems * 100);
+  var cpi = currentPhaseIndex();
+  var currentPhase = cpi < PHASES.length ? PHASES[cpi] : 'COMPLETE';
+
+  el.innerHTML =
+    '<div class="summary-stat"><div class="n">' + gatesCleared + '<span style="color:var(--fog);font-weight:500;font-size:14px">/4</span></div><div class="l">Gates Cleared</div></div>' +
+    '<div class="summary-stat"><div class="n">' + doneItems + '<span style="color:var(--fog);font-weight:500;font-size:14px">/' + totalItems + '</span></div><div class="l">Prerequisites</div></div>' +
+    '<div class="summary-stat"><div class="n">' + pct + '<span style="color:var(--fog);font-weight:500;font-size:14px">%</span></div><div class="l">Complete</div></div>' +
+    '<div class="summary-stat"><div class="n" style="font-size:16px;color:' + (cpi >= 4 ? 'var(--clear)' : 'var(--flame)') + '">' + currentPhase + '</div><div class="l">Current Phase</div></div>';
+}
+
+function renderGates() {
+  var el = document.getElementById('gates-grid');
+  var d = getArtistData();
+  var html = '';
+
+  GATE_DEFS.forEach(function(gate, gi) {
+    var items = d.gates[gi];
+    var done = items.filter(function(v){ return v; }).length;
+    var total = items.length;
+    var gs = gateStatus(gi);
+    var isOpen = gs === 'active' || gs === 'cleared';
+
+    var cardCls = 'gate-card';
+    if (gs === 'active') cardCls += ' current-card open';
+    else if (gs === 'cleared') cardCls += ' cleared-card';
+    if (isOpen) cardCls += ' open';
+
+    var badgeCls = 'gate-badge ';
+    var badgeText = '';
+    if (gs === 'cleared') { badgeCls += 'badge-cleared'; badgeText = '✓ CLEARED'; }
+    else if (gs === 'active' && done > 0) { badgeCls += 'badge-active'; badgeText = done + '/' + total; }
+    else if (gs === 'active') { badgeCls += 'badge-active'; badgeText = 'ACTIVE'; }
+    else { badgeCls += 'badge-pending'; badgeText = 'PENDING'; }
+
+    html += '<div class="' + cardCls + '" id="card-' + gi + '">';
+    html += '<div class="gate-head" onclick="toggleCard(' + gi + ')">';
+    html += '<div class="gate-title-block">';
+    html += '<div class="gate-number" style="color:' + (gs === 'cleared' ? 'var(--clear)' : gs === 'active' ? 'var(--flame)' : 'var(--slate)') + '">' + gate.num + '</div>';
+    html += '<div><div class="gate-name">' + gate.name + '</div><div class="gate-question">' + gate.question + '</div></div>';
+    html += '</div>';
+    html += '<div class="' + badgeCls + '">' + badgeText + '</div>';
+    html += '</div>';
+
+    // Progress bar
+    var fillCls = gs === 'cleared' ? 'fill-clear' : gs === 'active' ? 'fill-active' : 'fill-active';
+    var pct = total > 0 ? Math.round(done / total * 100) : 0;
+    html += '<div class="gate-progress"><div class="progress-bar"><div class="progress-fill ' + fillCls + '" style="width:' + pct + '%"></div></div><div class="progress-text">' + pct + '%</div></div>';
+
+    // Body (prereqs)
+    html += '<div class="gate-body">';
+    gate.items.forEach(function(item, ii) {
+      var checked = items[ii];
+      var disabled = gs === 'pending';
+      html += '<div class="prereq' + (checked ? ' prereq-row checked' : '') + '">';
+      html += '<div class="prereq-check' + (checked ? ' on' : '') + '"' + (disabled ? '' : ' onclick="toggleItem(' + gi + ',' + ii + ')"') + ' style="' + (disabled ? 'opacity:.3;cursor:default' : '') + '"></div>';
+      html += '<div><div class="prereq-text">' + item.text + '</div><div class="prereq-owner">' + item.owner + '</div></div>';
+      html += '</div>';
+    });
+
+    // Result message
+    if (gs === 'cleared') {
+      html += '<div class="gate-result result-cleared">All prerequisites met — gate cleared. Proceeds to ' + gate.phase_to + '.</div>';
+    } else if (gs === 'active' && done > 0 && done < total) {
+      var missing = total - done;
+      html += '<div class="gate-result result-blocked">' + missing + ' item' + (missing > 1 ? 's' : '') + ' incomplete. System will not advance until resolved.</div>';
+    }
+
+    html += '</div>'; // gate-body
+    html += '</div>'; // gate-card
+  });
+
+  el.innerHTML = html;
+}
+
+function renderNotes() {
+  var d = getArtistData();
+  document.getElementById('notes').value = d.notes || '';
+}
+
+// ── ACTIONS ──
+function selectArtist(name) {
+  currentArtist = name;
+  render();
+}
+
+function addArtist() {
+  var name = prompt('Artist name:');
+  if (!name || !name.trim()) return;
+  name = name.trim();
+  if (allData[name]) { currentArtist = name; render(); return; }
+  allData[name] = {
+    gates: GATE_DEFS.map(function(g){ return g.items.map(function(){ return false; }); }),
+    notes: ""
+  };
+  currentArtist = name;
+  saveAll();
+  render();
+}
+
+function toggleCard(gi) {
+  var card = document.getElementById('card-' + gi);
+  card.classList.toggle('open');
+}
+
+function toggleItem(gi, ii) {
+  var d = getArtistData();
+  d.gates[gi][ii] = !d.gates[gi][ii];
+  saveAll();
+  render();
+}
+
+function saveNotes() {
+  var d = getArtistData();
+  d.notes = document.getElementById('notes').value;
+  saveAll();
+}
+
+// ── INIT ──
+render();
+</script>
+
+<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
+</div><!-- end app -->
+</body>
+</html>
