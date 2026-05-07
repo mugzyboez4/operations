@@ -165,7 +165,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 var GATE_DEFS = [
   {
     id: "g1", num: "G1", name: "PLAN", question: "CAN WE PLAN?",
-    phase_from: "PLAN", phase_to: "ANNOUNCE",
+    phase_from: "PLAN", phase_to: "EXECUTE",
     items: [
       {text: "A&R confirmed artist, format, and approximate timing", owner: "A&R"},
       {text: "Physical projection requested and returned", owner: "Commercial Partnerships"},
@@ -176,8 +176,8 @@ var GATE_DEFS = [
     ]
   },
   {
-    id: "g2", num: "G2", name: "ANNOUNCE", question: "CAN WE ANNOUNCE?",
-    phase_from: "ANNOUNCE", phase_to: "EXECUTE",
+    id: "g2", num: "G2", name: "EXECUTE", question: "CAN WE EXECUTE?",
+    phase_from: "EXECUTE", phase_to: "ANNOUNCE",
     items: [
       {text: "Timeline locked (SVP sign-off)", owner: "Campaign Lead → SVP"},
       {text: "Budget submitted and approved", owner: "Campaign Ops → Finance → COO"},
@@ -189,8 +189,8 @@ var GATE_DEFS = [
     ]
   },
   {
-    id: "g3", num: "G3", name: "EXECUTE", question: "CAN WE EXECUTE?",
-    phase_from: "EXECUTE", phase_to: "DELIVER",
+    id: "g3", num: "G3", name: "ANNOUNCE", question: "CAN WE ANNOUNCE?",
+    phase_from: "ANNOUNCE", phase_to: "DELIVER",
     items: [
       {text: "Masters QC'd and delivered", owner: "A&R"},
       {text: "DSP pitches submitted", owner: "Commercial Partnerships"},
