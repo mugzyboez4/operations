@@ -10,8 +10,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0A0A0A;--surface:#141414;--card:#1A1A1A;--border:#2A2A2A;
-  --text:#FCFDF8;--dim:#B0A9BE;--fog:#847D96;--muted:#3E3F41;
+  --bg:#0A0A0A;--surface:#F0EDE6;--card:#FFFFFF;--border:#ECEAE3;
+  --text:#FCFDF8;--dim:#B0A9BE;--fog:#847D96;--muted:#CCCCCC;
   --chartreuse:#CDF851;--flame:#FF4A23;
   --ops:#CDF851;--leads:#3AAFFF;--auddev:#FF6B35;--support:#A78BFA;--commercial:#10B981;--removed:#FF4A23;--unresolved:#FFD600;
 }
@@ -103,7 +103,7 @@ a{color:inherit;text-decoration:none}
 /* Creative collapsible */
 .creative-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
 .creative-toggle{background:var(--surface);border:1px solid var(--border);border-left:3px solid #E879F9;padding:14px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}
-.creative-toggle:hover{background:#1A1A1A}
+.creative-toggle:hover{background:#FFFFFF}
 .creative-toggle h3{font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#E879F9;margin:0}
 .creative-toggle .toggle-hint{font-size:10px;color:var(--fog)}
 .creative-toggle .toggle-arrow{font-size:16px;color:#E879F9;transition:transform .2s}
@@ -142,7 +142,7 @@ a{color:inherit;text-decoration:none}
 .jd-card .impact{font-size:10px;color:var(--flame);line-height:1.5;font-weight:600}
 
 .card{position:relative}
-.card .card-note{display:none;position:absolute;left:0;right:0;top:100%;z-index:100;background:#0F0E0E;border:1px solid #3E3F41;padding:8px 10px;font-size:10px;color:#B0A9BE;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.card .card-note{display:none;position:absolute;left:0;right:0;top:100%;z-index:100;background:#F5F2EB;border:1px solid #3E3F41;padding:8px 10px;font-size:10px;color:#B0A9BE;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
 .card:hover .card-note{display:block}
 .card-tag{display:none}
 .card:hover .card-tag{display:inline-block}
@@ -152,13 +152,19 @@ a{color:inherit;text-decoration:none}
 .card{cursor:grab;transition:transform 0.1s,opacity 0.1s}
 .card.dragging{opacity:0.4;transform:scale(0.95)}
 .card.drag-over{border-top:2px solid #CDF851}
-.lane.drag-over-lane{background:#1A1A1A;outline:2px dashed #CDF851;outline-offset:-2px}
+.lane.drag-over-lane{background:#FFFFFF;outline:2px dashed #CDF851;outline-offset:-2px}
 
 @media(max-width:960px){.kanban{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.kanban{grid-template-columns:1fr}.stats{flex-direction:column;gap:8px}}
 </style>
 </head>
 <body>
+<div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
+  <a href="/" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
+  <a href="/todo.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">To Do</a>
+  <a href="/resources.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;text-decoration:none;padding:5px 10px;border:1px solid #FF4A23">Resources</a>
+</div>
 
 <div class="header">
   <div class="header-tag">Lane Definition</div>
@@ -341,13 +347,13 @@ a{color:inherit;text-decoration:none}
 
     <!-- Input row -->
     <div style="display:flex;gap:8px;margin-bottom:12px">
-      <select id="capType" style="background:#0F0E0E;border:1px solid #3E3F41;color:#FCFDF8;padding:8px 10px;font-size:12px;font-family:inherit;width:140px;-webkit-appearance:none">
+      <select id="capType" style="background:#F5F2EB;border:1px solid #3E3F41;color:#0F0E0E;padding:8px 10px;font-size:12px;font-family:inherit;width:140px;-webkit-appearance:none">
         <option value="decision">Decision</option>
         <option value="action">Action Item</option>
         <option value="tbd">Still TBD</option>
         <option value="note">Note</option>
       </select>
-      <input id="capText" type="text" placeholder="What was decided or noted..." style="background:#0F0E0E;border:1px solid #3E3F41;color:#FCFDF8;padding:8px 12px;font-size:12px;font-family:inherit;flex:1;outline:none" onkeydown="if(event.key==='Enter')addCapture()">
+      <input id="capText" type="text" placeholder="What was decided or noted..." style="background:#F5F2EB;border:1px solid #3E3F41;color:#0F0E0E;padding:8px 12px;font-size:12px;font-family:inherit;flex:1;outline:none" onkeydown="if(event.key==='Enter')addCapture()">
       <button onclick="addCapture()" style="background:#CDF851;color:#0A0A0A;border:none;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">+ Add</button>
     </div>
 
@@ -391,7 +397,7 @@ function renderCapture() {
   captures.forEach(function(c, i) {
     html += '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #2A2A2A">';
     html += '<span style="font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;background:rgba(255,255,255,0.05);color:' + colors[c.type] + ';white-space:nowrap;margin-top:1px">' + labels[c.type] + '</span>';
-    html += '<span style="font-size:12px;color:#FCFDF8;flex:1;line-height:1.4">' + c.text + '</span>';
+    html += '<span style="font-size:12px;color:#0F0E0E;flex:1;line-height:1.4">' + c.text + '</span>';
     html += '<span style="font-size:9px;color:#847D96;white-space:nowrap;margin-top:2px">' + c.time + '</span>';
     html += '<button onclick="editCapture(' + i + ')" style="background:none;border:none;color:#847D96;cursor:pointer;font-size:10px;padding:0 4px" title="Edit">✎</button>';
     html += '<button onclick="removeCapture(' + i + ')" style="background:none;border:none;color:#FF4A23;cursor:pointer;font-size:12px;padding:0 4px" title="Remove">×</button>';
@@ -705,7 +711,7 @@ initDragDrop();
 </script>
 
 <!-- SAVE BAR -->
-<div style="position:fixed;bottom:0;left:0;right:0;background:#0F0E0E;border-top:1px solid #2A2A2A;padding:8px 24px;display:flex;align-items:center;gap:12px;z-index:9999">
+<div style="position:fixed;bottom:0;left:0;right:0;background:#F5F2EB;border-top:1px solid #2A2A2A;padding:8px 24px;display:flex;align-items:center;gap:12px;z-index:9999">
   <button onclick="saveState()" style="background:#CDF851;color:#0A0A0A;border:none;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Save</button>
   <button onclick="exportState()" style="background:none;border:1px solid #3E3F41;color:#B0A9BE;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Copy All</button>
   <button onclick="resetState()" style="background:none;border:1px solid #3E3F41;color:#847D96;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Reset</button>

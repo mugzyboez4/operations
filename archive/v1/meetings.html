@@ -8,14 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0F0E0E;
-    --surface: #141414;
-    --card: #181818;
-    --border: #2A2A2A;
-    --white: #FCFDF8;
-    --text: #B0A9BE;
-    --dim: #847D96;
-    --muted: #3E3F41;
+    --bg: #F5F2EB;
+    --surface: #F0EDE6;
+    --card: #FFFFFF;
+    --border: #ECEAE3;
+    --white: #0F0E0E;
+    --text: #666666;
+    --dim: #999999;
+    --muted: #CCCCCC;
     --green: #CDF851;
     --flame: #FF4A23;
     --amber: #F5A623;
@@ -163,20 +163,20 @@
 
 .fb-panel {
   position:fixed; bottom:84px; right:24px; z-index:9997;
-  width:340px; max-height:480px; background:#1A1A1A; border:1px solid #2A2A2A;
+  width:340px; max-height:480px; background:#FFFFFF; border:1px solid #2A2A2A;
   padding:0; display:none; flex-direction:column; overflow:hidden;
 }
 .fb-panel.open { display:flex; }
 .fb-panel-head {
   padding:16px 20px 12px; border-bottom:1px solid #2A2A2A;
 }
-.fb-panel-title { font-size:13px; font-weight:700; color:#FCFDF8; margin-bottom:2px; }
+.fb-panel-title { font-size:13px; font-weight:700; color:#0F0E0E; margin-bottom:2px; }
 .fb-panel-sub { font-size:10px; color:#555; }
 .fb-panel-body { padding:16px 20px; overflow-y:auto; flex:1; }
 .fb-field { margin-bottom:14px; }
 .fb-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#847D96; font-family:'DM Mono',monospace; margin-bottom:6px; display:block; }
 .fb-select, .fb-textarea {
-  width:100%; background:#0F0E0E; border:1px solid #2A2A2A; color:#FCFDF8;
+  width:100%; background:#F5F2EB; border:1px solid #2A2A2A; color:#0F0E0E;
   font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px;
   transition:border-color 0.2s; outline:none;
 }
@@ -186,7 +186,7 @@
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%23847D96' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-position:right 12px center;
 }
-.fb-select option { background:#1A1A1A; color:#FCFDF8; }
+.fb-select option { background:#FFFFFF; color:#0F0E0E; }
 .fb-submit {
   width:100%; padding:10px; background:#CDF851; color:#0F0E0E;
   border:none; font-family:'Inter',sans-serif; font-size:12px; font-weight:700;
@@ -213,7 +213,7 @@
 .fb-inline-form { display:none; margin-top:10px; }
 .fb-inline-form.open { display:block; }
 .fb-inline-ta {
-  width:100%; background:#0F0E0E; border:1px solid #2A2A2A; color:#FCFDF8;
+  width:100%; background:#F5F2EB; border:1px solid #2A2A2A; color:#0F0E0E;
   font-family:'Inter',sans-serif; font-size:12px; padding:8px 10px;
   min-height:60px; resize:vertical; outline:none; margin-bottom:8px;
 }
@@ -234,6 +234,12 @@
 </style>
 </head>
 <body>
+<div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
+  <a href="/" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
+  <a href="/todo.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">To Do</a>
+  <a href="/resources.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;text-decoration:none;padding:5px 10px;border:1px solid #FF4A23">Resources</a>
+</div>
 
 <nav>
 <a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>

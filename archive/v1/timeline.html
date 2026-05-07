@@ -7,13 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0F0E0E;
-    --card: #1A1A1A;
+    --bg: #F5F2EB;
+    --card: #FFFFFF;
     --off-white: #FCFDF8;
     --chartreuse: #CDF851;
     --flame: #FF4A23;
-    --slate: #3E3F41;
-    --fog: #B0A9BE;
+    --slate: #CCCCCC;
+    --fog: #888888;
     --teal: #5BC0BE;
     --purple: #7F77DD;
     --muted: #847D96;
@@ -478,29 +478,35 @@
   }
 
 /* NAV */
-nav { background:#0F0E0E; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
+nav { background:#F5F2EB; border-bottom:1px solid #2A2A2A; padding:0 24px; display:flex; align-items:center; gap:0; height:44px; position:sticky; top:0; z-index:9999; }
 nav .logo { text-decoration:none; margin-right:24px; display:flex; align-items:center; gap:6px; }
 nav .logo .l1 { font-size:11px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:#CDF851; }
 nav .logo .l2 { font-size:10px; font-weight:500; color:#847D96; }
 nav .logo .l3 { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#847D96; }
 nav .nav-links { display:flex; align-items:center; gap:2px; }
 nav .nav-links a { font-size:11px; font-weight:500; color:#847D96; text-decoration:none; padding:6px 10px; border-bottom:2px solid transparent; }
-nav .nav-links a:hover { color:#FCFDF8; }
+nav .nav-links a:hover { color:#0F0E0E; }
 .active-label { font-size:11px; font-weight:700; color:#CDF851; padding:6px 10px; border-bottom:2px solid #CDF851; }
 .sndd { position:relative; display:inline-block; }
 .sndd-b { font-size:11px; font-weight:500; color:#847D96; cursor:pointer; padding:6px 10px; border-bottom:2px solid transparent; display:inline-block; }
-.sndd-b:hover { color:#FCFDF8; }
+.sndd-b:hover { color:#0F0E0E; }
 .sndd-b.active { font-weight:700; color:#CDF851; border-bottom:2px solid #CDF851; }
-.sndd-m { display:none; position:absolute; top:100%; right:0; background:#1A1A1A; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
+.sndd-m { display:none; position:absolute; top:100%; right:0; background:#FFFFFF; border:1px solid #2A2A2A; min-width:220px; z-index:10000; padding:4px 0; }
 .sndd:hover .sndd-m { display:block; }
 .sndd-m a { display:block; font-size:11px; color:#B0A9BE; text-decoration:none; padding:6px 12px; }
-.sndd-m a:hover { background:#2A2A2A; color:#FCFDF8; }
+.sndd-m a:hover { background:#2A2A2A; color:#0F0E0E; }
 .sndd-m .sep { border-top:1px solid #2A2A2A; margin:4px 0; }
 .sndd-m .sep-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3E3F41; padding:6px 12px 2px; }
 
 </style>
 </head>
 <body>
+<div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <div style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:8px">Campaign <span style="color:#CDF851">Ops</span></div>
+  <a href="/" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">Roadmap</a>
+  <a href="/todo.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px">To Do</a>
+  <a href="/resources.html" style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#FF4A23;text-decoration:none;padding:5px 10px;border:1px solid #FF4A23">Resources</a>
+</div>
 <nav>
 <a href="index.html" class="logo"><img src="tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
 <div class="nav-links">
