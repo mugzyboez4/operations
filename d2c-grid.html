@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>D2C Annual Activation Grid · April 2026 – April 2027</title>
+<title>D2C Annual Activation Grid · May 2026 – April 2027</title>
 <style>
   :root {
     --bg: #FCFDF8;
@@ -595,7 +595,7 @@
         <h1>D2C Annual<br>Activation Grid</h1>
       </div>
       <div class="meta">
-        <strong>April 2026 – April 2027</strong><br>
+        <strong>May 2026 – April 2027</strong><br>
         Click chip to view, edit, or delete · Hover cell, click + to add<br>
         Click row label to collapse
       </div>
@@ -649,7 +649,7 @@ const MONTHS_FULL = ['January','February','March','April','May','June','July','A
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 const WINDOW = [
-  {year: 2026, month: 4}, {year: 2026, month: 5}, {year: 2026, month: 6},
+  {year: 2026, month: 5}, {year: 2026, month: 6},
   {year: 2026, month: 7}, {year: 2026, month: 8}, {year: 2026, month: 9},
   {year: 2026, month: 10}, {year: 2026, month: 11}, {year: 2026, month: 12},
   {year: 2027, month: 1}, {year: 2027, month: 2}, {year: 2027, month: 3},
@@ -872,7 +872,7 @@ function renderGrid() {
     // Cells
     for (const w of WINDOW) {
       const acts = getActivations(row.key, w.year, w.month);
-      const inActive = (w.year === 2026 && w.month >= 9) || w.year === 2027;
+      const inActive = true;
       const cellCls = 'cell ' + (inActive ? 'in-window' : 'pre-window');
       html += '<div class="' + cellCls + '" data-row="' + esc(row.key) + '" data-year="' + w.year + '" data-month="' + w.month + '">';
 
