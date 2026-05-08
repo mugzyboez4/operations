@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Analytics — Workstreams</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0E0E;--card:#1A1A1A;--card-hover:#1E1E1E;--border:#2A2A2A;--border-light:#333;
+  --white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;
+  --green:#CDF851;--flame:#FF4A23;--fog:#B0A9BE;--fog-dim:#706B7A;
+  --amber:#FFB347;--teal:#5BC0BE;--purple:#7F77DD;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Nav (canonical TEMPO subfolder) */
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;height:44px;position:sticky;top:0;z-index:9999}
+nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+nav .nav-links{display:flex;align-items:center;gap:2px}
+nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color 0.15s}
+nav .nav-links a:hover{color:var(--white)}
+.sndd{position:relative;display:inline-block}
+.sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+.sndd-b:hover{color:var(--white)}
+.sndd-b.active{font-weight:700;color:var(--green);border-bottom:2px solid var(--green)}
+.sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:240px;z-index:10000;padding:4px 0}
+.sndd:hover .sndd-m{display:block}
+.sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+.sndd-m a:hover{background:var(--border);color:var(--white)}
+.sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+.sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+
+.container{max-width:1080px;margin:0 auto;padding:0 32px}
+
+/* Hero */
+.hero{padding:64px 0 32px;border-bottom:1px solid var(--border)}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+.hero-title{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:0.95;margin-bottom:18px;text-transform:uppercase}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px}
+.hero-meta-item{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim)}
+.hero-meta-item strong{color:var(--white);font-weight:600}
+.hero-sub{font-size:14px;color:var(--fog);max-width:680px;line-height:1.7;margin-top:18px}
+
+/* Quick links bar */
+.quicklinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.qlink{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:8px 14px;background:var(--card);color:var(--text);border:1px solid var(--border);text-decoration:none;transition:all 0.15s}
+.qlink:hover{border-color:var(--teal);color:var(--teal)}
+.qlink.primary{background:var(--card);border-color:var(--teal);color:var(--teal)}
+.qlink.primary:hover{background:var(--teal);color:var(--bg)}
+
+/* Section headers */
+.section{padding:48px 0 8px}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.section-eyebrow.green{color:var(--green)}
+.section-eyebrow.flame{color:var(--flame)}
+.section-eyebrow.fog{color:var(--fog)}
+.section-eyebrow.amber{color:var(--amber)}
+.section-title{font-size:32px;font-weight:900;letter-spacing:-0.8px;line-height:1.1;margin-bottom:8px;text-transform:uppercase}
+.section-desc{font-size:13px;color:var(--fog-dim);max-width:680px;line-height:1.6;margin-bottom:24px}
+
+/* Active project card — large feature card */
+.active-card{background:var(--card);border-left:4px solid var(--teal);padding:28px 32px;margin-bottom:14px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start}
+.active-card-main{}
+.active-card-eyebrow{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.active-card-status{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;background:rgba(91,192,190,0.12);color:var(--teal)}
+.active-card-status.scoping{background:rgba(255,179,71,0.12);color:var(--amber)}
+.active-card-status.live{background:rgba(205,248,81,0.12);color:var(--green)}
+.active-card-status.blocked{background:rgba(255,74,35,0.12);color:var(--flame)}
+.active-card-team{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim)}
+.active-card-title{font-size:24px;font-weight:900;letter-spacing:-0.5px;color:var(--white);text-transform:uppercase;margin-bottom:8px}
+.active-card-desc{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:14px;max-width:560px}
+.active-card-detail{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.active-card-detail-item{}
+.active-card-detail-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-bottom:4px}
+.active-card-detail-value{font-size:12px;color:var(--white);font-weight:500}
+.active-card-detail-value strong{color:var(--teal);font-weight:700}
+.active-card-cta{display:flex;flex-direction:column;gap:8px;align-items:flex-end;min-width:140px}
+.cta-btn{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:8px 14px;background:transparent;color:var(--teal);border:1px solid var(--teal);text-decoration:none;text-align:center;transition:all 0.15s}
+.cta-btn:hover{background:var(--teal);color:var(--bg)}
+.cta-btn.ghost{color:var(--fog-dim);border-color:var(--border)}
+.cta-btn.ghost:hover{color:var(--white);border-color:var(--fog-dim);background:transparent}
+
+/* Pipeline grid (2-col cards for upcoming work) */
+.pipeline-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pipe-card{background:var(--card);padding:18px 22px;border-left:3px solid var(--fog)}
+.pipe-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.pipe-card-name{font-size:14px;font-weight:800;color:var(--white);letter-spacing:-0.2px}
+.pipe-card-status{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim)}
+.pipe-card-desc{font-size:11px;color:var(--fog);line-height:1.55}
+
+/* Blockers list */
+.blockers{background:var(--card);border-left:3px solid var(--flame);padding:22px 26px}
+.blocker-item{padding:10px 0 10px 18px;position:relative;border-bottom:1px dotted var(--border-light);font-size:13px;color:var(--text);line-height:1.55}
+.blocker-item:last-child{border-bottom:0}
+.blocker-item::before{content:'!';position:absolute;left:0;top:11px;color:var(--flame);font-weight:900;font-size:12px}
+.blocker-item strong{color:var(--white);font-weight:700;display:block;font-size:13px;margin-bottom:2px}
+.blocker-item .blocker-status{font-size:10px;color:var(--fog-dim);font-weight:500;margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(255,74,35,0.08);border:1px solid rgba(255,74,35,0.2);color:var(--flame);letter-spacing:1px;text-transform:uppercase}
+
+/* Cadence cards (3-col) */
+.cadence-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.cad{background:var(--card);padding:18px 22px;border-top:2px solid var(--green)}
+.cad-eye{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--green);text-transform:uppercase;margin-bottom:6px}
+.cad-title{font-size:14px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-0.2px}
+.cad-body{font-size:11px;color:var(--fog);line-height:1.6}
+.cad-body a{color:var(--teal);text-decoration:none}
+.cad-body a:hover{text-decoration:underline}
+
+/* Connections — compact info row */
+.connections{background:rgba(127,119,221,0.05);border-left:2px solid var(--purple);padding:18px 24px;margin-top:8px}
+.conn-eye{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
+.conn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.conn-block{}
+.conn-label{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--fog-dim);text-transform:uppercase;margin-bottom:4px}
+.conn-value{font-size:12px;color:var(--white);line-height:1.55}
+.conn-value strong{color:var(--purple);font-weight:600}
+
+/* Footer */
+.foot{padding:48px 0 60px;border-top:1px solid var(--border);margin-top:48px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted);letter-spacing:0.5px}
+.foot a{color:var(--fog-dim);text-decoration:none}
+.foot a:hover{color:var(--green)}
+
+@media (max-width:880px){
+  .hero-title{font-size:44px}
+  .pipeline-grid{grid-template-columns:1fr}
+  .cadence-grid{grid-template-columns:1fr}
+  .conn-grid{grid-template-columns:1fr}
+  .active-card{grid-template-columns:1fr}
+  .active-card-cta{flex-direction:row;align-items:flex-start;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<div class="nav-links">
+<a href="../index.html">The Mission</a>
+<a href="../orbit.html">The Cycle</a>
+<a href="../timeline.html">Accountability</a>
+<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../lanes.html">Lane Definition</a><a href="../vcf.html">Value vs. Complexity</a></div></div>
+<div class="sndd"><span class="sndd-b active">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="../reference/framework-reference.html">Framework Reference</a><a href="../reference/operational-plan.html">How It Runs</a><a href="../reference/active-projects-template.html">Active Projects Template</a><a href="../reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../visibility.html">Visibility (Roster)</a><a href="../meetings.html">Meeting Flow</a><a href="../insights/index.html">Insights</a><a href="../insights/strategic-analytics.html" style="color:#CDF851;">Strategic Analytics</a><a href="../insights/graphitti.html">Graphitti Roadmap</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="../archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">A&R Analytics &middot; Function hub</div>
+  <h1 class="hero-title">Strategic<br>Analytics</h1>
+  <p class="hero-sub">Working overview of A&R Analytics workstreams. Active projects, pipeline, blockers, and operating cadence in one place. Detail lives on per-project pages.</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">Updated <strong>May 2026</strong></span>
+    <span class="hero-meta-item">Lead <strong>VP Strategic Analytics</strong></span>
+    <span class="hero-meta-item">Active workstreams <strong>2</strong></span>
+    <span class="hero-meta-item">Pipeline <strong>4</strong></span>
+  </div>
+  <div class="quicklinks">
+    <a href="graphitti.html" class="qlink primary">Graphitti Roadmap &rarr;</a>
+    <a href="../vcf.html" class="qlink">VCF (Crawley cluster)</a>
+    <a href="index.html" class="qlink">Artist Insights</a>
+  </div>
+</div>
+
+<!-- ====================== ACTIVE WORKSTREAMS ====================== -->
+<div class="section">
+  <div class="section-eyebrow">01 &middot; Active workstreams</div>
+  <h2 class="section-title">In flight</h2>
+  <p class="section-desc">Projects currently building or shipping. Detail and full roadmap on the linked pages.</p>
+</div>
+
+<!-- Graphitti -->
+<div class="active-card">
+  <div class="active-card-main">
+    <div class="active-card-eyebrow">
+      <span class="active-card-status">In production</span>
+      <span class="active-card-team">Strategic Analytics &middot; A&R Research</span>
+    </div>
+    <h3 class="active-card-title">Graphitti</h3>
+    <p class="active-card-desc">A&R analytics platform. Web + mobile in production for A&R staff. Three priority lanes active: post-rollout cleanup, data scaling for accuracy, and Discovery Dashboard scoping. Broader rollout to leadership gated on data scaling and label-definition work.</p>
+    <div class="active-card-detail">
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Current focus</div>
+        <div class="active-card-detail-value">Cleanup &mdash; <strong>14 fixes</strong> from A&R user feedback</div>
+      </div>
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Next gate</div>
+        <div class="active-card-detail-value">Data scaling &amp; label alignment</div>
+      </div>
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Last update</div>
+        <div class="active-card-detail-value">May 7, 2026</div>
+      </div>
+    </div>
+  </div>
+  <div class="active-card-cta">
+    <a href="graphitti.html" class="cta-btn">Roadmap &rarr;</a>
+    <a href="../vcf.html" class="cta-btn ghost">VCF View</a>
+  </div>
+</div>
+
+<!-- Discovery Dashboard -->
+<div class="active-card">
+  <div class="active-card-main">
+    <div class="active-card-eyebrow">
+      <span class="active-card-status scoping">Scoping</span>
+      <span class="active-card-team">Strategic Analytics</span>
+    </div>
+    <h3 class="active-card-title">Discovery Dashboard</h3>
+    <p class="active-card-desc">Net-new product. Goal: low-lift surface for unsigned talent so we don't miss the big ones. Phase 01 (scope) is leadership-owned &mdash; defining users, signals, surface, and success metric. Phase 02 (build) gated on scope lock.</p>
+    <div class="active-card-detail">
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Phase 01 owner</div>
+        <div class="active-card-detail-value">Strategic Analytics leadership</div>
+      </div>
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Phase 02</div>
+        <div class="active-card-detail-value">Gated on scope lock</div>
+      </div>
+      <div class="active-card-detail-item">
+        <div class="active-card-detail-label">Open questions</div>
+        <div class="active-card-detail-value"><strong>4</strong> &mdash; user, signals, surface, metric</div>
+      </div>
+    </div>
+  </div>
+  <div class="active-card-cta">
+    <a href="graphitti.html#discovery" class="cta-btn">Scope detail &rarr;</a>
+  </div>
+</div>
+
+<!-- ====================== PIPELINE ====================== -->
+<div class="section">
+  <div class="section-eyebrow fog">02 &middot; Pipeline</div>
+  <h2 class="section-title">Next up</h2>
+  <p class="section-desc">Workstreams queued after current priorities ship. Sequencing depends on how Discovery Dashboard scopes &mdash; some may be subsumed.</p>
+</div>
+
+<div class="pipeline-grid">
+  <div class="pipe-card">
+    <div class="pipe-card-header">
+      <span class="pipe-card-name">MDR Report Integration</span>
+      <span class="pipe-card-status">Planned</span>
+    </div>
+    <div class="pipe-card-desc">Fully integrate MDR reports used for lead generation into Graphitti. Currently external, manual handoff into A&R workflow.</div>
+  </div>
+  <div class="pipe-card">
+    <div class="pipe-card-header">
+      <span class="pipe-card-name">Social Follower &amp; Engagement</span>
+      <span class="pipe-card-status">Planned</span>
+    </div>
+    <div class="pipe-card-desc">Incorporate follower and engagement signals into artist evaluation. Likely feeds into Discovery Dashboard once scoped.</div>
+  </div>
+  <div class="pipe-card">
+    <div class="pipe-card-header">
+      <span class="pipe-card-name">Deal Calculator 2.0</span>
+      <span class="pipe-card-status">Planned</span>
+    </div>
+    <div class="pipe-card-desc">Project financial opportunity / floors based on existing artist business. Higher complexity build &mdash; likely after data scaling lands.</div>
+  </div>
+  <div class="pipe-card">
+    <div class="pipe-card-header">
+      <span class="pipe-card-name">Artist Evaluation Framework</span>
+      <span class="pipe-card-status">Planned</span>
+    </div>
+    <div class="pipe-card-desc">Common framework for evaluating artists across signals. Direction set with Crawley + Jordan; categories weighted by streaming volume, social, release performance, infrastructure, market position.</div>
+  </div>
+</div>
+
+<!-- ====================== BLOCKERS ====================== -->
+<div class="section">
+  <div class="section-eyebrow flame">03 &middot; Blockers &amp; dependencies</div>
+  <h2 class="section-title">Needs unlock</h2>
+  <p class="section-desc">Items that require senior escalation, vendor action, or a decision before downstream work can move. Carried from Graphitti roadmap; status to be refreshed.</p>
+</div>
+
+<div class="blockers">
+  <div class="blocker-item">
+    <strong>Spotify API Developer Key</strong>
+    Original blocker flagged in March. Discovery Dashboard, Spotify chart radar, and several pipeline items depend on this. Needs senior escalation to Spotify partnership.
+    <div class="blocker-status">Escalation needed</div>
+  </div>
+  <div class="blocker-item">
+    <strong>PDE support</strong>
+    Original ask flagged in March. Snowflake / data infrastructure support for scaling. Specifics to be clarified before re-escalation.
+    <div class="blocker-status">Clarification needed</div>
+  </div>
+  <div class="blocker-item">
+    <strong>AI developer tools</strong>
+    Original item flagged in March. Decision needed: keep on the table or kill. Affects Discovery Dashboard build approach.
+    <div class="blocker-status">Decision needed</div>
+  </div>
+  <div class="blocker-item">
+    <strong>Financial label definition alignment</strong>
+    Genre views and overall RCA line currently include all catalog &mdash; doesn't match the financial label definition Peter and Fleck use to grade RCA. Conversation owed before broader rollout.
+    <div class="blocker-status">Leadership conversation owed</div>
+  </div>
+</div>
+
+<!-- ====================== CADENCE ====================== -->
+<div class="section">
+  <div class="section-eyebrow green">04 &middot; Cadence</div>
+  <h2 class="section-title">How it runs</h2>
+  <p class="section-desc">Operating model for the team while strategic time is split. Light cadence; more would create friction.</p>
+</div>
+
+<div class="cadence-grid">
+  <div class="cad">
+    <div class="cad-eye">Sync</div>
+    <div class="cad-title">30 min, weekly</div>
+    <div class="cad-body">Standing slot. Build lead drives the agenda. Topics: shipped this week, blockers, next week's focus, escalations.</div>
+  </div>
+  <div class="cad">
+    <div class="cad-eye">Friday note</div>
+    <div class="cad-title">Written status</div>
+    <div class="cad-body">Build lead writes a 5-bullet summary every Friday: shipped / blocked / next / escalations / questions for leadership.</div>
+  </div>
+  <div class="cad">
+    <div class="cad-eye">Async</div>
+    <div class="cad-title">Slack &amp; email</div>
+    <div class="cad-body">Slack for time-sensitive blockers. Email for stakeholder loops. Standing sync handles everything else.</div>
+  </div>
+</div>
+
+<!-- ====================== CONNECTIONS ====================== -->
+<div class="section">
+  <div class="section-eyebrow" style="color:var(--purple)">05 &middot; Connections</div>
+  <h2 class="section-title">Cross-team touch points</h2>
+  <p class="section-desc">Where Strategic Analytics work meets other functions. Useful when handing off, escalating, or routing questions.</p>
+</div>
+
+<div class="connections">
+  <div class="conn-eye">Touch points</div>
+  <div class="conn-grid">
+    <div class="conn-block">
+      <div class="conn-label">Joint with Campaign Ops</div>
+      <div class="conn-value"><strong>Artist Insights</strong> &mdash; per-artist deck production, V7 in use<br><strong>Graphitti Roadmap (TEMPO)</strong> &mdash; this site</div>
+    </div>
+    <div class="conn-block">
+      <div class="conn-label">Leadership stakeholders</div>
+      <div class="conn-value"><strong>Peter &amp; Fleck</strong> &mdash; genre views, financial label definition<br><strong>Jordan</strong> &mdash; bandwidth and Campaign Leads time split</div>
+    </div>
+    <div class="conn-block">
+      <div class="conn-label">End users</div>
+      <div class="conn-value"><strong>A&R staff</strong> &mdash; primary Graphitti users<br><strong>A&R leadership</strong> &mdash; broader rollout audience, gated</div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="foot">
+  <span>RCA &middot; A&amp;R Analytics &middot; Function hub</span>
+  <a href="../index.html">&larr; Back to TEMPO</a>
+</div>
+
+</div>
+</body>
+</html>
