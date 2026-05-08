@@ -258,110 +258,101 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
 <!-- ═══ THE ROAD: journey board ═══ -->
 <section class="section" style="border-bottom:0;">
-  <div class="section-eyebrow">The Build</div>
+  <div class="section-eyebrow">The Road</div>
   <h2 class="section-title">The Road</h2>
-  <div class="section-sub">How we got here, where we're going. Three stops built (language, meetings, tools); one stop active (pitch); seven ahead.</div>
+  <div class="section-sub">The pitch is now. Groundwork (language, meetings, tools) sits behind it; proof and scale sit ahead. Until the system is running roster-wide, nothing's built &mdash; just prepared.</div>
 </section>
 
-<!-- ═══ THE BUILD: zone grid ═══ -->
-<div style="max-width:1180px;margin:0 auto;padding:0 32px 48px;border-bottom:1px solid var(--border);">
-<div class="board-grid">
+<!-- ═══ THE ROAD: winding journey ═══ -->
+<div style="max-width:1180px;margin:0 auto;padding:0 24px 48px;border-bottom:1px solid var(--border);">
 
-  <div class="zone zone-built">
-    <div class="zone-head">
-      <span class="zone-num">I</span>
-      <span class="zone-name">Built</span>
-      <span class="zone-when">Feb &mdash; Apr</span>
-    </div>
-    <div class="stop done">
-      <div class="stop-num">01</div>
-      <div class="stop-name">Language</div>
-      <div class="stop-desc">PLAN / EXECUTE / ANNOUNCE / DELIVER &mdash; the shared vocabulary every department speaks.</div>
-      <div class="stop-status">&#10003; Shipped</div>
-    </div>
-    <div class="stop done">
-      <div class="stop-num">02</div>
-      <div class="stop-name">Meetings</div>
-      <div class="stop-desc">Cadence and ritual spine: when departments sync, what they sync on.</div>
-      <div class="stop-status">&#10003; Shipped</div>
-    </div>
-    <div class="stop done">
-      <div class="stop-num">03</div>
-      <div class="stop-name">Tools</div>
-      <div class="stop-desc">Tracker, prep packages, dashboards. The instruments that make work visible.</div>
-      <div class="stop-status">&#10003; Shipped</div>
-    </div>
-  </div>
+<svg viewBox="0 0 920 720" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-top:24px" aria-label="Campaign Ops journey: pitch first, groundwork, prove, scale">
+  <defs>
+    <pattern id="rd-dots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#D8D4CC"/>
+    </pattern>
+  </defs>
 
-  <div class="zone zone-now">
-    <div class="zone-head">
-      <span class="zone-num">II</span>
-      <span class="zone-name">Now</span>
-      <span class="zone-when">May</span>
-    </div>
-    <div class="stop active">
-      <div class="stop-num">04</div>
-      <div class="stop-name">Pitch</div>
-      <div class="stop-desc">Operating system goes wider. Jordan endorses; the org sees what's been built.</div>
-      <div class="stop-status">&#9733; You are here</div>
-    </div>
-  </div>
+  <rect width="920" height="720" fill="url(#rd-dots)" opacity="0.35"/>
 
-  <div class="zone zone-prove">
-    <div class="zone-head">
-      <span class="zone-num">III</span>
-      <span class="zone-name">Prove</span>
-      <span class="zone-when">Jun &mdash; Aug</span>
-    </div>
-    <div class="stop next">
-      <div class="stop-num">05</div>
-      <div class="stop-name">Cadence</div>
-      <div class="stop-desc">Sprint cycle running live. Bi-weekly recaps, gate movement visible.</div>
-      <div class="stop-status">&rarr; Next</div>
-    </div>
-    <div class="stop next">
-      <div class="stop-num">06</div>
-      <div class="stop-name">Pilot</div>
-      <div class="stop-desc">Lizzy / Angel through all four gates end-to-end. The first proof.</div>
-      <div class="stop-status">&rarr; Next</div>
-    </div>
-    <div class="stop next">
-      <div class="stop-num">07</div>
-      <div class="stop-name">Systems</div>
-      <div class="stop-desc">Tracker connects to RDX. Multi-user, live data, no manual entry.</div>
-      <div class="stop-status">&rarr; Next</div>
-    </div>
-    <div class="stop next">
-      <div class="stop-num">08</div>
-      <div class="stop-name">Evidence</div>
-      <div class="stop-desc">Workability scoring shows the system catches blockers earlier than before.</div>
-      <div class="stop-status">&rarr; Next</div>
-    </div>
-  </div>
+  <text x="40" y="62" font-family="'Inter',sans-serif" font-size="11" letter-spacing="3" fill="#FF4A23" font-weight="800">NOW</text>
+  <text x="280" y="62" font-family="'Inter',sans-serif" font-size="11" letter-spacing="3" fill="#5BC0BE" font-weight="800">GROUNDWORK</text>
+  <text x="40" y="312" font-family="'Inter',sans-serif" font-size="11" letter-spacing="3" fill="#888" font-weight="800">PROVE</text>
+  <text x="40" y="562" font-family="'Inter',sans-serif" font-size="11" letter-spacing="3" fill="#B8920F" font-weight="800">SCALE</text>
 
-  <div class="zone zone-scale">
-    <div class="zone-head">
-      <span class="zone-num">IV</span>
-      <span class="zone-name">Scale</span>
-      <span class="zone-when">Sep+</span>
-    </div>
-    <div class="stop later">
-      <div class="stop-num">09</div>
-      <div class="stop-name">Roster</div>
-      <div class="stop-desc">Every active campaign moves through Stage-Gate. No exceptions.</div>
-      <div class="stop-status">&rarr; Later</div>
-    </div>
-    <div class="stop later">
-      <div class="stop-num">10</div>
-      <div class="stop-name">Standard</div>
-      <div class="stop-desc">"This is how RCA runs campaigns." Operating system, full adoption.</div>
-      <div class="stop-status">&rarr; Later</div>
-    </div>
-  </div>
+  <path d="M 130 130 Q 250 130 380 130 Q 520 130 650 130 Q 770 130 800 130 Q 820 130 820 200 Q 820 270 820 340 Q 820 360 760 360 Q 620 360 480 360 Q 340 360 200 360 Q 130 360 110 380 Q 100 440 100 510 Q 100 580 130 590 Q 250 590 380 590 Q 520 590 650 590"
+        fill="none" stroke="#D8D4CC" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 130 130 Q 250 130 380 130 Q 520 130 650 130 Q 770 130 800 130 Q 820 130 820 200 Q 820 270 820 340 Q 820 360 760 360 Q 620 360 480 360 Q 340 360 200 360 Q 130 360 110 380 Q 100 440 100 510 Q 100 580 130 590 Q 250 590 380 590 Q 520 590 650 590"
+        fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8 8" stroke-linecap="round"/>
+
+  <circle cx="130" cy="130" r="42" fill="#FFFFFF" stroke="#FF4A23" stroke-width="5"/>
+  <circle cx="130" cy="130" r="34" fill="#FFF5F2"/>
+  <text x="130" y="125" font-family="'Inter',sans-serif" font-size="22" fill="#FF4A23" text-anchor="middle" font-weight="900">01</text>
+  <text x="130" y="142" font-family="'Inter',sans-serif" font-size="8" fill="#FF4A23" text-anchor="middle" font-weight="700" letter-spacing="1.5">YOU ARE HERE</text>
+  <text x="130" y="195" font-family="'Inter',sans-serif" font-size="13" fill="#FF4A23" text-anchor="middle" font-weight="900" letter-spacing="-0.3">PITCH</text>
+  <text x="130" y="212" font-family="'Inter',sans-serif" font-size="10" fill="#0F0E0E" text-anchor="middle">Operating system goes wider</text>
+
+  <circle cx="380" cy="130" r="28" fill="#FFFFFF" stroke="#5BC0BE" stroke-width="3"/>
+  <circle cx="380" cy="130" r="22" fill="#F0FDFC"/>
+  <text x="380" y="135" font-family="'Inter',sans-serif" font-size="16" fill="#5BC0BE" text-anchor="middle" font-weight="900">02</text>
+  <text x="380" y="180" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">LANGUAGE</text>
+  <text x="380" y="196" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Shared vocabulary</text>
+
+  <circle cx="570" cy="130" r="28" fill="#FFFFFF" stroke="#5BC0BE" stroke-width="3"/>
+  <circle cx="570" cy="130" r="22" fill="#F0FDFC"/>
+  <text x="570" y="135" font-family="'Inter',sans-serif" font-size="16" fill="#5BC0BE" text-anchor="middle" font-weight="900">03</text>
+  <text x="570" y="180" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">MEETINGS</text>
+  <text x="570" y="196" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Cadence + ritual spine</text>
+
+  <circle cx="760" cy="130" r="28" fill="#FFFFFF" stroke="#5BC0BE" stroke-width="3"/>
+  <circle cx="760" cy="130" r="22" fill="#F0FDFC"/>
+  <text x="760" y="135" font-family="'Inter',sans-serif" font-size="16" fill="#5BC0BE" text-anchor="middle" font-weight="900">04</text>
+  <text x="760" y="180" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">TOOLS</text>
+  <text x="760" y="196" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Tracker, prep, dashboards</text>
+
+  <circle cx="760" cy="360" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="760" cy="360" r="20" fill="#FAFAF5"/>
+  <text x="760" y="365" font-family="'Inter',sans-serif" font-size="15" fill="#888" text-anchor="middle" font-weight="800">05</text>
+  <text x="760" y="408" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">CADENCE</text>
+  <text x="760" y="424" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Sprint cycle live</text>
+
+  <circle cx="570" cy="360" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="570" cy="360" r="20" fill="#FAFAF5"/>
+  <text x="570" y="365" font-family="'Inter',sans-serif" font-size="15" fill="#888" text-anchor="middle" font-weight="800">06</text>
+  <text x="570" y="408" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">PILOT</text>
+  <text x="570" y="424" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Lizzy through all four gates</text>
+
+  <circle cx="380" cy="360" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="380" cy="360" r="20" fill="#FAFAF5"/>
+  <text x="380" y="365" font-family="'Inter',sans-serif" font-size="15" fill="#888" text-anchor="middle" font-weight="800">07</text>
+  <text x="380" y="408" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">SYSTEMS</text>
+  <text x="380" y="424" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Tracker connects to RDX</text>
+
+  <circle cx="160" cy="360" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="160" cy="360" r="20" fill="#FAFAF5"/>
+  <text x="160" y="365" font-family="'Inter',sans-serif" font-size="15" fill="#888" text-anchor="middle" font-weight="800">08</text>
+  <text x="160" y="408" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">EVIDENCE</text>
+  <text x="160" y="424" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Workability proves it works</text>
+
+  <circle cx="170" cy="590" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="170" cy="590" r="20" fill="#FAFAF5"/>
+  <text x="170" y="595" font-family="'Inter',sans-serif" font-size="15" fill="#B8920F" text-anchor="middle" font-weight="800">09</text>
+  <text x="170" y="638" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">ROSTER</text>
+  <text x="170" y="654" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">Every campaign through Stage-Gate</text>
+
+  <circle cx="380" cy="590" r="26" fill="#FFFFFF" stroke="#ECEAE3" stroke-width="2"/>
+  <circle cx="380" cy="590" r="20" fill="#FAFAF5"/>
+  <text x="380" y="595" font-family="'Inter',sans-serif" font-size="15" fill="#B8920F" text-anchor="middle" font-weight="800">10</text>
+  <text x="380" y="638" font-family="'Inter',sans-serif" font-size="11" fill="#0F0E0E" text-anchor="middle" font-weight="900" letter-spacing="-0.2">STANDARD</text>
+  <text x="380" y="654" font-family="'Inter',sans-serif" font-size="10" fill="#666" text-anchor="middle">How RCA runs campaigns</text>
+
+  <rect x="600" y="572" width="120" height="44" fill="#0F0E0E"/>
+  <text x="660" y="593" font-family="'Inter',sans-serif" font-size="9" fill="#CDF851" text-anchor="middle" font-weight="800" letter-spacing="2">OPERATING</text>
+  <text x="660" y="608" font-family="'Inter',sans-serif" font-size="9" fill="#CDF851" text-anchor="middle" font-weight="800" letter-spacing="2">SYSTEM</text>
+
+</svg>
 
 </div>
-</div>
-
 
 <div class="footer">Campaign Operations · May 2026 · <span style="color:var(--teal);font-style:italic">Building together.</span></div>
 
