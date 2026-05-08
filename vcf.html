@@ -263,23 +263,19 @@ const DEFAULTS=[
   // ═══ CAMPAIGN OPS — Artist Intelligence ═══
   {name:"Artist Insights",detail:"V7 + dept lens (14 departments)",status:"live",team:"joint",left:38,top:20},
 
-  // ═══ STRATEGIC ANALYTICS — Priority 1: Dashboard Cleanup ═══
-  {name:"Streamlit Dashboard",detail:"Initial rollout complete",status:"live",team:"analytics",left:8,top:46},
-  {name:"Desktop Fixes",detail:"10 items: tooltips, % share, labels, UX",status:"building",team:"analytics",left:8,top:60},
-  {name:"Mobile Fixes",detail:"5 items: sparklines, % chg, genre splits",status:"building",team:"analytics",left:24,top:60},
+  // ═══ STRATEGIC ANALYTICS — Crawley's portfolio (clustered, top-right) ═══
+  {name:"Discovery Dashboard",detail:"Phase 01 (scope) → Phase 02 (build), gated on scope lock",status:"planned",team:"analytics",left:78,top:14},
+  {name:"Data Scaling",detail:"Artist profile merging, gap fixes",status:"building",team:"analytics",left:64,top:22},
+  {name:"Desktop Fixes",detail:"10 items: tooltips, % share, labels, UX",status:"building",team:"analytics",left:56,top:30},
+  {name:"Mobile Fixes",detail:"5 items: sparklines, % chg, genre splits",status:"building",team:"analytics",left:64,top:36},
+  {name:"Streamlit Dashboard",detail:"Initial rollout complete",status:"live",team:"analytics",left:56,top:42},
 
-  // ═══ STRATEGIC ANALYTICS — Priority 2: Data Scaling ═══
-  {name:"Data Scaling",detail:"Artist profile merging, gap fixes",status:"building",team:"analytics",left:58,top:46},
-
-  // ═══ STRATEGIC ANALYTICS — Priority 3: Discovery Dashboard ═══
-  {name:"Discovery Dashboard",detail:"Phase 01 (scope) → Phase 02 (build), gated on scope lock",status:"planned",team:"analytics",left:72,top:46},
-
-  // ═══ JOINT — Cross-team infrastructure ═══
-  {name:"Graphitti Roadmap (TEMPO)",detail:"A&R Analytics roadmap page, deployed May 7",status:"live",team:"joint",left:24,top:32},
+  // ═══ JOINT — Crawley-topical (clustered with his portfolio) ═══
+  {name:"Graphitti Roadmap (TEMPO)",detail:"A&R Analytics roadmap page, deployed May 7",status:"live",team:"joint",left:76,top:34},
 ];
 
-function loadState(){const s=localStorage.getItem('vcf-items-v3');if(s){try{return JSON.parse(s)}catch(e){}}return DEFAULTS.map(d=>({...d}))}
-function persist(){const items=[];grid.querySelectorAll('.item').forEach(el=>{items.push({name:el.dataset.name,detail:el.dataset.detail||'',status:el.dataset.status,team:el.dataset.team||'ops',left:parseFloat(el.style.left),top:parseFloat(el.style.top)})});localStorage.setItem('vcf-items-v3',JSON.stringify(items))}
+function loadState(){const s=localStorage.getItem('vcf-items-v4');if(s){try{return JSON.parse(s)}catch(e){}}return DEFAULTS.map(d=>({...d}))}
+function persist(){const items=[];grid.querySelectorAll('.item').forEach(el=>{items.push({name:el.dataset.name,detail:el.dataset.detail||'',status:el.dataset.status,team:el.dataset.team||'ops',left:parseFloat(el.style.left),top:parseFloat(el.style.top)})});localStorage.setItem('vcf-items-v4',JSON.stringify(items))}
 
 function makeEl(item){
   const el=document.createElement('div');
@@ -397,7 +393,7 @@ function exportMd(){
   }
   const b=new Blob([md],{type:'text/markdown'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='vcf-export-'+new Date().toISOString().slice(0,10)+'.md';a.click();
 }
-function resetAll(){if(confirm('Reset to defaults? Your changes will be lost.')){localStorage.removeItem('vcf-items-v3');grid.querySelectorAll('.item').forEach(el=>el.remove());DEFAULTS.forEach(i=>makeEl(i));persist();updateCounts()}}
+function resetAll(){if(confirm('Reset to defaults? Your changes will be lost.')){localStorage.removeItem('vcf-items-v4');grid.querySelectorAll('.item').forEach(el=>el.remove());DEFAULTS.forEach(i=>makeEl(i));persist();updateCounts()}}
 document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 </script>
 </body>
