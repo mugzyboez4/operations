@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphitti Roadmap — A&R Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0E0E;--card:#1A1A1A;--card-hover:#1E1E1E;--border:#2A2A2A;--border-light:#333;
+  --white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;
+  --green:#CDF851;--flame:#FF4A23;--fog:#B0A9BE;--fog-dim:#706B7A;
+  --amber:#FFB347;--teal:#5BC0BE;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;height:44px;position:sticky;top:0;z-index:9999}
+nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+nav .nav-links{display:flex;align-items:center;gap:2px}
+nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color 0.15s}
+nav .nav-links a:hover{color:var(--white)}
+nav .nav-links a.active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
+.sndd{position:relative;display:inline-block}
+.sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+.sndd-b:hover{color:var(--white)}
+.sndd-b.active{font-weight:700;color:var(--green);border-bottom:2px solid var(--green)}
+.sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:240px;z-index:10000;padding:4px 0}
+.sndd:hover .sndd-m{display:block}
+.sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+.sndd-m a:hover{background:var(--border);color:var(--white)}
+.sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+.sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+
+.container{max-width:1080px;margin:0 auto;padding:0 32px}
+
+/* ====================== HERO ====================== */
+.hero{padding:64px 0 36px;border-bottom:1px solid var(--border)}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.hero-title{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:0.95;margin-bottom:18px;text-transform:uppercase}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
+.hero-meta-item{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog-dim)}
+.hero-meta-item strong{color:var(--white);font-weight:600}
+.hero-sub{font-size:14px;color:var(--fog);max-width:680px;line-height:1.7;margin-top:18px}
+
+/* ====================== SECTION HEADERS ====================== */
+.section{padding:48px 0 8px}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.section-eyebrow.flame{color:var(--flame)}
+.section-eyebrow.teal{color:var(--teal)}
+.section-eyebrow.fog{color:var(--fog)}
+.section-title{font-size:32px;font-weight:900;letter-spacing:-0.8px;line-height:1.1;margin-bottom:8px;text-transform:uppercase}
+.section-desc{font-size:13px;color:var(--fog-dim);max-width:680px;line-height:1.6;margin-bottom:24px}
+
+/* ====================== STEPPING BACK CALLOUT ====================== */
+.callout{background:var(--card);border-left:4px solid var(--flame);padding:24px 28px;margin:32px 0 8px}
+.callout-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--flame);margin-bottom:8px}
+.callout-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.3}
+.callout-body{font-size:13px;color:var(--fog);line-height:1.65}
+.callout-body strong{color:var(--white);font-weight:600}
+.callout-list{list-style:none;margin-top:12px}
+.callout-list li{padding:4px 0 4px 16px;position:relative;font-size:13px;color:var(--fog)}
+.callout-list li::before{content:'\2014';position:absolute;left:0;color:var(--flame)}
+
+/* ====================== SHIPPED CARDS ====================== */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
+.card{background:var(--card);padding:18px 20px;border-left:3px solid var(--green);position:relative;min-height:120px;display:flex;flex-direction:column;justify-content:space-between}
+.card-label{font-size:13px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-0.2px}
+.card-desc{font-size:11px;color:var(--fog-dim);line-height:1.55}
+.card-status{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--green);margin-top:10px;text-transform:uppercase}
+.card-check{position:absolute;top:14px;right:16px;color:var(--green);font-size:16px;font-weight:900}
+
+/* ====================== NOW LANES ====================== */
+.lanes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:8px}
+.lane{background:var(--card);padding:0;border-top:3px solid var(--teal);min-height:200px}
+.lane-header{padding:18px 22px 14px;border-bottom:1px solid var(--border)}
+.lane-eyebrow{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;margin-bottom:6px}
+.lane-title{font-size:16px;font-weight:800;color:var(--white);letter-spacing:-0.3px;margin-bottom:6px}
+.lane-sub{font-size:11px;color:var(--fog-dim);line-height:1.5}
+.lane-body{padding:16px 22px 20px}
+.lane-subhead{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--fog-dim);text-transform:uppercase;margin:8px 0 8px;padding-bottom:4px;border-bottom:1px dotted var(--border-light)}
+.lane-subhead:first-child{margin-top:0}
+.lane-list{list-style:none}
+.lane-list li{font-size:12px;color:var(--text);padding:5px 0 5px 14px;position:relative;line-height:1.5}
+.lane-list li::before{content:'\00B7';position:absolute;left:0;color:var(--teal);font-weight:900;font-size:18px;line-height:1;top:8px}
+.lane-list li strong{color:var(--white);font-weight:600}
+
+/* ===== Discovery Dashboard variant — gating, not building ===== */
+.lane.scoping{border-top-color:var(--amber)}
+.lane.scoping .lane-eyebrow{color:var(--amber)}
+.lane.scoping .lane-list li::before{color:var(--amber)}
+.scope-banner{background:rgba(255,179,71,0.07);border-left:3px solid var(--amber);padding:10px 14px;margin:0 0 14px;font-size:11px;color:var(--fog);line-height:1.55;font-family:'Inter',sans-serif}
+.scope-banner strong{color:var(--amber);font-weight:700}
+
+.phase-block{background:rgba(255,179,71,0.04);border-left:2px solid var(--amber);padding:14px 16px;margin-top:12px}
+.phase-block:first-of-type{margin-top:0}
+.phase-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+.phase-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-0.2px}
+.phase-meta{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;color:var(--fog-dim);margin-top:10px;padding-top:8px;border-top:1px dotted var(--border-light);text-transform:uppercase}
+.phase-meta span{color:var(--amber);font-weight:700}
+
+/* ====================== NEXT / PARKING ====================== */
+.next-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.next-item{background:var(--card);padding:16px 20px;border-left:3px solid var(--fog);}
+.next-label{font-size:13px;font-weight:700;color:var(--white);margin-bottom:4px}
+.next-desc{font-size:11px;color:var(--fog-dim);line-height:1.55}
+
+.parking-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.parking-item{background:rgba(26,26,26,0.6);padding:12px 16px;border-left:2px solid var(--muted)}
+.parking-label{font-size:11px;font-weight:700;color:var(--fog);margin-bottom:2px;letter-spacing:-0.1px}
+.parking-desc{font-size:10px;color:var(--fog-dim);line-height:1.5}
+
+/* ====================== OPEN QUESTIONS ====================== */
+.questions{background:var(--card);border-left:3px solid var(--flame);padding:24px 28px;margin-top:8px}
+.q-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--flame);text-transform:uppercase;margin-bottom:14px}
+.q-list{list-style:none}
+.q-list li{font-size:13px;color:var(--text);padding:8px 0 8px 18px;position:relative;line-height:1.5;border-bottom:1px dotted var(--border-light)}
+.q-list li:last-child{border-bottom:0}
+.q-list li::before{content:'?';position:absolute;left:0;color:var(--flame);font-weight:900;font-family:'Inter',sans-serif;font-size:11px;top:9px}
+.q-list li strong{color:var(--white);font-weight:600}
+.q-placeholder{font-size:11px;color:var(--fog-dim);font-style:italic;margin-top:12px;padding-left:18px}
+
+/* ====================== FOOTER ====================== */
+.foot{padding:48px 0 60px;border-top:1px solid var(--border);margin-top:48px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted);letter-spacing:0.5px;font-family:'Inter',sans-serif}
+.foot a{color:var(--fog-dim);text-decoration:none}
+.foot a:hover{color:var(--green)}
+
+@media (max-width:880px){
+  .hero-title{font-size:44px}
+  .cards-grid{grid-template-columns:1fr 1fr}
+  .lanes{grid-template-columns:1fr}
+  .next-grid{grid-template-columns:1fr}
+  .parking-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
+<div class="nav-links">
+<a href="../index.html">The Mission</a>
+<a href="../orbit.html">The Cycle</a>
+<a href="../timeline.html">Accountability</a>
+<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../lanes.html">Lane Definition</a><a href="../vcf.html">Value vs. Complexity</a></div></div>
+<div class="sndd"><span class="sndd-b active">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="../reference/framework-reference.html">Framework Reference</a><a href="../reference/operational-plan.html">How It Runs</a><a href="../reference/active-projects-template.html">Active Projects Template</a><a href="../reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../visibility.html">Visibility (Roster)</a><a href="../meetings.html">Meeting Flow</a><a href="../insights/index.html">Insights</a><a href="../insights/graphitti.html" style="color:#CDF851;">Graphitti Roadmap</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="../archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
+</div>
+</nav>
+
+<div class="container">
+
+<!-- ====================== HERO ====================== -->
+<div class="hero">
+  <div class="hero-eyebrow">A&R Analytics</div>
+  <h1 class="hero-title">Graphitti<br>Roadmap</h1>
+  <div class="hero-meta">
+    <span class="hero-meta-item">Updated <strong>May 2026</strong></span>
+    <span class="hero-meta-item">Status <strong>Web + Mobile in production for A&R</strong></span>
+    <span class="hero-meta-item">Owner <strong>A&amp;R Analytics</strong></span>
+  </div>
+  <p class="hero-sub">Three priorities now: clean up post-rollout friction, scale data accuracy through profile merging, and scope a Discovery Dashboard that surfaces unsigned talent without adding A&R overhead.</p>
+</div>
+
+<!-- ====================== STEPPING BACK FROM ====================== -->
+<div class="callout">
+  <div class="callout-eyebrow">Stepping back from</div>
+  <div class="callout-title">Overall RCA line and current Genre views on the dashboard login</div>
+  <div class="callout-body">
+    These views include all catalog for active artists, which doesn't match the financial label definition that corporate uses to grade RCA. Continuing to surface them risks anchoring leadership to numbers that won't reconcile with how Peter and Fleck actually measure the label. Aligning to that definition first; revisit once the data layer matches.
+  </div>
+</div>
+
+<!-- ====================== SHIPPED ====================== -->
+<div class="section">
+  <div class="section-eyebrow">Section 01 &middot; Shipped to A&R</div>
+  <h2 class="section-title">In production</h2>
+  <p class="section-desc">Live for A&R staff on web and mobile. Broader rollout to leadership is its own gate, dependent on the data scaling and label-definition work below.</p>
+</div>
+
+<div class="cards-grid">
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Infrastructure</div>
+      <div class="card-desc">Build-out and maintenance to scale efficiently</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Luminate transition</div>
+      <div class="card-desc">Migrated to new Luminate Snowflake data share</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Shareable lists</div>
+      <div class="card-desc">Unified view of artists and songs being monitored</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Geographic views</div>
+      <div class="card-desc">US and Global maps of artist + song stream volume</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Deal status</div>
+      <div class="card-desc">Tag and track potential signings by stage</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">A&R assignment</div>
+      <div class="card-desc">Assign and review who is on which artists</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Web app launch</div>
+      <div class="card-desc">UAT closed, in production for A&R</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">Mobile app launch</div>
+      <div class="card-desc">In production for A&R</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+  <div class="card">
+    <span class="card-check">&#10003;</span>
+    <div>
+      <div class="card-label">User testing</div>
+      <div class="card-desc">Initial rollout complete; feedback driving the cleanup lane below</div>
+    </div>
+    <div class="card-status">Shipped</div>
+  </div>
+</div>
+
+<!-- ====================== NOW ====================== -->
+<div class="section">
+  <div class="section-eyebrow teal">Section 02 &middot; Now</div>
+  <h2 class="section-title">Three priorities</h2>
+  <p class="section-desc">Sequenced, not parallel. Cleanup ships in days. Data scaling unblocks accuracy at scale. Discovery Dashboard is a scoping milestone — no build until scope is locked.</p>
+</div>
+
+<div class="lanes">
+
+  <!-- Lane 1: Cleanup -->
+  <div class="lane">
+    <div class="lane-header">
+      <div class="lane-eyebrow">Lane 01</div>
+      <div class="lane-title">Cleanup &amp; refinement</div>
+      <div class="lane-sub">Surfaced from A&R user feedback post-rollout. Most are quick fixes; sequencing handled at the build level.</div>
+    </div>
+    <div class="lane-body">
+
+      <div class="lane-subhead">Desktop</div>
+      <ul class="lane-list">
+        <li><strong>Two master lists</strong> — Frontline and Trend Senate aggregates</li>
+        <li><strong>"Add all" button</strong> — restore for markets and songs</li>
+        <li><strong>% of total per market</strong> — on Ex-US and US Cities pages</li>
+        <li><strong>"Albums Released"</strong> — remove (data unreliable, e.g. SZA shows 35)</li>
+        <li><strong>"US" → "Artist"</strong> — on artist page, matches Songs / Albums framing</li>
+        <li><strong>Songs page legend</strong> — replace with per-line tooltip on graph</li>
+        <li><strong>Weekly aggregation toggle</strong> — match the mobile version</li>
+        <li><strong>% chg behavior</strong> — should release when scrolling line, not stay fixed</li>
+        <li><strong>Average streams dotted line</strong> — remove</li>
+        <li><strong>"US Cities" → "US States"</strong> or "US Map"</li>
+      </ul>
+
+      <div class="lane-subhead">Mobile</div>
+      <ul class="lane-list">
+        <li><strong>Spark lines</strong> — fix Ex-US instability</li>
+        <li><strong>% change column</strong> — add to artists and tracks tables</li>
+        <li><strong>Genre split</strong> — fix Rap separating from R&amp;B/Hip-Hop; should be R&amp;B and Rap/Hip-Hop</li>
+        <li><strong>Axis labels</strong> — add x and y, match desktop</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- Lane 2: Data Scaling -->
+  <div class="lane">
+    <div class="lane-header">
+      <div class="lane-eyebrow">Lane 02</div>
+      <div class="lane-title">Data scaling &amp; profile merging</div>
+      <div class="lane-sub">Accuracy work that unblocks broader rollout to leadership. Subsumes several items that were "in progress" in March.</div>
+    </div>
+    <div class="lane-body">
+      <ul class="lane-list">
+        <li><strong>Artist profile merging</strong> — collapse duplicates, fix data gaps across sources</li>
+        <li><strong>Global data</strong> — Ex-US and Global incorporation across the platform</li>
+        <li><strong>Genre tagging</strong> — aggregate best metadata from Luminate, Chartmetric, Spotify</li>
+        <li><strong>Label mapping</strong> — accurate label and distributor information</li>
+        <li><strong>Financial label alignment</strong> — reconcile to corporate definition before broader leadership rollout</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Lane 3: Discovery Dashboard -->
+  <div class="lane scoping">
+    <div class="lane-header">
+      <div class="lane-eyebrow">Lane 03 &middot; Scoping</div>
+      <div class="lane-title">Discovery Dashboard</div>
+      <div class="lane-sub">Strategic priority. A low-lift surface for unsigned talent so we don't miss the big ones. Net-new since the March roadmap.</div>
+    </div>
+    <div class="lane-body">
+      <div class="scope-banner"><strong>Scope first, build second.</strong> Phase 01 defines what gets built. Phase 02 starts only when scope is locked.</div>
+
+      <div class="phase-block">
+        <div class="phase-label">Phase 01 &middot; Scope</div>
+        <div class="phase-title">Define before build</div>
+        <ul class="lane-list">
+          <li><strong>User</strong> — A&R only, or does it surface to leadership?</li>
+          <li><strong>Input signals</strong> — which Graphitti data points trigger inclusion?</li>
+          <li><strong>Surface</strong> — one dashboard, multiple per genre, mobile-first?</li>
+          <li><strong>Success metric</strong> — saves vs. signs, leads generated, hit rate?</li>
+        </ul>
+        <div class="phase-meta">Owner &middot; <span>Strategic Analytics</span></div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-label">Phase 02 &middot; Build</div>
+        <div class="phase-title">Begins once scope is locked</div>
+        <ul class="lane-list">
+          <li>Engineering build to the locked spec</li>
+          <li>Internal A&R testing</li>
+          <li>Production rollout</li>
+        </ul>
+        <div class="phase-meta">Owner &middot; <span>Engineering</span> &middot; Gated on Phase 01</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ====================== NEXT ====================== -->
+<div class="section">
+  <div class="section-eyebrow fog">Section 03 &middot; Next</div>
+  <h2 class="section-title">After the three priorities</h2>
+  <p class="section-desc">Carried forward from March's "Next Up." Sequencing depends on how Discovery Dashboard scopes — some of these may be subsumed.</p>
+</div>
+
+<div class="next-grid">
+  <div class="next-item">
+    <div class="next-label">MDR Report Integration</div>
+    <div class="next-desc">Fully integrate MDR reports used for lead generation into Graphitti</div>
+  </div>
+  <div class="next-item">
+    <div class="next-label">Social Follower &amp; Engagement Data</div>
+    <div class="next-desc">Incorporate follower and engagement signals into artist evaluation</div>
+  </div>
+  <div class="next-item">
+    <div class="next-label">Deal Calculator 2.0</div>
+    <div class="next-desc">Project financial opportunity / floors based on existing artist business</div>
+  </div>
+  <div class="next-item">
+    <div class="next-label">Artist Evaluation Framework</div>
+    <div class="next-desc">Common framework for evaluating artists across signals</div>
+  </div>
+</div>
+
+<!-- ====================== PARKING LOT ====================== -->
+<div class="section">
+  <div class="section-eyebrow fog">Section 04 &middot; Parking lot</div>
+  <h2 class="section-title">Held for review</h2>
+  <p class="section-desc">Carried from March. Recommend a 60-day review: anything that hasn't moved gets cut or promoted.</p>
+</div>
+
+<div class="parking-grid">
+  <div class="parking-item"><div class="parking-label">Honey hole development</div><div class="parking-desc">R&amp;D on additional early signals for lead generation</div></div>
+  <div class="parking-item"><div class="parking-label">Predictive streams algorithm</div><div class="parking-desc">Forecast future streams to inform deal financials</div></div>
+  <div class="parking-item"><div class="parking-label">TikTok post data</div><div class="parking-desc">Incorporate post-level data for artist evaluation</div></div>
+  <div class="parking-item"><div class="parking-label">Customized A&amp;R reports</div><div class="parking-desc">Lead reports tuned to individual A&amp;R genre / cultural focus</div></div>
+  <div class="parking-item"><div class="parking-label">Genre / space paradigm</div><div class="parking-desc">Tool to flag which genres are likely to break next</div></div>
+  <div class="parking-item"><div class="parking-label">Social mapping</div><div class="parking-desc">Track who influential industry players are following</div></div>
+  <div class="parking-item"><div class="parking-label">Spotify chart / playlist radar</div><div class="parking-desc">Surface key chart and playlist adds for unsigned artists</div></div>
+  <div class="parking-item"><div class="parking-label">RAG sentiment / psychographics</div><div class="parking-desc">Hybrid LLM analyzing online conversation around artists</div></div>
+  <div class="parking-item"><div class="parking-label">Shazamablam</div><div class="parking-desc">Geographical translation identification</div></div>
+</div>
+
+<!-- ====================== OPEN QUESTIONS ====================== -->
+<div class="section">
+  <div class="section-eyebrow flame">Section 05 &middot; Open questions &amp; roadblocks</div>
+  <h2 class="section-title">For discussion</h2>
+  <p class="section-desc">Carried from the March deck. Status to be updated.</p>
+</div>
+
+<div class="questions">
+  <div class="q-label">Open</div>
+  <ul class="q-list">
+    <li><strong>Spotify API Developer Key</strong> — flagged as a roadblock in March; status?</li>
+    <li><strong>PDE support</strong> — flagged in March; what's the current ask?</li>
+    <li><strong>AI developer tools</strong> — flagged in March; resolved or still open?</li>
+    <li><strong>How valuable is tracking what A&amp;Rs are working on?</strong></li>
+    <li><strong>How valuable is tracking deal status, and at what level of detail?</strong></li>
+    <li><strong>Future-state direction</strong> — Discovery Dashboard scope conversation tees this up</li>
+  </ul>
+  <p class="q-placeholder">Status updates pending — owner to refresh.</p>
+</div>
+
+<div class="foot">
+  <span>RCA &middot; A&amp;R Analytics &middot; Internal</span>
+  <a href="../index.html">&larr; Back to TEMPO</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
