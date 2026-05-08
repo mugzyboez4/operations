@@ -79,18 +79,50 @@ nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);p
 .foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:24px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:0.5px}
 
 @media(max-width:640px){.c{padding:0 20px}.artist-card{padding:18px 20px}.hero-title{font-size:32px}.foot{flex-direction:column;gap:4px}.card-row{flex-direction:column;gap:2px}.deploy-ts{padding-right:0}}
+
+/* === Canonical Campaign Ops nav (matches homepage) === */
+nav.cnav{display:flex !important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif;height:auto;color:#0F0E0E}
+nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px;border:none;padding:0}
+nav.cnav .cnav-logo span{color:#CDF851}
+nav.cnav .cnav-logo:hover{color:#0F0E0E;background:transparent;border-color:transparent}
+nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px;vertical-align:middle;display:block}
+nav.cnav .cnav-link{font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s;background:transparent;border-radius:0}
+nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3;background:transparent}
+nav.cnav .cnav-link.active{color:#FF4A23;border-color:#FF4A23;font-weight:600}
+nav.cnav .cnav-dropdown{position:relative;display:inline-block}
+nav.cnav .cnav-dropdown-toggle{cursor:pointer;user-select:none}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle{color:#0F0E0E;border-color:#ECEAE3}
+nav.cnav .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#FFFFFF;border:1px solid #ECEAE3;min-width:200px;z-index:99999;padding:4px 0;margin-top:1px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-menu{display:block}
+nav.cnav .cnav-dropdown-menu a{display:block;font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:8px 14px;border:none;background:transparent}
+nav.cnav .cnav-dropdown-menu a:hover{color:#0F0E0E;background:#F5F2EB;border:none}
+nav.cnav .cnav-dropdown-menu a.current{color:#FF4A23;font-weight:600}
+
 </style>
 </head>
 <body>
-<nav>
-<a href="../index.html" class="logo"><img src="../tempoicon.png" alt="TEMPO" style="height:26px;width:26px;margin-right:8px;border-radius:4px;"><span class="l1">RCA</span><span class="l2">&middot;</span><span class="l3">CAMPAIGN OPS</span></a>
-<div class="nav-links">
-<a href="../index.html">The Mission</a>
-<a href="../orbit.html">The Cycle</a>
-<a href="../timeline.html">Accountability</a>
-<div class="sndd"><span class="sndd-b">Pipeline &#9662;</span><div class="sndd-m"><a href="../lanes.html">Lane Definition</a><a href="../vcf.html">Value vs. Complexity</a></div></div>
-<div class="sndd"><span class="sndd-b active">Reference &#9662;</span><div class="sndd-m"><div class="sep-label">Frameworks</div><a href="../reference/framework-reference.html">Framework Reference</a><a href="../reference/operational-plan.html">How It Runs</a><a href="../reference/active-projects-template.html">Active Projects Template</a><a href="../reference/handoff-map.html">Handoff Map</a><div class="sep"></div><div class="sep-label">Meetings</div><a href="../meetings/goal-brief-2026-03-18.html">Goal Brief &mdash; 3/18</a><a href="../meetings/notes-2026-03-16.html">Meeting Notes &mdash; 3/16</a><a href="../meetings/goal-brief-2026-03-11.html">Goal Brief &mdash; 3/11</a><a href="../meetings/notes-2026-03-04.html">Meeting Notes &mdash; 3/4</a><div class="sep"></div><div class="sep-label">Tools</div><a href="../release.html">Release View</a><a href="../visibility.html">Visibility (Roster)</a><a href="../meetings.html">Meeting Flow</a><a href="../insights/index.html">Insights</a><a href="../insights/strategic-analytics.html">Strategic Analytics</a><a href="../insights/graphitti.html">Graphitti Roadmap</a><a href="../reference/airtable-grid.html">Airtable Grid</a><a href="../reference/atlantic-uk.html">Atlantic UK System</a><div class="sep"></div><div class="sep-label">Artists</div><a href="../artists/isaia-huron.html">Isaia Huron</a><a href="../artists/pixy.html">PIXY</a><a href="../artists/room-full-of-mirrors.html">Room Full of Mirrors</a><div class="sep"></div><a href="../archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a></div></div>
-</div>
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
+  </a>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/stage-gate.html" class="cnav-link">Stage-Gate</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/todo.html" class="cnav-link">To Do</a>
+  <a href="/tracker.html" class="cnav-link">Tracker</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <div class="cnav-dropdown">
+    <span class="cnav-link cnav-dropdown-toggle active">Insights &#9662;</span>
+    <div class="cnav-dropdown-menu">
+      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
+      <a href="/insights/graphitti.html">Graphitti</a>
+      <a href="/insights/index.html" class="current">Artist Insights</a>
+      <a href="/vcf.html">VCF</a>
+    </div>
+  </div>
 </nav>
 
 <div class="c">
