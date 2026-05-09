@@ -178,61 +178,65 @@
   .grid.compact .cultural-bar-cell,
   .grid.compact .cultural-bar-band { min-height: 28px; padding: 6px 10px; font-size: 10px; }
 
-  /* CULTURAL ROW — Outlook-tentative-style striped bands that span months.
-     Replaces the old "box per month" cultural rendering. Editable: clicking opens Airtable. */
+  /* CULTURAL ROW — bands at the bottom hold the moment name and the click target.
+     The translucent overlay above rises up FROM this row through all data rows. */
   .cultural-cell {
     position: relative;
     min-height: 56px;
-    background: #1A1A1A;
+    background: #0F0E0E;
     border-right: 1px solid #2E2E35;
     border-bottom: 1px solid #2E2E35;
-    padding: 6px 8px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     gap: 4px;
     justify-content: center;
   }
   .cultural-cell.cultural-spanning {
-    padding: 6px 0;
+    padding: 8px 6px;
   }
   .cultural-band {
     background:
       repeating-linear-gradient(
         135deg,
-        rgba(205, 248, 81, 0.32) 0,
-        rgba(205, 248, 81, 0.32) 6px,
-        rgba(205, 248, 81, 0.14) 6px,
-        rgba(205, 248, 81, 0.14) 12px
+        rgba(205, 248, 81, 0.45) 0,
+        rgba(205, 248, 81, 0.45) 7px,
+        rgba(205, 248, 81, 0.18) 7px,
+        rgba(205, 248, 81, 0.18) 14px
       );
-    border: 1px dashed rgba(205, 248, 81, 0.55);
-    border-radius: 3px;
-    padding: 6px 10px;
+    border: 1px solid rgba(205, 248, 81, 0.7);
+    border-radius: 4px;
+    padding: 8px 12px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: #FCFDF8;
-    letter-spacing: 0.04em;
     cursor: pointer;
     transition: filter 0.15s, transform 0.15s;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    min-height: 22px;
+    min-height: 32px;
+    width: 100%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   }
   .cultural-band:hover {
-    filter: brightness(1.25);
-    border-style: solid;
+    filter: brightness(1.3);
+    transform: translateY(-1px);
   }
   .cultural-band-label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
   }
-  .grid.compact .cultural-cell { min-height: 40px; padding: 4px 6px; }
-  .grid.compact .cultural-band { font-size: 10px; padding: 4px 8px; min-height: 18px; }
+  .grid.compact .cultural-cell { min-height: 44px; padding: 6px 4px; }
+  .grid.compact .cultural-band { font-size: 10px; padding: 6px 10px; min-height: 26px; }
 
-  /* CULTURAL OVERLAY — translucent vertical stripe spanning the duration of a cultural moment.
-     Extends from below the header to the top of the cultural row, across all data rows.
-     Like a Canva transparency drag at ~50% — visible but doesn't obscure underlying chips. */
+  /* CULTURAL OVERLAY — translucent vertical stripe rising UP from the cultural row through all data rows.
+     Like a Canva transparency drag at ~50% — visible but doesn't obscure underlying chips.
+     Bottom of the stripe anchors to the cultural row band; top fades just below the header. */
   .cultural-overlay {
     position: absolute;
     pointer-events: none; /* chips remain clickable through the overlay */
@@ -245,24 +249,9 @@
         rgba(205, 248, 81, 0.04) 8px,
         rgba(205, 248, 81, 0.04) 16px
       );
-    border-left: 1px dashed rgba(205, 248, 81, 0.45);
-    border-right: 1px dashed rgba(205, 248, 81, 0.45);
+    border-left: 1px dashed rgba(205, 248, 81, 0.4);
+    border-right: 1px dashed rgba(205, 248, 81, 0.4);
     box-sizing: border-box;
-  }
-  .cultural-overlay-label {
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(205, 248, 81, 0.78);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(100% - 20px);
   }
 
   /* COLOR LEGEND — Jordan directive: blue=confirmed, pink=idea, purple=acquisition */
@@ -1388,11 +1377,6 @@ function renderCulturalOverlays() {
       overlay.style.top = top + 'px';
       overlay.style.width = (right - left) + 'px';
       overlay.style.height = height + 'px';
-      
-      const label = document.createElement('div');
-      label.className = 'cultural-overlay-label';
-      label.textContent = a.title || a.artist || 'Cultural moment';
-      overlay.appendChild(label);
       
       grid.appendChild(overlay);
     }
