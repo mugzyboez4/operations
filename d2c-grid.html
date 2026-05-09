@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>D2C Annual Activation Grid · May 2026 – April 2027</title>
+<title>D2C Long Lead · May 2026 – April 2027</title>
 <style>
   :root {
     --bg: #FCFDF8;
@@ -628,7 +628,7 @@
 <div class="gate" id="gate">
   <div class="gate-card">
     <div class="gate-eyebrow">Commercial Partnerships</div>
-    <div class="gate-title">D2C Activation Grid</div>
+    <div class="gate-title">D2C Long Lead</div>
     <div class="gate-sub">Internal planning surface for RCA Records D2C activation strategy. Enter team password to continue.</div>
     <input type="password" class="gate-input" id="gate-pw" placeholder="Password" autofocus>
     <button class="gate-btn" id="gate-submit">Unlock</button>
@@ -641,7 +641,7 @@
     <header class="header">
       <div class="title-block">
         <div class="eyebrow">Commercial Partnerships · D2C</div>
-        <h1>D2C Annual<br>Activation Grid</h1>
+        <h1>D2C<br>Long Lead</h1>
       </div>
       <div class="meta">
         <strong>May 2026 – April 2027</strong><br>
@@ -718,6 +718,7 @@ const ROWS = [
   {key: 'merch', label: 'Merch Drops', sub: 'All merch — confirmed, ideas, and acquisition targets'},
   {key: 'nonofficial', label: 'Additional Music Products', sub: '1YAs, RCA Exclusives, color variants, special pressings'},
   {key: 'rcashop', label: 'RCA Shop', sub: 'Multi-artist campaigns + tent-pole shop activations'},
+  {key: 'cultural', label: 'Cultural & Heritage', sub: 'Heritage months (band) + seasonal anchors (chips from Airtable)'},
 ];
 
 // Cultural & heritage moments — render as top bar above grid (not chips)
@@ -843,10 +844,13 @@ function airtableRecordToChip(record) {
   const acquisition = f['Acquisition Target'] === true;
   const colorOverride = f['Color Override'] || '';
   
-  // Determine color: explicit override > status mapping
+  // Determine color: explicit override > category > status mapping
   let color = '#DDE7EC'; // default blue
+  const targetRow = CATEGORY_TO_ROW[category] || 'official';
   if (colorOverride) {
     color = colorOverride;
+  } else if (targetRow === 'cultural') {
+    color = '#F0FAD0'; // soft chartreuse for cultural / heritage / seasonal
   } else if (acquisition) {
     color = '#E8E4F0';
   } else if (status === 'Draft' || status === 'Initiative' || status === 'Moment') {
@@ -856,7 +860,7 @@ function airtableRecordToChip(record) {
   }
   
   return {
-    row: CATEGORY_TO_ROW[category] || 'official',
+    row: targetRow,
     year: f['Year'] || 2026,
     month: MONTH_NAME_TO_NUM[monthName] || 1,
     opp: 'internal',
@@ -898,10 +902,8 @@ async function loadActivations() {
       offset = data.offset;
     } while (offset);
     
-    // Filter: cultural moments are rendered separately, exclude them from chip array
-    const chips = allRecords
-      .map(airtableRecordToChip)
-      .filter(c => c.row !== 'cultural');
+    // Cultural moments now render as chips in the cultural row (in addition to the spanning band)
+    const chips = allRecords.map(airtableRecordToChip);
     
     activations = chips;
     showSyncBanner(`✓ Loaded ${chips.length} chips from Airtable · ${new Date().toLocaleTimeString()}`, 'ok');
@@ -1065,33 +1067,6 @@ function renderGrid() {
   const grid = document.getElementById('grid');
   grid.className = 'grid' + (zoom === 'compact' ? ' compact' : '');
   let html = '';
-
-  // Cultural top bar — heritage/cultural moments as time-spanning bands
-  html += '<div class="cultural-bar-label">Cultural &amp; Heritage</div>';
-  // Build slot map for WINDOW months
-  const slotMap = WINDOW.map(() => null);
-  for (const moment of CULTURAL_MOMENTS) {
-    const startIdx = WINDOW.findIndex(w => w.year === moment.startYear && w.month === moment.startMonth);
-    const endIdx = WINDOW.findIndex(w => w.year === moment.endYear && w.month === moment.endMonth);
-    if (startIdx === -1) continue;
-    const span = (endIdx === -1 ? startIdx : endIdx) - startIdx + 1;
-    slotMap[startIdx] = {moment, span};
-    for (let i = startIdx + 1; i < startIdx + span; i++) {
-      if (i < slotMap.length) slotMap[i] = 'cont';
-    }
-  }
-  for (let i = 0; i < slotMap.length; i++) {
-    const slot = slotMap[i];
-    if (slot === null) {
-      html += '<div class="cultural-bar-cell"></div>';
-    } else if (slot === 'cont') {
-      // skip — covered by previous span
-      continue;
-    } else {
-      html += '<div class="cultural-bar-band" style="grid-column: span ' + slot.span + ';">' +
-              esc(slot.moment.label) + '</div>';
-    }
-  }
 
   // Header row
   html += '<div class="grid-header label-cell"></div>';
