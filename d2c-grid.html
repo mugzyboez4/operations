@@ -1179,19 +1179,17 @@ function renderGrid() {
             '<span class="row-label-sub">' + esc(row.sub) + '</span>' +
             '</div>';
 
-    // SPECIAL: Cultural row renders compact label cells. The visual time-span comes from
-    // translucent vertical OVERLAYS rendered on top of the grid (see renderCulturalOverlays).
+    // SPECIAL: Cultural row renders standard chips (matching all other rows visually).
+    // The vertical time-span comes from translucent OVERLAYS rendered on top of the grid (renderCulturalOverlays).
     if (row.key === 'cultural') {
-      // Helper: calculate where this cultural moment starts/ends in the WINDOW
       function spanFor(a) {
         const startIdx = WINDOW.findIndex(w => w.year === a.year && w.month === a.month);
         if (startIdx === -1) return null;
         if (!a.endMonth || a.endMonth === a.month) return { startIdx, endIdx: startIdx };
-        // Cross-year inference: if endMonth < startMonth, end is in next year
         let endYear = a.year;
         if (a.endMonth < a.month) endYear = a.year + 1;
         let endIdx = WINDOW.findIndex(w => w.year === endYear && w.month === a.endMonth);
-        if (endIdx === -1) endIdx = WINDOW.length - 1; // clamp
+        if (endIdx === -1) endIdx = WINDOW.length - 1;
         return { startIdx, endIdx };
       }
       const culturalActs = activations.filter(a => a.row === 'cultural').map(a => {
@@ -1199,30 +1197,34 @@ function renderGrid() {
         return s ? { ...a, _startIdx: s.startIdx, _endIdx: s.endIdx } : null;
       }).filter(Boolean);
 
-      // Render simple cells per month with the moment name shown in the start cell
       let skipUntil = -1;
       for (let i = 0; i < WINDOW.length; i++) {
         if (i <= skipUntil) continue;
         const startingHere = culturalActs.filter(a => a._startIdx === i);
         if (startingHere.length === 0) {
-          html += '<div class="cell in-window cultural-cell" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">' +
+          html += '<div class="cell in-window" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">' +
                   '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>' +
                   '</div>';
         } else {
           const maxSpan = Math.max(...startingHere.map(a => a._endIdx - a._startIdx + 1));
-          html += '<div class="cell in-window cultural-cell cultural-spanning" style="grid-column: span ' + maxSpan + ';" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">';
+          html += '<div class="cell in-window" style="grid-column: span ' + maxSpan + ';" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">';
+          html += '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>';
           for (const a of startingHere) {
             const idx = activations.indexOf(a);
-            html += '<div class="cultural-band" data-idx="' + idx + '" title="Click to edit in Airtable">' +
-                    '<span class="cultural-band-label">' + esc(a.title || a.artist || 'Cultural moment') + '</span>' +
+            const chipColor = getChipColor(a) || '#F0FAD0';
+            const chipBorderColor = deriveBorderColor(chipColor);
+            const chipStyle = ' style="background:' + chipColor + ';border-color:' + chipBorderColor + ';"';
+            const dateLabel = a.date && a.date !== '' ? ' <span class="chip-date">(' + esc(a.date) + ')</span>' : '';
+            html += '<div class="chip row-cultural" data-idx="' + idx + '"' + chipStyle + ' data-cultural="1">' +
+                    '<div class="chip-row"><span class="chip-artist">' + esc(a.title || a.artist || 'Cultural moment') + '</span></div>' +
+                    '<div class="chip-content">' + esc(a.detail ? a.detail.split('\n')[0].replace(/^[•\-]\s*/, '') : '') + dateLabel + '</div>' +
                     '</div>';
           }
-          html += '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>';
           html += '</div>';
           skipUntil = i + maxSpan - 1;
         }
       }
-      continue; // skip regular cell loop for cultural row
+      continue;
     }
 
     // Cells
@@ -1276,20 +1278,13 @@ function renderGrid() {
     chip.addEventListener('click', e => {
       e.stopPropagation();
       const idx = parseInt(chip.dataset.idx);
-      showActivationModal(idx);
-    });
-  });
-  // Wire cultural band clicks — open the record directly in Airtable for editing
-  grid.querySelectorAll('.cultural-band').forEach(band => {
-    band.addEventListener('click', e => {
-      e.stopPropagation();
-      const idx = parseInt(band.dataset.idx);
       const a = activations[idx];
-      if (a && a._airtableId) {
+      // Cultural chips open the record directly in Airtable for editing
+      if (chip.dataset.cultural === '1' && a && a._airtableId) {
         window.open('https://airtable.com/' + AIRTABLE_BASE_ID + '/' + AIRTABLE_TABLE_ID + '/' + a._airtableId, '_blank');
-      } else {
-        showActivationModal(idx);
+        return;
       }
+      showActivationModal(idx);
     });
   });
   // Wire add buttons
