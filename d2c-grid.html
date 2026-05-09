@@ -371,6 +371,8 @@
     z-index: 5; /* above the cultural overlay (z-index 4) so chips stay clickable */
     min-height: 60px;
     display: flex; flex-direction: column; justify-content: center;
+    color: var(--text);
+    text-decoration: none; /* for chip-as-anchor (cultural row) */
   }
   .chip:hover {
     background: var(--bg-chip-hover);
@@ -1193,33 +1195,41 @@ function renderGrid() {
         if (endIdx === -1) endIdx = WINDOW.length - 1;
         return { startIdx, endIdx };
       }
-      const culturalActs = activations.filter(a => a.row === 'cultural').map(a => {
+      // Build cultural items — preserve original activations index so clicks resolve correctly
+      const culturalItems = [];
+      for (let origIdx = 0; origIdx < activations.length; origIdx++) {
+        const a = activations[origIdx];
+        if (a.row !== 'cultural') continue;
         const s = spanFor(a);
-        return s ? { ...a, _startIdx: s.startIdx, _endIdx: s.endIdx } : null;
-      }).filter(Boolean);
+        if (!s) continue;
+        culturalItems.push({ a, origIdx, startIdx: s.startIdx, endIdx: s.endIdx });
+      }
 
       let skipUntil = -1;
       for (let i = 0; i < WINDOW.length; i++) {
         if (i <= skipUntil) continue;
-        const startingHere = culturalActs.filter(a => a._startIdx === i);
+        const startingHere = culturalItems.filter(it => it.startIdx === i);
         if (startingHere.length === 0) {
           html += '<div class="cell in-window" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">' +
                   '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>' +
                   '</div>';
         } else {
-          const maxSpan = Math.max(...startingHere.map(a => a._endIdx - a._startIdx + 1));
+          const maxSpan = Math.max(...startingHere.map(it => it.endIdx - it.startIdx + 1));
           html += '<div class="cell in-window" style="grid-column: span ' + maxSpan + ';" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">';
           html += '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>';
-          for (const a of startingHere) {
-            const idx = activations.indexOf(a);
+          for (const it of startingHere) {
+            const a = it.a;
             const chipColor = getChipColor(a) || '#F0FAD0';
             const chipBorderColor = deriveBorderColor(chipColor);
             const chipStyle = ' style="background:' + chipColor + ';border-color:' + chipBorderColor + ';"';
             const dateLabel = a.date && a.date !== '' ? ' <span class="chip-date">(' + esc(a.date) + ')</span>' : '';
-            html += '<div class="chip row-cultural" data-idx="' + idx + '"' + chipStyle + ' data-cultural="1">' +
+            const airtableUrl = a._airtableId
+              ? 'https://airtable.com/' + AIRTABLE_BASE_ID + '/' + AIRTABLE_TABLE_ID + '/' + a._airtableId
+              : '#';
+            html += '<a class="chip row-cultural" data-idx="' + it.origIdx + '"' + chipStyle + ' data-cultural="1" href="' + airtableUrl + '" target="_blank" rel="noopener">' +
                     '<div class="chip-row"><span class="chip-artist">' + esc(a.title || a.artist || 'Cultural moment') + '</span></div>' +
-                    '<div class="chip-content">' + esc(a.detail ? a.detail.split('\n')[0].replace(/^[•\-]\s*/, '') : '') + dateLabel + '</div>' +
-                    '</div>';
+                    '<div class="chip-content">' + esc(a.detail ? a.detail.split('\n')[0].replace(/^[\u2022\-]\s*/, '') : '') + dateLabel + '</div>' +
+                    '</a>';
           }
           html += '</div>';
           skipUntil = i + maxSpan - 1;
