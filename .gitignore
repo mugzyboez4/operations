@@ -1,0 +1,7 @@
+# Netlify build/dev artifacts
+.netlify/
+.DS_Store
+
+# Editor / OS noise
+.vscode/
+*.swp

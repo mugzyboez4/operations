@@ -839,6 +839,9 @@ document.getElementById('gate-submit').addEventListener('click', async () => {
   const err = document.getElementById('gate-error');
   if (await sha256(pw) === PW_HASH) {
     err.textContent = '';
+    // Stash the verified password in sessionStorage so the proxy can authenticate API calls.
+    // Cleared when the tab closes; never written to localStorage or disk.
+    sessionStorage.setItem(PW_SESSION_KEY, pw);
     unlock();
   } else {
     err.textContent = 'Incorrect password';
@@ -847,57 +850,30 @@ document.getElementById('gate-submit').addEventListener('click', async () => {
 document.getElementById('gate-pw').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('gate-submit').click();
 });
-if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
+if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  // Returning user from a session unlocked before the proxy deploy may not have PW_SESSION_KEY set.
+  // Force them to re-enter the password so we can populate it.
+  if (!sessionStorage.getItem(PW_SESSION_KEY)) {
+    sessionStorage.removeItem(SESSION_KEY);
+  } else {
+    unlock();
+  }
+}
 
 // ---------- DATA ----------
 // ---------- AIRTABLE-AS-BACKEND ----------
 // Source of truth = Airtable base appZYfEZ8t4uQkbfX, table tblpVBGus5nEVZVZ3
-// Edits happen in Airtable. The grid is a read-only render.
-//
-// SETUP (one-time, by Meg):
-// 1. Create an Airtable Personal Access Token at https://airtable.com/create/tokens
-//    Scope: data.records:read   Access: appZYfEZ8t4uQkbfX
-// 2. Open browser console on this page, run:  setAirtableToken('patXXXXXXXXXXXX')
-//    Token saves to localStorage and persists across page loads.
-// 3. Refresh. The grid loads chips from Airtable.
-//
-// To set token from console:
-//   setAirtableToken('patYourTokenHere')
-//
-// To view current token:
-//   getAirtableToken()
-//
-// To clear token:
-//   localStorage.removeItem('d2c_airtable_token')
+// Edits happen in Airtable. The grid is a read-only render that fetches from
+// a Netlify serverless function (/api/records). The Airtable token never reaches the browser —
+// it lives server-side as a Netlify env var. The grid sends the password the user already
+// entered (via the gate) on each request; the function validates it and proxies to Airtable.
 
-const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';
-const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';
-const AIRTABLE_TOKEN_KEY = 'd2c_airtable_token';
+const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';   // referenced by Edit-in-Airtable deep links only
+const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';  // referenced by Edit-in-Airtable deep links only
+const RECORDS_API_URL = '/api/records';
+const PW_SESSION_KEY = 'd2c_grid_pw';
 
-// URL parameter capture: visit ?at-token=patXXXXX to save token to localStorage and clean URL.
-// Lets Meg send a one-click setup link without exposing the token in the repo.
-(function captureTokenFromURL() {
-  try {
-    const url = new URL(window.location.href);
-    const t = url.searchParams.get('at-token');
-    if (t && t.startsWith('pat')) {
-      localStorage.setItem(AIRTABLE_TOKEN_KEY, t);
-      url.searchParams.delete('at-token');
-      window.history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
-      console.log('✓ Airtable token saved from URL.');
-    }
-  } catch (e) { console.warn('URL token capture failed:', e); }
-})();
-
-window.setAirtableToken = function(token) {
-  localStorage.setItem(AIRTABLE_TOKEN_KEY, token);
-  console.log('✓ Airtable token saved. Refresh the page.');
-};
-window.getAirtableToken = function() {
-  const t = localStorage.getItem(AIRTABLE_TOKEN_KEY);
-  console.log(t ? '✓ Token set: ' + t.substring(0, 12) + '...' : '✗ No token. Run setAirtableToken("patXXX...")');
-  return t;
-};
+// Legacy URL-param token capture is intentionally removed. Tokens are no longer client-side.
 
 const MONTH_NAME_TO_NUM = {
   'January':1,'February':2,'March':3,'April':4,'May':5,'June':6,
@@ -955,44 +931,35 @@ function airtableRecordToChip(record) {
 }
 
 async function loadActivations() {
-  const token = localStorage.getItem(AIRTABLE_TOKEN_KEY);
-  if (!token) {
-    console.warn('No Airtable token. Falling back to baseline. Run setAirtableToken("patXXX...") in console to enable live data.');
+  const pw = sessionStorage.getItem(PW_SESSION_KEY);
+  if (!pw) {
+    // Should never happen — gate must succeed before this runs — but defend anyway
+    console.warn('No session password — falling back to baseline.');
     activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
-    showSyncBanner('No Airtable token configured — showing baseline. See console.', 'warn');
+    showSyncBanner('No session — refresh the page and re-enter the password.', 'warn');
     return;
   }
   
   try {
     showSyncBanner('Loading from Airtable…', 'loading');
-    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}?pageSize=100`;
-    const allRecords = [];
-    let offset = null;
-    
-    do {
-      const fullUrl = offset ? url + '&offset=' + offset : url;
-      const res = await fetch(fullUrl, {
-        headers: { 'Authorization': 'Bearer ' + token }
-      });
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error('Airtable fetch failed: ' + res.status + ' ' + errText);
-      }
-      const data = await res.json();
-      allRecords.push(...data.records);
-      offset = data.offset;
-    } while (offset);
-    
-    // Cultural moments now render as chips in the cultural row (in addition to the spanning band)
+    const res = await fetch(RECORDS_API_URL, {
+      headers: { 'X-Grid-Password': pw },
+      cache: 'no-store'
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error('Proxy returned ' + res.status + ': ' + errText.substring(0, 200));
+    }
+    const data = await res.json();
+    const allRecords = data.records || [];
     const chips = allRecords.map(airtableRecordToChip);
-    
     activations = chips;
     showSyncBanner(`✓ Loaded ${chips.length} chips from Airtable · ${new Date().toLocaleTimeString()}`, 'ok');
-    console.log('Loaded', chips.length, 'chips from Airtable');
+    console.log('Loaded', chips.length, 'chips via proxy');
   } catch (e) {
-    console.error('Airtable load failed:', e);
+    console.error('Proxy load failed:', e);
     activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
-    showSyncBanner('Airtable load failed — showing baseline. ' + e.message, 'error');
+    showSyncBanner('Live load failed — showing baseline. ' + e.message, 'error');
   }
 }
 
