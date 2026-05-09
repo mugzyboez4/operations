@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphitti Checklist — Strategic Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F2EB;--surface:#FFFFFF;--card:#FFFFFF;--card-tint:#FAF8F2;
+  --border:#ECEAE3;--border-strong:#D9D5CB;
+  --ink:#0F0E0E;--text:#3E3F41;--dim:#888;--muted:#B0AA9C;
+  --green:#CDF851;--green-deep:#7AAA22;
+  --flame:#FF4A23;
+  --teal:#5BC0BE;--teal-deep:#3E8E8C;
+  --purple:#7F77DD;
+  --amber:#FFB347;--amber-deep:#A66B0F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* === Canonical Campaign Ops nav === */
+nav.cnav{display:flex !important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif;height:auto;color:#0F0E0E}
+nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px;border:none;padding:0}
+nav.cnav .cnav-logo span{color:#CDF851}
+nav.cnav .cnav-logo:hover{color:#0F0E0E;background:transparent;border-color:transparent}
+nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px;vertical-align:middle;display:block}
+nav.cnav .cnav-link{font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s;background:transparent;border-radius:0}
+nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3;background:transparent}
+nav.cnav .cnav-link.active{color:#FF4A23;border-color:#FF4A23;font-weight:600}
+nav.cnav .cnav-dropdown{position:relative;display:inline-block}
+nav.cnav .cnav-dropdown-toggle{cursor:pointer;user-select:none}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle{color:#0F0E0E;border-color:#ECEAE3}
+nav.cnav .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#FFFFFF;border:1px solid #ECEAE3;min-width:200px;z-index:99999;padding:4px 0;margin-top:1px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-menu{display:block}
+nav.cnav .cnav-dropdown-menu a{display:block;font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:8px 14px;border:none;background:transparent}
+nav.cnav .cnav-dropdown-menu a:hover{color:#0F0E0E;background:#F5F2EB;border:none}
+nav.cnav .cnav-dropdown-menu a.current{color:#FF4A23;font-weight:600}
+
+/* Sync banner */
+#sync-banner{padding:10px 32px;font-size:11px;font-weight:600;letter-spacing:0.5px;border-bottom:1px solid var(--border);text-transform:uppercase}
+#sync-banner.ok{background:#E8F5E0;color:#2E5A14}
+#sync-banner.error{background:#FFE4DD;color:#8B2410}
+#sync-banner.warn{background:#FFF4D6;color:#7A5A00}
+#sync-banner.loading{background:#F4F3EE;color:#6B6B68}
+
+.access-badge{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--flame);padding:4px 10px;border:1px solid var(--flame);background:rgba(255,74,35,0.04)}
+
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+
+/* Hero */
+.hero{padding:48px 0 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.hero-text{flex:1;min-width:300px}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--flame);margin-bottom:12px}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-1.6px;line-height:0.96;margin-bottom:14px;text-transform:uppercase;color:var(--ink)}
+.hero-sub{font-size:13px;color:var(--text);max-width:620px;line-height:1.7}
+
+/* Toolbar */
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toolbar-btn{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:9px 14px;background:var(--surface);color:var(--ink);border:1px solid var(--border);text-decoration:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.toolbar-btn:hover{border-color:var(--ink)}
+.toolbar-btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.toolbar-btn.primary:hover{background:#000;color:var(--green)}
+
+/* Counters row */
+.counters{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:32px 0 0}
+.counter{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--dim);padding:18px 20px}
+.counter-num{font-size:32px;font-weight:900;line-height:1;color:var(--ink);letter-spacing:-1px}
+.counter-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.counter.notstarted{border-top-color:var(--dim)}
+.counter.inprogress{border-top-color:var(--amber-deep);}
+.counter.inprogress .counter-num{color:var(--amber-deep)}
+.counter.done{border-top-color:var(--green-deep)}
+.counter.done .counter-num{color:var(--green-deep)}
+.counter.blocked{border-top-color:var(--flame)}
+.counter.blocked .counter-num{color:var(--flame)}
+.counter.deferred{border-top-color:var(--muted)}
+.counter.deferred .counter-num{color:var(--muted)}
+
+/* Section headers (one per quadrant) */
+.quad-section{padding:36px 0 0}
+.quad-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.quad-eyebrow.green{color:var(--green-deep)}
+.quad-eyebrow.teal{color:var(--teal-deep)}
+.quad-eyebrow.amber{color:var(--amber-deep)}
+.quad-eyebrow.flame{color:var(--flame)}
+.quad-title{font-size:24px;font-weight:900;letter-spacing:-0.5px;line-height:1.1;margin-bottom:6px;text-transform:uppercase;color:var(--ink)}
+.quad-desc{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:18px;max-width:620px}
+.quad-count{font-size:11px;font-weight:600;color:var(--dim);margin-bottom:18px;letter-spacing:1px;text-transform:uppercase}
+
+/* Item card */
+.item-card{background:var(--surface);border:1px solid var(--border);padding:18px 22px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start;cursor:pointer;transition:all .15s;border-left-width:4px;border-left-style:solid}
+.item-card.cat-only-you{border-left-color:var(--green-deep)}
+.item-card.cat-hand-off{border-left-color:var(--teal-deep)}
+.item-card.cat-prune{border-left-color:var(--amber-deep)}
+.item-card.cat-updates-owed{border-left-color:var(--flame)}
+.item-card:hover{border-color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.item-card.status-done{opacity:0.55}
+.item-card.status-deferred{opacity:0.5;background:var(--card-tint)}
+
+.item-main{min-width:0}
+.item-name{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-0.2px;margin-bottom:6px;line-height:1.35}
+.item-detail{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:10px}
+.item-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px dotted var(--border-strong)}
+.item-meta-cell{display:flex;flex-direction:column;gap:2px}
+.item-meta-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim)}
+.item-meta-value{font-size:11px;font-weight:600;color:var(--ink)}
+
+/* Status pill */
+.status-pill{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid;display:inline-block;white-space:nowrap;align-self:flex-start}
+.status-pill.notstarted{background:rgba(184,178,164,0.1);color:var(--dim);border-color:var(--border-strong)}
+.status-pill.inprogress{background:rgba(255,179,71,0.14);color:var(--amber-deep);border-color:rgba(255,179,71,0.4)}
+.status-pill.done{background:rgba(122,170,34,0.14);color:var(--green-deep);border-color:rgba(122,170,34,0.4)}
+.status-pill.blocked{background:rgba(255,74,35,0.10);color:var(--flame);border-color:rgba(255,74,35,0.4)}
+.status-pill.deferred{background:rgba(184,178,164,0.15);color:var(--muted);border-color:var(--border-strong)}
+
+/* Priority pill */
+.pri-pill{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:2px 6px;display:inline-block}
+.pri-pill.high{color:var(--flame);background:rgba(255,74,35,0.1)}
+.pri-pill.medium{color:var(--amber-deep);background:rgba(255,179,71,0.14)}
+.pri-pill.low{color:var(--dim);background:rgba(184,178,164,0.15)}
+
+/* Empty state */
+.empty{padding:24px;background:var(--card-tint);border:1px dashed var(--border-strong);text-align:center;font-size:12px;color:var(--dim);font-style:italic}
+
+/* Cleanup detail link bar */
+.cleanup-link{margin-top:48px;padding:24px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal-deep);display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.cleanup-link-text{flex:1;min-width:240px}
+.cleanup-link-eyebrow{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal-deep);margin-bottom:4px}
+.cleanup-link-title{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-0.2px;margin-bottom:4px}
+.cleanup-link-desc{font-size:11px;color:var(--text);line-height:1.6}
+
+/* Footer */
+.foot{padding:48px 0 60px;border-top:1px solid var(--border);margin-top:48px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim);letter-spacing:0.5px;flex-wrap:wrap;gap:12px}
+
+@media (max-width:880px){
+  .hero-title{font-size:36px}
+  .counters{grid-template-columns:repeat(2,1fr)}
+  .item-card{grid-template-columns:1fr}
+  .access-badge{display:none}
+}
+</style>
+</head>
+<body>
+<script>
+// === PASSWORD GATE ===
+(function(){
+  const HASH = '36c4ea02d61d5a1a7f85006c53d670367d14279d8dc72b9d7d4cce9306cab29b';
+  const KEY = 'sa_hub_auth';
+
+  if (sessionStorage.getItem(KEY) === 'true') return;
+
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:380px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#0F0E0E;margin-bottom:6px">RCA</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:32px">Strategic Analytics &middot; Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#FFFFFF;border:1px solid #ECEAE3;color:#0F0E0E;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#FF4A23;min-height:20px;margin-bottom:8px"></div>
+        <div style="font-size:10px;color:#888;margin-top:16px">Internal Use Only &middot; Campaign Operations</div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+</script>
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
+  </a>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/stage-gate.html" class="cnav-link">Stage-Gate</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/todo.html" class="cnav-link">To Do</a>
+  <a href="/tracker.html" class="cnav-link">Tracker</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <div class="cnav-dropdown">
+    <span class="cnav-link cnav-dropdown-toggle active">Insights &#9662;</span>
+    <div class="cnav-dropdown-menu">
+      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
+      <a href="/insights/graphitti.html">Graphitti</a>
+      <a href="/insights/graphitti-checklist.html" class="current">Graphitti Checklist</a>
+      <a href="/insights/index.html">Artist Insights</a>
+      <a href="/vcf.html">VCF</a>
+    </div>
+  </div>
+  <span class="access-badge">Restricted</span>
+</nav>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">A&R Analytics &middot; Live working tool</div>
+    <h1 class="hero-title">Graphitti<br>Checklist</h1>
+    <p class="hero-sub">Live working list synced from Airtable. Updates happen in Airtable; this page reflects the current state. Click any item to jump to its Airtable record.</p>
+  </div>
+  <div class="toolbar">
+    <button class="toolbar-btn" id="refresh-btn" onclick="refreshFromAirtable()">&#x21bb; Refresh</button>
+    <a class="toolbar-btn primary" id="open-airtable" href="#" target="_blank">&#8599; Open Airtable</a>
+  </div>
+</div>
+
+<!-- Counters -->
+<div class="counters" id="counters">
+  <div class="counter"><div class="counter-num" id="ct-total">—</div><div class="counter-label">Total</div></div>
+  <div class="counter notstarted"><div class="counter-num" id="ct-notstarted">—</div><div class="counter-label">Not Started</div></div>
+  <div class="counter inprogress"><div class="counter-num" id="ct-inprogress">—</div><div class="counter-label">In Progress</div></div>
+  <div class="counter done"><div class="counter-num" id="ct-done">—</div><div class="counter-label">Done</div></div>
+  <div class="counter blocked"><div class="counter-num" id="ct-blocked">—</div><div class="counter-label">Blocked</div></div>
+</div>
+
+<!-- Quadrants render here -->
+<div id="quadrants"></div>
+
+<!-- Cleanup Detail link -->
+<div class="cleanup-link">
+  <div class="cleanup-link-text">
+    <div class="cleanup-link-eyebrow">Cleanup Detail Tab</div>
+    <div class="cleanup-link-title">14 specific cleanup fixes</div>
+    <div class="cleanup-link-desc">From A&amp;R user feedback (4/24). Build lead owns sequencing within this list. Lives on a separate Airtable tab for granular tracking.</div>
+  </div>
+  <a class="toolbar-btn primary" id="open-cleanup" href="#" target="_blank">&#8599; Open Cleanup Tab</a>
+</div>
+
+<!-- Footer -->
+<div class="foot">
+  <span>RCA &middot; A&amp;R Analytics &middot; Live from Airtable &middot; <span id="last-loaded">—</span></span>
+  <a href="/" style="color:var(--dim);text-decoration:none;">&larr; TEMPO</a>
+</div>
+
+</div>
+
+<script>
+// ---------- AIRTABLE CONFIG ----------
+const AIRTABLE_BASE_ID = 'app70te9PywIfTjeL';
+const AIRTABLE_TABLE_ID = 'tblQoy1iNH9LhYPfW';            // Checklist
+const AIRTABLE_CLEANUP_TABLE_ID = 'tblCL7WOV5Bgcceix';     // Cleanup Detail
+const AIRTABLE_TOKEN_KEY = 'sa_airtable_token';
+
+// Open in Airtable links
+document.getElementById('open-airtable').href = `https://airtable.com/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
+document.getElementById('open-cleanup').href = `https://airtable.com/${AIRTABLE_BASE_ID}/${AIRTABLE_CLEANUP_TABLE_ID}`;
+
+// ---------- TOKEN HANDLING (mirrors D2C grid pattern) ----------
+// URL parameter capture: visit ?at-token=patXXXXX to save token to localStorage and clean URL.
+(function captureTokenFromURL() {
+  try {
+    const url = new URL(window.location.href);
+    const t = url.searchParams.get('at-token');
+    if (t && t.startsWith('pat')) {
+      localStorage.setItem(AIRTABLE_TOKEN_KEY, t);
+      url.searchParams.delete('at-token');
+      window.history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
+      console.log('✓ Airtable token saved from URL.');
+    }
+  } catch (e) { console.warn('URL token capture failed:', e); }
+})();
+
+window.setAirtableToken = function(token) {
+  localStorage.setItem(AIRTABLE_TOKEN_KEY, token);
+  console.log('✓ Airtable token saved. Refresh the page.');
+};
+window.getAirtableToken = function() {
+  const t = localStorage.getItem(AIRTABLE_TOKEN_KEY);
+  console.log(t ? '✓ Token set: ' + t.substring(0, 12) + '...' : '✗ No token. Run setAirtableToken("patXXX...")');
+  return t;
+};
+
+// ---------- DATA HELPERS ----------
+function airtableRecordToItem(record) {
+  const f = record.fields || {};
+  const cat = (f['Category'] && f['Category'].name) || f['Category'] || '';
+  const status = (f['Status'] && f['Status'].name) || f['Status'] || 'Not Started';
+  const priority = (f['Priority'] && f['Priority'].name) || f['Priority'] || '';
+  const owner = (f['Owner'] && f['Owner'].name) || f['Owner'] || '';
+  return {
+    id: record.id,
+    item: f['Item'] || '',
+    category: cat,
+    detail: f['Detail'] || '',
+    owner: owner,
+    priority: priority,
+    status: status,
+    cadence: f['Cadence'] || '',
+    notes: f['Notes'] || ''
+  };
+}
+
+const STATUS_KEY_MAP = {
+  'Not Started': 'notstarted',
+  'In Progress': 'inprogress',
+  'Done': 'done',
+  'Blocked': 'blocked',
+  'Deferred': 'deferred'
+};
+const CAT_KEY_MAP = {
+  'Only You': 'cat-only-you',
+  'Hand Off': 'cat-hand-off',
+  'Prune': 'cat-prune',
+  'Updates Owed': 'cat-updates-owed'
+};
+const QUADRANTS = [
+  {key:'Only You', accent:'green', subtitle:'Strategic items', desc:'Non-delegable. These don\'t move unless Crawley moves them. Sequence in the order that unblocks the most downstream work.'},
+  {key:'Hand Off', accent:'teal', subtitle:'Build lead, full ownership', desc:'Given with full execution authority. Sequencing within each is the build lead\'s call.'},
+  {key:'Updates Owed', accent:'flame', subtitle:'Stakeholder loops', desc:'Outbound communication owed. Frequency varies; the asks below are the next-up beats.'},
+  {key:'Prune', accent:'amber', subtitle:'60-day parking lot review', desc:'Set a calendar reminder for July. Anything that hasn\'t moved either gets promoted to active or cut. Don\'t carry indefinite parking-lot items.'}
+];
+
+// ---------- RENDER ----------
+let allItems = [];
+
+function render() {
+  // Counters
+  const counts = {total:allItems.length, notstarted:0, inprogress:0, done:0, blocked:0, deferred:0};
+  for (const it of allItems) {
+    const k = STATUS_KEY_MAP[it.status] || 'notstarted';
+    counts[k]++;
+  }
+  document.getElementById('ct-total').textContent = counts.total;
+  document.getElementById('ct-notstarted').textContent = counts.notstarted;
+  document.getElementById('ct-inprogress').textContent = counts.inprogress;
+  document.getElementById('ct-done').textContent = counts.done;
+  document.getElementById('ct-blocked').textContent = counts.blocked;
+
+  // Quadrants
+  const root = document.getElementById('quadrants');
+  root.innerHTML = '';
+  for (const q of QUADRANTS) {
+    const items = allItems.filter(i => i.category === q.key);
+    const sect = document.createElement('div');
+    sect.className = 'quad-section';
+    const eyeNum = String(QUADRANTS.indexOf(q) + 1).padStart(2, '0');
+    sect.innerHTML = `
+      <div class="quad-eyebrow ${q.accent}">${eyeNum} &middot; ${q.key}</div>
+      <h2 class="quad-title">${q.subtitle}</h2>
+      <p class="quad-desc">${q.desc}</p>
+      <div class="quad-count">${items.length} items</div>
+    `;
+
+    if (items.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = 'No items in this category yet.';
+      sect.appendChild(empty);
+    } else {
+      // Sort: not-done first, then by priority desc, then by item name
+      const priRank = {High:0, Medium:1, Low:2, '':3};
+      items.sort((a,b) => {
+        const aDone = a.status === 'Done' || a.status === 'Deferred';
+        const bDone = b.status === 'Done' || b.status === 'Deferred';
+        if (aDone !== bDone) return aDone ? 1 : -1;
+        const pa = priRank[a.priority] ?? 3;
+        const pb = priRank[b.priority] ?? 3;
+        if (pa !== pb) return pa - pb;
+        return a.item.localeCompare(b.item);
+      });
+      for (const it of items) sect.appendChild(renderCard(it));
+    }
+    root.appendChild(sect);
+  }
+}
+
+function renderCard(it) {
+  const card = document.createElement('div');
+  const catClass = CAT_KEY_MAP[it.category] || '';
+  const statusKey = STATUS_KEY_MAP[it.status] || 'notstarted';
+  card.className = `item-card ${catClass} status-${statusKey}`;
+  card.onclick = () => {
+    window.open(`https://airtable.com/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}/${it.id}`, '_blank');
+  };
+
+  const meta = [];
+  if (it.owner) meta.push(`<div class="item-meta-cell"><div class="item-meta-label">Owner</div><div class="item-meta-value">${escapeHtml(it.owner)}</div></div>`);
+  if (it.cadence) meta.push(`<div class="item-meta-cell"><div class="item-meta-label">Cadence</div><div class="item-meta-value">${escapeHtml(it.cadence)}</div></div>`);
+  if (it.priority) meta.push(`<div class="item-meta-cell"><div class="item-meta-label">Priority</div><div class="item-meta-value"><span class="pri-pill ${it.priority.toLowerCase()}">${escapeHtml(it.priority)}</span></div></div>`);
+  if (it.notes) meta.push(`<div class="item-meta-cell"><div class="item-meta-label">Notes</div><div class="item-meta-value">${escapeHtml(it.notes)}</div></div>`);
+
+  card.innerHTML = `
+    <div class="item-main">
+      <div class="item-name">${escapeHtml(it.item)}</div>
+      ${it.detail ? `<div class="item-detail">${escapeHtml(it.detail)}</div>` : ''}
+      ${meta.length ? `<div class="item-meta">${meta.join('')}</div>` : ''}
+    </div>
+    <span class="status-pill ${statusKey}">${escapeHtml(it.status)}</span>
+  `;
+  return card;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+// ---------- LOAD ----------
+async function loadFromAirtable() {
+  const token = localStorage.getItem(AIRTABLE_TOKEN_KEY);
+  if (!token) {
+    showSyncBanner('No Airtable token configured. See README or paste a token via ?at-token=patXXX URL.', 'warn');
+    return;
+  }
+  try {
+    showSyncBanner('Loading from Airtable…', 'loading');
+    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}?pageSize=100`;
+    const allRecords = [];
+    let offset = null;
+    do {
+      const fullUrl = offset ? url + '&offset=' + offset : url;
+      const res = await fetch(fullUrl, { headers: { 'Authorization': 'Bearer ' + token } });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`${res.status}: ${errText.substring(0, 120)}`);
+      }
+      const data = await res.json();
+      allRecords.push(...data.records);
+      offset = data.offset;
+    } while (offset);
+
+    allItems = allRecords.map(airtableRecordToItem);
+    render();
+    const ts = new Date().toLocaleTimeString();
+    showSyncBanner(`✓ Loaded ${allItems.length} items from Airtable · ${ts}`, 'ok');
+    document.getElementById('last-loaded').textContent = `Loaded ${ts}`;
+  } catch (e) {
+    console.error('Airtable load failed:', e);
+    showSyncBanner('Airtable load failed — ' + e.message, 'error');
+  }
+}
+
+function refreshFromAirtable() {
+  loadFromAirtable();
+}
+
+function showSyncBanner(text, kind) {
+  let banner = document.getElementById('sync-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'sync-banner';
+    document.body.insertBefore(banner, document.querySelector('.container'));
+  }
+  banner.textContent = text;
+  banner.className = kind || '';
+}
+
+// Initial load
+window.addEventListener('DOMContentLoaded', loadFromAirtable);
+
+// Refresh on tab focus (if last load > 30 sec ago)
+let lastLoadTime = 0;
+window.addEventListener('focus', () => {
+  if (Date.now() - lastLoadTime > 30000) {
+    lastLoadTime = Date.now();
+    loadFromAirtable();
+  }
+});
+</script>
+
+</body>
+</html>
