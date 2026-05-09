@@ -230,6 +230,41 @@
   .grid.compact .cultural-cell { min-height: 40px; padding: 4px 6px; }
   .grid.compact .cultural-band { font-size: 10px; padding: 4px 8px; min-height: 18px; }
 
+  /* CULTURAL OVERLAY — translucent vertical stripe spanning the duration of a cultural moment.
+     Extends from below the header to the top of the cultural row, across all data rows.
+     Like a Canva transparency drag at ~50% — visible but doesn't obscure underlying chips. */
+  .cultural-overlay {
+    position: absolute;
+    pointer-events: none; /* chips remain clickable through the overlay */
+    z-index: 4;            /* above cells, below chips */
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(205, 248, 81, 0.13) 0,
+        rgba(205, 248, 81, 0.13) 8px,
+        rgba(205, 248, 81, 0.04) 8px,
+        rgba(205, 248, 81, 0.04) 16px
+      );
+    border-left: 1px dashed rgba(205, 248, 81, 0.45);
+    border-right: 1px dashed rgba(205, 248, 81, 0.45);
+    box-sizing: border-box;
+  }
+  .cultural-overlay-label {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(205, 248, 81, 0.78);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 20px);
+  }
+
   /* COLOR LEGEND — Jordan directive: blue=confirmed, pink=idea, purple=acquisition */
   .legend-row {
     display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
@@ -1155,16 +1190,27 @@ function renderGrid() {
             '<span class="row-label-sub">' + esc(row.sub) + '</span>' +
             '</div>';
 
-    // SPECIAL: Cultural row renders as spanning striped bands (Outlook-tentative style), not boxes
+    // SPECIAL: Cultural row renders compact label cells. The visual time-span comes from
+    // translucent vertical OVERLAYS rendered on top of the grid (see renderCulturalOverlays).
     if (row.key === 'cultural') {
-      const culturalActs = activations.filter(a => a.row === 'cultural').map(a => {
+      // Helper: calculate where this cultural moment starts/ends in the WINDOW
+      function spanFor(a) {
         const startIdx = WINDOW.findIndex(w => w.year === a.year && w.month === a.month);
-        const endIdx = a.endMonth ? WINDOW.findIndex(w => w.year === a.year && w.month === a.endMonth) : startIdx;
-        return { ...a, _startIdx: startIdx, _endIdx: endIdx === -1 ? startIdx : endIdx };
-      }).filter(a => a._startIdx !== -1);
+        if (startIdx === -1) return null;
+        if (!a.endMonth || a.endMonth === a.month) return { startIdx, endIdx: startIdx };
+        // Cross-year inference: if endMonth < startMonth, end is in next year
+        let endYear = a.year;
+        if (a.endMonth < a.month) endYear = a.year + 1;
+        let endIdx = WINDOW.findIndex(w => w.year === endYear && w.month === a.endMonth);
+        if (endIdx === -1) endIdx = WINDOW.length - 1; // clamp
+        return { startIdx, endIdx };
+      }
+      const culturalActs = activations.filter(a => a.row === 'cultural').map(a => {
+        const s = spanFor(a);
+        return s ? { ...a, _startIdx: s.startIdx, _endIdx: s.endIdx } : null;
+      }).filter(Boolean);
 
-      // Iterate window. For each cell, either render a band (if a moment starts here) or an empty cell.
-      // Skip cells covered by an in-progress band.
+      // Render simple cells per month with the moment name shown in the start cell
       let skipUntil = -1;
       for (let i = 0; i < WINDOW.length; i++) {
         if (i <= skipUntil) continue;
@@ -1174,14 +1220,11 @@ function renderGrid() {
                   '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>' +
                   '</div>';
         } else {
-          // Render all moments that start here as stacked bands; outer cell spans the longest
           const maxSpan = Math.max(...startingHere.map(a => a._endIdx - a._startIdx + 1));
           html += '<div class="cell in-window cultural-cell cultural-spanning" style="grid-column: span ' + maxSpan + ';" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">';
           for (const a of startingHere) {
             const idx = activations.indexOf(a);
-            const aSpan = a._endIdx - a._startIdx + 1;
-            const widthPct = (aSpan / maxSpan) * 100;
-            html += '<div class="cultural-band" data-idx="' + idx + '" style="width:' + widthPct + '%;" title="Click to edit in Airtable">' +
+            html += '<div class="cultural-band" data-idx="' + idx + '" title="Click to edit in Airtable">' +
                     '<span class="cultural-band-label">' + esc(a.title || a.artist || 'Cultural moment') + '</span>' +
                     '</div>';
           }
@@ -1235,6 +1278,9 @@ function renderGrid() {
     }
   }
   grid.innerHTML = html;
+  
+  // Render translucent vertical overlays for cultural moments (extends up through all rows)
+  renderCulturalOverlays();
 
   // Wire chip clicks
   grid.querySelectorAll('.chip').forEach(chip => {
@@ -1285,6 +1331,82 @@ function renderGrid() {
     });
   });
 }
+
+// ---------- CULTURAL OVERLAYS ----------
+// Translucent vertical stripes that extend UP through all data rows for the duration of a cultural moment.
+// Computed via pixel measurement after layout (CSS Grid auto-flow makes spanning multi-row hard).
+function renderCulturalOverlays() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+  // Remove existing overlays first (re-render scenario)
+  grid.querySelectorAll('.cultural-overlay').forEach(el => el.remove());
+  
+  const culturalActs = activations.filter(a => a.row === 'cultural');
+  if (culturalActs.length === 0) return;
+  
+  // Run after layout so getBoundingClientRect is accurate
+  requestAnimationFrame(() => {
+    const headers = grid.querySelectorAll('.grid-header');
+    if (headers.length < WINDOW.length + 1) return;
+    
+    const gridRect = grid.getBoundingClientRect();
+    // Header positions: headers[0] is the corner label cell, headers[1..N] are the months
+    const monthRects = [];
+    for (let i = 1; i <= WINDOW.length; i++) {
+      monthRects.push(headers[i].getBoundingClientRect());
+    }
+    const headerBottom = monthRects[0].bottom;
+    
+    // Find the cultural row's TOP (overlays end here so they don't redundantly overlay the cultural cells themselves)
+    const culturalLabel = grid.querySelector('.row-label[data-row-key="cultural"]');
+    const culturalTop = culturalLabel ? culturalLabel.getBoundingClientRect().top : gridRect.bottom;
+    
+    grid.style.position = 'relative';  // anchor for absolute children
+    
+    for (const a of culturalActs) {
+      const startIdx = WINDOW.findIndex(w => w.year === a.year && w.month === a.month);
+      if (startIdx === -1) continue;
+      
+      let endIdx;
+      if (!a.endMonth || a.endMonth === a.month) {
+        endIdx = startIdx;
+      } else {
+        let endYear = a.year;
+        if (a.endMonth < a.month) endYear = a.year + 1;
+        endIdx = WINDOW.findIndex(w => w.year === endYear && w.month === a.endMonth);
+        if (endIdx === -1) endIdx = WINDOW.length - 1;
+      }
+      
+      const left = monthRects[startIdx].left - gridRect.left;
+      const right = monthRects[endIdx].right - gridRect.left;
+      const top = headerBottom - gridRect.top;
+      const height = (culturalTop - headerBottom);
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'cultural-overlay';
+      overlay.style.left = left + 'px';
+      overlay.style.top = top + 'px';
+      overlay.style.width = (right - left) + 'px';
+      overlay.style.height = height + 'px';
+      
+      const label = document.createElement('div');
+      label.className = 'cultural-overlay-label';
+      label.textContent = a.title || a.artist || 'Cultural moment';
+      overlay.appendChild(label);
+      
+      grid.appendChild(overlay);
+    }
+  });
+}
+
+// Re-render overlays on window resize (debounced)
+let _overlayResizeTimer = null;
+window.addEventListener('resize', () => {
+  if (_overlayResizeTimer) clearTimeout(_overlayResizeTimer);
+  _overlayResizeTimer = setTimeout(() => {
+    if (document.getElementById('app').classList.contains('unlocked')) renderCulturalOverlays();
+  }, 150);
+});
 
 // ---------- MODALS ----------
 // ---------- DEADLINES ----------
