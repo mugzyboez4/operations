@@ -794,6 +794,21 @@ const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';
 const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';
 const AIRTABLE_TOKEN_KEY = 'd2c_airtable_token';
 
+// URL parameter capture: visit ?at-token=patXXXXX to save token to localStorage and clean URL.
+// Lets Meg send a one-click setup link without exposing the token in the repo.
+(function captureTokenFromURL() {
+  try {
+    const url = new URL(window.location.href);
+    const t = url.searchParams.get('at-token');
+    if (t && t.startsWith('pat')) {
+      localStorage.setItem(AIRTABLE_TOKEN_KEY, t);
+      url.searchParams.delete('at-token');
+      window.history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
+      console.log('✓ Airtable token saved from URL.');
+    }
+  } catch (e) { console.warn('URL token capture failed:', e); }
+})();
+
 window.setAirtableToken = function(token) {
   localStorage.setItem(AIRTABLE_TOKEN_KEY, token);
   console.log('✓ Airtable token saved. Refresh the page.');
