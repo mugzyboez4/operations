@@ -178,6 +178,58 @@
   .grid.compact .cultural-bar-cell,
   .grid.compact .cultural-bar-band { min-height: 28px; padding: 6px 10px; font-size: 10px; }
 
+  /* CULTURAL ROW — Outlook-tentative-style striped bands that span months.
+     Replaces the old "box per month" cultural rendering. Editable: clicking opens Airtable. */
+  .cultural-cell {
+    position: relative;
+    min-height: 56px;
+    background: #1A1A1A;
+    border-right: 1px solid #2E2E35;
+    border-bottom: 1px solid #2E2E35;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+  }
+  .cultural-cell.cultural-spanning {
+    padding: 6px 0;
+  }
+  .cultural-band {
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(205, 248, 81, 0.32) 0,
+        rgba(205, 248, 81, 0.32) 6px,
+        rgba(205, 248, 81, 0.14) 6px,
+        rgba(205, 248, 81, 0.14) 12px
+      );
+    border: 1px dashed rgba(205, 248, 81, 0.55);
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #FCFDF8;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.15s;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+  }
+  .cultural-band:hover {
+    filter: brightness(1.25);
+    border-style: solid;
+  }
+  .cultural-band-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .grid.compact .cultural-cell { min-height: 40px; padding: 4px 6px; }
+  .grid.compact .cultural-band { font-size: 10px; padding: 4px 8px; min-height: 18px; }
+
   /* COLOR LEGEND — Jordan directive: blue=confirmed, pink=idea, purple=acquisition */
   .legend-row {
     display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
@@ -840,6 +892,7 @@ function airtableRecordToChip(record) {
   const f = record.fields || {};
   const category = (f['Category'] && f['Category'].name) || f['Category'] || 'Official Releases';
   const monthName = (f['Month'] && f['Month'].name) || f['Month'] || 'January';
+  const endMonthName = (f['End Month'] && f['End Month'].name) || f['End Month'] || null;
   const status = (f['Status'] && f['Status'].name) || f['Status'] || 'Confirmed';
   const acquisition = f['Acquisition Target'] === true;
   const colorOverride = f['Color Override'] || '';
@@ -863,6 +916,7 @@ function airtableRecordToChip(record) {
     row: targetRow,
     year: f['Year'] || 2026,
     month: MONTH_NAME_TO_NUM[monthName] || 1,
+    endMonth: endMonthName ? MONTH_NAME_TO_NUM[endMonthName] : null,
     opp: 'internal',
     artist: f['Artist'] || '',
     title: f['Initiative'] || f['Name'] || '',
@@ -1101,6 +1155,44 @@ function renderGrid() {
             '<span class="row-label-sub">' + esc(row.sub) + '</span>' +
             '</div>';
 
+    // SPECIAL: Cultural row renders as spanning striped bands (Outlook-tentative style), not boxes
+    if (row.key === 'cultural') {
+      const culturalActs = activations.filter(a => a.row === 'cultural').map(a => {
+        const startIdx = WINDOW.findIndex(w => w.year === a.year && w.month === a.month);
+        const endIdx = a.endMonth ? WINDOW.findIndex(w => w.year === a.year && w.month === a.endMonth) : startIdx;
+        return { ...a, _startIdx: startIdx, _endIdx: endIdx === -1 ? startIdx : endIdx };
+      }).filter(a => a._startIdx !== -1);
+
+      // Iterate window. For each cell, either render a band (if a moment starts here) or an empty cell.
+      // Skip cells covered by an in-progress band.
+      let skipUntil = -1;
+      for (let i = 0; i < WINDOW.length; i++) {
+        if (i <= skipUntil) continue;
+        const startingHere = culturalActs.filter(a => a._startIdx === i);
+        if (startingHere.length === 0) {
+          html += '<div class="cell in-window cultural-cell" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">' +
+                  '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>' +
+                  '</div>';
+        } else {
+          // Render all moments that start here as stacked bands; outer cell spans the longest
+          const maxSpan = Math.max(...startingHere.map(a => a._endIdx - a._startIdx + 1));
+          html += '<div class="cell in-window cultural-cell cultural-spanning" style="grid-column: span ' + maxSpan + ';" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '">';
+          for (const a of startingHere) {
+            const idx = activations.indexOf(a);
+            const aSpan = a._endIdx - a._startIdx + 1;
+            const widthPct = (aSpan / maxSpan) * 100;
+            html += '<div class="cultural-band" data-idx="' + idx + '" style="width:' + widthPct + '%;" title="Click to edit in Airtable">' +
+                    '<span class="cultural-band-label">' + esc(a.title || a.artist || 'Cultural moment') + '</span>' +
+                    '</div>';
+          }
+          html += '<button class="cell-add" data-row="cultural" data-year="' + WINDOW[i].year + '" data-month="' + WINDOW[i].month + '" title="Add cultural moment">+</button>';
+          html += '</div>';
+          skipUntil = i + maxSpan - 1;
+        }
+      }
+      continue; // skip regular cell loop for cultural row
+    }
+
     // Cells
     for (const w of WINDOW) {
       const acts = getActivations(row.key, w.year, w.month);
@@ -1150,6 +1242,19 @@ function renderGrid() {
       e.stopPropagation();
       const idx = parseInt(chip.dataset.idx);
       showActivationModal(idx);
+    });
+  });
+  // Wire cultural band clicks — open the record directly in Airtable for editing
+  grid.querySelectorAll('.cultural-band').forEach(band => {
+    band.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(band.dataset.idx);
+      const a = activations[idx];
+      if (a && a._airtableId) {
+        window.open('https://airtable.com/' + AIRTABLE_BASE_ID + '/' + AIRTABLE_TABLE_ID + '/' + a._airtableId, '_blank');
+      } else {
+        showActivationModal(idx);
+      }
     });
   });
   // Wire add buttons
