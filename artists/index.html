@@ -20,8 +20,10 @@
     background: var(--bg); color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
   }
 
+  /* ── NAV ── */
   nav.cnav {
     display: flex !important; align-items: center;
     padding: 14px 32px; border-bottom: 1px solid #ECEAE3;
@@ -61,6 +63,56 @@
 
   .page { max-width: 1320px; margin: 0 auto; padding: 32px 24px 80px; }
 
+  /* ── PASSWORD GATE ── */
+  #gate {
+    max-width: 440px; margin: 80px auto; padding: 32px;
+    background: var(--bg-card); border: 1px solid var(--border);
+  }
+  #gate h2 {
+    font-size: 22px; font-weight: 900; letter-spacing: -0.01em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  #gate p {
+    font-size: 12px; color: var(--text-dim); margin-bottom: 20px;
+  }
+  #gate input {
+    width: 100%; padding: 10px 14px; font-size: 14px; font-family: inherit;
+    border: 1px solid var(--border); background: var(--bg);
+    margin-bottom: 12px;
+  }
+  #gate input:focus { outline: none; border-color: var(--text); }
+  #gate button {
+    width: 100%; padding: 10px 14px; font-size: 12px; font-weight: 700;
+    font-family: inherit; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--bg); background: var(--text); border: 1px solid var(--text);
+    cursor: pointer; transition: all .15s;
+  }
+  #gate button:hover { background: var(--flame); border-color: var(--flame); }
+  #gate .err {
+    margin-top: 12px; font-size: 11px; color: var(--flame); font-weight: 600;
+    min-height: 14px;
+  }
+
+  /* ── BANNER ── */
+  .banner {
+    margin-bottom: 24px; padding: 10px 16px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 3px solid var(--chartreuse-dark);
+    font-size: 11px; color: var(--text-dim);
+    display: flex; justify-content: space-between; align-items: center;
+    letter-spacing: 0.04em;
+  }
+  .banner.error { border-left-color: var(--flame); color: var(--flame); }
+  .banner strong { color: var(--text); font-weight: 700; }
+  .banner .refresh {
+    font-size: 10px; padding: 4px 10px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--text-dim); cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+  }
+  .banner .refresh:hover { color: var(--text); border-color: var(--text); }
+
+  /* ── HEADER ── */
   .roster-head {
     display: flex; justify-content: space-between; align-items: flex-end;
     border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px;
@@ -78,7 +130,7 @@
     font-size: 12px; color: var(--text-dim); margin-top: 8px; font-weight: 500;
   }
   .roster-head .week-stamp strong { color: var(--text); font-weight: 700; }
-  .roster-head .stats { display: flex; gap: 24px; }
+  .roster-head .stats { display: flex; gap: 24px; flex-wrap: wrap; }
   .roster-head .stats .stat { display: flex; flex-direction: column; gap: 2px; }
   .roster-head .stats .num {
     font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.02em;
@@ -87,13 +139,14 @@
     font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-soft);
   }
 
+  /* ── HEADLINE CARD ── */
   .headline-card {
     display: grid; grid-template-columns: 200px 1fr auto; gap: 24px;
     align-items: center; padding: 20px;
     background: var(--bg-card); border: 1px solid var(--border);
     border-left: 4px solid var(--flame);
     margin-bottom: 36px; cursor: pointer;
-    transition: all .15s;
+    transition: all .15s; text-decoration: none; color: inherit;
   }
   .headline-card:hover { background: #FAFAF5; }
   .headline-img {
@@ -122,6 +175,7 @@
   }
   .headline-arrow { font-size: 24px; color: var(--text-soft); }
 
+  /* ── CATEGORY ── */
   .category { margin-bottom: 32px; }
   .category-head {
     display: flex; align-items: center; gap: 16px;
@@ -145,6 +199,7 @@
   }
   .category-tagline { font-size: 11px; color: var(--text-dim); font-style: italic; }
 
+  /* ── ARTIST CARD ── */
   .artist-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 12px;
@@ -156,8 +211,6 @@
     transition: all .15s; text-decoration: none; color: inherit;
   }
   .artist-card:hover { border-color: var(--text); background: #FAFAF5; }
-  .artist-card.linked { border-left: 3px solid var(--chartreuse-dark); }
-
   .artist-card .img {
     width: 56px; height: 56px; border-radius: 4px;
     background: var(--bg-sunken); object-fit: cover; flex-shrink: 0;
@@ -194,6 +247,7 @@
   }
   .empty-num { color: var(--text-soft); font-style: italic; font-weight: 500; font-size: 11px; }
 
+  /* ── DESIGN NOTE ── */
   .design-note {
     background: var(--bg-card); border: 1px solid var(--border);
     border-left: 3px solid var(--chartreuse-dark);
@@ -202,6 +256,21 @@
   }
   .design-note strong { color: var(--text); font-weight: 700; }
 
+  /* ── LOADING ── */
+  #loading {
+    text-align: center; padding: 80px 20px;
+    color: var(--text-soft); font-size: 13px; font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  #loading .spin {
+    display: inline-block; width: 12px; height: 12px;
+    border: 2px solid var(--border); border-top-color: var(--text);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── FOOTER ── */
   .page-footer {
     margin-top: 48px; padding-top: 20px;
     border-top: 1px solid var(--border);
@@ -243,203 +312,324 @@
   </div>
 </nav>
 
-<div class="page">
+<!-- ── PASSWORD GATE ── -->
+<div id="gate">
+  <h2>Roster — Internal</h2>
+  <p>This week's agenda. Enter the password to view.</p>
+  <input type="password" id="pw" placeholder="Password" autocomplete="off" />
+  <button id="pw-btn">Unlock</button>
+  <div class="err" id="err"></div>
+</div>
 
-  <header class="roster-head">
-    <div>
-      <div class="eyebrow">This Week's Agenda</div>
-      <h1>Roster</h1>
-      <div class="week-stamp">Week of <strong>May 11–17, 2026</strong></div>
-    </div>
-    <div class="stats">
-      <div class="stat"><span class="num">20</span><span class="lbl">Artists</span></div>
-      <div class="stat"><span class="num" style="color:var(--gold)">3</span><span class="lbl">Trending</span></div>
-      <div class="stat"><span class="num" style="color:var(--flame)">3</span><span class="lbl">Releases</span></div>
-      <div class="stat"><span class="num" style="color:var(--teal)">7</span><span class="lbl">Campaigns</span></div>
-      <div class="stat"><span class="num" style="color:var(--plum)">4</span><span class="lbl">Early Planning</span></div>
-    </div>
-  </header>
+<!-- ── APP (hidden until unlock) ── -->
+<div id="app" style="display:none;">
+  <div class="page">
 
-  <div class="design-note">
-    <strong>What this is.</strong> The artists Campaign Ops is touching this week — not the full 493-record database. Curated by category so the meeting agenda <em>is</em> the page. Click any artist to open their record. (Lancey has a full detail page; the others link to Airtable while we build them out.)
+    <header class="roster-head">
+      <div>
+        <div class="eyebrow">This Week's Agenda</div>
+        <h1>Roster</h1>
+        <div class="week-stamp">Week of <strong id="week-label">—</strong></div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </header>
+
+    <div class="banner" id="banner">
+      <div><span class="spin"></span>&nbsp; Connecting to Airtable…</div>
+    </div>
+
+    <div class="design-note">
+      <strong>What this is.</strong> The artists Campaign Ops is touching this week — not the full database. Curated by Weekly Category in Airtable, rendered live. Edit the <code>Weekly Category</code> field in the Artists table, click Refresh, and the page updates.
+    </div>
+
+    <div id="loading"><span class="spin"></span>&nbsp; Loading roster…</div>
+    <div id="content"></div>
+
+    <footer class="page-footer">
+      <div>Source: Airtable · <a href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ" target="_blank" rel="noopener">Artists table ↗</a></div>
+      <div>RCA only · Curated by Campaign Ops</div>
+    </footer>
+
   </div>
+</div>
 
-  <a href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recpmr4RSWRe8MLF0" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
-    <div class="headline-card">
-      <img class="headline-img" src="https://i.scdn.co/image/ab6761610000e5ebad160b333f9a240f84aff7d7" alt="A$AP Rocky">
+<script>
+// ───────── CONSTANTS (top-of-file to avoid TDZ on auto-unlock) ─────────
+const ROSTER_API_URL = '/api/roster';
+const STORAGE_KEY = 'campaignops_roster_pw';
+
+const CATEGORY_ORDER = ['Headline', 'Trending', 'Releases', 'Campaigns', 'Early Planning'];
+const CATEGORY_TAGLINES = {
+  'Trending': 'Market momentum signals',
+  'Releases': 'Release pipeline this window',
+  'Campaigns': 'Active rollout in progress',
+  'Early Planning': 'Development pipeline / pre-rollout conversations'
+};
+const CATEGORY_MARKERS = {
+  'Trending': 'marker-trending',
+  'Releases': 'marker-releases',
+  'Campaigns': 'marker-campaigns',
+  'Early Planning': 'marker-planning'
+};
+const CATEGORY_LABELS = {
+  'Trending': 'Trending',
+  'Releases': 'Upcoming &amp; Recent Releases',
+  'Campaigns': 'Campaigns',
+  'Early Planning': 'Early Planning Check-Ins'
+};
+const STAT_COLORS = {
+  'Trending': 'var(--gold)',
+  'Releases': 'var(--flame)',
+  'Campaigns': 'var(--teal)',
+  'Early Planning': 'var(--plum)'
+};
+
+// Slugs for artists who have detail pages (link to those instead of Airtable)
+const ARTIST_DETAIL_SLUGS = {
+  'rec00k9dCW722VE41': '/artists/lancey-foux.html'  // Lancey Foux
+};
+
+// ───────── PASSWORD GATE ─────────
+function checkPassword() {
+  const pw = document.getElementById('pw').value.trim();
+  if (!pw) return;
+  unlock(pw);
+}
+
+async function unlock(pw) {
+  document.getElementById('err').textContent = '';
+  try {
+    const data = await fetchRoster(pw);
+    sessionStorage.setItem(STORAGE_KEY, pw);
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    render(data);
+  } catch (e) {
+    if (e.code === 'unauthorized') {
+      document.getElementById('err').textContent = 'Wrong password. Try again.';
+    } else {
+      document.getElementById('err').textContent = 'Error: ' + (e.message || e);
+    }
+    sessionStorage.removeItem(STORAGE_KEY);
+  }
+}
+
+document.getElementById('pw-btn').addEventListener('click', checkPassword);
+document.getElementById('pw').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// Auto-unlock if we have a stored password from this session
+const savedPw = sessionStorage.getItem(STORAGE_KEY);
+if (savedPw) {
+  unlock(savedPw);
+} else {
+  document.getElementById('pw').focus();
+}
+
+// ───────── DATA FETCH ─────────
+async function fetchRoster(pw) {
+  const res = await fetch(ROSTER_API_URL, {
+    headers: { 'X-Grid-Password': pw }
+  });
+  if (res.status === 401) {
+    const err = new Error('unauthorized');
+    err.code = 'unauthorized';
+    throw err;
+  }
+  if (!res.ok) {
+    let msg = 'fetch failed: ' + res.status;
+    try {
+      const body = await res.json();
+      if (body.error) msg = body.error + (body.detail ? ' — ' + body.detail : '');
+    } catch (e) {}
+    throw new Error(msg);
+  }
+  return await res.json();
+}
+
+// ───────── REFRESH ─────────
+async function refresh() {
+  const pw = sessionStorage.getItem(STORAGE_KEY);
+  if (!pw) return;
+  setBanner('<span class="spin"></span>&nbsp; Refreshing…', false);
+  try {
+    const data = await fetchRoster(pw);
+    render(data);
+  } catch (e) {
+    setBanner('⚠ Refresh failed: ' + (e.message || e), true);
+  }
+}
+
+// ───────── RENDER ─────────
+function render(data) {
+  // Set banner
+  const stamp = data.synced_at ? new Date(data.synced_at).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}) : '';
+  setBanner(`✓ Loaded <strong>${data.count}</strong> artists from Airtable · synced ${stamp}`, false);
+
+  // Set week label
+  if (data.week_label) {
+    document.getElementById('week-label').textContent = data.week_label;
+  }
+
+  // Group artists by category
+  const grouped = {};
+  CATEGORY_ORDER.forEach(c => grouped[c] = []);
+  (data.artists || []).forEach(a => {
+    const c = a.weekly_category;
+    if (c && grouped[c] !== undefined) {
+      grouped[c].push(a);
+    }
+  });
+
+  // Sort within each category by spotify_followers DESC (null at end)
+  Object.keys(grouped).forEach(c => {
+    grouped[c].sort((x, y) => {
+      const xf = x.spotify_followers || -1;
+      const yf = y.spotify_followers || -1;
+      return yf - xf;
+    });
+  });
+
+  // Build stats
+  const statsEl = document.getElementById('stats');
+  const total = data.count || 0;
+  let statsHtml = `<div class="stat"><span class="num">${total}</span><span class="lbl">Artists</span></div>`;
+  ['Trending', 'Releases', 'Campaigns', 'Early Planning'].forEach(c => {
+    const n = grouped[c].length;
+    if (n > 0) {
+      statsHtml += `<div class="stat"><span class="num" style="color:${STAT_COLORS[c]}">${n}</span><span class="lbl">${c}</span></div>`;
+    }
+  });
+  statsEl.innerHTML = statsHtml;
+
+  // Build content
+  const contentEl = document.getElementById('content');
+  let html = '';
+
+  // Headline (only first if multiple set)
+  const headlineArtists = grouped['Headline'];
+  if (headlineArtists.length > 0) {
+    html += renderHeadline(headlineArtists[0]);
+    if (headlineArtists.length > 1) {
+      // Multiple headlines: extras render as a special section
+      html += `<div class="design-note">Multiple artists set as Headline — only the first is featured. Move others to a different category in Airtable.</div>`;
+    }
+  }
+
+  // Categories
+  ['Trending', 'Releases', 'Campaigns', 'Early Planning'].forEach(c => {
+    const artists = grouped[c];
+    if (artists.length === 0) return;
+    html += renderCategory(c, artists);
+  });
+
+  // Empty state
+  if (total === 0) {
+    html = `<div class="design-note" style="border-left-color:var(--flame)"><strong>No artists in this week's agenda.</strong> Set the <code>Weekly Category</code> field on artists in Airtable to populate this view.</div>`;
+  }
+
+  contentEl.innerHTML = html;
+  document.getElementById('loading').style.display = 'none';
+}
+
+function renderHeadline(a) {
+  const url = ARTIST_DETAIL_SLUGS[a.id] || a.airtable_url;
+  const target = ARTIST_DETAIL_SLUGS[a.id] ? '' : 'target="_blank" rel="noopener"';
+  const followers = a.spotify_followers != null ? formatNumber(a.spotify_followers) : '—';
+  const pop = a.spotify_popularity != null ? a.spotify_popularity : '—';
+  const imgHtml = a.image_url
+    ? `<img class="headline-img" src="${esc(a.image_url)}" alt="${esc(a.name)}">`
+    : `<div class="headline-img" style="display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-weight:900;font-size:64px;">${esc(initials(a.name))}</div>`;
+  return `
+    <a class="headline-card" href="${esc(url)}" ${target}>
+      ${imgHtml}
       <div>
         <div class="headline-eyebrow">⊙ Top of Mind This Week</div>
-        <div class="headline-name">A$AP<br>Rocky</div>
+        <div class="headline-name">${esc(a.name)}</div>
         <div class="headline-meta">
-          <span><strong>Active</strong></span><span>·</span>
-          <span>Hip-Hop / Rap</span><span>·</span>
-          <span>Open in Airtable ↗</span>
+          <span><strong>${esc(a.status || 'Active')}</strong></span>
+          ${a.genre ? `<span>·</span><span>${esc(a.genre)}</span>` : ''}
+          <span>·</span>
+          <span>${ARTIST_DETAIL_SLUGS[a.id] ? 'Open detail ↗' : 'Open in Airtable ↗'}</span>
         </div>
         <div class="headline-stats">
-          <div><div class="stat-num">18.1M</div><div class="stat-lbl">Spotify Followers</div></div>
-          <div><div class="stat-num">86</div><div class="stat-lbl">Spotify Pop.</div></div>
+          <div><div class="stat-num">${followers}</div><div class="stat-lbl">Spotify Followers</div></div>
+          <div><div class="stat-num">${pop}</div><div class="stat-lbl">Spotify Pop.</div></div>
         </div>
       </div>
       <div class="headline-arrow">↗</div>
-    </div>
-  </a>
+    </a>
+  `;
+}
 
-  <section class="category">
-    <header class="category-head">
-      <span class="category-marker marker-trending"></span>
-      <h2 class="category-title">Trending</h2>
-      <span class="category-tagline">Market momentum signals</span>
-      <span class="category-count">3 artists</span>
-    </header>
-    <div class="artist-grid">
+function renderCategory(name, artists) {
+  let cards = '';
+  artists.forEach(a => { cards += renderArtistCard(a); });
+  return `
+    <section class="category">
+      <header class="category-head">
+        <span class="category-marker ${CATEGORY_MARKERS[name]}"></span>
+        <h2 class="category-title">${CATEGORY_LABELS[name]}</h2>
+        <span class="category-tagline">${CATEGORY_TAGLINES[name]}</span>
+        <span class="category-count">${artists.length} artist${artists.length === 1 ? '' : 's'}</span>
+      </header>
+      <div class="artist-grid">${cards}</div>
+    </section>
+  `;
+}
 
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/reckJpQfC8jTNvCo2" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb51d1b08b85b2cd9e80875eda" alt="">
-        <div class="info"><div class="name">Flo Milli</div><div class="meta">Active <span class="dot">·</span> Hip-Hop/Rap</div></div>
-        <div class="followers"><span class="num">1.67M</span><span class="lbl">Followers · 70</span></div>
-      </a>
+function renderArtistCard(a) {
+  const url = ARTIST_DETAIL_SLUGS[a.id] || a.airtable_url;
+  const target = ARTIST_DETAIL_SLUGS[a.id] ? '' : 'target="_blank" rel="noopener"';
+  const followers = a.spotify_followers != null ? formatNumber(a.spotify_followers) : null;
+  const pop = a.spotify_popularity != null ? a.spotify_popularity : null;
+  const imgHtml = a.image_url
+    ? `<img class="img" src="${esc(a.image_url)}" alt="">`
+    : `<div class="img-placeholder">${esc(initials(a.name))}</div>`;
+  const followersHtml = followers
+    ? `<div class="followers"><span class="num">${followers}</span><span class="lbl">Followers${pop != null ? ' · ' + pop : ''}</span></div>`
+    : `<div class="followers"><span class="empty-num">— sync pending</span></div>`;
+  const genre = a.genre || 'Active';
+  return `
+    <a class="artist-card" href="${esc(url)}" ${target}>
+      ${imgHtml}
+      <div class="info">
+        <div class="name">${esc(a.name)}</div>
+        <div class="meta">${esc(a.status || 'Active')} <span class="dot">·</span> ${esc(genre)}</div>
+      </div>
+      ${followersHtml}
+    </a>
+  `;
+}
 
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recvAmQRbMqTNOj24" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb4fc78e354b19324810f1e933" alt="">
-        <div class="info"><div class="name">Audrey Hobert</div><div class="meta">Active <span class="dot">·</span> Pop</div></div>
-        <div class="followers"><span class="num">194.5K</span><span class="lbl">Followers · 60</span></div>
-      </a>
+// ───────── HELPERS ─────────
+function formatNumber(n) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1) + 'M';
+  if (n >= 1_000) return (n / 1_000).toFixed(n >= 100_000 ? 0 : 1) + 'K';
+  return String(n);
+}
 
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recdfkdEXjoAp7dam" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb98f1e053c254d51c7ebb9831" alt="">
-        <div class="info"><div class="name">Elle King</div><div class="meta">Active <span class="dot">·</span> Country</div></div>
-        <div class="followers"><span class="num">690.3K</span><span class="lbl">Followers · 63</span></div>
-      </a>
+function initials(name) {
+  if (!name) return '?';
+  const trimmed = name.replace(/[^A-Za-z0-9 ]/g, '').trim();
+  if (!trimmed) return name[0] || '?';
+  return trimmed[0].toUpperCase();
+}
 
-    </div>
-  </section>
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
-  <section class="category">
-    <header class="category-head">
-      <span class="category-marker marker-releases"></span>
-      <h2 class="category-title">Upcoming &amp; Recent Releases</h2>
-      <span class="category-tagline">Release pipeline this window</span>
-      <span class="category-count">3 artists</span>
-    </header>
-    <div class="artist-grid">
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recMOi7ZSUU134qj5" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb01513fbafb66a3ca4f28b299" alt="">
-        <div class="info"><div class="name">Chris Brown</div><div class="meta">Active <span class="dot">·</span> R&amp;B</div></div>
-        <div class="followers"><span class="num">30.1M</span><span class="lbl">Followers · 87</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recZ49RttyjZ1CDPT" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5ebc3bfed5430b154e0a1b209f8" alt="">
-        <div class="info"><div class="name">kwn</div><div class="meta">Active <span class="dot">·</span> R&amp;B</div></div>
-        <div class="followers"><span class="num">327.9K</span><span class="lbl">Followers · 63</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recLWQIvZ110A8R1V" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb2297f6d794be503fc5fd031f" alt="">
-        <div class="info"><div class="name">Steve Lacy</div><div class="meta">Active <span class="dot">·</span> R&amp;B</div></div>
-        <div class="followers"><span class="num">6.82M</span><span class="lbl">Followers · 77</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <section class="category">
-    <header class="category-head">
-      <span class="category-marker marker-campaigns"></span>
-      <h2 class="category-title">Campaigns</h2>
-      <span class="category-tagline">Active rollout in progress</span>
-      <span class="category-count">7 artists</span>
-    </header>
-    <div class="artist-grid">
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recKg90Yb7Z4VDvsi" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5ebb0ff28b9d4bed74c66901b2b" alt="">
-        <div class="info"><div class="name">Bryson Tiller</div><div class="meta">Active <span class="dot">·</span> Hip-Hop/Rap</div></div>
-        <div class="followers"><span class="num">10.9M</span><span class="lbl">Followers · 78</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recFDu8aB1iBj0zXy" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb912df0c93a5dc290d3c8816e" alt="">
-        <div class="info"><div class="name">Lizzy McAlpine</div><div class="meta">Active <span class="dot">·</span> Alt/Indie</div></div>
-        <div class="followers"><span class="num">1.77M</span><span class="lbl">Followers · 75</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recs1bknmpjhKMi3K" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eba11b0b5c37498f5dddb1bd7b" alt="">
-        <div class="info"><div class="name">Latto</div><div class="meta">Active <span class="dot">·</span> Hip-Hop/Rap</div></div>
-        <div class="followers"><span class="num">2.61M</span><span class="lbl">Followers · 75</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recEiumdfmSD32C1z" target="_blank" rel="noopener">
-        <div class="img-placeholder">H</div>
-        <div class="info"><div class="name">Hailey Picardi</div><div class="meta">Active <span class="dot">·</span> Developing</div></div>
-        <div class="followers"><span class="empty-num">— sync pending</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recjQjzI4LRYZp2Jk" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb1f87bfc1e824789e91573493" alt="">
-        <div class="info"><div class="name">The Red Clay Strays</div><div class="meta">Active <span class="dot">·</span> Country</div></div>
-        <div class="followers"><span class="num">1.33M</span><span class="lbl">Followers · 72</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recnorsYcrk43jx1q" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5ebc3b137793230f4043feb0089" alt="">
-        <div class="info"><div class="name">The Strokes</div><div class="meta">Active <span class="dot">·</span> Rock</div></div>
-        <div class="followers"><span class="num">6.63M</span><span class="lbl">Followers · 75</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recDMTV9LQCLb9J5A" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eba7420178d82757ea907ef314" alt="">
-        <div class="info"><div class="name">Myles Smith</div><div class="meta">Active <span class="dot">·</span> Pop</div></div>
-        <div class="followers"><span class="num">1.50M</span><span class="lbl">Followers · 75</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <section class="category">
-    <header class="category-head">
-      <span class="category-marker marker-planning"></span>
-      <h2 class="category-title">Early Planning Check-Ins</h2>
-      <span class="category-tagline">Development pipeline / pre-rollout conversations</span>
-      <span class="category-count">4 artists</span>
-    </header>
-    <div class="artist-grid">
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/rec2S532zT2y1RvZe" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb8c248ffca9237c963ad743a4" alt="">
-        <div class="info"><div class="name">Teezo Touchdown</div><div class="meta">Active <span class="dot">·</span> Alt/Indie</div></div>
-        <div class="followers"><span class="num">472.8K</span><span class="lbl">Followers · 66</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/rec4Kspntaqm0c5Xw" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eba98a4abc23247089880fa3f4" alt="">
-        <div class="info"><div class="name">Eem Triplin</div><div class="meta">Active <span class="dot">·</span> Hip-Hop/Rap</div></div>
-        <div class="followers"><span class="num">448.9K</span><span class="lbl">Followers · 60</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recBZd20GldIquxge" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb7bbad89a61061304ec842588" alt="">
-        <div class="info"><div class="name">P!nk</div><div class="meta">Active <span class="dot">·</span> Pop</div></div>
-        <div class="followers"><span class="num">18.5M</span><span class="lbl">Followers · 78</span></div>
-      </a>
-
-      <a class="artist-card" href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ/recCo9vXZqbfME1jp" target="_blank" rel="noopener">
-        <img class="img" src="https://i.scdn.co/image/ab6761610000e5eb5cd3b3af8b72e32be78571ec" alt="">
-        <div class="info"><div class="name">LISA</div><div class="meta">Active <span class="dot">·</span> Pop</div></div>
-        <div class="followers"><span class="num">14.4M</span><span class="lbl">Followers · 74</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <footer class="page-footer">
-    <div>Source: Airtable · <a href="https://airtable.com/appLwUF3H4KjtiRdW/tblV9HXEZ5k6uFXFQ" target="_blank" rel="noopener">Artists table ↗</a></div>
-    <div>RCA only · Curated by Campaign Ops · Static snapshot May 10 2026</div>
-  </footer>
-
-</div>
+function setBanner(html, isError) {
+  const b = document.getElementById('banner');
+  b.classList.toggle('error', !!isError);
+  b.innerHTML = `<div>${html}</div><button class="refresh" onclick="refresh()">Refresh</button>`;
+}
+</script>
 
 </body>
 </html>
