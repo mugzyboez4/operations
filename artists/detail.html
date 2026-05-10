@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist · Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F5F2EB; --bg-card: #FFFFFF; --bg-sunken: #ECEAE3;
+    --text: #0F0E0E; --text-dim: #6B6B68; --text-soft: #888;
+    --border: #ECEAE3; --border-dot: #D4D4D0;
+    --chartreuse: #CDF851; --chartreuse-dark: #8FBF20;
+    --flame: #FF4A23; --flame-soft: #FFE4DD;
+    --teal: #5BC0BE; --gold: #E8C547; --plum: #B98FB7;
+  }
+  html, body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+
+  nav.cnav {
+    display: flex !important; align-items: center;
+    padding: 14px 32px; border-bottom: 1px solid #ECEAE3;
+    gap: 20px; position: sticky; top: 0; background: #F5F2EB;
+    z-index: 9999; flex-wrap: wrap;
+  }
+  nav.cnav .cnav-logo {
+    font-size: 13px; font-weight: 900; letter-spacing: -.5px;
+    text-transform: uppercase; color: #0F0E0E; text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  nav.cnav .cnav-logo span { color: #CDF851; }
+  nav.cnav .cnav-logo-img { width: 32px; height: 32px; border-radius: 6px; }
+  nav.cnav .cnav-link {
+    font-size: 9px; font-weight: 500; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #888; text-decoration: none;
+    padding: 5px 10px; border: 1px solid transparent; transition: all .15s;
+  }
+  nav.cnav .cnav-link:hover { color: #0F0E0E; border-color: #ECEAE3; }
+  nav.cnav .cnav-dropdown { position: relative; display: inline-block; }
+  nav.cnav .cnav-dropdown-toggle { cursor: pointer; user-select: none; }
+  nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle { color: #0F0E0E; border-color: #ECEAE3; }
+  nav.cnav .cnav-dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0;
+    background: #FFFFFF; border: 1px solid #ECEAE3; min-width: 200px;
+    z-index: 99999; padding: 4px 0; margin-top: 1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  nav.cnav .cnav-dropdown:hover .cnav-dropdown-menu { display: block; }
+  nav.cnav .cnav-dropdown-menu a {
+    display: block; font-size: 9px; font-weight: 500; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #888; text-decoration: none;
+    padding: 8px 14px;
+  }
+  nav.cnav .cnav-dropdown-menu a:hover { color: #0F0E0E; background: #F5F2EB; }
+
+  /* PASSWORD GATE */
+  #gate {
+    max-width: 440px; margin: 80px auto; padding: 32px;
+    background: var(--bg-card); border: 1px solid var(--border);
+  }
+  #gate h2 {
+    font-size: 22px; font-weight: 900; letter-spacing: -0.01em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  #gate p { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+  #gate input {
+    width: 100%; padding: 10px 14px; font-size: 14px; font-family: inherit;
+    border: 1px solid var(--border); background: var(--bg); margin-bottom: 12px;
+  }
+  #gate input:focus { outline: none; border-color: var(--text); }
+  #gate button {
+    width: 100%; padding: 10px 14px; font-size: 12px; font-weight: 700;
+    font-family: inherit; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--bg); background: var(--text); border: 1px solid var(--text);
+    cursor: pointer; transition: all .15s;
+  }
+  #gate button:hover { background: var(--flame); border-color: var(--flame); }
+  #gate .err { margin-top: 12px; font-size: 11px; color: var(--flame); font-weight: 600; min-height: 14px; }
+
+  .page { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* TOP NAV / BREADCRUMB */
+  .topnav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 16px; margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+  .topnav a { color: var(--text-dim); text-decoration: none; }
+  .topnav a:hover { color: var(--flame); }
+  .topnav .crumb-active { color: var(--text); }
+  .sync-stamp { color: var(--text-soft); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .sync-stamp .dot { color: var(--chartreuse-dark); }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 280px 1fr; gap: 32px;
+    margin-bottom: 24px;
+  }
+  .hero-image {
+    aspect-ratio: 1; background: var(--bg-sunken);
+    border: 1px solid var(--border); overflow: hidden;
+  }
+  .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-image-placeholder {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft); font-weight: 900; font-size: 80px;
+  }
+  .hero-info { display: flex; flex-direction: column; justify-content: space-between; }
+  .hero-name {
+    font-size: 64px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: -0.03em; line-height: 0.95; margin-bottom: 16px;
+  }
+  .hero-badges { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border: 1px solid;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .badge-active {
+    color: var(--chartreuse-dark); border-color: var(--chartreuse-dark);
+    background: rgba(205,248,81,0.15);
+  }
+  .badge-active::before { content: '●'; font-size: 10px; }
+  .badge-genre { color: var(--text-dim); border-color: var(--border); }
+  .badge-category { color: var(--text-dim); border-color: var(--border); }
+
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .meta-item .label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-soft); margin-bottom: 4px;
+  }
+  .meta-item .value { font-size: 14px; font-weight: 600; color: var(--text); }
+  .meta-item .value.dim { color: var(--text-soft); font-weight: 400; font-style: italic; }
+
+  .hero-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .platform-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text); text-decoration: none;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; transition: all .15s;
+  }
+  .platform-link:hover {
+    border-color: var(--text); background: var(--text); color: var(--bg-card);
+  }
+  .platform-link.disabled {
+    background: transparent; color: var(--text-soft);
+    border-color: var(--border); pointer-events: none;
+    font-style: italic; font-weight: 500;
+  }
+
+  /* KPI BAR */
+  .kpi-bar {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    border: 1px solid var(--border); background: var(--bg-card);
+    margin: 24px 0 32px;
+  }
+  .kpi { padding: 18px 16px; border-right: 1px solid var(--border); }
+  .kpi:last-child { border-right: none; }
+  .kpi .platform {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px;
+  }
+  .kpi .value {
+    font-size: 24px; font-weight: 800; line-height: 1;
+    margin-bottom: 4px; color: var(--text);
+  }
+  .kpi .value.empty { color: var(--text-soft); font-weight: 500; }
+  .kpi .delta { font-size: 11px; font-weight: 600; }
+  .delta-none { color: var(--text-soft); font-style: italic; font-weight: 500; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 32px; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-size: 14px; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text);
+  }
+  .section-meta { font-size: 11px; color: var(--text-soft); font-weight: 500; }
+
+  /* TIMELINE / EVENTS LIST */
+  .events-list { display: flex; flex-direction: column; }
+  .event-row {
+    display: grid; grid-template-columns: 130px 1fr auto; gap: 16px;
+    align-items: center; padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .event-row:last-child { border-bottom: none; }
+  .event-date {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  .event-date.future { color: var(--flame); }
+  .event-title { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 2px; }
+  .event-meta {
+    font-size: 11px; color: var(--text-dim);
+    display: flex; gap: 8px; align-items: center;
+  }
+  .event-meta .dot { color: var(--border); }
+  .event-pill {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 8px; border: 1px solid;
+  }
+  .pill-future { color: var(--flame); border-color: var(--flame); background: var(--flame-soft); }
+  .pill-past { color: var(--text-soft); border-color: var(--border); }
+  .pill-upcoming { color: var(--gold); border-color: var(--gold); }
+
+  /* UPDATES LIST */
+  .updates-list { display: flex; flex-direction: column; gap: 12px; }
+  .update-card {
+    padding: 16px 18px; background: var(--bg-card);
+    border: 1px solid var(--border); border-left: 3px solid var(--teal);
+  }
+  .update-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .update-subject {
+    font-size: 14px; font-weight: 700; color: var(--text);
+  }
+  .update-meta {
+    font-size: 10px; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+  }
+  .update-recap {
+    font-size: 13px; color: var(--text-dim); line-height: 1.65;
+  }
+  .update-recap p { margin-bottom: 8px; }
+  .update-recap p:last-child { margin-bottom: 0; }
+
+  /* IDENTIFIERS */
+  .ids-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 32px;
+  }
+  .id-row {
+    display: grid; grid-template-columns: 160px 1fr; gap: 8px;
+    padding: 8px 0; font-size: 12px;
+    border-bottom: 1px dotted var(--border-dot);
+  }
+  .id-label {
+    color: var(--text-soft); text-transform: uppercase;
+    font-size: 10px; letter-spacing: 0.06em; font-weight: 700; align-self: center;
+  }
+  .id-value { font-weight: 500; color: var(--text); word-break: break-all; }
+  .id-value.empty { color: var(--text-soft); font-style: italic; font-weight: 400; }
+
+  /* BIO */
+  .bio-block {
+    padding: 24px 28px; background: var(--bg-card);
+    border: 1px solid var(--border);
+    font-size: 14px; line-height: 1.75; color: var(--text-dim);
+  }
+  .bio-block p { margin-bottom: 14px; }
+  .bio-block p:last-child { margin-bottom: 0; }
+  .bio-block strong { color: var(--text); font-weight: 700; }
+
+  /* EMPTY STATES */
+  .empty-state {
+    padding: 24px 20px; background: var(--bg-card);
+    border: 1px dashed var(--border); text-align: center;
+    font-size: 12px; color: var(--text-dim); line-height: 1.6;
+  }
+  .empty-state strong { color: var(--text); font-weight: 700; }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  /* BANNER */
+  .banner {
+    margin-bottom: 24px; padding: 10px 16px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 3px solid var(--chartreuse-dark);
+    font-size: 11px; color: var(--text-dim);
+    display: flex; justify-content: space-between; align-items: center;
+    letter-spacing: 0.04em;
+  }
+  .banner.error { border-left-color: var(--flame); color: var(--flame); }
+  .banner strong { color: var(--text); font-weight: 700; }
+
+  /* LOADING */
+  #loading { text-align: center; padding: 80px 20px; color: var(--text-soft); font-size: 13px; }
+  .spin {
+    display: inline-block; width: 12px; height: 12px;
+    border: 2px solid var(--border); border-top-color: var(--text);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* FOOTER */
+  .page-footer {
+    margin-top: 64px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-soft);
+    display: flex; justify-content: space-between;
+  }
+  .page-footer a { color: var(--text-dim); text-decoration: none; }
+  .page-footer a:hover { color: var(--flame); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-image { max-width: 280px; }
+    .hero-name { font-size: 48px; }
+    .kpi-bar { grid-template-columns: repeat(3, 1fr); }
+    .kpi:nth-child(3) { border-right: none; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .ids-grid { grid-template-columns: 1fr; }
+    .event-row { grid-template-columns: 100px 1fr; }
+    .event-row .event-pill { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
+  </a>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/stage-gate.html" class="cnav-link">Stage-Gate</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/todo.html" class="cnav-link">To Do</a>
+  <a href="/tracker.html" class="cnav-link">Tracker</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <div class="cnav-dropdown">
+    <span class="cnav-link cnav-dropdown-toggle">Insights &#9662;</span>
+    <div class="cnav-dropdown-menu">
+      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
+      <a href="/insights/graphitti.html">Graphitti</a><a href="/insights/graphitti-checklist.html">Graphitti Checklist</a>
+      <a href="/insights/index.html">Artist Insights</a>
+      <a href="/vcf.html">VCF</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <h2>Active Projects — Internal</h2>
+  <p>Enter password to view artist detail.</p>
+  <input type="password" id="pw" placeholder="Password" autocomplete="off" />
+  <button id="pw-btn">Unlock</button>
+  <div class="err" id="err"></div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+  <div class="page">
+    <div id="loading"><span class="spin"></span>&nbsp; Loading…</div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS (top to avoid TDZ on auto-unlock) ──
+const STORAGE_KEY = 'campaignops_roster_pw';
+const params = new URLSearchParams(window.location.search);
+const ARTIST_ID = params.get('id');
+
+// ── PASSWORD GATE ──
+function checkPassword() {
+  const pw = document.getElementById('pw').value.trim();
+  if (!pw) return;
+  unlock(pw);
+}
+
+async function unlock(pw) {
+  document.getElementById('err').textContent = '';
+  if (!ARTIST_ID) {
+    document.getElementById('err').textContent = 'No artist ID in URL. Open from the Roster.';
+    return;
+  }
+  try {
+    const data = await fetchArtist(pw);
+    sessionStorage.setItem(STORAGE_KEY, pw);
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    render(data);
+  } catch (e) {
+    if (e.code === 'unauthorized') {
+      document.getElementById('err').textContent = 'Wrong password.';
+    } else {
+      document.getElementById('err').textContent = 'Error: ' + (e.message || e);
+    }
+    sessionStorage.removeItem(STORAGE_KEY);
+  }
+}
+
+document.getElementById('pw-btn').addEventListener('click', checkPassword);
+document.getElementById('pw').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+const savedPw = sessionStorage.getItem(STORAGE_KEY);
+if (savedPw) {
+  unlock(savedPw);
+} else {
+  document.getElementById('pw').focus();
+}
+
+// ── FETCH ──
+async function fetchArtist(pw) {
+  const res = await fetch(`/api/artist?id=${encodeURIComponent(ARTIST_ID)}`, {
+    headers: { 'X-Grid-Password': pw }
+  });
+  if (res.status === 401) {
+    const err = new Error('unauthorized'); err.code = 'unauthorized'; throw err;
+  }
+  if (!res.ok) {
+    let msg = 'fetch failed: ' + res.status;
+    try {
+      const body = await res.json();
+      if (body.error) msg = body.error + (body.detail ? ' — ' + body.detail : '');
+    } catch (e) {}
+    throw new Error(msg);
+  }
+  return await res.json();
+}
+
+// ── RENDER ──
+function render(data) {
+  document.getElementById('loading').style.display = 'none';
+  const a = data.artist;
+  if (!a) {
+    document.getElementById('content').innerHTML = '<div class="empty-state"><strong>Artist not found.</strong> Check the URL or open from the Roster.</div>';
+    return;
+  }
+  document.title = `${a.name} · Campaign Ops`;
+
+  const stamp = data.synced_at ? new Date(data.synced_at).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}) : '';
+
+  let html = '';
+
+  // BREADCRUMB
+  html += `
+    <nav class="topnav">
+      <div>
+        <a href="/artists/">Active Projects</a> &nbsp;·&nbsp;
+        <span class="crumb-active">${esc(a.name)}</span>
+      </div>
+      <div class="sync-stamp">
+        <span class="dot">●</span>&nbsp; SYNCED FROM AIRTABLE · ${esc(stamp)}
+      </div>
+    </nav>
+  `;
+
+  // HERO
+  const imgHtml = a.image_url
+    ? `<img src="${esc(a.image_url)}" alt="${esc(a.name)}">`
+    : `<div class="hero-image-placeholder">${esc(initials(a.name))}</div>`;
+  const upcomingEvents = (data.events || []).filter(e => e.is_future);
+  const lastUpdate = (data.updates || [])[0];
+  const nextEvent = upcomingEvents[0];
+
+  html += `
+    <section class="hero">
+      <div class="hero-image">${imgHtml}</div>
+      <div class="hero-info">
+        <div>
+          <h1 class="hero-name">${formatName(a.name)}</h1>
+          <div class="hero-badges">
+            ${a.status ? `<span class="badge badge-active">${esc(a.status)}</span>` : ''}
+            ${a.genre ? `<span class="badge badge-genre">${esc(a.genre)}</span>` : ''}
+            ${a.weekly_category ? `<span class="badge badge-category">${esc(a.weekly_category)}</span>` : ''}
+          </div>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="label">Stage</div>
+            <div class="value dim">— pending</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">Last Update</div>
+            <div class="value ${lastUpdate ? '' : 'dim'}">${lastUpdate ? formatDate(lastUpdate.created) : '— none'}</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">Next Event</div>
+            <div class="value ${nextEvent ? '' : 'dim'}">${nextEvent ? esc(formatDate(nextEvent.start_date)) : '— none'}</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">Upcoming Total</div>
+            <div class="value">${upcomingEvents.length}</div>
+          </div>
+        </div>
+        <div class="hero-links">
+          ${a.spotify_url ? linkBtn('Spotify ↗', a.spotify_url) : disabledBtn('Spotify')}
+          ${a.instagram_url ? linkBtn('Instagram ↗', a.instagram_url) : disabledBtn('Instagram')}
+          ${a.tiktok_url ? linkBtn('TikTok ↗', a.tiktok_url) : disabledBtn('TikTok')}
+          ${a.youtube_url ? linkBtn('YouTube ↗', a.youtube_url) : disabledBtn('YouTube')}
+          ${a.air_url ? linkBtn('AIR ↗', a.air_url) : disabledBtn('AIR')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  // KPI BAR
+  html += `
+    <section class="kpi-bar">
+      <div class="kpi">
+        <div class="platform">Spotify Followers</div>
+        <div class="value">${a.spotify_followers != null ? formatNumber(a.spotify_followers) : '<span class="empty">—</span>'}</div>
+        <div class="delta delta-none">live snapshot</div>
+      </div>
+      <div class="kpi">
+        <div class="platform">Spotify Pop.</div>
+        <div class="value">${a.spotify_popularity != null ? a.spotify_popularity : '<span class="empty">—</span>'}</div>
+        <div class="delta delta-none">live snapshot</div>
+      </div>
+      <div class="kpi"><div class="platform">Spotify Monthly</div><div class="value empty">—</div><div class="delta delta-none">sync pending</div></div>
+      <div class="kpi"><div class="platform">YouTube</div><div class="value empty">—</div><div class="delta delta-none">sync pending</div></div>
+      <div class="kpi"><div class="platform">Instagram</div><div class="value empty">—</div><div class="delta delta-none">sync pending</div></div>
+      <div class="kpi"><div class="platform">TikTok</div><div class="value empty">—</div><div class="delta delta-none">sync pending</div></div>
+    </section>
+  `;
+
+  // TIMELINE + UPDATES (2-col)
+  html += renderTimelineUpdates(data.events || [], data.updates || []);
+
+  // BIO
+  html += `
+    <section class="section">
+      <header class="section-head">
+        <h2 class="section-title">Bio</h2>
+        <span class="section-meta">From Artists · Bio field</span>
+      </header>
+      ${a.bio
+        ? `<div class="bio-block">${formatBio(a.bio)}</div>`
+        : `<div class="empty-state"><strong>No bio yet.</strong> Add one in the Artists table to populate this section.</div>`
+      }
+    </section>
+  `;
+
+  // IDENTIFIERS
+  html += `
+    <section class="section">
+      <header class="section-head">
+        <h2 class="section-title">Identifiers</h2>
+        <span class="section-meta">Sony · Platform · External</span>
+      </header>
+      <div class="ids-grid">
+        ${idRow('RDX Artist ID', null)}
+        ${idRow('Sony UUID', null)}
+        ${idRow('finLabelT3', 'E009')}
+        ${idRow('ISNI', null)}
+        ${idRow('Spotify ID', a.spotify_id)}
+        ${idRow('Apple Music ID', null)}
+        ${idRow('YouTube Channel', null)}
+        ${idRow('Luminate ID', null)}
+      </div>
+    </section>
+  `;
+
+  // FOOTER
+  html += `
+    <footer class="page-footer">
+      <div>Source: Airtable · <a href="${esc(a.airtable_url)}" target="_blank" rel="noopener">view record ↗</a></div>
+      <div>Live data · synced ${esc(stamp)}</div>
+    </footer>
+  `;
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function renderTimelineUpdates(events, updates) {
+  const upcoming = events.filter(e => e.is_future).sort((a, b) => (a.start_date || '').localeCompare(b.start_date || ''));
+  const recent = events.filter(e => !e.is_future).slice(0, 8);
+
+  let timeline = '';
+  if (upcoming.length === 0 && recent.length === 0) {
+    timeline = `<div class="empty-state"><strong>No events linked.</strong><br>Tour dates, releases, and other timeline items will populate from the Artist Events table.</div>`;
+  } else {
+    timeline = `<div class="events-list">`;
+    upcoming.slice(0, 8).forEach(e => {
+      timeline += `
+        <div class="event-row">
+          <span class="event-date future">${esc(formatDate(e.start_date))}</span>
+          <div>
+            <div class="event-title">${esc(e.title || e.name || '(untitled)')}</div>
+            <div class="event-meta">
+              ${e.type ? `<span>${esc(e.type)}</span>` : ''}
+              ${e.location ? `<span class="dot">·</span><span>${esc(e.location)}</span>` : ''}
+            </div>
+          </div>
+          <span class="event-pill pill-future">Upcoming</span>
+        </div>
+      `;
+    });
+    if (upcoming.length > 0 && recent.length > 0) {
+      timeline += `<div class="event-row" style="border-bottom:1px solid var(--border-dot);grid-template-columns:1fr;color:var(--text-soft);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;padding:8px 0 4px;">— Past —</div>`;
+    }
+    recent.forEach(e => {
+      timeline += `
+        <div class="event-row">
+          <span class="event-date">${esc(formatDate(e.start_date))}</span>
+          <div>
+            <div class="event-title">${esc(e.title || e.name || '(untitled)')}</div>
+            <div class="event-meta">
+              ${e.type ? `<span>${esc(e.type)}</span>` : ''}
+              ${e.location ? `<span class="dot">·</span><span>${esc(e.location)}</span>` : ''}
+            </div>
+          </div>
+          <span class="event-pill pill-past">Past</span>
+        </div>
+      `;
+    });
+    timeline += `</div>`;
+  }
+
+  let updatesHtml = '';
+  if (updates.length === 0) {
+    updatesHtml = `<div class="empty-state"><strong>No updates yet.</strong><br>Updates from the Artist Update Log will appear here, newest first.</div>`;
+  } else {
+    updatesHtml = `<div class="updates-list">`;
+    updates.slice(0, 5).forEach(u => {
+      updatesHtml += `
+        <div class="update-card">
+          <div class="update-head">
+            <div class="update-subject">${esc(u.subject || u.name || 'Update')}</div>
+            <div class="update-meta">
+              ${u.created ? formatDate(u.created) : ''}
+              ${u.sent_by ? ` · ${esc(u.sent_by)}` : ''}
+            </div>
+          </div>
+          ${u.recap ? `<div class="update-recap">${formatRichText(u.recap)}</div>` : ''}
+        </div>
+      `;
+    });
+    updatesHtml += `</div>`;
+  }
+
+  return `
+    <div class="grid-2">
+      <section class="section">
+        <header class="section-head">
+          <h2 class="section-title">Timeline</h2>
+          <span class="section-meta">${events.length} event${events.length === 1 ? '' : 's'} · upcoming + recent</span>
+        </header>
+        ${timeline}
+      </section>
+      <section class="section">
+        <header class="section-head">
+          <h2 class="section-title">Artist Updates</h2>
+          <span class="section-meta">${updates.length} update${updates.length === 1 ? '' : 's'}</span>
+        </header>
+        ${updatesHtml}
+      </section>
+    </div>
+  `;
+}
+
+// ── HELPERS ──
+function linkBtn(label, url) {
+  return `<a href="${esc(url)}" class="platform-link" target="_blank" rel="noopener">${esc(label)}</a>`;
+}
+function disabledBtn(label) {
+  return `<span class="platform-link disabled">${esc(label)} — pending</span>`;
+}
+function idRow(label, value) {
+  if (value) return `<div class="id-row"><span class="id-label">${esc(label)}</span><span class="id-value">${esc(value)}</span></div>`;
+  return `<div class="id-row"><span class="id-label">${esc(label)}</span><span class="id-value empty">— pending</span></div>`;
+}
+function formatNumber(n) {
+  if (n == null) return '—';
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(n >= 10_000_000 ? 1 : 2).replace(/\.?0+$/, '') + 'M';
+  if (n >= 1_000) return (n / 1_000).toFixed(n >= 100_000 ? 0 : 1).replace(/\.0$/, '') + 'K';
+  return new Intl.NumberFormat().format(n);
+}
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (isNaN(d)) return '—';
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[d.getUTCMonth()]} ${d.getUTCDate()} '${String(d.getUTCFullYear()).slice(-2)}`;
+}
+function formatName(name) {
+  if (!name) return '';
+  if (name.length > 12 && name.includes(' ')) {
+    const parts = name.split(' ');
+    const half = Math.ceil(parts.length / 2);
+    return esc(parts.slice(0, half).join(' ')) + '<br>' + esc(parts.slice(half).join(' '));
+  }
+  return esc(name);
+}
+function formatBio(bio) {
+  return esc(bio).split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+}
+function formatRichText(text) {
+  // Simple: split on double newline → paragraphs, escape
+  return esc(text).split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+}
+function initials(name) {
+  if (!name) return '?';
+  const t = name.replace(/[^A-Za-z0-9 ]/g, '').trim();
+  return t ? t[0].toUpperCase() : (name[0] || '?');
+}
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+</script>
+
+</body>
+</html>

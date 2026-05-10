@@ -327,7 +327,7 @@
 
     <header class="roster-head">
       <div>
-        <div class="eyebrow">This Week's Agenda</div>
+        <div class="eyebrow">Active Projects</div>
         <h1>Roster</h1>
         <div class="week-stamp">Week of <strong id="week-label">—</strong></div>
       </div>
@@ -384,10 +384,8 @@ const STAT_COLORS = {
   'Early Planning': 'var(--plum)'
 };
 
-// Slugs for artists who have detail pages (link to those instead of Airtable)
-const ARTIST_DETAIL_SLUGS = {
-  'rec00k9dCW722VE41': '/artists/lancey-foux.html'  // Lancey Foux
-};
+// All artists open in the dynamic detail page (passes record id via query string)
+function artistUrl(id) { return `/artists/detail.html?id=${id}`; }
 
 // ───────── PASSWORD GATE ─────────
 function checkPassword() {
@@ -534,15 +532,14 @@ function render(data) {
 }
 
 function renderHeadline(a) {
-  const url = ARTIST_DETAIL_SLUGS[a.id] || a.airtable_url;
-  const target = ARTIST_DETAIL_SLUGS[a.id] ? '' : 'target="_blank" rel="noopener"';
+  const url = artistUrl(a.id);
   const followers = a.spotify_followers != null ? formatNumber(a.spotify_followers) : '—';
   const pop = a.spotify_popularity != null ? a.spotify_popularity : '—';
   const imgHtml = a.image_url
     ? `<img class="headline-img" src="${esc(a.image_url)}" alt="${esc(a.name)}">`
     : `<div class="headline-img" style="display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-weight:900;font-size:64px;">${esc(initials(a.name))}</div>`;
   return `
-    <a class="headline-card" href="${esc(url)}" ${target}>
+    <a class="headline-card" href="${esc(url)}">
       ${imgHtml}
       <div>
         <div class="headline-eyebrow">⊙ Top of Mind This Week</div>
@@ -551,7 +548,7 @@ function renderHeadline(a) {
           <span><strong>${esc(a.status || 'Active')}</strong></span>
           ${a.genre ? `<span>·</span><span>${esc(a.genre)}</span>` : ''}
           <span>·</span>
-          <span>${ARTIST_DETAIL_SLUGS[a.id] ? 'Open detail ↗' : 'Open in Airtable ↗'}</span>
+          <span>Open detail ↗</span>
         </div>
         <div class="headline-stats">
           <div><div class="stat-num">${followers}</div><div class="stat-lbl">Spotify Followers</div></div>
@@ -580,8 +577,7 @@ function renderCategory(name, artists) {
 }
 
 function renderArtistCard(a) {
-  const url = ARTIST_DETAIL_SLUGS[a.id] || a.airtable_url;
-  const target = ARTIST_DETAIL_SLUGS[a.id] ? '' : 'target="_blank" rel="noopener"';
+  const url = artistUrl(a.id);
   const followers = a.spotify_followers != null ? formatNumber(a.spotify_followers) : null;
   const pop = a.spotify_popularity != null ? a.spotify_popularity : null;
   const imgHtml = a.image_url
@@ -592,7 +588,7 @@ function renderArtistCard(a) {
     : `<div class="followers"><span class="empty-num">— sync pending</span></div>`;
   const genre = a.genre || 'Active';
   return `
-    <a class="artist-card" href="${esc(url)}" ${target}>
+    <a class="artist-card" href="${esc(url)}">
       ${imgHtml}
       <div class="info">
         <div class="name">${esc(a.name)}</div>
