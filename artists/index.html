@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roster · This Week's Agenda · Campaign Ops</title>
+<title>Active Projects · May 6, 2026 · Campaign Ops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -198,6 +198,66 @@
     margin-left: auto; text-transform: uppercase; letter-spacing: 0.1em;
   }
   .category-tagline { font-size: 11px; color: var(--text-dim); font-style: italic; }
+  .category-tagline-row {
+    font-size: 12px; color: var(--text-soft);
+    margin: -4px 0 14px 0; padding: 0 0 0 28px;
+    line-height: 1.4;
+  }
+
+  /* ── AGENDA BLOCKS (full-width, email-style) ── */
+  .agenda-list { display: flex; flex-direction: column; gap: 8px; }
+  .agenda-block {
+    display: block; padding: 14px 18px 12px 18px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 3px solid var(--text-soft);
+    text-decoration: none; color: inherit;
+    transition: all .15s; cursor: pointer;
+    position: relative;
+  }
+  .agenda-block.marker-trending  { border-left-color: var(--gold); }
+  .agenda-block.marker-releases  { border-left-color: var(--flame); }
+  .agenda-block.marker-campaigns { border-left-color: var(--teal); }
+  .agenda-block:hover { background: #FAFAF5; border-color: var(--text); }
+  .agenda-block:hover .agenda-block-foot { opacity: 1; }
+
+  .agenda-block-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; margin-bottom: 6px; flex-wrap: wrap;
+  }
+  .agenda-name-line {
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  }
+  .agenda-name {
+    font-size: 16px; font-weight: 800; color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .agenda-track {
+    font-size: 13px; font-style: italic; color: var(--text-soft);
+    font-weight: 500;
+  }
+  .agenda-config {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+    color: var(--text); padding: 3px 8px;
+    background: var(--bg-sunken); border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .agenda-notes {
+    list-style: none; padding: 0; margin: 6px 0 4px 0;
+  }
+  .agenda-notes li {
+    font-size: 13px; line-height: 1.5; color: var(--text);
+    padding: 2px 0 2px 14px; position: relative;
+  }
+  .agenda-notes li::before {
+    content: "·"; position: absolute; left: 4px;
+    color: var(--text-soft); font-weight: 800;
+  }
+  .agenda-block-foot {
+    font-size: 9px; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 700; margin-top: 4px;
+    opacity: 0.4; transition: opacity .15s;
+  }
 
   /* ── ARTIST CARD ── */
   .artist-grid {
@@ -314,8 +374,8 @@
 
 <!-- ── PASSWORD GATE ── -->
 <div id="gate">
-  <h2>Roster — Internal</h2>
-  <p>This week's agenda. Enter the password to view.</p>
+  <h2>Active Projects — Internal</h2>
+  <p>Wednesday, May 6, 2026 — Agenda. Enter the password to view.</p>
   <input type="password" id="pw" placeholder="Password" autocomplete="off" />
   <button id="pw-btn">Unlock</button>
   <div class="err" id="err"></div>
@@ -327,9 +387,9 @@
 
     <header class="roster-head">
       <div>
-        <div class="eyebrow">Active Projects</div>
-        <h1>Roster</h1>
-        <div class="week-stamp">Week of <strong id="week-label">—</strong></div>
+        <div class="eyebrow">Campaign Operations</div>
+        <h1>Active <span style="color:var(--chartreuse-dark)">Projects</span></h1>
+        <div class="week-stamp">Wednesday, <strong>May 6, 2026</strong> — Agenda</div>
       </div>
       <div class="stats" id="stats"></div>
     </header>
@@ -339,7 +399,7 @@
     </div>
 
     <div class="design-note">
-      <strong>What this is.</strong> The artists Campaign Ops is touching this week — not the full database. Curated by Weekly Category in Airtable, rendered live. Edit the <code>Weekly Category</code> field in the Artists table, click Refresh, and the page updates.
+      <strong>How this works.</strong> Agenda is broken into themed sections — Trending, Recent / Upcoming Releases, Campaign Conversations, and Developing Artists. Click any artist for their open action items, timeline, and updates.
     </div>
 
     <div id="loading"><span class="spin"></span>&nbsp; Loading roster…</div>
@@ -358,31 +418,51 @@
 const ROSTER_API_URL = '/api/roster';
 const STORAGE_KEY = 'campaignops_roster_pw';
 
-const CATEGORY_ORDER = ['Headline', 'Trending', 'Releases', 'Campaigns', 'Early Planning'];
+const CATEGORY_ORDER = ['Trending', 'Releases', 'Campaigns', 'Developing', 'Early Planning'];
 const CATEGORY_TAGLINES = {
-  'Trending': 'Market momentum signals',
-  'Releases': 'Release pipeline this window',
-  'Campaigns': 'Active rollout in progress',
-  'Early Planning': 'Development pipeline / pre-rollout conversations'
+  'Trending': 'Records moving in consumption or engagement. Surface the signal, decide what we act on this week.',
+  'Releases': 'Run through any blockers, results, opportunities, and next steps for records released since last AP or set for release before next AP.',
+  'Campaigns': 'Strategic conversations on active campaigns. Campaign lead frames goal and audience; team adds execution detail and surfaces what\u2019s missing.',
+  'Developing': 'Track progress, audience, and the small wins stacking up.',
+  'Early Planning': 'Track progress, audience, and the small wins stacking up.'
 };
 const CATEGORY_MARKERS = {
   'Trending': 'marker-trending',
   'Releases': 'marker-releases',
   'Campaigns': 'marker-campaigns',
+  'Developing': 'marker-planning',
   'Early Planning': 'marker-planning'
 };
 const CATEGORY_LABELS = {
   'Trending': 'Trending',
-  'Releases': 'Upcoming &amp; Recent Releases',
-  'Campaigns': 'Campaigns',
-  'Early Planning': 'Early Planning Check-Ins'
+  'Releases': 'Recent / Upcoming Releases',
+  'Campaigns': 'Campaign Conversations',
+  'Developing': 'Developing Artists',
+  'Early Planning': 'Developing Artists'
 };
 const STAT_COLORS = {
   'Trending': 'var(--gold)',
   'Releases': 'var(--flame)',
   'Campaigns': 'var(--teal)',
+  'Developing': 'var(--plum)',
   'Early Planning': 'var(--plum)'
 };
+
+// Categories that render as full-width agenda blocks (with bullets)
+const FULL_BLOCK_CATEGORIES = new Set(['Trending', 'Releases', 'Campaigns']);
+
+// Display order for artists within each category (matches the May 6 email order).
+// All other notes (bullets, track, release config) come from Airtable per-record.
+const AGENDA_ORDER = [
+  // Trending
+  'Flo Milli', 'Tems', 'Elle King', 'Doja Cat', 'Audrey Hobert',
+  // Releases
+  'Chris Brown', 'Love Spells', 'Bryson Tiller', 'Red Clay Strays', 'The Red Clay Strays', 'Hailey Picardi',
+  // Campaigns
+  'kwn', 'KWN', 'Steve Lacy', 'Myles Smith', 'Becky G', 'Isabel LaRosa', 'Victoria Mon\u00e9t', 'Victoria Monet', 'The Strokes', 'Khalid',
+  // Developing
+  'Emma Andersen', 'girlsweetvoiced', 'Suzy Clue', 'Carter Vail', 'Baby J', 'Ally Salort', 'Presley Regier', 'Lancey Foux', 'Ray Vaughn'
+];
 
 // All artists open in the dynamic detail page (passes record id via query string)
 function artistUrl(id) { return `/artists/detail.html?id=${id}`; }
@@ -465,11 +545,6 @@ function render(data) {
   const stamp = data.synced_at ? new Date(data.synced_at).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}) : '';
   setBanner(`✓ Loaded <strong>${data.count}</strong> artists from Airtable · synced ${stamp}`, false);
 
-  // Set week label
-  if (data.week_label) {
-    document.getElementById('week-label').textContent = data.week_label;
-  }
-
   // Group artists by category
   const grouped = {};
   CATEGORY_ORDER.forEach(c => grouped[c] = []);
@@ -480,9 +555,16 @@ function render(data) {
     }
   });
 
-  // Sort within each category by spotify_followers DESC (null at end)
+  // Sort within each category: agenda order matches the email (followers DESC as fallback)
+  // For categories where AGENDA_NOTES has them, use the order they appear in the AGENDA_NOTES object
+  const agendaOrder = Object.keys(AGENDA_NOTES);
   Object.keys(grouped).forEach(c => {
     grouped[c].sort((x, y) => {
+      const xIdx = agendaOrder.indexOf(x.name);
+      const yIdx = agendaOrder.indexOf(y.name);
+      if (xIdx !== -1 && yIdx !== -1) return xIdx - yIdx;
+      if (xIdx !== -1) return -1;
+      if (yIdx !== -1) return 1;
       const xf = x.spotify_followers || -1;
       const yf = y.spotify_followers || -1;
       return yf - xf;
@@ -496,7 +578,7 @@ function render(data) {
   ['Trending', 'Releases', 'Campaigns', 'Early Planning'].forEach(c => {
     const n = grouped[c].length;
     if (n > 0) {
-      statsHtml += `<div class="stat"><span class="num" style="color:${STAT_COLORS[c]}">${n}</span><span class="lbl">${c}</span></div>`;
+      statsHtml += `<div class="stat"><span class="num" style="color:${STAT_COLORS[c]}">${n}</span><span class="lbl">${CATEGORY_LABELS[c]}</span></div>`;
     }
   });
   statsEl.innerHTML = statsHtml;
@@ -505,18 +587,8 @@ function render(data) {
   const contentEl = document.getElementById('content');
   let html = '';
 
-  // Headline (only first if multiple set)
-  const headlineArtists = grouped['Headline'];
-  if (headlineArtists.length > 0) {
-    html += renderHeadline(headlineArtists[0]);
-    if (headlineArtists.length > 1) {
-      // Multiple headlines: extras render as a special section
-      html += `<div class="design-note">Multiple artists set as Headline — only the first is featured. Move others to a different category in Airtable.</div>`;
-    }
-  }
-
-  // Categories
-  ['Trending', 'Releases', 'Campaigns', 'Early Planning'].forEach(c => {
+  // Categories (no Headline section in May 6 agenda format)
+  CATEGORY_ORDER.forEach(c => {
     const artists = grouped[c];
     if (artists.length === 0) return;
     html += renderCategory(c, artists);
@@ -531,48 +603,56 @@ function render(data) {
   document.getElementById('loading').style.display = 'none';
 }
 
-function renderHeadline(a) {
-  const url = artistUrl(a.id);
-  const followers = a.spotify_followers != null ? formatNumber(a.spotify_followers) : '—';
-  const pop = a.spotify_popularity != null ? a.spotify_popularity : '—';
-  const imgHtml = a.image_url
-    ? `<img class="headline-img" src="${esc(a.image_url)}" alt="${esc(a.name)}">`
-    : `<div class="headline-img" style="display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-weight:900;font-size:64px;">${esc(initials(a.name))}</div>`;
-  return `
-    <a class="headline-card" href="${esc(url)}">
-      ${imgHtml}
-      <div>
-        <div class="headline-eyebrow">⊙ Top of Mind This Week</div>
-        <div class="headline-name">${esc(a.name)}</div>
-        <div class="headline-meta">
-          <span><strong>${esc(a.status || 'Active')}</strong></span>
-          ${a.genre ? `<span>·</span><span>${esc(a.genre)}</span>` : ''}
-          <span>·</span>
-          <span>Open detail ↗</span>
-        </div>
-        <div class="headline-stats">
-          <div><div class="stat-num">${followers}</div><div class="stat-lbl">Spotify Followers</div></div>
-          <div><div class="stat-num">${pop}</div><div class="stat-lbl">Spotify Pop.</div></div>
-        </div>
-      </div>
-      <div class="headline-arrow">↗</div>
-    </a>
-  `;
-}
-
 function renderCategory(name, artists) {
-  let cards = '';
-  artists.forEach(a => { cards += renderArtistCard(a); });
+  const useAgendaBlocks = FULL_BLOCK_CATEGORIES.has(name);
+  let body;
+  if (useAgendaBlocks) {
+    let blocks = '';
+    artists.forEach(a => { blocks += renderAgendaBlock(a, name); });
+    body = `<div class="agenda-list">${blocks}</div>`;
+  } else {
+    let cards = '';
+    artists.forEach(a => { cards += renderArtistCard(a); });
+    body = `<div class="artist-grid">${cards}</div>`;
+  }
   return `
     <section class="category">
       <header class="category-head">
         <span class="category-marker ${CATEGORY_MARKERS[name]}"></span>
         <h2 class="category-title">${CATEGORY_LABELS[name]}</h2>
-        <span class="category-tagline">${CATEGORY_TAGLINES[name]}</span>
-        <span class="category-count">${artists.length} artist${artists.length === 1 ? '' : 's'}</span>
+        <span class="category-count">${artists.length}</span>
       </header>
-      <div class="artist-grid">${cards}</div>
+      <div class="category-tagline-row">${CATEGORY_TAGLINES[name]}</div>
+      ${body}
     </section>
+  `;
+}
+
+function renderAgendaBlock(a, categoryName) {
+  const url = artistUrl(a.id);
+  const meta = AGENDA_NOTES[a.name] || {};
+  const notes = meta.notes || [];
+  const track = meta.track || null;
+  const config = meta.config || null;
+  const markerClass = CATEGORY_MARKERS[categoryName];
+
+  let bullets = '';
+  if (notes.length > 0) {
+    bullets = '<ul class="agenda-notes">' + notes.map(n => `<li>${esc(n)}</li>`).join('') + '</ul>';
+  }
+
+  return `
+    <a class="agenda-block ${markerClass}" href="${esc(url)}">
+      <div class="agenda-block-head">
+        <div class="agenda-name-line">
+          <span class="agenda-name">${esc(a.name)}</span>
+          ${track ? `<span class="agenda-track">${esc(track)}</span>` : ''}
+        </div>
+        ${config ? `<span class="agenda-config">${esc(config)}</span>` : ''}
+      </div>
+      ${bullets}
+      <div class="agenda-block-foot">Open detail \u2197</div>
+    </a>
   `;
 }
 
