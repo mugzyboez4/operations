@@ -9,14 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FCFDF8;
+    /* Match canonical Campaign Ops site palette (from index.html) */
+    --bg: #F5F2EB;
     --bg-card: #FFFFFF;
-    --bg-sunken: #F4F3EE;
+    --bg-sunken: #ECEAE3;
     --text: #0F0E0E;
     --text-dim: #6B6B68;
-    --text-soft: #9A9A95;
-    --border: #D4D4D0;
-    --border-faint: #E8E7E2;
+    --text-soft: #888;
+    --border: #ECEAE3;
+    --border-faint: #ECEAE3;
     --chartreuse: #CDF851;
     --chartreuse-dark: #8FBF20;
     --chartreuse-soft: #F0FAD0;
@@ -24,7 +25,7 @@
     --flame-soft: #FFE4DD;
     --teal: #5BC0BE;
     --gold: #E8C547;
-    --fog: #B0A9BE;
+    --fog: #888;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,57 +39,94 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── SITE NAV (matches existing TEMPO pages, dark) ── */
-  .site-nav {
-    background: #0F0E0E;
-    border-bottom: 1px solid #2A2A2A;
-    padding: 0 24px;
-    display: flex;
+  /* ── CANONICAL CAMPAIGN OPS NAV (matches homepage) ── */
+  nav.cnav {
+    display: flex !important;
     align-items: center;
-    gap: 0;
-    height: 44px;
+    padding: 14px 32px;
+    border-bottom: 1px solid #ECEAE3;
+    gap: 20px;
     position: sticky;
     top: 0;
+    background: #F5F2EB;
     z-index: 9999;
+    flex-wrap: wrap;
+    font-family: 'Inter', -apple-system, sans-serif;
+    height: auto;
+    color: #0F0E0E;
   }
-  .site-nav .logo {
+  nav.cnav .cnav-logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: -.5px;
+    text-transform: uppercase;
+    color: #0F0E0E;
     text-decoration: none;
-    margin-right: 20px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    border: none;
+    padding: 0;
   }
-  .site-nav .logo .l1 {
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.18em;
+  nav.cnav .cnav-logo span { color: #CDF851; }
+  nav.cnav .cnav-logo:hover { color: #0F0E0E; background: transparent; border-color: transparent; }
+  nav.cnav .cnav-logo-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    vertical-align: middle;
+    display: block;
+  }
+  nav.cnav .cnav-link {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--chartreuse);
-  }
-  .site-nav .logo .l2,
-  .site-nav .logo .l3 {
-    font-size: 10px;
-    font-weight: 500;
-    color: #3E3F41;
-  }
-  .site-nav .logo .l3 { letter-spacing: 0.08em; text-transform: uppercase; }
-  .site-nav .nav-links { display: flex; align-items: center; gap: 2px; }
-  .site-nav .nav-links a,
-  .site-nav .nav-links .active-label {
-    font-size: 11px;
-    font-weight: 500;
-    color: #B0A9BE;
+    color: #888;
     text-decoration: none;
-    padding: 6px 10px;
-    border-bottom: 2px solid transparent;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    transition: all .15s;
+    background: transparent;
+    border-radius: 0;
   }
-  .site-nav .nav-links a:hover { color: #FCFDF8; }
-  .site-nav .nav-links a.active,
-  .site-nav .nav-links .active-label {
-    font-weight: 700;
-    color: var(--chartreuse);
-    border-bottom: 2px solid var(--chartreuse);
+  nav.cnav .cnav-link:hover { color: #0F0E0E; border-color: #ECEAE3; background: transparent; }
+  nav.cnav .cnav-link.active { color: #FF4A23; border-color: #FF4A23; font-weight: 600; }
+  nav.cnav .cnav-dropdown { position: relative; display: inline-block; }
+  nav.cnav .cnav-dropdown-toggle { cursor: pointer; user-select: none; }
+  nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle { color: #0F0E0E; border-color: #ECEAE3; }
+  nav.cnav .cnav-dropdown-toggle.active { color: #FF4A23; border-color: #FF4A23; }
+  nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle.active { color: #FF4A23; border-color: #FF4A23; }
+  nav.cnav .cnav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE3;
+    min-width: 200px;
+    z-index: 99999;
+    padding: 4px 0;
+    margin-top: 1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   }
+  nav.cnav .cnav-dropdown:hover .cnav-dropdown-menu { display: block; }
+  nav.cnav .cnav-dropdown-menu a {
+    display: block;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    text-decoration: none;
+    padding: 8px 14px;
+    border: none;
+    background: transparent;
+  }
+  nav.cnav .cnav-dropdown-menu a:hover { color: #0F0E0E; background: #F5F2EB; border: none; }
+  nav.cnav .cnav-dropdown-menu a.current { color: #FF4A23; font-weight: 600; }
 
   /* ── PAGE WRAP ── */
   .page {
@@ -416,18 +454,26 @@
 </head>
 <body>
 
-<!-- SITE NAV — matches the rest of TEMPO -->
-<nav class="site-nav">
-  <a href="/" class="logo">
-    <span class="l1">TEMPO</span>
-    <span class="l2">·</span>
-    <span class="l3">Campaign Ops</span>
+<!-- CANONICAL CAMPAIGN OPS NAV — matches index.html and other artist pages -->
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
   </a>
-  <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="/orbit.html">Orbit</a>
-    <a href="/visibility.html">Visibility</a>
-    <span class="active-label">Library</span>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/stage-gate.html" class="cnav-link">Stage-Gate</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/todo.html" class="cnav-link">To Do</a>
+  <a href="/tracker.html" class="cnav-link">Tracker</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <div class="cnav-dropdown">
+    <span class="cnav-link cnav-dropdown-toggle">Insights &#9662;</span>
+    <div class="cnav-dropdown-menu">
+      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
+      <a href="/insights/graphitti.html">Graphitti</a><a href="/insights/graphitti-checklist.html">Graphitti Checklist</a>
+      <a href="/insights/index.html">Artist Insights</a>
+      <a href="/vcf.html">VCF</a>
+    </div>
   </div>
 </nav>
 
@@ -436,8 +482,7 @@
   <!-- BREADCRUMB -->
   <nav class="topnav">
     <div>
-      <a href="/">TEMPO</a> &nbsp;·&nbsp;
-      <a href="/orbit.html">Orbit</a> &nbsp;·&nbsp;
+      <a href="/">Campaign Ops</a> &nbsp;·&nbsp;
       <a href="/artists/">Artists</a> &nbsp;·&nbsp;
       <span class="crumb-active">Lancey Foux</span>
     </div>
