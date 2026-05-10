@@ -87,14 +87,16 @@ export default async (req) => {
   }
 
   try {
-    // Fetch all three in parallel
-    const [artistRes, updates, events] = await Promise.all([
-      fetchArtist(artistId, AIRTABLE_TOKEN),
-      fetchUpdates(artistId, AIRTABLE_TOKEN),
-      fetchEvents(artistId, AIRTABLE_TOKEN),
-    ]);
-
+    // First fetch the artist (we need the name for the related-records filter)
+    const artistRes = await fetchArtist(artistId, AIRTABLE_TOKEN);
     if (artistRes.error) return jsonResponse(artistRes.status || 502, artistRes);
+    const artistName = artistRes.artist.name;
+
+    // Then fetch related records in parallel using the name as filter
+    const [updates, events] = await Promise.all([
+      fetchUpdates(artistName, AIRTABLE_TOKEN),
+      fetchEvents(artistName, AIRTABLE_TOKEN),
+    ]);
 
     return jsonResponse(200, {
       artist: artistRes.artist,
@@ -120,37 +122,58 @@ async function fetchArtist(id, token) {
   return { artist: mapArtist(data) };
 }
 
-async function fetchUpdates(artistId, token) {
-  // Filter: Artist link contains this id. Use FIND on RECORD_ID() of Artist.
-  const formula = `FIND('${artistId}', ARRAYJOIN({Artist}))`;
+async function fetchUpdates(artistName, token) {
+  if (!artistName) return [];
+  // Filter: artist name appears in the joined Artist link field.
+  // Linked-record fields return the linked records' primary field (name) when used in formulas,
+  // not their record IDs — so we filter by name. Names are unique enough on the RCA roster.
+  const formula = `FIND("${escFormula(artistName)}", ARRAYJOIN({Artist}, ", ")) > 0`;
   const u = `https://api.airtable.com/v0/${BASE_ID}/${UPDATES_TABLE}` +
     `?filterByFormula=${encodeURIComponent(formula)}` +
     `&sort[0][field]=Created&sort[0][direction]=desc&pageSize=8` +
     `&returnFieldsByFieldId=true`;
   try {
     const res = await fetch(u, { headers: { 'Authorization': `Bearer ${token}` } });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      // Don't silently swallow — log shape so we can debug
+      const txt = await res.text();
+      console.error(`Updates fetch failed: ${res.status}: ${txt.substring(0, 200)}`);
+      return [];
+    }
     const data = await res.json();
     return (data.records || []).map(mapUpdate);
   } catch (e) {
+    console.error('Updates fetch error:', e);
     return [];
   }
 }
 
-async function fetchEvents(artistId, token) {
-  const formula = `FIND('${artistId}', ARRAYJOIN({Artist}))`;
+async function fetchEvents(artistName, token) {
+  if (!artistName) return [];
+  const formula = `FIND("${escFormula(artistName)}", ARRAYJOIN({Artist}, ", ")) > 0`;
   const u = `https://api.airtable.com/v0/${BASE_ID}/${EVENTS_TABLE}` +
     `?filterByFormula=${encodeURIComponent(formula)}` +
     `&sort[0][field]=Start Date&sort[0][direction]=desc&pageSize=20` +
     `&returnFieldsByFieldId=true`;
   try {
     const res = await fetch(u, { headers: { 'Authorization': `Bearer ${token}` } });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error(`Events fetch failed: ${res.status}: ${txt.substring(0, 200)}`);
+      return [];
+    }
     const data = await res.json();
     return (data.records || []).map(mapEvent);
   } catch (e) {
+    console.error('Events fetch error:', e);
     return [];
   }
+}
+
+function escFormula(s) {
+  // Inside a double-quoted Airtable formula string, escape literal double quotes.
+  // Most artist names don't contain ", but be safe.
+  return String(s).replace(/"/g, '\\"');
 }
 
 // ───────── mappers ─────────
