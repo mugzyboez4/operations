@@ -195,6 +195,58 @@
   }
   .section-meta { font-size: 11px; color: var(--text-soft); font-weight: 500; }
 
+  /* ACTION ITEMS */
+  .action-list { display: flex; flex-direction: column; gap: 10px; }
+  .action-card {
+    padding: 14px 18px; background: var(--bg-card);
+    border: 1px solid var(--border); border-left: 3px solid var(--text-soft);
+  }
+  .action-card.type-escalation { border-left-color: var(--flame); background: var(--flame-soft); }
+  .action-card.type-action { border-left-color: var(--teal); }
+  .action-card.type-decision { border-left-color: var(--gold); }
+  .action-card.type-carryforward { border-left-color: var(--plum); }
+  .action-card.type-signal { border-left-color: var(--text-soft); background: var(--bg-sunken); }
+  .action-card.type-intheroom { border-left-color: var(--chartreuse-dark); }
+
+  .action-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; margin-bottom: 8px;
+  }
+  .action-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .action-pill {
+    font-size: 9px; font-weight: 800; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 3px 8px;
+    border: 1px solid; background: var(--bg-card);
+  }
+  .action-pill.type-escalation { color: var(--flame); border-color: var(--flame); }
+  .action-pill.type-action { color: var(--teal); border-color: var(--teal); }
+  .action-pill.type-decision { color: var(--gold); border-color: var(--gold); }
+  .action-pill.type-carryforward { color: var(--plum); border-color: var(--plum); }
+  .action-pill.type-signal { color: var(--text-soft); border-color: var(--border); }
+  .action-pill.type-intheroom { color: var(--chartreuse-dark); border-color: var(--chartreuse-dark); }
+  .action-pill.timing-asap { color: var(--flame); border-color: var(--flame); }
+  .action-pill.timing-thisweek { color: var(--gold); border-color: var(--gold); }
+  .action-pill.timing-thismonth { color: var(--text-dim); border-color: var(--border); }
+  .action-pill.timing-ongoing { color: var(--text-soft); border-color: var(--border); }
+  .action-pill.status-inprogress { color: var(--gold); border-color: var(--gold); }
+  .action-pill.status-blocked { color: var(--flame); border-color: var(--flame); }
+
+  .action-meta {
+    font-size: 10px; color: var(--text-soft); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+  }
+  .action-body {
+    font-size: 14px; line-height: 1.5; color: var(--text); font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .action-foot {
+    font-size: 11px; color: var(--text-dim); padding-top: 6px;
+    border-top: 1px dotted var(--border-dot);
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+  .action-owner strong { color: var(--text); font-weight: 700; }
+  .action-notes { color: var(--text-dim); font-style: italic; }
+
   /* TIMELINE / EVENTS LIST */
   .events-list { display: flex; flex-direction: column; }
   .event-row {
@@ -530,6 +582,9 @@ function render(data) {
     </section>
   `;
 
+  // OPEN ACTION ITEMS — primary section now
+  html += renderActionItems(data.action_items || []);
+
   // TIMELINE + UPDATES (2-col)
   html += renderTimelineUpdates(data.events || [], data.updates || []);
 
@@ -576,6 +631,90 @@ function render(data) {
   `;
 
   document.getElementById('content').innerHTML = html;
+}
+
+function renderActionItems(items) {
+  // Filter to non-resolved items
+  const open = items.filter(i => i.status !== 'Resolved');
+  const resolved = items.filter(i => i.status === 'Resolved');
+
+  // Group by Type for visual organization
+  const byType = {};
+  const TYPE_ORDER = ['Escalation', 'Action', 'Decision', 'Carry-Forward', 'Signal', 'In-the-Room'];
+  TYPE_ORDER.forEach(t => byType[t] = []);
+  open.forEach(i => {
+    const t = i.type || 'Action';
+    if (byType[t] !== undefined) byType[t].push(i);
+    else byType['Action'].push(i);
+  });
+
+  if (open.length === 0) {
+    return `
+      <section class="section">
+        <header class="section-head">
+          <h2 class="section-title">Open Action Items</h2>
+          <span class="section-meta">${resolved.length > 0 ? `${resolved.length} resolved · 0 open` : '0 items'}</span>
+        </header>
+        <div class="empty-state"><strong>No open items.</strong><br>${resolved.length > 0 ? 'All caught up. Resolved items are archived.' : 'Items from Active Projects meetings will appear here.'}</div>
+      </section>
+    `;
+  }
+
+  let html = `
+    <section class="section">
+      <header class="section-head">
+        <h2 class="section-title">Open Action Items</h2>
+        <span class="section-meta">${open.length} open${resolved.length > 0 ? ` · ${resolved.length} resolved` : ''}</span>
+      </header>
+      <div class="action-list">
+  `;
+
+  TYPE_ORDER.forEach(type => {
+    const list = byType[type] || [];
+    if (list.length === 0) return;
+    list.forEach(item => {
+      const typeClass = `type-${type.toLowerCase().replace(/[^a-z]/g, '')}`;
+      const timingClass = item.timing ? `timing-${item.timing.toLowerCase().replace(/\s+/g, '')}` : '';
+      html += `
+        <div class="action-card ${typeClass}">
+          <div class="action-head">
+            <div class="action-pills">
+              <span class="action-pill ${typeClass}">${esc(type)}</span>
+              ${item.timing ? `<span class="action-pill ${timingClass}">${esc(item.timing)}</span>` : ''}
+              ${item.status && item.status !== 'Open' ? `<span class="action-pill status-${item.status.toLowerCase().replace(/\s+/g, '')}">${esc(item.status)}</span>` : ''}
+            </div>
+            <div class="action-meta">
+              ${item.meeting_date ? formatDate(item.meeting_date) : ''}
+              ${item.source ? ` · ${esc(item.source)}` : ''}
+            </div>
+          </div>
+          <div class="action-body">${esc(item.item)}</div>
+          ${(item.owner || item.notes) ? `
+            <div class="action-foot">
+              ${item.owner ? `<span class="action-owner"><strong>Owner:</strong> ${esc(item.owner)}</span>` : ''}
+              ${item.notes ? `<div class="action-notes">${formatNotes(item.notes)}</div>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    });
+  });
+
+  html += `</div></section>`;
+  return html;
+}
+
+function formatNotes(s) {
+  // Trim out the "Original CSV Status:" and "Department(s):" tail that we added during backfill
+  // — keep only the actual note text for display
+  const lines = s.split('\n').filter(l => {
+    const t = l.trim();
+    if (!t) return false;
+    if (t.startsWith('Original CSV Status:')) return false;
+    if (t.startsWith('Department(s):')) return false;
+    return true;
+  });
+  return esc(lines.join(' ')).replace(/\n/g, '<br>');
 }
 
 function renderTimelineUpdates(events, updates) {

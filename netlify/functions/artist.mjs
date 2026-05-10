@@ -6,6 +6,7 @@ const BASE_ID = 'appLwUF3H4KjtiRdW';      // RCA Records (Copy)
 const ARTISTS_TABLE = 'tblV9HXEZ5k6uFXFQ';
 const UPDATES_TABLE = 'tbldiEvSLqvn1wi01'; // Artist Update Log
 const EVENTS_TABLE  = 'tblgk7XV126K6S07z'; // Artist Events
+const ACTIONS_TABLE = 'tbl7bu0rq60d5vQrY'; // Action Items
 
 // ── ARTISTS field IDs ──
 const A = {
@@ -47,6 +48,20 @@ const E = {
   location: 'fldFnroSKqq3qhnZE',
   isFuture: 'fld3uhXEluSoWXrww',
   description: 'fldlmAv1NWXzT6jBQ',
+};
+
+// ── ACTION ITEMS field IDs ──
+const X = {
+  item: 'fldy6PZ5MTj5CUD7x',
+  type: 'fldCtCKQerGIdyWWq',
+  status: 'fldVroldUPRrS8R0F',
+  timing: 'fldiHgumGH3HuWD2d',
+  artist: 'fldbKrYrbZjFIsmQD',
+  owner: 'fld0svO7fVb5Ik5fZ',
+  source: 'fldJD04Ee2yKOSdhe',
+  meetingDate: 'fldPx4qFnMrb6X9dm',
+  notes: 'fldcso1fCrnwL7vLL',
+  created: 'fldEDLNhHHVSRBuBz',
 };
 
 function readEnv(key) {
@@ -93,15 +108,17 @@ export default async (req) => {
     const artistName = artistRes.artist.name;
 
     // Then fetch related records in parallel using the name as filter
-    const [updates, events] = await Promise.all([
+    const [updates, events, actionItems] = await Promise.all([
       fetchUpdates(artistName, AIRTABLE_TOKEN),
       fetchEvents(artistName, AIRTABLE_TOKEN),
+      fetchActionItems(artistName, AIRTABLE_TOKEN),
     ]);
 
     return jsonResponse(200, {
       artist: artistRes.artist,
       updates,
       events,
+      action_items: actionItems,
       synced_at: new Date().toISOString(),
     });
   } catch (e) {
@@ -166,6 +183,29 @@ async function fetchEvents(artistName, token) {
     return (data.records || []).map(mapEvent);
   } catch (e) {
     console.error('Events fetch error:', e);
+    return [];
+  }
+}
+
+async function fetchActionItems(artistName, token) {
+  if (!artistName) return [];
+  // Filter: Related Artist link contains this name. Action Items table uses "Related Artist" field name.
+  const formula = `FIND("${escFormula(artistName)}", ARRAYJOIN({Related Artist}, ", ")) > 0`;
+  const u = `https://api.airtable.com/v0/${BASE_ID}/${ACTIONS_TABLE}` +
+    `?filterByFormula=${encodeURIComponent(formula)}` +
+    `&sort[0][field]=Created&sort[0][direction]=desc&pageSize=50` +
+    `&returnFieldsByFieldId=true`;
+  try {
+    const res = await fetch(u, { headers: { 'Authorization': `Bearer ${token}` } });
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error(`Action items fetch failed: ${res.status}: ${txt.substring(0, 200)}`);
+      return [];
+    }
+    const data = await res.json();
+    return (data.records || []).map(mapActionItem);
+  } catch (e) {
+    console.error('Action items fetch error:', e);
     return [];
   }
 }
@@ -235,6 +275,22 @@ function mapEvent(r) {
     location: f[E.location] || null,
     description: f[E.description] || null,
     is_future: f[E.isFuture] === 1 || f[E.isFuture] === true || f[E.isFuture] === '✅',
+  };
+}
+
+function mapActionItem(r) {
+  const f = r.fields || {};
+  return {
+    id: r.id,
+    item: f[X.item] || '',
+    type: extractSelect(f[X.type]),
+    status: extractSelect(f[X.status]),
+    timing: extractSelect(f[X.timing]),
+    owner: f[X.owner] || null,
+    source: f[X.source] || null,
+    meeting_date: f[X.meetingDate] || null,
+    notes: f[X.notes] || null,
+    created: f[X.created] || null,
   };
 }
 
