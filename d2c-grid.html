@@ -811,6 +811,7 @@ const CULTURAL_MOMENTS = [
 
 const STORAGE_KEY = 'd2c-grid-activations-v3';
 const SESSION_KEY = 'd2c-grid-unlocked';
+const PW_SESSION_KEY = 'd2c_grid_pw'; // password kept in sessionStorage so proxy can authenticate
 const ROW_STATE_KEY = 'd2c-grid-collapsed-rows-v1';
 const ZOOM_STATE_KEY = 'd2c-grid-zoom-v1';
 const RIGHTS_FILTER_KEY = 'd2c-grid-rights-filter-v1';
@@ -871,7 +872,6 @@ if (sessionStorage.getItem(SESSION_KEY) === '1') {
 const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';   // referenced by Edit-in-Airtable deep links only
 const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';  // referenced by Edit-in-Airtable deep links only
 const RECORDS_API_URL = '/api/records';
-const PW_SESSION_KEY = 'd2c_grid_pw';
 
 // Legacy URL-param token capture is intentionally removed. Tokens are no longer client-side.
 
