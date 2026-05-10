@@ -2,17 +2,43 @@
 // Password-gated: only requests bearing the correct X-Grid-Password header are served.
 // Token, base ID, table ID, and password live in Netlify env vars — never in client code.
 
-export default async (req) => {
-  const AIRTABLE_BASE_ID = Netlify.env.get('AIRTABLE_BASE_ID');
-  const AIRTABLE_TABLE_ID = Netlify.env.get('AIRTABLE_TABLE_ID');
-  const AIRTABLE_TOKEN = Netlify.env.get('AIRTABLE_TOKEN');
-  const GRID_PASSWORD = Netlify.env.get('GRID_PASSWORD');
+function readEnv(key) {
+  // Netlify's new function runtime exposes env via Netlify.env.get(); Node fallback via process.env.
+  try {
+    if (typeof Netlify !== 'undefined' && Netlify.env && typeof Netlify.env.get === 'function') {
+      const v = Netlify.env.get(key);
+      if (v) return v;
+    }
+  } catch (e) {}
+  try {
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+      return process.env[key];
+    }
+  } catch (e) {}
+  return null;
+}
 
-  // Sanity check: bail loudly if env is misconfigured
-  if (!AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID || !AIRTABLE_TOKEN || !GRID_PASSWORD) {
+export default async (req) => {
+  const AIRTABLE_BASE_ID = readEnv('AIRTABLE_BASE_ID');
+  const AIRTABLE_TABLE_ID = readEnv('AIRTABLE_TABLE_ID');
+  const AIRTABLE_TOKEN = readEnv('AIRTABLE_TOKEN');
+  const GRID_PASSWORD = readEnv('GRID_PASSWORD');
+
+  // Sanity check: bail loudly if env is misconfigured, naming exactly which vars are missing
+  const missing = [];
+  if (!AIRTABLE_BASE_ID) missing.push('AIRTABLE_BASE_ID');
+  if (!AIRTABLE_TABLE_ID) missing.push('AIRTABLE_TABLE_ID');
+  if (!AIRTABLE_TOKEN) missing.push('AIRTABLE_TOKEN');
+  if (!GRID_PASSWORD) missing.push('GRID_PASSWORD');
+  if (missing.length > 0) {
+    // Useful diagnostic about runtime context
+    const hasNetlifyGlobal = typeof Netlify !== 'undefined';
+    const hasNetlifyEnv = hasNetlifyGlobal && typeof Netlify.env !== 'undefined';
+    const hasProcessEnv = typeof process !== 'undefined' && typeof process.env !== 'undefined';
     return jsonResponse(500, {
       error: 'misconfigured',
-      detail: 'Server is missing required env vars (AIRTABLE_BASE_ID / AIRTABLE_TABLE_ID / AIRTABLE_TOKEN / GRID_PASSWORD)'
+      missing,
+      runtime: { hasNetlifyGlobal, hasNetlifyEnv, hasProcessEnv }
     });
   }
 
