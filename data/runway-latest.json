@@ -1,0 +1,2161 @@
+{
+  "generated_at": "2026-05-10T18:00:00-07:00",
+  "source": "RDX Workability Table",
+  "as_of_date": "2026-05-10",
+  "window_days": 10,
+  "total_releases": 143,
+  "releases": [
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life.",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-03-20",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-04-07",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "SE9",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-04-16",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "horsegiirL",
+      "title": "NATURE IS HEALING",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-04-22",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1606259",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-04-23",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "Isabel LaRosa",
+      "title": "Promising Young Woman",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-05-01",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1619100",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Debbii Dawson",
+      "title": "Where Have All The Good Men Gone?",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-05-08",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1548357",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Hailey Picardi",
+      "title": "scars to prove it",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-05-11",
+      "release_datetime_str": "11 May, 2026 @ 15:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1612581",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Victoria Mon\u00e9t",
+      "title": "Let Me (Live Rendition)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-11",
+      "release_datetime_str": "11 May, 2026 @ 12:00 EDT",
+      "alert": "At Risk",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1554605",
+      "focus_track": true,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track",
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Victoria Mon\u00e9t",
+      "title": "Let Me",
+      "configuration": "Digital Audio Bundle",
+      "release_date": "2026-05-11",
+      "release_datetime_str": "11 May, 2026 @ 12:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1554605",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "kwn, COLORS",
+      "title": "idea of love - A COLORS SHOW",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-11",
+      "release_datetime_str": "11 May, 2026 @ 12:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Isabel LaRosa",
+      "title": "Hallucination (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-12",
+      "release_datetime_str": "12 May, 2026 @ 12:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1619100",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Kygo, Khalid, Gryffin",
+      "title": "Save My Love",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-05-13",
+      "release_datetime_str": "13 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1567304",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Presley Regier",
+      "title": "Audacity (Live Performance)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-13",
+      "release_datetime_str": "13 May, 2026 @ 12:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1561316",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "Child of Divorce",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-14",
+      "release_datetime_str": "14 May, 2026 @ 10:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Ally Salort",
+      "title": "Housekeeping",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": "At Risk",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1609276",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Ally Salort",
+      "title": "Housekeeping (Official Visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1609276",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Becky G",
+      "title": "EPA",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1415302",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Carter Vail",
+      "title": "Prelude To The Birdwatchers",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1628883",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Carter Vail",
+      "title": "Prelude To The Birdwatchers (Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1628883",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "Sober (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "Just Us (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "Cheater (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "Fuckboy (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "Pretty Boys (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Chloe Qisha",
+      "title": "Surprise Surprise",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1593390",
+      "focus_track": true,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track",
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "Chloe Qisha",
+      "title": "Surprise Surprise (Official Visualiser)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1593390",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "JADE",
+      "title": "Angel of My Dreams/IT girl (Coloured Tiny Vinyl Target Exclusive)",
+      "configuration": "4 inch Vinyl Single",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1477531",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "4 inch Vinyl Single"
+      ]
+    },
+    {
+      "artist": "Suzy Clue",
+      "title": "FEED",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1611287",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Suzy Clue",
+      "title": "FEED (Visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1611287",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Falling out of Love",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-15",
+      "release_datetime_str": "15 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "learnt to love goodbyes (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-20",
+      "release_datetime_str": "20 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "anxiety (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-20",
+      "release_datetime_str": "20 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "emotionally unavailable (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-20",
+      "release_datetime_str": "20 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Jourden",
+      "title": "The $triker",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-20",
+      "release_datetime_str": "20 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1459341",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Jourden",
+      "title": "The $triker (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-20",
+      "release_datetime_str": "20 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1459341",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "Child of Divorce",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": true,
+      "configurations": [
+        "Digital Audio Track",
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "Child of Divorce (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 03:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Eli",
+      "title": "Stage Girl (Deluxe)",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1519683",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "LAWSON",
+      "title": "Hop On The Bus",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1593391",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "LAWSON",
+      "title": "Hop On The Bus (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1593391",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "NOAH NOAH",
+      "title": "Hot Rod/Explanation Song",
+      "configuration": "Digital Audio Bundle",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1569380",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "NOAH NOAH",
+      "title": "Hot Rod (Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1569380",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "NOAH NOAH",
+      "title": "Explanation Song (Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1569380",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Sheff G",
+      "title": "Eat, Work, Pray",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1599561",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Sheff G",
+      "title": "Eat, Work, Pray (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 15:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1599561",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "kwn",
+      "title": "touch myself/idea of love",
+      "configuration": "Digital Audio Bundle",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "kwn",
+      "title": "touch myself (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "kwn",
+      "title": "idea of love (Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-22",
+      "release_datetime_str": "22 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Love Spells",
+      "title": "Keep It To Yourself",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-28",
+      "release_datetime_str": "28 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1608684",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Love Spells",
+      "title": "Keep It To Yourself (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-28",
+      "release_datetime_str": "28 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1608684",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Emma Andersen",
+      "title": "Bleeding Heart",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1614048",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Emma Andersen",
+      "title": "Bleeding Heart (Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1614048",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Hailey Picardi",
+      "title": "scars to prove it",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1612581",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Hailey Picardi",
+      "title": "Track 1 (visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1612581",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "SE9",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Man of the House",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Crawling (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Too Far South (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Traumatised (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Lost Myself to a Man (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Vicious Cycle (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Hairdresser (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Family Matters (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Out Out (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "FU & UF (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "My Addiction (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Smoke Rings (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Man of the House (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Walk (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Skye Newman",
+      "title": "Woman I Am (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1562094",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "reggie",
+      "title": "UNDRA",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1540517",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "reggie",
+      "title": "Beautiful Things 1st scene/audition (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-05-29",
+      "release_datetime_str": "29 May, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1540517",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Debbii Dawson",
+      "title": "Track 3",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1548357",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Debbii Dawson",
+      "title": "Track 3 (Visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1548357",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Wide - Jacket A (Tan Grateful))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3",
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (D2C Cassette)",
+      "configuration": "Cassette Longplay",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Cassette Longplay"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (D2C Exclusive 1 - Jacket C (Gold Grateful - HB01 Metallic Gold/Numbered))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (D2C Exclusive 2 - Jacket D (Silver Grateful - MB02 Metallic Silver/Numbered))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (D2C Exclusive 3 - Jacket E (Copper Grateful - HB03 Metallic Copper/Numbered))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (D2C Exclusive 4 - Jacket F (Pearl Grateful - HB30 Iridescent Gold/Numbered))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (RCA Shop (MB56 Red Velvet))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Indie Exclusive - Jacket A (Tan Grateful - MB14 S'mores))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Walmart Exclusive - Jacket A (Tan Grateful - T07 Translucent Lemonade))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Target Exclusive - Jacket A (Tan Grateful - T01 Translucent Ruby))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Amazon Exclusive - Jacket B (Blue Grateful) (Alt Cover) (O05 Opaque Sky Blue))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Amazon Exclusive CD)",
+      "configuration": "CD Longplay",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "The Red Clay Strays",
+      "title": "Grateful (Walmart Exclusive CD)",
+      "configuration": "CD Longplay",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1574937",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "horsegiirL",
+      "title": "NATURE IS HEALING",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1606259",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "horsegiirL",
+      "title": "Track 6 (Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1606259",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "horsegiirL",
+      "title": "Track 2 (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-05",
+      "release_datetime_str": "05 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1606259",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Ari Abdul",
+      "title": "Enamored",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1534754",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Ari Abdul",
+      "title": "Enamored (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1534754",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "go (Live Later with Jools Holland, 2022)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Eli",
+      "title": "Glitter / Girl Of Your Dreams (7\" Vinyl - Urban Outfitters Exclusive)",
+      "configuration": "7 inch Vinyl Single",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1519683",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "7 inch Vinyl Single"
+      ]
+    },
+    {
+      "artist": "Ethan Garner",
+      "title": "LOW COUNTRY HIGH",
+      "configuration": "Digital Audio Bundle",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1605582",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Bundle",
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Ethan Garner",
+      "title": "LOW COUNTRY HIGH (Official Visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1605582",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Isabel LaRosa",
+      "title": "Promising Young Woman",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1619100",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "JADE",
+      "title": "THAT'S SHOWBIZ BABY! THE ENCORE (Urban Outfitters Pride Coloured Vinyl)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-12",
+      "release_datetime_str": "12 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1477531",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "It's Kinda Hot",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-18",
+      "release_datetime_str": "18 Jun, 2026 @ 10:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life.",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Standard CD)",
+      "configuration": "CD Longplay",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Standard LP)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Signed Standard LP (D2C))",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Amazon exclusive - S294 marbled vinyl)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (D2C Alt Colour - P520 Spot splatter vinyl)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Signed CD (D2C))",
+      "configuration": "CD Longplay",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "Myles Smith",
+      "title": "My Mess, My Heart, My Life. (Urban Outfitters Exclusive - SB07 - Blue Smoke)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-19",
+      "release_datetime_str": "19 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1592104",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "alone (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-22",
+      "release_datetime_str": "22 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "end game (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-22",
+      "release_datetime_str": "22 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "boy crazy (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-22",
+      "release_datetime_str": "22 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "this is what happens (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "people pleaser (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "met someone (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "false hope (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "no more (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Love Spells",
+      "title": "Maybe I Still Love",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1608684",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Love Spells",
+      "title": "Maybe I Still Love (Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-24",
+      "release_datetime_str": "24 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1608684",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Ally Salort",
+      "title": "TBD",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1609276",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "Ally Salort",
+      "title": "TBD (Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1609276",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "It's Kinda Hot",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": true,
+      "configurations": [
+        "Digital Audio Track",
+        "Digital Audio Bundle"
+      ]
+    },
+    {
+      "artist": "Amy Shark",
+      "title": "It's Kinda Hot (Official Video)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026 @ 03:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1611047",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "end game (Live from BBC Radio 1's Live Lounge, 2024)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Debbii Dawson",
+      "title": "Where Have All The Good Men Gone?",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1548357",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Debbii Dawson",
+      "title": "Track 6 (Visualizer)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1548357",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Emma Andersen",
+      "title": "TBD",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "29 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1614048",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "NOAH NOAH",
+      "title": "Purple Aura",
+      "configuration": "Digital Audio Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1569380",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Track"
+      ]
+    },
+    {
+      "artist": "NOAH NOAH",
+      "title": "Purple Aura (Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026 @ 00:00 EDT",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1569380",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits (Wide)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3",
+        "CD Longplay"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits (D2C Exclusive Vinyl - MD25 America)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits (Indie Exclusive Vinyl - HG15 Black Ice Glitter)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits (Urban Outfitters Exclusive Vinyl - HB01 Metallic Gold)",
+      "configuration": "Vinyl Longplay 33 1/3",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Vinyl Longplay 33 1/3"
+      ]
+    },
+    {
+      "artist": "The Strokes",
+      "title": "Reality Awaits (D2C Cassette)",
+      "configuration": "Cassette Longplay",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1438227",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Cassette Longplay"
+      ]
+    },
+    {
+      "artist": "kwn",
+      "title": "and all pride aside",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-06-26",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "live more & love more (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-29",
+      "release_datetime_str": "29 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "jodie (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-29",
+      "release_datetime_str": "29 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "low self esteem (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-06-29",
+      "release_datetime_str": "29 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "you don't love me anymore (Official Audio)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-07-01",
+      "release_datetime_str": "01 Jul, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Cat Burns",
+      "title": "people pleaser (Live from Jools Annual Hootenanny, 2022)",
+      "configuration": "Digital Video Track",
+      "release_date": "2026-07-03",
+      "release_datetime_str": "03 Jul, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (opt-in)",
+      "project_number": "1427071",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Video Track"
+      ]
+    },
+    {
+      "artist": "Ally Salort",
+      "title": "TBD",
+      "configuration": "Digital Audio EP",
+      "release_date": "2026-07-10",
+      "release_datetime_str": "26 Jun, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1609276",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    },
+    {
+      "artist": "Love Spells",
+      "title": "Love Is The Law",
+      "configuration": "Digital Audio Longplay",
+      "release_date": "2026-07-24",
+      "release_datetime_str": "28 May, 2026",
+      "alert": null,
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1608684",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio Longplay"
+      ]
+    },
+    {
+      "artist": "kwn",
+      "title": "TBD",
+      "configuration": "Digital Audio EP",
+      "release_date": "2050-12-25",
+      "release_datetime_str": "22 May, 2026",
+      "alert": "Warning",
+      "schedule_status": "Scheduled (pushed)",
+      "project_number": "1576850",
+      "focus_track": false,
+      "instant_grat": false,
+      "configurations": [
+        "Digital Audio EP"
+      ]
+    }
+  ]
+}

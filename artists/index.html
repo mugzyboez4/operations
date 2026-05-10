@@ -112,6 +112,98 @@
   }
   .banner .refresh:hover { color: var(--text); border-color: var(--text); }
 
+  /* ── NEEDS ATTENTION ── */
+  .needs-attention {
+    margin-bottom: 36px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 0;
+  }
+  .na-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    gap: 16px; flex-wrap: wrap;
+  }
+  .na-title {
+    font-size: 16px; font-weight: 900; letter-spacing: -0.01em;
+    text-transform: uppercase; display: flex; align-items: baseline; gap: 12px;
+  }
+  .na-title .na-counts {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    color: var(--text-soft); text-transform: uppercase;
+  }
+  .na-source {
+    font-size: 10px; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .na-source strong { color: var(--text-dim); font-weight: 600; }
+  .na-tier { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .na-tier:last-child { border-bottom: none; }
+  .na-tier-head {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .na-tier.tier-atrisk .na-tier-head { color: var(--flame); }
+  .na-tier.tier-warning .na-tier-head { color: #B08920; }
+  .na-tier.tier-rest .na-tier-head { color: var(--text-soft); }
+  .na-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  }
+  .tier-atrisk .na-dot { background: var(--flame); }
+  .tier-warning .na-dot { background: var(--gold); }
+  .tier-rest .na-dot { background: var(--text-soft); }
+
+  .na-items {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+  .na-items.compact { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .na-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; border: 1px solid var(--border);
+    background: var(--bg); text-decoration: none; color: inherit;
+    transition: all .15s;
+  }
+  .na-item.linkable:hover { border-color: var(--text); background: var(--bg-card); }
+  .na-item.tier-atrisk { border-left: 3px solid var(--flame); }
+  .na-item.tier-warning { border-left: 3px solid var(--gold); }
+  .na-item.compact { padding: 8px 12px; }
+  .na-item-body { flex: 1; min-width: 0; }
+  .na-item-artist {
+    font-size: 13px; font-weight: 700; letter-spacing: -0.01em;
+    margin-bottom: 2px; line-height: 1.2;
+  }
+  .na-item-title {
+    font-size: 11px; color: var(--text-dim); line-height: 1.3;
+  }
+  .na-item-meta {
+    font-size: 9px; color: var(--text-soft); text-transform: uppercase;
+    letter-spacing: 0.06em; margin-top: 4px;
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  }
+  .na-item-meta .date { color: var(--text-dim); font-weight: 700; }
+  .na-item.tier-atrisk .na-item-meta .date { color: var(--flame); }
+  .na-item-meta .date.imminent { color: var(--flame); }
+  .na-pill {
+    display: inline-block; font-size: 8px; font-weight: 700;
+    letter-spacing: 0.08em; padding: 1px 6px;
+    text-transform: uppercase;
+  }
+  .na-pill.focus { background: var(--chartreuse); color: var(--text); }
+  .na-pill.ig { background: var(--teal); color: var(--text); }
+  .na-pill.tbd { background: var(--gold); color: var(--text); }
+
+  .na-collapsed-toggle {
+    margin-top: 8px; font-size: 10px; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+    border: none; background: none; padding: 4px 0;
+    font-family: inherit; font-weight: 600;
+  }
+  .na-collapsed-toggle:hover { color: var(--text); }
+  .na-empty {
+    font-size: 12px; color: var(--text-soft); padding: 8px 0;
+  }
+
   /* ── HEADER ── */
   .roster-head {
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -403,6 +495,7 @@
     </div>
 
     <div id="loading"><span class="spin"></span>&nbsp; Loading roster…</div>
+    <div id="needs-attention"></div>
     <div id="content"></div>
 
     <footer class="page-footer">
@@ -540,6 +633,14 @@ async function refresh() {
 }
 
 // ───────── RENDER ─────────
+async function fetchRunway() {
+  try {
+    const res = await fetch('/data/runway-latest.json?_=' + Date.now());
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) { return null; }
+}
+
 function render(data) {
   // Set banner
   const stamp = data.synced_at ? new Date(data.synced_at).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}) : '';
@@ -599,7 +700,164 @@ function render(data) {
 
   contentEl.innerHTML = html;
   document.getElementById('loading').style.display = 'none';
+
+  // Render Needs Attention asynchronously (doesn't block roster)
+  renderNeedsAttention(data.artists || []);
 }
+
+// ───────── NEEDS ATTENTION ─────────
+async function renderNeedsAttention(rosterArtists) {
+  const el = document.getElementById('needs-attention');
+  if (!el) return;
+  const runway = await fetchRunway();
+  if (!runway || !runway.releases) return;
+
+  // Build a roster lookup: lowercase name -> {id, name}
+  const rosterMap = {};
+  rosterArtists.forEach(a => {
+    if (a.name) rosterMap[a.name.toLowerCase().trim()] = a;
+  });
+
+  // Resolve artist link: tries exact match, then first part before comma/&
+  function resolveArtistLink(rawName) {
+    if (!rawName) return null;
+    const lc = rawName.toLowerCase().trim();
+    if (rosterMap[lc]) return rosterMap[lc];
+    // Try splitting on comma or "&" (for collabs like "kwn, COLORS" or "Kygo, Khalid, Gryffin")
+    const first = rawName.split(/[,&]/)[0].toLowerCase().trim();
+    if (rosterMap[first]) return rosterMap[first];
+    return null;
+  }
+
+  const today = new Date(runway.as_of_date + 'T00:00:00');
+  const ms = 24 * 60 * 60 * 1000;
+  const windowEnd = new Date(today.getTime() + 10 * ms);
+
+  function isInWindow(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d >= today && d <= windowEnd;
+  }
+  function isPlaceholder(dateStr) {
+    const y = parseInt(dateStr.split('-')[0], 10);
+    return y >= 2030; // placeholder dates like 2050-12-25
+  }
+
+  // Partition
+  const atRisk = [];
+  const warning = [];
+  const otherInWindow = [];
+  runway.releases.forEach(r => {
+    if (r.alert === 'At Risk') atRisk.push(r);
+    else if (r.alert === 'Warning') warning.push(r);
+    else if (isInWindow(r.release_date)) otherInWindow.push(r);
+  });
+
+  function fmtDate(dateStr) {
+    if (isPlaceholder(dateStr)) return 'Date TBD';
+    const d = new Date(dateStr + 'T00:00:00');
+    const diff = Math.round((d - today) / ms);
+    const opts = { month: 'short', day: 'numeric' };
+    const human = d.toLocaleDateString('en-US', opts);
+    if (diff === 0) return `Today · ${human}`;
+    if (diff === 1) return `Tomorrow · ${human}`;
+    if (diff < 7) return `${d.toLocaleDateString('en-US', {weekday: 'short'})} · ${human}`;
+    return human;
+  }
+
+  function renderItem(r, tier, compact=false) {
+    const link = resolveArtistLink(r.artist);
+    const dateLabel = fmtDate(r.release_date);
+    const diff = isPlaceholder(r.release_date) ? 99 : Math.round((new Date(r.release_date+'T00:00:00') - today) / ms);
+    const imminent = diff <= 2 && !isPlaceholder(r.release_date);
+    const configsStr = (r.configurations && r.configurations.length)
+      ? r.configurations.map(c => c.replace(/Digital /g, '').replace(/ Longplay$/, ' LP')).join(' · ')
+      : '';
+    const pills = [];
+    if (r.focus_track) pills.push('<span class="na-pill focus">Focus</span>');
+    if (r.instant_grat) pills.push('<span class="na-pill ig">IG</span>');
+    if (isPlaceholder(r.release_date)) pills.push('<span class="na-pill tbd">TBD</span>');
+
+    const innerHTML = `
+      <div class="na-item-body">
+        <div class="na-item-artist">${escapeHtml(r.artist || 'Unknown')}</div>
+        <div class="na-item-title">${escapeHtml(r.title || '')}</div>
+        <div class="na-item-meta">
+          <span class="date${imminent ? ' imminent' : ''}">${dateLabel}</span>
+          ${configsStr ? `<span>${escapeHtml(configsStr)}</span>` : ''}
+          ${pills.join(' ')}
+        </div>
+      </div>`;
+    const cls = `na-item tier-${tier}${link ? ' linkable' : ''}${compact ? ' compact' : ''}`;
+    if (link) {
+      return `<a class="${cls}" href="/artists/detail.html?id=${link.id}">${innerHTML}</a>`;
+    }
+    return `<div class="${cls}">${innerHTML}</div>`;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // Build the section
+  let html = `
+    <section class="needs-attention">
+      <header class="na-head">
+        <div class="na-title">
+          Needs Attention
+          <span class="na-counts">${atRisk.length} at risk · ${warning.length} warning · ${otherInWindow.length} other in next 10 days</span>
+        </div>
+        <div class="na-source">RDX Workability · <strong>${runway.as_of_date}</strong></div>
+      </header>`;
+
+  // Tier 1: At Risk
+  if (atRisk.length) {
+    html += `
+      <div class="na-tier tier-atrisk">
+        <div class="na-tier-head"><span class="na-dot"></span> AT RISK · ${atRisk.length}</div>
+        <div class="na-items">${atRisk.map(r => renderItem(r, 'atrisk')).join('')}</div>
+      </div>`;
+  }
+
+  // Tier 2: Warning
+  if (warning.length) {
+    html += `
+      <div class="na-tier tier-warning">
+        <div class="na-tier-head"><span class="na-dot"></span> WARNING · ${warning.length}</div>
+        <div class="na-items">${warning.map(r => renderItem(r, 'warning')).join('')}</div>
+      </div>`;
+  }
+
+  // Tier 3: Other in window (collapsed by default)
+  if (otherInWindow.length) {
+    const compactItems = otherInWindow.map(r => renderItem(r, 'rest', true)).join('');
+    html += `
+      <div class="na-tier tier-rest" id="na-rest">
+        <div class="na-tier-head"><span class="na-dot"></span> ALSO RELEASING · ${otherInWindow.length} in next 10 days</div>
+        <div class="na-items compact" id="na-rest-items" style="display:none">${compactItems}</div>
+        <button class="na-collapsed-toggle" onclick="toggleRest()">Show ${otherInWindow.length} ▾</button>
+      </div>`;
+  }
+
+  if (!atRisk.length && !warning.length && !otherInWindow.length) {
+    html += `<div class="na-tier"><div class="na-empty">All quiet on the campaign front — no flagged releases in the next 10 days.</div></div>`;
+  }
+
+  html += `</section>`;
+  el.innerHTML = html;
+}
+
+window.toggleRest = function() {
+  const items = document.getElementById('na-rest-items');
+  const btn = document.querySelector('#na-rest .na-collapsed-toggle');
+  if (!items || !btn) return;
+  if (items.style.display === 'none') {
+    items.style.display = '';
+    btn.textContent = 'Hide ▴';
+  } else {
+    items.style.display = 'none';
+    btn.textContent = btn.textContent.replace('Hide ▴', `Show ${items.children.length} ▾`);
+  }
+};
 
 function renderCategory(name, artists) {
   const useAgendaBlocks = FULL_BLOCK_CATEGORIES.has(name);
