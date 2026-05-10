@@ -14,6 +14,8 @@ const FLD_SPOTIFY_FOLLOWS = 'fldTmRkJMTQ6eQ4su';  // Spotify Followers (number)
 const FLD_SPOTIFY_POP     = 'flde8jQvhgXGh68mC';  // Spotify Popularity (number)
 const FLD_SPOTIFY_ID      = 'fld09PGkl0HMmmeHl';  // Spotify ID (text)
 const FLD_WEEKLY_CATEGORY = 'fldpEPkN4wh6rMjdu';  // Weekly Category (singleSelect)
+const FLD_AGENDA_NOTES    = 'fldU72qNnZIaiUvIg';  // Agenda Notes (multilineText)
+const FLD_RELEASE_CONFIG  = 'fldPJCxHCqOHu6Bu5';  // Release Config (singleLineText)
 
 function readEnv(key) {
   try {
@@ -128,6 +130,8 @@ function mapRecord(r) {
     spotify_popularity: f[FLD_SPOTIFY_POP] || null,
     spotify_id: f[FLD_SPOTIFY_ID] || null,
     weekly_category: weeklyCategory || null,
+    agenda_notes: f[FLD_AGENDA_NOTES] || null,
+    release_config: f[FLD_RELEASE_CONFIG] || null,
     airtable_url: `https://airtable.com/${BASE_ID}/${TABLE_ID}/${r.id}`
   };
 }

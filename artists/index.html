@@ -555,13 +555,11 @@ function render(data) {
     }
   });
 
-  // Sort within each category: agenda order matches the email (followers DESC as fallback)
-  // For categories where AGENDA_NOTES has them, use the order they appear in the AGENDA_NOTES object
-  const agendaOrder = Object.keys(AGENDA_NOTES);
+  // Sort within each category by AGENDA_ORDER (email order), with followers DESC fallback
   Object.keys(grouped).forEach(c => {
     grouped[c].sort((x, y) => {
-      const xIdx = agendaOrder.indexOf(x.name);
-      const yIdx = agendaOrder.indexOf(y.name);
+      const xIdx = AGENDA_ORDER.indexOf(x.name);
+      const yIdx = AGENDA_ORDER.indexOf(y.name);
       if (xIdx !== -1 && yIdx !== -1) return xIdx - yIdx;
       if (xIdx !== -1) return -1;
       if (yIdx !== -1) return 1;
@@ -575,7 +573,7 @@ function render(data) {
   const statsEl = document.getElementById('stats');
   const total = data.count || 0;
   let statsHtml = `<div class="stat"><span class="num">${total}</span><span class="lbl">Artists</span></div>`;
-  ['Trending', 'Releases', 'Campaigns', 'Early Planning'].forEach(c => {
+  ['Trending', 'Releases', 'Campaigns', 'Developing', 'Early Planning'].forEach(c => {
     const n = grouped[c].length;
     if (n > 0) {
       statsHtml += `<div class="stat"><span class="num" style="color:${STAT_COLORS[c]}">${n}</span><span class="lbl">${CATEGORY_LABELS[c]}</span></div>`;
@@ -630,12 +628,22 @@ function renderCategory(name, artists) {
 
 function renderAgendaBlock(a, categoryName) {
   const url = artistUrl(a.id);
-  const meta = AGENDA_NOTES[a.name] || {};
-  const notes = meta.notes || [];
-  const track = meta.track || null;
-  const config = meta.config || null;
-  const markerClass = CATEGORY_MARKERS[categoryName];
+  // Parse agenda_notes from Airtable: lines like "- bullet" → strip prefix
+  const notes = (a.agenda_notes || '').split('\n')
+    .map(l => l.replace(/^[-•*]\s*/, '').trim())
+    .filter(l => l.length > 0);
 
+  // Parse release_config from Airtable. Format options:
+  //   "BUNDLE · 5/22 — idea of love / touch myself"  → config="BUNDLE · 5/22", track="idea of love / touch myself"
+  //   "Crutch"                                       → config=null, track="Crutch"
+  let track = null, config = null;
+  if (a.release_config) {
+    const parts = a.release_config.split(' — ');
+    if (parts.length >= 2) { config = parts[0]; track = parts.slice(1).join(' — '); }
+    else { track = a.release_config; }
+  }
+
+  const markerClass = CATEGORY_MARKERS[categoryName];
   let bullets = '';
   if (notes.length > 0) {
     bullets = '<ul class="agenda-notes">' + notes.map(n => `<li>${esc(n)}</li>`).join('') + '</ul>';
