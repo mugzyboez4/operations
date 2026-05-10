@@ -816,6 +816,11 @@ const ROW_STATE_KEY = 'd2c-grid-collapsed-rows-v1';
 const ZOOM_STATE_KEY = 'd2c-grid-zoom-v1';
 const RIGHTS_FILTER_KEY = 'd2c-grid-rights-filter-v1';
 
+// Backend constants — declared early so the boot-guard auto-unlock path can access them safely.
+const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';   // referenced by Edit-in-Airtable deep links only
+const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';  // referenced by Edit-in-Airtable deep links only
+const RECORDS_API_URL = '/api/records';
+
 let activations = [];
 let collapsedRows = new Set();
 let zoom = 'default';
@@ -869,9 +874,8 @@ if (sessionStorage.getItem(SESSION_KEY) === '1') {
 // it lives server-side as a Netlify env var. The grid sends the password the user already
 // entered (via the gate) on each request; the function validates it and proxies to Airtable.
 
-const AIRTABLE_BASE_ID = 'appZYfEZ8t4uQkbfX';   // referenced by Edit-in-Airtable deep links only
-const AIRTABLE_TABLE_ID = 'tblpVBGus5nEVZVZ3';  // referenced by Edit-in-Airtable deep links only
-const RECORDS_API_URL = '/api/records';
+// Backend constants (AIRTABLE_BASE_ID, AIRTABLE_TABLE_ID, RECORDS_API_URL) are declared
+// near the top of the script so the boot-guard auto-unlock path can access them safely.
 
 // Legacy URL-param token capture is intentionally removed. Tokens are no longer client-side.
 
