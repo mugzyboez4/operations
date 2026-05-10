@@ -112,9 +112,11 @@ function mapRecord(r) {
     }
   }
 
-  const status = f[FLD_STATUS] && f[FLD_STATUS].name;
-  const genre = f[FLD_GENRE] && f[FLD_GENRE].name;
-  const weeklyCategory = f[FLD_WEEKLY_CATEGORY] && f[FLD_WEEKLY_CATEGORY].name;
+  // singleSelect can come back as either {id, name, color} OR raw string depending on API call params.
+  // Handle both defensively.
+  const status = extractSelectName(f[FLD_STATUS]);
+  const genre = extractSelectName(f[FLD_GENRE]);
+  const weeklyCategory = extractSelectName(f[FLD_WEEKLY_CATEGORY]);
 
   return {
     id: r.id,
@@ -128,6 +130,21 @@ function mapRecord(r) {
     weekly_category: weeklyCategory || null,
     airtable_url: `https://airtable.com/${BASE_ID}/${TABLE_ID}/${r.id}`
   };
+}
+
+function extractSelectName(v) {
+  if (v == null) return null;
+  if (typeof v === 'string') return v;
+  if (typeof v === 'object') {
+    if (v.name) return v.name;
+    if (Array.isArray(v) && v.length > 0) {
+      // multipleSelects: return first
+      const first = v[0];
+      if (typeof first === 'string') return first;
+      if (first && first.name) return first.name;
+    }
+  }
+  return null;
 }
 
 function weekLabel() {
