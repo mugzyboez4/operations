@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCAnalytics</title>
+<link rel="icon" href="/tempoicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+nav.cnav{display:flex !important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif;height:auto}
+nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px;border:none;padding:0}
+nav.cnav .cnav-logo span{color:#5BC0BE}
+nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px;vertical-align:middle;display:block}
+nav.cnav .cnav-link{font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s;background:transparent;border-radius:0}
+nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3;background:transparent}
+nav.cnav .cnav-link.active{color:#5BC0BE;border-color:#5BC0BE;font-weight:600}
+nav.cnav .cnav-ext{margin-left:auto;font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px}
+nav.cnav .cnav-ext:hover{color:#0F0E0E}
+
+.wrap{max-width:1200px;margin:0 auto;padding:60px 32px 80px}
+.hero{border-bottom:2px solid #0F0E0E;padding-bottom:28px;margin-bottom:48px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+h1{font-size:64px;font-weight:900;letter-spacing:-2.8px;text-transform:uppercase;line-height:0.92;margin:8px 0 0;color:#0F0E0E}
+h1 .teal{color:#5BC0BE}
+.tagline{font-size:16px;color:#0F0E0E;margin-top:18px;max-width:760px;line-height:1.55}
+.tagline strong{font-weight:700}
+
+.section-eyebrow{font-size:10px;letter-spacing:2.5px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:#FFFFFF;border:1px solid #ECEAE3;padding:24px;text-decoration:none;color:#0F0E0E;display:flex;flex-direction:column;justify-content:space-between;min-height:180px;transition:all .15s;border-top:6px solid #ECEAE3}
+.card:hover{border-color:#5BC0BE;border-top-color:#5BC0BE;transform:translateY(-2px)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.card-num{font-size:11px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase}
+.card-tag{font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;color:#5BC0BE}
+.card-title{font-size:20px;font-weight:900;letter-spacing:-0.7px;text-transform:uppercase;line-height:1.05;margin-top:4px}
+.card-desc{font-size:12px;color:#666;line-height:1.5;margin-top:8px}
+.card-cta{font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;color:#0F0E0E;margin-top:14px}
+
+/* Featured card — bigger, full row */
+.featured{background:#0F0E0E;color:#FCFDF8;padding:32px;text-decoration:none;display:grid;grid-template-columns:1.5fr 1fr;gap:24px;margin-bottom:32px;border-top:6px solid #5BC0BE;transition:all .15s}
+.featured:hover{transform:translateY(-2px)}
+.featured h2{font-size:32px;font-weight:900;letter-spacing:-1.2px;text-transform:uppercase;line-height:1;margin-top:6px;color:#FCFDF8}
+.featured .eyebrow{color:#888}
+.featured .desc{font-size:13px;color:#B0A9BE;line-height:1.55;margin-top:12px;max-width:520px}
+.featured .meta{display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+.featured .meta-row{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:#888}
+.featured .meta-row strong{color:#5BC0BE;font-weight:700;display:block;font-size:18px;letter-spacing:-0.5px;margin-top:2px}
+.featured .cta{font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;color:#5BC0BE;margin-top:14px;border-top:1px solid #2A2A2A;padding-top:14px}
+@media(max-width:780px){.featured{grid-template-columns:1fr}}
+
+.footer{margin-top:80px;padding:28px 32px;border-top:1px solid #ECEAE3;text-align:center;font-size:10px;color:#888;letter-spacing:1.5px;text-transform:uppercase}
+.footer a{color:#888;text-decoration:underline;margin:0 8px}
+.footer a:hover{color:#0F0E0E}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE — uses RCAnalytics2026, SHA-256 hashed -->
+<script>
+(function(){
+  const HASH = '297022475aa88405c226f18041585c664817200477e063b9343ba13259867023';
+  const KEY = 'analytics_auth';
+  if (sessionStorage.getItem(KEY) === 'true') return;
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:380px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#0F0E0E;margin-bottom:6px">RCA<span style="color:#5BC0BE">ANALYTICS</span></div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:32px">Strategic Analytics &middot; Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#FFFFFF;border:1px solid #ECEAE3;color:#0F0E0E;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#FF4A23;min-height:20px;margin-bottom:8px"></div>
+        <div style="font-size:10px;color:#888;margin-top:16px">Internal Use Only &middot; RCA Records</div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+</script>
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="RCAnalytics" class="cnav-logo-img">
+    RCA<span>Analytics</span>
+  </a>
+  <a href="/" class="cnav-link active">Home</a>
+  <a href="/insights/strategic-analytics.html" class="cnav-link">Strategic Analytics</a>
+  <a href="/insights/graphitti.html" class="cnav-link">Graphitti</a>
+  <a href="/insights/gps/" class="cnav-link">artistGPS</a>
+  <a href="/insights/" class="cnav-link">Artist Insights</a>
+  <a href="/vcf.html" class="cnav-link">VCF</a>
+  <a href="https://operations.mugzyboez.co" class="cnav-ext">&rarr; Campaign Ops</a>
+</nav>
+
+<div class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">RCA Records · Strategic Analytics</div>
+  <h1>RCA<span class="teal">Analytics</span></h1>
+  <div class="tagline">Audience research, scoring frameworks, and data products built by Strategic Analytics. Insights, evaluation, and growth signals for every artist on the RCA roster.</div>
+</div>
+
+<!-- FEATURED — artistGPS (the live KPI surface) -->
+<a href="/insights/gps/" class="featured">
+  <div>
+    <div class="eyebrow">Featured · Live Surface</div>
+    <h2>artistGPS</h2>
+    <div class="desc">Live KPI snapshots across ~300 artists. 10 indicators per artist — streaming volume and growth, social community, release performance, industry infrastructure, market position. Updated nightly.</div>
+    <div class="cta">Open dashboard &rarr;</div>
+  </div>
+  <div class="meta">
+    <div class="meta-row">Artists tracked<strong>~300</strong></div>
+    <div class="meta-row">Indicators<strong>10 / artist</strong></div>
+    <div class="meta-row">Refresh<strong>Nightly</strong></div>
+  </div>
+</a>
+
+<!-- TOOLS GRID -->
+<div class="section-eyebrow">Tools &amp; Frameworks</div>
+<div class="cards">
+
+  <a href="/insights/strategic-analytics.html" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">01</div><div class="card-tag">Hub</div></div>
+      <div class="card-title">Strategic Analytics</div>
+      <div class="card-desc">Central index of analytics outputs, methodology, and team-facing references.</div>
+    </div>
+    <div class="card-cta">Open &rarr;</div>
+  </a>
+
+  <a href="/insights/graphitti.html" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">02</div><div class="card-tag">Tool</div></div>
+      <div class="card-title">Graphitti</div>
+      <div class="card-desc">Visual data exploration tool. Built by A&amp;R Research, supports cross-roster pattern finding.</div>
+    </div>
+    <div class="card-cta">Open &rarr;</div>
+  </a>
+
+  <a href="/insights/graphitti-checklist.html" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">03</div><div class="card-tag">Checklist</div></div>
+      <div class="card-title">Graphitti Checklist</div>
+      <div class="card-desc">Pre-flight checklist for Graphitti analyses. Ensures consistency across analyses.</div>
+    </div>
+    <div class="card-cta">Open &rarr;</div>
+  </a>
+
+  <a href="/insights/" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">04</div><div class="card-tag">Library</div></div>
+      <div class="card-title">Artist Insights</div>
+      <div class="card-desc">Deep-dive per-artist insight decks. Audience composition, psychographics, growth signals.</div>
+    </div>
+    <div class="card-cta">Browse library &rarr;</div>
+  </a>
+
+  <a href="/insights/artist-evaluation-framework.html" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">05</div><div class="card-tag">Framework</div></div>
+      <div class="card-title">A&amp;R Evaluation Framework</div>
+      <div class="card-desc">5-category weighted scoring methodology. Applied across signing candidates and roster artists.</div>
+    </div>
+    <div class="card-cta">Open &rarr;</div>
+  </a>
+
+  <a href="/vcf.html" class="card">
+    <div>
+      <div class="card-head"><div class="card-num">06</div><div class="card-tag">Surface</div></div>
+      <div class="card-title">VCF</div>
+      <div class="card-desc">Voice / Content / Fan — audience listening profile across the roster.</div>
+    </div>
+    <div class="card-cta">Open &rarr;</div>
+  </a>
+
+</div>
+
+</div>
+
+<div class="footer">
+  RCAnalytics &middot; Strategic Analytics &middot; RCA Records &middot; Internal use only
+  <br>
+  <a href="https://operations.mugzyboez.co">Campaign Ops</a> &middot;
+  <a href="https://sony.mugzyboez.co">RCA Scale</a>
+</div>
+
+</body>
+</html>

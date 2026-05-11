@@ -49,8 +49,8 @@ h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase
   <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
 </div>
 <script>
-function checkPw(){if(document.getElementById("pw").value==="campaignops26"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("camops_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
-function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
+function checkPw(){if(document.getElementById("pw").value==="RCA2026"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("rca_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
 </script>
 
@@ -183,7 +183,7 @@ function showTab(i){
 }
 </script>
 
-<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
+<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
 </div>
 </body>
 </html>

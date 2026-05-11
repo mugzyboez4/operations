@@ -97,10 +97,10 @@ nav.cnav .cnav-dropdown-menu a.current{color:#FF4A23;font-weight:600}
 </div>
 <script>
 function checkPw(){
-  if(document.getElementById("pw").value==="campaignops26"){
+  if(document.getElementById("pw").value==="RCA2026"){
     document.getElementById("gate").style.display="none";
     document.getElementById("app").style.display="block";
-    sessionStorage.setItem("camops_auth","1");
+    sessionStorage.setItem("rca_auth","1");
   } else {
     document.getElementById("err").textContent="Incorrect password";
     document.getElementById("pw").value="";document.getElementById("pw").focus();
@@ -110,7 +110,7 @@ function initGate(){
   var g=document.getElementById("gate");
   var a=document.getElementById("app");
   if(!g||!a) return;
-  if(sessionStorage.getItem("camops_auth")==="1"){
+  if(sessionStorage.getItem("rca_auth")==="1"){
     g.style.display="none";
     a.style.display="block";
   } else {
@@ -137,15 +137,6 @@ if(document.readyState==="loading"){
   <a href="/todo.html" class="cnav-link active">To Do</a>
   <a href="/tracker.html" class="cnav-link">Tracker</a>
   <a href="/resources.html" class="cnav-link">Resources</a>
-  <div class="cnav-dropdown">
-    <span class="cnav-link cnav-dropdown-toggle">Insights &#9662;</span>
-    <div class="cnav-dropdown-menu">
-      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
-      <a href="/insights/graphitti.html">Graphitti</a><a href="/insights/graphitti-checklist.html">Graphitti Checklist</a>
-      <a href="/insights/index.html">Artist Insights</a>
-      <a href="/vcf.html">VCF</a>
-    </div>
-  </div>
 </nav>
 
 <div class="header">
@@ -278,7 +269,7 @@ render();
 (function(){
   var a=document.getElementById("app");
   var g=document.getElementById("gate");
-  if(a && g && sessionStorage.getItem("camops_auth")==="1"){
+  if(a && g && sessionStorage.getItem("rca_auth")==="1"){
     g.style.display="none";
     a.style.display="block";
   }

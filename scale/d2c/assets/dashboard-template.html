@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D2C Activations — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1400px;margin:0 auto;padding:36px 28px 60px}
+
+/* HEADER */
+.header{border-bottom:2px solid #0F0E0E;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px}
+.h-left .eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+.h-left h1{font-size:38px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;line-height:0.95;margin-top:4px}
+.h-right{font-size:11px;color:#888;text-align:right;letter-spacing:1px}
+.h-right .updated{margin-top:3px;color:#0F0E0E;font-weight:600}
+
+/* CONTROLS */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.filter{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#888;padding:6px 12px;border:1px solid #ECEAE3;background:#FFFFFF;cursor:pointer;transition:all .15s}
+.filter:hover{border-color:#0F0E0E;color:#0F0E0E}
+.filter.active{background:#0F0E0E;color:#FCFDF8;border-color:#0F0E0E}
+.search{padding:6px 12px;border:1px solid #ECEAE3;background:#FFFFFF;font-family:'Inter',sans-serif;font-size:12px;color:#0F0E0E;width:200px}
+.search:focus{outline:none;border-color:#0F0E0E}
+
+/* STATS STRIP */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stat{background:#FFFFFF;border:1px solid #ECEAE3;padding:14px 16px}
+.stat-label{font-size:9px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase}
+.stat-value{font-family:'Inter',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;line-height:1;margin-top:4px}
+.stat-detail{font-size:11px;color:#666;margin-top:3px}
+
+/* GRID */
+.grid-wrap{background:#FFFFFF;border:1px solid #ECEAE3;overflow-x:auto}
+table.grid{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;min-width:980px}
+table.grid thead th{background:#0F0E0E;color:#FCFDF8;padding:10px 8px;font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;text-align:left;position:sticky;top:0}
+table.grid tbody td{padding:8px;border-top:1px solid #ECEAE3;vertical-align:top;font-size:12px;line-height:1.4}
+table.grid tbody tr:hover{background:#FAFAF7}
+.cell-name{font-weight:700;font-size:12px;color:#0F0E0E}
+.cell-sub{font-size:10px;color:#888;margin-top:2px}
+.cell-date{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:0.5px}
+.cell-notes{font-size:11px;color:#666;line-height:1.5;white-space:pre-wrap}
+
+/* CATEGORY PILLS */
+.pill{display:inline-block;font-size:9px;letter-spacing:1px;font-weight:700;text-transform:uppercase;padding:3px 8px;border:1px solid #ECEAE3}
+.pill.official{background:#F0FFF4;color:#5A8A30;border-color:#CDF851}
+.pill.merch{background:#FFF8E1;color:#8B6900;border-color:#E8C547}
+.pill.shop{background:#E0F7FA;color:#1A6E7B;border-color:#5BC0BE}
+.pill.amp{background:#F5F2EB;color:#666;border-color:#B0A9BE}
+.pill.cultural{background:#FFEEE8;color:#FF4A23;border-color:#FF4A23}
+
+/* STATUS PILLS */
+.status{display:inline-block;font-size:9px;letter-spacing:1px;font-weight:700;text-transform:uppercase;padding:3px 8px}
+.status.confirmed{background:#0F0E0E;color:#FCFDF8}
+.status.planned{background:#5BC0BE;color:#FFFFFF}
+.status.exploring{background:#ECEAE3;color:#666}
+.status.cancelled{background:#FFEEE8;color:#FF4A23;text-decoration:line-through}
+
+/* AT TAG */
+.at{display:inline-block;font-size:8px;letter-spacing:1px;font-weight:700;text-transform:uppercase;background:#FF4A23;color:#FFFFFF;padding:2px 6px;margin-left:4px}
+
+/* EMPTY STATE */
+.empty{padding:60px 20px;text-align:center;color:#888;font-size:13px}
+.empty strong{color:#0F0E0E;display:block;font-size:16px;margin-bottom:8px}
+
+/* CONFIG BANNER */
+.config-banner{background:#FF4A23;color:#FCFDF8;padding:12px 20px;margin-bottom:24px;font-size:12px;font-weight:600;letter-spacing:0.3px;display:none}
+.config-banner.show{display:block}
+
+.footer{margin-top:40px;padding-top:18px;border-top:1px solid #ECEAE3;font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="config-banner" class="config-banner">
+  ⚠ Configuration required — open this file in an editor and set <code>AIRTABLE_BASE_ID</code>, <code>AIRTABLE_TABLE_NAME</code>, <code>AIRTABLE_TOKEN</code>, and <code>LABEL_NAME</code> at the top of the script block below.
+</div>
+
+<div class="header">
+  <div class="h-left">
+    <div class="eyebrow"><span id="label-name">[LABEL]</span> · Direct-to-Consumer</div>
+    <h1>D2C Activations</h1>
+  </div>
+  <div class="h-right">
+    <div>Working window — <span id="window-label">12 months</span></div>
+    <div class="updated">Last refresh — <span id="updated-time">—</span></div>
+  </div>
+</div>
+
+<div class="stats" id="stats-strip">
+  <div class="stat"><div class="stat-label">Total Activations</div><div class="stat-value" id="stat-total">—</div><div class="stat-detail">Across all categories</div></div>
+  <div class="stat"><div class="stat-label">Confirmed</div><div class="stat-value" id="stat-confirmed">—</div><div class="stat-detail">Locked for delivery</div></div>
+  <div class="stat"><div class="stat-label">Acquisition Targets</div><div class="stat-value" id="stat-at">—</div><div class="stat-detail">D2C rights not secured</div></div>
+  <div class="stat"><div class="stat-label">ODA Goal Total</div><div class="stat-value" id="stat-oda">—</div><div class="stat-detail">Owned data acquisitions</div></div>
+</div>
+
+<div class="controls">
+  <button class="filter active" data-filter="all">All</button>
+  <button class="filter" data-filter="Official Releases">Official Releases</button>
+  <button class="filter" data-filter="Merch Drop">Merch</button>
+  <button class="filter" data-filter="Shop Initiative">Shop</button>
+  <button class="filter" data-filter="Additional Music Product">AMP</button>
+  <button class="filter" data-filter="Cultural Moment">Cultural</button>
+  <input type="text" class="search" id="search-input" placeholder="Search artist or initiative...">
+</div>
+
+<div class="grid-wrap">
+  <table class="grid">
+    <thead>
+      <tr>
+        <th style="width:22%">Activation</th>
+        <th style="width:10%">Date</th>
+        <th style="width:11%">Category</th>
+        <th style="width:9%">Status</th>
+        <th style="width:8%">ODA</th>
+        <th style="width:8%">Source</th>
+        <th style="width:32%">Notes</th>
+      </tr>
+    </thead>
+    <tbody id="grid-body">
+      <tr><td colspan="7" class="empty">Loading from Airtable…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <span>D2C Activations Dashboard · v1 · <span id="footer-label">[LABEL]</span></span>
+  <span>Built from D2C Activations Kit · Sony Music Entertainment</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================================
+// CONFIGURATION — replace these four values before deploying
+// ============================================================================
+
+const LABEL_NAME = "[LABEL]";                        // e.g. "RCA", "Epic"
+const AIRTABLE_BASE_ID = "YOUR_BASE_ID_HERE";        // app...
+const AIRTABLE_TABLE_NAME = "Activations";           // table name (usually leave as-is)
+const AIRTABLE_TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // pat...
+
+// SECURITY NOTE: the token is embedded in the page. For wider deployment,
+// proxy reads through a server that holds the token. See README for details.
+
+// ============================================================================
+
+const MONTHS_ORDER = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const CAT_CLASS = {
+  "Official Releases":"official",
+  "Merch Drop":"merch",
+  "Shop Initiative":"shop",
+  "Additional Music Product":"amp",
+  "Cultural Moment":"cultural"
+};
+
+let allRecords = [];
+let activeFilter = "all";
+
+function init() {
+  // Set label name in UI
+  document.getElementById("label-name").textContent = LABEL_NAME;
+  document.getElementById("footer-label").textContent = LABEL_NAME;
+
+  // Show config banner if not configured
+  if (AIRTABLE_BASE_ID.startsWith("YOUR_") || AIRTABLE_TOKEN.startsWith("YOUR_") || LABEL_NAME === "[LABEL]") {
+    document.getElementById("config-banner").classList.add("show");
+    document.getElementById("grid-body").innerHTML =
+      '<tr><td colspan="7" class="empty"><strong>Not configured yet</strong>Set AIRTABLE_BASE_ID, AIRTABLE_TOKEN, and LABEL_NAME in the script block at the top of this file.</td></tr>';
+    return;
+  }
+
+  fetchRecords();
+  setupFilters();
+  setupSearch();
+}
+
+async function fetchRecords() {
+  let all = [];
+  let offset = null;
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`;
+
+  try {
+    do {
+      const u = new URL(url);
+      u.searchParams.set("pageSize", "100");
+      if (offset) u.searchParams.set("offset", offset);
+
+      const resp = await fetch(u.toString(), {
+        headers: { "Authorization": "Bearer " + AIRTABLE_TOKEN }
+      });
+      if (!resp.ok) throw new Error(`Airtable returned ${resp.status}`);
+      const data = await resp.json();
+      all = all.concat(data.records);
+      offset = data.offset;
+    } while (offset);
+
+    allRecords = all.map(r => r.fields);
+    sortRecords(allRecords);
+    document.getElementById("updated-time").textContent = new Date().toLocaleString();
+    renderStats(allRecords);
+    renderGrid();
+  } catch (e) {
+    document.getElementById("grid-body").innerHTML =
+      `<tr><td colspan="7" class="empty"><strong>Could not load data</strong>${e.message}<br><br>Check your token, base ID, and table name in the script block above.</td></tr>`;
+  }
+}
+
+function sortRecords(records) {
+  records.sort((a, b) => {
+    const ya = a.Year || 9999, yb = b.Year || 9999;
+    if (ya !== yb) return ya - yb;
+    const ma = MONTHS_ORDER.indexOf(a.Month || ""), mb = MONTHS_ORDER.indexOf(b.Month || "");
+    return ma - mb;
+  });
+}
+
+function renderStats(records) {
+  document.getElementById("stat-total").textContent = records.length;
+  document.getElementById("stat-confirmed").textContent =
+    records.filter(r => r.Status === "Confirmed").length;
+  document.getElementById("stat-at").textContent =
+    records.filter(r => r["Acquisition Target"]).length;
+  const odaTotal = records.reduce((sum, r) => sum + (Number(r["ODA Goal"]) || 0), 0);
+  document.getElementById("stat-oda").textContent = odaTotal.toLocaleString();
+}
+
+function renderGrid() {
+  const body = document.getElementById("grid-body");
+  const search = (document.getElementById("search-input").value || "").toLowerCase().trim();
+
+  let filtered = allRecords;
+  if (activeFilter !== "all") {
+    filtered = filtered.filter(r => r.Category === activeFilter);
+  }
+  if (search) {
+    filtered = filtered.filter(r => {
+      const text = ((r.Artist || "") + " " + (r.Initiative || "") + " " + (r.Name || "")).toLowerCase();
+      return text.includes(search);
+    });
+  }
+
+  if (filtered.length === 0) {
+    body.innerHTML = '<tr><td colspan="7" class="empty"><strong>No activations match</strong>Try a different filter or clear the search.</td></tr>';
+    return;
+  }
+
+  body.innerHTML = filtered.map(r => {
+    const catClass = CAT_CLASS[r.Category] || "amp";
+    const statusClass = (r.Status || "").toLowerCase();
+    const atTag = r["Acquisition Target"] ? '<span class="at">AT</span>' : '';
+    const notes = (r.Notes || "").replace(/[<>]/g, "");
+    const dateText = r["Date Text"] || `${r.Month || ""} ${r.Year || ""}`.trim();
+    const oda = r["ODA Goal"] ? Number(r["ODA Goal"]).toLocaleString() : "—";
+
+    return `<tr>
+      <td>
+        <div class="cell-name">${escapeHtml(r.Initiative || r.Name || "—")}</div>
+        ${r.Artist ? `<div class="cell-sub">${escapeHtml(r.Artist)}</div>` : ""}
+      </td>
+      <td><div class="cell-date">${escapeHtml(dateText)}</div></td>
+      <td><span class="pill ${catClass}">${escapeHtml(r.Category || "")}</span>${atTag}</td>
+      <td><span class="status ${statusClass}">${escapeHtml(r.Status || "")}</span></td>
+      <td>${oda}</td>
+      <td>${escapeHtml(r.Source || "—")}</td>
+      <td><div class="cell-notes">${escapeHtml(notes)}</div></td>
+    </tr>`;
+  }).join("");
+}
+
+function setupFilters() {
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      renderGrid();
+    });
+  });
+}
+
+function setupSearch() {
+  document.getElementById("search-input").addEventListener("input", () => renderGrid());
+}
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+// Boot
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D2C Activations Kit — RCA Scale</title>
+<link rel="icon" href="/tempoicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+nav.cnav{display:flex !important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap}
+nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px}
+nav.cnav .cnav-logo span{color:#E8C547}
+nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px;display:block}
+nav.cnav .cnav-link{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent}
+nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3}
+nav.cnav .cnav-link.active{color:#E8C547;border-color:#E8C547;font-weight:600}
+nav.cnav .cnav-ext{margin-left:auto;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px}
+
+.wrap{max-width:980px;margin:0 auto;padding:48px 32px 80px}
+.header-block{border-bottom:2px solid #0F0E0E;padding-bottom:22px;margin-bottom:36px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+h1{font-size:44px;font-weight:900;letter-spacing:-1.8px;text-transform:uppercase;line-height:0.95;margin:6px 0 0}
+.subtitle{font-size:14px;color:#666;margin-top:10px;max-width:760px;line-height:1.5}
+
+h2{font-size:22px;font-weight:900;letter-spacing:-0.6px;text-transform:uppercase;margin:40px 0 10px;line-height:1.1}
+h3{font-size:14px;font-weight:800;margin:20px 0 6px}
+p{font-size:14px;color:#0F0E0E;margin-top:8px;line-height:1.6;max-width:760px}
+p strong{font-weight:700}
+
+ul.bullets{list-style:none;margin:10px 0 0;padding:0;max-width:780px}
+ul.bullets li{padding:8px 0 8px 22px;position:relative;font-size:13px;color:#0F0E0E;line-height:1.55;border-top:1px solid #ECEAE3}
+ul.bullets li:first-child{border-top:none}
+ul.bullets li::before{content:"—";position:absolute;left:0;color:#888;font-weight:700}
+ul.bullets li strong{font-weight:700}
+ul.bullets li code{background:#ECEAE3;padding:2px 6px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:11px}
+
+ol.steps{list-style:none;margin:14px 0 0;padding:0;counter-reset:s;max-width:780px}
+ol.steps li{padding:14px 0 14px 44px;position:relative;font-size:13px;line-height:1.55;border-top:1px solid #ECEAE3;counter-increment:s}
+ol.steps li:first-child{border-top:none}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:14px;width:28px;height:28px;background:#0F0E0E;color:#FCFDF8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+ol.steps li strong{font-weight:700;display:block;margin-bottom:3px;font-size:14px}
+ol.steps li code{background:#ECEAE3;padding:2px 6px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:11px}
+ol.steps li .det{color:#666;font-size:12px;margin-top:3px}
+
+/* Download cards */
+.downloads{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;max-width:780px}
+.dl{display:block;background:#FFFFFF;border:1px solid #ECEAE3;padding:18px;text-decoration:none;color:#0F0E0E;transition:all .15s;border-left:3px solid #E8C547}
+.dl:hover{transform:translateY(-2px);border-color:#E8C547;border-left-color:#E8C547}
+.dl-type{font-family:'SF Mono',Monaco,Consolas,monospace;font-size:10px;letter-spacing:0.5px;color:#888;text-transform:uppercase;margin-bottom:4px}
+.dl-name{font-size:14px;font-weight:800;color:#0F0E0E;margin-bottom:6px}
+.dl-desc{font-size:11px;color:#666;line-height:1.5}
+.dl-cta{font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;color:#E8C547;margin-top:10px}
+
+/* Schema table */
+table.specs{width:100%;max-width:780px;border-collapse:collapse;margin-top:14px;background:#FFFFFF;border:1px solid #ECEAE3}
+table.specs th{background:#0F0E0E;color:#FCFDF8;font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;text-align:left;padding:10px 14px}
+table.specs td{padding:10px 14px;font-size:12px;border-top:1px solid #ECEAE3;color:#0F0E0E;vertical-align:top}
+table.specs td.fld{font-weight:700}
+table.specs td code{background:#ECEAE3;padding:1px 5px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:11px}
+
+.callout{margin:24px 0;padding:18px 22px;background:#FFFFFF;max-width:760px;border-left:3px solid #5BC0BE}
+.callout.warn{border-left-color:#FF4A23}
+.callout-label{font-size:9px;letter-spacing:2px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:6px}
+.callout-body{font-size:13px;line-height:1.55}
+
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;max-width:780px}
+.ba-box{padding:18px;background:#FFFFFF;border:1px solid #ECEAE3}
+.ba-box.problem{border-left:3px solid #FF4A23}
+.ba-box.solution{border-left:3px solid #E8C547}
+.ba-label{font-size:9px;letter-spacing:2px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:8px}
+.ba-label.problem{color:#FF4A23}
+.ba-label.solution{color:#E8C547}
+.ba-body{font-size:13px;color:#0F0E0E;line-height:1.5}
+.ba-body ol{margin:6px 0 0 0;padding-left:20px;color:#666}
+.ba-body ol li{margin-top:3px;font-size:12px}
+@media(max-width:760px){.before-after{grid-template-columns:1fr}}
+
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #0F0E0E;font-size:10px;color:#888;letter-spacing:1.5px;text-transform:uppercase;max-width:780px}
+.footer a{color:#888;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<script>
+(function(){
+  const HASH = '8c115344caf63ad793cda87acc5c15a3851953792e6e0e52c2f4922bcd48eb2c';
+  const KEY = 'scale_auth';
+  if (sessionStorage.getItem(KEY) === 'true') return;
+  document.documentElement.style.overflow = 'hidden';
+  const gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = `
+    <div style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+      <div style="text-align:center;max-width:380px;padding:24px">
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#0F0E0E;margin-bottom:6px">RCA <span style="color:#E8C547">SCALE</span></div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:32px">Sony Music Entertainment &middot; Restricted Access</div>
+        <input id="pw-input" type="password" placeholder="Password" autofocus
+          style="width:100%;background:#FFFFFF;border:1px solid #ECEAE3;color:#0F0E0E;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
+        <div id="pw-err" style="font-size:11px;color:#FF4A23;min-height:20px;margin-bottom:8px"></div>
+      </div>
+    </div>`;
+  document.body.prepend(gate);
+  async function check(pw) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex === HASH;
+  }
+  const inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', async(e) => {
+    if (e.key !== 'Enter') return;
+    if (await check(inp.value)) {
+      sessionStorage.setItem(KEY, 'true');
+      gate.remove();
+      document.documentElement.style.overflow = '';
+    } else {
+      document.getElementById('pw-err').textContent = 'Incorrect password';
+      inp.value = '';
+    }
+  });
+})();
+</script>
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="RCA Scale" class="cnav-logo-img">
+    RCA <span>Scale</span>
+  </a>
+  <a href="/" class="cnav-link">Home</a>
+  <a href="/d2c/" class="cnav-link active">D2C Kit</a>
+  <a href="/migration.html" class="cnav-link">Migration Guide</a>
+  <a href="https://operations.mugzyboez.co" class="cnav-ext">&rarr; Campaign Ops</a>
+</nav>
+
+<div class="wrap">
+
+<div class="header-block">
+  <div class="eyebrow">Kit 01 &middot; v1 &middot; Live at RCA</div>
+  <h1>D2C Activations Kit</h1>
+  <div class="subtitle">A consolidated tracker for direct-to-consumer activation programming. Built first for RCA. Designed to clone to any label inside Sony Music Entertainment.</div>
+</div>
+
+<h2>The problem</h2>
+<div class="before-after">
+  <div class="ba-box problem">
+    <div class="ba-label problem">Before</div>
+    <div class="ba-body">D2C activations lived in three disconnected systems:
+      <ol>
+        <li>Release Runway (no D2C view — no partner, no channel)</li>
+        <li>PLAN schema</li>
+        <li>Standalone D2C Airtable</li>
+      </ol>
+      <div style="margin-top:8px;font-size:12px;color:#888;font-style:italic">Result: nobody had a single view. Decisions made in fragments.</div>
+    </div>
+  </div>
+  <div class="ba-box solution">
+    <div class="ba-label solution">After</div>
+    <div class="ba-body">One Airtable base + a dashboard:
+      <ol>
+        <li>Every activation in one table</li>
+        <li>Filters for acquisition targets, status, ODA goals, category</li>
+        <li>Visual month-by-month grid</li>
+      </ol>
+      <div style="margin-top:8px;font-size:12px;color:#0F0E0E;font-style:italic">Result: programming visible end-to-end. Gaps and opportunities surface immediately.</div>
+    </div>
+  </div>
+</div>
+
+<h2>Download the kit</h2>
+<p>Four files. Right-click → Save Link As, or just click and Save Page As.</p>
+<div class="downloads">
+  <a href="/d2c/assets/schema-spec.md" class="dl" download>
+    <div class="dl-type">.md</div>
+    <div class="dl-name">schema-spec.md</div>
+    <div class="dl-desc">The canonical schema. 13 fields, types, option lists. The migration document if data layer changes.</div>
+    <div class="dl-cta">Download &rarr;</div>
+  </a>
+  <a href="/d2c/assets/populate-template.py" class="dl" download>
+    <div class="dl-type">.py</div>
+    <div class="dl-name">populate-template.py</div>
+    <div class="dl-desc">Python script. Builds the Airtable table from the spec, inserts placeholder rows. CSV import block included.</div>
+    <div class="dl-cta">Download &rarr;</div>
+  </a>
+  <a href="/d2c/assets/dashboard-template.html" class="dl" download>
+    <div class="dl-type">.html</div>
+    <div class="dl-name">dashboard-template.html</div>
+    <div class="dl-desc">Static HTML dashboard. Configurable for any Airtable base. Month grid, filters, search built-in.</div>
+    <div class="dl-cta">Download &rarr;</div>
+  </a>
+  <a href="/migration.html" class="dl">
+    <div class="dl-type">guide</div>
+    <div class="dl-name">Migration Guide</div>
+    <div class="dl-desc">How to move this kit to Sony-owned infrastructure. Four-layer playbook.</div>
+    <div class="dl-cta">Open &rarr;</div>
+  </a>
+</div>
+
+<h2>The schema</h2>
+<p>One table — <code>Activations</code> — with 13 fields. Each row is one activation: a release, a merch drop, a shop initiative, a cultural moment. Working window is 12 months.</p>
+<table class="specs">
+  <thead><tr><th>#</th><th>Field</th><th>Type</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td class="fld">Name</td><td>Single line (primary)</td><td>Format: <code>{Artist} — {Initiative}</code> for artist activations; just <code>{Initiative}</code> for shop / cultural moments.</td></tr>
+    <tr><td>2</td><td class="fld">Artist</td><td>Single line</td><td>Leave blank for cultural moments.</td></tr>
+    <tr><td>3</td><td class="fld">Initiative</td><td>Single line</td><td>The thing happening.</td></tr>
+    <tr><td>4</td><td class="fld">Category</td><td>Single select</td><td>Official Releases · Merch Drop · Shop Initiative · Additional Music Product · Cultural Moment</td></tr>
+    <tr><td>5</td><td class="fld">Status</td><td>Single select</td><td>Confirmed · Planned · Exploring · Cancelled</td></tr>
+    <tr><td>6</td><td class="fld">Acquisition Target</td><td>Checkbox</td><td>TRUE if D2C merch rights not yet secured. Merch entries only.</td></tr>
+    <tr><td>7</td><td class="fld">Year</td><td>Number (int)</td><td>e.g. 2026 / 2027</td></tr>
+    <tr><td>8</td><td class="fld">Month</td><td>Single select</td><td>January–December</td></tr>
+    <tr><td>9</td><td class="fld">Date Text</td><td>Single line</td><td>Free-form: "April 3", "End of June", "Q3 launch"</td></tr>
+    <tr><td>10</td><td class="fld">Notes</td><td>Long text</td><td>Bulleted context. Anchor, partner, channel.</td></tr>
+    <tr><td>11</td><td class="fld">Source</td><td>Single select</td><td>A&amp;R · Release Planning · Commercial Partnerships · D2C · Shop · Other</td></tr>
+    <tr><td>12</td><td class="fld">Color Override</td><td>Single line</td><td>Optional manual hex for dashboard.</td></tr>
+    <tr><td>13</td><td class="fld">ODA Goal</td><td>Number</td><td>Owned data acquisition target (email captures, etc.).</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="callout-label">Design Principle</div>
+  <div class="callout-body">The schema is intentionally narrow. One table, no relationships, no lookups. This is the minimum viable structure to consolidate the data. Additional complexity (linked roster table, automated status flags) can be added later — the dashboard will keep rendering.</div>
+</div>
+
+<h2>Setup — 5 steps</h2>
+<ol class="steps">
+  <li>
+    <strong>Create the Airtable base.</strong>
+    <div class="det">In your label's workspace, create a base named <code>{Label} D2C Activations</code>. Generate a personal access token with <code>data.records:read</code>, <code>data.records:write</code>, and <code>schema.bases:write</code> scopes.</div>
+  </li>
+  <li>
+    <strong>Build the Activations table from the spec.</strong>
+    <div class="det">Open <code>populate-template.py</code>. Replace <code>BASE_ID</code> and <code>AIRTABLE_TOKEN</code> at the top. Run once: <code>python3 populate-template.py</code>. The script creates the table with all 13 fields including option lists, then inserts placeholder rows.</div>
+  </li>
+  <li>
+    <strong>Populate with your activations.</strong>
+    <div class="det">Open the base in Airtable. Add rows manually, OR extend the populate script's commented-out CSV import block.</div>
+  </li>
+  <li>
+    <strong>Configure the dashboard.</strong>
+    <div class="det">Open <code>dashboard-template.html</code>. Set <code>LABEL_NAME</code>, <code>AIRTABLE_BASE_ID</code>, <code>AIRTABLE_TABLE_NAME</code>, and <code>AIRTABLE_TOKEN</code> at the top of the script block.</div>
+  </li>
+  <li>
+    <strong>Deploy.</strong>
+    <div class="det">Static HTML deploys anywhere — Netlify, Vercel, Azure Static Web Apps, or a Sony-owned host. No backend needed. See the <a href="/migration.html">Migration Guide</a> for moving to Sony infrastructure long-term.</div>
+  </li>
+</ol>
+
+<div class="callout warn">
+  <div class="callout-label">Security Note</div>
+  <div class="callout-body">The dashboard reads from Airtable using a token embedded in the page. For a working prototype behind a password gate this is acceptable. For wider deployment, route reads through a server proxy that holds the token, or use Airtable view-share URLs with read-only access. Don't ship a token-embedded HTML page to a public URL.</div>
+</div>
+
+<h2>Long-term: Sony infrastructure</h2>
+<p>The kit ships with a "scaffolding" stack — Airtable + GitHub + Netlify + simple password — so a label can get to working software fast. The destination is fully Sony-owned across four layers: domain, hosting, auth, data.</p>
+<p>See the <a href="/migration.html">Sony Infrastructure Migration Guide</a> for the full playbook. Order matters: domain first (cheap), data layer last (heaviest).</p>
+
+<h2>Questions</h2>
+<p>For setup or architectural questions: <strong>Meg Hourihan</strong>, Campaign Operations, RCA Records.</p>
+
+<div class="footer">
+  D2C Activations Kit &middot; v1 &middot; <a href="/">RCA Scale</a> &middot; Internal Sony Music Entertainment use only
+  <br>
+  Built by Campaign Operations at RCA Records, May 2026
+</div>
+
+</div>
+</body>
+</html>

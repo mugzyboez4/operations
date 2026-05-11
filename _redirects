@@ -1,2 +1,9 @@
+# 5-phase rename redirects
 /stage-gate.html  /phases.html  301
 /stage-gate       /phases.html  301
+
+# Analytics content has moved to analytics.mugzyboez.co
+/insights/*  https://analytics.mugzyboez.co/insights/:splat  301
+/insights    https://analytics.mugzyboez.co/insights/  301
+/vcf.html    https://analytics.mugzyboez.co/vcf.html  301
+/vcf         https://analytics.mugzyboez.co/vcf.html  301
