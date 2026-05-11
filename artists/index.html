@@ -351,6 +351,48 @@
     opacity: 0.4; transition: opacity .15s;
   }
 
+  /* ── PHASE CHIP ── small label showing current campaign phase */
+  .phase-chip {
+    display: inline-block;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    background: var(--bg-sunken);
+    color: var(--text-dim);
+    white-space: nowrap; line-height: 1.4;
+  }
+  .phase-chip.phase-prep     { border-color: #C8C8C8; color: #555;    background: #F0F0F0; }
+  .phase-chip.phase-plan     { border-color: #7BA3D6; color: #2D5586; background: #E8F1FB; }
+  .phase-chip.phase-announce { border-color: #E0B842; color: #7A5800; background: #FCF4D6; }
+  .phase-chip.phase-release  { border-color: #8FBF20; color: #4A6E0A; background: #F0F8D9; }
+  .phase-chip.phase-review   { border-color: #B98FB7; color: #6E3D6E; background: #F4E8F3; }
+
+  /* ── RISK BADGE ── prominent flag for at-risk artists */
+  .risk-badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 900; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    white-space: nowrap; line-height: 1.4;
+  }
+  .risk-badge.risk-blocked { background: var(--flame); color: #FFFFFF; }
+  .risk-badge.risk-watch   { background: var(--gold);  color: var(--text); }
+
+  /* When an agenda-block or artist-card has Phase Risk = Blocked,
+     override the left border to flame so the eye catches it immediately. */
+  .agenda-block.risk-blocked {
+    border-left-color: var(--flame) !important;
+    border-left-width: 4px;
+  }
+  .artist-card.risk-blocked {
+    border-color: var(--flame);
+    border-left: 3px solid var(--flame);
+  }
+  .agenda-block.risk-watch {
+    border-left-color: var(--gold) !important;
+  }
+
   /* ── ARTIST CARD ── */
   .artist-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -902,17 +944,23 @@ function renderAgendaBlock(a, categoryName) {
   }
 
   const markerClass = CATEGORY_MARKERS[categoryName];
+  const phaseChip = renderPhaseChip(a.phase);
+  const riskBadge = renderRiskBadge(a.phase_risk);
+  const riskClass = riskClassFromValue(a.phase_risk);
+
   let bullets = '';
   if (notes.length > 0) {
     bullets = '<ul class="agenda-notes">' + notes.map(n => `<li>${esc(n)}</li>`).join('') + '</ul>';
   }
 
   return `
-    <a class="agenda-block ${markerClass}" href="${esc(url)}">
+    <a class="agenda-block ${markerClass} ${riskClass}" href="${esc(url)}">
       <div class="agenda-block-head">
         <div class="agenda-name-line">
           <span class="agenda-name">${esc(a.name)}</span>
           ${track ? `<span class="agenda-track">${esc(track)}</span>` : ''}
+          ${phaseChip}
+          ${riskBadge}
         </div>
         ${config ? `<span class="agenda-config">${esc(config)}</span>` : ''}
       </div>
@@ -933,16 +981,45 @@ function renderArtistCard(a) {
     ? `<div class="followers"><span class="num">${followers}</span><span class="lbl">Followers${pop != null ? ' · ' + pop : ''}</span></div>`
     : `<div class="followers"><span class="empty-num">— sync pending</span></div>`;
   const genre = a.genre || 'Active';
+  const phaseChip = renderPhaseChip(a.phase);
+  const riskBadge = renderRiskBadge(a.phase_risk);
+  const riskClass = riskClassFromValue(a.phase_risk);
   return `
-    <a class="artist-card" href="${esc(url)}">
+    <a class="artist-card ${riskClass}" href="${esc(url)}">
       ${imgHtml}
       <div class="info">
-        <div class="name">${esc(a.name)}</div>
+        <div class="name">${esc(a.name)} ${phaseChip} ${riskBadge}</div>
         <div class="meta">${esc(a.status || 'Active')} <span class="dot">·</span> ${esc(genre)}</div>
       </div>
       ${followersHtml}
     </a>
   `;
+}
+
+// ───────── PHASE & RISK HELPERS ─────────
+function renderPhaseChip(phase) {
+  if (!phase) return '';
+  const slug = String(phase).toLowerCase().replace(/[^a-z]/g, '');
+  return `<span class="phase-chip phase-${slug}">${esc(phase)}</span>`;
+}
+function renderRiskBadge(risk) {
+  if (!risk || risk === 'Clear') return '';
+  // Strip emoji prefixes from the label for display, but keep emoji visible
+  // "🚨 Blocked" → "🚨 Blocked" (full label is fine, it's short)
+  // We want the badge to show the full label including emoji
+  if (risk.includes('Blocked')) {
+    return `<span class="risk-badge risk-blocked">${esc(risk)}</span>`;
+  }
+  if (risk.includes('Watch')) {
+    return `<span class="risk-badge risk-watch">${esc(risk)}</span>`;
+  }
+  return '';
+}
+function riskClassFromValue(risk) {
+  if (!risk || risk === 'Clear') return '';
+  if (risk.includes('Blocked')) return 'risk-blocked';
+  if (risk.includes('Watch')) return 'risk-watch';
+  return '';
 }
 
 // ───────── HELPERS ─────────

@@ -16,6 +16,8 @@ const FLD_SPOTIFY_ID      = 'fld09PGkl0HMmmeHl';  // Spotify ID (text)
 const FLD_WEEKLY_CATEGORY = 'fldpEPkN4wh6rMjdu';  // Weekly Category (singleSelect)
 const FLD_AGENDA_NOTES    = 'fldU72qNnZIaiUvIg';  // Agenda Notes (multilineText)
 const FLD_RELEASE_CONFIG  = 'fldPJCxHCqOHu6Bu5';  // Release Config (singleLineText)
+const FLD_PHASE           = 'fldAQqe7HO3N9dBS1';  // Phase (singleSelect: Prep/Plan/Announce/Release/Review)
+const FLD_PHASE_RISK      = 'fldydYeoGRpLpwzJm';  // Phase Risk (singleSelect: Clear/⚠️ Watch/🚨 Blocked)
 
 function readEnv(key) {
   try {
@@ -130,6 +132,8 @@ function mapRecord(r) {
     spotify_popularity: f[FLD_SPOTIFY_POP] || null,
     spotify_id: f[FLD_SPOTIFY_ID] || null,
     weekly_category: weeklyCategory || null,
+    phase: extractSelectName(f[FLD_PHASE]) || null,
+    phase_risk: extractSelectName(f[FLD_PHASE_RISK]) || null,
     agenda_notes: f[FLD_AGENDA_NOTES] || null,
     release_config: f[FLD_RELEASE_CONFIG] || null,
     airtable_url: `https://airtable.com/${BASE_ID}/${TABLE_ID}/${r.id}`
