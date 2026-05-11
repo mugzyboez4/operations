@@ -1,0 +1,5 @@
+# Route /api/epic-records → the Netlify Function for Epic D2C grid
+[[redirects]]
+  from = "/api/epic-records"
+  to = "/.netlify/functions/epic-records"
+  status = 200
