@@ -1,5 +1,3 @@
-# Route /api/epic-records → the Netlify Function for Epic D2C grid
-[[redirects]]
-  from = "/api/epic-records"
-  to = "/.netlify/functions/epic-records"
-  status = 200
+# Functions self-route via `export const config = { path: ... }` in each .mjs file.
+# No redirect rules needed — the previous /api/epic-records redirect collided with
+# the function's own path config and caused 404s.
