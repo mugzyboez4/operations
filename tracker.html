@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campaign Ops — Stage-Gate Tracker</title>
+<title>Campaign Ops — Phases Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -154,7 +154,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
     Campaign <span>Ops</span>
   </a>
   <a href="/" class="cnav-link">Roadmap</a>
-  <a href="/stage-gate.html" class="cnav-link">Stage-Gate</a>
+  <a href="/phases.html" class="cnav-link">Phases</a>
   <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
   <a href="/todo.html" class="cnav-link">To Do</a>
   <a href="/tracker.html" class="cnav-link active">Tracker</a>
@@ -171,9 +171,9 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </nav>
 
 <div class="header">
-  <div class="eyebrow">Stage-Gate Tracker</div>
+  <div class="eyebrow">Phases Tracker</div>
   <div class="title">TRACK<span style="color:var(--gold)">ER</span></div>
-  <div class="sub">Track artists through the four gates. Check prerequisites. The system says no — not a person.</div>
+  <div class="sub">Track artists through the phases. Clear the gate items between each phase. The system says no — not a person.</div>
 </div>
 
 <div class="artist-bar" id="artist-bar"></div>
@@ -191,16 +191,18 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 
 <div class="footer">
-  <span>Campaign Operations · Stage-Gate Tracker · May 2026</span>
+  <span>Campaign Operations · Phases Tracker · May 2026</span>
   <span class="tag">The system says no — not a person.</span>
 </div>
 
 <script>
 // ── GATE DATA (canonical) ──
+// 5 phases → 4 transition gates between them.
+// G1: Prep→Plan · G2: Plan→Announce · G3: Announce→Release · G4: Release→Review
 var GATE_DEFS = [
   {
-    id: "g1", num: "G1", name: "PLAN", question: "CAN WE PLAN?",
-    phase_from: "PLAN", phase_to: "EXECUTE",
+    id: "g1", num: "G1", name: "READY TO PLAN?", question: "READY TO PLAN?",
+    phase_from: "PREP", phase_to: "PLAN",
     items: [
       {text: "A&R confirmed artist, format, and approximate timing", owner: "A&R"},
       {text: "Physical projection requested and returned", owner: "Commercial Partnerships"},
@@ -211,8 +213,8 @@ var GATE_DEFS = [
     ]
   },
   {
-    id: "g2", num: "G2", name: "EXECUTE", question: "CAN WE EXECUTE?",
-    phase_from: "EXECUTE", phase_to: "ANNOUNCE",
+    id: "g2", num: "G2", name: "READY TO ANNOUNCE?", question: "READY TO ANNOUNCE?",
+    phase_from: "PLAN", phase_to: "ANNOUNCE",
     items: [
       {text: "Timeline locked (SVP sign-off)", owner: "Campaign Lead → SVP"},
       {text: "Budget submitted and approved", owner: "Campaign Ops → Finance → COO"},
@@ -224,8 +226,8 @@ var GATE_DEFS = [
     ]
   },
   {
-    id: "g3", num: "G3", name: "ANNOUNCE", question: "CAN WE ANNOUNCE?",
-    phase_from: "ANNOUNCE", phase_to: "DELIVER",
+    id: "g3", num: "G3", name: "READY TO RELEASE?", question: "READY TO RELEASE?",
+    phase_from: "ANNOUNCE", phase_to: "RELEASE",
     items: [
       {text: "Masters QC'd and delivered", owner: "A&R"},
       {text: "DSP pitches submitted", owner: "Commercial Partnerships"},
@@ -237,8 +239,8 @@ var GATE_DEFS = [
     ]
   },
   {
-    id: "g4", num: "G4", name: "DELIVER", question: "CAN WE DELIVER?",
-    phase_from: "DELIVER", phase_to: "RELEASE",
+    id: "g4", num: "G4", name: "READY TO REVIEW?", question: "READY TO REVIEW?",
+    phase_from: "RELEASE", phase_to: "REVIEW",
     items: [
       {text: "All DSP deliveries confirmed in system", owner: "Release Planning"},
       {text: "Playlist pitches acknowledged by partners", owner: "Commercial Partnerships"},
@@ -250,7 +252,7 @@ var GATE_DEFS = [
   }
 ];
 
-var PHASES = ["PLAN", "ANNOUNCE", "EXECUTE", "DELIVER", "RELEASE"];
+var PHASES = ["PREP", "PLAN", "ANNOUNCE", "RELEASE", "REVIEW"];
 
 // ── STATE ──
 var allData = JSON.parse(localStorage.getItem('camops_tracker') || '{}');

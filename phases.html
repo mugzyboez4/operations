@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops &mdash; Phases</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.content{max-width:1180px;margin:0 auto;padding:48px 32px 64px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+h1{font-family:'Inter',sans-serif;font-size:48px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:0.95;margin:8px 0 4px}
+.lead{font-size:15px;color:#0F0E0E;line-height:1.55;margin-top:14px;max-width:780px}
+.lead strong{font-weight:700}
+.header-block{border-bottom:2px solid #0F0E0E;padding-bottom:18px;margin-bottom:28px}
+
+/* Threshold strip — sits above the phase table */
+.threshold-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.threshold-cell{padding:8px 16px;text-align:center;color:#888;background:#EFEDE6;border-bottom:1px solid #ECEAE3}
+.threshold-cell.public{background:#FFEEE8;color:#FF4A23}
+
+/* Phase strip — single block, 5 cells, awareness embedded */
+.phases-table{width:100%;background:#FFFFFF;border:1px solid #ECEAE3;border-collapse:separate;border-spacing:0;table-layout:fixed}
+.phase-cell{vertical-align:top;padding:22px 18px;background:#FFFFFF;width:20%;border-right:1px solid #ECEAE3}
+.phase-cell:last-child{border-right:none}
+.phase-cell.threshold-edge{border-right:2px solid #FF4A23}
+
+.phase-num{font-family:'Inter',sans-serif;font-size:32px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.phase-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:900;letter-spacing:-0.4px;color:#0F0E0E;text-transform:uppercase;margin-top:4px;line-height:1.1}
+
+/* Awareness block inside cell */
+.aware{margin:14px 0 0;padding:10px 0 12px;border-top:1px solid #ECEAE3;border-bottom:1px solid #ECEAE3}
+.aware-row{display:flex;align-items:center;gap:8px;font-size:10px;line-height:1.3}
+.aware-row + .aware-row{margin-top:4px}
+.aware-label{font-size:9px;font-weight:700;letter-spacing:1px;color:#888;text-transform:uppercase;min-width:48px;flex-shrink:0}
+.aware-dot{display:inline-block;width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid #888}
+.aware-dot.full{background:#0F0E0E;border-color:#0F0E0E}
+.aware-dot.half{background:linear-gradient(90deg,#0F0E0E 50%,#FFFFFF 50%);border-color:#0F0E0E}
+.aware-dot.empty{background:#FFFFFF;border-color:#888}
+.aware-dot.fans-on{background:#FF4A23;border-color:#FF4A23}
+.aware-qual{font-size:10px;color:#666;line-height:1.3}
+
+/* What/closes blocks */
+.phase-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;font-weight:700;margin-top:14px}
+.phase-text{font-size:11px;color:#0F0E0E;line-height:1.5;margin-top:4px}
+
+.phase-q-block{margin-top:18px;padding-top:14px;border-top:1px dashed #ECEAE3}
+.phase-q-arrow{font-size:14px;color:#888;line-height:1}
+.phase-q{font-family:'Inter',sans-serif;font-size:11px;font-weight:900;letter-spacing:-0.1px;color:#0F0E0E;text-transform:uppercase;line-height:1.2;margin-top:4px}
+.phase-q.loop{color:#888}
+
+.pilot-block{background:#0F0E0E;color:#FCFDF8;padding:20px 24px;margin-top:32px}
+.pilot-block .eyebrow{color:#888;margin-bottom:8px}
+.pilot-block .body{font-size:14px;line-height:1.5}
+.pilot-block .body strong{color:#CDF851}
+
+.depth-block{border-top:1px solid #ECEAE3;padding-top:18px;margin-top:32px;font-size:11px;color:#888;line-height:1.6}
+.depth-block strong{color:#0F0E0E}
+.depth-block a{color:#0F0E0E;text-decoration:underline}
+.depth-block .row{margin-top:6px}
+.footer{padding:24px 32px;border-top:1px solid #ECEAE3;text-align:center;font-size:9px;color:#CCC;max-width:1180px;margin:0 auto}
+
+/* Responsive — collapse to vertical stack below 900px */
+@media (max-width: 900px) {
+  .threshold-strip{display:none}
+  .phases-table, .phases-table tbody, .phases-table tr, .phase-cell { display: block; width: 100%; }
+  .phase-cell { border-right: none; border-bottom: 1px solid #ECEAE3; }
+  .phase-cell.threshold-edge { border-right: none; border-bottom: 2px solid #FF4A23; }
+}
+
+/* === Canonical Campaign Ops nav === */
+nav.cnav{display:flex !important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif;height:auto;color:#0F0E0E}
+nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px;border:none;padding:0}
+nav.cnav .cnav-logo span{color:#CDF851}
+nav.cnav .cnav-logo:hover{color:#0F0E0E;background:transparent;border-color:transparent}
+nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px;vertical-align:middle;display:block}
+nav.cnav .cnav-link{font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s;background:transparent;border-radius:0}
+nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3;background:transparent}
+nav.cnav .cnav-link.active{color:#FF4A23;border-color:#FF4A23;font-weight:600}
+nav.cnav .cnav-dropdown{position:relative;display:inline-block}
+nav.cnav .cnav-dropdown-toggle{cursor:pointer;user-select:none}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle{color:#0F0E0E;border-color:#ECEAE3}
+nav.cnav .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-toggle.active{color:#FF4A23;border-color:#FF4A23}
+nav.cnav .cnav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#FFFFFF;border:1px solid #ECEAE3;min-width:200px;z-index:99999;padding:4px 0;margin-top:1px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+nav.cnav .cnav-dropdown:hover .cnav-dropdown-menu{display:block}
+nav.cnav .cnav-dropdown-menu a{display:block;font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:8px 14px;border:none;background:transparent}
+nav.cnav .cnav-dropdown-menu a:hover{color:#0F0E0E;background:#F5F2EB;border:none}
+nav.cnav .cnav-dropdown-menu a.current{color:#FF4A23;font-weight:600}
+</style>
+</head>
+<body>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
+  <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+  <div style="font-family:Inter,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()" style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+</div>
+<script>
+function checkPw(){if(document.getElementById("pw").value==="campaignops26"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("camops_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
+</script>
+
+<div id="app" style="display:none">
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
+  </a>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/phases.html" class="cnav-link active">Phases</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/todo.html" class="cnav-link">To Do</a>
+  <a href="/tracker.html" class="cnav-link">Tracker</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <div class="cnav-dropdown">
+    <span class="cnav-link cnav-dropdown-toggle">Insights &#9662;</span>
+    <div class="cnav-dropdown-menu">
+      <a href="/insights/strategic-analytics.html">Strategic Analytics</a>
+      <a href="/insights/graphitti.html">Graphitti</a><a href="/insights/graphitti-checklist.html">Graphitti Checklist</a>
+      <a href="/insights/index.html">Artist Insights</a>
+      <a href="/vcf.html">VCF</a>
+    </div>
+  </div>
+</nav>
+
+<div class="content">
+
+<div class="header-block">
+  <div class="eyebrow">Campaign Operations &middot; Framework</div>
+  <h1>Phases</h1>
+  <div class="lead">
+    Every campaign moves through five phases. Each phase is defined by <strong>who knows the project exists</strong> &mdash; the audience widens as the project moves. Between phases sit gates: checkpoints, asked as questions. <strong>You don't move until the answer is yes.</strong> The system says no, not us.
+  </div>
+</div>
+
+<!-- AWARENESS THRESHOLD STRIP — flush above the phase table -->
+<div class="threshold-strip">
+  <div class="threshold-cell">Internal only</div>
+  <div class="threshold-cell">Internal only</div>
+  <div class="threshold-cell public">&larr; Public</div>
+  <div class="threshold-cell public">Public</div>
+  <div class="threshold-cell public">Public</div>
+</div>
+
+<!-- 5-COLUMN PHASE STRIP — single unified block -->
+<table class="phases-table"><tr>
+
+<td class="phase-cell" style="border-top:6px solid #3E3F41;">
+  <div class="phase-num" style="color:#3E3F41;">01</div>
+  <div class="phase-name">PREP</div>
+
+  <div class="aware">
+    <div class="aware-row">
+      <span class="aware-label">Internal</span>
+      <span class="aware-dot half" title="Limited"></span>
+      <span class="aware-qual">Execs, A&amp;R, Creative</span>
+    </div>
+    <div class="aware-row">
+      <span class="aware-label">Fans</span>
+      <span class="aware-dot empty" title="Unaware"></span>
+      <span class="aware-qual">Not aware</span>
+    </div>
+  </div>
+
+  <div class="phase-label">What happens</div>
+  <div class="phase-text">Recording. Signing. Framing the project before anyone else is told.</div>
+
+  <div class="phase-label">Closes when</div>
+  <div class="phase-text">Deal signed, artist brief exists, pod assigned, baseline data pulled.</div>
+
+  <div class="phase-q-block">
+    <div class="phase-q-arrow">&darr;</div>
+    <div class="phase-q">Ready to plan?</div>
+  </div>
+</td>
+
+<td class="phase-cell threshold-edge" style="border-top:6px solid #5BC0BE;">
+  <div class="phase-num" style="color:#5BC0BE;">02</div>
+  <div class="phase-name">PLAN</div>
+
+  <div class="aware">
+    <div class="aware-row">
+      <span class="aware-label">Internal</span>
+      <span class="aware-dot full" title="Full"></span>
+      <span class="aware-qual">All RCA departments</span>
+    </div>
+    <div class="aware-row">
+      <span class="aware-label">Fans</span>
+      <span class="aware-dot empty" title="Unaware"></span>
+      <span class="aware-qual">Still not aware</span>
+    </div>
+  </div>
+
+  <div class="phase-label">What happens</div>
+  <div class="phase-text">Marketing plan being built. Departments brief and align. Fans don't know yet.</div>
+
+  <div class="phase-label">Closes when</div>
+  <div class="phase-text">Marketing plan locked, timeline + budget approved, kickoff held, lead single ready.</div>
+
+  <div class="phase-q-block">
+    <div class="phase-q-arrow">&darr;</div>
+    <div class="phase-q">Ready to announce?</div>
+  </div>
+</td>
+
+<td class="phase-cell" style="border-top:6px solid #E8C547;">
+  <div class="phase-num" style="color:#E8C547;">03</div>
+  <div class="phase-name">ANNOUNCE</div>
+
+  <div class="aware">
+    <div class="aware-row">
+      <span class="aware-label">Internal</span>
+      <span class="aware-dot full" title="Full"></span>
+      <span class="aware-qual">All RCA departments</span>
+    </div>
+    <div class="aware-row">
+      <span class="aware-label">Fans</span>
+      <span class="aware-dot fans-on" title="Aware"></span>
+      <span class="aware-qual">Anticipation building</span>
+    </div>
+  </div>
+
+  <div class="phase-label">What happens</div>
+  <div class="phase-text">Public reveal. Single 1, pre-save, press, anticipation period.</div>
+
+  <div class="phase-label">Closes when</div>
+  <div class="phase-text">Masters QC&rsquo;d, DSP pitches in, radio + press confirmed, pre-save live, lead single out.</div>
+
+  <div class="phase-q-block">
+    <div class="phase-q-arrow">&darr;</div>
+    <div class="phase-q">Ready to release?</div>
+  </div>
+</td>
+
+<td class="phase-cell" style="border-top:6px solid #CDF851;">
+  <div class="phase-num" style="color:#CDF851;">04</div>
+  <div class="phase-name">RELEASE</div>
+
+  <div class="aware">
+    <div class="aware-row">
+      <span class="aware-label">Internal</span>
+      <span class="aware-dot full" title="Full"></span>
+      <span class="aware-qual">All RCA departments</span>
+    </div>
+    <div class="aware-row">
+      <span class="aware-label">Fans</span>
+      <span class="aware-dot fans-on" title="Aware"></span>
+      <span class="aware-qual">Music actively rolling out</span>
+    </div>
+  </div>
+
+  <div class="phase-label">What happens</div>
+  <div class="phase-text">Longest phase. From first single all the way through full album release.</div>
+
+  <div class="phase-label">Closes when</div>
+  <div class="phase-text">All deliveries confirmed, content calendar live, release week activated, focus track tracking.</div>
+
+  <div class="phase-q-block">
+    <div class="phase-q-arrow">&darr;</div>
+    <div class="phase-q">Ready to review?</div>
+  </div>
+</td>
+
+<td class="phase-cell" style="border-top:6px solid #FF4A23;">
+  <div class="phase-num" style="color:#FF4A23;">05</div>
+  <div class="phase-name">REVIEW</div>
+
+  <div class="aware">
+    <div class="aware-row">
+      <span class="aware-label">Internal</span>
+      <span class="aware-dot full" title="Full"></span>
+      <span class="aware-qual">All RCA departments</span>
+    </div>
+    <div class="aware-row">
+      <span class="aware-label">Fans</span>
+      <span class="aware-dot fans-on" title="Aware"></span>
+      <span class="aware-qual">Project still live</span>
+    </div>
+  </div>
+
+  <div class="phase-label">What happens</div>
+  <div class="phase-text">Working the project post-release. Performance analysis. Continued momentum.</div>
+
+  <div class="phase-label">Stays open</div>
+  <div class="phase-text">Wheel feeds back into Prep on the next campaign. No exit gate &mdash; this loops.</div>
+
+  <div class="phase-q-block">
+    <div class="phase-q-arrow">&#8634;</div>
+    <div class="phase-q loop">Feeds the next campaign</div>
+  </div>
+</td>
+
+</tr></table>
+
+<div class="pilot-block">
+  <div class="eyebrow">Q3 Pilot</div>
+  <div class="body"><strong>Lizzy McAlpine &mdash; Angel</strong> (RCA / alt, street date 9/18/26). Currently in <strong>Phase 2 (Plan)</strong>. 2 of 6 gate items cleared before Phase 3 (Announce). First campaign through the framework end-to-end.</div>
+</div>
+
+<div class="depth-block">
+  <div><strong>Depth:</strong> Full language framework, weekly cadence, worked examples &rarr; <a href="/docs/language-framework.html">/docs/language-framework.html</a></div>
+  <div class="row"><strong>Tracker:</strong> Live tool, any artist, any gate &rarr; <a href="/tracker.html">/tracker.html</a></div>
+</div>
+
+</div>
+
+<div class="footer">
+  Campaign Operations &middot; RCA Records &middot; Internal use only
+</div>
+
+<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("camops_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
+</div>
+</body>
+</html>
