@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Active Projects · May 6, 2026 · Campaign Ops</title>
+<title>Active Projects · May 13, 2026 · Campaign Ops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -351,6 +351,62 @@
     opacity: 0.4; transition: opacity .15s;
   }
 
+  /* ── OUTSTANDING ITEMS FROM LAST WEEK ──
+     Visually distinct from current-week agenda: muted, smaller, 2-col grid */
+  .outstanding-section { margin: 28px 0 36px 0; }
+  .outstanding-head {
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    border-top: 1px solid var(--border); padding-top: 18px;
+    margin-bottom: 6px;
+  }
+  .outstanding-title {
+    font-size: 14px; font-weight: 900; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text);
+  }
+  .outstanding-meta {
+    font-size: 11px; color: var(--text-soft); letter-spacing: 0.06em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .outstanding-tagline {
+    font-size: 12px; color: var(--text-soft); line-height: 1.4;
+    margin: 0 0 14px 0;
+  }
+  .outstanding-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 8px;
+  }
+  .outstanding-card {
+    display: block; padding: 12px 14px 10px 14px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 3px solid var(--teal);
+    text-decoration: none; color: inherit;
+    transition: all .15s;
+  }
+  .outstanding-card.no-link { cursor: default; }
+  .outstanding-card:hover:not(.no-link) {
+    background: #FAFAF5; border-color: var(--text);
+  }
+  .outstanding-name {
+    font-size: 14px; font-weight: 800; color: var(--text);
+    letter-spacing: -0.01em; margin-bottom: 4px;
+  }
+  .outstanding-items-list {
+    list-style: none; padding: 0; margin: 4px 0 0 0;
+  }
+  .outstanding-items-list li {
+    font-size: 12px; line-height: 1.45; color: var(--text);
+    padding: 2px 0 2px 12px; position: relative;
+  }
+  .outstanding-items-list li::before {
+    content: "·"; position: absolute; left: 2px;
+    color: var(--teal); font-weight: 800;
+  }
+  .outstanding-empty {
+    padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 3px solid var(--text-soft);
+    font-size: 12px; color: var(--text-soft); font-style: italic;
+  }
+
   /* ── PHASE CHIP ── small label showing current campaign phase */
   .phase-chip {
     display: inline-block;
@@ -500,7 +556,7 @@
 <!-- ── PASSWORD GATE ── -->
 <div id="gate">
   <h2>Active Projects — Internal</h2>
-  <p>Wednesday, May 6, 2026 — Agenda. Enter the password to view.</p>
+  <p>Wednesday, May 13, 2026 — Agenda. Enter the password to view.</p>
   <input type="password" id="pw" placeholder="Password" autocomplete="off" />
   <button id="pw-btn">Unlock</button>
   <div class="err" id="err"></div>
@@ -514,7 +570,7 @@
       <div>
         <div class="eyebrow">Campaign Operations</div>
         <h1>Active <span style="color:var(--chartreuse-dark)">Projects</span></h1>
-        <div class="week-stamp">Wednesday, <strong>May 6, 2026</strong> — Agenda</div>
+        <div class="week-stamp">Wednesday, <strong>May 13, 2026</strong> — Agenda</div>
       </div>
       <div class="stats" id="stats"></div>
     </header>
@@ -524,11 +580,12 @@
     </div>
 
     <div class="design-note">
-      <strong>How this works.</strong> Agenda is broken into themed sections — Trending, Recent / Upcoming Releases, Campaign Conversations, and Developing Artists. Click any artist for their open action items, timeline, and updates.
+      <strong>How this works.</strong> Needs Attention pulls from Release Runway workability — at-risk and warning releases for the next 10 days. Outstanding items are last week's leftovers, organized by artist (only those not on this week's agenda). Agenda for this week is grouped by section. Click any artist for their full action items, timeline, and updates.
     </div>
 
     <div id="loading"><span class="spin"></span>&nbsp; Loading roster…</div>
     <div id="needs-attention"></div>
+    <div id="outstanding-items"></div>
     <div id="content"></div>
 
     <footer class="page-footer">
@@ -736,6 +793,9 @@ function render(data) {
 
   // Render Needs Attention asynchronously (doesn't block roster)
   renderNeedsAttention(data.artists || []);
+
+  // Render Outstanding Items from last week (artists not on this week's agenda)
+  renderOutstandingItems(data.artists || []);
 }
 
 // ───────── NEEDS ATTENTION ─────────
@@ -891,6 +951,75 @@ window.toggleRest = function() {
     btn.textContent = btn.textContent.replace('Hide ▴', `Show ${items.children.length} ▾`);
   }
 };
+
+// ───────── OUTSTANDING ITEMS FROM LAST WEEK ─────────
+// Reads /data/outstanding-items.json (manually maintained file).
+// Only renders artists who are NOT on this week's agenda (i.e. no Weekly Category set).
+async function renderOutstandingItems(rosterArtists) {
+  const el = document.getElementById('outstanding-items');
+  if (!el) return;
+
+  let data;
+  try {
+    const res = await fetch('/data/outstanding-items.json', { cache: 'no-store' });
+    if (!res.ok) { el.innerHTML = ''; return; }
+    data = await res.json();
+  } catch (e) {
+    el.innerHTML = '';
+    return;
+  }
+
+  const items = Array.isArray(data.items) ? data.items : [];
+  if (items.length === 0) { el.innerHTML = ''; return; }
+
+  // Build set of names on this week's agenda (lowercase for matching)
+  const onAgenda = new Set();
+  rosterArtists.forEach(a => {
+    if (a.weekly_category) onAgenda.add((a.name || '').toLowerCase().trim());
+  });
+
+  // Filter out artists who ARE on this week's agenda
+  const filtered = items.filter(entry => {
+    const name = (entry.artist || '').toLowerCase().trim();
+    return name && !onAgenda.has(name);
+  });
+
+  if (filtered.length === 0) {
+    // Every artist with outstanding items is also on this week's agenda — section is moot
+    el.innerHTML = '';
+    return;
+  }
+
+  const meetingLabel = data.from_meeting_label || data.from_meeting || 'last meeting';
+
+  let cards = '';
+  filtered.forEach(entry => {
+    const url = (entry.url || '').trim();
+    const bullets = Array.isArray(entry.items) ? entry.items : [];
+    if (bullets.length === 0) return;
+    const bulletHtml = bullets.map(b => `<li>${esc(b)}</li>`).join('');
+    const tag = url ? 'a' : 'div';
+    const linkAttrs = url ? ` href="${esc(url)}"` : '';
+    const noLinkClass = url ? '' : ' no-link';
+    cards += `
+      <${tag} class="outstanding-card${noLinkClass}"${linkAttrs}>
+        <div class="outstanding-name">${esc(entry.artist)}</div>
+        <ul class="outstanding-items-list">${bulletHtml}</ul>
+      </${tag}>
+    `;
+  });
+
+  el.innerHTML = `
+    <section class="outstanding-section">
+      <div class="outstanding-head">
+        <span class="outstanding-title">Outstanding from Last Week</span>
+        <span class="outstanding-meta">${filtered.length} artist${filtered.length === 1 ? '' : 's'} · From ${esc(meetingLabel)}</span>
+      </div>
+      <p class="outstanding-tagline">Action items still open from last week's notes. Artists already on this week's agenda are not shown here — those will be covered in the agenda section below.</p>
+      <div class="outstanding-grid">${cards}</div>
+    </section>
+  `;
+}
 
 function renderCategory(name, artists) {
   const useAgendaBlocks = FULL_BLOCK_CATEGORIES.has(name);
