@@ -77,6 +77,32 @@ table.specs td code{background:#ECEAE3;padding:1px 5px;font-family:'SF Mono',Mon
 .ba-body ol li{margin-top:3px;font-size:12px}
 @media(max-width:760px){.before-after{grid-template-columns:1fr}}
 
+/* Mobile baseline */
+@media (max-width: 760px) {
+  nav.cnav { padding: 10px 14px; gap: 6px; }
+  nav.cnav .cnav-logo { font-size: 12px; }
+  nav.cnav .cnav-logo-img { width: 26px; height: 26px; }
+  nav.cnav .cnav-link, nav.cnav .cnav-ext { font-size: 8px; padding: 4px 7px; letter-spacing: 1px; }
+  .wrap { padding: 28px 16px 48px; }
+  .header-block { padding-bottom: 16px; margin-bottom: 28px; }
+  h1 { font-size: 30px; letter-spacing: -1.2px; }
+  .subtitle { font-size: 13px; }
+  h2 { font-size: 18px; margin: 32px 0 10px; }
+  h3 { font-size: 13px; }
+  p, ul.bullets li, .ba-body { font-size: 13px; }
+  /* Schema table: horizontal scroll */
+  table.specs { display: block; overflow-x: auto; white-space: nowrap; max-width: 100%; font-size: 11px; }
+  table.specs td, table.specs th { padding: 8px 10px; }
+  /* Downloads grid: single col */
+  .downloads { grid-template-columns: 1fr; }
+  /* Steps: tighter padding */
+  ol.steps li { padding: 12px 0 12px 36px; font-size: 12px; }
+  ol.steps li::before { width: 24px; height: 24px; font-size: 10px; }
+  .callout { padding: 14px 18px; }
+  .callout-body { font-size: 12px; }
+  .footer { font-size: 9px; margin-top: 48px; }
+}
+
 .footer{margin-top:60px;padding-top:20px;border-top:2px solid #0F0E0E;font-size:10px;color:#888;letter-spacing:1.5px;text-transform:uppercase;max-width:780px}
 .footer a{color:#888;text-decoration:underline}
 </style>
@@ -169,7 +195,7 @@ table.specs td code{background:#ECEAE3;padding:1px 5px;font-family:'SF Mono',Mon
 </div>
 
 <h2>Download the kit</h2>
-<p>Four files. Right-click → Save Link As, or just click and Save Page As.</p>
+<p>Five files. Right-click → Save Link As, or just click and Save Page As. The dashboard and grid are <strong>two different views of the same data</strong> — keep both, use whichever fits the moment.</p>
 <div class="downloads">
   <a href="/d2c/assets/schema-spec.md" class="dl" download>
     <div class="dl-type">.md</div>
@@ -186,7 +212,13 @@ table.specs td code{background:#ECEAE3;padding:1px 5px;font-family:'SF Mono',Mon
   <a href="/d2c/assets/dashboard-template.html" class="dl" download>
     <div class="dl-type">.html</div>
     <div class="dl-name">dashboard-template.html</div>
-    <div class="dl-desc">Static HTML dashboard. Configurable for any Airtable base. Month grid, filters, search built-in.</div>
+    <div class="dl-desc">Table view. Sortable list of activations with filters, search, and key stats. Good for working through entries one by one.</div>
+    <div class="dl-cta">Download &rarr;</div>
+  </a>
+  <a href="/d2c/assets/grid-template.html" class="dl" download>
+    <div class="dl-type">.html</div>
+    <div class="dl-name">grid-template.html</div>
+    <div class="dl-desc">Visual grid view. Month-by-category calendar showing every activation as a chip. Click any chip for details. The "see the year at a glance" view.</div>
     <div class="dl-cta">Download &rarr;</div>
   </a>
   <a href="/migration.html" class="dl">

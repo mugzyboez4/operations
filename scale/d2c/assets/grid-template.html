@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D2C Activations Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#F5F2EB;color:#0F0E0E;font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1600px;margin:0 auto;padding:32px 24px 60px}
+
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;border-bottom:2px solid #0F0E0E;padding-bottom:18px;margin-bottom:20px}
+.h-left .eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888}
+.h-left h1{font-size:38px;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;line-height:1;margin-top:4px}
+.h-right{font-size:11px;color:#888;text-align:right;letter-spacing:1px}
+.h-right .updated{color:#0F0E0E;font-weight:600;margin-top:3px}
+
+/* CONTROLS */
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.filter{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#888;padding:6px 12px;border:1px solid #ECEAE3;background:#FFFFFF;cursor:pointer;transition:all .15s}
+.filter:hover{border-color:#0F0E0E;color:#0F0E0E}
+.filter.active{background:#0F0E0E;color:#FCFDF8;border-color:#0F0E0E}
+.search{padding:6px 12px;border:1px solid #ECEAE3;background:#FFFFFF;font-family:'Inter',sans-serif;font-size:12px;color:#0F0E0E;width:180px}
+.search:focus{outline:none;border-color:#0F0E0E}
+.zoom-btn{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#888;padding:6px 10px;border:1px solid #ECEAE3;background:#FFFFFF;cursor:pointer}
+.zoom-btn.active{background:#0F0E0E;color:#FCFDF8;border-color:#0F0E0E}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.stat{background:#FFFFFF;border:1px solid #ECEAE3;padding:10px 14px}
+.stat-label{font-size:8px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase}
+.stat-value{font-size:22px;font-weight:900;letter-spacing:-0.8px;line-height:1;margin-top:3px}
+.stat-detail{font-size:10px;color:#666;margin-top:2px}
+
+/* GRID */
+.grid-wrap{background:#FFFFFF;border:1px solid #ECEAE3;overflow:auto}
+.grid{display:grid;grid-template-columns:180px repeat(12, minmax(150px, 1fr));min-width:1820px}
+.grid.compact{grid-template-columns:150px repeat(12, minmax(110px, 1fr));min-width:1480px}
+
+.grid-header{background:#0F0E0E;color:#FCFDF8;padding:12px 10px;text-align:center;border-right:1px solid #2A2A2A;position:sticky;top:0;z-index:5;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:50px}
+.grid-header.label-cell{border-right:1px solid #2A2A2A}
+.grid-header .month-name{font-size:13px;font-weight:900;letter-spacing:-0.2px;text-transform:uppercase;line-height:1}
+.grid-header .month-yr{font-size:9px;letter-spacing:1px;color:#888;margin-top:3px;font-weight:600}
+.grid.compact .grid-header{padding:8px 6px;min-height:38px}
+.grid.compact .grid-header .month-name{font-size:11px}
+.grid.compact .grid-header .month-yr{font-size:8px}
+
+.row-label{background:#F5F2EB;padding:14px 14px;border-right:1px solid #ECEAE3;border-bottom:1px solid #ECEAE3;position:sticky;left:0;z-index:4;display:flex;flex-direction:column;justify-content:center}
+.row-label .lbl{font-size:11px;font-weight:900;letter-spacing:-0.1px;text-transform:uppercase;color:#0F0E0E;line-height:1.2}
+.row-label .sub{font-size:9px;color:#888;margin-top:3px;line-height:1.4}
+.row-label .count{font-size:9px;letter-spacing:1px;font-weight:700;color:#666;margin-top:6px;background:#ECEAE3;display:inline-block;padding:2px 6px;width:fit-content}
+
+.cell{padding:8px;border-right:1px solid #ECEAE3;border-bottom:1px solid #ECEAE3;display:flex;flex-direction:column;gap:4px;min-height:80px;background:#FFFFFF}
+.grid.compact .cell{padding:5px;min-height:60px}
+
+.chip{display:block;font-size:10px;line-height:1.3;padding:5px 7px;background:#E8C547;color:#0F0E0E;border-left:3px solid #0F0E0E;cursor:pointer;transition:all .1s;font-weight:600}
+.chip:hover{transform:translateX(2px)}
+.chip.acquisition{background:repeating-linear-gradient(45deg,#E8C547,#E8C547 4px,#D4B43F 4px,#D4B43F 8px)}
+.chip.exploring{background:#ECEAE3;color:#666;border-left-color:#888}
+.chip.cancelled{background:#FFEEE8;color:#FF4A23;text-decoration:line-through;border-left-color:#FF4A23}
+.chip-artist{font-weight:800;font-size:10px;letter-spacing:-0.1px}
+.chip-init{font-size:9px;font-weight:400;color:rgba(0,0,0,0.7);margin-top:1px}
+.grid.compact .chip{font-size:9px;padding:3px 5px}
+.grid.compact .chip-artist{font-size:9px}
+.grid.compact .chip-init{font-size:8px}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,14,14,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:#FFFFFF;max-width:560px;width:100%;max-height:90vh;overflow:auto;padding:32px}
+.modal-eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase}
+.modal-title{font-size:24px;font-weight:900;letter-spacing:-0.8px;text-transform:uppercase;line-height:1.1;margin-top:4px}
+.modal-artist{font-size:13px;color:#666;margin-top:4px}
+.modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;padding-top:20px;border-top:1px solid #ECEAE3}
+.modal-meta-row .label{font-size:9px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase}
+.modal-meta-row .val{font-size:13px;color:#0F0E0E;margin-top:3px;line-height:1.4}
+.modal-notes{margin-top:20px}
+.modal-notes .label{font-size:9px;letter-spacing:1.5px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:6px}
+.modal-notes .val{font-size:12px;color:#0F0E0E;line-height:1.55;white-space:pre-wrap}
+.modal-close{position:relative;float:right;font-size:18px;cursor:pointer;color:#888;line-height:1;margin-top:-12px;margin-right:-12px;padding:8px}
+.modal-close:hover{color:#0F0E0E}
+
+/* CONFIG BANNER */
+.config-banner{background:#FF4A23;color:#FCFDF8;padding:12px 20px;margin-bottom:18px;font-size:12px;font-weight:600;display:none}
+.config-banner.show{display:block}
+.config-banner code{background:rgba(255,255,255,0.2);padding:1px 6px;font-family:'SF Mono',monospace;font-size:11px}
+
+.empty{padding:60px 20px;text-align:center;color:#888;font-size:13px;background:#FFFFFF;border:1px solid #ECEAE3}
+.empty strong{color:#0F0E0E;display:block;font-size:16px;margin-bottom:8px}
+
+.footer{margin-top:32px;padding-top:16px;border-top:1px solid #ECEAE3;font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  .wrap{padding:18px 12px 40px}
+  .h-left h1{font-size:26px;letter-spacing:-1px}
+  .h-right{text-align:left}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat-value{font-size:18px}
+  .controls{gap:6px}
+  .search{width:100%;max-width:none}
+  /* Force horizontal scroll on the grid, NOT vertical stack — calendar layout must stay horizontal */
+  .grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .grid{min-width:1200px}
+  .grid.compact{min-width:980px}
+  .modal{padding:24px;max-height:85vh}
+  .modal-meta{grid-template-columns:1fr;gap:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="config-banner" class="config-banner">
+  ⚠ Not configured — set <code>LABEL_NAME</code>, <code>AIRTABLE_BASE_ID</code>, and <code>AIRTABLE_TOKEN</code> in the script block at the bottom of this file.
+</div>
+
+<div class="header">
+  <div class="h-left">
+    <div class="eyebrow"><span id="label-name">[LABEL]</span> · D2C Activations</div>
+    <h1>D2C Grid</h1>
+  </div>
+  <div class="h-right">
+    <div id="window-label">12-month working window</div>
+    <div class="updated">Last refresh — <span id="updated-time">—</span></div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-label">Total</div><div class="stat-value" id="stat-total">—</div><div class="stat-detail">All activations</div></div>
+  <div class="stat"><div class="stat-label">Confirmed</div><div class="stat-value" id="stat-confirmed">—</div><div class="stat-detail">Locked</div></div>
+  <div class="stat"><div class="stat-label">Acquisition Targets</div><div class="stat-value" id="stat-at">—</div><div class="stat-detail">Rights not secured</div></div>
+  <div class="stat"><div class="stat-label">ODA Goal</div><div class="stat-value" id="stat-oda">—</div><div class="stat-detail">Total target</div></div>
+</div>
+
+<div class="controls">
+  <button class="filter active" data-filter="all">All</button>
+  <button class="filter" data-filter="Official Releases">Official</button>
+  <button class="filter" data-filter="Merch Drop">Merch</button>
+  <button class="filter" data-filter="Shop Initiative">Shop</button>
+  <button class="filter" data-filter="Additional Music Product">AMP</button>
+  <button class="filter" data-filter="Cultural Moment">Cultural</button>
+  <input type="text" class="search" id="search-input" placeholder="Search artist or initiative...">
+  <div style="margin-left:auto;display:flex;gap:6px">
+    <button class="zoom-btn active" data-zoom="normal">Wide</button>
+    <button class="zoom-btn" data-zoom="compact">Compact</button>
+  </div>
+</div>
+
+<div id="grid-container">
+  <div class="grid-wrap">
+    <div class="grid" id="grid">
+      <div class="empty" style="grid-column:1/-1">Loading from Airtable…</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <div class="modal-eyebrow" id="m-eyebrow">—</div>
+    <div class="modal-title" id="m-title">—</div>
+    <div class="modal-artist" id="m-artist"></div>
+    <div class="modal-meta">
+      <div class="modal-meta-row"><div class="label">Status</div><div class="val" id="m-status">—</div></div>
+      <div class="modal-meta-row"><div class="label">Date</div><div class="val" id="m-date">—</div></div>
+      <div class="modal-meta-row"><div class="label">Source</div><div class="val" id="m-source">—</div></div>
+      <div class="modal-meta-row"><div class="label">ODA Goal</div><div class="val" id="m-oda">—</div></div>
+    </div>
+    <div class="modal-notes">
+      <div class="label">Notes</div>
+      <div class="val" id="m-notes">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>D2C Activations Grid · <span id="footer-label">[LABEL]</span> · Built from RCA Scale Kit</span>
+  <span id="footer-count">—</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================================
+// CONFIGURATION — replace these four values before deploying
+// ============================================================================
+
+const LABEL_NAME = "[LABEL]";                         // e.g. "Epic", "RCA"
+const AIRTABLE_BASE_ID = "YOUR_BASE_ID_HERE";         // app...
+const AIRTABLE_TABLE_NAME = "Activations";            // usually leave as-is
+const AIRTABLE_TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN";  // pat...
+
+// Working window — set the START month for your 12-month view
+// e.g. {year: 2026, month: 5} → May 2026 → April 2027
+const WINDOW_START = { year: 2026, month: 5 };
+
+// SECURITY: token is embedded in the page. For deployment beyond a
+// password-gated prototype, route Airtable reads through a server proxy
+// that holds the token. See README in the kit for guidance.
+
+// ============================================================================
+// DATA — categories map to grid rows
+// ============================================================================
+
+const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Build 12-month rolling window from WINDOW_START
+function buildWindow(start){
+  const out = [];
+  let y = start.year, m = start.month;
+  for (let i = 0; i < 12; i++) {
+    out.push({ year: y, month: m });
+    m++;
+    if (m > 12) { m = 1; y++; }
+  }
+  return out;
+}
+const WINDOW = buildWindow(WINDOW_START);
+
+// Grid rows — map to Category field values
+const ROWS = [
+  { key: "Official Releases",         label: "Official Music Releases", sub: "Album cycles & EPs" },
+  { key: "Merch Drop",                label: "Merch Drops",             sub: "All merch — confirmed, ideas, and acquisition targets" },
+  { key: "Additional Music Product",  label: "Additional Music Products", sub: "Variants, exclusives, deluxe editions" },
+  { key: "Shop Initiative",           label: LABEL_NAME + " Shop",      sub: "Multi-artist campaigns + tent-pole activations" },
+  { key: "Cultural Moment",           label: "Cultural & Heritage",     sub: "Heritage months + seasonal anchors" },
+];
+
+let allRecords = [];
+let activeFilter = "all";
+let zoomMode = "normal";
+
+// ============================================================================
+// HELPERS
+// ============================================================================
+
+function esc(s){ return s==null?"":String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function fmtDate(r){ return r["Date Text"] || `${r.Month||""} ${r.Year||""}`.trim() || "—"; }
+
+// ============================================================================
+// FETCH
+// ============================================================================
+
+async function fetchRecords() {
+  let all = [];
+  let offset = null;
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`;
+  try {
+    do {
+      const u = new URL(url);
+      u.searchParams.set("pageSize", "100");
+      if (offset) u.searchParams.set("offset", offset);
+      const resp = await fetch(u.toString(), { headers: { "Authorization": "Bearer " + AIRTABLE_TOKEN } });
+      if (!resp.ok) throw new Error(`Airtable returned ${resp.status}`);
+      const data = await resp.json();
+      all = all.concat(data.records);
+      offset = data.offset;
+    } while (offset);
+    allRecords = all.map(r => r.fields);
+    document.getElementById("updated-time").textContent = new Date().toLocaleString();
+    renderStats();
+    renderGrid();
+  } catch (e) {
+    document.getElementById("grid").innerHTML =
+      `<div class="empty" style="grid-column:1/-1"><strong>Could not load data</strong>${esc(e.message)}<br><br>Check token, base ID, and table name in the script block.</div>`;
+  }
+}
+
+// ============================================================================
+// RENDER
+// ============================================================================
+
+function recordMatchesFilters(r){
+  if (activeFilter !== "all" && r.Category !== activeFilter) return false;
+  const q = (document.getElementById("search-input").value || "").toLowerCase().trim();
+  if (q) {
+    const text = ((r.Artist||"")+" "+(r.Initiative||"")+" "+(r.Name||"")).toLowerCase();
+    if (!text.includes(q)) return false;
+  }
+  return true;
+}
+
+function renderStats(){
+  const filtered = allRecords.filter(recordMatchesFilters);
+  document.getElementById("stat-total").textContent = filtered.length;
+  document.getElementById("stat-confirmed").textContent = filtered.filter(r=>r.Status==="Confirmed").length;
+  document.getElementById("stat-at").textContent = filtered.filter(r=>r["Acquisition Target"]).length;
+  const oda = filtered.reduce((s,r)=>s+(Number(r["ODA Goal"])||0),0);
+  document.getElementById("stat-oda").textContent = oda.toLocaleString();
+  document.getElementById("footer-count").textContent = `${filtered.length} of ${allRecords.length} activations shown`;
+}
+
+function renderGrid(){
+  const grid = document.getElementById("grid");
+  grid.className = "grid" + (zoomMode === "compact" ? " compact" : "");
+  let html = "";
+
+  // Header row
+  html += '<div class="grid-header label-cell"></div>';
+  for (const w of WINDOW) {
+    html += `<div class="grid-header"><span class="month-name">${MONTHS_SHORT[w.month-1]}</span><span class="month-yr">${w.year}</span></div>`;
+  }
+
+  // Filter records by current filters
+  const filtered = allRecords.filter(recordMatchesFilters);
+
+  // Build per-row, per-month cell data
+  for (const row of ROWS) {
+    const rowItems = filtered.filter(r => r.Category === row.key);
+    html += `<div class="row-label"><div class="lbl">${esc(row.label)}</div><div class="sub">${esc(row.sub)}</div><div class="count">${rowItems.length} item${rowItems.length===1?"":"s"}</div></div>`;
+    for (const w of WINDOW) {
+      const monthName = MONTHS_FULL[w.month-1];
+      const cellItems = rowItems.filter(r => r.Month === monthName && r.Year === w.year);
+      html += '<div class="cell">';
+      for (const item of cellItems) {
+        let cls = "chip";
+        if (item["Acquisition Target"]) cls += " acquisition";
+        if (item.Status === "Exploring" || item.Status === "Planned") cls += " exploring";
+        if (item.Status === "Cancelled") cls += " cancelled";
+        const idx = allRecords.indexOf(item);
+        const artistLine = item.Artist ? `<div class="chip-artist">${esc(item.Artist)}</div>` : "";
+        html += `<div class="${cls}" onclick="openModal(${idx})">${artistLine}<div class="chip-init">${esc(item.Initiative || item.Name || "—")}</div></div>`;
+      }
+      html += '</div>';
+    }
+  }
+
+  grid.innerHTML = html;
+}
+
+// ============================================================================
+// MODAL
+// ============================================================================
+
+function openModal(idx){
+  const r = allRecords[idx];
+  if (!r) return;
+  document.getElementById("m-eyebrow").textContent = (r.Category || "") + " · " + fmtDate(r);
+  document.getElementById("m-title").textContent = r.Initiative || r.Name || "—";
+  document.getElementById("m-artist").textContent = r.Artist || "";
+  document.getElementById("m-status").textContent = r.Status || "—";
+  document.getElementById("m-date").textContent = fmtDate(r);
+  document.getElementById("m-source").textContent = r.Source || "—";
+  document.getElementById("m-oda").textContent = r["ODA Goal"] ? Number(r["ODA Goal"]).toLocaleString() : "—";
+  document.getElementById("m-notes").textContent = r.Notes || "—";
+  document.getElementById("modal-bg").classList.add("show");
+}
+function closeModal(){
+  document.getElementById("modal-bg").classList.remove("show");
+}
+
+// ============================================================================
+// INIT
+// ============================================================================
+
+function init(){
+  document.getElementById("label-name").textContent = LABEL_NAME;
+  document.getElementById("footer-label").textContent = LABEL_NAME;
+  const w0 = WINDOW[0], w11 = WINDOW[11];
+  document.getElementById("window-label").textContent = `${MONTHS_SHORT[w0.month-1]} ${w0.year} – ${MONTHS_SHORT[w11.month-1]} ${w11.year}`;
+
+  if (AIRTABLE_BASE_ID.startsWith("YOUR_") || AIRTABLE_TOKEN.startsWith("YOUR_") || LABEL_NAME === "[LABEL]") {
+    document.getElementById("config-banner").classList.add("show");
+    document.getElementById("grid").innerHTML =
+      `<div class="empty" style="grid-column:1/-1"><strong>Not configured yet</strong>Set LABEL_NAME, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME, and AIRTABLE_TOKEN in the script block at the bottom of this file.</div>`;
+    return;
+  }
+
+  // Filter buttons
+  document.querySelectorAll(".filter").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      activeFilter = b.dataset.filter;
+      renderStats();
+      renderGrid();
+    });
+  });
+
+  // Zoom buttons
+  document.querySelectorAll(".zoom-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".zoom-btn").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      zoomMode = b.dataset.zoom;
+      renderGrid();
+    });
+  });
+
+  // Search
+  document.getElementById("search-input").addEventListener("input", () => { renderStats(); renderGrid(); });
+
+  // ESC closes modal
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+  fetchRecords();
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+else init();
+</script>
+</body>
+</html>

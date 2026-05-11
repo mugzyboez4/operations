@@ -54,6 +54,36 @@ nav.cnav .cnav-dropdown-menu a{display:block;font-family:'Inter',-apple-system,s
 nav.cnav .cnav-dropdown-menu a:hover{color:#0F0E0E;background:#F5F2EB;border:none}
 nav.cnav .cnav-dropdown-menu a.current{color:#FF4A23;font-weight:600}
 
+
+
+/* ============ MOBILE BASELINE (added for responsiveness) ============ */
+@media (max-width: 760px) {
+  body { padding: 0 !important; }
+  nav, .nav, nav.cnav { padding: 10px 14px !important; gap: 8px !important; }
+  .wrap, .content, .container, main, article { padding: 18px 14px !important; max-width: 100% !important; }
+  h1, .title { font-size: 28px !important; letter-spacing: -1px !important; line-height: 1.05 !important; }
+  h2, .section-title { font-size: 18px !important; letter-spacing: -0.3px !important; }
+  h3 { font-size: 15px !important; }
+  .eyebrow, .section-eyebrow { font-size: 9px !important; letter-spacing: 1.5px !important; }
+  .lead, .sub, .subtitle, .tagline, p { font-size: 13px !important; }
+  /* Stats / cards / multi-column grids → single column */
+  .stats, .cards, .doc-grid, .glance, .board-grid, .compare {
+    grid-template-columns: 1fr !important;
+  }
+  /* Tables: wrap in horizontal scroll container */
+  table { display: block; overflow-x: auto; max-width: 100%; white-space: nowrap; }
+  table.specs, table.grid { font-size: 11px !important; }
+  /* Two-column meta blocks → stacked */
+  .meta-grid, .modal-meta, .form-row-group { grid-template-columns: 1fr !important; }
+  /* Phase strips and threshold strips already handled in their own pages but safety */
+  .threshold-strip { display: none !important; }
+  /* Long URLs and code wrap */
+  code, pre { font-size: 11px !important; word-break: break-word !important; white-space: pre-wrap !important; }
+  /* Hide pure-decorative elements that don't render well small */
+  .desktop-only { display: none !important; }
+}
+/* ============ END MOBILE BASELINE ============ */
+
 </style>
 </head>
 <body>

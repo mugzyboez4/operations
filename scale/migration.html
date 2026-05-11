@@ -52,6 +52,27 @@ p strong{font-weight:700}
 .lift.hard{color:#FF4A23}
 @media(max-width:780px){.layer-head{display:none}.layer-row{grid-template-columns:1fr;gap:8px}.layer-row .lift{justify-self:start;padding:4px 10px}}
 
+/* Mobile baseline */
+@media (max-width: 760px) {
+  nav.cnav { padding: 10px 14px; gap: 6px; }
+  nav.cnav .cnav-logo { font-size: 12px; }
+  nav.cnav .cnav-logo-img { width: 26px; height: 26px; }
+  nav.cnav .cnav-link, nav.cnav .cnav-ext { font-size: 8px; padding: 4px 7px; letter-spacing: 1px; }
+  .wrap { padding: 28px 16px 48px; }
+  .header-block { padding-bottom: 16px; margin-bottom: 28px; }
+  h1 { font-size: 30px; letter-spacing: -1.2px; }
+  .subtitle { font-size: 13px; }
+  h2 { font-size: 18px; margin: 32px 0 10px; }
+  h3 { font-size: 13px; }
+  p, .principle-body, .sony-track-body { font-size: 13px; }
+  .layer-row .name { font-size: 12px; }
+  .layer-row .from, .layer-row .to { font-size: 11px; }
+  .sony-track { padding: 14px 18px; }
+  ol.steps li { padding: 12px 0 12px 36px; font-size: 12px; }
+  ol.steps li::before { width: 24px; height: 24px; font-size: 10px; }
+  .footer { font-size: 9px; margin-top: 48px; }
+}
+
 /* Sony-track box */
 .sony-track{background:#0F0E0E;color:#FCFDF8;padding:18px 22px;margin-top:18px;border-left:3px solid #E8C547}
 .sony-track-label{font-size:9px;letter-spacing:2px;font-weight:700;color:#E8C547;text-transform:uppercase;margin-bottom:8px}
