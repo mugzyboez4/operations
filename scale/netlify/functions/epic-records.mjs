@@ -93,5 +93,5 @@ function jsonResponse(status, body) {
 }
 
 export const config = {
-  path: '/api/records'
+  path: '/api/epic-records'
 };
