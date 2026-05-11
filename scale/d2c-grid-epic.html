@@ -752,25 +752,12 @@
       </div>
     </header>
 
-    <!-- STATS STRIP — added for Epic, parity with dashboard view -->
-    <div class="stats-strip">
-      <div class="stat-card"><div class="stat-label">Total activations</div><div class="stat-value" id="stat-total">—</div></div>
-      <div class="stat-card"><div class="stat-label">Confirmed</div><div class="stat-value" id="stat-confirmed">—</div></div>
-      <div class="stat-card"><div class="stat-label">Acquisition targets</div><div class="stat-value" id="stat-at">—</div></div>
-      <div class="stat-card"><div class="stat-label">ODA goal total</div><div class="stat-value" id="stat-oda">—</div></div>
-    </div>
-
     <div class="toolbar">
       <div class="toolbar-left">
         <span class="tb-label">View</span>
         <div class="tb-group">
           <button class="tb-btn active" id="zoom-default" data-zoom="default">Default</button>
           <button class="tb-btn" id="zoom-compact" data-zoom="compact">Compact</button>
-        </div>
-        <span class="tb-label" style="margin-left: 12px;">Filter</span>
-        <div class="tb-group">
-          <button class="tb-btn active" data-rights="all">All albums</button>
-          <button class="tb-btn" data-rights="clear-only">Rights-clear only</button>
         </div>
         <button class="tb-btn" id="tb-collapse-all">Collapse all rows</button>
         <button class="tb-btn" id="tb-expand-all">Expand all rows</button>
@@ -1150,21 +1137,7 @@ function deriveBorderColor(hex) {
 
 
 function updateStats() {
-  if (!activations || !activations.length) {
-    document.getElementById('stat-total').textContent = '0';
-    document.getElementById('stat-confirmed').textContent = '0';
-    document.getElementById('stat-at').textContent = '0';
-    document.getElementById('stat-oda').textContent = '0';
-    return;
-  }
-  const total = activations.length;
-  const confirmed = activations.filter(a => (a.status || '').toLowerCase() === 'confirmed').length;
-  const at = activations.filter(a => a.acquisitionTarget === true).length;
-  const oda = activations.reduce((s, a) => s + (Number(a.odaGoal) || 0), 0);
-  document.getElementById('stat-total').textContent = total.toLocaleString();
-  document.getElementById('stat-confirmed').textContent = confirmed.toLocaleString();
-  document.getElementById('stat-at').textContent = at.toLocaleString();
-  document.getElementById('stat-oda').textContent = oda.toLocaleString();
+  // Stats strip removed per Meg 5/12. Kept as no-op so renderGrid() stays clean.
 }
 
 function renderGrid() {
