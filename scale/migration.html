@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sony Infrastructure Migration Guide — RCA Scale</title>
+<title>Sony Infrastructure Migration Guide — RCA Kits</title>
 <link rel="icon" href="/tempoicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -103,7 +103,7 @@ ol.steps li strong{font-weight:700;display:block;margin-bottom:2px;font-size:14p
   gate.innerHTML = `
     <div style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
       <div style="text-align:center;max-width:380px;padding:24px">
-        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#0F0E0E;margin-bottom:6px">RCA <span style="color:#E8C547">SCALE</span></div>
+        <div style="font-size:14px;font-weight:900;letter-spacing:2px;color:#0F0E0E;margin-bottom:6px">RCA <span style="color:#E8C547">KITS</span></div>
         <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:32px">Sony Music Entertainment &middot; Restricted Access</div>
         <input id="pw-input" type="password" placeholder="Password" autofocus
           style="width:100%;background:#FFFFFF;border:1px solid #ECEAE3;color:#0F0E0E;padding:12px 16px;font-size:14px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px">
@@ -133,8 +133,8 @@ ol.steps li strong{font-weight:700;display:block;margin-bottom:2px;font-size:14p
 
 <nav class="cnav">
   <a href="/" class="cnav-logo">
-    <img src="/logo_neon.png" alt="RCA Scale" class="cnav-logo-img">
-    RCA <span>Scale</span>
+    <img src="/logo_neon.png" alt="RCA Kits" class="cnav-logo-img">
+    RCA <span>Kits</span>
   </a>
   <a href="/" class="cnav-link">Home</a>
   <a href="/d2c/" class="cnav-link">D2C Kit</a>
@@ -147,11 +147,11 @@ ol.steps li strong{font-weight:700;display:block;margin-bottom:2px;font-size:14p
 <div class="header-block">
   <div class="eyebrow">Reference Guide &middot; Kit-Agnostic</div>
   <h1>Sony Infrastructure Migration Guide</h1>
-  <div class="subtitle">The playbook for moving any RCA Scale deliverable onto Sony-owned infrastructure. Applies equally to the D2C Activations Kit, future Phases Framework Kit, and any other operations product built at RCA.</div>
+  <div class="subtitle">The playbook for moving any RCA Kits deliverable onto Sony-owned infrastructure. Applies equally to the D2C Activations Kit, future Phases Framework Kit, and any other operations product built at RCA.</div>
 </div>
 
 <h2>Why this exists</h2>
-<p>Each RCA Scale kit ships in a "scaffolding" stack — personal Airtable workspace, public GitHub repo, Netlify hosting, simple password gate. That's intentional: it gets a label to working software in days instead of months. But scaffolding is not the destination.</p>
+<p>Each RCA Kits kit ships in a "scaffolding" stack — personal Airtable workspace, public GitHub repo, Netlify hosting, simple password gate. That's intentional: it gets a label to working software in days instead of months. But scaffolding is not the destination.</p>
 <p>The destination is fully Sony-owned across all four layers: domain, hosting, authentication, and data. This guide describes how to get there.</p>
 
 <div class="principle">
@@ -261,7 +261,7 @@ ol.steps li strong{font-weight:700;display:block;margin-bottom:2px;font-size:14p
 <p><strong>The populate scripts.</strong> These are tied to the source system, so they DO get rewritten on data-layer migration. But because the schema is the source of truth, regenerating them is straightforward.</p>
 
 <h2>Quick reference: what to ask for, and from whom</h2>
-<p>For any RCA Scale kit moving to Sony infrastructure, these are the typical asks:</p>
+<p>For any RCA Kits kit moving to Sony infrastructure, these are the typical asks:</p>
 <ul style="margin-top:10px;padding-left:24px">
   <li style="margin-top:6px;font-size:13px"><strong>Sony Global Technology</strong> — *.sony.com subdomain</li>
   <li style="margin-top:6px;font-size:13px"><strong>Brian Lynch / Sony IT</strong> — Azure Static Web App provisioning, Entra ID app registration</li>
@@ -271,7 +271,7 @@ ol.steps li strong{font-weight:700;display:block;margin-bottom:2px;font-size:14p
 </ul>
 
 <div class="footer">
-  Sony Infrastructure Migration Guide &middot; v1 &middot; RCA Scale &middot; Internal Sony Music Entertainment use only
+  Sony Infrastructure Migration Guide &middot; v1 &middot; RCA Kits &middot; Internal Sony Music Entertainment use only
   <br>
   Built by Campaign Operations at RCA Records, May 2026
 </div>
