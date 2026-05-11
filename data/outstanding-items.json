@@ -4,12 +4,167 @@
   "from_meeting_label": "May 6 meeting",
   "items": [
     {
-      "artist": "Example Artist",
+      "artist": "Flo Milli",
       "items": [
-        "Replace this block with actual outstanding items from last week's notes",
-        "Each artist gets their own object; each item is a bullet",
-        "Artists who appear in THIS week's agenda will be auto-hidden from this section",
-        "Delete this example block when populating"
+        "Recap what's running this week — creator and seeding campaign results, short form performance",
+        "2 freestyle rollouts — are we on track?",
+        "Promo updates we can lock in now to get her talking with people"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Tems",
+      "items": [
+        "BET and the other show — how do we take advantage of those opps?",
+        "How do we sustain activity heading into the summer?"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Elle King",
+      "items": [
+        "Are we getting a proper sound delivered or not — where are we with the finished version of the record?",
+        "Steps we're taking to establish enough demand to create a release date"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Doja Cat",
+      "items": [
+        "Toast — status check"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Audrey Hobert",
+      "items": [
+        "Lean-in plan: confirmed cover \"Earrings\" and original Phoebe",
+        "Confirm active Phoebe campaigns and performance, fan page summary, Malcolm narrative",
+        "Next steps for the new record",
+        "Status of pre-release plan"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Chris Brown",
+      "items": [
+        "\"Fallin'\" (ft. Leon Thomas) — assess album launch performance, which songs are raising their hands, where the conversation heads",
+        "Physical media plan for tour sales",
+        "Any updates on taking advantage of tour"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Love Spells",
+      "items": [
+        "\"Crutch\" — how to get more content online, more of him online and personality",
+        "Continue to drive discovery through the video",
+        "PRODUCTION FLAG (5/11): Artwork pending Lexi; official music video confirmed and ref just received"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Bryson Tiller",
+      "items": [
+        "\"It's OK\" — more about setup on the next record",
+        "Status of assets for the preorder if aligning with the next track"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Red Clay Strays",
+      "items": [
+        "\"Demons In Your Choir\" — how do we make the song last?",
+        "More content we can use?",
+        "Physical preorder plan — campaign plan"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Hailey Picardi",
+      "items": [
+        "\"hide and seek\" — confirmed pre-save launch",
+        "PRODUCTION FLAG (5/11): \"Scars To Prove It\" EP moved from 5/22 to 5/29; pre-order launches this afternoon"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "KWN",
+      "items": [
+        "Album timeline — we don't know for sure that the timeline will lock; dependent on reactions to first songs and pre-release activity",
+        "Need to know what the pre-release performance has been (not just number of posts)",
+        "Measure demand for potential EP launch",
+        "BUNDLE · 5/22"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Steve Lacy",
+      "items": [
+        "\"The Feeling\" — playbacks happening next week (still being set up)",
+        "Follow-up call early this week to finalize global D2C rollout, preorder, and pre-release campaign",
+        "Announcement and rollout still need to be addressed",
+        "\"The Feeling\" has been circulated; more can be shared but not yet",
+        "SINGLE · 5/22"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Myles Smith",
+      "items": [
+        "\"My Mess, My Heart, My Life.\" — ALBUM · 6/19"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Becky G",
+      "items": [
+        "\"BARAJA BENDITA\" — ALBUM · 6/12",
+        "PRODUCTION FLAG (5/11): EP A official video still in progress, hopefully tomorrow"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Isabel LaRosa",
+      "items": [
+        "\"Promising Young Woman\" — EP · 6/5",
+        "PRODUCTION FLAG (5/11): \"Hallucination\" official video — thumbnail in progress with Scott's team"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Victoria Monét",
+      "items": [
+        "\"Juicy\" — SINGLE · 6/12"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "The Strokes",
+      "items": [
+        "\"Reality Awaits\" — ALBUM · 6/26",
+        "PRODUCTION FLAG (5/11): \"Falling Out of Love\" single moved from 5/15 to 5/13 (6 AM PT / 9 AM ET)"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Khalid",
+      "items": [
+        "\"Tied Up\" (w/ Lauv) — SINGLE · 5/8 (released)"
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Emma Andersen",
+      "items": [
+        "PRODUCTION FLAG (5/11): \"Bleeding Heart\" track change for 5/29; pre-order launches with single. No master yet but tracking OK."
+      ],
+      "url": ""
+    },
+    {
+      "artist": "Baby J",
+      "items": [
+        "PRODUCTION FLAG (5/11): \"Fallen Angel\" master TBS; \"You Don't Know My Name\" album EP status TBS"
       ],
       "url": ""
     }
