@@ -1,4 +1,12 @@
-# Allow Airtable Interfaces to iframe-embed the SMT dashboard.
-# X-Frame-Options ALLOW-FROM is deprecated; modern browsers use CSP frame-ancestors.
+# Allow embedding from any origin (Airtable, etc.)
 /smt/*
-  Content-Security-Policy: frame-ancestors 'self' https://*.airtable.com https://airtable.com https://*.airtableblocks.com https://airtableblocks.com https://*.airtableusercontent.com
+  Content-Security-Policy: frame-ancestors *
+  X-Frame-Options:
+
+/smt
+  Content-Security-Policy: frame-ancestors *
+  X-Frame-Options:
+
+/smt/index.html
+  Content-Security-Policy: frame-ancestors *
+  X-Frame-Options:
