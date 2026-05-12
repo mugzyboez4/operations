@@ -24,9 +24,24 @@ const A = {
   youtubeUrl: 'fldyH5ADysia8ZN6e',
   bio: 'fldciE4yVDmQfzWre',
   weeklyCategory: 'fldpEPkN4wh6rMjdu',
+  phase: 'fldAQqe7HO3N9dBS1',
+  phaseRisk: 'fldydYeoGRpLpwzJm',
   detailBriefing: 'fldjRvP7ihhUw87qA',
   smtBriefing: 'fldv1X6pmzaAtvKKK',
 };
+
+// Phase mapping per Jordan 5/12 SMT directive: 5 → 3 (display-only).
+const PHASE_MAP = {
+  'Prep': 'Pre-release',
+  'Plan': 'Pre-release',
+  'Announce': 'Pre-release',
+  'Release': 'Release',
+  'Review': 'Post-release',
+};
+function mapPhase(raw) {
+  if (!raw) return null;
+  return PHASE_MAP[raw] || raw;
+}
 
 // ── ARTIST UPDATE LOG field IDs ──
 const U = {
@@ -248,6 +263,8 @@ function mapArtist(r) {
     youtube_url: f[A.youtubeUrl] || null,
     bio: f[A.bio] || null,
     weekly_category: extractSelect(f[A.weeklyCategory]),
+    phase: mapPhase(extractSelect(f[A.phase])),
+    phase_risk: extractSelect(f[A.phaseRisk]),
     detail_briefing: parseBriefing(f[A.detailBriefing]),
     smt_briefing: parseBriefing(f[A.smtBriefing]),
     airtable_url: `https://airtable.com/${BASE_ID}/${ARTISTS_TABLE}/${r.id}`,

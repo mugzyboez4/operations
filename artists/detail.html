@@ -703,8 +703,8 @@ function render(data) {
         </div>
         <div class="hero-meta">
           <div class="meta-item">
-            <div class="label">Stage</div>
-            <div class="value dim">— pending</div>
+            <div class="label">Phase</div>
+            <div class="value ${a.phase ? '' : 'dim'}">${a.phase ? esc(a.phase) : '— pending'}</div>
           </div>
           <div class="meta-item">
             <div class="label">Last Update</div>

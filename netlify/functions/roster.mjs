@@ -19,6 +19,19 @@ const FLD_RELEASE_CONFIG  = 'fldPJCxHCqOHu6Bu5';  // Release Config (singleLineT
 const FLD_PHASE           = 'fldAQqe7HO3N9dBS1';  // Phase (singleSelect: Prep/Plan/Announce/Release/Review)
 const FLD_PHASE_RISK      = 'fldydYeoGRpLpwzJm';  // Phase Risk (singleSelect: Clear/⚠️ Watch/🚨 Blocked)
 
+// Phase mapping per Jordan 5/12 SMT directive: collapse 5 → 3 (display-only).
+const PHASE_MAP = {
+  'Prep': 'Pre-release',
+  'Plan': 'Pre-release',
+  'Announce': 'Pre-release',
+  'Release': 'Release',
+  'Review': 'Post-release',
+};
+function mapPhase(raw) {
+  if (!raw) return null;
+  return PHASE_MAP[raw] || raw;
+}
+
 function readEnv(key) {
   try {
     if (typeof Netlify !== 'undefined' && Netlify.env && typeof Netlify.env.get === 'function') {
@@ -132,7 +145,7 @@ function mapRecord(r) {
     spotify_popularity: f[FLD_SPOTIFY_POP] || null,
     spotify_id: f[FLD_SPOTIFY_ID] || null,
     weekly_category: weeklyCategory || null,
-    phase: extractSelectName(f[FLD_PHASE]) || null,
+    phase: mapPhase(extractSelectName(f[FLD_PHASE])) || null,
     phase_risk: extractSelectName(f[FLD_PHASE_RISK]) || null,
     agenda_notes: f[FLD_AGENDA_NOTES] || null,
     release_config: f[FLD_RELEASE_CONFIG] || null,

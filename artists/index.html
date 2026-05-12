@@ -407,7 +407,7 @@
     font-size: 12px; color: var(--text-soft); font-style: italic;
   }
 
-  /* ── PHASE CHIP ── small label showing current campaign phase */
+  /* ── PHASE CHIP ── small label showing current campaign phase (3-phase model per Jordan 5/12) */
   .phase-chip {
     display: inline-block;
     font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
@@ -418,11 +418,9 @@
     color: var(--text-dim);
     white-space: nowrap; line-height: 1.4;
   }
-  .phase-chip.phase-prep     { border-color: #C8C8C8; color: #555;    background: #F0F0F0; }
-  .phase-chip.phase-plan     { border-color: #7BA3D6; color: #2D5586; background: #E8F1FB; }
-  .phase-chip.phase-announce { border-color: #E0B842; color: #7A5800; background: #FCF4D6; }
-  .phase-chip.phase-release  { border-color: #8FBF20; color: #4A6E0A; background: #F0F8D9; }
-  .phase-chip.phase-review   { border-color: #B98FB7; color: #6E3D6E; background: #F4E8F3; }
+  .phase-chip.phase-prerelease  { border-color: #E0B842; color: #7A5800; background: #FCF4D6; }
+  .phase-chip.phase-release     { border-color: #FF4A23; color: #B12E08; background: #FFEAE1; }
+  .phase-chip.phase-postrelease { border-color: #7BA838; color: #4A6E0A; background: #F0F8D9; }
 
   /* ── RISK BADGE ── prominent flag for at-risk artists */
   .risk-badge {
