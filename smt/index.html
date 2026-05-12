@@ -564,5 +564,31 @@
   </footer>
 
 </div>
+
+<script>
+(function() {
+  const ARTIST_IDS = {"Chris Brown": "recMOi7ZSUU134qj5", "The Strokes": "recnorsYcrk43jx1q", "Steve Lacy": "recLWQIvZ110A8R1V", "kwn": "recZ49RttyjZ1CDPT", "Bryson Tiller": "recKg90Yb7Z4VDvsi", "The Red Clay Strays": "recjQjzI4LRYZp2Jk"};
+  document.querySelectorAll('.card').forEach(card => {
+    const nameEl = card.querySelector('.card-name');
+    if (!nameEl) return;
+    const name = nameEl.textContent.trim();
+    const id = ARTIST_IDS[name];
+    if (!id) return;
+    card.style.cursor = 'pointer';
+    card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+    card.addEventListener('click', () => {
+      window.open('https://operations.mugzyboez.co/artists/detail.html?id=' + id, '_blank');
+    });
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-3px)';
+      card.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+  });
+})();
+</script>
 </body>
 </html>

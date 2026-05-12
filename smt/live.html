@@ -256,9 +256,10 @@ function render(data) {
       : '';
 
     const projectMetaHTML = c.project_meta ? ` <span class="card-project-meta">· ${escapeHTML(c.project_meta)}</span>` : '';
+    const detailUrl = `https://operations.mugzyboez.co/artists/detail.html?id=${encodeURIComponent(c.id)}`;
 
     return `
-      <article class="card">
+      <article class="card" onclick="window.open('${detailUrl}', '_blank')" style="cursor: pointer;">
         <div class="card-hero">
           ${photoBlock}
           <div class="card-hero-overlay"></div>
