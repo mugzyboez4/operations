@@ -25,6 +25,7 @@ const A = {
   bio: 'fldciE4yVDmQfzWre',
   weeklyCategory: 'fldpEPkN4wh6rMjdu',
   detailBriefing: 'fldjRvP7ihhUw87qA',
+  smtBriefing: 'fldv1X6pmzaAtvKKK',
 };
 
 // ── ARTIST UPDATE LOG field IDs ──
@@ -248,6 +249,7 @@ function mapArtist(r) {
     bio: f[A.bio] || null,
     weekly_category: extractSelect(f[A.weeklyCategory]),
     detail_briefing: parseBriefing(f[A.detailBriefing]),
+    smt_briefing: parseBriefing(f[A.smtBriefing]),
     airtable_url: `https://airtable.com/${BASE_ID}/${ARTISTS_TABLE}/${r.id}`,
   };
 }

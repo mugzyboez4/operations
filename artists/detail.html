@@ -195,6 +195,80 @@
   }
   .section-meta { font-size: 11px; color: var(--text-soft); font-weight: 500; }
 
+  /* HEADLINES (THIS WEEK) */
+  .headlines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1.4fr;
+    gap: 16px;
+  }
+  .headline-big {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent, #7BA838);
+    padding: 22px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .headline-big-value {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--accent, #7BA838);
+  }
+  .headline-big-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  .headline-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 18px 18px;
+  }
+  .headline-results { list-style: none; padding: 0; margin: 0; }
+  .headline-results li {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .headline-results li:last-child { border-bottom: 0; }
+  .headline-val {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--accent, #7BA838);
+    letter-spacing: -0.3px;
+  }
+  .headline-lbl { color: var(--text); }
+  .headline-issues { list-style: none; padding: 0; margin: 0; }
+  .headline-issues li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 7px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .headline-issue-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--flame);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  @media (max-width: 900px) {
+    .headlines-grid { grid-template-columns: 1fr; }
+  }
+
   /* BRIEFING */
   .briefing-grid {
     display: grid;
@@ -388,6 +462,19 @@
   }
   .update-recap p { margin-bottom: 8px; }
   .update-recap p:last-child { margin-bottom: 0; }
+  .update-expand {
+    background: transparent;
+    border: 0;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    padding: 6px 0 0;
+    margin: 0;
+  }
+  .update-expand:hover { color: var(--accent, #7BA838); }
 
   /* IDENTIFIERS */
   .ids-grid {
@@ -663,6 +750,9 @@ function render(data) {
     </section>
   `;
 
+  // HEADLINES — big stat + results + issues from SMT Briefing
+  html += renderHeadlines(a.smt_briefing);
+
   // BRIEFING — project / key dates / tour (from Detail Briefing JSON in Airtable)
   html += renderBriefing(a.detail_briefing);
 
@@ -716,6 +806,66 @@ function render(data) {
   `;
 
   document.getElementById('content').innerHTML = html;
+}
+
+function renderHeadlines(b) {
+  if (!b) return '';
+  const hasBigStat = b.big_stat && b.big_stat.value;
+  const results = Array.isArray(b.results) ? b.results : [];
+  const issues = Array.isArray(b.issues) ? b.issues : [];
+  if (!hasBigStat && results.length === 0 && issues.length === 0) return '';
+
+  let html = `
+    <section class="section">
+      <header class="section-head">
+        <h2 class="section-title">This Week</h2>
+        <span class="section-meta">From SMT briefing</span>
+      </header>
+      <div class="headlines-grid">
+  `;
+
+  if (hasBigStat) {
+    html += `
+      <div class="headline-big">
+        <div class="headline-big-value">${esc(b.big_stat.value)}</div>
+        <div class="headline-big-label">${esc(b.big_stat.label || '')}</div>
+      </div>
+    `;
+  }
+
+  if (results.length > 0) {
+    html += `
+      <div class="headline-block">
+        <div class="briefing-eyebrow">Recent Results</div>
+        <ul class="headline-results">
+          ${results.map(r => {
+            const val = Array.isArray(r) ? r[0] : r.value;
+            const lbl = Array.isArray(r) ? r[1] : r.label;
+            return `
+              <li>
+                <span class="headline-val">${esc(val)}</span>
+                <span class="headline-lbl">${esc(lbl)}</span>
+              </li>
+            `;
+          }).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  if (issues.length > 0) {
+    html += `
+      <div class="headline-block">
+        <div class="briefing-eyebrow">Open Issues</div>
+        <ul class="headline-issues">
+          ${issues.map(i => `<li><span class="headline-issue-dot"></span>${esc(i)}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  html += `</div></section>`;
+  return html;
 }
 
 function renderBriefing(b) {
@@ -930,7 +1080,18 @@ function renderTimelineUpdates(events, updates) {
     updatesHtml = `<div class="empty-state"><strong>No updates yet.</strong><br>Updates from the Artist Update Log will appear here, newest first.</div>`;
   } else {
     updatesHtml = `<div class="updates-list">`;
-    updates.slice(0, 5).forEach(u => {
+    updates.slice(0, 5).forEach((u, idx) => {
+      const recap = u.recap || '';
+      const SHORT_LEN = 220;
+      const isLong = recap.length > SHORT_LEN;
+      // Truncate at word boundary near SHORT_LEN
+      let snippet = recap.slice(0, SHORT_LEN);
+      if (isLong) {
+        const lastSpace = snippet.lastIndexOf(' ');
+        if (lastSpace > 100) snippet = snippet.slice(0, lastSpace);
+        snippet += '…';
+      }
+      const uid = `u${idx}_${u.id || idx}`;
       updatesHtml += `
         <div class="update-card">
           <div class="update-head">
@@ -940,7 +1101,13 @@ function renderTimelineUpdates(events, updates) {
               ${u.sent_by ? ` · ${esc(u.sent_by)}` : ''}
             </div>
           </div>
-          ${u.recap ? `<div class="update-recap">${formatRichText(u.recap)}</div>` : ''}
+          ${recap ? `
+            <div class="update-recap update-recap-snippet" id="${uid}-snip">${formatRichText(snippet)}</div>
+            ${isLong ? `
+              <div class="update-recap update-recap-full" id="${uid}-full" style="display:none;">${formatRichText(recap)}</div>
+              <button class="update-expand" onclick="toggleUpdate('${uid}', this)">Show more ↓</button>
+            ` : ''}
+          ` : ''}
         </div>
       `;
     });
@@ -1003,6 +1170,22 @@ function formatName(name) {
 function formatBio(bio) {
   return esc(bio).split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
 }
+function toggleUpdate(uid, btn) {
+  const snip = document.getElementById(uid + '-snip');
+  const full = document.getElementById(uid + '-full');
+  if (!snip || !full) return;
+  const showingFull = full.style.display !== 'none';
+  if (showingFull) {
+    full.style.display = 'none';
+    snip.style.display = '';
+    btn.textContent = 'Show more ↓';
+  } else {
+    full.style.display = '';
+    snip.style.display = 'none';
+    btn.textContent = 'Show less ↑';
+  }
+}
+
 function formatRichText(text) {
   // Simple: split on double newline → paragraphs, escape
   return esc(text).split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
