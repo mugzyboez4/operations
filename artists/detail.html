@@ -750,8 +750,8 @@ function render(data) {
     </section>
   `;
 
-  // HEADLINES — big stat + results + issues from SMT Briefing
-  html += renderHeadlines(a.smt_briefing);
+  // HEADLINES — big stat + results (or recent update fallback) + issues from SMT Briefing
+  html += renderHeadlines(a.smt_briefing, data.updates || []);
 
   // BRIEFING — project / key dates / tour (from Detail Briefing JSON in Airtable)
   html += renderBriefing(a.detail_briefing);
@@ -808,11 +808,26 @@ function render(data) {
   document.getElementById('content').innerHTML = html;
 }
 
-function renderHeadlines(b) {
-  if (!b) return '';
+function renderHeadlines(b, updates) {
+  b = b || {};
   const hasBigStat = b.big_stat && b.big_stat.value;
-  const results = Array.isArray(b.results) ? b.results : [];
+  let results = Array.isArray(b.results) ? b.results.slice() : [];
   const issues = Array.isArray(b.issues) ? b.issues : [];
+
+  // Auto-fallback: if SMT briefing has no curated results, pull 2 most recent
+  // update subjects so the column always carries content.
+  let resultsAreFallback = false;
+  if (results.length === 0 && Array.isArray(updates) && updates.length > 0) {
+    results = updates.slice(0, 2)
+      .filter(u => u && (u.subject || u.recap))
+      .map(u => {
+        const dateLabel = u.created ? formatDateShort(u.created) : '—';
+        const text = (u.subject && u.subject.trim()) || truncate(stripHtml(u.recap || ''), 90);
+        return [dateLabel, text];
+      });
+    resultsAreFallback = results.length > 0;
+  }
+
   if (!hasBigStat && results.length === 0 && issues.length === 0) return '';
 
   let html = `
@@ -834,9 +849,10 @@ function renderHeadlines(b) {
   }
 
   if (results.length > 0) {
+    const eyebrow = resultsAreFallback ? 'Recent Headlines' : 'Recent Results';
     html += `
       <div class="headline-block">
-        <div class="briefing-eyebrow">Recent Results</div>
+        <div class="briefing-eyebrow">${eyebrow}</div>
         <ul class="headline-results">
           ${results.map(r => {
             const val = Array.isArray(r) ? r[0] : r.value;
@@ -866,6 +882,25 @@ function renderHeadlines(b) {
 
   html += `</div></section>`;
   return html;
+}
+
+function formatDateShort(d) {
+  try {
+    const dt = new Date(d);
+    if (isNaN(dt.getTime())) return '';
+    return (dt.getUTCMonth() + 1) + '/' + dt.getUTCDate();
+  } catch (e) { return ''; }
+}
+
+function stripHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function truncate(s, n) {
+  if (!s) return '';
+  if (s.length <= n) return s;
+  return s.substring(0, n - 1).trim() + '…';
 }
 
 function renderBriefing(b) {
