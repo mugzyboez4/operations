@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMT · Artist Portfolio</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0F0E0E;
+    --card: #1A1A1A;
+    --text: #FCFDF8;
+    --fog: #B0A9BE;
+    --slate: #3E3F41;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+    --teal: #5BC0BE;
+    --gold: #E8C547;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter','Helvetica Neue',Arial,sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 56px 32px 80px; }
+
+  /* GATE */
+  .gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px; }
+  .gate-box { width: 100%; max-width: 360px; }
+  .gate h2 { font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 8px; }
+  .gate p { color: var(--fog); margin-bottom: 24px; font-size: 14px; }
+  .gate input { width: 100%; padding: 14px 16px; background: var(--card); border: 1px solid var(--slate); color: var(--text); font-family: inherit; font-size: 15px; border-radius: 0; outline: none; transition: border-color 0.15s; }
+  .gate input:focus { border-color: var(--chartreuse); }
+  .gate button { width: 100%; padding: 14px 16px; margin-top: 12px; background: var(--chartreuse); color: #0F0E0E; border: 0; font-family: inherit; font-size: 12px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+  .gate button:hover { opacity: 0.85; }
+  .gate .err { color: var(--flame); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  /* HEADER */
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--fog); margin-bottom: 14px; }
+  h1 { font-size: 80px; font-weight: 900; letter-spacing: -3.5px; line-height: 0.9; text-transform: uppercase; margin-bottom: 24px; }
+  h1 .accent { color: var(--chartreuse); }
+  .subtitle { font-size: 17px; color: var(--fog); font-weight: 500; max-width: 720px; line-height: 1.55; }
+  .header-meta { margin-top: 32px; display: flex; gap: 40px; flex-wrap: wrap; font-size: 11px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--fog); }
+  .header-meta strong { color: var(--text); }
+
+  /* PHASE STRIP */
+  .phase-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--slate); }
+  .phase-block { background: var(--card); padding: 22px 20px; position: relative; transition: transform 0.15s ease; }
+  .phase-block:hover { transform: translateY(-2px); }
+  .phase-block.phase-inactive { opacity: 0.4; }
+  .phase-bar { height: 4px; width: 32px; margin-bottom: 16px; }
+  .phase-count { font-size: 56px; font-weight: 900; letter-spacing: -2.5px; line-height: 1; color: var(--text); }
+  .phase-name { font-size: 12px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-top: 12px; color: var(--text); }
+  .phase-desc { font-size: 11px; color: var(--fog); margin-top: 4px; line-height: 1.4; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .card { background: var(--card); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+  .card-hero { position: relative; height: 240px; overflow: hidden; background: var(--slate); }
+  .card-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,14,14,0.85) 0%, rgba(15,14,14,0) 50%); }
+  .card-phase { position: absolute; top: 16px; left: 16px; padding: 6px 12px; font-size: 11px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase; border-radius: 0; }
+  .card-body { padding: 24px 24px 28px; flex: 1; display: flex; flex-direction: column; }
+  .card-name { font-size: 28px; font-weight: 900; letter-spacing: -0.8px; line-height: 1.05; margin-bottom: 6px; }
+  .card-project { font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+  .card-project-meta { color: var(--fog); font-weight: 400; }
+  .big-stat { margin-top: 22px; padding: 18px 0; border-top: 1px solid var(--slate); border-bottom: 1px solid var(--slate); }
+  .big-stat-value { font-size: 44px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; color: var(--chartreuse); }
+  .big-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); margin-top: 8px; }
+  .section { margin-top: 22px; }
+  .section-label { font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--fog); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--slate); }
+  .result-row { display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px; }
+  .result-row:last-child { margin-bottom: 0; }
+  .result-val { font-size: 18px; font-weight: 900; color: var(--chartreuse); flex-shrink: 0; min-width: 64px; letter-spacing: -0.4px; }
+  .result-lbl { font-size: 12px; color: var(--text); line-height: 1.5; }
+  .issue-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .issue-row:last-child { margin-bottom: 0; }
+  .issue-dot { width: 6px; height: 6px; background: var(--flame); border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .issue-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+  /* STATUS / BANNERS */
+  .banner { background: var(--card); border-left: 3px solid var(--chartreuse); padding: 12px 18px; margin: 24px 0; font-size: 12px; color: var(--text); }
+  .banner.err { border-left-color: var(--flame); }
+  .banner strong { color: var(--text); font-weight: 700; }
+
+  /* INITIAL BLOCK (fallback when no photo) */
+  .initial { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--slate); color: var(--text); font-weight: 900; font-size: 64px; letter-spacing: -2px; }
+
+  footer { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--slate); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  footer p { font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--fog); }
+
+  .loading { text-align: center; padding: 80px 20px; color: var(--fog); }
+  .spin { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--slate); border-top-color: var(--chartreuse); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 1100px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .phase-strip { grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .phase-count { font-size: 40px; }
+    h1 { font-size: 64px; }
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+    .phase-strip { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 44px; letter-spacing: -2px; }
+    .wrap { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate" class="gate">
+  <div class="gate-box">
+    <p class="eyebrow">Campaign Operations</p>
+    <h2>SMT Dashboard</h2>
+    <p>Password required.</p>
+    <input id="pw" type="password" placeholder="Password" autocomplete="off">
+    <button id="pw-btn">Enter</button>
+    <div id="err" class="err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="wrap" style="display:none;">
+  <p class="eyebrow"><span id="meeting-context">SMT · LIVE</span></p>
+  <h1>Artist<br><span class="accent">Portfolio</span></h1>
+  <p class="subtitle">Six priority artists — phase, results, and open issues at a glance.</p>
+
+  <div id="header-meta" class="header-meta"></div>
+  <div id="banner-slot"></div>
+  <div id="phase-strip" class="phase-strip"></div>
+  <div id="grid" class="grid"><div class="loading"><span class="spin"></span>&nbsp; Loading…</div></div>
+
+  <footer>
+    <p>Campaign Operations · RCA Records</p>
+    <p>Internal · Live · <span id="sync-stamp">—</span></p>
+  </footer>
+</div>
+
+<script>
+const API_URL = '/api/smt-dashboard';
+const STORAGE_KEY = 'campaignops_roster_pw';
+
+const PHASE_META = {
+  PREP:    { color: '#B0A9BE', text: '#0F0E0E', desc: 'Discovery / setup' },
+  PLAN:    { color: '#5BC0BE', text: '#0F0E0E', desc: 'Building rollout' },
+  LAUNCH:  { color: '#E8C547', text: '#0F0E0E', desc: 'Pre-release in motion' },
+  RELEASE: { color: '#FF4A23', text: '#FCFDF8', desc: 'Street week' },
+  ACTIVE:  { color: '#CDF851', text: '#0F0E0E', desc: 'Live in market' },
+};
+
+const PHASE_ORDER = ['PREP','PLAN','LAUNCH','RELEASE','ACTIVE'];
+
+function escapeHTML(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+function initialsOf(name) {
+  if (!name) return '—';
+  const parts = name.replace(/[.!]/g, '').trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+}
+
+async function fetchDashboard(pw) {
+  const res = await fetch(API_URL, { headers: { 'X-Grid-Password': pw } });
+  if (res.status === 401) { const err = new Error('unauthorized'); err.code = 'unauthorized'; throw err; }
+  if (!res.ok) {
+    let msg = 'fetch failed: ' + res.status;
+    try { const body = await res.json(); if (body.error) msg = body.error + (body.detail ? ' — ' + body.detail : ''); if (body.hint) msg += ' (' + body.hint + ')'; } catch (e) {}
+    throw new Error(msg);
+  }
+  return await res.json();
+}
+
+function render(data) {
+  // Sync stamp
+  if (data.generated) {
+    const t = new Date(data.generated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    document.getElementById('sync-stamp').textContent = 'Synced ' + t;
+  }
+
+  // Meeting context: SMT · Tuesday May 12, 2026 — derive from generated date
+  const now = data.generated ? new Date(data.generated) : new Date();
+  const dayName = now.toLocaleDateString([], { weekday: 'long' });
+  const monthDay = now.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
+  document.getElementById('meeting-context').textContent = 'SMT · ' + dayName + ', ' + monthDay;
+
+  // Header meta
+  const cards = data.cards || [];
+  const counts = data.phase_counts || { PREP:0, PLAN:0, LAUNCH:0, RELEASE:0, ACTIVE:0 };
+  const activePhases = PHASE_ORDER.filter(p => counts[p] > 0).length;
+  const launchCount = counts.LAUNCH + counts.RELEASE;
+  const activeCount = counts.ACTIVE;
+  document.getElementById('header-meta').innerHTML = `
+    <span><strong>${cards.length}</strong> &nbsp;Artists</span>
+    <span><strong>${activePhases}</strong> &nbsp;Phases active</span>
+    <span><strong>${launchCount}</strong> &nbsp;In market or launching</span>
+    <span><strong>${activeCount}</strong> &nbsp;Live this week</span>
+  `;
+
+  // Phase strip
+  const phaseStripHTML = PHASE_ORDER.map(ph => {
+    const meta = PHASE_META[ph];
+    const count = counts[ph] || 0;
+    const inactive = count === 0 ? ' phase-inactive' : '';
+    return `
+      <div class="phase-block${inactive}">
+        <div class="phase-bar" style="background:${meta.color};"></div>
+        <div class="phase-count">${count}</div>
+        <div class="phase-name">${ph}</div>
+        <div class="phase-desc">${meta.desc}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('phase-strip').innerHTML = phaseStripHTML;
+
+  // Cards
+  if (cards.length === 0) {
+    document.getElementById('grid').innerHTML = `
+      <div class="banner err" style="grid-column:1/-1;">
+        <strong>No artists configured for SMT yet.</strong> Add SMT Briefing JSON + SMT Order to artists in Airtable. See /smt/setup.html for the schema.
+      </div>`;
+    return;
+  }
+
+  const cardsHTML = cards.map(c => {
+    const phaseMeta = PHASE_META[c.phase] || PHASE_META.PLAN;
+
+    const photoBlock = c.photo
+      ? `<img src="${escapeHTML(c.photo)}" alt="${escapeHTML(c.name)}">`
+      : `<div class="initial">${escapeHTML(initialsOf(c.name))}</div>`;
+
+    const bigStatHTML = (c.big_stat && c.big_stat.value)
+      ? `<div class="big-stat">
+           <div class="big-stat-value">${escapeHTML(c.big_stat.value)}</div>
+           <div class="big-stat-label">${escapeHTML(c.big_stat.label || '')}</div>
+         </div>`
+      : '';
+
+    const resultsHTML = (Array.isArray(c.results) && c.results.length > 0)
+      ? `<div class="section">
+           <div class="section-label">Recent Results</div>
+           ${c.results.map(r => {
+             const val = Array.isArray(r) ? r[0] : r.value;
+             const lbl = Array.isArray(r) ? r[1] : r.label;
+             return `<div class="result-row"><div class="result-val">${escapeHTML(val)}</div><div class="result-lbl">${escapeHTML(lbl)}</div></div>`;
+           }).join('')}
+         </div>`
+      : '';
+
+    const issuesHTML = (Array.isArray(c.issues) && c.issues.length > 0)
+      ? `<div class="section">
+           <div class="section-label">Open Issues</div>
+           ${c.issues.map(i => `<div class="issue-row"><span class="issue-dot"></span><div class="issue-text">${escapeHTML(i)}</div></div>`).join('')}
+         </div>`
+      : '';
+
+    const projectMetaHTML = c.project_meta ? ` <span class="card-project-meta">· ${escapeHTML(c.project_meta)}</span>` : '';
+
+    return `
+      <article class="card">
+        <div class="card-hero">
+          ${photoBlock}
+          <div class="card-hero-overlay"></div>
+          <div class="card-phase" style="background:${phaseMeta.color}; color:${phaseMeta.text};">${escapeHTML(c.phase)}</div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-name">${escapeHTML(c.name)}</h3>
+          <div class="card-project">${escapeHTML(c.project)}${projectMetaHTML}</div>
+          ${bigStatHTML}
+          ${resultsHTML}
+          ${issuesHTML}
+        </div>
+      </article>`;
+  }).join('');
+  document.getElementById('grid').innerHTML = cardsHTML;
+}
+
+async function unlock(pw) {
+  document.getElementById('err').textContent = '';
+  try {
+    const data = await fetchDashboard(pw);
+    sessionStorage.setItem(STORAGE_KEY, pw);
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    render(data);
+  } catch (e) {
+    if (e.code === 'unauthorized') {
+      document.getElementById('err').textContent = 'Wrong password. Try again.';
+    } else {
+      document.getElementById('err').textContent = 'Error: ' + (e.message || e);
+    }
+    sessionStorage.removeItem(STORAGE_KEY);
+  }
+}
+
+document.getElementById('pw-btn').addEventListener('click', () => {
+  const pw = document.getElementById('pw').value.trim();
+  if (pw) unlock(pw);
+});
+document.getElementById('pw').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('pw-btn').click();
+});
+
+const savedPw = sessionStorage.getItem(STORAGE_KEY);
+if (savedPw) {
+  unlock(savedPw);
+} else {
+  document.getElementById('pw').focus();
+}
+</script>
+
+</body>
+</html>

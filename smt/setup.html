@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMT Dashboard · Setup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0F0E0E; color: #FCFDF8; font-family: 'Inter','Helvetica Neue',Arial,sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 32px 80px; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: #B0A9BE; margin-bottom: 14px; }
+  h1 { font-size: 56px; font-weight: 900; letter-spacing: -2px; line-height: 0.95; text-transform: uppercase; margin-bottom: 16px; }
+  h1 .accent { color: #CDF851; }
+  .sub { font-size: 16px; color: #B0A9BE; margin-bottom: 48px; max-width: 640px; }
+  h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.4px; text-transform: uppercase; margin: 48px 0 8px; }
+  h2 .num { color: #CDF851; margin-right: 12px; }
+  h3 { font-size: 13px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #CDF851; margin: 28px 0 12px; }
+  p { margin-bottom: 12px; color: #FCFDF8; font-size: 14px; }
+  ul { margin: 0 0 20px 20px; }
+  li { margin-bottom: 8px; font-size: 14px; }
+  code { font-family: 'SF Mono',Menlo,Monaco,Consolas,monospace; font-size: 12px; background: #1A1A1A; color: #CDF851; padding: 2px 6px; }
+  pre { background: #1A1A1A; padding: 20px; overflow-x: auto; margin: 16px 0; border-left: 3px solid #CDF851; }
+  pre code { background: transparent; padding: 0; font-size: 12px; line-height: 1.6; color: #FCFDF8; }
+  pre code .k { color: #B0A9BE; }
+  pre code .s { color: #CDF851; }
+  pre code .v { color: #E8C547; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; background: #1A1A1A; }
+  th { background: #0F0E0E; color: #CDF851; font-size: 10px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 14px; text-align: left; border-bottom: 2px solid #CDF851; }
+  td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid #3E3F41; vertical-align: top; }
+  td:last-child code { background: #0F0E0E; }
+  .callout { background: #1A1A1A; border-left: 3px solid #FF4A23; padding: 16px 20px; margin: 24px 0; }
+  .callout p { margin: 0; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Campaign Operations · Setup</p>
+  <h1>SMT Dashboard<br><span class="accent">Setup Guide</span></h1>
+  <p class="sub">How to wire the live Airtable data behind <code>/smt/live.html</code>. ~10 minute setup.</p>
+
+  <!-- ===== STEP 1 ===== -->
+  <h2><span class="num">1.</span> Add 2 fields to the Artists table</h2>
+  <p>In Airtable (base <code>appLwUF3H4KjtiRdW</code>, Artists table), add two new fields:</p>
+
+  <table>
+    <thead><tr><th>Field name</th><th>Type</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><strong>SMT Briefing</strong></td><td>Long text</td><td>JSON blob with phase / project / big stat / results / issues for this week's card.</td></tr>
+      <tr><td><strong>SMT Order</strong></td><td>Number</td><td>Display order on the dashboard (1–6 typically). Empty = excluded.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Field names must match exactly — the function references them by name.</p>
+
+  <!-- ===== STEP 2 ===== -->
+  <h2><span class="num">2.</span> Populate the 6 SMT artists</h2>
+  <p>For each artist on the dashboard, set <code>SMT Order</code> (1–6) and paste a JSON blob into <code>SMT Briefing</code>:</p>
+
+<pre><code><span class="k">{</span>
+  <span class="s">"project"</span>: <span class="v">"BROWN"</span>,
+  <span class="s">"project_meta"</span>: <span class="v">"Album · Released 5/7"</span>,
+  <span class="s">"big_stat"</span>: <span class="k">{</span>
+    <span class="s">"value"</span>: <span class="v">"4M+"</span>,
+    <span class="s">"label"</span>: <span class="v">"Projected streams · Week 1"</span>
+  <span class="k">}</span>,
+  <span class="s">"results"</span>: <span class="k">[</span>
+    <span class="k">[</span><span class="v">"60–70K"</span>, <span class="v">"Album-equivalent range tracking · Week 1"</span><span class="k">]</span>,
+    <span class="k">[</span><span class="v">"45K"</span>, <span class="v">"Beat the 11/11 benchmark"</span><span class="k">]</span>
+  <span class="k">]</span>,
+  <span class="s">"issues"</span>: <span class="k">[</span>
+    <span class="v">"Mixed reviews on the back half of the album"</span>,
+    <span class="v">"Physical media plan for tour sales — still to lock"</span>
+  <span class="k">]</span>
+<span class="k">}</span></code></pre>
+
+  <h3>Field-by-field</h3>
+  <ul>
+    <li><strong>project</strong> (string) — main title shown under artist name. Required.</li>
+    <li><strong>project_meta</strong> (string) — appended after <code>·</code>. Optional ("Album · 6/26").</li>
+    <li><strong>big_stat</strong> (object or null) — the chartreuse number card. Set to <code>null</code> to skip.</li>
+    <li><strong>results</strong> (array of <code>[value, label]</code> pairs) — left number, right description. Empty array hides the section.</li>
+    <li><strong>issues</strong> (array of strings) — bullet points with red dots. Empty array hides the section.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong style="color:#FF4A23;">Phase comes from the existing <code>Phase</code> field</strong> on Artists (Prep/Plan/Announce/Release/Review). The function remaps Announce→LAUNCH and Review→ACTIVE per Jordan's 5/12 directive. No need to duplicate phase in the JSON.</p>
+  </div>
+
+  <!-- ===== STEP 3 ===== -->
+  <h2><span class="num">3.</span> Set env vars in Netlify</h2>
+  <p>The function reuses the existing roster credentials. If <code>/api/roster</code> works, this works too. The env vars used:</p>
+  <ul>
+    <li><code>AIRTABLE_TOKEN</code> — Airtable PAT with read scope on the base</li>
+    <li><code>ROSTER_PASSWORD</code> — same password gate as the artists page</li>
+  </ul>
+
+  <!-- ===== STEP 4 ===== -->
+  <h2><span class="num">4.</span> Embed in Airtable Interface</h2>
+  <p>In Airtable Interface Designer:</p>
+  <ul>
+    <li>Open the Executive Interface (or create a new one)</li>
+    <li>Add a <strong>Webpage</strong> element to the front page</li>
+    <li>Paste <code>https://operations.mugzyboez.co/smt/live.html</code></li>
+    <li>Save. Users will see the password prompt, enter the roster password, and the dashboard renders inside the Airtable Interface.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong style="color:#FF4A23;">If Airtable rejects the embed</strong> with a "this site can't be embedded" error: the <code>_headers</code> file in this repo allows iframing from Airtable origins. If it still fails, fallback to a Button element pointing to the URL (opens in a new tab).</p>
+  </div>
+
+  <!-- ===== TROUBLESHOOTING ===== -->
+  <h2><span class="num">5.</span> Troubleshooting</h2>
+  <table>
+    <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>"No artists configured for SMT yet"</td><td>No records have <code>SMT Briefing</code> set</td><td>Add JSON to the field for the 6 SMT artists</td></tr>
+      <tr><td>Cards in wrong order</td><td><code>SMT Order</code> not set or duplicated</td><td>Set unique numeric values 1–6</td></tr>
+      <tr><td>"airtable_error" with status 422</td><td>Fields don't exist yet</td><td>Add <code>SMT Briefing</code> + <code>SMT Order</code> to Artists table</td></tr>
+      <tr><td>Photo missing</td><td>No image attachment on Artist record</td><td>Upload to existing Image field. Falls back to initials.</td></tr>
+      <tr><td>Phase shows as raw text (e.g. "Plan")</td><td>JSON not parsed correctly OR phase missing from Phase field</td><td>Check <code>Phase</code> field on Artist has a value</td></tr>
+    </tbody>
+  </table>
+
+  <footer style="margin-top:64px; padding-top:24px; border-top:1px solid #3E3F41;">
+    <p style="font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:#B0A9BE;">Campaign Operations · Internal Setup Guide · v1</p>
+  </footer>
+
+</div>
+</body>
+</html>

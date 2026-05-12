@@ -1,0 +1,4 @@
+# Allow Airtable to iframe-embed the SMT dashboard
+/smt/*
+  Content-Security-Policy: frame-ancestors 'self' https://airtable.com https://*.airtable.com
+  X-Frame-Options: ALLOW-FROM https://airtable.com
