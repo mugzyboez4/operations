@@ -195,6 +195,98 @@
   }
   .section-meta { font-size: 11px; color: var(--text-soft); font-weight: 500; }
 
+  /* BRIEFING */
+  .briefing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .briefing-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 18px 18px;
+  }
+  .briefing-block.briefing-project {
+    border-left: 3px solid var(--accent, #7BA838);
+  }
+  .briefing-eyebrow {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+  }
+  .briefing-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .briefing-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .briefing-summary {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .briefing-dates { list-style: none; padding: 0; margin: 0; }
+  .briefing-dates li {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .briefing-dates li:last-child { border-bottom: 0; }
+  .briefing-date {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding-top: 2px;
+  }
+  .briefing-label { color: var(--text); }
+  .briefing-tour-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .briefing-tour-bookend {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .briefing-tour-key {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    min-width: 56px;
+  }
+  .briefing-tour-scope {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .briefing-grid { grid-template-columns: 1fr; }
+  }
+
   /* ACTION ITEMS */
   .action-list { display: flex; flex-direction: column; gap: 10px; }
   .action-card {
@@ -571,8 +663,12 @@ function render(data) {
     </section>
   `;
 
-  // OPEN ACTION ITEMS — primary section now
-  html += renderActionItems(data.action_items || []);
+  // BRIEFING — project / key dates / tour (from Detail Briefing JSON in Airtable)
+  html += renderBriefing(a.detail_briefing);
+
+  // OPEN ACTION ITEMS — filtered to recent (last 30 days), non-resolved
+  const filteredActions = filterRecentActions(data.action_items || []);
+  html += renderActionItems(filteredActions);
 
   // TIMELINE + UPDATES (2-col)
   html += renderTimelineUpdates(data.events || [], data.updates || []);
@@ -620,6 +716,84 @@ function render(data) {
   `;
 
   document.getElementById('content').innerHTML = html;
+}
+
+function renderBriefing(b) {
+  if (!b || (!b.project && !b.key_dates && !b.tour)) return '';
+  const p = b.project || {};
+  const dates = Array.isArray(b.key_dates) ? b.key_dates : [];
+  const t = b.tour || {};
+
+  let html = `
+    <section class="section">
+      <header class="section-head">
+        <h2 class="section-title">Project Briefing</h2>
+        <span class="section-meta">Synthesized from Update Log</span>
+      </header>
+      <div class="briefing-grid">
+  `;
+
+  // Project block
+  if (p.title || p.summary) {
+    html += `
+      <div class="briefing-block briefing-project">
+        ${p.title ? `<div class="briefing-eyebrow">Project</div>` : ''}
+        ${p.title ? `<div class="briefing-title">${esc(p.title)}</div>` : ''}
+        ${p.meta ? `<div class="briefing-meta">${esc(p.meta)}</div>` : ''}
+        ${p.summary ? `<p class="briefing-summary">${esc(p.summary)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  // Key Dates block
+  if (dates.length > 0) {
+    html += `
+      <div class="briefing-block">
+        <div class="briefing-eyebrow">Key Dates</div>
+        <ul class="briefing-dates">
+          ${dates.map(d => `
+            <li>
+              <span class="briefing-date">${esc(formatDate(d.date))}</span>
+              <span class="briefing-label">${esc(d.label)}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  // Tour block
+  if (t.name || t.scope) {
+    html += `
+      <div class="briefing-block">
+        <div class="briefing-eyebrow">Touring</div>
+        ${t.name ? `<div class="briefing-tour-name">${esc(t.name)}</div>` : ''}
+        ${(t.begins || t.ends) ? `
+          <div class="briefing-tour-bookend">
+            ${t.begins ? `<div><span class="briefing-tour-key">Begins</span> ${esc(formatDate(t.begins))}${t.begins_city ? ` · ${esc(t.begins_city)}` : ''}</div>` : ''}
+            ${t.ends ? `<div><span class="briefing-tour-key">Ends</span> ${esc(formatDate(t.ends))}${t.ends_city ? ` · ${esc(t.ends_city)}` : ''}</div>` : ''}
+          </div>
+        ` : ''}
+        ${t.scope ? `<p class="briefing-tour-scope">${esc(t.scope)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  html += `</div></section>`;
+  return html;
+}
+
+function filterRecentActions(items) {
+  // Hide items older than 30 days (or that are already Resolved — which is also filtered downstream).
+  // Today = May 12, 2026. So cutoff is April 12.
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 30);
+  return items.filter(item => {
+    if (!item.meeting_date) return true;  // keep items without dates (rare)
+    const d = new Date(item.meeting_date);
+    if (isNaN(d.getTime())) return true;
+    return d >= cutoff;
+  });
 }
 
 function renderActionItems(items) {
