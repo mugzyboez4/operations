@@ -606,21 +606,40 @@ async function unlock(pw) {
   document.getElementById('err').textContent = '';
   if (!ARTIST_ID) {
     document.getElementById('err').textContent = 'No artist ID in URL. Open from the Roster.';
+    document.getElementById('gate').style.display = '';
     return;
   }
+  let data;
   try {
-    const data = await fetchArtist(pw);
+    data = await fetchArtist(pw);
     sessionStorage.setItem(STORAGE_KEY, pw);
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    render(data);
   } catch (e) {
     if (e.code === 'unauthorized') {
       document.getElementById('err').textContent = 'Wrong password.';
+      document.getElementById('gate').style.display = '';
     } else {
-      document.getElementById('err').textContent = 'Error: ' + (e.message || e);
+      document.getElementById('err').textContent = 'Error fetching: ' + (e.message || e);
+      document.getElementById('gate').style.display = '';
     }
     sessionStorage.removeItem(STORAGE_KEY);
+    return;
+  }
+  // Render errors should NOT clear the password or hide the app.
+  // Surface them visibly so we can see what broke.
+  try {
+    render(data);
+  } catch (e) {
+    console.error('Render error:', e);
+    document.getElementById('content').innerHTML = `
+      <div style="padding:24px; margin:24px 0; background:#fff5f3; border-left:4px solid #FF4A23; font-family:monospace; font-size:12px; line-height:1.5; color:#0F0E0E;">
+        <div style="font-weight:800; margin-bottom:8px; font-family:Inter,sans-serif; font-size:13px;">RENDER ERROR — please screenshot and send to ops</div>
+        <div><strong>Message:</strong> ${(e && e.message) || e}</div>
+        <div style="margin-top:8px;"><strong>Stack:</strong></div>
+        <pre style="white-space:pre-wrap; font-size:11px; margin-top:4px;">${(e && e.stack) || '(no stack)'}</pre>
+      </div>
+    `;
   }
 }
 
