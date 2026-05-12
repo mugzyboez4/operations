@@ -22,7 +22,7 @@ h1{font-family:'Inter',sans-serif;font-size:48px;font-weight:900;letter-spacing:
 
 /* Phase strip — single block, 5 cells, awareness embedded */
 .phases-table{width:100%;background:#FFFFFF;border:1px solid #ECEAE3;border-collapse:separate;border-spacing:0;table-layout:fixed}
-.phase-cell{vertical-align:top;padding:22px 18px;background:#FFFFFF;width:20%;border-right:1px solid #ECEAE3}
+.phase-cell{vertical-align:top;padding:22px 18px;background:#FFFFFF;width:33.33%;border-right:1px solid #ECEAE3}
 .phase-cell:last-child{border-right:none}
 .phase-cell.threshold-edge{border-right:2px solid #FF4A23}
 
@@ -126,83 +126,23 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="eyebrow">Campaign Operations &middot; Framework</div>
   <h1>Phases</h1>
   <div class="lead">
-    Every campaign moves through five phases. Each phase is defined by <strong>who knows the project exists</strong> &mdash; the audience widens as the project moves. Between phases sit gates: checkpoints, asked as questions. <strong>You don't move until the answer is yes.</strong> The system says no, not us.
+    Every campaign moves through three phases &mdash; <strong>pre-release</strong>, <strong>release</strong>, <strong>post-release</strong>. The line between them is whether music from the project is out. <strong>As soon as any track from the project drops, the project moves into Release.</strong> When the full album is out and the campaign is sustaining, it moves to Post-release.
   </div>
 </div>
 
-<!-- AWARENESS THRESHOLD STRIP — flush above the phase table -->
+<!-- AWARENESS THRESHOLD STRIP -->
 <div class="threshold-strip">
   <div class="threshold-cell">Internal only</div>
-  <div class="threshold-cell">Internal only</div>
-  <div class="threshold-cell public">&larr; Public</div>
-  <div class="threshold-cell public">Public</div>
-  <div class="threshold-cell public">Public</div>
+  <div class="threshold-cell public">&larr; Public (first track out)</div>
+  <div class="threshold-cell public">Public (album out)</div>
 </div>
 
-<!-- 5-COLUMN PHASE STRIP — single unified block -->
+<!-- 3-COLUMN PHASE STRIP -->
 <table class="phases-table"><tr>
 
-<td class="phase-cell" style="border-top:6px solid #3E3F41;">
-  <div class="phase-num" style="color:#3E3F41;">01</div>
-  <div class="phase-name">PREP</div>
-
-  <div class="aware">
-    <div class="aware-row">
-      <span class="aware-label">Internal</span>
-      <span class="aware-dot half" title="Limited"></span>
-      <span class="aware-qual">Execs, A&amp;R, Creative</span>
-    </div>
-    <div class="aware-row">
-      <span class="aware-label">Fans</span>
-      <span class="aware-dot empty" title="Unaware"></span>
-      <span class="aware-qual">Not aware</span>
-    </div>
-  </div>
-
-  <div class="phase-label">What happens</div>
-  <div class="phase-text">Recording. Signing. Framing the project before anyone else is told.</div>
-
-  <div class="phase-label">Closes when</div>
-  <div class="phase-text">Deal signed, artist brief exists, pod assigned, baseline data pulled.</div>
-
-  <div class="phase-q-block">
-    <div class="phase-q-arrow">&darr;</div>
-    <div class="phase-q">Ready to plan?</div>
-  </div>
-</td>
-
-<td class="phase-cell threshold-edge" style="border-top:6px solid #5BC0BE;">
-  <div class="phase-num" style="color:#5BC0BE;">02</div>
-  <div class="phase-name">PLAN</div>
-
-  <div class="aware">
-    <div class="aware-row">
-      <span class="aware-label">Internal</span>
-      <span class="aware-dot full" title="Full"></span>
-      <span class="aware-qual">All RCA departments</span>
-    </div>
-    <div class="aware-row">
-      <span class="aware-label">Fans</span>
-      <span class="aware-dot empty" title="Unaware"></span>
-      <span class="aware-qual">Still not aware</span>
-    </div>
-  </div>
-
-  <div class="phase-label">What happens</div>
-  <div class="phase-text">Marketing plan being built. Departments brief and align. Fans don't know yet.</div>
-
-  <div class="phase-label">Closes when</div>
-  <div class="phase-text">Marketing plan locked, timeline + budget approved, kickoff held, lead single ready.</div>
-
-  <div class="phase-q-block">
-    <div class="phase-q-arrow">&darr;</div>
-    <div class="phase-q">Ready to announce?</div>
-  </div>
-</td>
-
 <td class="phase-cell" style="border-top:6px solid #E8C547;">
-  <div class="phase-num" style="color:#E8C547;">03</div>
-  <div class="phase-name">ANNOUNCE</div>
+  <div class="phase-num" style="color:#E8C547;">01</div>
+  <div class="phase-name">PRE-RELEASE</div>
 
   <div class="aware">
     <div class="aware-row">
@@ -212,25 +152,25 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
     </div>
     <div class="aware-row">
       <span class="aware-label">Fans</span>
-      <span class="aware-dot fans-on" title="Aware"></span>
-      <span class="aware-qual">Anticipation building</span>
+      <span class="aware-dot empty" title="Unaware"></span>
+      <span class="aware-qual">Not yet aware</span>
     </div>
   </div>
 
   <div class="phase-label">What happens</div>
-  <div class="phase-text">Public reveal. Single 1, pre-save, press, anticipation period.</div>
+  <div class="phase-text">Everything before any track drops: signing, recording, marketing plan, kickoff, departmental alignment, anticipation build, lead-single readiness, DSP pitches, press, pre-save.</div>
 
   <div class="phase-label">Closes when</div>
-  <div class="phase-text">Masters QC&rsquo;d, DSP pitches in, radio + press confirmed, pre-save live, lead single out.</div>
+  <div class="phase-text">First track from the project goes live on DSPs.</div>
 
   <div class="phase-q-block">
     <div class="phase-q-arrow">&darr;</div>
-    <div class="phase-q">Ready to release?</div>
+    <div class="phase-q">First track out</div>
   </div>
 </td>
 
-<td class="phase-cell" style="border-top:6px solid #CDF851;">
-  <div class="phase-num" style="color:#CDF851;">04</div>
+<td class="phase-cell threshold-edge" style="border-top:6px solid #FF4A23;">
+  <div class="phase-num" style="color:#FF4A23;">02</div>
   <div class="phase-name">RELEASE</div>
 
   <div class="aware">
@@ -247,20 +187,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   </div>
 
   <div class="phase-label">What happens</div>
-  <div class="phase-text">Longest phase. From first single all the way through full album release.</div>
+  <div class="phase-text">From the moment the first single drops all the way through the full album release. Content calendar live, release-week activation, focus-track tracking, single-by-single rollouts.</div>
 
   <div class="phase-label">Closes when</div>
-  <div class="phase-text">All deliveries confirmed, content calendar live, release week activated, focus track tracking.</div>
+  <div class="phase-text">Album is fully out and primary release-week activations are complete.</div>
 
   <div class="phase-q-block">
     <div class="phase-q-arrow">&darr;</div>
-    <div class="phase-q">Ready to review?</div>
+    <div class="phase-q">Album out</div>
   </div>
 </td>
 
-<td class="phase-cell" style="border-top:6px solid #FF4A23;">
-  <div class="phase-num" style="color:#FF4A23;">05</div>
-  <div class="phase-name">REVIEW</div>
+<td class="phase-cell" style="border-top:6px solid #7BA838;">
+  <div class="phase-num" style="color:#7BA838;">03</div>
+  <div class="phase-name">POST-RELEASE</div>
 
   <div class="aware">
     <div class="aware-row">
@@ -276,10 +216,10 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   </div>
 
   <div class="phase-label">What happens</div>
-  <div class="phase-text">Working the project post-release. Performance analysis. Continued momentum.</div>
+  <div class="phase-text">Working the project after street date: performance analysis, sustained promotion, tour activation, sync, catalog growth.</div>
 
   <div class="phase-label">Stays open</div>
-  <div class="phase-text">Wheel feeds back into Prep on the next campaign. No exit gate &mdash; this loops.</div>
+  <div class="phase-text">No exit gate &mdash; this loops. Feeds back into Pre-release on the next campaign.</div>
 
   <div class="phase-q-block">
     <div class="phase-q-arrow">&#8634;</div>
@@ -291,7 +231,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
 <div class="pilot-block">
   <div class="eyebrow">Q3 Pilot</div>
-  <div class="body"><strong>Lizzy McAlpine &mdash; Angel</strong> (RCA / alt, street date 9/18/26). Currently in <strong>Phase 2 (Plan)</strong>. 2 of 6 gate items cleared before Phase 3 (Announce). First campaign through the framework end-to-end.</div>
+  <div class="body"><strong>Lizzy McAlpine &mdash; Angel</strong> (RCA / alt, street date 9/18/26). Currently in <strong>Pre-release</strong>. Moves to Release the moment the first single drops.</div>
 </div>
 
 <div class="depth-block">
