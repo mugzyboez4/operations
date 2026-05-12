@@ -1,12 +1,15 @@
-# Allow embedding from any origin (Airtable, etc.)
+# Allow embedding from any origin (Airtable, SharePoint, etc.)
+# Note: frame-ancestors MUST be set via HTTP header (meta tag is ignored by browsers)
+
 /smt/*
   Content-Security-Policy: frame-ancestors *
-  X-Frame-Options:
+  Permissions-Policy: clipboard-write=*, fullscreen=*
 
 /smt
   Content-Security-Policy: frame-ancestors *
-  X-Frame-Options:
 
-/smt/index.html
+/smt/
   Content-Security-Policy: frame-ancestors *
-  X-Frame-Options:
+
+/artists/*
+  Content-Security-Policy: frame-ancestors *
