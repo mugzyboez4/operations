@@ -41,7 +41,7 @@
   .header-meta strong { color: var(--text); }
 
   /* PHASE STRIP */
-  .phase-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--slate); }
+  .phase-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--slate); }
   .phase-block { background: var(--card); padding: 22px 20px; position: relative; transition: transform 0.15s ease; }
   .phase-block:hover { transform: translateY(-2px); }
   .phase-block.phase-inactive { opacity: 0.4; }
@@ -93,7 +93,7 @@
 
   @media (max-width: 1100px) {
     .grid { grid-template-columns: repeat(2, 1fr); }
-    .phase-strip { grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .phase-strip { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .phase-count { font-size: 40px; }
     h1 { font-size: 64px; }
   }
@@ -141,14 +141,12 @@ const API_URL = '/api/smt-dashboard';
 const STORAGE_KEY = 'campaignops_roster_pw';
 
 const PHASE_META = {
-  PREP:    { color: '#B0A9BE', text: '#0F0E0E', desc: 'Discovery / setup' },
-  PLAN:    { color: '#5BC0BE', text: '#0F0E0E', desc: 'Building rollout' },
-  LAUNCH:  { color: '#E8C547', text: '#0F0E0E', desc: 'Pre-release in motion' },
-  RELEASE: { color: '#FF4A23', text: '#FFFFFF', desc: 'Street week' },
-  ACTIVE:  { color: '#7BA838', text: '#0F0E0E', desc: 'Live in market' },
+  'Pre-release':  { color: '#E8C547', text: '#0F0E0E', desc: 'Before any track drops' },
+  'Release':      { color: '#FF4A23', text: '#FFFFFF', desc: 'First track out → album street' },
+  'Post-release': { color: '#7BA838', text: '#0F0E0E', desc: 'Album out, campaign sustaining' },
 };
 
-const PHASE_ORDER = ['PREP','PLAN','LAUNCH','RELEASE','ACTIVE'];
+const PHASE_ORDER = ['Pre-release','Release','Post-release'];
 
 function escapeHTML(s) {
   if (s == null) return '';
@@ -188,15 +186,15 @@ function render(data) {
 
   // Header meta
   const cards = data.cards || [];
-  const counts = data.phase_counts || { PREP:0, PLAN:0, LAUNCH:0, RELEASE:0, ACTIVE:0 };
-  const activePhases = PHASE_ORDER.filter(p => counts[p] > 0).length;
-  const launchCount = counts.LAUNCH + counts.RELEASE;
-  const activeCount = counts.ACTIVE;
+  const counts = data.phase_counts || { 'Pre-release':0, 'Release':0, 'Post-release':0 };
+  const preReleaseCount = counts['Pre-release'] || 0;
+  const releaseCount = counts['Release'] || 0;
+  const postReleaseCount = counts['Post-release'] || 0;
   document.getElementById('header-meta').innerHTML = `
     <span><strong>${cards.length}</strong> &nbsp;Artists</span>
-    <span><strong>${activePhases}</strong> &nbsp;Phases active</span>
-    <span><strong>${launchCount}</strong> &nbsp;In market or launching</span>
-    <span><strong>${activeCount}</strong> &nbsp;Live this week</span>
+    <span><strong>${preReleaseCount}</strong> &nbsp;Pre-release</span>
+    <span><strong>${releaseCount}</strong> &nbsp;Release</span>
+    <span><strong>${postReleaseCount}</strong> &nbsp;Post-release</span>
   `;
 
   // Phase strip

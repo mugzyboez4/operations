@@ -16,13 +16,18 @@ const FLD_AGENDA_NOTES    = 'fldU72qNnZIaiUvIg';  // Agenda Notes (multilineText
 const FLD_SMT_BRIEFING    = 'SMT Briefing';       // NEW (Meg needs to add this) — JSON blob with full card data
 const FLD_SMT_ORDER       = 'SMT Order';          // NEW — display order on dashboard (number)
 
-// Phase rename map: old singleSelect values → new dashboard labels (per Jordan 5/12 directive)
+// Phase mapping: Airtable singleSelect values → dashboard display labels.
+// Per Jordan 5/12 (SMT directive): collapse 5 phases → 3.
+//   Pre-release: anything before any track from the project has dropped
+//   Release: first track is out, leading up through album street date
+//   Post-release: album fully out, campaign sustaining
+// Airtable Phase singleSelect still has 5 options; migration TBD. This map is display-only.
 const PHASE_MAP = {
-  'Prep': 'PREP',
-  'Plan': 'PLAN',
-  'Announce': 'LAUNCH',  // Jordan rename pending
-  'Release': 'RELEASE',
-  'Review': 'ACTIVE',    // Jordan rename pending
+  'Prep': 'Pre-release',
+  'Plan': 'Pre-release',
+  'Announce': 'Pre-release',
+  'Release': 'Release',
+  'Review': 'Post-release',
 };
 
 function readEnv(key) {
@@ -94,7 +99,7 @@ export default async (req) => {
     const cards = (data.records || []).map(parseRecord).filter(Boolean);
 
     // Compute phase counts for the top strip
-    const phaseCounts = { PREP: 0, PLAN: 0, LAUNCH: 0, RELEASE: 0, ACTIVE: 0 };
+    const phaseCounts = { 'Pre-release': 0, 'Release': 0, 'Post-release': 0 };
     cards.forEach(c => {
       if (phaseCounts[c.phase] !== undefined) phaseCounts[c.phase]++;
     });
