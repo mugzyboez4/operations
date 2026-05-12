@@ -259,6 +259,120 @@
     line-height: 1.55;
   }
 
+  /* ============ NEW UPDATES (per-browser, localStorage) ============ */
+  .updates-section {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px dashed #ECEAE3;
+  }
+  .updates-list {
+    margin-bottom: 12px;
+  }
+  .updates-list:empty { margin-bottom: 0; }
+  .update-row {
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #F5F2EB;
+    border-left: 3px solid #7BA838;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+    align-items: flex-start;
+  }
+  .update-time {
+    font-size: 10px;
+    font-weight: 700;
+    color: #7E7894;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .update-text {
+    font-size: 13px;
+    color: #0F0E0E;
+    line-height: 1.45;
+    flex: 1;
+    word-break: break-word;
+  }
+  .update-delete {
+    background: none;
+    border: none;
+    color: #7E7894;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 4px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .update-row:hover .update-delete { opacity: 1; }
+  .update-delete:hover { color: #FF4A23; }
+
+  .add-update-btn {
+    background: none;
+    border: 1px dashed #7BA838;
+    color: #7BA838;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .add-update-btn:hover {
+    background: #7BA838;
+    color: #FFFFFF;
+  }
+
+  .update-input-form {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .update-input-form.open { display: flex; }
+  .update-input-form textarea {
+    width: 100%;
+    min-height: 56px;
+    padding: 10px;
+    border: 1px solid #ECEAE3;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 13px;
+    color: #0F0E0E;
+    background: #FFFFFF;
+    resize: vertical;
+    line-height: 1.45;
+  }
+  .update-input-form textarea:focus {
+    outline: none;
+    border-color: #7BA838;
+  }
+  .update-input-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .update-btn {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    flex: 1;
+  }
+  .update-btn.save { background: #7BA838; color: #FFFFFF; }
+  .update-btn.save:hover { background: #6A9230; }
+  .update-btn.cancel { background: #ECEAE3; color: #7E7894; }
+  .update-btn.cancel:hover { background: #DCDAD3; }
+
   /* ============ FOOTER ============ */
   footer {
     margin-top: 72px;
@@ -403,7 +517,7 @@
       </div>
       <div class="card-body">
         <h3 class="card-name">The Strokes</h3>
-        <div class="card-project">Reality Awaits <span class="card-project-meta">· Album · 6/26</span></div>
+        <div class="card-project">Reality Awaits <span class="card-project-meta">· Album · 6/26 — at risk</span></div>
         
         <div class="big-stat">
           <div class="big-stat-value">WED</div>
@@ -415,11 +529,19 @@
           
           <div class="issue-row">
             <span class="issue-dot"></span>
-            <div class="issue-text">"Falling Out of Love" moved from 5/15 → 5/13 (6 AM PT / 9 AM ET) — drops Wednesday</div>
+            <div class="issue-text">"Falling Out of Love" moved from 5/15 → 5/13 — drops Wednesday</div>
           </div>
           <div class="issue-row">
             <span class="issue-dot"></span>
-            <div class="issue-text">Album rollout sequencing into 6/26 release</div>
+            <div class="issue-text">Album masters not yet in — 6/26 street date at risk of pushing</div>
+          </div>
+          <div class="issue-row">
+            <span class="issue-dot"></span>
+            <div class="issue-text">Pseudo video + audio still moving inside next week</div>
+          </div>
+          <div class="issue-row">
+            <span class="issue-dot"></span>
+            <div class="issue-text">Album not mentioned in this week's production walkthrough — silence on a release 6 weeks out</div>
           </div>
         </div>
       </div>
@@ -568,15 +690,146 @@
 <script>
 (function() {
   const ARTIST_IDS = {"Chris Brown": "recMOi7ZSUU134qj5", "The Strokes": "recnorsYcrk43jx1q", "Steve Lacy": "recLWQIvZ110A8R1V", "kwn": "recZ49RttyjZ1CDPT", "Bryson Tiller": "recKg90Yb7Z4VDvsi", "The Red Clay Strays": "recjQjzI4LRYZp2Jk"};
+
+  // ============ NEW UPDATES (localStorage, per-browser) ============
+  const STORAGE_PREFIX = 'smt-updates:';
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function loadUpdates(id) {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_PREFIX + id) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveUpdates(id, updates) {
+    localStorage.setItem(STORAGE_PREFIX + id, JSON.stringify(updates));
+  }
+
+  function formatTime(iso) {
+    const d = new Date(iso);
+    const today = new Date();
+    const isToday = d.toDateString() === today.toDateString();
+    const time = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    if (isToday) return time;
+    const date = d.toLocaleDateString([], { month: 'numeric', day: 'numeric' });
+    return date + ' ' + time;
+  }
+
+  function renderUpdates(id, listEl) {
+    const updates = loadUpdates(id);
+    if (updates.length === 0) {
+      listEl.innerHTML = '';
+      return;
+    }
+    listEl.innerHTML = updates.slice().reverse().map((u, idx) => {
+      const originalIdx = updates.length - 1 - idx;
+      return '<div class="update-row">' +
+        '<span class="update-time">' + formatTime(u.timestamp) + '</span>' +
+        '<span class="update-text">' + escapeHtml(u.text) + '</span>' +
+        '<button class="update-delete" data-idx="' + originalIdx + '" title="Delete">×</button>' +
+      '</div>';
+    }).join('');
+    listEl.querySelectorAll('.update-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(btn.dataset.idx, 10);
+        const current = loadUpdates(id);
+        current.splice(idx, 1);
+        saveUpdates(id, current);
+        renderUpdates(id, listEl);
+      });
+    });
+  }
+
+  function attachUpdatesUI(card, id) {
+    const body = card.querySelector('.card-body');
+    if (!body) return;
+
+    const section = document.createElement('div');
+    section.className = 'updates-section';
+    section.innerHTML =
+      '<div class="section-label">Live Updates</div>' +
+      '<div class="updates-list"></div>' +
+      '<button class="add-update-btn" type="button">+ Add Update</button>' +
+      '<div class="update-input-form">' +
+        '<textarea placeholder="Type a quick update..." maxlength="500"></textarea>' +
+        '<div class="update-input-actions">' +
+          '<button class="update-btn save" type="button">Save</button>' +
+          '<button class="update-btn cancel" type="button">Cancel</button>' +
+        '</div>' +
+      '</div>';
+    body.appendChild(section);
+
+    const listEl = section.querySelector('.updates-list');
+    const addBtn = section.querySelector('.add-update-btn');
+    const form = section.querySelector('.update-input-form');
+    const textarea = form.querySelector('textarea');
+    const saveBtn = form.querySelector('.save');
+    const cancelBtn = form.querySelector('.cancel');
+
+    // Stop card click navigation when interacting with updates UI
+    [section, addBtn, form, textarea, saveBtn, cancelBtn].forEach(el => {
+      el.addEventListener('click', (e) => e.stopPropagation());
+    });
+
+    addBtn.addEventListener('click', () => {
+      form.classList.add('open');
+      addBtn.style.display = 'none';
+      textarea.focus();
+    });
+
+    function closeForm() {
+      form.classList.remove('open');
+      addBtn.style.display = '';
+      textarea.value = '';
+    }
+
+    cancelBtn.addEventListener('click', closeForm);
+
+    saveBtn.addEventListener('click', () => {
+      const text = textarea.value.trim();
+      if (!text) return;
+      const current = loadUpdates(id);
+      current.push({ text: text, timestamp: new Date().toISOString() });
+      saveUpdates(id, current);
+      renderUpdates(id, listEl);
+      closeForm();
+    });
+
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        saveBtn.click();
+      } else if (e.key === 'Escape') {
+        closeForm();
+      }
+    });
+
+    renderUpdates(id, listEl);
+  }
+
+  // ============ CARD NAVIGATION + UPDATES WIRING ============
   document.querySelectorAll('.card').forEach(card => {
     const nameEl = card.querySelector('.card-name');
     if (!nameEl) return;
     const name = nameEl.textContent.trim();
     const id = ARTIST_IDS[name];
     if (!id) return;
+
+    attachUpdatesUI(card, id);
+
     card.style.cursor = 'pointer';
     card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      // Don't navigate when clicking inside updates section
+      if (e.target.closest('.updates-section')) return;
       window.open('https://operations.mugzyboez.co/artists/detail.html?id=' + id, '_blank');
     });
     card.addEventListener('mouseenter', () => {
