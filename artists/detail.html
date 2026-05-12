@@ -394,7 +394,7 @@
 </nav>
 
 <!-- PASSWORD GATE -->
-<div id="gate">
+<div id="gate" style="display:none;">
   <h2>Active Projects — Internal</h2>
   <p>Enter password to view artist detail.</p>
   <input type="password" id="pw" placeholder="Password" autocomplete="off" />
@@ -451,11 +451,10 @@ document.getElementById('pw').addEventListener('keydown', (e) => {
 });
 
 const savedPw = sessionStorage.getItem(STORAGE_KEY);
-if (savedPw) {
-  unlock(savedPw);
-} else {
-  document.getElementById('pw').focus();
-}
+// TEMP (May 12 2026): auto-unlock for SMT — bypass gate using hardcoded password.
+// Remove this and restore gate visibility after dashboard ownership review.
+const AUTOUNLOCK_PW = 'tempo-roster';
+unlock(savedPw || AUTOUNLOCK_PW);
 
 // ── FETCH ──
 async function fetchArtist(pw) {
