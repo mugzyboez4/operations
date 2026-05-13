@@ -3,7 +3,13 @@
 /stage-gate       /phases.html  301
 
 # Analytics content has moved to analytics.mugzyboez.co
+/analytics/* https://analytics.mugzyboez.co/:splat  301
+/analytics   https://analytics.mugzyboez.co/  301
 /insights/*  https://analytics.mugzyboez.co/insights/:splat  301
 /insights    https://analytics.mugzyboez.co/insights/  301
 /vcf.html    https://analytics.mugzyboez.co/vcf.html  301
 /vcf         https://analytics.mugzyboez.co/vcf.html  301
+
+# Kits content has moved to kits.mugzyboez.co
+/kits/*      https://kits.mugzyboez.co/:splat  301
+/kits        https://kits.mugzyboez.co/  301
