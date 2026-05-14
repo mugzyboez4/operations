@@ -791,7 +791,7 @@ const CULTURAL_MOMENTS = [
 
 const STORAGE_KEY = 'd2c-grid-activations-v3';
 const SESSION_KEY = 'd2c-grid-unlocked';
-const PW_SESSION_KEY = 'd2c_grid_pw'; // password kept in sessionStorage so proxy can authenticate
+const PW_SESSION_KEY = 'd2c_grid_pw_v2'; // bumped to v2 to invalidate any pre-unified-password stashes. password kept in sessionStorage so proxy can authenticate
 const ROW_STATE_KEY = 'd2c-grid-collapsed-rows-v1';
 const ZOOM_STATE_KEY = 'd2c-grid-zoom-v1';
 const RIGHTS_FILTER_KEY = 'd2c-grid-rights-filter-v1';
@@ -930,6 +930,16 @@ async function loadActivations() {
       headers: { 'X-Grid-Password': pw },
       cache: 'no-store'
     });
+    if (res.status === 401) {
+      // Stale password — clear sessionStorage and kick back to the gate.
+      // Most common cause: password was rotated server-side while this tab was open.
+      console.warn('Proxy rejected stashed password — clearing and prompting for re-entry.');
+      sessionStorage.removeItem(PW_SESSION_KEY);
+      sessionStorage.removeItem(SESSION_KEY);
+      activations = JSON.parse(JSON.stringify(BASELINE_ACTIVATIONS));
+      showSyncBanner('Session expired — please reload and re-enter the password.', 'error');
+      return;
+    }
     if (!res.ok) {
       const errText = await res.text();
       throw new Error('Proxy returned ' + res.status + ': ' + errText.substring(0, 200));
@@ -1439,11 +1449,15 @@ function showActivationModal(idx) {
     '<div class="modal-actions">' +
     (a._airtableId 
       ? '<a class="primary" id="modal-airtable" href="https://airtable.com/' + AIRTABLE_BASE_ID + '/' + AIRTABLE_TABLE_ID + '/' + a._airtableId + '" target="_blank" style="text-decoration:none;text-align:center;">↗ Edit in Airtable</a>'
-      : '<button class="primary" id="modal-edit">Edit locally (won\'t sync)</button>') +
+      : '<button class="primary" id="modal-reload" style="background:#FF4A23;border-color:#FF4A23;">⚠ Reload page to enable editing</button>') +
     '</div></div>';
   openModal();
   if (!a._airtableId) {
-    document.getElementById('modal-edit').addEventListener('click', () => showFormModal(a, idx));
+    document.getElementById('modal-reload').addEventListener('click', () => {
+      sessionStorage.removeItem(PW_SESSION_KEY);
+      sessionStorage.removeItem(SESSION_KEY);
+      location.reload();
+    });
   }
 
   // Wire up swatch buttons
