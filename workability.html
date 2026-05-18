@@ -127,6 +127,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
       </div>
       <button class="toggle" id="apToggle">Active Projects Only</button>
       <button class="btn" id="btnCsv">CSV</button>
+      <button class="btn" id="btnHtml" style="background:var(--secondary);border-color:var(--secondary)">HTML</button>
     </div>
     <div class="count-bar" id="countBar"></div>
     <div id="cardList"></div>
@@ -172,6 +173,15 @@ document.getElementById('fiBL').addEventListener('change',e=>{if(e.target.files.
 document.getElementById('fiRW').addEventListener('change',e=>{if(e.target.files.length){document.getElementById('fbRWs').textContent='Parsing...';const reader=new FileReader();reader.onload=(ev)=>{try{const wb=XLSX.read(ev.target.result,{type:'array'});const sheet=wb.Sheets[wb.SheetNames[0]];if(!sheet||!sheet['!ref']){document.getElementById('fbRWs').textContent='No data';return;}const decoded=XLSX.utils.decode_range(sheet['!ref']);let ct=0;for(let r=4;r<=decoded.e.r;r++){const artist=sheet[XLSX.utils.encode_cell({r,c:1})];const relDate=sheet[XLSX.utils.encode_cell({r,c:0})];const wkDL=sheet[XLSX.utils.encode_cell({r,c:17})];const artC=sheet[XLSX.utils.encode_cell({r,c:55})];if(!artist||!artist.v)continue;const rn=mrl(artist.v);if(!rn)continue;const rd=relDate&&relDate.v?relDate.v.toString().trim():'';const wk=wkDL&&wkDL.v?wkDL.v.toString().trim():'';const artV=artC&&artC.v?artC.v.toString().trim():'';if(!D.runwayDates[rn]||rd<(D.runwayDates[rn].releaseDate||'zzz')){D.runwayDates[rn]={releaseDate:rd,wkDeadline:wk,art:artV};ct++;}}document.getElementById('fbRW').classList.add('loaded');document.getElementById('fbRWs').textContent=`✓ ${ct} artists matched`;if(Object.keys(D.artists).length)render();}catch(err){document.getElementById('fbRWs').textContent=`Error: ${err.message}`;}};reader.readAsArrayBuffer(e.target.files[0]);}});
 document.getElementById('fiSA').addEventListener('change',e=>{if(e.target.files.length)loadF(parseSA,'fbSAs','fbSA',()=>{let t=0;for(const a of Object.values(D.artists))t+=a.tracks.filter(x=>x.saS==='purple').length;return t+' open';})(e.target.files[0]);});
 document.getElementById('btnCsv').addEventListener('click',downloadCsv);
+document.getElementById('btnHtml').addEventListener('click',function(){
+  const css=document.querySelector('style').textContent;
+  const date=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const cards=document.getElementById('cardList').innerHTML;
+  const counts=document.getElementById('countBar').innerHTML;
+  const legend=document.querySelector('.legend').outerHTML;
+  const html=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Workability — ${date}</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>${css}</style></head><body><div class="container"><div class="header"><div class="header-label">Campaign Ops · Workability Check</div><h1>Clearance Status</h1><div class="sub">Snapshot — ${date}</div></div>${legend}<div class="count-bar">${counts}</div>${cards}<div class="footer"><strong>CAMPAIGN OPS</strong> — B&amp;L sample clearance + Side Artist charts + Release Runway art status. Roster-filtered.</div></div></body></html>`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=`Workability_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.html`;a.click();
+});
 document.getElementById('apToggle').addEventListener('click',function(){ST.apOnly=!ST.apOnly;this.classList.toggle('active');render();});
 document.querySelectorAll('.pill').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');ST.filter=p.dataset.filter;render();});});
 </script>
