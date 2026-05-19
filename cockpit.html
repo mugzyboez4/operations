@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Projects · Cockpit — Campaign Ops</title>
+<link rel="icon" href="/tempoicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FCFDF8;
+    --card: #FFFFFF;
+    --text: #0F0E0E;
+    --text-dim: #3E3F41;
+    --label: #6B6975;
+    --fog: #666;
+    --border: #E5E4DE;
+    --border-soft: #EFEEE8;
+    --olive: #7BA838;
+    --chartreuse: #CDF851;
+    --flame: #FF4A23;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* TEMPO nav — minimal so the cockpit dominates */
+  nav.cnav { display:flex; align-items:center; padding:10px 24px; border-bottom:1px solid var(--border); gap:18px; background:var(--bg); font-family:'Inter',-apple-system,sans-serif; flex-wrap:wrap; }
+  nav.cnav .cnav-logo { font-size:12px; font-weight:900; letter-spacing:-.5px; text-transform:uppercase; color:var(--text); text-decoration:none; display:flex; align-items:center; gap:8px; }
+  nav.cnav .cnav-logo span { color:#CDF851; }
+  nav.cnav .cnav-logo-img { width:24px; height:24px; border-radius:5px; display:block; }
+  nav.cnav .cnav-link { font-size:9px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:#888; text-decoration:none; padding:4px 8px; border:1px solid transparent; transition:all .15s; }
+  nav.cnav .cnav-link:hover { color:var(--text); border-color:var(--border); }
+  nav.cnav .cnav-link.active { color:#FF4A23; border-color:#FF4A23; font-weight:600; }
+  nav.cnav .cnav-spacer { flex:1; }
+  nav.cnav .cnav-meta { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:#888; font-weight:600; }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 41px);  /* subtract nav height */
+    padding: 20px 48px 20px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 10px;
+  }
+  .header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .header-title .accent { color: var(--olive); }
+  .header-date {
+    font-size: 12px;
+    color: var(--fog);
+    font-weight: 500;
+  }
+  .clock {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .context {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-top: 1px solid var(--text);
+    border-bottom: 1px solid var(--border);
+  }
+  .context-section {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--olive);
+  }
+  .context-position {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--label);
+  }
+
+  /* MAIN */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0 16px;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* Artist name + phase chip */
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .artist-name {
+    font-size: clamp(54px, 8.5vw, 130px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
+    text-transform: uppercase;
+    transition: opacity 0.18s ease;
+  }
+  .artist-name.preserve { text-transform: none; }
+  .artist-name.fading { opacity: 0; }
+
+  .phase-chip {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border: 1.5px solid var(--text);
+    background: var(--card);
+    color: var(--text);
+    align-self: flex-start;
+    margin-top: 14px;
+  }
+  .phase-chip.announce { background: var(--chartreuse); }
+  .phase-chip.release { background: var(--flame); color: white; border-color: var(--flame); }
+  .phase-chip.plan { background: var(--olive); color: white; border-color: var(--olive); }
+  .phase-chip.prep { background: var(--bg); color: var(--text-dim); border-color: var(--border); }
+  .phase-chip.review { background: var(--border); color: var(--text-dim); }
+  .phase-chip.none { display: none; }
+
+  /* Context strip: timeline + KPIs */
+  .strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 18px;
+  }
+  .strip-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--label);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .timeline-event {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 0 0 auto;
+    min-width: 70px;
+  }
+  .timeline-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--text);
+    margin-bottom: 6px;
+  }
+  .timeline-event.today .timeline-dot {
+    background: var(--chartreuse);
+    border: 2px solid var(--text);
+    width: 13px;
+    height: 13px;
+    margin-bottom: 4px;
+  }
+  .timeline-event.tbd .timeline-dot {
+    background: var(--bg);
+    border: 1.5px dashed var(--label);
+  }
+  .timeline-date {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--label);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .timeline-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .timeline-empty {
+    font-size: 12px;
+    color: var(--label);
+    font-style: italic;
+    padding: 6px 0;
+  }
+
+  /* KPIs */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .kpi {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    background: var(--card);
+  }
+  .kpi-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--label);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .kpi-value {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .kpi-value.empty {
+    color: var(--border);
+    font-weight: 400;
+  }
+  .kpi-meta {
+    font-size: 9px;
+    color: var(--label);
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+    font-style: italic;
+  }
+
+  /* Items */
+  .items {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--text);
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 32px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+  }
+  .item:nth-child(1) { animation-delay: 0.05s; }
+  .item:nth-child(2) { animation-delay: 0.11s; }
+  .item:nth-child(3) { animation-delay: 0.17s; }
+  .item:nth-child(4) { animation-delay: 0.23s; }
+  .item:nth-child(5) { animation-delay: 0.29s; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .item-text {
+    font-size: clamp(16px, 1.5vw, 22px);
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--text);
+  }
+  .item-owner {
+    font-size: clamp(10px, 0.75vw, 12px);
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 14px;
+  }
+  .wall-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 18px;
+  }
+  .wall-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .wall-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--label);
+    letter-spacing: 1.5px;
+  }
+  .wall-tiles { display: flex; gap: 4px; }
+  .tile {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--text);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tile:hover { opacity: 0.6; }
+  .tile.past { background: var(--text); }
+  .tile.current {
+    background: var(--chartreuse);
+    transform: scale(1.5);
+    box-shadow: 0 0 0 2px var(--bg);
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--label);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+    transition: color 0.15s ease;
+  }
+  .nav-button:hover:not(:disabled) { color: var(--text); }
+  .nav-button:disabled { opacity: 0.25; cursor: not-allowed; }
+  .nav-arrow { font-size: 20px; line-height: 1; font-weight: 400; }
+  .nav-target { color: var(--text); font-weight: 900; text-transform: uppercase; letter-spacing: -0.2px; font-size: 15px; }
+  .nav-target.preserve { text-transform: none; }
+
+  /* Pending integration tag */
+  .integration-tag {
+    position: fixed;
+    bottom: 14px;
+    left: 24px;
+    font-size: 9px;
+    color: var(--label);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    padding: 3px 8px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="cnav">
+  <a href="/" class="cnav-logo">
+    <img src="/tempoicon.png" alt="Campaign Ops" class="cnav-logo-img">
+    Campaign <span>Ops</span>
+  </a>
+  <a href="/" class="cnav-link">Roadmap</a>
+  <a href="/phases.html" class="cnav-link">Phases</a>
+  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
+  <a href="/resources.html" class="cnav-link">Resources</a>
+  <a href="/cockpit.html" class="cnav-link active">Cockpit</a>
+  <span class="cnav-spacer"></span>
+  <span class="cnav-meta">Active Projects · Demo</span>
+</nav>
+
+<div class="app">
+
+  <header class="header">
+    <div class="header-left">
+      <h1 class="header-title">ACTIVE <span class="accent">PROJECTS</span></h1>
+      <div class="header-date">Wednesday, May 20, 2026</div>
+    </div>
+    <div class="clock" id="clock">—:—:— —</div>
+  </header>
+
+  <div class="context">
+    <div class="context-section" id="contextSection">Section 01 · Upcoming / Recent Releases</div>
+    <div class="context-position" id="contextPosition">1 of 17</div>
+  </div>
+
+  <main class="main">
+    <div class="name-row">
+      <h2 class="artist-name" id="artistName">Becky G</h2>
+      <span class="phase-chip none" id="phaseChip">—</span>
+    </div>
+
+    <div class="strip">
+      <div>
+        <div class="strip-label">Timeline</div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+      <div>
+        <div class="strip-label">Data <span style="color:var(--border);font-weight:400;">· Crawley</span></div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+    </div>
+
+    <div class="items" id="items"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wall-row" id="wall"></div>
+    <div class="nav">
+      <button class="nav-button" id="prevBtn" disabled>
+        <span class="nav-arrow">←</span>
+        <span>prev</span>
+        <span class="nav-target" id="prevTarget"></span>
+      </button>
+      <button class="nav-button" id="nextBtn">
+        <span class="nav-target" id="nextTarget"></span>
+        <span>next</span>
+        <span class="nav-arrow">→</span>
+      </button>
+    </div>
+  </footer>
+
+</div>
+
+<div class="integration-tag">Demo · Data slots awaiting Airtable integration</div>
+
+<script>
+// Default 3 KPI slots — Crawley defines actual KPIs in production
+const DEFAULT_KPIS = [
+  { label: "Streaming", value: null, meta: "TBD" },
+  { label: "Social", value: null, meta: "TBD" },
+  { label: "DSP", value: null, meta: "TBD" }
+];
+
+const sections = [
+  {
+    label: "Section 01 · Upcoming / Recent Releases", short: "S1",
+    artists: [
+      { name: "Becky G", phase: "release",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "TBD", label: "New release", tbd: true }
+        ],
+        items: [
+          { text: "Music update", owner: "Campaign Lead · A&R" },
+          { text: "Timeline update", owner: "Campaign Lead · A&R" },
+          { text: "Video + track reaction", owner: "Data · Audience Dev" }
+        ]
+      },
+      { name: "Eli", phase: "release",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "This wk", label: "Deluxe out" }
+        ],
+        items: [
+          { text: "Final sequence + focus track", owner: "A&R · Campaign Lead" },
+          { text: "Setup for deluxe — out this week", owner: "Campaign Lead · Audience Dev · Media" }
+        ]
+      },
+      { name: "kwn", preserve: true, phase: "announce",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "TBD", label: "Pre-order", tbd: true },
+          { date: "TBD", label: "EP", tbd: true }
+        ],
+        items: [
+          { text: "Two-track → EP plan", owner: "A&R · Campaign Lead · Audience Dev" },
+          { text: "Pre-release campaign summary", owner: "Campaign Lead · Audience Dev" },
+          { text: "Product setup for pre-order", owner: "Campaign Ops · Release Planning" }
+        ]
+      },
+      { name: "Hailey Picardi", phase: "announce",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "~2 wks", label: "Release" }
+        ],
+        items: [
+          { text: "Pre-release campaign summary", owner: "Campaign Lead · Audience Dev" }
+        ]
+      },
+      { name: "Blood Orange", phase: "plan",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Status of previous campaign + project definition", owner: "Campaign Lead" },
+          { text: "Announcement + pre-release plan", owner: "Campaign Lead" },
+          { text: "Music + content asset progress", owner: "A&R" }
+        ]
+      }
+    ]
+  },
+  {
+    label: "Section 02 · Campaigns", short: "S2",
+    artists: [
+      { name: "Steve Lacy", phase: "announce",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "Next wk", label: "Partner playbacks" },
+          { date: "Wk after", label: "Pre-order launch" }
+        ],
+        items: [
+          { text: "Music update", owner: "A&R" },
+          { text: "Plan + timeline update (incl. partner playbacks for next week)", owner: "Campaign Lead" },
+          { text: "Product configuration + pre-order launch (week after next)", owner: "Commercial Partnerships · Release Planning" }
+        ]
+      },
+      { name: "Latto", phase: "release",
+        timeline: [
+          { date: "May 20", label: "Today · Baby announcement", today: true }
+        ],
+        items: [
+          { text: "Music update", owner: "A&R" },
+          { text: "Social progress", owner: "Audience Dev" },
+          { text: "Continued pregnancy coverage + baby announcement (today)", owner: "Media" },
+          { text: "Manufacturing logistics", owner: "Commercial Partnerships · Release Planning" },
+          { text: "Pop-ups", owner: "Campaign Lead · Creative" }
+        ]
+      },
+      { name: "horsegiirL", preserve: true, phase: "announce",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "Soon", label: "Album · scheduled" }
+        ],
+        items: [
+          { text: "Album status — recently cleared, scheduling now live", owner: "Campaign Lead" }
+        ]
+      },
+      { name: "Love Spells", phase: "plan",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Check-in — music video progress + internet heartthrob follow-up", owner: "Campaign Lead" }
+        ]
+      },
+      { name: "Isabel LaRosa", phase: "review",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Recap on recent release — what we learned, where we stand, what's next", owner: "Campaign Lead · A&R" }
+        ]
+      },
+      { name: "Victoria", phase: "plan",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Music update", owner: "A&R" },
+          { text: "Timeline update", owner: "Campaign Lead" }
+        ]
+      },
+      { name: "Red Clay Strays", phase: "announce",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "Recent", label: "Grammy win 🏆" }
+        ],
+        items: [
+          { text: "Media update — start here, Grammy win", owner: "Media" },
+          { text: "Anything outstanding pre-release", owner: "Campaign Lead" },
+          { text: "Audience update — younger reach via Grammy win", owner: "Audience Dev" }
+        ]
+      },
+      { name: "The Strokes", phase: "plan",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "Aug?", label: "Release date · TBD", tbd: true }
+        ],
+        items: [
+          { text: "Music update + track reaction", owner: "A&R · Campaign Lead" },
+          { text: "New release date — management not wild about August, still chasing deliverables", owner: "Campaign Lead · Release Planning" },
+          { text: "Audience plans", owner: "Audience Dev" }
+        ]
+      }
+    ]
+  },
+  {
+    label: "Section 03 · Early Check-ins", short: "S3",
+    artists: [
+      { name: "Frost Children", phase: "prep",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Status of recording, timeline", owner: "A&R" },
+          { text: "What puts this in position to be scheduled", owner: "Campaign Lead · A&R" }
+        ]
+      },
+      { name: "Elle King", phase: "prep",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: "Are we scheduling this record? Status", owner: "Campaign Lead · A&R" },
+          { text: "What puts this record in position to be scheduled", owner: "Campaign Lead · A&R" }
+        ]
+      }
+    ]
+  },
+  {
+    label: "Section 04 · Trending", short: "S4",
+    artists: [
+      { name: "Flo Milli", phase: "release",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true },
+          { date: "This wk", label: "Freestyle" },
+          { date: "Soon", label: "Bossy tease" }
+        ],
+        items: [
+          { text: "Trending volume check — still substantial, watching for continued growth", owner: "Audience Dev" },
+          { text: "Freestyle (top of week) + Bossy tease", owner: "Campaign Lead · Audience Dev" }
+        ]
+      },
+      { name: "Audrey", phase: "release",
+        timeline: [
+          { date: "May 20", label: "Today · AP", today: true }
+        ],
+        items: [
+          { text: 'Trending follow-up — emerging action on "Sue Me"', owner: "Audience Dev" },
+          { text: '"Sue Me" — possible sync driving the action', owner: "Sync" },
+          { text: '"Punk Rocker" clearance check-in', owner: "Clearance" }
+        ]
+      }
+    ]
+  }
+];
+
+// Flatten artists
+const flat = [];
+sections.forEach((sec, sIdx) => {
+  sec.artists.forEach(a => flat.push({ ...a, sectionIdx: sIdx }));
+});
+
+let currentIdx = 0;
+
+// Build wall
+function buildWall() {
+  const wall = document.getElementById('wall');
+  wall.innerHTML = '';
+  let globalIdx = 0;
+  sections.forEach((sec, sIdx) => {
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'wall-section';
+    const label = document.createElement('div');
+    label.className = 'wall-section-label';
+    label.textContent = sec.short;
+    sectionEl.appendChild(label);
+    const tiles = document.createElement('div');
+    tiles.className = 'wall-tiles';
+    sec.artists.forEach((a, aIdx) => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      tile.dataset.index = globalIdx;
+      tile.title = a.name;
+      const idx = globalIdx;
+      tile.addEventListener('click', () => jump(idx));
+      tiles.appendChild(tile);
+      globalIdx++;
+    });
+    sectionEl.appendChild(tiles);
+    wall.appendChild(sectionEl);
+  });
+}
+
+function render() {
+  const artist = flat[currentIdx];
+  const section = sections[artist.sectionIdx];
+
+  document.getElementById('contextSection').textContent = section.label;
+  document.getElementById('contextPosition').textContent = `${currentIdx + 1} of ${flat.length}`;
+
+  // Artist name
+  const nameEl = document.getElementById('artistName');
+  nameEl.classList.add('fading');
+  setTimeout(() => {
+    nameEl.textContent = artist.name;
+    nameEl.classList.toggle('preserve', !!artist.preserve);
+    nameEl.classList.remove('fading');
+  }, 100);
+
+  // Phase chip
+  const phase = document.getElementById('phaseChip');
+  phase.className = 'phase-chip ' + (artist.phase || 'none');
+  if (artist.phase) {
+    phase.textContent = artist.phase;
+  }
+
+  // Timeline
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+  if (!artist.timeline || artist.timeline.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'timeline-empty';
+    empty.textContent = '— No upcoming milestones';
+    timeline.appendChild(empty);
+  } else {
+    artist.timeline.forEach(ev => {
+      const el = document.createElement('div');
+      el.className = 'timeline-event' + (ev.today ? ' today' : '') + (ev.tbd ? ' tbd' : '');
+      el.innerHTML = `
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">${ev.date}</div>
+        <div class="timeline-label">${ev.label}</div>
+      `;
+      timeline.appendChild(el);
+    });
+  }
+
+  // KPIs (always 3 slots, placeholder for now)
+  const kpiBox = document.getElementById('kpis');
+  kpiBox.innerHTML = '';
+  const kpis = artist.kpis || DEFAULT_KPIS;
+  kpis.forEach(k => {
+    const cell = document.createElement('div');
+    cell.className = 'kpi';
+    const isEmpty = k.value == null;
+    cell.innerHTML = `
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value${isEmpty ? ' empty' : ''}">${isEmpty ? '—' : k.value}</div>
+      <div class="kpi-meta">${k.meta || ''}</div>
+    `;
+    kpiBox.appendChild(cell);
+  });
+
+  // Items
+  const itemsEl = document.getElementById('items');
+  itemsEl.innerHTML = '';
+  artist.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `
+      <div class="item-text">${item.text}</div>
+      <div class="item-owner">${item.owner}</div>
+    `;
+    itemsEl.appendChild(row);
+  });
+
+  // Wall update
+  document.querySelectorAll('.tile').forEach((tile, idx) => {
+    tile.classList.remove('past', 'current');
+    if (idx < currentIdx) tile.classList.add('past');
+    if (idx === currentIdx) tile.classList.add('current');
+  });
+
+  // Nav
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevTarget = document.getElementById('prevTarget');
+  const nextTarget = document.getElementById('nextTarget');
+
+  prevBtn.disabled = currentIdx === 0;
+  nextBtn.disabled = currentIdx === flat.length - 1;
+
+  if (currentIdx > 0) {
+    const p = flat[currentIdx - 1];
+    prevTarget.textContent = p.name;
+    prevTarget.classList.toggle('preserve', !!p.preserve);
+  } else { prevTarget.textContent = ''; }
+
+  if (currentIdx < flat.length - 1) {
+    const n = flat[currentIdx + 1];
+    nextTarget.textContent = n.name;
+    nextTarget.classList.toggle('preserve', !!n.preserve);
+  } else { nextTarget.textContent = ''; }
+}
+
+function next() { if (currentIdx < flat.length - 1) { currentIdx++; render(); } }
+function prev() { if (currentIdx > 0) { currentIdx--; render(); } }
+function jump(idx) { currentIdx = idx; render(); }
+
+document.getElementById('prevBtn').addEventListener('click', prev);
+document.getElementById('nextBtn').addEventListener('click', next);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') { e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+  else if (e.key === 'Home') { e.preventDefault(); jump(0); }
+  else if (e.key === 'End') { e.preventDefault(); jump(flat.length - 1); }
+});
+
+// Live clock
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('clock').textContent = `${h12}:${m}:${s} ${ampm}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+buildWall();
+render();
+</script>
+
+</body>
+</html>
