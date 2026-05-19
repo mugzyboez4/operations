@@ -8,187 +8,272 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F2EB;--card:#FFFFFF;--border:#E0DDD6;--dim:#D4D0C8;--text:#1A1A1A;--secondary:#6B6560;--muted:#9B9590;--green:#4A7C12;--red:#C43318;--amber:#A67B1A;--purple:#6B4FBB;--green-bg:#E8F5D0;--red-bg:#FDEAE6;--amber-bg:#FDF3D8;--purple-bg:#EDE7F6;--green-dot:#7CB342;--red-dot:#E53935;--amber-dot:#F9A825;--purple-dot:#7E57C2;--gray-dot:#BDBDBD;--lime:#CDF851;--flame:#FF4A23}
-html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:root{--bg:#F5F2EB;--card:#fff;--border:#E0DDD6;--dim:#D4D0C8;--text:#1A1A1A;--sub:#6B6560;--muted:#9B9590;
+--g:#43A047;--gbg:#E8F5E9;--y:#F9A825;--ybg:#FFF8E1;--r:#E53935;--rbg:#FFEBEE;--p:#7E57C2;--pbg:#EDE7F6;--gr:#BDBDBD}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+nav.cn{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap}
+nav.cn .cl{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px}
+nav.cn .cl span{color:#CDF851}
+nav.cn .cl img{width:32px;height:32px;border-radius:6px}
+nav.cn a.nl{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
+nav.cn a.nl:hover{color:#0F0E0E;border-color:#ECEAE3}
+nav.cn a.nl.ac{color:#FF4A23;border-color:#FF4A23;font-weight:600}
+.wrap{max-width:1000px;margin:0 auto;padding:24px}
+.hd{margin-bottom:20px}
+.hd-l{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.hd h1{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.hd p{font-size:11px;color:var(--sub);line-height:1.5}
+.fi{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.fb{border:2px dashed var(--dim);border-radius:6px;padding:10px 14px;cursor:pointer;background:var(--card);position:relative;flex:1;min-width:140px;text-align:center;transition:all .15s}
+.fb:hover{border-color:var(--g);background:var(--gbg)}
+.fb.ok{border-color:var(--g);border-style:solid;background:var(--gbg)}
+.fb b{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sub);display:block}
+.fb em{font-size:10px;color:var(--muted);font-style:normal;display:block;margin-top:2px}
+.fb.ok em{color:var(--g);font-weight:600}
+.fb input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.rs{display:none}.rs.v{display:block}
+.tb{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.pl{font-family:'Inter';font-size:10px;font-weight:600;padding:5px 12px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--card);color:var(--sub)}
+.pl:hover{color:var(--text);border-color:var(--sub)}
+.pl.on{border-color:var(--text);color:var(--text);font-weight:700}
+.tg{font-family:'Inter';font-size:10px;font-weight:700;padding:5px 12px;border:2px solid var(--r);border-radius:20px;cursor:pointer;background:transparent;color:var(--r);margin-left:6px}
+.tg.on{background:var(--r);color:#fff}
+.bt{font-family:'Inter';font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:7px 14px;border:1px solid var(--text);border-radius:4px;cursor:pointer;background:var(--text);color:var(--bg);margin-left:auto}
+.bt+.bt{margin-left:4px}
+.ct{font-size:11px;color:var(--sub);margin-bottom:10px}.ct strong{color:var(--text)}
+.lg{display:flex;gap:14px;margin-bottom:14px;font-size:10px;color:var(--sub);flex-wrap:wrap;align-items:center}
+.lg-i{display:flex;align-items:center;gap:4px}
 
-nav.cnav{display:flex!important;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:20px;position:sticky;top:0;background:#F5F2EB;z-index:9999;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif}
-nav.cnav .cnav-logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px;border:none;padding:0}
-nav.cnav .cnav-logo span{color:#CDF851}
-nav.cnav .cnav-logo:hover{color:#0F0E0E;background:transparent}
-nav.cnav .cnav-logo-img{width:32px;height:32px;border-radius:6px}
-nav.cnav .cnav-link{font-family:'Inter',-apple-system,sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#888;text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
-nav.cnav .cnav-link:hover{color:#0F0E0E;border-color:#ECEAE3}
-nav.cnav .cnav-link.active{color:#FF4A23;border-color:#FF4A23;font-weight:600}
+/* Status icons — Runway style */
+.ic{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic svg{width:10px;height:10px}
+.ic.g{background:var(--g)}.ic.y{background:var(--y)}.ic.r{background:var(--r)}.ic.x{background:#eee}
+.ic.sm{width:14px;height:14px}.ic.sm svg{width:8px;height:8px}
 
-.container{max-width:920px;margin:0 auto;padding:28px 24px}
-.header{margin-bottom:20px}
-.header-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
-.header h1{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
-.header .sub{font-size:11px;color:var(--secondary);line-height:1.5}
-.file-inputs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-.file-box{border:2px dashed var(--dim);border-radius:6px;padding:10px 14px;cursor:pointer;background:var(--card);position:relative;flex:1;min-width:160px;text-align:center}
-.file-box:hover{border-color:var(--green-dot);background:var(--green-bg)}
-.file-box.loaded{border-color:var(--green-dot);border-style:solid;background:var(--green-bg)}
-.file-box .fb-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-.file-box .fb-status{font-size:10px;color:var(--muted);margin-top:2px}
-.file-box.loaded .fb-status{color:var(--green);font-weight:600}
-.file-box input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer}
-.results{display:none}.results.visible{display:block}
-.toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
-.pill{font-family:'Inter',-apple-system,sans-serif;font-size:10px;font-weight:600;padding:5px 12px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--card);color:var(--secondary)}
-.pill:hover{color:var(--text);border-color:var(--secondary)}
-.pill.active{border-color:var(--text);color:var(--text);font-weight:700}
-.toggle{font-family:'Inter',-apple-system,sans-serif;font-size:10px;font-weight:700;padding:5px 12px;border:2px solid var(--red-dot);border-radius:20px;cursor:pointer;background:transparent;color:var(--red);margin-left:6px}
-.toggle.active{background:var(--red-dot);color:#fff}
-.btn{font-family:'Inter',-apple-system,sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:7px 14px;border:1px solid var(--text);border-radius:4px;cursor:pointer;background:var(--text);color:var(--bg);margin-left:auto}
-.count-bar{font-size:11px;color:var(--secondary);margin-bottom:12px}.count-bar strong{color:var(--text)}
-.legend{display:flex;gap:14px;margin-bottom:12px;font-size:10px;color:var(--secondary);flex-wrap:wrap}
-.legend-item{display:flex;align-items:center;gap:4px}
-.ldot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.artist-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
-.artist-head{display:grid;grid-template-columns:8px 1fr auto}
-.signal-bar{width:8px}
-.signal-bar.green{background:var(--green-dot)}.signal-bar.amber{background:var(--amber-dot)}.signal-bar.red{background:var(--red-dot)}.signal-bar.gray{background:var(--gray-dot)}
-.artist-info{padding:10px 14px}
-.artist-name{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.2px}
-.artist-meta{font-size:10px;color:var(--muted);margin-top:2px}
-.ap-badge{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--red-bg);color:var(--red);margin-left:6px;vertical-align:middle}
-.artist-signals{padding:10px 16px;display:flex;gap:16px;align-items:center}
-.sig-col{text-align:center}
-.sig-col .sig-label{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-.dot{width:14px;height:14px;border-radius:50%;display:inline-block}
-.dot.green{background:var(--green-dot)}.dot.red{background:var(--red-dot)}.dot.amber{background:var(--amber-dot)}.dot.purple{background:var(--purple-dot)}.dot.gray{background:var(--gray-dot)}.dot.none{background:transparent;border:2px solid var(--dim)}
-.track-list{border-top:1px solid var(--border)}
-.track-list table{width:100%;border-collapse:collapse;font-size:11px}
-.track-list th{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:5px 10px;text-align:left;background:#FAFAF6;border-bottom:1px solid var(--border)}
-.track-list th.tc{text-align:center;width:70px}
-.track-list td{padding:5px 10px;border-bottom:1px solid #F0EDE6;vertical-align:middle}
-.track-list td.tc{text-align:center}
-.track-list tr:last-child td{border-bottom:none}
-.sdot{width:10px;height:10px;border-radius:50%;display:inline-block}
-.sdot.green{background:var(--green-dot)}.sdot.red{background:var(--red-dot)}.sdot.amber{background:var(--amber-dot)}.sdot.purple{background:var(--purple-dot)}.sdot.none{background:transparent;border:1.5px solid var(--dim)}
-.track-name{color:var(--text);font-weight:500}
-.track-sub{font-size:10px;color:var(--muted)}
-.sa-label{font-size:10px;color:var(--purple)}
-.sa-status{font-size:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;display:inline-block;white-space:nowrap}
-.sa-status.cleared{background:var(--green-bg);color:var(--green)}
-.sa-status.not-cleared{background:var(--purple-bg);color:var(--purple)}
-.sa-status.no-sa{color:var(--muted);font-weight:500;letter-spacing:0}
-.footer{margin-top:18px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.6}
+/* Cards */
+.cd{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.cd-h{display:grid;grid-template-columns:1fr auto;padding:12px 16px;align-items:center;cursor:pointer;transition:background .1s}
+.cd-h:hover{background:#FAFAF6}
+.cd-n{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.2px}
+.cd-m{font-size:10px;color:var(--muted);margin-top:2px}
+.ap{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--rbg);color:var(--r);margin-left:6px;vertical-align:middle}
+.cd-k{display:flex;gap:14px;align-items:center}
+.kp{display:flex;flex-direction:column;align-items:center;gap:3px}
+.kp-l{font-size:7px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.sa-t{font-size:8px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.sa-t.g{background:var(--gbg);color:var(--g)}.sa-t.r{background:var(--pbg);color:var(--p)}.sa-t.n{color:var(--muted)}
+
+/* Track rows */
+.rl{border-top:1px solid var(--border);display:none}
+.rl.open{display:block}
+.rh{display:grid;grid-template-columns:1fr repeat(4,50px);padding:6px 16px;background:#FAFAF6;border-bottom:1px solid var(--border)}
+.rh span{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);text-align:center}
+.rh span:first-child{text-align:left}
+.rr{display:grid;grid-template-columns:1fr repeat(4,50px);padding:7px 16px;border-bottom:1px solid #F0EDE6;align-items:center;font-size:12px}
+.rr:last-child{border-bottom:none}
+.rr-t{font-weight:600;color:var(--text)}
+.rr-s{font-size:10px;color:var(--muted)}
+.rr-sa{font-size:10px;color:var(--p)}
+.rc{display:flex;justify-content:center}
+
+.ft{margin-top:18px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.6}
+@media(max-width:600px){.cd-k{gap:8px}.kp-l{font-size:6px}.rr,.rh{grid-template-columns:1fr repeat(4,40px)}}
 </style>
 </head>
 <body>
-<!-- PASSWORD GATE -->
-<div id="gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column">
-  <img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
-  <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
-  <div style="font-family:Inter,sans-serif;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
-  <input type="password" id="pw" placeholder="Password" style="font-family:Inter,sans-serif;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')checkPw()">
-  <button onclick="checkPw()" style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
-  <div id="err" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
+<div id="gt" style="position:fixed;inset:0;background:#F5F2EB;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+<img src="/logo_neon.png" style="width:160px;height:160px;margin-bottom:16px;border-radius:16px">
+<div style="font-family:Inter;font-size:22px;font-weight:900;color:#0F0E0E;margin-bottom:4px;letter-spacing:-1px">Campaign Operations</div>
+<div style="font-family:Inter;font-size:11px;color:#999;margin-bottom:20px">RCA Records</div>
+<input type="password" id="pw" placeholder="Password" style="font-family:Inter;font-size:14px;padding:10px 20px;border:2px solid #ECEAE3;width:240px;text-align:center;outline:none;background:#fff" onkeydown="if(event.key==='Enter')ck()">
+<button onclick="ck()" style="font-family:Inter;font-size:11px;font-weight:700;padding:10px 28px;background:#0F0E0E;color:#FCFDF8;border:none;cursor:pointer;margin-top:10px;letter-spacing:1px">ENTER</button>
+<div id="er" style="color:#FF4A23;font-size:11px;margin-top:8px;height:16px"></div>
 </div>
-<script>
-function checkPw(){if(document.getElementById("pw").value==="RCA2026"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="block";sessionStorage.setItem("rca_auth","1")}else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus()}}
-function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="block"}else{document.getElementById("pw").focus()}}
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate)}else{initGate()}
-</script>
+<script>function ck(){if(document.getElementById("pw").value==="RCA2026"){document.getElementById("gt").style.display="none";document.getElementById("ap").style.display="block";sessionStorage.setItem("rca_auth","1")}else{document.getElementById("er").textContent="Incorrect";document.getElementById("pw").value=""}}(function(){if(sessionStorage.getItem("rca_auth")==="1"){var g=document.getElementById("gt"),a=document.getElementById("ap");if(g)g.style.display="none";if(a)a.style.display="block"}})()</script>
 
-<div id="app" style="display:none">
-<nav class="cnav">
-  <a href="/" class="cnav-logo"><img src="/logo_neon.png" alt="Campaign Ops" class="cnav-logo-img">Campaign <span>Ops</span></a>
-  <a href="/" class="cnav-link">Roadmap</a>
-  <a href="/phases.html" class="cnav-link">Phases</a>
-  <a href="/department-inputs.html" class="cnav-link">Department Inputs</a>
-  <a href="/tracker.html" class="cnav-link">Tracker</a>
-  <a href="/workability.html" class="cnav-link active">Workability</a>
-  <a href="/resources.html" class="cnav-link">Resources</a>
+<div id="ap" style="display:none">
+<nav class="cn">
+<a href="/" class="cl"><img src="/logo_neon.png" alt="">Campaign <span>Ops</span></a>
+<a href="/" class="nl">Roadmap</a>
+<a href="/phases.html" class="nl">Phases</a>
+<a href="/department-inputs.html" class="nl">Department Inputs</a>
+<a href="/tracker.html" class="nl">Tracker</a>
+<a href="/workability.html" class="nl ac">Workability</a>
+<a href="/resources.html" class="nl">Resources</a>
 </nav>
-
-<div class="container">
-  <div class="header">
-    <div class="header-label">Campaign Ops · Workability Check</div>
-    <h1>Clearance Status</h1>
-    <div class="sub">Per artist, per track. Sample clearance + side artist + overall workability.</div>
-  </div>
-  <div class="file-inputs">
-    <div class="file-box" id="fbBL"><div class="fb-label">B&amp;L Samples</div><div class="fb-status" id="fbBLs">Drop .xlsx</div><input type="file" id="fiBL" accept=".xlsx,.xls,.xlsm"></div>
-    <div class="file-box" id="fbRW"><div class="fb-label">Release Runway</div><div class="fb-status" id="fbRWs">Optional — dates</div><input type="file" id="fiRW" accept=".xlsx,.xls,.xlsm"></div>
-    <div class="file-box" id="fbSA"><div class="fb-label">Side Artist</div><div class="fb-status" id="fbSAs">Optional</div><input type="file" id="fiSA" accept=".xlsx,.xls,.xlsm"></div>
-  </div>
-  <div class="results" id="results">
-    <div class="legend">
-      <div class="legend-item"><span class="ldot" style="background:var(--green-dot)"></span> Cleared</div>
-      <div class="legend-item"><span class="ldot" style="background:var(--amber-dot)"></span> In progress</div>
-      <div class="legend-item"><span class="ldot" style="background:var(--red-dot)"></span> At risk</div>
-      <div class="legend-item"><span class="ldot" style="background:var(--purple-dot)"></span> Side artist not cleared</div>
-      <div class="legend-item"><span class="ldot" style="background:transparent;border:1.5px solid var(--dim)"></span> No side artist / no data</div>
-    </div>
-    <div class="toolbar">
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="pill active" data-filter="all">All</button>
-        <button class="pill" data-filter="risk">At Risk</button>
-        <button class="pill" data-filter="open">Open Items</button>
-      </div>
-      <button class="toggle" id="apToggle">Active Projects Only</button>
-      <button class="btn" id="btnCsv">CSV</button>
-      <button class="btn" id="btnHtml" style="background:var(--secondary);border-color:var(--secondary)">HTML</button>
-    </div>
-    <div class="count-bar" id="countBar"></div>
-    <div id="cardList"></div>
-    <div class="footer">
-      <strong>CAMPAIGN OPS</strong> — B&amp;L sample clearance + Side Artist charts. Roster-filtered. Art = artwork status from Release Runway (Cover/VSC).
-    </div>
-  </div>
+<div class="wrap">
+<div class="hd">
+<div class="hd-l">Campaign Ops · Workability Check</div>
+<h1>Clearance Status</h1>
+<p>Drop source files to build the view. Four signals per release.</p>
 </div>
-</div><!-- /app -->
+<div class="fi">
+<div class="fb" id="f1"><b>B&amp;L Samples</b><em id="s1">Drop .xlsx</em><input type="file" id="i1" accept=".xlsx,.xls,.xlsm"></div>
+<div class="fb" id="f2"><b>Release Runway</b><em id="s2">Drop .xlsx</em><input type="file" id="i2" accept=".xlsx,.xls,.xlsm"></div>
+<div class="fb" id="f3"><b>Side Artist</b><em id="s3">Optional</em><input type="file" id="i3" accept=".xlsx,.xls,.xlsm"></div>
+</div>
+<div class="rs" id="rs">
+<div class="lg">
+<div class="lg-i"><span class="ic g sm"><svg viewBox="0 0 10 10"><path d="M2 5l2 2 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span> Done</div>
+<div class="lg-i"><span class="ic y sm"><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2" fill="#fff"/></svg></span> TBD</div>
+<div class="lg-i"><span class="ic r sm"><svg viewBox="0 0 10 10"><path d="M3 3l4 4M7 3l-4 4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span> At Risk</div>
+<div class="lg-i"><span class="ic x sm"><svg viewBox="0 0 10 10"><path d="M3 5h4" stroke="#bbb" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span> No Data</div>
+</div>
+<div class="tb">
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button class="pl on" data-f="all">All</button>
+<button class="pl" data-f="risk">At Risk</button>
+<button class="pl" data-f="open">Open</button>
+</div>
+<button class="tg" id="apT">Active Projects Only</button>
+<button class="bt" id="bC">CSV</button>
+<button class="bt" id="bH" style="background:var(--sub);border-color:var(--sub)">HTML</button>
+</div>
+<div class="ct" id="ct"></div>
+<div id="ls"></div>
+<div class="ft">Sample clearance (B&amp;L) + Side Artist + Art &amp; Masters (Release Runway). Roster-filtered. Nothing leaves your browser.</div>
+</div>
+</div>
+</div>
 
-<script>(function(){var a=document.getElementById("app"),g=document.getElementById("gate");if(a&&g&&sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="block"}})()</script>
 <script>
+// SVG icons as strings
+const SVG={
+g:'<svg viewBox="0 0 10 10"><path d="M2 5l2 2 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+y:'<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2" fill="#fff"/></svg>',
+r:'<svg viewBox="0 0 10 10"><path d="M3 3l4 4M7 3l-4 4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+x:'<svg viewBox="0 0 10 10"><path d="M3 5h4" stroke="#bbb" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'
+};
+function ico(s,sm){return `<span class="ic ${s}${sm?' sm':''}">${SVG[s]||SVG.x}</span>`;}
+
 const ROSTER=["A$AP Mob","A$AP Rocky","Alex G","Aliyah's Interlude","Ally Salort","Alok","Amy Shark","Ari Abdul","Arima Ederra","ATEEZ","Audrey Hobert","AVAION","Baby J","Becky G","Benitt","BERWYN","Blessing Jolie","Blood Orange","Britney Spears","Bryson Tiller","Buddy Guy","CA7RIEL & Paco Amoroso","Cam","Carter Vail","Cat Burns","Childish Gambino","Chloe Qisha","Chris Brown","cieratherapper","Colter Wall","D'Angelo","DAMEDAME*","Davido","Deante' Hitchcock","Debbii Dawson","Doja Cat","DON WEST","Eem Triplin","Eli","Elle King","Emma Andersen","Ethan Garner","Flo Milli","Foo Fighters","Frances Whitney","Freddie Dredd","Freddie Gibbs & Madlib","Frost Children","girlsweetvoiced","H.E.R.","Hailey Picardi","horsegiirL","I.Am.Lyric","Isabel LaRosa","Isaia Huron","JACOTÉNE","Jade Thirlwall","Jazmine Sullivan","Jharrel Jerome","Joey Valence & Brae","Jourden","Justin Timberlake","Kane Brown","KAYTRANADA","Khalid","King EJ","KNA","kwn","Kygo","Lancey Foux","Latto","LAWSON","LISA","Lizzy McAlpine","Lost Frequencies","Love Spells","LU","Mark Ronson","Matt Champion","Miguel","Myles Smith","NOAH NOAH","Oliver Heldens","Osé","P!NK","Presley Regier","Purple Disco Machine","Ray Vaughn","reggie","RIIZE","Room Full of Mirrors","Sarah Lola","Sasha Keable","Sheff G","Skepta","Skillibeng","Skye Newman","Sleep Token","Sleepy Hallow","Steve Lacy","Suzy Clue","SZA","Tate McRae","Teezo Touchdown","Tele","Tems","The Red Clay Strays","The Strokes","Three Days Grace","TOOL","Tyler Childers","Tyler ICU","Victoria Monét","Walker Hayes","Wolf Alice","Yebba"];
-const AP=["Becky G","Eli","kwn","Hailey Picardi","Blood Orange","Steve Lacy","Latto","horsegiirL","Love Spells","Isabel LaRosa","Victoria Monét","The Red Clay Strays","The Strokes","Frost Children","Elle King","Flo Milli","Audrey Hobert"];
-const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/['']/g,"'");
-const rm=new Map();ROSTER.forEach(n=>rm.set(norm(n),n));
-const apS=new Set(AP.map(n=>norm(n)));
-function mr(tab){const b=tab.replace(/\s*[-–]\s*(LP|EP|Mixtape|Project|Redeliveries|Live|Deluxe|Single|Off-Album|Xmas|Film|Remix).*$/i,'').trim();const k=norm(b);if(rm.has(k))return rm.get(k);if(rm.has('the '+k))return rm.get('the '+k);if(k.startsWith('the ')&&rm.has(k.slice(4)))return rm.get(k.slice(4));for(const[rk,rv]of rm){if(k.includes(rk)||rk.includes(k))return rv;}return null;}
-function mrl(n){if(!n)return null;const k=norm(n.toString().trim());if(rm.has(k))return rm.get(k);for(const[rk,rv]of rm){if(k.includes(rk)||rk.includes(k))return rv;}return null;}
-function isAP(n){return n?apS.has(norm(n)):false;}
-function getCat(v){if(!v)return null;const s=v.toString().trim().toUpperCase(),f=s.split('\n')[0].trim();if(f.includes('TRACK W/ SAMPLE')||f.includes('TRACK W/SAMPLE'))return'SAMPLE';if(f.includes('NO SAMPLE')||f.includes('SAMPLE FREE'))return'CLEAN';if(f.startsWith('EVALUATING')||f.startsWith('EVAUATING'))return'EVAL';if(f.startsWith('AWAITING')||f.startsWith('REQUESTED')||f.startsWith('RELYING')||f.startsWith('SAMPLEREPLAYED'))return'AWAIT';return null;}
-function cs(v){if(!v)return'EMPTY';const s=v.toString().trim().toUpperCase();if(s==='N/A'||s.startsWith('N/A'))return'NA';if(s==='INTERPOLATION'||s.startsWith('INTERPOLATION'))return'INTERP';if(s.includes('DENIED'))return'DENIED';if(s.includes('CONFIRMED')||s.includes(' PAID')||s.startsWith('PAID')||s.includes('FE AGM')||s.includes('AGMT FE')||s.includes('FE AGREEMENT')||s.includes('GRATIS')||s.includes('PUBLIC DOMAIN')||s.includes('NON-COPYRIGHTABLE'))return'CLEAR';if(s.includes('PE AGM')||s.includes('PE AGREEMENT'))return'NEAR';if(s.includes('SAMPLE REMOVED'))return'REMOVED';if(s.length>5)return'PENDING';return'EMPTY';}
-function sok(c){return['CLEAR','NA','INTERP','REMOVED'].includes(c);}
-function pd(s){if(!s)return null;const m=s.toString().match(/(\d{1,2})[\/\.](\d{1,2})[\/\.](\d{2,4})/);if(!m)return null;let y=parseInt(m[3]);if(y<100)y+=2000;return new Date(y,parseInt(m[1])-1,parseInt(m[2]));}
-function worst(a,b){const o={red:0,purple:1,amber:2,green:3,none:4};return o[a]<=o[b]?a:b;}
+const APS=["Becky G","Eli","kwn","Hailey Picardi","Blood Orange","Steve Lacy","Latto","horsegiirL","Love Spells","Isabel LaRosa","Victoria Monét","The Red Clay Strays","The Strokes","Frost Children","Elle King","Flo Milli","Audrey Hobert"];
+const nm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/['']/g,"'");
+const RM=new Map();ROSTER.forEach(n=>RM.set(nm(n),n));
+const APS2=new Set(APS.map(n=>nm(n)));
+function mr(t){const b=t.replace(/\s*[-–]\s*(LP|EP|Mixtape|Project|Redeliveries|Live|Deluxe|Single|Off-Album|Xmas|Film|Remix).*$/i,'').trim();const k=nm(b);if(RM.has(k))return RM.get(k);if(RM.has('the '+k))return RM.get('the '+k);if(k.startsWith('the ')&&RM.has(k.slice(4)))return RM.get(k.slice(4));for(const[rk,rv]of RM){if(k.includes(rk)||rk.includes(k))return rv;}return null;}
+function ml(n){if(!n)return null;const k=nm(n.toString().trim());if(RM.has(k))return RM.get(k);for(const[rk,rv]of RM){if(k.includes(rk)||rk.includes(k))return rv;}return null;}
+function isAP(n){return n?APS2.has(nm(n)):false;}
 function esc(s){return s?s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
 
-let D={artists:{},runwayDates:{},blLoaded:false,saLoaded:false,saArtists:{}};let ST={filter:'all',apOnly:false};
+function gCat(v){if(!v)return null;const s=v.toString().trim().toUpperCase(),f=s.split('\n')[0].trim();if(f.includes('TRACK W/ SAMPLE')||f.includes('TRACK W/SAMPLE'))return'S';if(f.includes('NO SAMPLE')||f.includes('SAMPLE FREE'))return'C';if(f.startsWith('EVALUATING')||f.startsWith('EVAUATING'))return'E';if(f.startsWith('AWAITING')||f.startsWith('REQUESTED')||f.startsWith('RELYING')||f.startsWith('SAMPLEREPLAYED'))return'A';return null;}
+function cSide(v){if(!v)return'X';const s=v.toString().trim().toUpperCase();if(s==='N/A'||s.startsWith('N/A'))return'N';if(s==='INTERPOLATION'||s.startsWith('INTERPOLATION'))return'I';if(s.includes('DENIED'))return'D';if(s.includes('CONFIRMED')||s.includes(' PAID')||s.startsWith('PAID')||s.includes('FE AGM')||s.includes('AGMT FE')||s.includes('FE AGREEMENT')||s.includes('GRATIS')||s.includes('PUBLIC DOMAIN')||s.includes('NON-COPYRIGHTABLE'))return'OK';if(s.includes('PE AGM')||s.includes('PE AGREEMENT'))return'NR';if(s.includes('SAMPLE REMOVED'))return'RM';if(s.length>5)return'P';return'X';}
+function sOK(c){return['OK','N','I','RM'].includes(c);}
+function pD(s){if(!s)return null;const m=s.toString().match(/(\d{1,2})[\/\.](\d{1,2})[\/\.](\d{2,4})/);if(!m)return null;let y=parseInt(m[3]);if(y<100)y+=2000;return new Date(y,parseInt(m[1])-1,parseInt(m[2]));}
 
-function parseBL(wb){const now=new Date(),cutoff=new Date(now.getTime()-365*86400000);D.artists={};D.blLoaded=true;for(const tab of wb.SheetNames){const sheet=wb.Sheets[tab];if(!sheet||!sheet['!ref'])continue;const rn=mr(tab);if(!rn)continue;const r3=sheet[XLSX.utils.encode_cell({r:2,c:0})];let dlDate=null,relDateP=null;if(r3&&r3.v){const t=r3.v.toString();const dm=t.match(/Deadline[:\s]*([^\s].*?)(?:\s{2,}|Release|$)/i);if(dm)dlDate=pd(dm[1]);const rx=t.match(/Release[:\s]*([^\s].*?)$/i);if(rx)relDateP=pd(rx[1]);}const latest=relDateP&&dlDate?(relDateP>dlDate?relDateP:dlDate):(relDateP||dlDate);if(latest&&latest<cutoff)continue;if(!D.artists[rn])D.artists[rn]={name:rn,isAP:isAP(rn),projects:[],tracks:[],inBL:true};else D.artists[rn].inBL=true;const decoded=XLSX.utils.decode_range(sheet['!ref']);for(let r=4;r<=decoded.e.r;r++){const aC=sheet[XLSX.utils.encode_cell({r,c:0})];const cat=getCat(aC?aC.v:null);if(!cat)continue;const bC=sheet[XLSX.utils.encode_cell({r,c:1})];const dC=sheet[XLSX.utils.encode_cell({r,c:3})];const eC=sheet[XLSX.utils.encode_cell({r,c:4})];const song=bC&&bC.v?bC.v.toString().trim().split('\n')[0].replace(/^"|"$/g,'').trim():'';let sS='none',sD='';if(cat==='CLEAN'){sS='green';sD='No sample';}else if(cat==='SAMPLE'){const p=cs(dC?dC.v:null),s=cs(eC?eC.v:null);if(sok(p)&&sok(s)){sS='green';sD='Cleared';}else if(p==='DENIED'||s==='DENIED'){sS='red';sD='Denied';}else if(sok(p)||sok(s)||p==='NEAR'||s==='NEAR'){sS='amber';sD='One side done';}else{sS='red';sD='Both sides pending';}}else if(cat==='EVAL'){sS='amber';sD='Evaluating';}else if(cat==='AWAIT'){sS='amber';sD='Awaiting';}D.artists[rn].tracks.push({song,project:tab.trim(),sS,sD,saS:'none',saD:'',saC:'',cat});}if(!D.artists[rn].projects.includes(tab.trim()))D.artists[rn].projects.push(tab.trim());}}
+let D={a:{},rw:{},blOK:false,saOK:false,saA:{}};
+let ST={f:'all',ap:false};
 
-function parseSA(wb){D.saLoaded=true;D.saArtists={};const sheets=['RCA Side In ','RCA Side In','RCA Side Out ','RCA Side Out'];for(const sn of sheets){if(!wb.Sheets[sn])continue;const sheet=wb.Sheets[sn];const decoded=XLSX.utils.decode_range(sheet['!ref']);const dir=sn.includes('In')?'in':'out';for(let r=1;r<=decoded.e.r;r++){const a=sheet[XLSX.utils.encode_cell({r,c:1})];const w=sheet[XLSX.utils.encode_cell({r,c:2})];const s=sheet[XLSX.utils.encode_cell({r,c:3})];const c=sheet[XLSX.utils.encode_cell({r,c:12})];if(!a||!a.v)continue;const rn=mrl(a.v);if(!rn)continue;const cmt=c&&c.v?c.v.toString().trim():'';const cleared=cmt.toLowerCase().includes('cleared')||cmt.toLowerCase().includes('gratis')||(/approved/i.test(cmt)&&!/awaiting/i.test(cmt));if(!D.saArtists[rn])D.saArtists[rn]={total:0,cleared:0};D.saArtists[rn].total++;if(cleared){D.saArtists[rn].cleared++;continue;}if(!D.artists[rn])D.artists[rn]={name:rn,isAP:isAP(rn),projects:[],tracks:[]};const songName=s&&s.v?s.v.toString().trim():'';const withName=w&&w.v?w.v.toString().trim():'';const existing=D.artists[rn].tracks.find(t=>t.song&&songName&&t.song.toLowerCase()===songName.toLowerCase());if(existing){existing.saS='purple';existing.saD=`${dir==='in'?'On':'Feat.'} ${withName}`;existing.saC=cmt;}else{D.artists[rn].tracks.push({song:songName,project:dir==='in'?'Side In':'Side Out',sS:'none',sD:'',saS:'purple',saD:`${dir==='in'?'On':'Feat.'} ${withName}`,saC:cmt,cat:'SA'});}}}}
+function pBL(wb){const now=new Date(),cut=new Date(now.getTime()-365*86400000);D.a={};D.blOK=true;
+for(const tab of wb.SheetNames){const sh=wb.Sheets[tab];if(!sh||!sh['!ref'])continue;const rn=mr(tab);if(!rn)continue;
+const r3=sh[XLSX.utils.encode_cell({r:2,c:0})];let dD=null,rD=null;
+if(r3&&r3.v){const t=r3.v.toString();const dm=t.match(/Deadline[:\s]*([^\s].*?)(?:\s{2,}|Release|$)/i);if(dm)dD=pD(dm[1]);const rx=t.match(/Release[:\s]*([^\s].*?)$/i);if(rx)rD=pD(rx[1]);}
+const lt=rD&&dD?(rD>dD?rD:dD):(rD||dD);if(lt&&lt<cut)continue;
+if(!D.a[rn])D.a[rn]={n:rn,ap:isAP(rn),p:[],t:[],bl:true};else D.a[rn].bl=true;
+const dec=XLSX.utils.decode_range(sh['!ref']);
+for(let r=4;r<=dec.e.r;r++){const aC=sh[XLSX.utils.encode_cell({r,c:0})];const cat=gCat(aC?aC.v:null);if(!cat)continue;
+const bC=sh[XLSX.utils.encode_cell({r,c:1})];const song=bC&&bC.v?bC.v.toString().trim().split('\n')[0].replace(/^"|"$/g,'').trim():'';
+let sig='g',det='No sample';
+if(cat==='S'){const p=cSide(sh[XLSX.utils.encode_cell({r,c:3})]?sh[XLSX.utils.encode_cell({r,c:3})].v:null),s=cSide(sh[XLSX.utils.encode_cell({r,c:4})]?sh[XLSX.utils.encode_cell({r,c:4})].v:null);
+if(sOK(p)&&sOK(s)){sig='g';det='Cleared';}else if(p==='D'||s==='D'){sig='r';det='Denied';}else if(sOK(p)||sOK(s)||p==='NR'||s==='NR'){sig='y';det='One side done';}else{sig='r';det='Both pending';}}
+else if(cat==='E'){sig='y';det='Evaluating';}
+else if(cat==='A'){sig='y';det='Awaiting';}
+D.a[rn].t.push({s:song,pr:tab.trim(),sig,det,cat});}
+if(!D.a[rn].p.includes(tab.trim()))D.a[rn].p.push(tab.trim());}}
 
-function getArtists(){let list=Object.values(D.artists);if(ST.apOnly)list=list.filter(a=>a.isAP);list=list.filter(a=>a.tracks.some(t=>t.cat!=='CLEAN')||D.runwayDates[a.name]);if(ST.filter==='risk')list=list.filter(a=>a.tracks.some(t=>t.sS==='red'||t.saS==='purple')||artSig(a.name)==='red');if(ST.filter==='open')list=list.filter(a=>a.tracks.some(t=>(t.sS!=='green'&&t.sS!=='none')||t.saS==='purple')||artSig(a.name)==='red'||artSig(a.name)==='amber');const sigVal=s=>({red:0,purple:1,amber:2,green:3,none:4}[s]||4);list.sort((a,b)=>{const aw=Math.min(sigVal(artSig(a.name)),...a.tracks.map(t=>sigVal(worst(t.sS,t.saS))));const bw=Math.min(sigVal(artSig(b.name)),...b.tracks.map(t=>sigVal(worst(t.sS,t.saS))));return aw-bw;});return list;}
+function pRW(wb){D.rw={};const sh=wb.Sheets[wb.SheetNames[0]];if(!sh||!sh['!ref'])return;
+const dec=XLSX.utils.decode_range(sh['!ref']);
+for(let r=4;r<=dec.e.r;r++){const art=sh[XLSX.utils.encode_cell({r,c:1})];if(!art||!art.v)continue;
+const rn=ml(art.v);if(!rn)continue;
+const rd=sh[XLSX.utils.encode_cell({r,c:0})];const ti=sh[XLSX.utils.encode_cell({r,c:2})];
+const aC=sh[XLSX.utils.encode_cell({r,c:55})];const mC=sh[XLSX.utils.encode_cell({r,c:57})];
+const rdv=rd&&rd.v?rd.v.toString().trim():'';const tv=ti&&ti.v?ti.v.toString().trim():'';
+const av=aC&&aC.v?aC.v.toString().trim():'';const mv=mC&&mC.v?mC.v.toString().trim():'';
+const key=rn+'|'+tv;
+if(!D.rw[key])D.rw[key]={rn,ti:tv,dt:rdv,art:av,mas:mv};
+if(!D.a[rn])D.a[rn]={n:rn,ap:isAP(rn),p:[],t:[]};
+if(tv&&!D.a[rn].p.includes(tv))D.a[rn].p.push(tv);}}
 
-function artSig(n){const rd=D.runwayDates[n];if(!rd||!rd.art)return'none';const a=rd.art.toLowerCase();if(a==='done')return'green';if(a==='waiting')return'amber';if(a==='required')return'red';return'none';}function artistSignal(a){const worstOf=arr=>{let w='none';for(const s of arr)w=worst(w,s);return w;};let ss='none';if(a.inBL){const sampleTracks=a.tracks.filter(t=>t.cat!=='CLEAN'&&t.cat!=='SA');if(sampleTracks.length===0)ss='green';else ss=worstOf(sampleTracks.map(t=>t.sS));if(ss==='none')ss='green';}let sa='none';if(D.saLoaded&&D.saArtists[a.name]){const sad=D.saArtists[a.name];sa=sad.cleared===sad.total?'green':'purple';}const ar=artSig(a.name);return{sample:ss,sa,art:ar};}
+function pSA(wb){D.saOK=true;D.saA={};
+const sheets=['RCA Side In ','RCA Side In','RCA Side Out ','RCA Side Out'];
+for(const sn of sheets){if(!wb.Sheets[sn])continue;const sh=wb.Sheets[sn];const dec=XLSX.utils.decode_range(sh['!ref']);
+const dir=sn.includes('In')?'in':'out';
+for(let r=1;r<=dec.e.r;r++){const a=sh[XLSX.utils.encode_cell({r,c:1})];if(!a||!a.v)continue;const rn=ml(a.v);if(!rn)continue;
+const w=sh[XLSX.utils.encode_cell({r,c:2})];const s=sh[XLSX.utils.encode_cell({r,c:3})];const c=sh[XLSX.utils.encode_cell({r,c:12})];
+const cmt=c&&c.v?c.v.toString().trim():'';
+const clr=cmt.toLowerCase().includes('cleared')||cmt.toLowerCase().includes('gratis')||(/approved/i.test(cmt)&&!/awaiting/i.test(cmt));
+if(!D.saA[rn])D.saA[rn]={tot:0,clr:0};D.saA[rn].tot++;if(clr){D.saA[rn].clr++;continue;}
+if(!D.a[rn])D.a[rn]={n:rn,ap:isAP(rn),p:[],t:[]};
+const sn2=s&&s.v?s.v.toString().trim():'';const wn=w&&w.v?w.v.toString().trim():'';
+D.a[rn].t.push({s:sn2,pr:dir==='in'?'Side In':'Side Out',sig:'g',det:'',cat:'SA',saW:wn,saDir:dir});}}}
 
-function render(){const all=ST.apOnly?Object.values(D.artists).filter(a=>a.isAP):Object.values(D.artists);const artists=getArtists();const rc=all.filter(a=>a.tracks.some(t=>t.sS==='red')).length;const sac=all.filter(a=>a.tracks.some(t=>t.saS==='purple')).length;document.getElementById('countBar').innerHTML=`<strong>${artists.length}</strong> artists shown · <strong>${rc}</strong> with sample risk · <strong>${sac}</strong> with open features`;const el=document.getElementById('cardList');if(!artists.length){el.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)">No matches.</div>';return;}let html='';for(const a of artists){const sig=artistSignal(a);const barClass=worst(worst(sig.sample,sig.sa),sig.art);const barFinal=barClass==='none'?'gray':barClass;const apB=a.isAP?'<span class="ap-badge">AP</span>':'';const actionTracks=a.tracks.filter(t=>{if(t.cat==='CLEAN')return false;if(ST.filter==='risk')return t.sS==='red'||t.saS==='purple';if(ST.filter==='open')return(t.sS!=='green'&&t.sS!=='none')||t.saS==='purple';return true;});html+=`<div class="artist-card"><div class="artist-head"><div class="signal-bar ${barFinal}"></div><div class="artist-info"><div class="artist-name">${esc(a.name)}${apB}</div><div class="artist-meta">${a.projects.map(p=>esc(p)).join(' · ')}${D.runwayDates[a.name]?' · <strong>'+esc(D.runwayDates[a.name].releaseDate)+'</strong>':''}</div></div><div class="artist-signals"><div class="sig-col"><div class="sig-label">Sample</div><span class="dot ${sig.sample}"></span></div><div class="sig-col"><div class="sig-label">Side Artist</div>${sig.sa==="green"?"<span class=\"sa-status cleared\">Cleared</span>":sig.sa==="purple"?"<span class=\"sa-status not-cleared\">Not Cleared</span>":"<span class=\"sa-status no-sa\">No Side Artist</span>"}</div><div class="sig-col"><div class="sig-label">Art</div><span class="dot ${sig.art}"></span></div></div></div>`;if(actionTracks.length){html+=`<div class="track-list"><table><thead><tr><th>Track</th><th class="tc">Sample</th><th class="tc">Side Artist</th><th class="tc">Art</th></tr></thead><tbody>`;for(const t of actionTracks){const aS=artSig(a.name);html+=`<tr><td><div class="track-name">${esc(t.song)||'(untitled)'}</div>${t.saD?'<div class="sa-label">'+esc(t.saD)+'</div>':''}${t.sD?'<div class="track-sub">'+esc(t.sD)+''}</td><td class="tc"><span class="sdot ${t.sS}"></span></td><td class="tc">${t.saS==="purple"?"<span class=\"sa-status not-cleared\">Not Cleared</span>":"<span class=\"sa-status no-sa\">—</span>"}</td><td class="tc"><span class="sdot ${aS}"></span></td></tr>`;}html+=`</tbody></table></div>`;}html+=`</div>`;}el.innerHTML=html;}
+// KPI functions
+function kS(a){if(!a.bl)return'x';const st=a.t.filter(t=>t.cat!=='SA');if(!st.length)return'g';const sigs=st.map(t=>t.sig);if(sigs.includes('r'))return'r';if(sigs.includes('y'))return'y';return'g';}
+function kSA(rn){if(!D.saOK)return'x';const d=D.saA[rn];if(!d)return'x';return d.clr===d.tot?'g':'r';}
+function saLbl(rn){if(!D.saOK)return{t:'—',c:'n'};const d=D.saA[rn];if(!d)return{t:'None',c:'n'};return d.clr===d.tot?{t:'Cleared',c:'g'}:{t:'Open',c:'r'};}
+function kA(rn){for(const v of Object.values(D.rw)){if(v.rn===rn){const a=v.art.toLowerCase();if(a==='done')return'g';if(a==='waiting')return'y';if(a==='required')return'r';}}return'x';}
+function kM(rn){for(const v of Object.values(D.rw)){if(v.rn===rn){const m=v.mas.toLowerCase();if(m==='done')return'g';if(m==='partial')return'y';if(m==='required')return'r';}}return'x';}
+function w4(a,b,c,d){const o={r:0,y:1,g:2,x:3};return['r','y','g','x'][Math.min(o[a]||3,o[b]||3,o[c]||3,o[d]||3)];}
 
-function downloadCsv(){const h=['Artist','Track','Sample','Side Artist','Art','Sample Detail','SA Detail'];const rows=[];for(const a of Object.values(D.artists)){for(const t of a.tracks){if(t.cat==='CLEAN')continue;rows.push([a.name,t.song,t.sS,t.saS,artSig(a.name),t.sD,t.saD+''}}const csv=[h,...rows].map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Workability_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.csv`;a.click();}
+function getList(){let ls=Object.values(D.a);
+if(ST.ap)ls=ls.filter(a=>a.ap);
+ls=ls.filter(a=>a.t.length>0||Object.keys(D.rw).some(k=>D.rw[k].rn===a.n));
+if(ST.f==='risk')ls=ls.filter(a=>kS(a)==='r'||kSA(a.n)==='r'||kA(a.n)==='r'||kM(a.n)==='r');
+if(ST.f==='open')ls=ls.filter(a=>{const w=w4(kS(a),kSA(a.n),kA(a.n),kM(a.n));return w==='r'||w==='y';});
+const o={r:0,y:1,g:2,x:3};
+ls.sort((a,b)=>(o[w4(kS(a),kSA(a.n),kA(a.n),kM(a.n))]||3)-(o[w4(kS(b),kSA(b.n),kA(b.n),kM(b.n))]||3));
+return ls;}
 
-function loadF(parseFn,sEl,bEl,labelFn){return function(file){document.getElementById(sEl).textContent='Parsing...';const reader=new FileReader();reader.onload=(e)=>{try{const wb=XLSX.read(e.target.result,{type:'array'});parseFn(wb);document.getElementById(bEl).classList.add('loaded');document.getElementById(sEl).textContent=`✓ ${labelFn()}`;render();document.getElementById('results').classList.add('visible');}catch(err){document.getElementById(sEl).textContent=`Error: ${err.message}`;}};reader.readAsArrayBuffer(file);};}
-document.getElementById('fiBL').addEventListener('change',e=>{if(e.target.files.length)loadF(parseBL,'fbBLs','fbBL',()=>Object.keys(D.artists).length+' artists')(e.target.files[0]);});
-document.getElementById('fiRW').addEventListener('change',e=>{if(e.target.files.length){document.getElementById('fbRWs').textContent='Parsing...';const reader=new FileReader();reader.onload=(ev)=>{try{const wb=XLSX.read(ev.target.result,{type:'array'});const sheet=wb.Sheets[wb.SheetNames[0]];if(!sheet||!sheet['!ref']){document.getElementById('fbRWs').textContent='No data';return;}const decoded=XLSX.utils.decode_range(sheet['!ref']);let ct=0;for(let r=4;r<=decoded.e.r;r++){const artist=sheet[XLSX.utils.encode_cell({r,c:1})];const relDate=sheet[XLSX.utils.encode_cell({r,c:0})];const wkDL=sheet[XLSX.utils.encode_cell({r,c:17})];const artC=sheet[XLSX.utils.encode_cell({r,c:55})];if(!artist||!artist.v)continue;const rn=mrl(artist.v);if(!rn)continue;const rd=relDate&&relDate.v?relDate.v.toString().trim():'';const wk=wkDL&&wkDL.v?wkDL.v.toString().trim():'';const artV=artC&&artC.v?artC.v.toString().trim():'';if(!D.runwayDates[rn]||rd<(D.runwayDates[rn].releaseDate||'zzz')){D.runwayDates[rn]={releaseDate:rd,wkDeadline:wk,art:artV};ct++;}if(!D.artists[rn])D.artists[rn]={name:rn,isAP:isAP(rn),projects:[rd?'Release '+rd:'Runway'],tracks:[]};}document.getElementById('fbRW').classList.add('loaded');document.getElementById('fbRWs').textContent=`✓ ${ct} artists matched`;render();document.getElementById('results').classList.add('visible');}catch(err){document.getElementById('fbRWs').textContent=`Error: ${err.message}`;}};reader.readAsArrayBuffer(e.target.files[0]);}});
-document.getElementById('fiSA').addEventListener('change',e=>{if(e.target.files.length)loadF(parseSA,'fbSAs','fbSA',()=>{let t=0;for(const a of Object.values(D.artists))t+=a.tracks.filter(x=>x.saS==='purple').length;return t+' open';})(e.target.files[0]);});
-document.getElementById('btnCsv').addEventListener('click',downloadCsv);
-document.getElementById('btnHtml').addEventListener('click',function(){
-  const css=document.querySelector('style').textContent;
-  const date=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  const cards=document.getElementById('cardList').innerHTML;
-  const counts=document.getElementById('countBar').innerHTML;
-  const legend=document.querySelector('.legend').outerHTML;
-  const html=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Workability — ${date}</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>${css}</style></head><body><div class="container"><div class="header"><div class="header-label">Campaign Ops · Workability Check</div><h1>Clearance Status</h1><div class="sub">Snapshot — ${date}</div></div>${legend}<div class="count-bar">${counts}</div>${cards}<div class="footer"><strong>CAMPAIGN OPS</strong> — B&amp;L sample clearance + Side Artist charts + Release Runway art status. Roster-filtered.</div></div></body></html>`;
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=`Workability_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.html`;a.click();
-});
-document.getElementById('apToggle').addEventListener('click',function(){ST.apOnly=!ST.apOnly;this.classList.toggle('active');render();});
-document.querySelectorAll('.pill').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');ST.filter=p.dataset.filter;render();});});
+function render(){const all=ST.ap?Object.values(D.a).filter(a=>a.ap):Object.values(D.a);
+const ls=getList();const rc=all.filter(a=>w4(kS(a),kSA(a.n),kA(a.n),kM(a.n))==='r').length;
+document.getElementById('ct').innerHTML=`<strong>${ls.length}</strong> artists · <strong>${rc}</strong> with issues`;
+const el=document.getElementById('ls');
+if(!ls.length){el.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)">No matches.</div>';return;}
+let h='';
+for(const a of ls){const ks=kS(a),ksa=kSA(a.n),ka=kA(a.n),km=kM(a.n);
+const apB=a.ap?'<span class="ap">AP</span>':'';
+const sal=saLbl(a.n);
+const trks=a.t.filter(t=>t.cat!=='C');
+
+h+=`<div class="cd"><div class="cd-h" data-n="${esc(a.n)}">
+<div><div class="cd-n">${esc(a.n)}${apB}</div><div class="cd-m">${a.p.slice(0,3).map(p=>esc(p)).join(' · ')}</div></div>
+<div class="cd-k">
+<div class="kp"><div class="kp-l">Sample</div>${ico(ks)}</div>
+<div class="kp"><div class="kp-l">Side Art.</div><span class="sa-t ${sal.c}">${sal.t}</span></div>
+<div class="kp"><div class="kp-l">Art</div>${ico(ka)}</div>
+<div class="kp"><div class="kp-l">Masters</div>${ico(km)}</div>
+</div></div>`;
+
+if(trks.length){
+h+=`<div class="rl"><div class="rh"><span>Track</span><span>Samp</span><span>SA</span><span>Art</span><span>Mstr</span></div>`;
+for(const t of trks){const tsa=t.cat==='SA'?'r':'x';
+h+=`<div class="rr"><div><div class="rr-t">${esc(t.s)||'(untitled)'}</div>${t.cat==='SA'?'<div class="rr-sa">'+(t.saDir==='in'?'On':'Feat.')+' '+esc(t.saW)+'</div>':''}${t.det?'<div class="rr-s">'+esc(t.det)+'</div>':''}</div>
+<div class="rc">${ico(t.sig,1)}</div><div class="rc">${ico(tsa,1)}</div><div class="rc">${ico(ka,1)}</div><div class="rc">${ico(km,1)}</div></div>`;}
+h+=`</div>`;}
+h+=`</div>`;}
+el.innerHTML=h;
+el.querySelectorAll('.cd-h').forEach(ch=>{ch.addEventListener('click',()=>{const rl=ch.parentElement.querySelector('.rl');if(rl)rl.classList.toggle('open');});});}
+
+function dlC(){const hd=['Artist','Track','Sample','Side Artist','Art','Masters'];const rows=[];
+for(const a of Object.values(D.a)){const ka=kA(a.n),km=kM(a.n),sal=saLbl(a.n);
+for(const t of a.t){if(t.cat==='C')continue;rows.push([a.n,t.s,{g:'Clear',y:'TBD',r:'At Risk',x:'—'}[t.sig],sal.t,{g:'Done',y:'Waiting',r:'Required',x:'—'}[ka],{g:'Done',y:'Partial',r:'Required',x:'—'}[km]]);}}
+const csv=[hd,...rows].map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Workability_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.csv`;a.click();}
+
+function dlH(){const css=document.querySelector('style').textContent;const dt=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const cards=document.getElementById('ls').innerHTML;const counts=document.getElementById('ct').innerHTML;const legend=document.querySelector('.lg').outerHTML;
+const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Workability — ${dt}</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>${css}</style></head><body><div class="wrap"><div class="hd"><div class="hd-l">Workability Check</div><h1>Clearance Status</h1><p>Snapshot — ${dt}</p></div>${legend}<div class="ct">${counts}</div>${cards}</div></body></html>`;
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=`Workability_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.html`;a.click();}
+
+function ldF(fn,sI,bI,lF){return function(f){document.getElementById(sI).textContent='Parsing...';const r=new FileReader();r.onload=e=>{try{const wb=XLSX.read(e.target.result,{type:'array'});fn(wb);document.getElementById(bI).classList.add('ok');document.getElementById(sI).textContent='\u2713 '+lF();render();document.getElementById('rs').classList.add('v');}catch(err){document.getElementById(sI).textContent='Error: '+err.message;}};r.readAsArrayBuffer(f);};}
+
+document.getElementById('i1').addEventListener('change',e=>{if(e.target.files.length)ldF(pBL,'s1','f1',()=>Object.keys(D.a).length+' artists')(e.target.files[0]);});
+document.getElementById('i2').addEventListener('change',e=>{if(e.target.files.length)ldF(pRW,'s2','f2',()=>Object.keys(D.rw).length+' releases')(e.target.files[0]);});
+document.getElementById('i3').addEventListener('change',e=>{if(e.target.files.length)ldF(pSA,'s3','f3',()=>{let t=0;for(const v of Object.values(D.saA))t+=v.tot-v.clr;return t+' open';})(e.target.files[0]);});
+document.getElementById('bC').addEventListener('click',dlC);
+document.getElementById('bH').addEventListener('click',dlH);
+document.getElementById('apT').addEventListener('click',function(){ST.ap=!ST.ap;this.classList.toggle('on');render();});
+document.querySelectorAll('.pl').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pl').forEach(x=>x.classList.remove('on'));p.classList.add('on');ST.f=p.dataset.f;render();});});
 </script>
 </body>
 </html>
