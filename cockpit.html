@@ -389,6 +389,20 @@
     background: var(--bg);
     border: 1px dashed var(--border);
     padding: 3px 8px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .integration-tag[data-kind="live"] {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-style: solid;
+  }
+  .integration-tag[data-kind="error"] {
+    color: var(--flame);
+    border-color: var(--flame);
+  }
+  .integration-tag[data-kind="loading"] {
+    color: var(--label);
+    opacity: 0.6;
   }
 </style>
 </head>
@@ -461,7 +475,7 @@
 
 </div>
 
-<div class="integration-tag">Demo · Data slots awaiting Airtable integration</div>
+<div class="integration-tag" id="dataTag">Loading live data…</div>
 
 <script>
 // Default 3 KPI slots — Crawley defines actual KPIs in production
@@ -471,7 +485,7 @@ const DEFAULT_KPIS = [
   { label: "DSP", value: null, meta: "TBD" }
 ];
 
-const sections = [
+const sections_demo = [
   {
     label: "Section 01 · Upcoming / Recent Releases", short: "S1",
     artists: [
@@ -665,11 +679,16 @@ const sections = [
   }
 ];
 
-// Flatten artists
-const flat = [];
-sections.forEach((sec, sIdx) => {
-  sec.artists.forEach(a => flat.push({ ...a, sectionIdx: sIdx }));
-});
+// Live sections (starts as demo, replaced after fetch on success)
+let sections = sections_demo;
+let flat = [];
+function rebuildFlat() {
+  flat = [];
+  sections.forEach((sec, sIdx) => {
+    sec.artists.forEach(a => flat.push({ ...a, sectionIdx: sIdx }));
+  });
+}
+rebuildFlat();
 
 let currentIdx = 0;
 
@@ -831,8 +850,104 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-buildWall();
-render();
+// ────────────────────────────────────────────────────────────────
+// Live data loader
+// ────────────────────────────────────────────────────────────────
+// On load, tries to fetch /api/cockpit-data with a password from
+// sessionStorage. If missing, prompts once. On success, replaces
+// `sections` with live data. On failure, falls back to demo data
+// already loaded — the cockpit still works.
+//
+// Bypass with ?demo in the URL to skip the fetch entirely.
+
+function setTag(text, kind) {
+  const el = document.getElementById('dataTag');
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.kind = kind || '';
+}
+
+function formatGenTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const h = d.getHours();
+  const m = d.getMinutes().toString().padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  return `${h % 12 || 12}:${m} ${ampm}`;
+}
+
+async function tryFetchCockpit() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('demo')) {
+    setTag('Demo · ?demo URL flag', 'demo');
+    return null;
+  }
+
+  let pwd = sessionStorage.getItem('cockpitPwd');
+  if (!pwd) {
+    pwd = window.prompt('Cockpit password (or Cancel to use demo data):');
+    if (!pwd) {
+      setTag('Demo · password skipped', 'demo');
+      return null;
+    }
+    sessionStorage.setItem('cockpitPwd', pwd);
+  }
+
+  try {
+    const res = await fetch('/api/cockpit-data', {
+      headers: { 'X-Grid-Password': pwd },
+    });
+
+    if (res.status === 401) {
+      sessionStorage.removeItem('cockpitPwd');
+      setTag('Demo · wrong password (reload to retry)', 'error');
+      return null;
+    }
+    if (res.status === 500) {
+      const j = await res.json().catch(() => ({}));
+      if (j.error === 'misconfigured') {
+        setTag(`Demo · env vars not set (${(j.missing || []).join(', ')})`, 'error');
+      } else {
+        setTag('Demo · fetch error 500', 'error');
+      }
+      return null;
+    }
+    if (!res.ok) {
+      setTag(`Demo · fetch error ${res.status}`, 'error');
+      return null;
+    }
+
+    const data = await res.json();
+    if (!data || !Array.isArray(data.sections) || data.sections.length === 0) {
+      setTag('Demo · empty response', 'error');
+      return null;
+    }
+    return data;
+  } catch (e) {
+    setTag('Demo · network error', 'error');
+    console.error('cockpit fetch failed:', e);
+    return null;
+  }
+}
+
+async function init() {
+  buildWall();
+  render();
+  setTag('Loading live data…', 'loading');
+
+  const live = await tryFetchCockpit();
+  if (live) {
+    sections = live.sections;
+    rebuildFlat();
+    currentIdx = Math.min(currentIdx, flat.length - 1);
+    buildWall();
+    render();
+    const when = formatGenTime(live.generated_at);
+    setTag(`Live · pulled ${when}`, 'live');
+  }
+}
+
+init();
 </script>
 
 </body>
