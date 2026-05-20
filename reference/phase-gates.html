@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase Gate Checklists · DRAFT (Light)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+    --bg: #F5F4EC;
+    --card: #FFFFFF;
+    --card-2: #ECEAE0;
+    --text: #0F0E0E;
+    --text-2: #3E3F41;
+    --chartreuse: #8FA82A;
+    --chartreuse-fill: #CDF851;
+    --flame: #B33113;
+    --flame-fill: #FF4A23;
+    --slate: #C8C5BB;
+    --fog: #6B6776;
+    --teal: #2D8A88;
+    --gold: #B58E10;
+    --gold-fill: #E8C547;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 24px 20px 60px;
+    max-width: 980px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .doc-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: 32px;
+    line-height: 1.0;
+    margin-bottom: 12px;
+  }
+  h1 .accent { color: var(--chartreuse); }
+
+  .draft-callout {
+    background: var(--gold-fill);
+    color: var(--text);
+    padding: 10px 14px;
+    margin: 14px 0 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+  .draft-callout strong { font-weight: 900; text-transform: uppercase; letter-spacing: 0.12em; margin-right: 8px; }
+
+  .doc-meta {
+    font-size: 11px;
+    color: var(--fog);
+    border-top: 1px solid var(--slate);
+    padding-top: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .doc-meta strong { color: var(--text); font-weight: 600; }
+
+  .controls { display: flex; gap: 8px; }
+  .ctrl-btn {
+    background: transparent;
+    color: var(--fog);
+    border: 1px solid var(--slate);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ctrl-btn:hover { color: var(--text); border-color: var(--fog); }
+  .ctrl-btn.danger:hover { color: var(--flame); border-color: var(--flame); }
+
+  /* TAB NAV */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--slate);
+    margin-bottom: 28px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    padding-top: 4px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    background: transparent;
+    color: var(--fog);
+    border: none;
+    padding: 12px 18px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.15s, border 0.15s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--chartreuse);
+    border-bottom-color: var(--chartreuse);
+  }
+  .tab-btn .pcount {
+    background: var(--slate);
+    color: var(--text);
+    padding: 2px 6px;
+    font-size: 9px;
+    margin-left: 6px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .tab-btn.active .pcount { background: var(--chartreuse-fill); color: #0F0E0E; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* PHASE HEADER */
+  .phase {
+    margin-bottom: 32px;
+  }
+  .phase-head {
+    border-bottom: 2px solid var(--chartreuse-fill);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .phase-stage {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-bottom: 4px;
+  }
+  .phase-name {
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+  .phase-name .arrow { color: var(--fog); margin: 0 6px; font-weight: 400; }
+  .phase-name .next { color: var(--chartreuse); }
+  .phase-gate {
+    font-size: 13px;
+    color: var(--fog);
+    max-width: 720px;
+    line-height: 1.55;
+  }
+  .phase-gate strong { color: var(--text); font-weight: 600; }
+  .progress {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--slate);
+    max-width: 200px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--chartreuse-fill);
+    width: 0%;
+    transition: width 0.2s;
+  }
+  .progress-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--fog);
+    letter-spacing: 0.1em;
+  }
+
+  /* DEPT GROUP */
+  .dept {
+    background: var(--card);
+    margin-bottom: 12px;
+    padding: 14px 18px 16px;
+    border-left: 2px solid var(--slate);
+  }
+  .dept-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--slate);
+  }
+  .dept-name {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--chartreuse);
+  }
+  .dept-count {
+    font-size: 10px;
+    color: var(--fog);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .dept.ops { border-left-color: var(--flame-fill); }
+  .dept.ops .dept-name { color: var(--flame); }
+
+  /* CHECKLIST ITEMS */
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+  }
+  ul.checklist li {
+    padding: 5px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  ul.checklist li:hover { background: var(--card-2); padding-left: 4px; }
+  ul.checklist input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--fog);
+    background: transparent;
+    cursor: pointer;
+    flex: 0 0 14px;
+    margin-top: 3px;
+    position: relative;
+    transition: all 0.15s;
+  }
+  ul.checklist input[type="checkbox"]:hover {
+    border-color: var(--chartreuse);
+  }
+  ul.checklist input[type="checkbox"]:checked {
+    background: var(--chartreuse-fill);
+    border-color: var(--chartreuse-fill);
+  }
+  ul.checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -3px;
+    left: 1px;
+    color: var(#0F0E0E);
+    font-size: 13px;
+    font-weight: 900;
+  }
+  ul.checklist .item-label {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  ul.checklist li input:checked + .item-label {
+    color: var(--fog);
+    text-decoration: line-through;
+    text-decoration-color: var(--slate);
+  }
+
+  /* NOTES SECTION */
+  .phase-notes {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--card-2);
+    border-left: 2px solid var(--gold);
+    font-size: 12px;
+    color: var(--fog);
+    line-height: 1.55;
+  }
+  .phase-notes strong { color: var(--gold); font-weight: 700; }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--slate);
+    font-size: 10px;
+    color: var(--fog);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* PRINT — white background, all expanded, page breaks per phase */
+  @media print {
+    body {
+      background: #FFFFFF !important;
+      color: #0F0E0E !important;
+      padding: 0;
+      max-width: none;
+      font-size: 10pt;
+    }
+    .no-print, .tab-nav, .controls { display: none !important; }
+    .draft-callout { background: #E8C547 !important; color: #0F0E0E !important; }
+    .tab-panel { display: block !important; page-break-after: always; }
+    .tab-panel:last-child { page-break-after: auto; }
+    .phase { margin-bottom: 0; }
+    .phase-head { border-bottom-color: #0F0E0E; }
+    .phase-name { color: #0F0E0E; }
+    .phase-name .next { color: #5C7019; }
+    .phase-gate, .phase-stage, .progress-label, .dept-count { color: #545158; }
+    .dept {
+      background: #FFFFFF !important;
+      border: 1px solid #CFCBC1;
+      border-left: 3px solid #5C7019;
+      page-break-inside: avoid;
+      margin-bottom: 8pt;
+      padding: 8pt 10pt;
+    }
+    .dept.ops { border-left-color: #B33113; }
+    .dept-name { color: #5C7019 !important; }
+    .dept.ops .dept-name { color: #B33113 !important; }
+    .dept-head { border-bottom-color: #CFCBC1; }
+    ul.checklist li { padding: 3pt 0; }
+    ul.checklist input[type="checkbox"] {
+      border-color: #0F0E0E !important;
+      width: 12px;
+      height: 12px;
+    }
+    ul.checklist .item-label { color: #0F0E0E !important; font-size: 9.5pt; }
+    .phase-notes {
+      background: #F5F4EC !important;
+      border-left-color: #B58E10;
+      color: #545158;
+    }
+    .phase-notes strong { color: #B58E10; }
+    .progress { display: none; }
+    .doc-meta { color: #545158; border-top-color: #0F0E0E; }
+    footer { color: #545158; border-top-color: #0F0E0E; }
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    body { padding: 18px 14px 50px; }
+    .phase-name { font-size: 22px; }
+    .tab-btn { padding: 10px 12px; font-size: 10.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-eyebrow">Campaign Phases · Operational Gates</div>
+<h1>PHASE GATE <span class="accent">CHECKLISTS</span></h1>
+
+<div class="draft-callout">
+  <strong>Draft v2 · post-Jordan sync</strong> Each phase = what must be true to <em>graduate to the next</em>. Per Jordan: this is the integration of Mapping × Phases — every checklist item carries an implicit owner (the dept section). Final phase renamed Review → Post-Release (maintenance + retro, not just retro). Announce naming TBD — may become Pre-Release in a future pass. Items you check persist in this browser.
+</div>
+
+<div class="doc-meta">
+  <span><strong>Owner:</strong> Campaign Ops · Meg + Gerard</span>
+  <div class="controls">
+    <button class="ctrl-btn no-print" id="print-btn">Print</button>
+    <button class="ctrl-btn danger no-print" id="reset-btn">Reset Checks</button>
+  </div>
+</div>
+
+<div class="tab-nav no-print">
+  <button class="tab-btn active" data-tab="prep">01 · Prep <span class="pcount" id="count-prep">0/0</span></button>
+  <button class="tab-btn" data-tab="plan">02 · Plan <span class="pcount" id="count-plan">0/0</span></button>
+  <button class="tab-btn" data-tab="announce">03 · Announce <span class="pcount" id="count-announce">0/0</span></button>
+  <button class="tab-btn" data-tab="release">04 · Release <span class="pcount" id="count-release">0/0</span></button>
+  <button class="tab-btn" data-tab="postrelease">05 · Post-Release <span class="pcount" id="count-postrelease">0/0</span></button>
+  <button class="tab-btn" data-tab="rca">RCA Framework</button>
+</div>
+
+<!-- ================================================================ -->
+<!-- PHASE 01 · PREP -->
+<!-- ================================================================ -->
+<div class="tab-panel active" id="prep">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Phase 01 · Entry Gate</div>
+      <div class="phase-name">PREP <span class="arrow">→</span> <span class="next">PLAN</span></div>
+      <div class="phase-gate">
+        Onboarding is complete; foundational intake is done; the campaign brief is shareable. <strong>Graduating to Plan</strong> means every department has what it needs to start campaign planning.
+      </div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="prep"></div></div><span class="progress-label" data-progress="prep">0%</span></div>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">A&R</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Deal closed and signed</span></li>
+        <li><input type="checkbox"><span class="item-label">Primary genre confirmed</span></li>
+        <li><input type="checkbox"><span class="item-label">Career tier defined (developing · mid · priority)</span></li>
+        <li><input type="checkbox"><span class="item-label">Artist intake complete — creative direction, references, sonic identity</span></li>
+        <li><input type="checkbox"><span class="item-label">Manager, booking agent, legal rep contacts captured</span></li>
+        <li><input type="checkbox"><span class="item-label">Prep package built and distributed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">A&R Admin</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Roster entry made — CARMA + Sony systems</span></li>
+        <li><input type="checkbox"><span class="item-label">Primary owner country set</span></li>
+        <li><input type="checkbox"><span class="item-label">Contributor / songwriter seed list started</span></li>
+        <li><input type="checkbox"><span class="item-label">Internal workspace IDs generated</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Business Affairs</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Contract executed</span></li>
+        <li><input type="checkbox"><span class="item-label">Key deal terms documented (rate · term · deliverables)</span></li>
+        <li><input type="checkbox"><span class="item-label">Approvals routing identified</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Finance</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Initial budget envelope allocated</span></li>
+        <li><input type="checkbox"><span class="item-label">Business plan revenue target set</span></li>
+        <li><input type="checkbox"><span class="item-label">MMP% target established</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Campaign Lead assigned</span></li>
+        <li><input type="checkbox"><span class="item-label">Initial campaign brief drafted</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase 1 strategy hypothesis documented</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Audience(s) tagged on roster × audience matrix</span></li>
+        <li><input type="checkbox"><span class="item-label">AD lead / coverage assigned</span></li>
+        <li><input type="checkbox"><span class="item-label">Primary lifestyle + genre lookup complete</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Creative direction conversations started</span></li>
+        <li><input type="checkbox"><span class="item-label">Existing photo / video / artwork inventoried</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops" data-phase="prep">
+      <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Briefing distributed to all 13 departments</span></li>
+        <li><input type="checkbox"><span class="item-label">Each department acknowledged receipt</span></li>
+        <li><input type="checkbox"><span class="item-label">Open questions logged</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>PREP</strong> on Artists table</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>Draft notes:</strong> Prep is light by design — onboarding speed matters. The gate question is "can everyone now do their job." If yes, advance. Items you'd add (Pub seed list? Sync placeholder? Catalog audit for existing artists?) — flag and I'll fold in.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PHASE 02 · PLAN -->
+<!-- ================================================================ -->
+<div class="tab-panel" id="plan">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Phase 02 · Entry Gate</div>
+      <div class="phase-name">PLAN <span class="arrow">→</span> <span class="next">ANNOUNCE</span></div>
+      <div class="phase-gate">
+        Music is workable. Plan is locked. Assets are real. Partners are briefed. <strong>Graduating to Announce</strong> means we are ready to schedule and publicly reveal the campaign — this is the operational gate the <em>scheduling checklist</em> defines.
+      </div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="plan"></div></div><span class="progress-label" data-progress="plan">0%</span></div>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">A&R</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Music final — masters approved</span></li>
+        <li><input type="checkbox"><span class="item-label">Mastering complete</span></li>
+        <li><input type="checkbox"><span class="item-label">Track sequence locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Album / EP / Single configuration confirmed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">A&R Admin</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">All clearances confirmed — samples · features · co-publishers</span></li>
+        <li><input type="checkbox"><span class="item-label">Mechanical licenses identified</span></li>
+        <li><input type="checkbox"><span class="item-label">Workability status: green</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Business Affairs</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">All clearances papered (paperwork executed)</span></li>
+        <li><input type="checkbox"><span class="item-label">Feature deals papered</span></li>
+        <li><input type="checkbox"><span class="item-label">Sample clearances papered</span></li>
+        <li><input type="checkbox"><span class="item-label">Producer agreements executed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Finance</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Campaign budget approved</span></li>
+        <li><input type="checkbox"><span class="item-label">MMP% locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Budget by phase allocated</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Campaign plan locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Marketing strategy doc final</span></li>
+        <li><input type="checkbox"><span class="item-label">KPI targets set</span></li>
+        <li><input type="checkbox"><span class="item-label">Activation calendar drafted</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Audience activation plan drafted</span></li>
+        <li><input type="checkbox"><span class="item-label">Campaign Lead has AD lookup in hand</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Cover art final and approved</span></li>
+        <li><input type="checkbox"><span class="item-label">Photo shoot complete</span></li>
+        <li><input type="checkbox"><span class="item-label">Music video plan locked (or pivoted)</span></li>
+        <li><input type="checkbox"><span class="item-label">Content calendar drafted</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Digital / DSP</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">DSP partners briefed — Spotify · Apple · Amazon · YT</span></li>
+        <li><input type="checkbox"><span class="item-label">Pitch materials ready</span></li>
+        <li><input type="checkbox"><span class="item-label">Pre-save URL strategy defined</span></li>
+        <li><input type="checkbox"><span class="item-label">DSP marquee opportunities identified</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Publicity</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Announce strategy locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Press release drafted</span></li>
+        <li><input type="checkbox"><span class="item-label">Press list segmented</span></li>
+        <li><input type="checkbox"><span class="item-label">Embargo timing set</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Radio</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Radio strategy defined (if applicable)</span></li>
+        <li><input type="checkbox"><span class="item-label">Pre-add outreach scoped</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Brand Partnerships</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-announce brand pitches done</span></li>
+        <li><input type="checkbox"><span class="item-label">Active brand deals identified</span></li>
+        <li><input type="checkbox"><span class="item-label">Brand asset pipeline defined</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Sync & Licensing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-release sync push prepared</span></li>
+        <li><input type="checkbox"><span class="item-label">Featured tracks identified for pitch</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">International</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Territory plan defined</span></li>
+        <li><input type="checkbox"><span class="item-label">Lead territories identified</span></li>
+        <li><input type="checkbox"><span class="item-label">Local marketing leads assigned</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">D2C</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">16-week vinyl countdown started (if vinyl in plan)</span></li>
+        <li><input type="checkbox"><span class="item-label">D2C exclusives defined</span></li>
+        <li><input type="checkbox"><span class="item-label">Long Lead Planner populated</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Release Planning / Ops</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Street date locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Schedule in Runway (or pre-Runway green light)</span></li>
+        <li><input type="checkbox"><span class="item-label">DDEX delivery plan set</span></li>
+        <li><input type="checkbox"><span class="item-label">RDX entry confirmed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops" data-phase="plan">
+      <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Cross-dept goal alignment session held</span></li>
+        <li><input type="checkbox"><span class="item-label">Lead times confirmed per partner</span></li>
+        <li><input type="checkbox"><span class="item-label">No outstanding clearance · legal · asset blockers</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>PLAN</strong> on Artists table</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>Draft notes:</strong> This is the densest gate by design — it's the "scheduling checklist" expanded across every department. Plan is where most campaigns silently fail. Items you may want to add: Tour pre-plan? Catalog parallel work? Mgmt sign-off line?
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PHASE 03 · ANNOUNCE -->
+<!-- ================================================================ -->
+<div class="tab-panel" id="announce">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Phase 03 · Entry Gate</div>
+      <div class="phase-name">ANNOUNCE <span class="arrow">→</span> <span class="next">RELEASE</span></div>
+      <div class="phase-gate">
+        Public announce has happened. Announce-to-release window is executing. <strong>Graduating to Release</strong> means we are at street week with every department ready to ship.
+      </div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="announce"></div></div><span class="progress-label" data-progress="announce">0%</span></div>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">A&R</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Music delivered to all required systems</span></li>
+        <li><input type="checkbox"><span class="item-label">Final QC passed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">A&R Admin</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Metadata final and propagated</span></li>
+        <li><input type="checkbox"><span class="item-label">ISRCs / UPCs locked</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Announce executed</span></li>
+        <li><input type="checkbox"><span class="item-label">Pre-save / pre-order momentum tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Announce-to-release activation calendar live</span></li>
+        <li><input type="checkbox"><span class="item-label">Mid-window beats hit — singles · video · content moments</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Audience response tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Targeting adjustments made</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">All release-day assets approved and queued</span></li>
+        <li><input type="checkbox"><span class="item-label">Release-week content calendar locked</span></li>
+        <li><input type="checkbox"><span class="item-label">Live performance assets ready (if applicable)</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Digital / DSP</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-save live and tracking</span></li>
+        <li><input type="checkbox"><span class="item-label">DSP pitches submitted and confirmed</span></li>
+        <li><input type="checkbox"><span class="item-label">Editorial commitments tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Day-1 marquee placements confirmed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Publicity</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Announce coverage secured</span></li>
+        <li><input type="checkbox"><span class="item-label">Release-day pitches teed up</span></li>
+        <li><input type="checkbox"><span class="item-label">TV / late night bookings confirmed (if applicable)</span></li>
+        <li><input type="checkbox"><span class="item-label">Print covers / long-form in pipeline</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Radio</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Adds confirmed for street week (if applicable)</span></li>
+        <li><input type="checkbox"><span class="item-label">Promo radio tour scheduled (if applicable)</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Brand Partnerships</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-release brand activations live</span></li>
+        <li><input type="checkbox"><span class="item-label">Release-week activations queued</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Sync & Licensing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-release sync placements landed (if achievable)</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">International</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Territory announces aligned</span></li>
+        <li><input type="checkbox"><span class="item-label">Local activations in motion</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">D2C</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-orders live</span></li>
+        <li><input type="checkbox"><span class="item-label">Vinyl / physical fulfillment ready</span></li>
+        <li><input type="checkbox"><span class="item-label">D2C-exclusive product configured</span></li>
+        <li><input type="checkbox"><span class="item-label">Email / SMS campaigns scheduled</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Release Planning / Ops</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">All partner deliverables met — DDEX · RDX</span></li>
+        <li><input type="checkbox"><span class="item-label">Workability status: green for street date</span></li>
+        <li><input type="checkbox"><span class="item-label">Production Meeting sign-offs complete</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops" data-phase="announce">
+      <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Day-of-release run-of-show distributed</span></li>
+        <li><input type="checkbox"><span class="item-label">Release-week comms cadence set</span></li>
+        <li><input type="checkbox"><span class="item-label">Escalation path defined</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>ANNOUNCE</strong> on Artists table</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>Draft notes:</strong> Announce is the operational stretch — most assets exist, most decisions are made, the work is in execution discipline. Tour announce timing may need its own line if it's part of the campaign rollout.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PHASE 04 · RELEASE -->
+<!-- ================================================================ -->
+<div class="tab-panel" id="release">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Phase 04 · Entry Gate</div>
+      <div class="phase-name">RELEASE <span class="arrow">→</span> <span class="next">POST-RELEASE</span></div>
+      <div class="phase-gate">
+        Release week is complete. Day-1 / week-1 / week-2 numbers are captured. Real-time reactive work is wrapped. <strong>Graduating to Post-Release</strong> means immediate post-release execution is done and we are ready for the retrospective + ongoing catalog maintenance.
+      </div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="release"></div></div><span class="progress-label" data-progress="release">0%</span></div>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Release executed</span></li>
+        <li><input type="checkbox"><span class="item-label">Day-1, week-1, week-2 numbers captured</span></li>
+        <li><input type="checkbox"><span class="item-label">🔥 Trending flag assessed</span></li>
+        <li><input type="checkbox"><span class="item-label">Reactive marketing decisions made</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Initial audience response analyzed</span></li>
+        <li><input type="checkbox"><span class="item-label">Conversion data captured</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Release-day assets deployed</span></li>
+        <li><input type="checkbox"><span class="item-label">Reactive content shipped (if needed)</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Digital / DSP</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">DSP performance tracked — playlist adds · streams · saves</span></li>
+        <li><input type="checkbox"><span class="item-label">Editorial response logged</span></li>
+        <li><input type="checkbox"><span class="item-label">Wins surfaced externally and internally</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Publicity</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Press hits compiled</span></li>
+        <li><input type="checkbox"><span class="item-label">Coverage assessment done</span></li>
+        <li><input type="checkbox"><span class="item-label">Bookings landed and tracked</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Radio</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Add count tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Spin growth monitored</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Brand Partnerships</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Active campaign performance tracked</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Sync & Licensing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Release-coverage sync momentum assessed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">D2C</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Pre-order fulfillment completed</span></li>
+        <li><input type="checkbox"><span class="item-label">D2C exclusive performance tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Email / SMS metrics captured</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">International</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Territory performance tracked</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Release Planning / Ops</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Post-release reconciliation done</span></li>
+        <li><input type="checkbox"><span class="item-label">Final delivery audits complete</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Finance</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Release-period spend reconciled</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops" data-phase="release">
+      <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Wins logged in retrospective doc</span></li>
+        <li><input type="checkbox"><span class="item-label">Blockers and learnings logged</span></li>
+        <li><input type="checkbox"><span class="item-label">Carry-forwards identified</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>RELEASE</strong> on Artists table</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>Draft notes:</strong> Release is short and intense. The gate is about discipline — did we capture what actually happened. If we skip this gate we lose the data that fuels Post-Release.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PHASE 05 · POST-RELEASE -->
+<!-- ================================================================ -->
+<div class="tab-panel" id="postrelease">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Phase 05 · Closing Gate</div>
+      <div class="phase-name">POST-RELEASE <span class="arrow">→</span> <span class="next">CLOSE</span></div>
+      <div class="phase-gate">
+        Catalog maintenance is in motion. Retrospectives are complete. 30 · 60 · 90 numbers are captured. Lessons are documented. Catalog plan is set. <strong>Closing the campaign</strong> means it lives as institutional knowledge — not as an open loop. The phase is named Post-Release (not Review) because it's both reflection <em>and</em> ongoing maintenance.
+      </div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="postrelease"></div></div><span class="progress-label" data-progress="postrelease">0%</span></div>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">30 / 60 / 90 numbers captured</span></li>
+        <li><input type="checkbox"><span class="item-label">Campaign retrospective complete</span></li>
+        <li><input type="checkbox"><span class="item-label">ROI / KPI achievement vs. targets documented</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Audience growth + engagement post-release analyzed</span></li>
+        <li><input type="checkbox"><span class="item-label">Insights captured for next campaign</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Catalog content plan set</span></li>
+        <li><input type="checkbox"><span class="item-label">Anniversary / re-promo calendar drafted</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Digital / DSP</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Catalog DSP strategy set</span></li>
+        <li><input type="checkbox"><span class="item-label">Re-pitch opportunities flagged</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Publicity</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Long-tail press opportunities flagged — year-end · awards</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Radio</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Catalog radio play tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Re-emphasis tracks identified</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Brand Partnerships</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Active brand deals through completion</span></li>
+        <li><input type="checkbox"><span class="item-label">Renewal / expansion conversations started</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Sync & Licensing</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Sync momentum sustained</span></li>
+        <li><input type="checkbox"><span class="item-label">New sync opportunities pitched</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">International</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Territory long-tail tracked</span></li>
+        <li><input type="checkbox"><span class="item-label">Next territory opportunities identified</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">D2C</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">D2C catalog plan set</span></li>
+        <li><input type="checkbox"><span class="item-label">Repeat customer engagement tracked</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Release Planning / Ops</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Final reconciliation complete</span></li>
+        <li><input type="checkbox"><span class="item-label">Catalog scheduling set</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Finance</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Full campaign P&L documented</span></li>
+        <li><input type="checkbox"><span class="item-label">Final budget reconciliation done</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">A&R</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Next project conversation started</span></li>
+        <li><input type="checkbox"><span class="item-label">Catalog priorities updated</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">A&R Admin</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Catalog metadata audit complete</span></li>
+        <li><input type="checkbox"><span class="item-label">Catalog clearance status reviewed</span></li>
+      </ul>
+    </div>
+
+    <div class="dept" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Business Affairs</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">Open legal items resolved</span></li>
+        <li><input type="checkbox"><span class="item-label">Renewal / option discussions teed up</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops" data-phase="postrelease">
+      <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span class="item-label">All-dept retrospective held</span></li>
+        <li><input type="checkbox"><span class="item-label">Lessons captured in campaign retro doc</span></li>
+        <li><input type="checkbox"><span class="item-label">Wins celebrated</span></li>
+        <li><input type="checkbox"><span class="item-label">Carry-forwards transitioned to next campaign</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>POST-RELEASE</strong> on Artists table</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>Draft notes:</strong> Post-Release is the gate Sony historically skips. Three cycles of clean retros build the baseline that makes the framework defensible. If we don't close, we lose the data.
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- RCA FRAMEWORK -->
+<!-- ================================================================ -->
+<div class="tab-panel" id="rca">
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-stage">Framework</div>
+      <div class="phase-name">RCA <span class="arrow">→</span> <span class="next">RUNS · CONSULTED · ACCOUNTABLE</span></div>
+      <div class="phase-gate">
+        How roles work across departments. The 3-letter version of RACI — minus the I, because the system handles informing.
+        Each row in every phase gate has <strong>exactly one A</strong>. If you can't pick one, that's the conversation that needs to happen.
+      </div>
+    </div>
+
+    <div class="dept">
+      <div class="dept-head"><div class="dept-name">R · Runs It</div></div>
+      <ul class="checklist">
+        <li><span class="item-label">Does the work. Hands on keyboard. In the room. Producing the thing.</span></li>
+        <li><span class="item-label">Multiple R's per row are fine — that's shared labor, not ambiguity.</span></li>
+        <li><span class="item-label">In these checklists, R is <em>implicit</em>: the dept the row sits under is the runner.</span></li>
+      </ul>
+    </div>
+
+    <div class="dept">
+      <div class="dept-head"><div class="dept-name">C · Consulted</div></div>
+      <ul class="checklist">
+        <li><span class="item-label">Has input <em>before</em> the work ships. Two-way.</span></li>
+        <li><span class="item-label">Their perspective shapes the output — they're not just told after.</span></li>
+        <li><span class="item-label">Use sparingly. Over-consult and you never ship.</span></li>
+      </ul>
+    </div>
+
+    <div class="dept ops">
+      <div class="dept-head"><div class="dept-name">A · Accountable + QC</div></div>
+      <ul class="checklist">
+        <li><span class="item-label"><strong>Owns the outcome.</strong> If it falls through, this is whose problem it is.</span></li>
+        <li><span class="item-label"><strong>Owns quality.</strong> The A is the last set of eyes before it goes out the door.</span></li>
+        <li><span class="item-label"><strong>Exactly one per row.</strong> No exceptions. Two A's means nobody is A.</span></li>
+        <li><span class="item-label">When something ships with a quality issue, you look at the grid, find the A, conversation is framed.</span></li>
+      </ul>
+    </div>
+
+    <div class="dept">
+      <div class="dept-head"><div class="dept-name">No I · The System Handles Informing</div></div>
+      <ul class="checklist">
+        <li><span class="item-label">Airtable views, EOD drops, recaps, TEMPO — that's the notification layer.</span></li>
+        <li><span class="item-label">No human role for "told after." The infrastructure does that automatically.</span></li>
+        <li><span class="item-label">This is the Campaign Ops thesis: <em>the system informs; people run, consult, own.</em></span></li>
+      </ul>
+    </div>
+
+    <div class="phase-notes">
+      <strong>How this maps to the gates:</strong> In each phase gate, every row sits under a department section.
+      That section is the default A. Where the chat thread or operational reality says otherwise, the override is
+      tagged on the row (Workability → Campaign Ops; Clearances Confirmed → Business Affairs; etc.). Items under
+      <em>Campaign Ops — Cross-Dept</em> are gate connective tissue — Campaign Ops is A there because no other
+      single department owns them.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Campaign Operations · Phase Gate Checklists · Draft v1 · Internal
+</footer>
+
+<script>
+  const STORAGE_KEY = 'phase-gate-checks-v1';
+
+  // Tab switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Assign unique IDs to each checkbox based on its position
+  const allCheckboxes = [];
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    const phaseId = panel.id;
+    panel.querySelectorAll('.dept').forEach((dept, deptIdx) => {
+      dept.querySelectorAll('input[type="checkbox"]').forEach((cb, itemIdx) => {
+        const id = `${phaseId}-${deptIdx}-${itemIdx}`;
+        cb.dataset.cbid = id;
+        allCheckboxes.push({ cb, phase: phaseId, dept });
+      });
+    });
+  });
+
+  // Load state from localStorage
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      allCheckboxes.forEach(({ cb }) => {
+        if (state[cb.dataset.cbid]) cb.checked = true;
+      });
+    } catch (e) { console.warn('Could not load state', e); }
+  }
+
+  function saveState() {
+    const state = {};
+    allCheckboxes.forEach(({ cb }) => {
+      if (cb.checked) state[cb.dataset.cbid] = true;
+    });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch (e) { console.warn('Could not save state', e); }
+  }
+
+  // Update progress bars and tab counts
+  function updateProgress() {
+    const phases = ['prep', 'plan', 'announce', 'release', 'postrelease'];
+    phases.forEach(phase => {
+      const cbs = allCheckboxes.filter(c => c.phase === phase);
+      const total = cbs.length;
+      const checked = cbs.filter(c => c.cb.checked).length;
+      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+      const fill = document.querySelector(`[data-fill="${phase}"]`);
+      const label = document.querySelector(`[data-progress="${phase}"]`);
+      const tabCount = document.getElementById(`count-${phase}`);
+      if (fill) fill.style.width = pct + '%';
+      if (label) label.textContent = pct + '%';
+      if (tabCount) tabCount.textContent = `${checked}/${total}`;
+    });
+    // Per-dept counts
+    document.querySelectorAll('.dept').forEach(dept => {
+      const cbs = dept.querySelectorAll('input[type="checkbox"]');
+      const checked = Array.from(cbs).filter(c => c.checked).length;
+      const counter = dept.querySelector('[data-deptcount]');
+      if (counter) counter.textContent = `${checked}/${cbs.length}`;
+    });
+  }
+
+  // Wire checkbox events
+  allCheckboxes.forEach(({ cb }) => {
+    cb.addEventListener('change', () => { saveState(); updateProgress(); });
+  });
+
+  // Make whole li clickable
+  document.querySelectorAll('ul.checklist li').forEach(li => {
+    li.addEventListener('click', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (cb) {
+        cb.checked = !cb.checked;
+        cb.dispatchEvent(new Event('change'));
+      }
+    });
+  });
+
+  // Reset button
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (!confirm('Reset all checks? This cannot be undone.')) return;
+    allCheckboxes.forEach(({ cb }) => cb.checked = false);
+    localStorage.removeItem(STORAGE_KEY);
+    updateProgress();
+  });
+
+  // Print button
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+  // Init
+  loadState();
+  updateProgress();
+</script>
+
+</body>
+</html>
