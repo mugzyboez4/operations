@@ -377,7 +377,7 @@
 <h1>PHASE GATE <span class="accent">CHECKLISTS</span></h1>
 
 <div class="draft-callout">
-  <strong>Draft v2 · post-Jordan sync</strong> Each phase = what must be true to <em>graduate to the next</em>. Per Jordan: this is the integration of Mapping × Phases — every checklist item carries an implicit owner (the dept section). Final phase renamed Review → Post-Release (maintenance + retro, not just retro). Announce naming TBD — may become Pre-Release in a future pass. Items you check persist in this browser.
+  <strong>Draft v2 · post-Jordan sync</strong> Each phase = what must be true to <em>graduate to the next</em>. Per Jordan: this is the integration of Mapping × Phases — every checklist item carries an implicit owner (the dept section). Phase 03 renamed Announce → Pre-Release (whole phase is public-facing; Announce is the moment within it). Phase 05 renamed Review → Post-Release (maintenance + retro). Items you check persist in this browser.
 </div>
 
 <div class="doc-meta">
@@ -391,7 +391,7 @@
 <div class="tab-nav no-print">
   <button class="tab-btn active" data-tab="prep">01 · Prep <span class="pcount" id="count-prep">0/0</span></button>
   <button class="tab-btn" data-tab="plan">02 · Plan <span class="pcount" id="count-plan">0/0</span></button>
-  <button class="tab-btn" data-tab="announce">03 · Announce <span class="pcount" id="count-announce">0/0</span></button>
+  <button class="tab-btn" data-tab="prerelease">03 · Pre-Release <span class="pcount" id="count-prerelease">0/0</span></button>
   <button class="tab-btn" data-tab="release">04 · Release <span class="pcount" id="count-release">0/0</span></button>
   <button class="tab-btn" data-tab="postrelease">05 · Post-Release <span class="pcount" id="count-postrelease">0/0</span></button>
   <button class="tab-btn" data-tab="rca">RCA Framework</button>
@@ -500,9 +500,9 @@
   <div class="phase">
     <div class="phase-head">
       <div class="phase-stage">Phase 02 · Entry Gate</div>
-      <div class="phase-name">PLAN <span class="arrow">→</span> <span class="next">ANNOUNCE</span></div>
+      <div class="phase-name">PLAN <span class="arrow">→</span> <span class="next">PRE-RELEASE</span></div>
       <div class="phase-gate">
-        Music is workable. Plan is locked. Assets are real. Partners are briefed. <strong>Graduating to Announce</strong> means we are ready to schedule and publicly reveal the campaign — this is the operational gate the <em>scheduling checklist</em> defines.
+        Music is workable. Plan is locked. Assets are real. Partners are briefed. <strong>Graduating to Pre-Release</strong> means we are ready to schedule and publicly reveal the campaign — this is the operational gate the <em>scheduling checklist</em> defines.
       </div>
       <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="plan"></div></div><span class="progress-label" data-progress="plan">0%</span></div>
     </div>
@@ -663,20 +663,20 @@
 </div>
 
 <!-- ================================================================ -->
-<!-- PHASE 03 · ANNOUNCE -->
+<!-- PHASE 03 · PRE-RELEASE -->
 <!-- ================================================================ -->
-<div class="tab-panel" id="announce">
+<div class="tab-panel" id="prerelease">
   <div class="phase">
     <div class="phase-head">
       <div class="phase-stage">Phase 03 · Entry Gate</div>
-      <div class="phase-name">ANNOUNCE <span class="arrow">→</span> <span class="next">RELEASE</span></div>
+      <div class="phase-name">PRE-RELEASE <span class="arrow">→</span> <span class="next">RELEASE</span></div>
       <div class="phase-gate">
-        Public announce has happened. Announce-to-release window is executing. <strong>Graduating to Release</strong> means we are at street week with every department ready to ship.
+        Public announce has happened. The Pre-Release window is executing. <strong>Graduating to Release</strong> means we are at street week with every department ready to ship.
       </div>
-      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="announce"></div></div><span class="progress-label" data-progress="announce">0%</span></div>
+      <div class="progress"><div class="progress-bar"><div class="progress-fill" data-fill="prerelease"></div></div><span class="progress-label" data-progress="prerelease">0%</span></div>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">A&R</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Music delivered to all required systems</span></li>
@@ -684,7 +684,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">A&R Admin</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Metadata final and propagated</span></li>
@@ -692,7 +692,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Marketing</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Announce executed</span></li>
@@ -702,7 +702,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Audience Dev</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Audience response tracked</span></li>
@@ -710,7 +710,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Creative & Content</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">All release-day assets approved and queued</span></li>
@@ -719,7 +719,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Digital / DSP</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Pre-save live and tracking</span></li>
@@ -729,7 +729,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Publicity</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Announce coverage secured</span></li>
@@ -739,7 +739,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Radio</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Adds confirmed for street week (if applicable)</span></li>
@@ -747,7 +747,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Brand Partnerships</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Pre-release brand activations live</span></li>
@@ -755,14 +755,14 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Sync & Licensing</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Pre-release sync placements landed (if achievable)</span></li>
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">International</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Territory announces aligned</span></li>
@@ -770,7 +770,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">D2C</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Pre-orders live</span></li>
@@ -780,7 +780,7 @@
       </ul>
     </div>
 
-    <div class="dept" data-phase="announce">
+    <div class="dept" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Release Planning / Ops</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">All partner deliverables met — DDEX · RDX</span></li>
@@ -789,13 +789,13 @@
       </ul>
     </div>
 
-    <div class="dept ops" data-phase="announce">
+    <div class="dept ops" data-phase="prerelease">
       <div class="dept-head"><div class="dept-name">Campaign Ops · Cross-Department</div><div class="dept-count" data-deptcount></div></div>
       <ul class="checklist">
         <li><input type="checkbox"><span class="item-label">Day-of-release run-of-show distributed</span></li>
         <li><input type="checkbox"><span class="item-label">Release-week comms cadence set</span></li>
         <li><input type="checkbox"><span class="item-label">Escalation path defined</span></li>
-        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>ANNOUNCE</strong> on Artists table</span></li>
+        <li><input type="checkbox"><span class="item-label">Phase tag set to <strong>PRE-RELEASE</strong> on Artists table</span></li>
       </ul>
     </div>
 
@@ -1202,7 +1202,7 @@
 
   // Update progress bars and tab counts
   function updateProgress() {
-    const phases = ['prep', 'plan', 'announce', 'release', 'postrelease'];
+    const phases = ['prep', 'plan', 'prerelease', 'release', 'postrelease'];
     phases.forEach(phase => {
       const cbs = allCheckboxes.filter(c => c.phase === phase);
       const total = cbs.length;
