@@ -93,7 +93,6 @@ select{{background:var(--card);border:1px solid var(--border);color:var(--fog);p
   </select>
   <select id="newOwner">
     <option value="M">Meg</option>
-    <option value="G">Gerard</option>
     <option value="C">Christian</option>
   </select>
   <button class="add-btn" onclick="addTask()">+ Add</button>
