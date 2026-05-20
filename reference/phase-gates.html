@@ -98,6 +98,20 @@
   }
   .ctrl-btn:hover { color: var(--text); border-color: var(--fog); }
   .ctrl-btn.danger:hover { color: var(--flame); border-color: var(--flame); }
+  .ctrl-btn.primary {
+    background: var(--chartreuse-fill);
+    color: #0F0E0E;
+    border-color: var(--chartreuse-fill);
+  }
+  .ctrl-btn.primary:hover {
+    background: #B8E03D;
+    border-color: #B8E03D;
+    color: #0F0E0E;
+  }
+  .ctrl-btn.primary .arrow {
+    margin-left: 6px;
+    font-weight: 900;
+  }
 
   /* TAB NAV */
   .tab-nav {
@@ -379,6 +393,7 @@
 <div class="doc-meta">
   <span><strong>Owner:</strong> Campaign Ops</span>
   <div class="controls">
+    <a class="ctrl-btn primary no-print" href="https://airtable.com/appLwUF3H4KjtiRdW/tblMuOiWuQgwqo9NE" target="_blank" rel="noopener">Open Live in Airtable <span class="arrow">→</span></a>
     <button class="ctrl-btn no-print" id="print-btn">Print</button>
     <button class="ctrl-btn danger no-print" id="reset-btn">Reset Checks</button>
   </div>
