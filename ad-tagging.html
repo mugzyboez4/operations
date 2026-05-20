@@ -430,11 +430,16 @@ footer {
 
 <script>
 function checkPw(){
-  if(document.getElementById("pw").value==="RCA2026"){
+  var v=document.getElementById("pw").value;
+  if(v==="RCA2026"){
     document.getElementById("gate").style.display="none";
     document.getElementById("app").style.display="flex";
     document.getElementById("demo-body").style.display="block";
     sessionStorage.setItem("rca_auth","1");
+    // Stash the password so the server-side proxy can authenticate (X-Grid-Password header).
+    sessionStorage.setItem("rca_auth_pw", v);
+    // Auto-load live data from Airtable as soon as we unlock. Fires asynchronously after main script attaches refresh().
+    setTimeout(function(){ if(typeof refresh==="function") refresh(); }, 0);
   } else {
     document.getElementById("err").textContent="Incorrect password";
     document.getElementById("pw").value="";document.getElementById("pw").focus();
@@ -684,9 +689,36 @@ let adTeam = DEMO_AD_TEAM;
 let artists = DEMO_ARTISTS;
 
 // ============================================
-// AIRTABLE FETCH
+// AIRTABLE FETCH (via server-side proxy)
+// Proxy at /api/ad-tagging-records keeps Airtable token off the client.
+// Page password (entered at gate) is used as X-Grid-Password header.
+// Falls back to legacy direct-fetch if SESSION_TOKEN was manually entered via modal.
 // ============================================
 async function fetchTable(tableName) {
+  const pagePassword = sessionStorage.getItem('rca_auth_pw') || '';
+
+  // Path A: use server-side proxy (preferred — no token in browser)
+  if (pagePassword) {
+    try {
+      const res = await fetch(`/api/ad-tagging-records?table=${encodeURIComponent(tableName)}`, {
+        headers: { 'X-Grid-Password': pagePassword }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error(`Proxy error (${res.status}):`, errText);
+        // Don't fail silently — fall through to legacy path if a manual token exists
+        if (!SESSION_TOKEN) return { error: `${res.status}: ${errText.substring(0, 100)}` };
+      } else {
+        const data = await res.json();
+        return { records: data.records };
+      }
+    } catch (e) {
+      console.error('Proxy fetch failed:', e);
+      if (!SESSION_TOKEN) return { error: e.message };
+    }
+  }
+
+  // Path B (fallback): legacy direct-to-Airtable, requires a manually entered PAT
   if (!SESSION_TOKEN || !CONFIG.baseId) return null;
   const url = `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(tableName)}?pageSize=100`;
   try {
@@ -801,8 +833,11 @@ modal.addEventListener('click', e => {
 });
 
 async function refresh() {
-  if (!SESSION_TOKEN) {
-    setConnState('demo', 'No token configured · showing demo data');
+  const hasPagePw = !!sessionStorage.getItem('rca_auth_pw');
+  const hasManualToken = !!SESSION_TOKEN;
+
+  if (!hasPagePw && !hasManualToken) {
+    setConnState('demo', 'No auth configured · showing demo data');
   } else {
     const ok = await loadFromAirtable();
     if (!ok) {
