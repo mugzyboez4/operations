@@ -209,6 +209,237 @@ footer {
   letter-spacing:0.5px;
 }
 
+/* ============ FUNCTION BOUNDARIES (Ops × Leads) ============ */
+.section-divider {
+  margin: 56px 0 36px;
+  display:flex; align-items:center; gap:16px;
+}
+.section-divider .label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--chartreuse);
+  white-space: nowrap;
+}
+.section-divider .line { flex:1; height:1px; background: var(--border); }
+.section-divider h2 {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.section-divider h2 .alt { color: var(--teal); }
+.section-intro {
+  font-size: 13px;
+  color: var(--dim);
+  max-width: 780px;
+  line-height: 1.6;
+  margin: -16px 0 28px;
+}
+
+/* Operating Language (verbs) */
+.verbs {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+.verb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.verb-side .verb-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.verb-side.ops .verb-label { color: var(--chartreuse); }
+.verb-side.leads .verb-label { color: var(--teal); }
+.verb-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.verb-pill {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
+  letter-spacing: 0.5px;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+}
+.verb-side.ops .verb-pill { border-left: 3px solid var(--chartreuse); }
+.verb-side.leads .verb-pill { border-left: 3px solid var(--teal); }
+
+/* By Phase grid */
+.phase-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.phase-block-head {
+  padding: 14px 24px;
+  background: var(--card-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.phase-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+}
+.phase-grid > div {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+}
+.phase-grid > div:nth-child(3n) { border-right: none; }
+.phase-grid > div:nth-last-child(-n+3) { border-bottom: none; }
+.phase-grid .ph-header {
+  background: var(--card-2);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.phase-grid .ph-name {
+  font-weight: 800;
+  color: var(--text);
+  font-size: 13px;
+  background: rgba(255,255,255,0.02);
+}
+.phase-grid .ph-name .trigger {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--fog);
+  font-style: italic;
+  line-height: 1.5;
+}
+.phase-grid ul { list-style: none; padding: 0; margin: 0; }
+.phase-grid li {
+  padding: 3px 0 3px 12px;
+  position: relative;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.phase-grid li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+}
+.phase-grid .ops-col li::before { background: var(--chartreuse); }
+.phase-grid .leads-col li::before { background: var(--teal); }
+
+/* Meeting Ownership */
+.mtg-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.mtg-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 200px;
+}
+.mtg-grid > div {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+}
+.mtg-grid > div:nth-child(4n) { border-right: none; }
+.mtg-grid > div:nth-last-child(-n+4) { border-bottom: none; }
+.mtg-grid .mt-header {
+  background: var(--card-2);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.mtg-grid .mt-name {
+  font-weight: 800;
+  color: var(--text);
+  font-size: 13px;
+}
+.mtg-grid .mt-name .when {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--fog);
+  font-style: italic;
+}
+.mtg-grid .mt-output {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--fog);
+}
+
+/* The Line */
+.line-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.line-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.line-grid > div {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+}
+.line-grid > div:nth-child(even) { border-right: none; }
+.line-grid > div:nth-last-child(-n+2) { border-bottom: none; }
+.line-grid .li-header {
+  background: var(--card-2);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.line-grid .li-header.ops { color: var(--chartreuse); }
+.line-grid .li-header.leads { color: var(--teal); }
+
+/* Punchline */
+.punchline {
+  background: var(--card-2);
+  border-left: 3px solid var(--chartreuse);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.punchline b.ops { color: var(--chartreuse); }
+.punchline b.leads { color: var(--teal); }
+
 @media (max-width:800px) {
   h1 { font-size:32px; }
   .wrap { padding:24px 16px 40px; }
@@ -279,8 +510,8 @@ if(document.readyState==="loading"){
   <header class="header">
     <div class="eyebrow">Campaign Ops · Framework</div>
     <h1>Dept <span class="x">Workflows</span></h1>
-    <p class="sub">End-to-end processes that cross departments. Each workflow names the steps, the owners, and the handoff points where things break. The point isn't to redesign work — it's to make the path visible so Ops can flag gaps before they show up in Active Projects.</p>
-    <div class="meta"><b>Source:</b> Friction Points Log · Ownership Map · Discovery interviews · DDEX Strategy</div>
+    <p class="sub">Two halves of the same question: <b>who does what</b>, and <b>what happens when</b>. The top half draws the line between Campaign Ops and Campaign Leads — the verbs, the meetings, the phases, the things neither side does. The bottom half names the cross-department processes themselves and calls out where they break.</p>
+    <div class="meta"><b>Source:</b> Friction Points Log · Ownership Map · Discovery interviews · DDEX Strategy · Handoff Map (merged in)</div>
   </header>
 
   <!-- LEGEND -->
@@ -291,6 +522,215 @@ if(document.readyState==="loading"){
     <span class="legend-item"><span class="legend-swatch gate"></span>Decision gate</span>
     <span class="legend-item"><span class="legend-swatch parallel"></span>Runs in parallel</span>
   </div>
+
+  <!-- =========== PART 1: FUNCTION BOUNDARIES =========== -->
+  <div class="section-divider">
+    <span class="label">Part 1</span>
+    <h2>Campaign <span class="x">Ops</span> × Campaign <span class="alt">Leads</span></h2>
+    <span class="line"></span>
+  </div>
+  <p class="section-intro">Two functions, one campaign. Ops sees across departments; Leads drives within them. This is the line — by operating language, by phase, by meeting, and by what neither side does. Read this first; the workflows below assume it.</p>
+
+  <!-- Operating Language -->
+  <div class="verbs">
+    <div class="verb-grid">
+      <div class="verb-side ops">
+        <div class="verb-label">Campaign Ops · Operating Verbs</div>
+        <div class="verb-list">
+          <span class="verb-pill">Track</span>
+          <span class="verb-pill">Surface</span>
+          <span class="verb-pill">Flag</span>
+          <span class="verb-pill">Prompt</span>
+          <span class="verb-pill">Confirm</span>
+        </div>
+      </div>
+      <div class="verb-side leads">
+        <div class="verb-label">Campaign Leads · Operating Verbs</div>
+        <div class="verb-list">
+          <span class="verb-pill">Plan</span>
+          <span class="verb-pill">Build</span>
+          <span class="verb-pill">Execute</span>
+          <span class="verb-pill">Present</span>
+          <span class="verb-pill">Own</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- By Campaign Phase -->
+  <div class="phase-block">
+    <div class="phase-block-head">By Campaign Phase</div>
+    <div class="phase-grid">
+      <div class="ph-header">Phase</div>
+      <div class="ph-header">Campaign Ops</div>
+      <div class="ph-header">Campaign Leads</div>
+
+      <div class="ph-name">Development<span class="trigger">SMT approves project → Campaign Lead assigned by roster</span></div>
+      <div class="ops-col"><ul>
+        <li>Surface A&amp;R signing data to Active Projects</li>
+        <li>Flag upstream gaps (samples, features, approvals)</li>
+        <li>Confirm Airtable artist record created</li>
+        <li>Track onboarding through Adonis 3-meeting system</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Not yet assigned — no campaign exists</li>
+        <li>(Campaign Lead joins at Pre-Release)</li>
+      </ul></div>
+
+      <div class="ph-name">Pre-Release<span class="trigger">Campaign Ops surfaces what's missing. Campaign Leads decides what to do about it.</span></div>
+      <div class="ops-col"><ul>
+        <li>Surface timeline to all departments via Goal Brief</li>
+        <li>Flag workability gaps (SAA, SAMP, DSN)</li>
+        <li>Prompt departments for missing deliverables</li>
+        <li>Track Release Runway status weekly</li>
+        <li>Confirm street date with Release Planning</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Build campaign strategy with management</li>
+        <li>Own creative brief and asset delivery</li>
+        <li>Execute content plan and pre-save push</li>
+        <li>Present pitch packages to DSP / Commercial</li>
+        <li>Own daily artist/management communication</li>
+      </ul></div>
+
+      <div class="ph-name">Rolling Singles<span class="trigger">Campaign Ops provides the "is it working?" read. Campaign Leads adjusts the plan.</span></div>
+      <div class="ops-col"><ul>
+        <li>Track per-single performance across releases</li>
+        <li>Surface streaming velocity + engagement trends</li>
+        <li>Flag when signals contradict strategy</li>
+        <li>Prompt re-evaluation if metrics shift</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Execute single-by-single marketing plans</li>
+        <li>Own influencer, content, and paid strategy</li>
+        <li>Build playlist pitch materials</li>
+        <li>Own artist social cadence and content creation</li>
+      </ul></div>
+
+      <div class="ph-name">Project Rollout<span class="trigger">Campaign Ops sees across departments. Campaign Leads drives within them.</span></div>
+      <div class="ops-col"><ul>
+        <li>Surface cross-department readiness to Active Projects</li>
+        <li>Flag blockers visible across departments</li>
+        <li>Track asset delivery against production timeline</li>
+        <li>Confirm all Runway fields populated</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Own the rollout plan end-to-end</li>
+        <li>Execute press, radio, content, DSP strategy</li>
+        <li>Present album/project positioning to leadership</li>
+        <li>Own all external partner communications</li>
+      </ul></div>
+
+      <div class="ph-name">Release Week<span class="trigger">Minimal — Campaign Leads runs the release. Campaign Ops monitors and escalates.</span></div>
+      <div class="ops-col"><ul>
+        <li>Track real-time performance (Day 1, Week 1)</li>
+        <li>Surface early signals to leadership</li>
+        <li>Flag deviations from projections</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Execute all launch-week tactics</li>
+        <li>Own day-of communications and war room</li>
+        <li>Own all partner and platform relationships</li>
+      </ul></div>
+
+      <div class="ph-name">Post-Release<span class="trigger">Campaign Ops provides the retrospective. Campaign Leads owns what's next.</span></div>
+      <div class="ops-col"><ul>
+        <li>Surface post-release analytics to Active Projects</li>
+        <li>Track catalog performance and playlist retention</li>
+        <li>Flag opportunities (sync, international, brand)</li>
+        <li>Prompt next-phase planning conversations</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Execute sustain strategy (content, touring, features)</li>
+        <li>Own artist relationship through dormancy</li>
+        <li>Build case for next project investment</li>
+      </ul></div>
+
+      <div class="ph-name">Dormant<span class="trigger">Campaign Ops alerts when data moves. Campaign Leads decides when to re-engage.</span></div>
+      <div class="ops-col"><ul>
+        <li>Track catalog health passively</li>
+        <li>Surface signal spikes (sync placement, viral moment)</li>
+        <li>Flag re-engagement opportunities</li>
+      </ul></div>
+      <div class="leads-col"><ul>
+        <li>Maintain artist relationship</li>
+        <li>Own decision to re-engage or hand back</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- Meeting Ownership -->
+  <div class="mtg-block">
+    <div class="phase-block-head">Meeting Ownership</div>
+    <div class="mtg-grid">
+      <div class="mt-header">Meeting</div>
+      <div class="mt-header">Campaign Ops Role</div>
+      <div class="mt-header">Campaign Leads Role</div>
+      <div class="mt-header">Output</div>
+
+      <div class="mt-name">Active Projects<span class="when">Wed, 3×/mo</span></div>
+      <div>Prepares Goal Brief. Captures decisions and action items. Distributes by-artist notes. Tracks carry-forwards.</div>
+      <div>Presents artist updates. Owns discussion per artist. Raises blockers and resource needs.</div>
+      <div class="mt-output">Goal Brief (pre) + Meeting Notes (post) + Airtable updates</div>
+
+      <div class="mt-name">Production Meeting<span class="when">Mon, weekly</span></div>
+      <div>Monitors for cross-department signals. Surfaces upstream blockers. Tracks resolution of flagged items.</div>
+      <div>Reports on per-artist production status. Drives tactical resolution.</div>
+      <div class="mt-output">Flagged items fed into Active Projects prep</div>
+
+      <div class="mt-name">SMT<span class="when">Tues, weekly</span></div>
+      <div>Receives strategic direction. Translates priorities into department-specific context.</div>
+      <div>Not present — operates at campaign level.</div>
+      <div class="mt-output">Strategic context fed into Active Projects Goal Brief</div>
+
+      <div class="mt-name">Label Meeting<span class="when">Wed, 1×/mo</span></div>
+      <div>Captures cross-label intelligence. Surfaces insights relevant to active campaigns.</div>
+      <div>Presents campaign highlights and wins.</div>
+      <div class="mt-output">Monthly intelligence summary</div>
+
+      <div class="mt-name">Dept Intake / 1:1s<span class="when">As needed</span></div>
+      <div>Conducts department discovery. Maps workflows and needs. Identifies integration points.</div>
+      <div>Provides department-specific input on artist campaigns.</div>
+      <div class="mt-output">Department timeline data for Orbit framework</div>
+    </div>
+  </div>
+
+  <!-- The Line -->
+  <div class="line-block">
+    <div class="phase-block-head">The Line — What Neither Side Does</div>
+    <div class="line-grid">
+      <div class="li-header ops">Campaign Ops Never…</div>
+      <div class="li-header leads">Campaign Leads Never…</div>
+
+      <div>Communicates directly with artist management on campaign decisions</div>
+      <div>Sees the full cross-department readiness picture simultaneously</div>
+
+      <div>Approves or denies a creative direction</div>
+      <div>Owns the meeting preparation or note distribution workflow</div>
+
+      <div>Overrides a Campaign Lead's plan for their artist</div>
+      <div>Writes the Goal Brief or flags carry-forwards to leadership</div>
+
+      <div>Owns artist budget or resource allocation</div>
+      <div>Populates or maintains Airtable campaign status fields</div>
+
+      <div>Presents to DSPs, press, or external partners on behalf of an artist</div>
+      <div>Runs the post-meeting analysis or three-pass transcript review</div>
+    </div>
+  </div>
+
+  <!-- Punchline -->
+  <div class="punchline">
+    When a decision gets made in one room, every other team knows what it means for them — and nothing falls through the cracks. <b class="ops">That's Campaign Ops.</b> The team that turns that knowledge into action on the artist's behalf? <b class="leads">That's Campaign Leads.</b>
+  </div>
+
+  <!-- =========== PART 2: WORKFLOWS =========== -->
+  <div class="section-divider">
+    <span class="label">Part 2</span>
+    <h2>Cross-Dept <span class="x">Workflows</span></h2>
+    <span class="line"></span>
+  </div>
+  <p class="section-intro">Named end-to-end processes that cross multiple departments. Each one shows the depts as rows, the steps in time order across columns, and the handoff points where things break.</p>
 
   <!-- TOC -->
   <div class="toc">
