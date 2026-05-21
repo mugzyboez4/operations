@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dept Workflows · Campaign Ops</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0F0E0E;
+  --card: #1A1A1A;
+  --card-2: #141414;
+  --border: #2A2A2A;
+  --text: #FCFDF8;
+  --dim: #B0A9BE;
+  --fog: #847D96;
+  --muted: #3E3F41;
+  --chartreuse: #CDF851;
+  --flame: #FF4A23;
+  --gold: #E8C547;
+  --teal: #5BC0BE;
+  --violet: #A78BFA;
+  --emerald: #10B981;
+
+  /* Department colors */
+  --dept-ops: #CDF851;
+  --dept-leads: #5BC0BE;
+  --dept-auddev: #FF6B35;
+  --dept-commercial: #10B981;
+  --dept-ar: #E8C547;
+  --dept-ar-admin: #D4A017;
+  --dept-ba: #A78BFA;
+  --dept-finance: #7BA428;
+  --dept-creative: #E94B8C;
+  --dept-publicity: #F77F00;
+  --dept-radio: #06A0C7;
+  --dept-international: #9C27B0;
+  --dept-sync: #00B894;
+  --dept-brand: #FFB72B;
+  --dept-release-planning: #3AAFFF;
+  --dept-data: #74B9FF;
+  --dept-digital-ops: #FF7675;
+  --dept-management: #FFD93D;
+  --dept-tour: #FAB1A0;
+  --dept-physical: #D4A017;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+
+/* PASSWORD GATE */
+#gate { position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+#gate img { width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
+#gate .gate-title { font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.5px; }
+#gate .gate-sub { font-size:11px; color:#847D96; margin-bottom:20px; letter-spacing:1px; text-transform:uppercase; }
+#gate input { font-size:14px; padding:10px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; }
+#gate input:focus { border-color:#CDF851; }
+#gate button { font-size:11px; font-weight:700; padding:10px 28px; background:#CDF851; color:#0F0E0E; border:none; cursor:pointer; margin-top:10px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; }
+#gate #err { color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
+
+/* SITE STRIP */
+.site-strip { padding:10px 24px; border-bottom:1px solid #1F1F1F; background:#0F0E0E; display:flex; align-items:center; justify-content:space-between; font-size:11px; }
+.site-strip a { color:#847D96; font-weight:600; letter-spacing:0.5px; }
+.site-strip a:hover { color:#FCFDF8; }
+.site-strip .crumb { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#847D96; }
+.site-strip .crumb b { color:#CDF851; font-weight:700; }
+
+/* HEADER */
+.wrap { max-width:1600px; margin:0 auto; padding:40px 32px 60px; }
+.header { padding-bottom:24px; border-bottom:2px solid var(--chartreuse); margin-bottom:36px; }
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:10px; }
+h1 { font-size:48px; font-weight:900; letter-spacing:-0.02em; line-height:1; text-transform:uppercase; margin-bottom:14px; }
+h1 .x { color: var(--chartreuse); }
+.header .sub { font-size:15px; color:var(--dim); max-width:780px; line-height:1.6; }
+.header .meta { font-size:11px; color:var(--fog); margin-top:14px; letter-spacing:0.5px; }
+.header .meta b { color:var(--text); }
+
+/* INDEX / TOC */
+.toc { background:var(--card-2); padding:20px 24px; margin-bottom:36px; border-left:3px solid var(--chartreuse); }
+.toc-label { font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:12px; }
+.toc-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:6px 24px; }
+.toc-item { display:flex; align-items:baseline; gap:10px; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px; cursor:pointer; transition:color 0.15s; }
+.toc-item:hover { color:var(--chartreuse); }
+.toc-num { font-weight:800; color:var(--fog); font-size:11px; min-width:20px; font-variant-numeric:tabular-nums; }
+.toc-name { font-weight:600; flex:1; color:var(--text); }
+.toc-item:hover .toc-name { color:var(--chartreuse); }
+.toc-status { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 6px; }
+.toc-status.live { background:rgba(205,248,81,0.12); color:var(--chartreuse); }
+.toc-status.testing { background:rgba(232,197,71,0.12); color:var(--gold); }
+.toc-status.proposed { background:rgba(91,192,190,0.12); color:var(--teal); }
+.toc-status.broken { background:rgba(255,74,35,0.15); color:var(--flame); }
+
+/* WORKFLOW BLOCK */
+.workflow { background:var(--card); border:1px solid var(--border); margin-bottom:32px; padding:28px 28px 32px; scroll-margin-top:20px; }
+.workflow-head { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding-bottom:18px; border-bottom:1px solid var(--border); margin-bottom:22px; }
+.workflow-title-block { flex:1; }
+.workflow-num { font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--fog); margin-bottom:6px; }
+.workflow-title { font-size:24px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; line-height:1.15; margin-bottom:8px; }
+.workflow-desc { font-size:13px; color:var(--dim); line-height:1.55; max-width:780px; }
+.workflow-meta { display:flex; flex-direction:column; align-items:flex-end; gap:6px; font-size:10px; color:var(--fog); letter-spacing:0.5px; min-width:180px; }
+.workflow-status { font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; }
+.workflow-status.live { background:rgba(205,248,81,0.15); color:var(--chartreuse); }
+.workflow-status.testing { background:rgba(232,197,71,0.15); color:var(--gold); }
+.workflow-status.proposed { background:rgba(91,192,190,0.15); color:var(--teal); }
+.workflow-status.broken { background:rgba(255,74,35,0.18); color:var(--flame); }
+
+/* SWIMLANE GRID */
+.swimlane-wrap { overflow-x:auto; padding-bottom:10px; }
+.swimlane-wrap::-webkit-scrollbar { height:8px; }
+.swimlane-wrap::-webkit-scrollbar-track { background:#0A0A0A; }
+.swimlane-wrap::-webkit-scrollbar-thumb { background:#2A2A2A; }
+.swimlane-wrap::-webkit-scrollbar-thumb:hover { background:#3E3F41; }
+
+.swimlane {
+  display:grid;
+  /* First column = department labels. Following columns = steps. */
+  gap:8px;
+  min-width:min-content;
+}
+.swimlane-step-header { display:contents; }
+.step-header-cell { font-size:9px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); padding:0 0 6px; text-align:center; }
+.step-header-cell.dept-col { text-align:right; padding-right:14px; }
+
+.dept-label {
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:14px 14px 14px 0;
+  text-align:right;
+  border-right:2px solid var(--dept-color, var(--muted));
+  color:var(--text);
+  background:var(--card);
+  position:sticky;
+  left:0;
+  z-index:2;
+  white-space:nowrap;
+}
+.lane-cell { padding:6px 4px; min-height:60px; position:relative; }
+.lane-cell.empty { background:repeating-linear-gradient(135deg, transparent, transparent 6px, rgba(255,255,255,0.015) 6px, rgba(255,255,255,0.015) 7px); }
+
+.step-card {
+  background:var(--card-2);
+  border:1px solid var(--border);
+  border-left:3px solid var(--dept-color, var(--muted));
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.4;
+  height:100%;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.step-card.handoff { border-top:1px dashed var(--chartreuse); }
+.step-card.friction { border-left-color:var(--flame); background:rgba(255,74,35,0.05); }
+.step-num { font-size:9px; font-weight:800; letter-spacing:1px; color:var(--fog); text-transform:uppercase; }
+.step-title { font-weight:700; color:var(--text); font-size:12px; line-height:1.35; }
+.step-note { font-size:11px; color:var(--dim); line-height:1.45; }
+.step-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:2px; }
+.step-tag { font-size:8px; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; padding:1px 5px; }
+.step-tag.handoff { background:rgba(205,248,81,0.15); color:var(--chartreuse); }
+.step-tag.friction { background:rgba(255,74,35,0.18); color:var(--flame); }
+.step-tag.gate { background:rgba(167,139,250,0.15); color:var(--violet); }
+.step-tag.parallel { background:rgba(91,192,190,0.15); color:var(--teal); }
+
+/* HANDOFF NOTES SECTION */
+.handoffs { margin-top:22px; padding-top:18px; border-top:1px solid var(--border); }
+.handoffs-label { font-size:9px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:10px; }
+.handoff-row { display:flex; gap:14px; padding:8px 0; font-size:12px; border-bottom:1px solid var(--border); }
+.handoff-row:last-child { border-bottom:none; }
+.handoff-from-to { font-weight:700; color:var(--text); white-space:nowrap; min-width:240px; font-size:11px; letter-spacing:0.5px; }
+.handoff-from-to .arrow { color:var(--chartreuse); margin:0 6px; font-weight:900; }
+.handoff-detail { color:var(--dim); flex:1; line-height:1.5; }
+
+/* LEGEND */
+.legend { background:var(--card-2); padding:16px 20px; margin-bottom:36px; display:flex; gap:20px; flex-wrap:wrap; font-size:11px; }
+.legend-label { font-size:9px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--fog); margin-right:8px; }
+.legend-item { display:flex; align-items:center; gap:6px; color:var(--dim); }
+.legend-swatch { width:12px; height:12px; }
+.legend-swatch.handoff { background:transparent; border:1px dashed var(--chartreuse); }
+.legend-swatch.friction { background:rgba(255,74,35,0.5); border-left:3px solid var(--flame); }
+.legend-swatch.gate { background:rgba(167,139,250,0.3); }
+.legend-swatch.parallel { background:rgba(91,192,190,0.3); }
+
+/* FOOTER */
+footer {
+  margin-top:60px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  font-size:11px;
+  color:var(--fog);
+  letter-spacing:0.5px;
+}
+
+@media (max-width:800px) {
+  h1 { font-size:32px; }
+  .wrap { padding:24px 16px 40px; }
+  .workflow { padding:20px 16px 24px; }
+  .workflow-head { flex-direction:column; }
+  .workflow-meta { align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <img src="/logo_neon.png" alt="Campaign Ops">
+  <div class="gate-title">Campaign Operations</div>
+  <div class="gate-sub">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">ENTER</button>
+  <div id="err"></div>
+</div>
+
+<!-- BACK NAV -->
+<div class="site-strip" id="app" style="display:none;">
+  <a href="/">← Home</a>
+  <div class="crumb">Campaign Ops · <b>Dept Workflows</b></div>
+  <a href="/">Home</a>
+</div>
+
+<script>
+function checkPw(){
+  var v=document.getElementById("pw").value;
+  if(v==="RCA2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="flex";
+    document.getElementById("page-body").style.display="block";
+    sessionStorage.setItem("rca_auth","1");
+    sessionStorage.setItem("rca_auth_pw", v);
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";
+    document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  var b=document.getElementById("page-body");
+  if(!g||!a||!b) return;
+  if(sessionStorage.getItem("rca_auth")==="1"){
+    g.style.display="none";
+    a.style.display="flex";
+    b.style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else {
+  initGate();
+}
+</script>
+
+<div id="page-body" style="display:none;">
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="eyebrow">Campaign Ops · Framework</div>
+    <h1>Dept <span class="x">Workflows</span></h1>
+    <p class="sub">End-to-end processes that cross departments. Each workflow names the steps, the owners, and the handoff points where things break. The point isn't to redesign work — it's to make the path visible so Ops can flag gaps before they show up in Active Projects.</p>
+    <div class="meta"><b>Source:</b> Friction Points Log · Ownership Map · Discovery interviews · DDEX Strategy</div>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span class="legend-label">Legend</span>
+    <span class="legend-item"><span class="legend-swatch handoff"></span>Handoff into this dept</span>
+    <span class="legend-item"><span class="legend-swatch friction"></span>Known friction point</span>
+    <span class="legend-item"><span class="legend-swatch gate"></span>Decision gate</span>
+    <span class="legend-item"><span class="legend-swatch parallel"></span>Runs in parallel</span>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-label">Workflows</div>
+    <div class="toc-list" id="toc-list"></div>
+  </div>
+
+  <!-- WORKFLOWS -->
+  <div id="workflows"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Campaign Operations · RCA Records</span>
+    <span>operations.mugzyboez.co</span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+// ============================================
+// DEPARTMENT REGISTRY
+// ============================================
+const DEPTS = {
+  'AR':              { label: 'A&R',                 color: 'var(--dept-ar)' },
+  'AR_ADMIN':        { label: 'A&R Admin',           color: 'var(--dept-ar-admin)' },
+  'BA':              { label: 'Business Affairs',    color: 'var(--dept-ba)' },
+  'FINANCE':         { label: 'Finance',             color: 'var(--dept-finance)' },
+  'RELEASE_PLANNING':{ label: 'Release Planning',    color: 'var(--dept-release-planning)' },
+  'CAMPAIGN_LEADS':  { label: 'Campaign Leads',      color: 'var(--dept-leads)' },
+  'CAMPAIGN_OPS':    { label: 'Campaign Ops',        color: 'var(--dept-ops)' },
+  'AUDIENCE_DEV':    { label: 'Audience Dev',        color: 'var(--dept-auddev)' },
+  'COMMERCIAL':      { label: 'Commercial Partners', color: 'var(--dept-commercial)' },
+  'CREATIVE':        { label: 'Creative',            color: 'var(--dept-creative)' },
+  'PUBLICITY':       { label: 'Publicity',           color: 'var(--dept-publicity)' },
+  'RADIO':           { label: 'Radio',               color: 'var(--dept-radio)' },
+  'SYNC':            { label: 'Sync & Licensing',    color: 'var(--dept-sync)' },
+  'BRAND':           { label: 'Brand Partnerships',  color: 'var(--dept-brand)' },
+  'INTERNATIONAL':   { label: 'International',       color: 'var(--dept-international)' },
+  'PHYSICAL':        { label: 'Physical / D2C',      color: 'var(--dept-physical)' },
+  'TOUR_MARKETING':  { label: 'Tour Marketing',      color: 'var(--dept-tour)' },
+  'MGMT':            { label: 'Mgmt (external)',     color: 'var(--dept-management)' },
+  'DIGITAL_OPS':     { label: 'Digital Ops',         color: 'var(--dept-digital-ops)' },
+  'SONY_PROD':       { label: 'Sony Production UK',  color: 'var(--dept-international)' },
+};
+
+// ============================================
+// WORKFLOW DATA
+// Each workflow has: id, title, status, desc, depts (ordered list of dept IDs for rows),
+// steps (each: dept, title, note, tags), handoffs (from→to with detail).
+// ============================================
+const WORKFLOWS = [
+
+  {
+    id: 'release-setup',
+    title: 'Release Setup',
+    status: 'live',
+    statusLabel: 'Documented · Live',
+    desc: 'From A&R confirming a release to it entering Release Runway as workable. The most common workflow at the label — and the most common source of SAA / SAMP "Unknown" gaps.',
+    depts: ['AR', 'AR_ADMIN', 'BA', 'RELEASE_PLANNING', 'CAMPAIGN_LEADS'],
+    steps: [
+      { dept:'AR', title:'Confirm release', note:'A&R locks the track + release intent with the artist.' },
+      { dept:'AR_ADMIN', title:'Process paperwork', note:'Splits, contributors, samples flagged. Initiates SAA/SAMP.', tags:['handoff'] },
+      { dept:'BA', title:'Clearance work', note:'Samples, features, interpolations cleared. Side artist agreements drafted.', tags:['parallel','friction'] },
+      { dept:'RELEASE_PLANNING', title:'Schedule in Runway', note:'Release date set. Lifecycle stages begin. Workability tracked.', tags:['handoff','gate'] },
+      { dept:'CAMPAIGN_LEADS', title:'Campaign kickoff', note:'Campaign Lead owns rollout plan from here forward.', tags:['handoff'] },
+    ],
+    handoffs: [
+      { from:'AR', to:'AR_ADMIN', detail:'Often informal — Scott Sylvester noted A&R Admin sometimes doesn\'t know about a record. This is where SAA/SAMP "Unknown" originates.' },
+      { from:'AR_ADMIN', to:'RELEASE_PLANNING', detail:'A&R Admin chases A&R for rough mixes to feed Release Planning. Linear process with frequent breaks.' },
+      { from:'RELEASE_PLANNING', to:'CAMPAIGN_LEADS', detail:'Campaign Lead picks up once date is in Runway. No formal trigger — depends on individual relationships.' },
+    ]
+  },
+
+  {
+    id: 'sync-clearance',
+    title: 'Sync Clearance',
+    status: 'live',
+    statusLabel: 'Documented · Live',
+    desc: 'When sync requests a track for a placement, this is the chain that confirms whether the label can clear it. Mapped from the Song Clearance Process flowchart and Sync & Licensing intake.',
+    depts: ['SYNC', 'AR_ADMIN', 'BA', 'AR'],
+    steps: [
+      { dept:'SYNC', title:'Sync request in', note:'Placement opportunity received. Track, scene, fee, term identified.' },
+      { dept:'AR_ADMIN', title:'Check splits + samples', note:'Pulls split deal + sample data from GOLD/CARMA.', tags:['handoff'] },
+      { dept:'BA', title:'Rights review', note:'Confirms label can grant the use. Flags third-party approvals needed.', tags:['parallel','gate'] },
+      { dept:'AR', title:'Artist approval', note:'Artist sign-off via management. Required for almost all syncs.', tags:['friction'] },
+      { dept:'SYNC', title:'Quote + paper', note:'Quote issued. If accepted, agreement drafted and GOLD updated.', tags:['handoff'] },
+    ],
+    handoffs: [
+      { from:'SYNC', to:'AR_ADMIN', detail:'Sync needs split data fast. A&R Admin response time is the single biggest friction in this chain.' },
+      { from:'AR_ADMIN', to:'AR', detail:'Artist approval is opaque from the inside — Sync waits while A&R navigates management. No SLA documented.' },
+    ]
+  },
+
+  {
+    id: 'ddex-radio',
+    title: 'DDEX → Radio',
+    status: 'testing',
+    statusLabel: 'In Testing',
+    desc: 'Automatic music delivery to the Radio team via the DDEX feed into DISCO. Replaces manual file routing. Two-tier model proposed — pre-street to Radio only, full delivery on street date.',
+    depts: ['SONY_PROD', 'DIGITAL_OPS', 'SYNC', 'RADIO'],
+    steps: [
+      { dept:'SONY_PROD', title:'DDEX package built', note:'ERN delivery package built and dispatched. Contains PartyList, ResourceList, DealList, ReleaseList.' },
+      { dept:'DIGITAL_OPS', title:'Routing config', note:'Brian Gately\'s team routes feed to internal DISCO endpoint.', tags:['handoff'] },
+      { dept:'SYNC', title:'DISCO ingestion', note:'Nate Poblete confirms file lands in restricted folder. Access controls applied.', tags:['parallel'] },
+      { dept:'RADIO', title:'Radio pulls audio', note:'Radio team accesses pre-cleared audio from DISCO. No more manual file requests.', tags:['handoff'] },
+    ],
+    handoffs: [
+      { from:'SONY_PROD', to:'DIGITAL_OPS', detail:'Philip Blatchford → Brian Gately. Currently in testing — handoff format and timing still being validated.' },
+      { from:'SYNC', to:'RADIO', detail:'Open question: pre-street vs. street-date-only delivery for Radio. Decision pending.' },
+    ]
+  },
+
+  {
+    id: 'physical-preorder',
+    title: 'Physical Pre-Order Activation',
+    status: 'broken',
+    statusLabel: 'Broken · Manual',
+    desc: 'When a vinyl/CD pre-order goes live, multiple teams need to activate in parallel — DTC, advertising, social, influencer. Currently runs entirely on Aaron chasing people. Aaron\'s #1 named friction point.',
+    depts: ['PHYSICAL', 'AUDIENCE_DEV', 'CAMPAIGN_LEADS', 'CREATIVE'],
+    steps: [
+      { dept:'PHYSICAL', title:'Pre-order goes live', note:'Angelina\'s team flips the switch. Product available on the store.' },
+      { dept:'CAMPAIGN_LEADS', title:'Chase activations', note:'Aaron manually contacts every department. No automated trigger.', tags:['friction'] },
+      { dept:'CREATIVE', title:'Assets shipped', note:'Pre-order key art, social skins, store imagery. Often built reactively.', tags:['friction'] },
+      { dept:'AUDIENCE_DEV', title:'Paid + social', note:'Pre-order ads spin up. Social calendar updated. Influencer plan if applicable.', tags:['parallel','friction'] },
+    ],
+    handoffs: [
+      { from:'PHYSICAL', to:'CAMPAIGN_LEADS', detail:'No notification exists. Aaron finds out when the pre-order goes live and starts chasing.' },
+      { from:'CAMPAIGN_LEADS', to:'AUDIENCE_DEV', detail:'Aaron emails the grid. Digital team often doesn\'t respond. Rachel left, nobody replaced her function.' },
+      { from:'CAMPAIGN_LEADS', to:'CREATIVE', detail:'No standing brief. Each pre-order is a one-off request to Creative.' },
+    ]
+  },
+
+  {
+    id: 'pre-release-circulation',
+    title: 'Pre-Release Music Circulation',
+    status: 'broken',
+    statusLabel: 'No Replacement · PreAmp Ending',
+    desc: 'Distributing pre-release music to internal teams (DSP partners, press, sync) before street date. PreAmp ($500K/yr) was the system. PreAmp is being discontinued. No replacement identified. Operationally closest person (Release Planning) doesn\'t know what happens next.',
+    depts: ['AR_ADMIN', 'RELEASE_PLANNING', 'COMMERCIAL', 'PUBLICITY', 'SYNC'],
+    steps: [
+      { dept:'AR_ADMIN', title:'Master ready', note:'Final master locked. Ready to share with internal teams.' },
+      { dept:'RELEASE_PLANNING', title:'Distribution decision', note:'Who needs the audio? When? At what level of restriction?', tags:['gate','friction'] },
+      { dept:'COMMERCIAL', title:'DSP partner shares', note:'Spotify, Apple, Amazon get advance audio for pitch consideration.', tags:['parallel'] },
+      { dept:'PUBLICITY', title:'Press embargo shares', note:'Long-lead press receives audio under embargo.', tags:['parallel'] },
+      { dept:'SYNC', title:'Sync pitches', note:'Sync team gets audio to pitch placements pre-release.', tags:['parallel'] },
+    ],
+    handoffs: [
+      { from:'AR_ADMIN', to:'RELEASE_PLANNING', detail:'Today this happens via PreAmp link. No documented alternative path.' },
+      { from:'RELEASE_PLANNING', to:'COMMERCIAL', detail:'Tier strategy is informal. Different artists, different rules. No SLA.' },
+    ]
+  },
+
+  {
+    id: 'tour-announce',
+    title: 'Tour Announcement',
+    status: 'broken',
+    statusLabel: 'No System',
+    desc: 'When management confirms tour dates, multiple teams need to know to spin up tour marketing, retail tie-ins, and DSP positioning. Sarah Langerman gets tour dates from "random sources — marketing directors, agents, hallway conversations."',
+    depts: ['MGMT', 'CAMPAIGN_LEADS', 'TOUR_MARKETING', 'AUDIENCE_DEV', 'COMMERCIAL'],
+    steps: [
+      { dept:'MGMT', title:'Tour confirmed', note:'Routing locked with the agent. Dates ready to announce.' },
+      { dept:'CAMPAIGN_LEADS', title:'Lead notified', note:'Usually informally. Sometimes via the agent, sometimes via management directly.', tags:['friction'] },
+      { dept:'TOUR_MARKETING', title:'Tour marketing prep', note:'Sarah\'s team builds the marketing plan. Solicits ~1 month out with limited lead time.', tags:['handoff','friction'] },
+      { dept:'AUDIENCE_DEV', title:'Geo-targeted paid', note:'Paid spend targeted to tour markets. Date-of-show pushes.', tags:['parallel'] },
+      { dept:'COMMERCIAL', title:'DSP tour positioning', note:'Touring-artist playlist consideration. Editorial pitches around routing.', tags:['parallel'] },
+    ],
+    handoffs: [
+      { from:'MGMT', to:'CAMPAIGN_LEADS', detail:'No standing channel. Lead often finds out about tour dates from social media.' },
+      { from:'CAMPAIGN_LEADS', to:'TOUR_MARKETING', detail:'Sarah: tour dates arrive too late. One month out is short for the activations needed.' },
+    ]
+  },
+
+  {
+    id: 'budget-approval',
+    title: 'Budget Approval → Console',
+    status: 'broken',
+    statusLabel: 'Verbal ≠ Console',
+    desc: 'Campaign Lead asks for money in a meeting. Money is verbally approved. The CL goes to spend it. Finance says no — it\'s not in Console yet. Sarah Langerman: "They tell me money\'s approved, then Megan says it\'s not approved."',
+    depts: ['CAMPAIGN_LEADS', 'CAMPAIGN_OPS', 'FINANCE'],
+    steps: [
+      { dept:'CAMPAIGN_LEADS', title:'Budget request', note:'CL builds the spend plan and asks in Active Projects or 1:1 with leadership.' },
+      { dept:'CAMPAIGN_LEADS', title:'Verbal approval', note:'Leadership signs off in the meeting.', tags:['gate','friction'] },
+      { dept:'CAMPAIGN_OPS', title:'Track the delta', note:'Ops flags when verbal approval has not landed in Console after [X] days.', tags:['handoff'] },
+      { dept:'FINANCE', title:'Console allocation', note:'Megan\'s team creates the phase and allocates funds.', tags:['friction'] },
+      { dept:'CAMPAIGN_LEADS', title:'Spend authorized', note:'CL can now invoice against the phase.' },
+    ],
+    handoffs: [
+      { from:'CAMPAIGN_LEADS', to:'FINANCE', detail:'No system trigger between verbal approval and Console entry. Days or weeks can pass.' },
+      { from:'CAMPAIGN_OPS', to:'CAMPAIGN_LEADS', detail:'Ops surfaces the gap — does not approve the spend, does not chase Finance directly.' },
+    ]
+  },
+
+];
+
+// ============================================
+// RENDER
+// ============================================
+function statusClass(s) { return s; }
+
+function renderTOC() {
+  const list = document.getElementById('toc-list');
+  list.innerHTML = WORKFLOWS.map((w, i) => `
+    <a class="toc-item" href="#${w.id}">
+      <span class="toc-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="toc-name">${w.title}</span>
+      <span class="toc-status ${statusClass(w.status)}">${w.status}</span>
+    </a>
+  `).join('');
+}
+
+function renderWorkflows() {
+  const wrap = document.getElementById('workflows');
+  wrap.innerHTML = WORKFLOWS.map((w, i) => renderWorkflow(w, i)).join('');
+}
+
+function renderWorkflow(w, idx) {
+  const numSteps = w.steps.length;
+  // Build grid: column 1 is dept labels, columns 2..N+1 are steps
+  // Row 1 is step number headers, rows 2..M+1 are dept lanes
+  const cols = `auto repeat(${numSteps}, minmax(180px, 1fr))`;
+  const rows = w.depts.map(d => DEPTS[d]);
+
+  // Build cell map: for each dept, which step columns have a step
+  const stepsByDept = {};
+  rows.forEach(r => { stepsByDept[r.label] = []; });
+  w.steps.forEach((s, stepIdx) => {
+    const d = DEPTS[s.dept];
+    if (!d) return;
+    if (!stepsByDept[d.label]) stepsByDept[d.label] = [];
+    stepsByDept[d.label].push({ stepIdx, step: s });
+  });
+
+  // Render grid
+  let html = `
+    <div class="workflow" id="${w.id}">
+      <div class="workflow-head">
+        <div class="workflow-title-block">
+          <div class="workflow-num">Workflow ${String(idx + 1).padStart(2, '0')}</div>
+          <div class="workflow-title">${w.title}</div>
+          <div class="workflow-desc">${w.desc}</div>
+        </div>
+        <div class="workflow-meta">
+          <span class="workflow-status ${statusClass(w.status)}">${w.statusLabel}</span>
+          <span>${w.depts.length} depts · ${w.steps.length} steps · ${w.handoffs.length} handoffs</span>
+        </div>
+      </div>
+      <div class="swimlane-wrap">
+        <div class="swimlane" style="grid-template-columns:${cols}">
+  `;
+
+  // Header row: empty cell + step number cells
+  html += `<div class="step-header-cell dept-col">DEPT</div>`;
+  for (let s = 0; s < numSteps; s++) {
+    html += `<div class="step-header-cell">Step ${String(s + 1).padStart(2, '0')}</div>`;
+  }
+
+  // Dept rows
+  w.depts.forEach(deptKey => {
+    const d = DEPTS[deptKey];
+    if (!d) return;
+    html += `<div class="dept-label" style="--dept-color:${d.color}">${d.label}</div>`;
+    for (let s = 0; s < numSteps; s++) {
+      const step = w.steps[s];
+      if (step && step.dept === deptKey) {
+        html += renderStepCard(step, s, d.color);
+      } else {
+        html += `<div class="lane-cell empty"></div>`;
+      }
+    }
+  });
+
+  html += `</div></div>`;
+
+  // Handoffs section
+  if (w.handoffs && w.handoffs.length > 0) {
+    html += `
+      <div class="handoffs">
+        <div class="handoffs-label">Handoff Notes — Where it Breaks</div>
+        ${w.handoffs.map(h => {
+          const from = DEPTS[h.from] ? DEPTS[h.from].label : h.from;
+          const to = DEPTS[h.to] ? DEPTS[h.to].label : h.to;
+          return `
+            <div class="handoff-row">
+              <div class="handoff-from-to">${from}<span class="arrow">→</span>${to}</div>
+              <div class="handoff-detail">${h.detail}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function renderStepCard(step, stepIdx, deptColor) {
+  const tags = step.tags || [];
+  const hasHandoff = tags.includes('handoff');
+  const hasFriction = tags.includes('friction');
+  let classes = 'step-card';
+  if (hasHandoff) classes += ' handoff';
+  if (hasFriction) classes += ' friction';
+
+  const tagHtml = tags.map(t => `<span class="step-tag ${t}">${t}</span>`).join('');
+
+  return `
+    <div class="lane-cell">
+      <div class="${classes}" style="--dept-color:${deptColor}">
+        <div class="step-num">Step ${String(stepIdx + 1).padStart(2, '0')}</div>
+        <div class="step-title">${step.title}</div>
+        ${step.note ? `<div class="step-note">${step.note}</div>` : ''}
+        ${tags.length > 0 ? `<div class="step-tags">${tagHtml}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+renderTOC();
+renderWorkflows();
+</script>
+
+</body>
+</html>
