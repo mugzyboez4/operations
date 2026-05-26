@@ -3,242 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campaign Operations · RCA Records</title>
+<title>Campaign Operations</title>
 <link rel="icon" type="image/png" href="/tempoicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F5F4EC;
-    --paper: #FFFFFF;
-    --ink: #0F0E0E;
-    --muted: #6B6776;
-    --line: #C8C5BB;
-    --chartreuse: #8FA82A;
-    --chartreuse-fill: #CDF851;
-    --flame: #B33113;
-  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.4;
-    padding: 48px 40px;
-    max-width: 980px;
-    margin: 0 auto;
+  html, body {
+    height: 100%;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #F5F4EC;
+    color: #0F0E0E;
     -webkit-font-smoothing: antialiased;
   }
-
-  header {
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 18px;
-    margin-bottom: 28px;
+  body {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .wrap {
+    text-align: center;
+    max-width: 420px;
   }
   .eye {
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
+    color: #6B6776;
+    margin-bottom: 14px;
   }
   h1 {
-    font-size: 44px;
+    font-size: 32px;
     font-weight: 900;
     letter-spacing: -0.02em;
-    line-height: 1;
+    line-height: 1.05;
     text-transform: uppercase;
+    margin-bottom: 18px;
   }
-  h1 .accent {
-    color: var(--chartreuse);
-    font-weight: 900;
-  }
-  .meta {
-    text-align: right;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .meta strong {
-    display: block;
-    color: var(--ink);
+  h1 .accent { background: #CDF851; padding: 0 6px; }
+  p {
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-  }
-
-  ol.agenda {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  ol.agenda li {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  ol.agenda li:last-child { border-bottom: none; }
-
-  .num {
-    flex: 0 0 42px;
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
-  .name {
-    flex: 1;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.15;
-  }
-  .demos {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  .demo {
-    display: inline-block;
-    background: var(--chartreuse-fill);
-    color: var(--ink);
-    padding: 6px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: none;
-    transition: opacity 0.15s;
-  }
-  .demo:hover { opacity: 0.75; }
-  .demo.local {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--line);
-  }
-
-  footer {
-    margin-top: 48px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  footer .right { color: var(--ink); font-weight: 700; }
-
-  @media (max-width: 720px) {
-    body { padding: 32px 20px; }
-    h1 { font-size: 32px; }
-    .name { font-size: 18px; }
-    ol.agenda li { flex-wrap: wrap; }
-    .demos { justify-content: flex-start; padding-left: 60px; }
+    color: #6B6776;
+    line-height: 1.5;
   }
 </style>
 </head>
 <body>
-
-<header>
-  <div>
-    <div class="eye">RCA Records · Internal</div>
-    <h1>CAMPAIGN <span class="accent">·</span> OPS</h1>
+  <div class="wrap">
+    <div class="eye">RCA Records &middot; Internal</div>
+    <h1>Campaign <span class="accent">Ops</span></h1>
+    <p>Internal tooling. Access via direct URL only.</p>
   </div>
-  <div class="meta">
-    <strong>Working Agenda</strong>
-  </div>
-</header>
-
-<ol class="agenda">
-
-  <li>
-    <span class="num">01</span>
-    <span class="name">Team</span>
-  </li>
-
-  <li>
-    <span class="num">02</span>
-    <span class="name">Airtable</span>
-    <span class="demos">
-      <a class="demo" href="/d2c-grid.html">D2C Planner</a>
-      <a class="demo" href="/ad-tagging.html">AD Roster</a>
-      <a class="demo" href="https://airtable.com/appLwUF3H4KjtiRdW" target="_blank" rel="noopener">Sandbox</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">03</span>
-    <span class="name">Mapping → AD Roster → Creative</span>
-    <span class="demos">
-      <a class="demo" href="/dept-workflows.html">Dept Workflows</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">04</span>
-    <span class="name">Campaign Phases</span>
-    <span class="demos">
-      <a class="demo" href="/reference/phase-gates.html">Phase Gates</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">05</span>
-    <span class="name">Budget</span>
-    <span class="demos">
-      <a class="demo" href="/reference/budget.html">Two-Track</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">06</span>
-    <span class="name">Scheduling Requests</span>
-    <span class="demos">
-      <a class="demo" href="/reference/phase-gates.html">Plan → Pre-Release Gate</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">07</span>
-    <span class="name">A&amp;R Admin · A&amp;R Ops Gaps</span>
-    <span class="demos">
-      <a class="demo" href="/reference/ar-ops-gaps.html">Four Gaps</a>
-    </span>
-  </li>
-
-  <li>
-    <span class="num">08</span>
-    <span class="name">Monthly Cadence</span>
-  </li>
-
-</ol>
-
-<a href="/reference/phase-1.html" style="display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-top:40px;padding:22px 26px;background:#CDF851;border:none;text-decoration:none;color:#0F0E0E;font-family:'Inter',sans-serif">
-  <div>
-    <div style="font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#3a4a00;margin-bottom:6px">Working Sprint · Checklist</div>
-    <div style="font-size:22px;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;line-height:1.1">Phase 1 Priorities</div>
-  </div>
-  <div style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">Open →</div>
-</a>
-
-<footer>
-  <span>Campaign Operations · RCA Records</span>
-  <span class="right">operations.mugzyboez.co</span>
-</footer>
-
 </body>
 </html>
