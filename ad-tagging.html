@@ -66,6 +66,53 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 }
 .meta strong { color: var(--text-soft); font-weight: 600; }
 
+/* FILTER BAR */
+.filter-bar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 16px; margin-bottom: 16px;
+  background: var(--card); border: 1px solid var(--rule);
+}
+.filter-bar .label {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--fog);
+}
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.filter-chip:hover {
+  border-color: var(--text-soft);
+}
+.filter-chip.active {
+  background: var(--chartreuse);
+  border-color: var(--chartreuse);
+  color: var(--text);
+}
+.filter-chip .count {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fog);
+  margin-left: 2px;
+}
+.filter-chip.active .count {
+  color: var(--text);
+}
+.filter-spacer { flex: 1; }
+.filter-result {
+  font-size: 11px; color: var(--fog);
+  letter-spacing: 0.3px;
+}
+.filter-result b { color: var(--text); font-weight: 700; }
+
 /* CONNECTION STATUS */
 .conn-bar {
   display: flex; align-items: center; justify-content: space-between;
@@ -492,6 +539,16 @@ if(document.readyState==="loading"){
     </div>
   </div>
 
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="label">Filters</span>
+    <button class="filter-chip" data-filter="active" id="filterActive">
+      Active campaign <span class="count" id="activeCount"></span>
+    </button>
+    <div class="filter-spacer"></div>
+    <div class="filter-result" id="filterResult"></div>
+  </div>
+
   <div class="layout">
 
     <section class="artists">
@@ -567,121 +624,121 @@ const DEMO_AD_TEAM = [
 ];
 
 const DEMO_ARTISTS = [
-  { name: "A$AP Mob", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"] },
-  { name: "A$AP Rocky", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"] },
-  { name: "Alex G", genre: "Indie", lifestyleTags: [] },
-  { name: "Aliyah's Interlude", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "Ally Salort", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "Alok", genre: "Electronic", lifestyleTags: [] },
-  { name: "Amy Shark", genre: "Pop", lifestyleTags: [] },
-  { name: "Ari Abdul", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "Arima Ederra", genre: "R&B", lifestyleTags: [] },
-  { name: "ATEEZ", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"] },
-  { name: "Audrey Hobert", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "AVAION", genre: "Electronic", lifestyleTags: [] },
-  { name: "Baby J", genre: "Rap", lifestyleTags: [] },
-  { name: "Becky G", genre: "Latin Urban", lifestyleTags: [] },
-  { name: "Benitt", genre: "R&B", lifestyleTags: [] },
-  { name: "BERWYN", genre: "R&B", lifestyleTags: [] },
-  { name: "Blessing Jolie", genre: "R&B", lifestyleTags: [] },
-  { name: "Blood Orange", genre: "Indie", lifestyleTags: ["LGBTQ Culture"] },
-  { name: "Britney Spears", genre: "Pop", lifestyleTags: ["Fan Pages"] },
-  { name: "Bryson Tiller", genre: "Rap", lifestyleTags: ["Sports Culture"] },
-  { name: "Buddy Guy", genre: "Rock", lifestyleTags: [] },
-  { name: "CA7RIEL & Paco Amoroso", genre: "Rap", lifestyleTags: [] },
-  { name: "Cam", genre: "Country", lifestyleTags: [] },
-  { name: "Carter Vail", genre: "Rock", lifestyleTags: [] },
-  { name: "Cat Burns", genre: "Pop", lifestyleTags: ["LGBTQ Culture"] },
-  { name: "Childish Gambino", genre: "Rap", lifestyleTags: [] },
-  { name: "Chloe Qisha", genre: "Indie", lifestyleTags: [] },
-  { name: "Chris Brown", genre: "R&B", lifestyleTags: [] },
-  { name: "cieratherapper", genre: "Rap", lifestyleTags: [] },
-  { name: "Colter Wall", genre: "Country", lifestyleTags: [] },
-  { name: "D'Angelo", genre: "R&B", lifestyleTags: [] },
-  { name: "DAMEDAME*", genre: "R&B", lifestyleTags: [] },
-  { name: "Davido", genre: "R&B", lifestyleTags: [] },
-  { name: "Deante' Hitchcock", genre: "R&B", lifestyleTags: [] },
-  { name: "Debbii Dawson", genre: "Pop", lifestyleTags: [] },
-  { name: "Doja Cat", genre: "Rap", lifestyleTags: ["Pop Influencers", "LGBTQ Culture"] },
-  { name: "Eem Triplin", genre: "Rap", lifestyleTags: [] },
-  { name: "Eli", genre: "Pop", lifestyleTags: [] },
-  { name: "Elle King", genre: "Pop", lifestyleTags: [] },
-  { name: "Emma Andersen", genre: "Singer-Songwriter", lifestyleTags: [] },
-  { name: "Ethan Garner", genre: "Pop", lifestyleTags: [] },
-  { name: "Flo Milli", genre: "Rap", lifestyleTags: [] },
-  { name: "Foo Fighters", genre: "Rock", lifestyleTags: [] },
-  { name: "Frances Whitney", genre: "Indie", lifestyleTags: [] },
-  { name: "Freddie Dredd", genre: "Rap", lifestyleTags: [] },
-  { name: "Freddie Gibbs & Madlib", genre: "Rap", lifestyleTags: [] },
-  { name: "Frost Children", genre: "Pop", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"] },
-  { name: "girlsweetvoiced", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "H.E.R.", genre: "R&B", lifestyleTags: [] },
-  { name: "Hailey Picardi", genre: "Pop", lifestyleTags: [] },
-  { name: "horsegiirL", genre: "Electronic", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"] },
-  { name: "I.Am.Lyric", genre: "Rap", lifestyleTags: [] },
-  { name: "Isabel LaRosa", genre: "Pop", lifestyleTags: ["Pop Influencers"] },
-  { name: "Isaia Huron", genre: "R&B", lifestyleTags: [] },
-  { name: "JACOTÉNE", genre: "R&B", lifestyleTags: [] },
-  { name: "Jade Thirlwall", genre: "Pop", lifestyleTags: ["LGBTQ Culture"] },
-  { name: "Jazmine Sullivan", genre: "R&B", lifestyleTags: [] },
-  { name: "Jharrel Jerome", genre: "Rap", lifestyleTags: [] },
-  { name: "Joey Valence & Brae", genre: "Indie", lifestyleTags: ["Reddit Communities"] },
-  { name: "Jourden", genre: "R&B", lifestyleTags: [] },
-  { name: "Justin Timberlake", genre: "Pop", lifestyleTags: ["Fan Pages"] },
-  { name: "Kane Brown", genre: "Country", lifestyleTags: [] },
-  { name: "KAYTRANADA", genre: "Electronic", lifestyleTags: [] },
-  { name: "Khalid", genre: "Pop", lifestyleTags: ["LGBTQ Culture"] },
-  { name: "King EJ", genre: "Rap", lifestyleTags: [] },
-  { name: "KNA", genre: "Alternative", lifestyleTags: [] },
-  { name: "kwn", genre: "R&B", lifestyleTags: [] },
-  { name: "Kygo", genre: "Electronic", lifestyleTags: [] },
-  { name: "Lancey Foux", genre: "R&B", lifestyleTags: [] },
-  { name: "Latto", genre: "Rap", lifestyleTags: ["Sports Culture"] },
-  { name: "LAWSON", genre: "Rap", lifestyleTags: [] },
-  { name: "LISA", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"] },
-  { name: "Lizzy McAlpine", genre: "Indie", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"] },
-  { name: "Lost Frequencies", genre: "Electronic", lifestyleTags: [] },
-  { name: "Love Spells", genre: "Indie", lifestyleTags: [] },
-  { name: "LU", genre: "Rap", lifestyleTags: [] },
-  { name: "Mark Ronson", genre: "Pop", lifestyleTags: [] },
-  { name: "Matt Champion", genre: "Indie", lifestyleTags: [] },
-  { name: "Miguel", genre: "R&B", lifestyleTags: [] },
-  { name: "Myles Smith", genre: "Pop", lifestyleTags: [] },
-  { name: "NOAH NOAH", genre: "Pop", lifestyleTags: [] },
-  { name: "Oliver Heldens", genre: "Electronic", lifestyleTags: [] },
-  { name: "Osé", genre: "R&B", lifestyleTags: [] },
-  { name: "P!NK", genre: "Pop", lifestyleTags: ["Fan Pages"] },
-  { name: "Presley Regier", genre: "Pop", lifestyleTags: [] },
-  { name: "Purple Disco Machine", genre: "Electronic", lifestyleTags: [] },
-  { name: "Ray Vaughn", genre: "Rap", lifestyleTags: [] },
-  { name: "Red Clay Strays", genre: "Country", lifestyleTags: [] },
-  { name: "reggie", genre: "R&B", lifestyleTags: [] },
-  { name: "RIIZE", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"] },
-  { name: "Room Full of Mirrors", genre: "Rap", lifestyleTags: [] },
-  { name: "Sarah Lola", genre: "Singer-Songwriter", lifestyleTags: [] },
-  { name: "Sasha Keable", genre: "R&B", lifestyleTags: [] },
-  { name: "Sheff G", genre: "Rap", lifestyleTags: ["Clipping"] },
-  { name: "Skepta", genre: "Electronic", lifestyleTags: [] },
-  { name: "Skillibeng", genre: "Rap", lifestyleTags: [] },
-  { name: "Skye Newman", genre: "R&B", lifestyleTags: [] },
-  { name: "Sleep Token", genre: "Alternative", lifestyleTags: ["Gaming Culture", "Reddit Communities"] },
-  { name: "Sleepy Hallow", genre: "Rap", lifestyleTags: ["Sports Culture", "Clipping"] },
-  { name: "Steve Lacy", genre: "Pop", lifestyleTags: ["LGBTQ Culture"] },
-  { name: "Suzy Clue", genre: "Indie", lifestyleTags: [] },
-  { name: "SZA", genre: "R&B", lifestyleTags: [] },
-  { name: "Tate McRae", genre: "Pop", lifestyleTags: [] },
-  { name: "Teezo Touchdown", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"] },
-  { name: "Tele", genre: "Pop", lifestyleTags: [] },
-  { name: "Tems", genre: "Rap", lifestyleTags: [] },
-  { name: "The Strokes", genre: "Alternative", lifestyleTags: ["Alt Influencers"] },
-  { name: "Three Days Grace", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"] },
-  { name: "TOOL", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"] },
-  { name: "Tyler Childers", genre: "Country", lifestyleTags: [] },
-  { name: "Tyler ICU", genre: "Electronic", lifestyleTags: [] },
-  { name: "Victoria Monét", genre: "Pop", lifestyleTags: [] },
-  { name: "Walker Hayes", genre: "Country", lifestyleTags: [] },
-  { name: "Wolf Alice", genre: "Alternative", lifestyleTags: ["Alt Influencers"] },
-  { name: "Yebba", genre: "R&B", lifestyleTags: [] }
+  { name: "A$AP Mob", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "A$AP Rocky", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "Alex G", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Aliyah's Interlude", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Ally Salort", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Alok", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Amy Shark", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Ari Abdul", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Arima Ederra", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "ATEEZ", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Audrey Hobert", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "AVAION", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Baby J", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Becky G", genre: "Latin Urban", lifestyleTags: [], active: true },
+  { name: "Benitt", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "BERWYN", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Blessing Jolie", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Blood Orange", genre: "Indie", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Britney Spears", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Bryson Tiller", genre: "Rap", lifestyleTags: ["Sports Culture"], active: true },
+  { name: "Buddy Guy", genre: "Rock", lifestyleTags: [], active: true },
+  { name: "CA7RIEL & Paco Amoroso", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Cam", genre: "Country", lifestyleTags: [], active: true },
+  { name: "Carter Vail", genre: "Rock", lifestyleTags: [], active: true },
+  { name: "Cat Burns", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Childish Gambino", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Chloe Qisha", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Chris Brown", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "cieratherapper", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Colter Wall", genre: "Country", lifestyleTags: [], active: true },
+  { name: "D'Angelo", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "DAMEDAME*", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Davido", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Deante' Hitchcock", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Debbii Dawson", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Doja Cat", genre: "Rap", lifestyleTags: ["Pop Influencers", "LGBTQ Culture"], active: true },
+  { name: "Eem Triplin", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Eli", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Elle King", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Emma Andersen", genre: "Singer-Songwriter", lifestyleTags: [], active: true },
+  { name: "Ethan Garner", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Flo Milli", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Foo Fighters", genre: "Rock", lifestyleTags: [], active: true },
+  { name: "Frances Whitney", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Freddie Dredd", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Freddie Gibbs & Madlib", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Frost Children", genre: "Pop", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: true },
+  { name: "girlsweetvoiced", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "H.E.R.", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Hailey Picardi", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "horsegiirL", genre: "Electronic", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: true },
+  { name: "I.Am.Lyric", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Isabel LaRosa", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Isaia Huron", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "JACOTÉNE", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Jade Thirlwall", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Jazmine Sullivan", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Jharrel Jerome", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Joey Valence & Brae", genre: "Indie", lifestyleTags: ["Reddit Communities"], active: true },
+  { name: "Jourden", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Justin Timberlake", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Kane Brown", genre: "Country", lifestyleTags: [], active: true },
+  { name: "KAYTRANADA", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Khalid", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "King EJ", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "KNA", genre: "Alternative", lifestyleTags: [], active: true },
+  { name: "kwn", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Kygo", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Lancey Foux", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Latto", genre: "Rap", lifestyleTags: ["Sports Culture"], active: true },
+  { name: "LAWSON", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "LISA", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Lizzy McAlpine", genre: "Indie", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: true },
+  { name: "Lost Frequencies", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Love Spells", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "LU", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Mark Ronson", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Matt Champion", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Miguel", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Myles Smith", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "NOAH NOAH", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Oliver Heldens", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Osé", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "P!NK", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Presley Regier", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Purple Disco Machine", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Ray Vaughn", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Red Clay Strays", genre: "Country", lifestyleTags: [], active: true },
+  { name: "reggie", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "RIIZE", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Room Full of Mirrors", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Sarah Lola", genre: "Singer-Songwriter", lifestyleTags: [], active: true },
+  { name: "Sasha Keable", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Sheff G", genre: "Rap", lifestyleTags: ["Clipping"], active: true },
+  { name: "Skepta", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Skillibeng", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Skye Newman", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Sleep Token", genre: "Alternative", lifestyleTags: ["Gaming Culture", "Reddit Communities"], active: true },
+  { name: "Sleepy Hallow", genre: "Rap", lifestyleTags: ["Sports Culture", "Clipping"], active: true },
+  { name: "Steve Lacy", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Suzy Clue", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "SZA", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Tate McRae", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Teezo Touchdown", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "Tele", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Tems", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "The Strokes", genre: "Alternative", lifestyleTags: ["Alt Influencers"], active: true },
+  { name: "Three Days Grace", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "TOOL", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "Tyler Childers", genre: "Country", lifestyleTags: [], active: true },
+  { name: "Tyler ICU", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Victoria Monét", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Walker Hayes", genre: "Country", lifestyleTags: [], active: true },
+  { name: "Wolf Alice", genre: "Alternative", lifestyleTags: ["Alt Influencers"], active: true },
+  { name: "Yebba", genre: "R&B", lifestyleTags: [], active: true }
 ];
 
 // Active data (replaced when Airtable connects)
@@ -755,7 +812,8 @@ function transformArtistRecord(r) {
   return {
     name: f.Name || f.name || 'Unnamed',
     genre: f.Genre || f.genre || 'Unknown',
-    lifestyleTags: f.LifestyleTags || f['Lifestyle Tags'] || f.lifestyleTags || []
+    lifestyleTags: f.LifestyleTags || f['Lifestyle Tags'] || f.lifestyleTags || [],
+    active: f.Active === true || f.active === true
   };
 }
 
@@ -859,10 +917,34 @@ const artistCount = document.getElementById('artistCount');
 const adCount = document.getElementById('adCount');
 
 let selectedArtistIdx = null;
+let filterActive = false; // Active-campaign filter toggle
+
+// Filter chip click handler
+document.getElementById('filterActive').addEventListener('click', () => {
+  filterActive = !filterActive;
+  document.getElementById('filterActive').classList.toggle('active', filterActive);
+  selectedArtistIdx = null; // reset selection when filter changes
+  renderArtists();
+  clearSelection();
+});
+
+function getVisibleArtists() {
+  if (filterActive) return artists.filter(a => a.active === true);
+  return artists;
+}
 
 function renderArtists() {
-  artistCount.textContent = `· ${artists.length} artist${artists.length === 1 ? '' : 's'}`;
-  artistList.innerHTML = artists.map((a, i) => {
+  const activeTotal = artists.filter(a => a.active === true).length;
+  document.getElementById('activeCount').textContent = `(${activeTotal})`;
+
+  const visible = getVisibleArtists();
+  artistCount.textContent = `· ${visible.length} of ${artists.length}`;
+
+  document.getElementById('filterResult').innerHTML = filterActive
+    ? `Showing <b>${visible.length}</b> active · ${artists.length - visible.length} hidden`
+    : `Showing all <b>${artists.length}</b> artists`;
+
+  artistList.innerHTML = visible.map((a) => {
     const hasGenreCoverage = adTeam.some(p => p.genreTags.includes(a.genre));
     const gapClass = hasGenreCoverage ? '' : 'gap';
     const allTags = [
@@ -870,7 +952,7 @@ function renderArtists() {
       ...a.lifestyleTags.map(t => `<span class="tag lifestyle">${escapeHtml(t)}</span>`)
     ].join('');
     return `
-      <div class="artist ${gapClass}" data-idx="${i}">
+      <div class="artist ${gapClass}" data-name="${escapeAttr(a.name)}">
         <div class="artist-name">${escapeHtml(a.name)}</div>
         <div class="artist-tags">${allTags}</div>
       </div>
@@ -879,8 +961,8 @@ function renderArtists() {
 
   artistList.querySelectorAll('.artist').forEach(el => {
     el.addEventListener('click', () => {
-      const idx = parseInt(el.dataset.idx);
-      selectArtist(idx);
+      const name = el.dataset.name;
+      selectArtistByName(name);
     });
   });
 }
@@ -927,13 +1009,15 @@ function escapeAttr(s) { return escapeHtml(s); }
 // ============================================
 // SELECTION & MATCHING
 // ============================================
-function selectArtist(idx) {
+function selectArtistByName(name) {
+  const idx = artists.findIndex(a => a.name === name);
+  if (idx === -1) return;
   const artist = artists[idx];
   if (selectedArtistIdx === idx) { clearSelection(); return; }
   selectedArtistIdx = idx;
 
-  artistList.querySelectorAll('.artist').forEach((el, i) => {
-    el.classList.toggle('selected', i === idx);
+  artistList.querySelectorAll('.artist').forEach(el => {
+    el.classList.toggle('selected', el.dataset.name === name);
   });
 
   const artistTags = [artist.genre, ...artist.lifestyleTags];
