@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Database · Campaign Ops</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<style>
+:root {
+  --bg: #FCFDF8;
+  --card: #FFFFFF;
+  --card-2: #F5F5F0;
+  --text: #0F0E0E;
+  --text-soft: #3E3F41;
+  --fog: #6B6976;
+  --fog-dim: #9A95A5;
+  --rule: #E5E3DC;
+  --chartreuse: #9BC424;
+  --chartreuse-bg: #F0F8D9;
+  --flame: #E33A14;
+  --flame-bg: #FEEDE7;
+  --teal: #2C8A88;
+  --teal-bg: #E3F2F1;
+  --gold: #B8941F;
+  --gold-bg: #FAF3DC;
+  --plum: #6A4F8E;
+  --plum-bg: #EEE7F5;
+  --pink: #C04E7F;
+  --pink-bg: #F8E1EC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400; line-height: 1.5; font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* PASSWORD GATE */
+#gate { position:fixed; inset:0; background:#FCFDF8; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+#gate img { width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
+#gate .gate-title { font-size:22px; font-weight:900; color:#0F0E0E; margin-bottom:4px; letter-spacing:-1px; }
+#gate .gate-sub { font-size:11px; color:#999; margin-bottom:20px; }
+#gate input { font-size:14px; padding:10px 20px; border:2px solid #ECEAE3; width:240px; text-align:center; outline:none; background:#fff; font-family:inherit; }
+#gate button { font-size:11px; font-weight:700; padding:10px 28px; background:#0F0E0E; color:#FCFDF8; border:none; cursor:pointer; margin-top:10px; letter-spacing:1px; font-family:inherit; }
+#gate #err { color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
+
+/* SITE STRIP */
+.site-strip { padding:10px 20px; border-bottom:1px solid var(--rule); background:var(--bg); display:flex; align-items:center; justify-content:space-between; font-size:11px; }
+.site-strip a { color:var(--fog); text-decoration:none; font-weight:600; letter-spacing:0.5px; }
+.site-strip a:hover { color:var(--text); }
+.site-strip .crumb { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog-dim); }
+.site-strip .crumb b { color:var(--text); font-weight:700; }
+
+.wrap { max-width: 1400px; margin: 0 auto; padding: 36px 32px 60px; }
+
+/* HEADER */
+header { padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+.eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--chartreuse); margin-bottom: 10px;
+}
+h1 {
+  font-size: 42px; font-weight: 900; letter-spacing: -0.02em;
+  line-height: 1.0; text-transform: uppercase; margin-bottom: 12px;
+}
+h1 .x { color: var(--chartreuse); }
+header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
+.meta { font-size: 11px; color: var(--fog); margin-top: 14px; letter-spacing: 0.5px; }
+.meta strong { color: var(--text-soft); font-weight: 600; }
+
+/* CONN BAR */
+.conn-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; margin-bottom: 16px;
+  background: var(--card); border: 1px solid var(--rule);
+  font-size: 12px;
+}
+.conn-status { display: flex; align-items: center; gap: 10px; }
+.conn-dot { width: 8px; height: 8px; background: var(--fog-dim); }
+.conn-dot.live { background: var(--chartreuse); }
+.conn-dot.demo { background: var(--gold); }
+.conn-dot.error { background: var(--flame); }
+.conn-status .label { font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; font-size: 10px; }
+.conn-status .desc { color: var(--text-soft); }
+.conn-actions { display: flex; gap: 8px; }
+.btn {
+  background: var(--text); color: var(--bg);
+  border: none; padding: 6px 12px; font-family: inherit;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; cursor: pointer; transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--text-soft); }
+
+/* FILTER BAR */
+.filter-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px; align-items: start;
+  padding: 16px 18px; margin-bottom: 18px;
+  background: var(--card); border: 1px solid var(--rule);
+}
+.filter-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+.filter-group {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.filter-group .lbl {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--fog);
+}
+.filter-group select, .filter-group input {
+  padding: 7px 10px; font-family: inherit; font-size: 12px;
+  border: 1px solid var(--rule); background: var(--bg);
+  color: var(--text); outline: none;
+}
+.filter-group select:focus, .filter-group input:focus { border-color: var(--chartreuse); }
+.filter-right {
+  display: flex; flex-direction: column;
+  gap: 6px; align-items: flex-end;
+}
+.filter-result {
+  font-size: 11px; color: var(--fog); letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.filter-result b { color: var(--text); font-weight: 700; }
+.btn-clear {
+  background: transparent; color: var(--text-soft);
+  border: 1px solid var(--rule);
+  padding: 5px 10px; font-family: inherit;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; cursor: pointer;
+}
+.btn-clear:hover { border-color: var(--text-soft); color: var(--text); }
+
+/* CREATOR GRID */
+.creator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+.creator-card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--chartreuse);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  min-height: 260px;
+}
+.creator-card.fn-critic { border-top-color: var(--plum); }
+.creator-card.fn-lifestyle { border-top-color: var(--pink); }
+.creator-card.fn-tour { border-top-color: var(--teal); }
+.creator-card.fn-aesthetic { border-top-color: var(--gold); }
+.creator-card.fn-fan { border-top-color: var(--chartreuse); }
+.creator-card.fn-pub { border-top-color: var(--fog-dim); }
+
+.cc-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 10px;
+}
+.cc-name {
+  font-size: 18px; font-weight: 900; letter-spacing: -0.01em;
+  word-break: break-all;
+}
+.cc-display {
+  font-size: 11px; color: var(--fog); margin-top: 2px;
+  font-weight: 500;
+}
+.cc-fn-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; padding: 3px 8px;
+  background: var(--plum-bg); color: var(--plum);
+  white-space: nowrap; flex-shrink: 0;
+}
+.fn-critic .cc-fn-badge { background: var(--plum-bg); color: var(--plum); }
+.fn-lifestyle .cc-fn-badge { background: var(--pink-bg); color: var(--pink); }
+.fn-tour .cc-fn-badge { background: var(--teal-bg); color: var(--teal); }
+.fn-aesthetic .cc-fn-badge { background: var(--gold-bg); color: var(--gold); }
+.fn-fan .cc-fn-badge { background: var(--chartreuse-bg); color: #5A7A0E; }
+.fn-pub .cc-fn-badge { background: var(--card-2); color: var(--fog); }
+
+.cc-meta {
+  font-size: 12px; color: var(--text-soft);
+  padding: 6px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 4px 10px;
+  align-items: center;
+}
+.cc-meta .stat { font-weight: 700; color: var(--text); }
+.cc-meta .dot { color: var(--fog-dim); }
+
+.cc-tags {
+  display: flex; flex-wrap: wrap; gap: 4px; min-height: 22px;
+}
+.tag {
+  display: inline-block; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.3px; padding: 2px 7px;
+  text-transform: uppercase; border: 1px solid var(--rule);
+  color: var(--text-soft); background: var(--bg);
+}
+.tag.genre { border-color: var(--teal); color: var(--teal); background: var(--teal-bg); }
+.tag.lifestyle { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+
+.cc-price-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: auto; padding-top: 8px; border-top: 1px solid var(--rule);
+  gap: 10px;
+}
+.cc-price {
+  font-size: 13px; font-weight: 700; color: var(--text);
+}
+.cc-price.tradeonly, .cc-price.nopaid { color: var(--flame); font-size: 11px; }
+.cc-price.tbd { color: var(--fog-dim); font-size: 11px; font-weight: 500; font-style: italic; }
+.cc-contact {
+  font-size: 10px; color: var(--teal);
+  word-break: break-all;
+  text-align: right;
+  font-weight: 500;
+}
+.cc-contact a { color: inherit; text-decoration: none; }
+.cc-contact a:hover { text-decoration: underline; }
+
+.cc-notes {
+  font-size: 11px; color: var(--fog);
+  line-height: 1.5; font-style: italic;
+  padding-top: 6px; border-top: 1px dashed var(--rule);
+}
+.cc-mgmt {
+  font-size: 10px; color: var(--fog-dim);
+  letter-spacing: 0.3px; text-transform: uppercase;
+  font-weight: 600;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center; padding: 60px 20px;
+  color: var(--fog); font-size: 14px;
+  border: 1px dashed var(--rule);
+  background: var(--card);
+}
+
+/* MODAL */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(15, 14, 14, 0.5);
+  display: none; align-items: center; justify-content: center;
+  z-index: 50;
+}
+.modal-bg.show { display: flex; }
+.modal { background: var(--card); padding: 32px; max-width: 480px; width: 90%; }
+.modal h3 { font-size: 18px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+.modal p { font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.55; }
+.modal label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; margin-top: 14px; }
+.modal input { width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--rule); font-family: inherit; font-size: 13px; color: var(--text); }
+.modal input:focus { outline: none; border-color: var(--chartreuse); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; }
+.modal .help { font-size: 11px; color: var(--fog); margin-top: 4px; }
+.modal .help a { color: var(--teal); }
+
+@media (max-width: 700px) {
+  .wrap { padding: 24px 16px 40px; }
+  h1 { font-size: 30px; }
+  .filter-bar { grid-template-columns: 1fr; }
+  .filter-right { align-items: flex-start; }
+}
+
+footer {
+  margin-top: 40px; padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px; color: var(--fog);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <img src="/logo_neon.png" alt="Campaign Ops">
+  <div class="gate-title">Campaign Operations</div>
+  <div class="gate-sub">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">ENTER</button>
+  <div id="err"></div>
+</div>
+
+<div class="site-strip" id="app" style="display:none;">
+  <a href="/">← Home</a>
+  <div class="crumb">Campaign Ops · <b>Creator Database</b></div>
+  <a href="/ad-tagging.html">AD Tagging Demo →</a>
+</div>
+
+<script>
+function checkPw(){
+  if(document.getElementById("pw").value==="RCA2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="flex";
+    document.getElementById("body").style.display="block";
+    sessionStorage.setItem("rca_auth","1");
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  var b=document.getElementById("body");
+  if(!g||!a||!b) return;
+  if(sessionStorage.getItem("rca_auth")==="1"){
+    g.style.display="none"; a.style.display="flex"; b.style.display="block";
+  } else { document.getElementById("pw").focus(); }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else { initGate(); }
+</script>
+
+<div id="body" style="display:none;">
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Creator Roster · Modeled after Cobrand</div>
+  <h1>Creator <span class="x">Database</span></h1>
+  <p>Standardized roster of music critics, lifestyle creators, tour capture, and fan account managers. Contact info, pricing, and tags in one place. Same lifestyle tag vocabulary as the AD Tagging Demo.</p>
+  <div class="meta">
+    <strong>Source</strong> · RCA UGC Master Doc · <strong>Records</strong> · <span id="totalCount">…</span> · <strong>Tags</strong> · genre + lifestyle (aligned with AD)
+  </div>
+</header>
+
+<div class="conn-bar">
+  <div class="conn-status">
+    <div class="conn-dot" id="connDot"></div>
+    <div>
+      <span class="label" id="connLabel">Loading…</span>
+      <span class="desc" id="connDesc"></span>
+    </div>
+  </div>
+  <div class="conn-actions">
+    <button class="btn ghost" id="reconnectBtn">Configure</button>
+    <button class="btn" id="refreshBtn">Refresh</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-cols">
+    <div class="filter-group">
+      <div class="lbl">Search</div>
+      <input type="text" id="filterSearch" placeholder="@handle or name">
+    </div>
+    <div class="filter-group">
+      <div class="lbl">Function</div>
+      <select id="filterFunction">
+        <option value="">All functions</option>
+        <option value="Music Critic / Review">Music Critic / Review</option>
+        <option value="Lifestyle Creator">Lifestyle Creator</option>
+        <option value="Tour Capture">Tour Capture</option>
+        <option value="Aesthetic / UGC Content">Aesthetic / UGC</option>
+        <option value="Fan Account Manager">Fan Account Manager</option>
+        <option value="Music Publication">Music Publication</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <div class="lbl">Size tier</div>
+      <select id="filterSize">
+        <option value="">All sizes</option>
+        <option value="Nano">Nano (&lt;10K)</option>
+        <option value="Micro">Micro (10K–100K)</option>
+        <option value="Mid">Mid (100K–1M)</option>
+        <option value="Macro">Macro (1M–5M)</option>
+        <option value="Mega">Mega (5M+)</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <div class="lbl">Genre affinity</div>
+      <select id="filterGenre">
+        <option value="">Any genre</option>
+        <option value="Pop">Pop</option>
+        <option value="R&B">R&amp;B</option>
+        <option value="Rap">Rap</option>
+        <option value="Indie">Indie</option>
+        <option value="Alternative">Alternative</option>
+        <option value="Country">Country</option>
+        <option value="Electronic">Electronic</option>
+        <option value="Singer-Songwriter">Singer-Songwriter</option>
+        <option value="Rock">Rock</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <div class="lbl">Lifestyle tag</div>
+      <select id="filterLifestyle">
+        <option value="">Any tag</option>
+        <option value="LGBTQ Culture">LGBTQ Culture</option>
+        <option value="Fan Pages">Fan Pages</option>
+        <option value="Pop Influencers">Pop Influencers</option>
+        <option value="K-Pop Fandom">K-Pop Fandom</option>
+        <option value="Reddit Communities">Reddit Communities</option>
+        <option value="Alt Influencers">Alt Influencers</option>
+        <option value="Gaming Culture">Gaming Culture</option>
+        <option value="Sports Culture">Sports Culture</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <div class="lbl">Price band</div>
+      <select id="filterPrice">
+        <option value="">Any price</option>
+        <option value="under1k">Under $1K</option>
+        <option value="1to25">$1K – $2.5K</option>
+        <option value="over25">$2.5K+</option>
+        <option value="trade">Trade-only</option>
+        <option value="nopaid">No paid posts</option>
+        <option value="unknown">Price TBD</option>
+      </select>
+    </div>
+  </div>
+  <div class="filter-right">
+    <button class="btn-clear" id="clearFilters">Clear filters</button>
+    <div class="filter-result" id="filterResult"></div>
+  </div>
+</div>
+
+<div class="creator-grid" id="grid"></div>
+
+<footer>
+  <div>Campaign Ops · Creator Database · Modeled after Cobrand</div>
+  <div>v1 · May 2026</div>
+</footer>
+
+</div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3>Connect to Airtable</h3>
+    <p>Paste your Personal Access Token to load live data. Held in memory only.</p>
+    <label>Base ID</label>
+    <input type="text" id="baseIdInput" placeholder="appXXXXXXXXXXXXXX">
+    <div class="help">Default: <code>appubZYuiUuJBO1a9</code> ("RCA Creator Database")</div>
+    <label>Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="patXXXXXX...">
+    <div class="help">Get one at <a href="https://airtable.com/create/tokens" target="_blank">airtable.com/create/tokens</a> · <code>data.records:read</code> scope</div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="useDemoBtn">Use baked data</button>
+      <button class="btn" id="connectBtn">Connect</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CONFIG = {
+  baseId: 'appubZYuiUuJBO1a9',
+  token: '',
+  tableName: 'Creators'
+};
+let SESSION_TOKEN = CONFIG.token;
+
+// BAKED DATA - full roster, sorted alphabetically within function
+const BAKED = [
+  { handle: "@popcamsam", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 150000, sizeTier: "Mid", genre: ["Pop"], lifestyle: [], email: "opsamcam@themesh.co", mgmt: "The Mesh", priceLow: 625, priceHigh: 625, priceNote: "$625", notes: "" },
+  { handle: "@axeltanner", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 1000000, sizeTier: "Macro", genre: [], lifestyle: [], email: "axeltmusic@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@vinylbymars", display: "", fn: "Music Critic / Review", platforms: ["TikTok","Instagram"], followers: 130000, sizeTier: "Mid", genre: ["Indie","Alternative"], lifestyle: [], email: "mars@solacetalent.com", mgmt: "Solace Talent", priceLow: 950, priceHigh: 950, priceNote: "$950", notes: "Also has an IG show called Sound Tracked." },
+  { handle: "@stan.bran", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 6000, sizeTier: "Nano", genre: [], lifestyle: [], email: "brandonlancegarnsey@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@adamtheflop", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 1000000, sizeTier: "Macro", genre: ["Pop"], lifestyle: [], email: "adam@slashmgmt.com", mgmt: "Slash Mgmt", priceLow: 3000, priceHigh: 3000, priceNote: "$3K", notes: "" },
+  { handle: "@theeswiftologist", display: "The Swiftologist", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 200000, sizeTier: "Mid", genre: ["Pop"], lifestyle: ["Fan Pages"], email: "swiftologistteam@wmeagency.com", mgmt: "WME", priceLow: null, priceHigh: null, priceNote: "Does not take paid", notes: "Does not take paid videos. Taylor Swift fandom specialist — strong Fan Pages overlap." },
+  { handle: "@HTHAZE", display: "", fn: "Music Critic / Review", platforms: ["TikTok","Twitch"], followers: 400000, sizeTier: "Mid", genre: ["Rap","R&B"], lifestyle: [], email: "ththmgmt.co@gmail.com", mgmt: "HTH Mgmt", priceLow: null, priceHigh: null, priceNote: "", notes: "400K+ combined TikTok & Twitch. Hip-hop/rap commentary." },
+  { handle: "@theneedletok", display: "Anthony Fantano (theneedledrop)", fn: "Music Critic / Review", platforms: ["TikTok","Twitch","YouTube"], followers: 2000000, sizeTier: "Macro", genre: ["Alternative","Indie"], lifestyle: ["Reddit Communities","Alt Influencers"], email: "theneedledrop.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "Does not take paid", notes: "2M combined TikTok & Twitch. Does not take paid videos — has done interviews in the past. Alt/indie/experimental authority." },
+  { handle: "@willtalksmusic", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 426000, sizeTier: "Mid", genre: [], lifestyle: [], email: "willtalksmusic@solacetalent.com", mgmt: "Solace Talent", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@toplinehq", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 10000, sizeTier: "Micro", genre: [], lifestyle: [], email: "augustjamesmgmt@gmail.com", mgmt: "August James Mgmt", priceLow: 300, priceHigh: 400, priceNote: "$300–400", notes: "Songwriting / topline focus." },
+  { handle: "@cocomocoe", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 1000000, sizeTier: "Macro", genre: ["Pop"], lifestyle: ["Pop Influencers"], email: "cocomocoe@sixteenth.com", mgmt: "Sixteenth", priceLow: null, priceHigh: null, priceNote: "", notes: "Trend prediction / pop culture forecasting." },
+  { handle: "@nicky.reardon", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 440000, sizeTier: "Mid", genre: [], lifestyle: [], email: "reardon.nick.s@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@holdensmith962", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 200000, sizeTier: "Mid", genre: [], lifestyle: [], email: "holden.team@emcpower.co", mgmt: "EMC Power", priceLow: 3000, priceHigh: 3000, priceNote: "$3K", notes: "" },
+  { handle: "@realmiketee", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 60000, sizeTier: "Micro", genre: [], lifestyle: [], email: "miketee@solacetalent.com", mgmt: "Solace Talent", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@theguyset", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 75000, sizeTier: "Micro", genre: ["Indie","Alternative"], lifestyle: [], email: "josh@guyset.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@bruhstre", display: "", fn: "Music Critic / Review", platforms: ["TikTok"], followers: 445000, sizeTier: "Mid", genre: [], lifestyle: [], email: "blustre@algebramedia.com", mgmt: "Algebra Media", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@stereogum", display: "Stereogum", fn: "Music Publication", platforms: ["Instagram","Web / Publication"], followers: 655000, sizeTier: "Mid", genre: ["Indie","Alternative"], lifestyle: [], email: "", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "Music publication — indie/alt focus. No contact in source doc." },
+  { handle: "@jaciinta", display: "", fn: "Tour Capture", platforms: ["TikTok"], followers: 9500, sizeTier: "Nano", genre: [], lifestyle: [], email: "jacintaharshe@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "Trade-first", notes: "Usually open to trade access for content capture." },
+  { handle: "@hihellovi", display: "", fn: "Tour Capture", platforms: ["TikTok"], followers: 350, sizeTier: "Nano", genre: [], lifestyle: [], email: "hihellovi@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "Trade + spark code fee", notes: "Typically open to trade but charges for spark codes." },
+  { handle: "@max4cracks", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 257000, sizeTier: "Mid", genre: [], lifestyle: [], email: "Max4cracks@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 1000, priceHigh: 1500, priceNote: "$1–1.5K", notes: "" },
+  { handle: "@jadennedwardsss", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 455000, sizeTier: "Mid", genre: [], lifestyle: [], email: "jaden@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 750, priceHigh: 750, priceNote: "$750", notes: "" },
+  { handle: "@gagegomezz", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 946000, sizeTier: "Mid", genre: [], lifestyle: [], email: "gage@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 500, priceHigh: 500, priceNote: "$500", notes: "" },
+  { handle: "@sophiaegozi1", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 263000, sizeTier: "Mid", genre: [], lifestyle: [], email: "connor@myntmgt.com", mgmt: "Mynt Mgmt", priceLow: 1500, priceHigh: 1500, priceNote: "$1.5K", notes: "" },
+  { handle: "@makeamericapartyagain", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 588000, sizeTier: "Mid", genre: [], lifestyle: [], email: "connor@myntmgt.com", mgmt: "Mynt Mgmt", priceLow: 1000, priceHigh: 1000, priceNote: "$1K", notes: "" },
+  { handle: "@alzyphat", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 219000, sizeTier: "Mid", genre: [], lifestyle: [], email: "connor@myntmgt.com", mgmt: "Mynt Mgmt", priceLow: 750, priceHigh: 750, priceNote: "$750", notes: "" },
+  { handle: "@zoifishhh", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 6000000, sizeTier: "Mega", genre: [], lifestyle: [], email: "alana@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 2500, priceHigh: 3000, priceNote: "$2.5–3K", notes: "" },
+  { handle: "@demetradias", display: "Demetra Dias", fn: "Lifestyle Creator", platforms: ["TikTok","Instagram"], followers: 4500000, sizeTier: "Macro", genre: [], lifestyle: ["Pop Influencers"], email: "demetra@insightmedia.com", mgmt: "Insight Media", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@jillasta", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 4300000, sizeTier: "Macro", genre: [], lifestyle: [], email: "jillian@innovomanagement.com", mgmt: "Innovo Management", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@tarayummy", display: "Tara Yummy", fn: "Lifestyle Creator", platforms: ["TikTok","Instagram"], followers: 10000000, sizeTier: "Mega", genre: [], lifestyle: ["Pop Influencers"], email: "jenna@weareverified.co", mgmt: "We Are Verified", priceLow: null, priceHigh: null, priceNote: "", notes: "Secondary contact: dylan@weareverified.co" },
+  { handle: "@kenzieeluby", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 1000000, sizeTier: "Macro", genre: [], lifestyle: [], email: "kenzieeluby@gmail.com", mgmt: "", priceLow: null, priceHigh: null, priceNote: "", notes: "" },
+  { handle: "@theelliebarker", display: "", fn: "Lifestyle Creator", platforms: ["TikTok","Instagram"], followers: 1600000, sizeTier: "Macro", genre: [], lifestyle: ["Pop Influencers"], email: "elliebarker@grail-talent.com", mgmt: "Grail Talent", priceLow: null, priceHigh: null, priceNote: "", notes: "Also strong fit for aesthetic / UGC content campaigns." },
+  { handle: "@emmabrooksmcallister", display: "Emma Brooks McAllister", fn: "Lifestyle Creator", platforms: ["TikTok","Instagram"], followers: 3700000, sizeTier: "Macro", genre: [], lifestyle: ["Pop Influencers"], email: "alana@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 1000, priceHigh: 1000, priceNote: "$1K", notes: "" },
+  { handle: "@sabquesada", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 4500000, sizeTier: "Macro", genre: [], lifestyle: [], email: "alana@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 1000, priceHigh: 1000, priceNote: "$1K", notes: "" },
+  { handle: "@devvyyy_", display: "", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 4200000, sizeTier: "Macro", genre: [], lifestyle: [], email: "devyn@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 1000, priceHigh: 1000, priceNote: "$1K", notes: "" },
+  { handle: "@annabananaxdddd", display: "Anna Banana", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 11500000, sizeTier: "Mega", genre: [], lifestyle: ["Pop Influencers"], email: "alana@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 2000, priceHigh: 2000, priceNote: "$2K", notes: "" },
+  { handle: "@grapejuicenads", display: "Nadia (Grape Juice)", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 1200000, sizeTier: "Macro", genre: [], lifestyle: [], email: "nadia@homemadeprojects.com", mgmt: "Homemade Projects", priceLow: 1000, priceHigh: 1200, priceNote: "$1–1.2K", notes: "Does not take all campaigns." },
+  { handle: "@lilbaabyhan", display: "Lil Baby Han", fn: "Lifestyle Creator", platforms: ["TikTok"], followers: 2000000, sizeTier: "Macro", genre: [], lifestyle: [], email: "connor@myntmgt.com", mgmt: "Mynt Mgmt", priceLow: 4000, priceHigh: 4000, priceNote: "$4K (burner $2K)", notes: "Burner account is @hanbehindthescenes (rate $2K)." },
+  { handle: "Emma Shie", display: "Emma Shie", fn: "Fan Account Manager", platforms: [], followers: null, sizeTier: "", genre: [], lifestyle: ["Fan Pages"], email: "esieh2003@gmail.com", mgmt: "", priceLow: 1000, priceHigh: 1000, priceNote: "$1K / month", notes: "Manages fan accounts for Audrey Hobert, Emma Andersen, NOAH NOAH. $1K monthly retainer." }
+];
+
+let creators = BAKED.slice();
+
+// ====================
+// AIRTABLE
+// ====================
+async function fetchFromAirtable() {
+  if (!SESSION_TOKEN || !CONFIG.baseId) return null;
+  let all = [];
+  let offset = null;
+  let pages = 0;
+  do {
+    const url = new URL(`https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(CONFIG.tableName)}`);
+    url.searchParams.set('pageSize', '100');
+    if (offset) url.searchParams.set('offset', offset);
+    try {
+      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${SESSION_TOKEN}` } });
+      if (!res.ok) {
+        const errText = await res.text();
+        return { error: `${res.status}: ${errText.substring(0,120)}` };
+      }
+      const data = await res.json();
+      all = all.concat(data.records);
+      offset = data.offset;
+      pages++;
+      if (pages > 10) break;
+    } catch (e) { return { error: e.message }; }
+  } while (offset);
+  return { records: all };
+}
+
+function transformAirtableRecord(r) {
+  const f = r.fields || {};
+  return {
+    handle: f.Handle || '',
+    display: f['Display Name'] || '',
+    fn: f.Function || '',
+    platforms: f.Platform || [],
+    followers: f.Followers != null ? f.Followers : null,
+    sizeTier: f['Size Tier'] || '',
+    genre: f['Genre Affinity'] || [],
+    lifestyle: f['Lifestyle Tags'] || [],
+    email: f['Contact Email'] || '',
+    mgmt: f.Management || '',
+    priceLow: f['Price Low'] != null ? f['Price Low'] : null,
+    priceHigh: f['Price High'] != null ? f['Price High'] : null,
+    priceNote: f['Price Note'] || '',
+    notes: f.Notes || '',
+    active: f.Active === true
+  };
+}
+
+async function loadFromAirtable() {
+  setConn('loading', 'Connecting…');
+  const result = await fetchFromAirtable();
+  if (!result) { setConn('demo', 'No token configured · showing baked data'); return false; }
+  if (result.error) { setConn('error', `Failed: ${result.error}`); return false; }
+  creators = result.records.map(transformAirtableRecord);
+  setConn('live', `Connected · ${creators.length} creators`);
+  return true;
+}
+
+// ====================
+// CONN UI
+// ====================
+const connDot = document.getElementById('connDot');
+const connLabel = document.getElementById('connLabel');
+const connDesc = document.getElementById('connDesc');
+function setConn(state, msg) {
+  connDot.className = 'conn-dot ' + state;
+  const labels = { loading: 'Loading', live: 'Live', demo: 'Baked data', error: 'Error' };
+  connLabel.textContent = labels[state] || state;
+  connDesc.textContent = ' · ' + (msg || '');
+}
+
+// ====================
+// MODAL
+// ====================
+const modal = document.getElementById('modal');
+const baseIdInput = document.getElementById('baseIdInput');
+const tokenInput = document.getElementById('tokenInput');
+document.getElementById('reconnectBtn').addEventListener('click', () => {
+  baseIdInput.value = CONFIG.baseId;
+  tokenInput.value = '';
+  modal.classList.add('show');
+});
+document.getElementById('connectBtn').addEventListener('click', async () => {
+  CONFIG.baseId = baseIdInput.value.trim() || CONFIG.baseId;
+  SESSION_TOKEN = tokenInput.value.trim();
+  modal.classList.remove('show');
+  await refresh();
+});
+document.getElementById('useDemoBtn').addEventListener('click', () => {
+  SESSION_TOKEN = '';
+  creators = BAKED.slice();
+  modal.classList.remove('show');
+  setConn('demo', 'Using baked data');
+  render();
+});
+document.getElementById('refreshBtn').addEventListener('click', refresh);
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+async function refresh() {
+  if (!SESSION_TOKEN) {
+    setConn('demo', `No token configured · ${BAKED.length} baked records`);
+    creators = BAKED.slice();
+  } else {
+    const ok = await loadFromAirtable();
+    if (!ok) creators = BAKED.slice();
+  }
+  render();
+}
+
+// ====================
+// FILTERS
+// ====================
+const filterSearch = document.getElementById('filterSearch');
+const filterFunction = document.getElementById('filterFunction');
+const filterSize = document.getElementById('filterSize');
+const filterGenre = document.getElementById('filterGenre');
+const filterLifestyle = document.getElementById('filterLifestyle');
+const filterPrice = document.getElementById('filterPrice');
+const clearBtn = document.getElementById('clearFilters');
+
+[filterSearch, filterFunction, filterSize, filterGenre, filterLifestyle, filterPrice].forEach(el => {
+  el.addEventListener('input', render);
+  el.addEventListener('change', render);
+});
+clearBtn.addEventListener('click', () => {
+  filterSearch.value = '';
+  filterFunction.value = '';
+  filterSize.value = '';
+  filterGenre.value = '';
+  filterLifestyle.value = '';
+  filterPrice.value = '';
+  render();
+});
+
+function priceMatches(c, band) {
+  if (!band) return true;
+  const noPaid = (c.priceNote || '').toLowerCase().includes('does not take paid');
+  const trade = (c.priceNote || '').toLowerCase().includes('trade');
+  const unknown = c.priceLow == null && c.priceHigh == null && !noPaid && !trade;
+  if (band === 'trade') return trade;
+  if (band === 'nopaid') return noPaid;
+  if (band === 'unknown') return unknown;
+  if (c.priceLow == null) return false;
+  if (band === 'under1k') return c.priceLow < 1000;
+  if (band === '1to25') return c.priceLow >= 1000 && c.priceLow < 2500;
+  if (band === 'over25') return c.priceLow >= 2500;
+  return true;
+}
+
+function filtered() {
+  const q = filterSearch.value.trim().toLowerCase();
+  const fn = filterFunction.value;
+  const size = filterSize.value;
+  const genre = filterGenre.value;
+  const lifestyle = filterLifestyle.value;
+  const price = filterPrice.value;
+  return creators.filter(c => {
+    if (q && !(c.handle.toLowerCase().includes(q) || (c.display||'').toLowerCase().includes(q))) return false;
+    if (fn && c.fn !== fn) return false;
+    if (size && c.sizeTier !== size) return false;
+    if (genre && !c.genre.includes(genre)) return false;
+    if (lifestyle && !c.lifestyle.includes(lifestyle)) return false;
+    if (price && !priceMatches(c, price)) return false;
+    return true;
+  });
+}
+
+// ====================
+// RENDER
+// ====================
+const grid = document.getElementById('grid');
+const totalCount = document.getElementById('totalCount');
+const filterResult = document.getElementById('filterResult');
+
+function fnClass(fn) {
+  switch(fn) {
+    case 'Music Critic / Review': return 'fn-critic';
+    case 'Lifestyle Creator': return 'fn-lifestyle';
+    case 'Tour Capture': return 'fn-tour';
+    case 'Aesthetic / UGC Content': return 'fn-aesthetic';
+    case 'Fan Account Manager': return 'fn-fan';
+    case 'Music Publication': return 'fn-pub';
+    default: return '';
+  }
+}
+
+function fnShort(fn) {
+  switch(fn) {
+    case 'Music Critic / Review': return 'Critic';
+    case 'Lifestyle Creator': return 'Lifestyle';
+    case 'Tour Capture': return 'Tour';
+    case 'Aesthetic / UGC Content': return 'Aesthetic';
+    case 'Fan Account Manager': return 'Fan Mgr';
+    case 'Music Publication': return 'Pub';
+    default: return fn;
+  }
+}
+
+function fmtFollowers(n) {
+  if (n == null) return '';
+  if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1).replace(/\.0$/,'') + 'M';
+  if (n >= 1000) return Math.round(n / 1000) + 'K';
+  return n;
+}
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function priceDisplay(c) {
+  const noPaid = (c.priceNote || '').toLowerCase().includes('does not take paid');
+  const trade = (c.priceNote || '').toLowerCase().includes('trade');
+  if (noPaid) return `<span class="cc-price nopaid">⚠ No paid posts</span>`;
+  if (trade) return `<span class="cc-price tradeonly">Trade-first</span>`;
+  if (c.priceLow == null) return `<span class="cc-price tbd">Price TBD</span>`;
+  const fmt = n => '$' + n.toLocaleString();
+  if (c.priceLow === c.priceHigh) return `<span class="cc-price">${fmt(c.priceLow)}</span>`;
+  return `<span class="cc-price">${fmt(c.priceLow)}–${fmt(c.priceHigh)}</span>`;
+}
+
+function render() {
+  totalCount.textContent = `${creators.length} total`;
+  const visible = filtered();
+  filterResult.innerHTML = visible.length === creators.length
+    ? `Showing all <b>${creators.length}</b>`
+    : `Showing <b>${visible.length}</b> of ${creators.length}`;
+
+  if (!visible.length) {
+    grid.innerHTML = '<div class="empty-state">No creators match the current filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = visible.map(c => {
+    const fnCls = fnClass(c.fn);
+    const platforms = c.platforms.length ? c.platforms.join(' · ') : '';
+    const fol = c.followers != null ? `<span class="stat">${fmtFollowers(c.followers)}</span> followers` : '';
+    const sep1 = (fol && platforms) ? '<span class="dot">·</span>' : '';
+    const sep2 = (platforms && c.sizeTier) ? '<span class="dot">·</span>' : '';
+    const sizeStr = c.sizeTier ? `<span>${escHtml(c.sizeTier)}</span>` : '';
+
+    const tags = [];
+    c.genre.forEach(g => tags.push(`<span class="tag genre">${escHtml(g)}</span>`));
+    c.lifestyle.forEach(l => tags.push(`<span class="tag lifestyle">${escHtml(l)}</span>`));
+
+    const emailHtml = c.email
+      ? `<div class="cc-contact"><a href="mailto:${escHtml(c.email)}">${escHtml(c.email)}</a></div>`
+      : `<div class="cc-contact" style="color:var(--fog-dim);">no contact</div>`;
+
+    return `
+      <div class="creator-card ${fnCls}">
+        <div class="cc-head">
+          <div>
+            <div class="cc-name">${escHtml(c.handle)}</div>
+            ${c.display ? `<div class="cc-display">${escHtml(c.display)}</div>` : ''}
+          </div>
+          <div class="cc-fn-badge">${fnShort(c.fn)}</div>
+        </div>
+        <div class="cc-meta">
+          ${fol}${sep1}${platforms ? `<span>${escHtml(platforms)}</span>` : ''}${sep2}${sizeStr}
+        </div>
+        ${tags.length ? `<div class="cc-tags">${tags.join('')}</div>` : '<div class="cc-tags"></div>'}
+        ${c.mgmt ? `<div class="cc-mgmt">${escHtml(c.mgmt)}</div>` : ''}
+        ${c.notes ? `<div class="cc-notes">${escHtml(c.notes)}</div>` : ''}
+        <div class="cc-price-row">
+          ${priceDisplay(c)}
+          ${emailHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// BOOTSTRAP
+refresh();
+</script>
+</body>
+</html>
