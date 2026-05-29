@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandbox</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<style>
+:root {
+  --paper: #FBF8F2;          /* warm off-white, not the brutalist FCFDF8 */
+  --paper-soft: #F2EEE5;     /* warmer card surface */
+  --ink: #1A1A1A;
+  --ink-soft: #3D3935;
+  --ink-quiet: #6B6660;
+  --ink-fade: #9C968D;
+  --rule: #E8E2D4;
+  --warm: #C25A2C;            /* warm muted terracotta, not flame */
+  --warm-soft: #F5E4D8;
+  --moss: #7A8F5C;            /* muted sage, not chartreuse */
+  --moss-soft: #E8EEDD;
+  --teal: #5E8589;            /* muted teal */
+  --teal-soft: #DDE8E9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); color: var(--ink); }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 16px;            /* larger body — this should read like a letter */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* GATE — different copy, different password, softer */
+#gate {
+  position: fixed; inset: 0; background: var(--paper); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  padding: 24px;
+}
+#gate .gate-inner {
+  max-width: 360px; text-align: center;
+}
+#gate .gate-greeting {
+  font-size: 14px; font-weight: 400; color: var(--ink-quiet);
+  margin-bottom: 24px; font-style: italic;
+}
+#gate .gate-title {
+  font-size: 32px; font-weight: 900; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -0.02em;
+}
+#gate .gate-sub {
+  font-size: 13px; color: var(--ink-quiet); margin-bottom: 28px;
+}
+#gate input {
+  font-size: 15px; padding: 12px 20px;
+  border: 1.5px solid var(--rule);
+  width: 280px; text-align: center; outline: none;
+  background: var(--paper-soft);
+  font-family: inherit;
+  color: var(--ink);
+}
+#gate input:focus { border-color: var(--ink); }
+#gate button {
+  font-size: 11px; font-weight: 700;
+  padding: 12px 32px;
+  background: var(--ink); color: var(--paper);
+  border: none; cursor: pointer; margin-top: 14px;
+  letter-spacing: 1.5px; font-family: inherit;
+  text-transform: uppercase;
+}
+#gate #err {
+  color: var(--warm); font-size: 12px;
+  margin-top: 10px; height: 18px;
+  font-style: italic;
+}
+
+/* LAYOUT */
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 32px 100px;
+}
+
+/* OPENING */
+.opening {
+  margin-bottom: 60px;
+}
+.signature-top {
+  font-size: 12px;
+  color: var(--ink-quiet);
+  letter-spacing: 0.5px;
+  margin-bottom: 32px;
+  font-style: italic;
+}
+h1 {
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+.opening p {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin-bottom: 18px;
+}
+.opening p:last-child { margin-bottom: 0; }
+.opening p strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* SECTION HEADERS */
+.section {
+  margin-bottom: 64px;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-quiet);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+h2 {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+.section > p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  max-width: 600px;
+}
+
+/* TOOLS */
+.tool {
+  background: var(--paper-soft);
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: border-color 0.15s;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.tool:hover {
+  border-color: var(--ink-soft);
+}
+.tool-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.tool-name {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.tool-link {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.tool-question {
+  font-size: 14px;
+  color: var(--ink-quiet);
+  font-style: italic;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.tool-question b { color: var(--ink-soft); font-weight: 600; font-style: normal; }
+.tool-what {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.tool-missing {
+  font-size: 13px;
+  color: var(--ink-quiet);
+  line-height: 1.55;
+  padding-top: 12px;
+  border-top: 1px dashed var(--rule);
+}
+.tool-missing-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-right: 6px;
+}
+
+/* PLACEHOLDER TOOL — for tools we don't have yet */
+.tool.placeholder {
+  background: transparent;
+  border: 1px dashed var(--ink-fade);
+  cursor: default;
+}
+.tool.placeholder:hover { border-color: var(--ink-fade); }
+.tool.placeholder .tool-name { color: var(--ink-quiet); }
+.tool.placeholder .tool-link {
+  color: var(--ink-fade);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* MISSING / NEEDS YOU */
+.needs {
+  background: var(--warm-soft);
+  border-left: 4px solid var(--warm);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+.needs h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.needs p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* HOW TO HELP */
+.help-list {
+  list-style: none;
+}
+.help-list li {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.help-list li:last-child { border-bottom: none; }
+.help-list li strong {
+  color: var(--ink);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* CLOSING */
+.closing {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--rule);
+}
+.closing p {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+  max-width: 600px;
+}
+.closing p:last-of-type {
+  font-style: italic;
+  color: var(--ink-quiet);
+  font-size: 15px;
+}
+.signature {
+  margin-top: 40px;
+  font-size: 15px;
+  color: var(--ink);
+}
+.signature .name {
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 2px;
+  letter-spacing: -0.005em;
+}
+.signature .when {
+  font-size: 12px;
+  color: var(--ink-quiet);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+@media (max-width: 600px) {
+  .wrap { padding: 50px 20px 80px; }
+  h1 { font-size: 30px; }
+  .opening p, .closing p { font-size: 16px; }
+  .tool { padding: 22px 24px; }
+  .tool-top { flex-direction: column; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-greeting">a space to play, not a tool to ship</div>
+    <div class="gate-title">Sandbox</div>
+    <div class="gate-sub">password somewhere in the invitation</div>
+    <input type="password" id="pw" placeholder="" onkeydown="if(event.key==='Enter')checkPw()" autofocus>
+    <button onclick="checkPw()">Enter</button>
+    <div id="err"></div>
+  </div>
+</div>
+
+<script>
+function checkPw(){
+  var v = document.getElementById("pw").value.trim().toLowerCase();
+  if(v==="hope" || v==="build" || v==="rca2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("body").style.display="block";
+    sessionStorage.setItem("sandbox_open","1");
+  } else {
+    document.getElementById("err").textContent="not quite";
+    document.getElementById("pw").value="";
+    document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  if(sessionStorage.getItem("sandbox_open")==="1"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("body").style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded", initGate);
+} else { initGate(); }
+</script>
+
+<div id="body" style="display:none;">
+<div class="wrap">
+
+  <!-- OPENING -->
+  <div class="opening">
+    <div class="signature-top">a letter, a space, a few rough things</div>
+    <h1>This is where we use what we know to make better decisions.</h1>
+
+    <p>Most of the tools we work with are built somewhere else, by people who don't do what we do, for problems that aren't quite the ones we have. That's not anyone's fault — it's just what happens when systems get built far away from the work.</p>
+
+    <p><strong>This is a different kind of space.</strong> It's rough on purpose. It's not finished, and it shouldn't be — because the things missing from it are the things only you would know to add.</p>
+
+    <p>I made this because I needed to. Because I think the people doing the work should have somewhere to put their ideas where those ideas don't disappear. Because watching good thinking get pushed into spreadsheets and decks and then forgotten is a kind of waste I'm tired of.</p>
+  </div>
+
+  <!-- WHAT'S HERE -->
+  <div class="section">
+    <div class="section-label">What's here so far</div>
+    <h2>Two rough things that already exist.</h2>
+    <p>Each of these started with a question someone actually asked. Neither is finished. Both are real.</p>
+
+    <a class="tool" href="/ad-tagging.html">
+      <div class="tool-top">
+        <div class="tool-name">AD Tagging</div>
+        <div class="tool-link">Open →</div>
+      </div>
+      <div class="tool-question">
+        <b>The question:</b> when someone needs Audience Development for an artist, who do they call?
+      </div>
+      <div class="tool-what">
+        Click any artist. The AD specialists tagged for that artist's genre and audience light up, with the matching tags showing why. The current roster is in there — 115 artists, every active person.
+      </div>
+      <div class="tool-missing">
+        <span class="tool-missing-label">Missing</span>
+        Lifestyle tags on most of the lifestyle creators are empty. The matching only works as well as the tags are right. That's where the work is.
+      </div>
+    </a>
+
+    <a class="tool" href="/creators.html">
+      <div class="tool-top">
+        <div class="tool-name">Creator Database</div>
+        <div class="tool-link">Open →</div>
+      </div>
+      <div class="tool-question">
+        <b>The question:</b> when we need a creator — a critic, a fan account, someone doing tour content — who do we know, what do they cost, who reps them?
+      </div>
+      <div class="tool-what">
+        Every creator from the UGC master doc, in one place. Filterable by function, size, genre, lifestyle tag, price band. Same tag vocabulary as the AD tool — on purpose, so the two systems eventually speak to each other.
+      </div>
+      <div class="tool-missing">
+        <span class="tool-missing-label">Missing</span>
+        Real audience data. Past performance — which creators showed up for which artists, what worked, what didn't. Brand conflicts. The taste calls that don't fit in a tag.
+      </div>
+    </a>
+
+    <div class="tool placeholder">
+      <div class="tool-top">
+        <div class="tool-name">Something else, eventually</div>
+        <div class="tool-link">Not yet</div>
+      </div>
+      <div class="tool-question">
+        Probably yours. Probably something I haven't thought of. Probably the thing that would actually make a difference for the work you do.
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S MISSING -->
+  <div class="section">
+    <div class="section-label">What's missing</div>
+    <h2>The parts I can't build alone.</h2>
+    <p>These aren't on a roadmap. They're honestly named. Some of them might happen. Some won't. The reason they're listed here is so you know the things missing aren't accidents — they're the places where someone else's knowledge has to come in.</p>
+
+    <div class="needs">
+      <h3>Real audience data</h3>
+      <p>Tags are a first pass at audience indexing. Actual data — who follows whom, what they listen to, how they engage — lives in Modash, Chartmetric, HypeAuditor, Cobrand. Hooking those in is a budget conversation and an integration project. It's not nothing.</p>
+    </div>
+
+    <div class="needs">
+      <h3>Past campaign performance</h3>
+      <p>Which creators showed up for which artists. Which posts moved the needle. Which collabs converted to streams. This data exists, but it lives across decks and screenshots and people's heads. Pulling it into one place is its own project.</p>
+    </div>
+
+    <div class="needs">
+      <h3>The things that can't be tagged</h3>
+      <p>Taste. Trust. The reason a particular creator won't post for a particular artist even though every tag says they should. The reason a publication runs your story and another one doesn't. These don't fit in a dropdown. They're knowledge that lives with people, and they're the most important kind.</p>
+    </div>
+  </div>
+
+  <!-- HOW TO HELP -->
+  <div class="section">
+    <div class="section-label">How to actually help</div>
+    <h2>Nothing formal. No forms. No tickets.</h2>
+
+    <ul class="help-list">
+      <li>
+        <strong>If a tag is wrong</strong>
+        Tell me. The data lives in Airtable and changes there are easy. A creator that shouldn't be Pop Influencers, an artist that should be LGBTQ Culture — flag it.
+      </li>
+      <li>
+        <strong>If something's missing</strong>
+        A tag category that should exist, a creator who isn't there, an artist who's been overlooked — same thing. Tell me.
+      </li>
+      <li>
+        <strong>If you want to add something</strong>
+        Notes on which creator worked for which artist. A brand conflict you know about. A relationship that matters. Any knowledge that lives in your head and would be useful to others — send it.
+      </li>
+      <li>
+        <strong>If you have an idea for the next tool</strong>
+        The empty card above isn't a placeholder. It's a real invitation. If there's something that would help the people doing your work do it better, tell me what it is and I'll try to build it.
+      </li>
+      <li>
+        <strong>If you just want to watch for now</strong>
+        That's fine too. You don't have to engage to be welcome here.
+      </li>
+    </ul>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <p>I don't have a launch plan for this. There's no rollout. There's no slide deck. There's no "phase 2." It's a place where the things I've been working on live, where the things I'm thinking about can sit alongside the things you're thinking about, and where — maybe — over time, the way we make decisions around here becomes a little less guesswork and a little more shared knowledge.</p>
+
+    <p>I built this because I believe the middle layer matters. Because the people doing the work know things the people running it don't. Because change is possible, and it doesn't have to come from the top.</p>
+
+    <p>If you've read this far, you're already part of it.</p>
+
+    <div class="signature">
+      <div class="name">Meg</div>
+      <div class="when">May 2026 · still building</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
