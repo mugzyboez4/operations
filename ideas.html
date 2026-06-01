@@ -14,121 +14,97 @@
   --ink-quiet: #6B6660;
   --ink-fade: #9C968D;
   --rule: #E8E2D4;
-  --warm: #C25A2C;
-  --warm-soft: #F5E4D8;
-  --moss: #7A8F5C;
-  --moss-soft: #E8EEDD;
-  --teal: #5E8589;
-  --teal-soft: #DDE8E9;
+  --warm: #C25A2C;  --warm-soft: #F5E4D8;
+  --moss: #7A8F5C;  --moss-soft: #E8EEDD;
+  --teal: #5E8589;  --teal-soft: #DDE8E9;
+  --sky: #5E7689;   --sky-soft: #E0E7EC;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--paper); color: var(--ink); }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400; line-height: 1.6; font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-}
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 400; line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
 
-/* GATE — same as Sandbox, shares the unlock */
-#gate {
-  position: fixed; inset: 0; background: var(--paper); z-index: 9999;
-  display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px;
-}
+/* GATE */
+#gate { position: fixed; inset: 0; background: var(--paper); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px; }
 #gate .gate-inner { max-width: 360px; text-align: center; }
 #gate .gate-greeting { font-size: 14px; color: var(--ink-quiet); margin-bottom: 24px; font-style: italic; }
 #gate .gate-title { font-size: 32px; font-weight: 900; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.02em; }
 #gate .gate-sub { font-size: 13px; color: var(--ink-quiet); margin-bottom: 28px; }
-#gate input {
-  font-size: 15px; padding: 12px 20px; border: 1.5px solid var(--rule);
-  width: 280px; text-align: center; outline: none; background: var(--paper-soft);
-  font-family: inherit; color: var(--ink);
-}
+#gate input { font-size: 15px; padding: 12px 20px; border: 1.5px solid var(--rule); width: 280px; text-align: center; outline: none; background: var(--paper-soft); font-family: inherit; color: var(--ink); }
 #gate input:focus { border-color: var(--ink); }
-#gate button {
-  font-size: 11px; font-weight: 700; padding: 12px 32px; background: var(--ink); color: var(--paper);
-  border: none; cursor: pointer; margin-top: 14px; letter-spacing: 1.5px; font-family: inherit; text-transform: uppercase;
-}
+#gate button { font-size: 11px; font-weight: 700; padding: 12px 32px; background: var(--ink); color: var(--paper); border: none; cursor: pointer; margin-top: 14px; letter-spacing: 1.5px; font-family: inherit; text-transform: uppercase; }
 #gate #err { color: var(--warm); font-size: 12px; margin-top: 10px; height: 18px; font-style: italic; }
 
 /* LAYOUT */
 .wrap { max-width: 720px; margin: 0 auto; padding: 72px 32px 100px; }
-
-.back {
-  display: inline-block; font-size: 12px; color: var(--ink-quiet);
-  text-decoration: none; letter-spacing: 0.5px; margin-bottom: 32px;
-}
+.back { display: inline-block; font-size: 12px; color: var(--ink-quiet); text-decoration: none; letter-spacing: 0.5px; margin-bottom: 32px; }
 .back:hover { color: var(--ink); }
 
 /* OPENING */
-.opening { margin-bottom: 48px; }
+.opening { margin-bottom: 36px; }
 .signature-top { font-size: 12px; color: var(--ink-quiet); letter-spacing: 0.5px; margin-bottom: 20px; font-style: italic; }
-h1 { font-size: 38px; font-weight: 900; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 24px; color: var(--ink); }
-.opening p { font-size: 17px; line-height: 1.65; color: var(--ink-soft); max-width: 600px; margin-bottom: 18px; }
+h1 { font-size: 38px; font-weight: 900; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 22px; color: var(--ink); }
+.opening p { font-size: 17px; line-height: 1.65; color: var(--ink-soft); max-width: 600px; margin-bottom: 16px; }
 .opening p:last-child { margin-bottom: 0; }
 .opening p strong { color: var(--ink); font-weight: 700; }
 
-/* COMPOSE — the notebook */
-.compose {
-  background: var(--paper-soft); border: 1px solid var(--rule);
-  padding: 26px 28px; margin-bottom: 48px;
-}
-.compose-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--ink-quiet); margin-bottom: 16px;
-}
-.compose textarea {
-  width: 100%; min-height: 96px; resize: vertical; padding: 14px 16px;
-  border: 1px solid var(--rule); background: var(--paper); color: var(--ink);
-  font-family: inherit; font-size: 16px; line-height: 1.55; outline: none;
-}
+/* LEDGER — the calm overview line */
+.ledger { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 16px 0 14px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin-bottom: 36px; }
+.ledger .count { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); }
+.ledger .count-label { font-size: 13px; color: var(--ink-quiet); }
+.ledger .sep { color: var(--ink-fade); }
+.ledger .recent { font-size: 13px; color: var(--ink-quiet); font-style: italic; }
+
+/* COMPOSE */
+.compose { background: var(--paper-soft); border: 1px solid var(--rule); padding: 26px 28px; margin-bottom: 44px; }
+.compose-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-quiet); margin-bottom: 16px; }
+.compose textarea { width: 100%; min-height: 92px; resize: vertical; padding: 14px 16px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font-family: inherit; font-size: 16px; line-height: 1.55; outline: none; }
 .compose textarea:focus { border-color: var(--ink-soft); }
-.compose-row {
-  display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap;
-}
-.compose input[type=text] {
-  flex: 1; min-width: 200px; padding: 11px 14px; border: 1px solid var(--rule);
-  background: var(--paper); color: var(--ink); font-family: inherit; font-size: 14px; outline: none;
-}
+.topic-select { margin-top: 14px; }
+.topic-select .ts-label { font-size: 12px; color: var(--ink-fade); font-style: italic; margin-bottom: 8px; }
+.topic-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.topic-pill { font-size: 12px; padding: 6px 12px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-quiet); cursor: pointer; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; user-select: none; }
+.topic-pill .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.topic-pill.active { color: var(--ink); border-color: var(--ink-soft); background: var(--paper-soft); font-weight: 600; }
+.compose-row { display: flex; gap: 12px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+.compose input[type=text] { flex: 1; min-width: 200px; padding: 11px 14px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font-family: inherit; font-size: 14px; outline: none; }
 .compose input[type=text]:focus { border-color: var(--ink-soft); }
-.compose button {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-  padding: 12px 24px; background: var(--ink); color: var(--paper); border: none;
-  cursor: pointer; font-family: inherit; white-space: nowrap;
-}
+.compose button { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 24px; background: var(--ink); color: var(--paper); border: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .compose button:hover { background: var(--ink-soft); }
 .compose button:disabled { background: var(--ink-fade); cursor: default; }
-.compose-note {
-  font-size: 12px; color: var(--ink-fade); font-style: italic; margin-top: 12px; min-height: 16px;
-}
+.compose-note { font-size: 12px; color: var(--ink-fade); font-style: italic; margin-top: 12px; min-height: 16px; }
 .compose-note.warm { color: var(--warm); font-style: normal; }
 .compose-note.moss { color: var(--moss); font-style: normal; }
 
-/* WALL */
-.section-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--ink-quiet); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--rule);
-}
-.banner {
-  background: var(--warm-soft); border-left: 4px solid var(--warm);
-  padding: 14px 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 24px;
-}
-.post {
-  background: var(--paper-soft); border: 1px solid var(--rule);
-  padding: 22px 24px; margin-bottom: 14px;
-}
+/* THEME CHIPS */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.chip { font-size: 12.5px; padding: 7px 13px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-quiet); cursor: pointer; border-radius: 999px; display: inline-flex; align-items: center; gap: 7px; user-select: none; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.chip .n { color: var(--ink-fade); font-size: 11px; }
+.chip:hover { border-color: var(--ink-fade); }
+.chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip.active .n { color: var(--paper); opacity: 0.7; }
+
+.banner { background: var(--warm-soft); border-left: 4px solid var(--warm); padding: 14px 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 24px; }
+
+/* GROUPS + POSTS */
+.group-head { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-quiet); margin: 28px 0 16px; }
+.group-head:first-child { margin-top: 0; }
+.post { background: var(--paper-soft); border: 1px solid var(--rule); padding: 22px 24px; margin-bottom: 14px; }
 .post.seed { opacity: 0.62; }
 .post-idea { font-size: 16px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; margin-bottom: 12px; }
-.post-meta { font-size: 12px; color: var(--ink-quiet); letter-spacing: 0.3px; }
+.post-meta { font-size: 12px; color: var(--ink-quiet); letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .post-meta .from { font-weight: 700; color: var(--ink-soft); }
 .post-meta .from.anon { font-weight: 400; font-style: italic; color: var(--ink-quiet); }
-.post-meta .dot { margin: 0 8px; color: var(--ink-fade); }
+.post-meta .sep { color: var(--ink-fade); }
 .post-meta .seed-tag { color: var(--warm); font-style: italic; }
+.topic-chip { font-size: 11px; padding: 3px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; color: var(--ink-soft); }
+.topic-chip .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
 .empty { font-size: 15px; color: var(--ink-quiet); font-style: italic; padding: 8px 0; }
 
 /* CLOSING */
-.closing { margin-top: 64px; padding-top: 36px; border-top: 1px solid var(--rule); }
+.closing { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--rule); }
 .closing p { font-size: 15px; line-height: 1.65; color: var(--ink-quiet); margin-bottom: 14px; max-width: 600px; }
-.signature { margin-top: 28px; font-size: 15px; color: var(--ink); }
+.signature { margin-top: 24px; font-size: 15px; color: var(--ink); }
 .signature .name { font-weight: 700; font-size: 17px; margin-bottom: 2px; }
 .signature .when { font-size: 12px; color: var(--ink-quiet); font-style: italic; margin-top: 2px; }
 
@@ -143,7 +119,7 @@ h1 { font-size: 38px; font-weight: 900; line-height: 1.05; letter-spacing: -0.02
 </head>
 <body>
 
-<!-- GATE (shares unlock with the Sandbox) -->
+<!-- GATE -->
 <div id="gate">
   <div class="gate-inner">
     <div class="gate-greeting">a space to think out loud, together</div>
@@ -174,13 +150,9 @@ function initGate(){
     document.getElementById("gate").style.display="none";
     document.getElementById("body").style.display="block";
     loadBoard();
-  } else {
-    document.getElementById("pw").focus();
-  }
+  } else { document.getElementById("pw").focus(); }
 }
-if(document.readyState==="loading"){
-  document.addEventListener("DOMContentLoaded", initGate);
-} else { initGate(); }
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", initGate); } else { initGate(); }
 </script>
 
 <div id="body" style="display:none;">
@@ -192,15 +164,21 @@ if(document.readyState==="loading"){
   <div class="opening">
     <div class="signature-top">for the people doing the work</div>
     <h1>The Board.</h1>
-    <p>This is the part the Sandbox kept pointing at — a place to actually put an idea down. Not a form. Not a ticket. A wall we can all see.</p>
-    <p><strong>Post something half-formed. Post something you're not sure about.</strong> Put your name on it, or don't — there's a box for that, and "anonymous" is a completely respectable way to say a true thing.</p>
-    <p>Nobody's grading these. Nothing here travels up the chain without you. It's just us, thinking out loud, somewhere the thinking doesn't disappear.</p>
+    <p>A place to actually put an idea down. Not a form. Not a ticket. A wall we can all see.</p>
+    <p><strong>Post something half-formed.</strong> Name it or don't &mdash; "anonymous" is a completely respectable way to say a true thing. Nobody's grading these, and nothing here travels up the chain without you.</p>
   </div>
+
+  <!-- LEDGER -->
+  <div class="ledger" id="ledger"></div>
 
   <!-- COMPOSE -->
   <div class="compose">
     <div class="compose-label">Put something down</div>
     <textarea id="idea" placeholder="What's the idea? Doesn't have to be finished."></textarea>
+    <div class="topic-select">
+      <div class="ts-label">what kind of thing is this? (optional)</div>
+      <div class="topic-pills" id="topicPills"></div>
+    </div>
     <div class="compose-row">
       <input type="text" id="from" placeholder="Your name — or leave blank to post as anonymous">
       <button id="postBtn" onclick="postIdea()">Add to the board</button>
@@ -208,14 +186,16 @@ if(document.readyState==="loading"){
     <div class="compose-note" id="note"></div>
   </div>
 
-  <!-- WALL -->
-  <div class="section-label">On the board</div>
+  <!-- THEME CHIPS -->
+  <div class="chips" id="chips"></div>
+
+  <!-- BANNER + WALL -->
   <div id="banner"></div>
   <div id="wall"></div>
 
   <!-- CLOSING -->
   <div class="closing">
-    <p>If you read someone else's idea and it makes you think "oh, I have one of those too" — that's the whole point. Add yours.</p>
+    <p>If you read someone else's idea and think "oh, I have one of those too" &mdash; that's the whole point. Add yours.</p>
     <div class="signature">
       <div class="name">Meg</div>
       <div class="when">still building &middot; this one's ours</div>
@@ -226,21 +206,30 @@ if(document.readyState==="loading"){
 </div>
 
 <script>
-// ── Config ──────────────────────────────────────────────
-// Soft gate password sent to the function. The site is already password-gated;
-// the real Airtable token lives server-side in the Netlify function, never here.
 var BOARD_PASSWORD = "rca2026";
 var API = "/api/ideas";
 
-// Example posts shown only when the board isn't wired to live storage yet,
-// so the feel reads. Clearly marked as examples.
+var TOPICS = [
+  { name: "An idea",            color: "var(--moss)", soft: "var(--moss-soft)" },
+  { name: "A frustration",      color: "var(--warm)", soft: "var(--warm-soft)" },
+  { name: "Something working",  color: "var(--teal)", soft: "var(--teal-soft)" },
+  { name: "A question",         color: "var(--sky)",  soft: "var(--sky-soft)" },
+  { name: "Thinking out loud",  color: "var(--ink-fade)", soft: "var(--paper-soft)" }
+];
+function topicMeta(name){ for(var i=0;i<TOPICS.length;i++){ if(TOPICS[i].name===name) return TOPICS[i]; } return null; }
+
 var SEED = [
-  { idea: "Half of what I know about which creators actually show up for an artist lives in my head. There should be a place to write that down before it walks out the door with whoever leaves next.", from: "anonymous", seed: true },
-  { idea: "Can we tag artists by the moment their audience actually shows up — not just genre? Pride, back-to-school, festival season. The calendar is the thing nobody plans around early enough.", from: "Alexis", seed: true }
+  { idea: "Half of what I know about which creators actually show up for an artist lives in my head. There should be a place to write that down before it walks out the door with whoever leaves next.", from: "anonymous", topic: "An idea", seed: true },
+  { idea: "Can we tag artists by the moment their audience actually shows up — not just genre? Pride, back-to-school, festival season. The calendar is the thing nobody plans around early enough.", from: "anonymous", topic: "An idea", seed: true },
+  { idea: "Honestly? Half the meetings could be a doc. We keep re-deciding things that were already decided because nothing's written down.", from: "anonymous", topic: "A frustration", seed: true }
 ];
 
-function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+var allPosts = [];
+var activeTopic = null;
+var composeTopic = null;
+var seedMode = false;
 
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function timeAgo(iso){
   if(!iso) return "";
   var d = new Date(iso); if(isNaN(d)) return "";
@@ -251,43 +240,94 @@ function timeAgo(iso){
   var dd=Math.floor(h/24); if(dd<7) return dd+(dd===1?" day ago":" days ago");
   return d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
 }
+function isThisWeek(iso){ if(!iso) return false; var d=new Date(iso); if(isNaN(d)) return false; return (Date.now()-d.getTime()) < 7*24*60*60*1000; }
 
-function renderPosts(posts, isSeed){
-  var wall = document.getElementById("wall");
-  if(!posts || posts.length===0){
-    wall.innerHTML = '<div class="empty">Nothing here yet. Be the first to put something down.</div>';
-    return;
-  }
-  wall.innerHTML = posts.map(function(p){
-    var anon = (!p.from || p.from.toLowerCase()==="anonymous");
-    var meta = '<span class="from'+(anon?' anon':'')+'">'+esc(anon?"anonymous":p.from)+'</span>';
-    if(isSeed){ meta += '<span class="dot">&middot;</span><span class="seed-tag">example</span>'; }
-    else if(p.created){ meta += '<span class="dot">&middot;</span>'+timeAgo(p.created); }
-    return '<div class="post'+(isSeed?' seed':'')+'">'
-      + '<div class="post-idea">'+esc(p.idea)+'</div>'
-      + '<div class="post-meta">'+meta+'</div></div>';
-  }).join("");
+function topicChipHtml(name){
+  var m = topicMeta(name); if(!m) return "";
+  return '<span class="topic-chip" style="background:'+m.soft+'"><span class="dot" style="background:'+m.color+'"></span>'+esc(name)+'</span>';
 }
 
+function renderTopicPills(){
+  var wrap = document.getElementById("topicPills");
+  wrap.innerHTML = TOPICS.map(function(t){
+    var on = composeTopic===t.name;
+    return '<span class="topic-pill'+(on?' active':'')+'" onclick="toggleComposeTopic(\''+t.name.replace(/'/g,"\\'")+'\')">'
+      + '<span class="dot" style="background:'+t.color+'"></span>'+esc(t.name)+'</span>';
+  }).join("");
+}
+function toggleComposeTopic(name){ composeTopic = (composeTopic===name)? null : name; renderTopicPills(); }
+
+function renderLedger(){
+  var el = document.getElementById("ledger");
+  var n = allPosts.length;
+  var newest = allPosts.length ? allPosts[0].created : null;
+  var recent = "";
+  if(seedMode){ recent = '<span class="sep">&middot;</span><span class="recent">a quiet start &mdash; add the first real one</span>'; }
+  else if(newest){ recent = '<span class="sep">&middot;</span><span class="recent">newest '+timeAgo(newest)+'</span>'; }
+  el.innerHTML = '<span class="count">'+n+'</span><span class="count-label">'+(n===1?"idea on the board":"ideas on the board")+'</span>'+recent;
+}
+
+function renderChips(){
+  var el = document.getElementById("chips");
+  var counts = {};
+  allPosts.forEach(function(p){ if(p.topic){ counts[p.topic]=(counts[p.topic]||0)+1; } });
+  var html = '<span class="chip'+(activeTopic===null?' active':'')+'" onclick="setFilter(null)">Everything <span class="n">'+allPosts.length+'</span></span>';
+  TOPICS.forEach(function(t){
+    if(counts[t.name]){
+      html += '<span class="chip'+(activeTopic===t.name?' active':'')+'" onclick="setFilter(\''+t.name.replace(/'/g,"\\'")+'\')">'
+        + '<span class="dot" style="background:'+t.color+'"></span>'+esc(t.name)+' <span class="n">'+counts[t.name]+'</span></span>';
+    }
+  });
+  el.innerHTML = html;
+}
+function setFilter(name){ activeTopic = name; renderChips(); renderWall(); }
+
+function postCard(p, isSeed){
+  var anon = (!p.from || p.from.toLowerCase()==="anonymous");
+  var meta = '<span class="from'+(anon?' anon':'')+'">'+esc(anon?"anonymous":p.from)+'</span>';
+  if(p.topic){ meta += '<span class="sep">&middot;</span>'+topicChipHtml(p.topic); }
+  if(isSeed){ meta += '<span class="sep">&middot;</span><span class="seed-tag">example</span>'; }
+  else if(p.created){ meta += '<span class="sep">&middot;</span>'+timeAgo(p.created); }
+  return '<div class="post'+(isSeed?' seed':'')+'"><div class="post-idea">'+esc(p.idea)+'</div><div class="post-meta">'+meta+'</div></div>';
+}
+
+function renderWall(){
+  var wall = document.getElementById("wall");
+  var visible = activeTopic ? allPosts.filter(function(p){ return p.topic===activeTopic; }) : allPosts.slice();
+  if(visible.length===0){
+    wall.innerHTML = '<div class="empty">'+(activeTopic? "Nothing under that one yet." : "Nothing here yet. Be the first to put something down.")+'</div>';
+    return;
+  }
+  if(seedMode){ wall.innerHTML = visible.map(function(p){ return postCard(p, true); }).join(""); return; }
+  var week = visible.filter(function(p){ return isThisWeek(p.created); });
+  var older = visible.filter(function(p){ return !isThisWeek(p.created); });
+  var html = "";
+  if(week.length){ html += '<div class="group-head">This week</div>' + week.map(function(p){ return postCard(p,false); }).join(""); }
+  if(older.length){ html += '<div class="group-head">Earlier</div>' + older.map(function(p){ return postCard(p,false); }).join(""); }
+  wall.innerHTML = html;
+}
+
+function renderAll(){ renderLedger(); renderChips(); renderWall(); }
+
 function loadBoard(){
+  renderTopicPills();
   fetch(API, { headers: { "X-Grid-Password": BOARD_PASSWORD } })
     .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
     .then(function(res){
       if(res.ok && res.j && res.j.posts){
+        seedMode = false; allPosts = res.j.posts;
         document.getElementById("banner").innerHTML = "";
-        renderPosts(res.j.posts, false);
-      } else {
-        showNotLive();
-      }
+        renderAll();
+      } else { showNotLive(); }
     })
     .catch(function(){ showNotLive(); });
 }
 
 function showNotLive(){
+  seedMode = true; allPosts = SEED.slice();
   document.getElementById("banner").innerHTML =
-    "The board isn't wired to live storage yet — what's below is an example of how it'll look. "
-    + "Real posts start saving the moment Meg flips it on.";
-  renderPosts(SEED, true);
+    "The board isn't wired to live storage yet — what's below is an example of how it'll look. Real posts start saving the moment it's connected.";
+  renderAll();
 }
 
 function postIdea(){
@@ -295,37 +335,29 @@ function postIdea(){
   var from = document.getElementById("from").value.trim();
   var note = document.getElementById("note");
   var btn = document.getElementById("postBtn");
-  if(!idea){
-    note.className = "compose-note warm";
-    note.textContent = "Put a thought in the box first.";
-    return;
-  }
-  btn.disabled = true;
-  note.className = "compose-note";
-  note.textContent = "adding…";
+  if(!idea){ note.className="compose-note warm"; note.textContent="Put a thought in the box first."; return; }
+  btn.disabled = true; note.className="compose-note"; note.textContent="adding…";
   fetch(API, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Grid-Password": BOARD_PASSWORD },
-    body: JSON.stringify({ idea: idea, from: from })
+    body: JSON.stringify({ idea: idea, from: from, topic: composeTopic || "" })
   })
   .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
   .then(function(res){
     btn.disabled = false;
     if(res.ok && res.j && res.j.post){
-      document.getElementById("idea").value = "";
-      document.getElementById("from").value = "";
-      note.className = "compose-note moss";
-      note.textContent = "On the board.";
+      document.getElementById("idea").value=""; document.getElementById("from").value="";
+      composeTopic=null; renderTopicPills();
+      note.className="compose-note moss"; note.textContent="On the board.";
       loadBoard();
     } else {
-      note.className = "compose-note warm";
-      note.textContent = "The board isn't live yet — your idea wasn't saved. Hang tight, Meg's wiring it up.";
+      note.className="compose-note warm";
+      note.textContent="The board isn't live yet — your idea wasn't saved. Hang tight, it's being connected.";
     }
   })
   .catch(function(){
-    btn.disabled = false;
-    note.className = "compose-note warm";
-    note.textContent = "Couldn't reach the board. Your idea wasn't saved — try again in a sec.";
+    btn.disabled = false; note.className="compose-note warm";
+    note.textContent="Couldn't reach the board. Your idea wasn't saved — try again in a sec.";
   });
 }
 </script>

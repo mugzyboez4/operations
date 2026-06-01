@@ -21,6 +21,7 @@ function readEnv(key) {
 
 const MAX_IDEA = 2000;
 const MAX_FROM = 80;
+const ALLOWED_TOPICS = ['An idea', 'A frustration', 'Something working', 'A question', 'Thinking out loud'];
 
 export default async (req) => {
   // Reuse-friendly config. Env vars win if set; otherwise sensible defaults.
@@ -84,6 +85,7 @@ async function handleGet(baseId, tableId, token) {
       id: r.id,
       idea: r.fields?.Idea || '',
       from: (r.fields?.From || '').trim() || 'anonymous',
+      topic: r.fields?.Topic || '',
       created: r.createdTime || null
     }));
 
@@ -103,6 +105,7 @@ async function handlePost(req, baseId, tableId, token) {
 
   let idea = (body && typeof body.idea === 'string') ? body.idea.trim() : '';
   let from = (body && typeof body.from === 'string') ? body.from.trim() : '';
+  let topic = (body && typeof body.topic === 'string') ? body.topic.trim() : '';
 
   if (!idea) {
     return jsonResponse(400, { error: 'empty_idea' });
@@ -110,6 +113,10 @@ async function handlePost(req, baseId, tableId, token) {
   if (idea.length > MAX_IDEA) idea = idea.substring(0, MAX_IDEA);
   if (from.length > MAX_FROM) from = from.substring(0, MAX_FROM);
   if (!from) from = 'anonymous';
+  if (!ALLOWED_TOPICS.includes(topic)) topic = '';
+
+  const fields = { Idea: idea, From: from };
+  if (topic) fields.Topic = topic;
 
   try {
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableId)}`;
@@ -119,7 +126,7 @@ async function handlePost(req, baseId, tableId, token) {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ fields: { Idea: idea, From: from } })
+      body: JSON.stringify({ fields })
     });
     if (!res.ok) {
       const errText = await res.text();
@@ -131,6 +138,7 @@ async function handlePost(req, baseId, tableId, token) {
         id: data.id,
         idea: data.fields?.Idea || idea,
         from: (data.fields?.From || from).trim() || 'anonymous',
+        topic: data.fields?.Topic || topic || '',
         created: data.createdTime || new Date().toISOString()
       }
     });
