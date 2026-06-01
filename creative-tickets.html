@@ -8,7 +8,6 @@
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-/* PASSWORD GATE — matches site pattern */
 #gate { position:fixed; inset:0; background:#FCFDF8; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family:Inter,-apple-system,sans-serif; }
 #gate img { width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
 #gate .gate-title { font-size:22px; font-weight:900; color:#0F0E0E; margin-bottom:4px; letter-spacing:-1px; }
@@ -16,13 +15,11 @@
 #gate input { font-size:14px; padding:10px 20px; border:2px solid #ECEAE3; width:240px; text-align:center; outline:none; background:#fff; font-family:inherit; }
 #gate button { font-size:11px; font-weight:700; padding:10px 28px; background:#0F0E0E; color:#FCFDF8; border:none; cursor:pointer; margin-top:10px; letter-spacing:1px; font-family:inherit; }
 #gate #err { color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
-
 .site-strip { padding:10px 20px; border-bottom:1px solid #E5E3DC; background:#FCFDF8; display:flex; align-items:center; justify-content:space-between; font-family:Inter,-apple-system,sans-serif; font-size:11px; }
 .site-strip a { color:#6B6976; text-decoration:none; font-weight:600; letter-spacing:0.5px; }
 .site-strip a:hover { color:#0F0E0E; }
 .site-strip .crumb { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#9A95A5; }
 .site-strip .crumb b { color:#0F0E0E; font-weight:700; }
-
 :root{
   --bg:#FCFDF8; --card:#FFFFFF; --card-2:#F5F5F0; --text:#0F0E0E; --text-soft:#3E3F41;
   --fog:#6B6976; --fog-dim:#9A95A5; --rule:#E5E3DC; --chartreuse:#9BC424; --chartreuse-bg:#F0F8D9;
@@ -31,55 +28,78 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{background:var(--bg);color:var(--text);height:100%;}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-weight:400;line-height:1.5;font-size:14px;-webkit-font-smoothing:antialiased;}
-.wrap{max-width:1400px;margin:0 auto;padding:40px 32px 60px;}
-
-header{padding-bottom:24px;border-bottom:1px solid var(--rule);margin-bottom:28px;}
+.wrap{max-width:1400px;margin:0 auto;padding:32px 32px 60px;}
+header{padding-bottom:20px;border-bottom:1px solid var(--rule);margin-bottom:20px;}
 .eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:10px;}
 h1{font-size:42px;font-weight:900;letter-spacing:-0.02em;line-height:1.0;text-transform:uppercase;margin-bottom:12px;}
 h1 .x{color:var(--chartreuse);}
 header p{font-size:15px;color:var(--text-soft);max-width:760px;}
-.meta{font-size:11px;color:var(--fog);margin-top:14px;letter-spacing:0.5px;}
-.meta strong{color:var(--text-soft);font-weight:600;}
-.meta code{background:var(--card-2);padding:1px 6px;font-size:10px;}
 
-/* STAT ROW */
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
-.stat{background:var(--card);border:1px solid var(--rule);padding:16px 18px;}
-.stat .n{font-size:34px;font-weight:900;line-height:1;letter-spacing:-1px;}
-.stat .l{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);margin-top:8px;}
-.stat.accent{background:var(--chartreuse-bg);border-color:var(--chartreuse);}
-.stat.alert .n{color:var(--flame);}
+/* STATUS BAR */
+.conn-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:11px 16px;margin-bottom:20px;background:var(--card);border:1px solid var(--rule);}
+.conn-dot{width:9px;height:9px;border-radius:50%;background:var(--fog-dim);}
+.conn-dot.live{background:var(--chartreuse);box-shadow:0 0 0 3px var(--chartreuse-bg);}
+.conn-dot.snap{background:var(--gold);box-shadow:0 0 0 3px var(--gold-bg);}
+.conn-dot.err{background:var(--flame);box-shadow:0 0 0 3px var(--flame-bg);}
+.conn-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.conn-sub{font-size:11px;color:var(--fog);}
+.conn-spacer{flex:1;}
+.btn{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;background:var(--text);color:var(--bg);border:none;cursor:pointer;font-family:inherit;}
+.btn:hover{background:var(--text-soft);}
 
-/* FAN-OUT SUMMARY */
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.kpi{background:var(--card);border:1px solid var(--rule);padding:16px 18px;}
+.kpi .n{font-size:36px;font-weight:900;line-height:1;letter-spacing:-1px;}
+.kpi .l{font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;color:var(--fog);margin-top:8px;}
+.kpi.accent{background:var(--chartreuse-bg);border-color:var(--chartreuse);}
+.kpi.alert .n{color:var(--flame);}
+
+/* PANELS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.panel{background:var(--card);border:1px solid var(--rule);padding:20px 22px;}
+.panel h2{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+.panel .ph{font-size:11px;color:var(--fog);margin-bottom:18px;}
+
+/* METERS */
+.meter{margin-bottom:14px;}
+.meter .top{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;}
+.meter .top .v{color:var(--fog);font-weight:700;}
+.meter .track{height:9px;background:var(--card-2);}
+.meter .fill{height:100%;background:var(--chartreuse);transition:width .5s ease;}
+.meter.flame .fill{background:var(--flame);}
+
+/* BARS */
+.bars .row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;}
+.bars .row .lbl{width:130px;font-weight:600;flex:0 0 auto;}
+.bars .row .tk{flex:1;height:16px;background:var(--card-2);}
+.bars .row .fl{height:100%;}
+.bars .row .vn{width:28px;text-align:right;font-weight:700;flex:0 0 auto;}
+.fl.auto{background:var(--chartreuse);} .fl.prompt{background:var(--gold);} .fl.bespoke{background:var(--fog-dim);} .fl.unrouted{background:var(--flame);}
+.fl.cat{background:var(--teal);}
+
+/* LANES */
 .section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin:0 0 12px;}
-.fanout{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.fanout{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
 .lane{background:var(--card);border:1px solid var(--rule);padding:16px 18px;}
 .lane .tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;margin-bottom:10px;}
-.lane.l1{border-top:3px solid var(--chartreuse);}
-.lane.l1 .tag{background:var(--chartreuse);color:var(--text);}
-.lane.l2{border-top:3px solid var(--gold);}
-.lane.l2 .tag{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold);}
-.lane.l3{border-top:3px solid var(--fog-dim);}
-.lane.l3 .tag{background:var(--card-2);color:var(--fog);}
+.lane.l1{border-top:3px solid var(--chartreuse);} .lane.l1 .tag{background:var(--chartreuse);color:var(--text);}
+.lane.l2{border-top:3px solid var(--gold);} .lane.l2 .tag{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold);}
+.lane.l3{border-top:3px solid var(--fog-dim);} .lane.l3 .tag{background:var(--card-2);color:var(--fog);}
 .lane h3{font-size:15px;font-weight:900;text-transform:uppercase;margin-bottom:4px;}
 .lane .cnt{font-size:11px;color:var(--fog);margin-bottom:8px;}
 .lane .items{font-size:12px;color:var(--text-soft);line-height:1.5;}
 
-/* FILTER */
-.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 16px;margin-bottom:14px;background:var(--card);border:1px solid var(--rule);}
+/* FILTER + TABLE */
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 16px;margin-bottom:12px;background:var(--card);border:1px solid var(--rule);}
 .filter-bar .label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-right:4px;}
-.filter-chip{padding:6px 12px;border:1px solid var(--rule);background:var(--bg);font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-soft);cursor:pointer;font-family:inherit;transition:all .15s;}
+.filter-chip{padding:6px 12px;border:1px solid var(--rule);background:var(--bg);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-soft);cursor:pointer;font-family:inherit;}
 .filter-chip:hover{border-color:var(--text-soft);}
 .filter-chip.active{background:var(--chartreuse);border-color:var(--chartreuse);color:var(--text);}
-.filter-spacer{flex:1;}
-.filter-result{font-size:11px;color:var(--fog);}
-.filter-result b{color:var(--text);font-weight:700;}
-
-/* TABLE */
 .tbl-wrap{background:var(--card);border:1px solid var(--rule);overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 thead th{background:var(--card-2);text-align:left;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fog);padding:11px 12px;border-bottom:1px solid var(--rule);white-space:nowrap;}
-tbody td{padding:11px 12px;border-bottom:1px solid var(--rule);vertical-align:top;}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr.proposed{background:#FBFAFE;}
 .ty{font-weight:700;white-space:nowrap;}
@@ -87,26 +107,19 @@ tbody tr.proposed{background:#FBFAFE;}
 .tag-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;}
 .t-auto{background:var(--chartreuse);color:var(--text);}
 .t-catch{background:var(--flame-bg);color:var(--flame);border:1px solid var(--flame);}
-.t-src-e{background:var(--card-2);color:var(--fog);}
 .t-src-p{background:#EFE9FA;color:#7A4FC0;}
+.t-tier{background:var(--card-2);color:var(--text-soft);}
 .fo{font-size:11px;font-weight:600;}
 .fo-auto{color:var(--chartreuse);} .fo-prompt{color:var(--gold);} .fo-bespoke{color:var(--fog);}
 .num{font-weight:700;text-align:center;}
-.pending{color:var(--fog-dim);font-style:italic;font-size:11px;}
-.ov{font-size:11px;color:var(--flame);}
 .dash{color:var(--fog-dim);}
-
-.note-strip{margin-top:16px;padding:13px 16px;background:var(--chartreuse-bg);border:1px solid var(--chartreuse);font-size:12px;color:var(--text-soft);line-height:1.5;}
-.note-strip b{color:var(--text);}
-
-footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule);font-size:11px;color:var(--fog);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-
-@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr);}.fanout{grid-template-columns:1fr;}h1{font-size:32px;}}
+.ov{font-size:11px;color:var(--flame);}
+footer{margin-top:36px;padding-top:20px;border-top:1px solid var(--rule);font-size:11px;color:var(--fog);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.grid2,.fanout{grid-template-columns:1fr;}h1{font-size:32px;}}
 </style>
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
 <div id="gate">
   <img src="/logo_neon.png" alt="Campaign Ops" onerror="this.src='/tempoicon.png'">
   <div class="gate-title">Campaign Operations</div>
@@ -130,6 +143,8 @@ function checkPw(){
     document.getElementById("app").style.display="flex";
     document.getElementById("demo-body").style.display="block";
     sessionStorage.setItem("rca_auth","1");
+    sessionStorage.setItem("rca_auth_pw",v);
+    if(typeof loadData==="function") loadData();
   } else {
     document.getElementById("err").textContent="Incorrect password";
     document.getElementById("pw").value="";document.getElementById("pw").focus();
@@ -138,8 +153,10 @@ function checkPw(){
 function initGate(){
   var g=document.getElementById("gate"),a=document.getElementById("app"),b=document.getElementById("demo-body");
   if(!g||!a||!b) return;
-  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="flex";b.style.display="block";}
-  else{document.getElementById("pw").focus();}
+  if(sessionStorage.getItem("rca_auth")==="1"){
+    g.style.display="none";a.style.display="flex";b.style.display="block";
+    if(typeof loadData==="function") loadData();
+  } else { document.getElementById("pw").focus(); }
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
 </script>
@@ -148,38 +165,54 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="wrap">
 
   <header>
-    <div class="eyebrow">Creative Production · Working Build</div>
+    <div class="eyebrow">Creative Production · Live</div>
     <h1>Creative Ticketing <span class="x">·</span> Dashboard</h1>
-    <p>The creative request menu, mapped as one system: what fires automatically at scheduling, what needs a prompt, and what's bespoke. Built to support the ticketing rebuild — Creative owns the form and the tiers; this just makes the picture legible.</p>
-    <div class="meta"><strong>Backed by</strong> Airtable · <code>Creative Ticket Types</code> (sandbox) · Tier &amp; timing fill in as Creative inputs · Snapshot</div>
+    <p>The creative request menu as one system: what fires automatically at scheduling, what needs a prompt, what's bespoke — and what's still needed from Creative to make it run. Creative owns the form and the tiers; this keeps the picture legible.</p>
   </header>
 
-  <div class="stats" id="stats"></div>
+  <div class="conn-bar">
+    <div class="conn-dot" id="dot"></div>
+    <div class="conn-label" id="connLabel">Connecting…</div>
+    <div class="conn-sub" id="connSub"></div>
+    <div class="conn-spacer"></div>
+    <button class="btn" onclick="loadData()">Refresh</button>
+  </div>
 
-  <p class="section-label">Fan-out at scheduling</p>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>Catalog Readiness</h2>
+      <div class="ph">What's still needed from Creative to make the system run. Fills in as Leo inputs.</div>
+      <div id="meters"></div>
+    </div>
+    <div class="panel">
+      <h2>Distribution</h2>
+      <div class="ph">How the menu breaks down — routing behavior and volume by category.</div>
+      <p class="section-label" style="margin-top:4px;">Fan-out at scheduling</p>
+      <div class="bars" id="foBars"></div>
+      <p class="section-label" style="margin-top:18px;">By category</p>
+      <div class="bars" id="catBars"></div>
+    </div>
+  </div>
+
+  <p class="section-label">Fan-out lanes</p>
   <div class="fanout" id="fanout"></div>
 
   <p class="section-label">All ticket types</p>
-  <div class="filter-bar" id="filterBar">
-    <span class="label">Category</span>
-  </div>
-
+  <div class="filter-bar" id="filterBar"><span class="label">Category</span></div>
   <div class="tbl-wrap">
     <table>
       <thead><tr>
-        <th>Type</th><th>Category</th><th>Source</th><th>Fan-out</th>
+        <th>Type</th><th>Category</th><th>Source</th><th>Fan-out</th><th>Tier</th>
         <th>Auto</th><th>Catch-all</th><th>Turnaround</th><th>Lead time</th><th>Overlaps</th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
   </div>
 
-  <div class="note-strip">
-    <b>Reading the timing columns:</b> Turnaround (build days) and Lead time (submit-by days before go-live) are Creative's inputs — they're blank here until Leo fills them in Airtable, and this dashboard reflects whatever's in the table on its last refresh.
-  </div>
-
   <footer>
-    <div>Campaign Ops · Creative ticketing — working build</div>
+    <div>Campaign Ops · Creative ticketing — live from Airtable</div>
     <div>Not for distribution</div>
   </footer>
 
@@ -187,9 +220,12 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 
 <script>
-// Snapshot of the Creative Ticket Types table (sandbox). Structured as data so it can later be swapped for a live Airtable fetch.
-const DATA = [
-  // EXISTING
+const CATS=["Physical Product","Music Videos","Design","Motion","Experiential","Short Forms","Photoshoots","Web"];
+let activeCat="All";
+let MODEL=[];
+
+// Baked-in snapshot — used as fallback if the live fetch fails so the page never breaks.
+const SNAPSHOT=[
   {t:"Physical Product",c:"Physical Product",s:"Existing",fo:"Bespoke"},
   {t:"Product Shots",c:"Physical Product",s:"Existing",fo:"Bespoke"},
   {t:"Music Video",c:"Music Videos",s:"Existing",fo:"Prompt to confirm"},
@@ -216,93 +252,143 @@ const DATA = [
   {t:"BTS",c:"Photoshoots",s:"Existing",fo:"Bespoke"},
   {t:"PhotoShoots",c:"Photoshoots",s:"Existing",fo:"Bespoke"},
   {t:"Web Design",c:"Web",s:"Existing",fo:"Prompt to confirm"},
-  // PROPOSED BREAKOUT
-  {t:"Release Cover",c:"Design",s:"Proposed"},
-  {t:"Cover Variants",c:"Design",s:"Proposed",ov:"AOMA library"},
-  {t:"Title Treatment / Logo",c:"Design",s:"Proposed"},
-  {t:"Key Art / Campaign Art",c:"Design",s:"Proposed"},
-  {t:"DSP Profile & Header Art",c:"Design",s:"Proposed"},
-  {t:"Playlist / Pitch Cover",c:"Design",s:"Proposed"},
-  {t:"Thumbnail Art",c:"Design",s:"Proposed",ov:"Standard Clips"},
-  {t:"Tour / Show Poster & Admat",c:"Design",s:"Proposed",ov:"OOH / Print"},
-  {t:"Lyric Sheet / Card",c:"Design",s:"Proposed"},
-  {t:"Pitch / Marketing Deck",c:"Design",s:"Proposed"},
-  {t:"EPK / Press Kit Layout",c:"Design",s:"Proposed",ov:"One Sheet"},
-  {t:"Email / eBlast Graphics",c:"Design",s:"Proposed"},
-  {t:"Award / FYC Submission Art",c:"Design",s:"Proposed"},
-  {t:"Event / Invite Collateral",c:"Design",s:"Proposed"},
-  {t:"Pre-Save / Pre-Add Motion",c:"Motion",s:"Proposed"},
-  {t:'Countdown / "Out Now" Motion',c:"Motion",s:"Proposed",ov:"Social Skins"},
-  {t:"Snippet / Teaser",c:"Motion",s:"Proposed",ov:"Standard Clips"},
-  {t:"Audiogram",c:"Motion",s:"Proposed"},
-  {t:"Chart / Cert / Award Announce",c:"Motion",s:"Proposed",ov:"Radio Stat Announcement"},
-  {t:"Tour / Date Announce Motion",c:"Motion",s:"Proposed"},
-  {t:"Recap / Aftermovie",c:"Motion",s:"Proposed"},
-  {t:"Paid Social Motion",c:"Motion",s:"Proposed",ov:"Static Skins / Banners"}
+  {t:"Release Cover",c:"Design",s:"Proposed"},{t:"Cover Variants",c:"Design",s:"Proposed",ov:"AOMA library"},
+  {t:"Title Treatment / Logo",c:"Design",s:"Proposed"},{t:"Key Art / Campaign Art",c:"Design",s:"Proposed"},
+  {t:"DSP Profile & Header Art",c:"Design",s:"Proposed"},{t:"Playlist / Pitch Cover",c:"Design",s:"Proposed"},
+  {t:"Thumbnail Art",c:"Design",s:"Proposed",ov:"Standard Clips"},{t:"Tour / Show Poster & Admat",c:"Design",s:"Proposed",ov:"OOH / Print"},
+  {t:"Lyric Sheet / Card",c:"Design",s:"Proposed"},{t:"Pitch / Marketing Deck",c:"Design",s:"Proposed"},
+  {t:"EPK / Press Kit Layout",c:"Design",s:"Proposed",ov:"One Sheet"},{t:"Email / eBlast Graphics",c:"Design",s:"Proposed"},
+  {t:"Award / FYC Submission Art",c:"Design",s:"Proposed"},{t:"Event / Invite Collateral",c:"Design",s:"Proposed"},
+  {t:"Pre-Save / Pre-Add Motion",c:"Motion",s:"Proposed"},{t:'Countdown / "Out Now" Motion',c:"Motion",s:"Proposed",ov:"Social Skins"},
+  {t:"Snippet / Teaser",c:"Motion",s:"Proposed",ov:"Standard Clips"},{t:"Audiogram",c:"Motion",s:"Proposed"},
+  {t:"Chart / Cert / Award Announce",c:"Motion",s:"Proposed",ov:"Radio Stat Announcement"},{t:"Tour / Date Announce Motion",c:"Motion",s:"Proposed"},
+  {t:"Recap / Aftermovie",c:"Motion",s:"Proposed"},{t:"Paid Social Motion",c:"Motion",s:"Proposed",ov:"Static Skins / Banners"}
 ];
-const CATS=["Physical Product","Music Videos","Design","Motion","Experiential","Short Forms","Photoshoots","Web"];
-let activeCat="All";
 
-function renderStats(){
-  const total=DATA.length, auto=DATA.filter(d=>d.auto).length, catch_=DATA.filter(d=>d.catch).length, prop=DATA.filter(d=>d.s==="Proposed").length;
+function mapRecord(r){
+  const f=r.fields||{};
+  const src=(f["Source"]||"").indexOf("Proposed")===0?"Proposed":"Existing";
+  return {
+    t:f["Type"]||"(untitled)", c:f["Category"]||"—", s:src,
+    fo:f["Fan-out"]||null, auto:!!f["Auto (every release)"], catch:!!f["Catch-all"],
+    tier:f["Tier"]||null, turn:(f["Turnaround (days)"]!=null?f["Turnaround (days)"]:null),
+    lead:(f["Lead time (days)"]!=null?f["Lead time (days)"]:null),
+    kcm:f["Keep / Cut / Merge"]||null, ov:f["Overlaps"]||null
+  };
+}
+
+function setStatus(mode,sub){
+  const dot=document.getElementById("dot"),lab=document.getElementById("connLabel"),s=document.getElementById("connSub");
+  dot.className="conn-dot "+(mode==="live"?"live":mode==="snap"?"snap":"err");
+  lab.textContent=mode==="live"?"Live · synced":mode==="snap"?"Snapshot (offline)":"Connection error";
+  s.textContent=sub||"";
+}
+
+async function loadData(){
+  setStatus("","Loading…");
+  try{
+    const pw=sessionStorage.getItem("rca_auth_pw")||"RCA2026";
+    const res=await fetch("/api/creative-tickets",{headers:{"X-Grid-Password":pw}});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data=await res.json();
+    if(!data.records) throw new Error("no records");
+    MODEL=data.records.map(mapRecord);
+    setStatus("live","Synced "+new Date().toLocaleTimeString()+" · "+MODEL.length+" types");
+  }catch(e){
+    MODEL=SNAPSHOT.map(d=>({tier:null,turn:null,lead:null,kcm:null,...d}));
+    setStatus("snap","Showing built-in snapshot · live fetch unavailable ("+String(e.message||e)+")");
+  }
+  renderAll();
+}
+
+function pct(a,b){return b===0?0:Math.round(a/b*100);}
+
+function renderKpis(){
+  const total=MODEL.length, auto=MODEL.filter(d=>d.auto).length;
+  const catchOpen=MODEL.filter(d=>d.catch && !d.kcm).length;
+  const prop=MODEL.filter(d=>d.s==="Proposed").length;
+  const tier=MODEL.filter(d=>d.tier).length, turn=MODEL.filter(d=>d.turn!=null).length, lead=MODEL.filter(d=>d.lead!=null).length;
+  const ready=pct(tier+turn+lead, total*3);
   const cards=[
     {n:total,l:"Ticket types"},
     {n:auto,l:"Auto · every release",cls:"accent"},
-    {n:catch_,l:"Catch-alls to resolve",cls:"alert"},
+    {n:catchOpen,l:"Catch-alls open",cls:"alert"},
     {n:prop,l:"Proposed breakout"},
-    {n:CATS.length,l:"Categories"}
+    {n:ready+"%",l:"Creative input complete"}
   ];
-  document.getElementById("stats").innerHTML=cards.map(c=>
-    `<div class="stat ${c.cls||''}"><div class="n">${c.n}</div><div class="l">${c.l}</div></div>`).join("");
+  document.getElementById("kpis").innerHTML=cards.map(c=>`<div class="kpi ${c.cls||''}"><div class="n">${c.n}</div><div class="l">${c.l}</div></div>`).join("");
+}
+
+function meter(label,a,b,flame){
+  return `<div class="meter${flame?' flame':''}"><div class="top"><span>${label}</span><span class="v">${a} / ${b}</span></div>`+
+    `<div class="track"><div class="fill" style="width:${pct(a,b)}%"></div></div></div>`;
+}
+function renderMeters(){
+  const total=MODEL.length;
+  const tier=MODEL.filter(d=>d.tier).length, turn=MODEL.filter(d=>d.turn!=null).length, lead=MODEL.filter(d=>d.lead!=null).length;
+  const catchAll=MODEL.filter(d=>d.catch), catchDone=catchAll.filter(d=>d.kcm).length;
+  const prop=MODEL.filter(d=>d.s==="Proposed"), propDone=prop.filter(d=>d.kcm).length;
+  document.getElementById("meters").innerHTML=
+    meter("Tiers assigned",tier,total)+
+    meter("Turnaround set",turn,total)+
+    meter("Lead time set",lead,total)+
+    meter("Catch-alls resolved",catchDone,catchAll.length,true)+
+    meter("Breakout triaged",propDone,prop.length);
+}
+function bar(lbl,n,max,cls){
+  return `<div class="row"><span class="lbl">${lbl}</span><span class="tk"><span class="fl ${cls}" style="width:${max?Math.round(n/max*100):0}%"></span></span><span class="vn">${n}</span></div>`;
+}
+function renderBars(){
+  const auto=MODEL.filter(d=>d.fo==="Auto-fire").length;
+  const prompt=MODEL.filter(d=>d.fo==="Prompt to confirm").length;
+  const bespoke=MODEL.filter(d=>d.fo==="Bespoke").length;
+  const unrouted=MODEL.filter(d=>!d.fo).length;
+  const max=Math.max(auto,prompt,bespoke,unrouted,1);
+  document.getElementById("foBars").innerHTML=
+    bar("Auto-fire",auto,max,"auto")+bar("Prompt",prompt,max,"prompt")+
+    bar("Bespoke",bespoke,max,"bespoke")+bar("Unrouted",unrouted,max,"unrouted");
+  const counts=CATS.map(c=>({c,n:MODEL.filter(d=>d.c===c).length})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);
+  const cmax=Math.max(...counts.map(x=>x.n),1);
+  document.getElementById("catBars").innerHTML=counts.map(x=>bar(x.c,x.n,cmax,"cat")).join("");
 }
 function renderFanout(){
   const lanes=[
-    {cls:"l1",tag:"Auto-fire",h:"Created as drafts",items:DATA.filter(d=>d.fo==="Auto-fire")},
-    {cls:"l2",tag:"Prompt to confirm",h:"System asks Y / N",items:DATA.filter(d=>d.fo==="Prompt to confirm")},
-    {cls:"l3",tag:"Bespoke",h:"Requested manually",items:DATA.filter(d=>d.fo==="Bespoke")}
+    {cls:"l1",tag:"Auto-fire",h:"Created as drafts",items:MODEL.filter(d=>d.fo==="Auto-fire")},
+    {cls:"l2",tag:"Prompt to confirm",h:"System asks Y / N",items:MODEL.filter(d=>d.fo==="Prompt to confirm")},
+    {cls:"l3",tag:"Bespoke",h:"Requested manually",items:MODEL.filter(d=>d.fo==="Bespoke")}
   ];
   document.getElementById("fanout").innerHTML=lanes.map(L=>
     `<div class="lane ${L.cls}"><span class="tag">${L.tag}</span><h3>${L.h}</h3>`+
-    `<div class="cnt">${L.items.length} types</div>`+
-    `<div class="items">${L.items.map(i=>i.t).join(" · ")}</div></div>`).join("");
+    `<div class="cnt">${L.items.length} types</div><div class="items">${L.items.map(i=>i.t).join(" · ")||"—"}</div></div>`).join("");
 }
 function renderFilters(){
   const bar=document.getElementById("filterBar");
-  const all=["All",...CATS];
-  all.forEach(cat=>{
-    const cnt=cat==="All"?DATA.length:DATA.filter(d=>d.c===cat).length;
+  bar.innerHTML='<span class="label">Category</span>';
+  ["All",...CATS].forEach(cat=>{
     const chip=document.createElement("button");
     chip.className="filter-chip"+(cat===activeCat?" active":"");
     chip.textContent=cat;
     chip.onclick=()=>{activeCat=cat;renderFilters();renderRows();};
     bar.appendChild(chip);
   });
-  const sp=document.createElement("div");sp.className="filter-spacer";bar.appendChild(sp);
-  const res=document.createElement("div");res.className="filter-result";
-  const shown=activeCat==="All"?DATA.length:DATA.filter(d=>d.c===activeCat).length;
-  res.innerHTML=`<b>${shown}</b> shown`;bar.appendChild(res);
 }
 function renderRows(){
-  const rows=DATA.filter(d=>activeCat==="All"||d.c===activeCat);
+  const rows=MODEL.filter(d=>activeCat==="All"||d.c===activeCat);
   document.getElementById("rows").innerHTML=rows.map(d=>{
-    const src=d.s==="Proposed"?`<span class="tag-pill t-src-p">Proposed</span>`:`<span class="tag-pill t-src-e">Existing</span>`;
-    const fo=d.catch?`<span class="dash">—</span>`:`<span class="fo fo-${(d.fo||'').split(' ')[0].toLowerCase()}">${d.fo||'—'}</span>`;
+    const src=d.s==="Proposed"?`<span class="tag-pill t-src-p">Proposed</span>`:`<span class="dash">Existing</span>`;
+    const fo=d.catch?`<span class="dash">—</span>`:(d.fo?`<span class="fo fo-${d.fo.split(' ')[0].toLowerCase()}">${d.fo}</span>`:`<span class="dash">—</span>`);
+    const tier=d.tier?`<span class="tag-pill t-tier">${d.tier.split('·')[0].trim()}</span>`:`<span class="dash">—</span>`;
     const auto=d.auto?`<span class="tag-pill t-auto">Auto</span>`:`<span class="dash">—</span>`;
     const ca=d.catch?`<span class="tag-pill t-catch">Catch-all</span>`:`<span class="dash">—</span>`;
+    const turn=d.turn!=null?d.turn+"d":`<span class="dash">—</span>`;
+    const lead=d.lead!=null?d.lead+"d":`<span class="dash">—</span>`;
     const ov=d.ov?`<span class="ov">↔ ${d.ov}</span>`:`<span class="dash">—</span>`;
-    return `<tr class="${d.s==='Proposed'?'proposed':''}">`+
-      `<td class="ty">${d.t}</td>`+
-      `<td class="cat-cell">${d.c}</td>`+
-      `<td>${src}</td>`+
-      `<td>${fo}</td>`+
-      `<td>${auto}</td>`+
-      `<td>${ca}</td>`+
-      `<td class="num"><span class="pending">pending</span></td>`+
-      `<td class="num"><span class="pending">pending</span></td>`+
-      `<td>${ov}</td></tr>`;
+    return `<tr class="${d.s==='Proposed'?'proposed':''}"><td class="ty">${d.t}</td><td class="cat-cell">${d.c}</td>`+
+      `<td>${src}</td><td>${fo}</td><td>${tier}</td><td>${auto}</td><td>${ca}</td>`+
+      `<td class="num">${turn}</td><td class="num">${lead}</td><td>${ov}</td></tr>`;
   }).join("");
 }
-renderStats();renderFanout();renderFilters();renderRows();
+function renderAll(){renderKpis();renderMeters();renderBars();renderFanout();renderFilters();renderRows();}
 </script>
 </body>
 </html>
