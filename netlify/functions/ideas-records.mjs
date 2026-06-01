@@ -23,18 +23,19 @@ const MAX_IDEA = 2000;
 const MAX_FROM = 80;
 
 export default async (req) => {
-  const BASE_ID = readEnv('IDEAS_BASE_ID');
-  const TABLE_ID = readEnv('IDEAS_TABLE_ID');
-  const TOKEN = readEnv('IDEAS_TOKEN');
-  const PASSWORD = readEnv('IDEAS_PASSWORD');
+  // Reuse-friendly config. Env vars win if set; otherwise sensible defaults.
+  // Base IDs and table IDs are NOT credentials, and the gate password already
+  // lives in the client — so they can default here safely. The only true secret
+  // is TOKEN, which stays in Netlify env. We reuse the existing write-capable
+  // PHASE1_TOKEN until a dedicated IDEAS_TOKEN is set. NOTE: the board's DATA
+  // lives in its own base (below), isolated from the Phase 1 / Jordan-facing base.
+  const BASE_ID = readEnv('IDEAS_BASE_ID') || 'appOqoMYUnnPGppHF';
+  const TABLE_ID = readEnv('IDEAS_TABLE_ID') || 'tblQ7Ql1cK89c1p71';
+  const PASSWORD = readEnv('IDEAS_PASSWORD') || 'rca2026';
+  const TOKEN = readEnv('IDEAS_TOKEN') || readEnv('PHASE1_TOKEN');
 
-  const missing = [];
-  if (!BASE_ID) missing.push('IDEAS_BASE_ID');
-  if (!TABLE_ID) missing.push('IDEAS_TABLE_ID');
-  if (!TOKEN) missing.push('IDEAS_TOKEN');
-  if (!PASSWORD) missing.push('IDEAS_PASSWORD');
-  if (missing.length > 0) {
-    return jsonResponse(500, { error: 'misconfigured', missing });
+  if (!TOKEN) {
+    return jsonResponse(500, { error: 'misconfigured', missing: ['IDEAS_TOKEN or PHASE1_TOKEN'] });
   }
 
   // Password gate
