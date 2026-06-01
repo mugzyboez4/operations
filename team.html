@@ -3,23 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team · This Week · Campaign Ops</title>
+<title>OPS HQ · This Week · Campaign Ops</title>
 <link rel="icon" type="image/png" href="/tempoicon.png">
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 :root{
-  --bg:#0F0E0E; --card:#1A1A1A; --card-2:#141414; --border:#2A2A2A;
-  --text:#FCFDF8; --dim:#B0A9BE; --fog:#847D96; --muted:#3E3F41;
-  --chartreuse:#CDF851; --flame:#FF4A23; --gold:#E8C547; --teal:#5BC0BE;
+  --bg:#F4F3EE; --card:#FFFFFF; --card-2:#FBFAF5; --border:#E4E2D8; --ink:#1A1A1A;
+  --text:#1A1A1A; --dim:#5A5750; --fog:#8A8678;
+  --chartreuse:#CDF851; --chartreuse-ink:#5F7E1C; --flame:#FF4A23;
+  --teal:#5BC0BE; --teal-ink:#1A8C88; --gold-ink:#9A7B12;
 }
 body{ background:var(--bg); color:var(--text); font-family:'Inter',-apple-system,sans-serif; font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; }
 a{ color:inherit; text-decoration:none; }
 
-/* PASSWORD GATE */
+/* GATE */
 #gate{ position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; }
 #gate img{ width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
 #gate .gate-title{ font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.5px; }
@@ -29,38 +28,68 @@ a{ color:inherit; text-decoration:none; }
 #gate button{ font-size:11px; font-weight:700; padding:10px 28px; background:#CDF851; color:#0F0E0E; border:none; cursor:pointer; margin-top:10px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; }
 #gate #err{ color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
 
-/* SITE STRIP */
-.site-strip{ padding:10px 24px; border-bottom:1px solid #1F1F1F; background:#0F0E0E; display:flex; align-items:center; justify-content:space-between; font-size:11px; }
-.site-strip a{ color:#847D96; font-weight:600; letter-spacing:0.5px; }
-.site-strip a:hover{ color:#FCFDF8; }
-.site-strip .crumb{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#847D96; }
-.site-strip .crumb b{ color:#CDF851; font-weight:700; }
+/* STRIP */
+.site-strip{ padding:10px 24px; border-bottom:1px solid var(--border); background:var(--card); display:flex; align-items:center; justify-content:space-between; font-size:11px; }
+.site-strip a{ color:var(--fog); font-weight:600; letter-spacing:0.5px; }
+.site-strip a:hover{ color:var(--ink); }
+.site-strip .crumb{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); }
+.site-strip .crumb b{ color:var(--chartreuse-ink); font-weight:700; }
+
+.bgtex{ background-image:radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0); background-size:22px 22px; }
+.wrap{ max-width:1280px; margin:0 auto; padding:44px 32px 80px; }
 
 /* HEADER */
-.wrap{ max-width:1200px; margin:0 auto; padding:40px 32px 60px; }
-.header{ padding-bottom:24px; border-bottom:2px solid var(--chartreuse); margin-bottom:32px; }
-.eyebrow{ font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:10px; }
-h1{ font-size:48px; font-weight:900; letter-spacing:-0.02em; line-height:1; text-transform:uppercase; margin-bottom:14px; }
-h1 .x{ color:var(--chartreuse); }
-.header .sub{ font-size:15px; color:var(--dim); max-width:780px; line-height:1.6; }
-.header .meta{ font-size:11px; color:var(--fog); margin-top:14px; letter-spacing:0.5px; }
-.header .meta b{ color:var(--text); }
+.head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding-bottom:22px; border-bottom:3px solid var(--ink); }
+.eyebrow{ font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse-ink); margin-bottom:12px; }
+h1{ font-size:60px; font-weight:900; letter-spacing:-0.03em; line-height:0.9; text-transform:uppercase; }
+h1 .x{ background:var(--chartreuse); padding:0 8px; }
+.head .right{ text-align:right; color:var(--fog); font-size:11px; letter-spacing:0.5px; line-height:1.7; }
+.head .right b{ color:var(--text); font-weight:700; }
+.stamp{ display:inline-flex; align-items:center; gap:6px; color:var(--chartreuse-ink); font-weight:700; }
+.stamp .dot{ width:7px; height:7px; border-radius:50%; background:var(--chartreuse-ink); }
 
-/* EMBED */
-.embed-frame{ background:var(--card); border:1px solid var(--border); padding:0; overflow:hidden; }
-.airtable-embed{ width:100%; height:680px; background:transparent; border:none; display:block; }
-.embed-foot{ font-size:11px; color:var(--fog); margin-top:14px; letter-spacing:0.3px; }
-.embed-foot b{ color:var(--dim); }
+/* STATS */
+.stats{ display:flex; gap:0; border:2px solid var(--ink); border-top:none; margin-bottom:40px; background:var(--card); }
+.stat{ flex:1; padding:16px 20px; border-right:1px solid var(--border); }
+.stat:last-child{ border-right:none; }
+.stat .n{ font-size:34px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+.stat .l{ font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); margin-top:6px; }
+.stat.tw .n{ color:var(--flame); } .stat.nw .n{ color:var(--chartreuse-ink); } .stat.sn .n{ color:var(--teal-ink); }
 
-/* PLACEHOLDER (shown until embed URL is wired) */
-.placeholder{ padding:60px 32px; text-align:center; border:1px dashed var(--muted); background:var(--card-2); }
-.placeholder .ph-eye{ font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
-.placeholder p{ color:var(--dim); max-width:520px; margin:0 auto; line-height:1.6; }
+/* BOARD */
+.board{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:start; }
+.col-head{ display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border:2px solid var(--ink); margin-bottom:14px; }
+.col-head .name{ font-size:13px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; }
+.col-head .ct{ font-size:12px; font-weight:800; font-variant-numeric:tabular-nums; padding:2px 9px; }
+.col.tw .col-head{ background:var(--flame); color:#fff; border-color:var(--flame); }
+.col.tw .col-head .ct{ background:#fff; color:var(--flame); }
+.col.nw .col-head{ background:var(--chartreuse); color:var(--ink); border-color:var(--ink); }
+.col.nw .col-head .ct{ background:var(--ink); color:var(--chartreuse); }
+.col.sn .col-head{ background:var(--teal); color:var(--ink); border-color:var(--teal); }
+.col.sn .col-head .ct{ background:var(--ink); color:var(--teal); }
+
+.card{ background:var(--card); border:1px solid var(--border); padding:16px 16px 14px; margin-bottom:14px; transition:transform .12s ease, box-shadow .12s ease, border-color .12s; opacity:0; transform:translateY(8px); animation:rise .4s ease forwards; }
+@keyframes rise{ to{ opacity:1; transform:translateY(0);} }
+.card:hover{ transform:translate(-3px,-3px); border-color:var(--ink); }
+.col.tw .card:hover{ box-shadow:6px 6px 0 var(--flame); }
+.col.nw .card:hover{ box-shadow:6px 6px 0 var(--chartreuse); }
+.col.sn .card:hover{ box-shadow:6px 6px 0 var(--teal); }
+.card .title{ font-size:14px; font-weight:700; line-height:1.3; margin-bottom:12px; color:var(--ink); }
+.card .note{ font-size:12px; color:var(--dim); line-height:1.5; margin-bottom:14px; }
+.card .meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.owners{ display:flex; gap:5px; }
+.av{ width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; background:var(--card-2); border:1px solid var(--border); letter-spacing:0.5px; color:var(--ink); }
+.av.team{ background:var(--chartreuse); color:var(--ink); border-color:var(--chartreuse-ink); }
+.pill{ font-size:9px; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border:1px solid var(--fog); color:var(--fog); }
+.pill.todo{ border-color:var(--gold-ink); color:var(--gold-ink); }
+
+footer{ margin-top:48px; padding-top:16px; border-top:1px solid var(--border); display:flex; justify-content:space-between; color:var(--fog); font-size:11px; letter-spacing:0.3px; }
+footer b{ color:var(--dim); }
+@media(max-width:880px){ .board{ grid-template-columns:1fr; } h1{ font-size:42px; } .stats{ flex-wrap:wrap; } }
 </style>
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
 <div id="gate">
   <img src="/logo_neon.png" alt="Campaign Ops">
   <div class="gate-title">Campaign Operations</div>
@@ -70,10 +99,9 @@ h1 .x{ color:var(--chartreuse); }
   <div id="err"></div>
 </div>
 
-<!-- BACK NAV -->
 <div class="site-strip" id="app" style="display:none;">
   <a href="/">← Home</a>
-  <div class="crumb">Campaign Ops · <b>Team — This Week</b></div>
+  <div class="crumb">Campaign Ops · <b>OPS HQ — This Week</b></div>
   <a href="/">Home</a>
 </div>
 
@@ -84,47 +112,115 @@ function checkPw(){
     document.getElementById("gate").style.display="none";
     document.getElementById("app").style.display="flex";
     document.getElementById("page-body").style.display="block";
-    sessionStorage.setItem("rca_auth","1");
-    sessionStorage.setItem("rca_auth_pw", v);
-  } else {
-    document.getElementById("err").textContent="Incorrect password";
-    document.getElementById("pw").value="";
-    document.getElementById("pw").focus();
-  }
+    sessionStorage.setItem("rca_auth","1"); sessionStorage.setItem("rca_auth_pw",v);
+  } else { document.getElementById("err").textContent="Incorrect password"; document.getElementById("pw").value=""; document.getElementById("pw").focus(); }
 }
 function initGate(){
-  var g=document.getElementById("gate");
-  var a=document.getElementById("app");
-  var b=document.getElementById("page-body");
+  var g=document.getElementById("gate"),a=document.getElementById("app"),b=document.getElementById("page-body");
   if(!g||!a||!b) return;
-  if(sessionStorage.getItem("rca_auth")==="1"){
-    g.style.display="none";
-    a.style.display="flex";
-    b.style.display="block";
-  } else {
-    document.getElementById("pw").focus();
-  }
+  if(sessionStorage.getItem("rca_auth")==="1"){ g.style.display="none"; a.style.display="flex"; b.style.display="block"; }
+  else { document.getElementById("pw").focus(); }
 }
-if(document.readyState==="loading"){
-  document.addEventListener("DOMContentLoaded",initGate);
-} else { initGate(); }
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",initGate); } else { initGate(); }
 </script>
 
-<div id="page-body" style="display:none;">
+<div id="page-body" class="bgtex" style="display:none;">
 <div class="wrap">
 
-  <header class="header">
-    <div class="eyebrow">Campaign Ops · Team</div>
-    <h1>This <span class="x">Week</span></h1>
-    <p class="sub">Shared priorities for the Campaign Ops team — what's moving, who's on it, and where it sits. Live from Airtable; updates here as the board updates there.</p>
-    <div class="meta"><b>Source:</b> Airtable · Action Items (Team Board view) · <b>Owners:</b> Meg · Gerard · Christian</div>
-  </header>
-
-  <!-- AIRTABLE EMBED -->
-  <div class="embed-frame">
-    <iframe class="airtable-embed" src="https://airtable.com/embed/app2RsHO0Erdgrl22/shrwqOztWfOjI9HHd" frameborder="0" onmousewheel="" title="Team — This Week"></iframe>
+  <div class="head">
+    <div>
+      <div class="eyebrow">Campaign Ops · OPS HQ</div>
+      <h1>This <span class="x">Week</span></h1>
+    </div>
+    <div class="right">
+      <div class="stamp"><span class="dot"></span>Updated Jun 2, 2026</div>
+      <div>Week of <b>Jun 2, 2026</b></div>
+      <div>Meg · Gerard · Christian</div>
+    </div>
   </div>
-  <div class="embed-foot"><b>One source of truth.</b> This board reflects the Airtable Action Items table in real time — no second list to reconcile.</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">11</div><div class="l">Total Open</div></div>
+    <div class="stat tw"><div class="n">2</div><div class="l">This Week</div></div>
+    <div class="stat nw"><div class="n">5</div><div class="l">Next Week</div></div>
+    <div class="stat sn"><div class="n">4</div><div class="l">Soon</div></div>
+  </div>
+
+  <div class="board">
+
+    <div class="col tw">
+      <div class="col-head"><span class="name">This Week</span><span class="ct">2</span></div>
+      <div class="card" style="animation-delay:.04s">
+        <div class="title">Label meeting prep — discovery-phase update</div>
+        <div class="note">Honest update on where the function is. Build the feedback form first.</div>
+        <div class="meta"><div class="owners"><span class="av team">MGC</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.08s">
+        <div class="title">Build the label-meeting feedback form (Microsoft Forms)</div>
+        <div class="note">Replaces the mock on the slide.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+    </div>
+
+    <div class="col nw">
+      <div class="col-head"><span class="name">Next Week</span><span class="ct">5</span></div>
+      <div class="card" style="animation-delay:.12s">
+        <div class="title">Set standing weekly — Campaign Ops sprint priorities</div>
+        <div class="note">Priorities set before the week starts.</div>
+        <div class="meta"><div class="owners"><span class="av team">MGC</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.16s">
+        <div class="title">Creative lanes — ticket process, asset tiers, packaging ownership/QC</div>
+        <div class="note">Build a reusable template for future department lanes.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.20s">
+        <div class="title">'Who to ask' partner map — Meta / Snapchat / Twitter coverage</div>
+        <div class="note">Self-serve wayfinding: who to ask for each platform.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.24s">
+        <div class="title">Andjelina inputs map — inputs needed + who provides them</div>
+        <div class="note">Surfaces what's needed to keep things moving.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.28s">
+        <div class="title">Release-planning transition — capture scheduling knowledge before 7/1</div>
+        <div class="note">Terania + Scott.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+    </div>
+
+    <div class="col sn">
+      <div class="col-head"><span class="name">Soon</span><span class="ct">4</span></div>
+      <div class="card" style="animation-delay:.32s">
+        <div class="title">Aud Dev creator hub prototype — handle/followers/contact/pricing/niche tags</div>
+        <div class="note">Form-fed, auto-categorized sheet. Separate tab for sounds.</div>
+        <div class="meta"><div class="owners"><span class="av">G</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.36s">
+        <div class="title">YouTube Music Nights — request program one-pager from Noah</div>
+        <div class="note">File for AAA priority artist pitching.</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.40s">
+        <div class="title">YouTube approval emails — fix management CC on free-marketing</div>
+        <div class="note">&nbsp;</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+      <div class="card" style="animation-delay:.44s">
+        <div class="title">NDA / BAA intake — share form + directions; identify BA contact</div>
+        <div class="note">&nbsp;</div>
+        <div class="meta"><div class="owners"><span class="av">M</span></div><span class="pill todo">To Do</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span><b>OPS HQ</b> · Campaign Operations · RCA Records</span>
+    <span>Snapshot of OPS HQ · Jun 2, 2026</span>
+  </footer>
 
 </div>
 </div>
