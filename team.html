@@ -47,6 +47,9 @@ h1 .x{ background:var(--chartreuse); padding:0 8px; }
 .head .right b{ color:var(--text); font-weight:700; }
 .stamp{ display:inline-flex; align-items:center; gap:6px; color:var(--chartreuse-ink); font-weight:700; }
 .stamp .dot{ width:7px; height:7px; border-radius:50%; background:var(--chartreuse-ink); }
+.atbtn{ display:inline-flex; align-items:center; gap:7px; margin-top:10px; padding:8px 14px; background:var(--ink); color:#fff; font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; border:2px solid var(--ink); transition:background .12s, color .12s; }
+.atbtn:hover{ background:var(--chartreuse); color:var(--ink); }
+.atbtn .arr{ font-size:12px; }
 
 /* STATS */
 .stats{ display:flex; gap:0; border:2px solid var(--ink); border-top:none; margin-bottom:40px; background:var(--card); }
@@ -136,6 +139,7 @@ if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded
       <div class="stamp"><span class="dot"></span>Updated Jun 2, 2026</div>
       <div>Week of <b>Jun 2, 2026</b></div>
       <div>Meg · Gerard · Christian</div>
+      <a class="atbtn" href="https://airtable.com/app2RsHO0Erdgrl22/tblS6Hp6tw4MYTG0k/viwqCl76MwcYfRU4H" target="_blank" rel="noopener">Open in Airtable <span class="arr">↗</span></a>
     </div>
   </div>
 
