@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team · This Week · Campaign Ops</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --bg:#0F0E0E; --card:#1A1A1A; --card-2:#141414; --border:#2A2A2A;
+  --text:#FCFDF8; --dim:#B0A9BE; --fog:#847D96; --muted:#3E3F41;
+  --chartreuse:#CDF851; --flame:#FF4A23; --gold:#E8C547; --teal:#5BC0BE;
+}
+body{ background:var(--bg); color:var(--text); font-family:'Inter',-apple-system,sans-serif; font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; }
+a{ color:inherit; text-decoration:none; }
+
+/* PASSWORD GATE */
+#gate{ position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+#gate img{ width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
+#gate .gate-title{ font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.5px; }
+#gate .gate-sub{ font-size:11px; color:#847D96; margin-bottom:20px; letter-spacing:1px; text-transform:uppercase; }
+#gate input{ font-size:14px; padding:10px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; }
+#gate input:focus{ border-color:#CDF851; }
+#gate button{ font-size:11px; font-weight:700; padding:10px 28px; background:#CDF851; color:#0F0E0E; border:none; cursor:pointer; margin-top:10px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; }
+#gate #err{ color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
+
+/* SITE STRIP */
+.site-strip{ padding:10px 24px; border-bottom:1px solid #1F1F1F; background:#0F0E0E; display:flex; align-items:center; justify-content:space-between; font-size:11px; }
+.site-strip a{ color:#847D96; font-weight:600; letter-spacing:0.5px; }
+.site-strip a:hover{ color:#FCFDF8; }
+.site-strip .crumb{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#847D96; }
+.site-strip .crumb b{ color:#CDF851; font-weight:700; }
+
+/* HEADER */
+.wrap{ max-width:1200px; margin:0 auto; padding:40px 32px 60px; }
+.header{ padding-bottom:24px; border-bottom:2px solid var(--chartreuse); margin-bottom:32px; }
+.eyebrow{ font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse); margin-bottom:10px; }
+h1{ font-size:48px; font-weight:900; letter-spacing:-0.02em; line-height:1; text-transform:uppercase; margin-bottom:14px; }
+h1 .x{ color:var(--chartreuse); }
+.header .sub{ font-size:15px; color:var(--dim); max-width:780px; line-height:1.6; }
+.header .meta{ font-size:11px; color:var(--fog); margin-top:14px; letter-spacing:0.5px; }
+.header .meta b{ color:var(--text); }
+
+/* EMBED */
+.embed-frame{ background:var(--card); border:1px solid var(--border); padding:0; overflow:hidden; }
+.airtable-embed{ width:100%; height:680px; background:transparent; border:none; display:block; }
+.embed-foot{ font-size:11px; color:var(--fog); margin-top:14px; letter-spacing:0.3px; }
+.embed-foot b{ color:var(--dim); }
+
+/* PLACEHOLDER (shown until embed URL is wired) */
+.placeholder{ padding:60px 32px; text-align:center; border:1px dashed var(--muted); background:var(--card-2); }
+.placeholder .ph-eye{ font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.placeholder p{ color:var(--dim); max-width:520px; margin:0 auto; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <img src="/logo_neon.png" alt="Campaign Ops">
+  <div class="gate-title">Campaign Operations</div>
+  <div class="gate-sub">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">ENTER</button>
+  <div id="err"></div>
+</div>
+
+<!-- BACK NAV -->
+<div class="site-strip" id="app" style="display:none;">
+  <a href="/">← Home</a>
+  <div class="crumb">Campaign Ops · <b>Team — This Week</b></div>
+  <a href="/">Home</a>
+</div>
+
+<script>
+function checkPw(){
+  var v=document.getElementById("pw").value;
+  if(v==="RCA2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="flex";
+    document.getElementById("page-body").style.display="block";
+    sessionStorage.setItem("rca_auth","1");
+    sessionStorage.setItem("rca_auth_pw", v);
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";
+    document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  var b=document.getElementById("page-body");
+  if(!g||!a||!b) return;
+  if(sessionStorage.getItem("rca_auth")==="1"){
+    g.style.display="none";
+    a.style.display="flex";
+    b.style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else { initGate(); }
+</script>
+
+<div id="page-body" style="display:none;">
+<div class="wrap">
+
+  <header class="header">
+    <div class="eyebrow">Campaign Ops · Team</div>
+    <h1>This <span class="x">Week</span></h1>
+    <p class="sub">Shared priorities for the Campaign Ops team — what's moving, who's on it, and where it sits. Live from Airtable; updates here as the board updates there.</p>
+    <div class="meta"><b>Source:</b> Airtable · Action Items (Team Board view) · <b>Owners:</b> Meg · Gerard · Christian</div>
+  </header>
+
+  <!-- AIRTABLE EMBED -->
+  <div class="embed-frame">
+    <iframe class="airtable-embed" src="https://airtable.com/embed/app2RsHO0Erdgrl22/shrwqOztWfOjI9HHd" frameborder="0" onmousewheel="" title="Team — This Week"></iframe>
+  </div>
+  <div class="embed-foot"><b>One source of truth.</b> This board reflects the Airtable Action Items table in real time — no second list to reconcile.</div>
+
+</div>
+</div>
+
+</body>
+</html>
