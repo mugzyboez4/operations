@@ -52,7 +52,14 @@ export default async (req) => {
         link: r.fields['Dashboard Link'] || '',
         owner: r.fields['Owner'] || '',
         sound: r.fields['Sound Link'] || '',
-        flags: r.fields['Notes / Flags'] || ''
+        flags: r.fields['Notes / Flags'] || '',
+        startDate: r.fields['Start Date'] || null,
+        views: typeof r.fields['Views'] === 'number' ? r.fields['Views'] : null,
+        engRate: typeof r.fields['Engagement Rate'] === 'number' ? r.fields['Engagement Rate'] : null,
+        soundCreates: typeof r.fields['Sound Creates'] === 'number' ? r.fields['Sound Creates'] : null,
+        streaming: r.fields['Streaming Signal'] || '',
+        topCreator: r.fields['Top Creator'] || '',
+        verdict: r.fields['Verdict'] || ''
       }));
 
     return json(200, { campaigns, count: campaigns.length });

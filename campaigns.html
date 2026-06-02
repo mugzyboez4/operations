@@ -65,6 +65,18 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .chip.status.Paused{background:var(--other-soft);color:var(--text-quiet);}
 .chip.status.Planned{background:#FBF3D6;color:#8A6D0F;}
 .flag{font-size:12px;color:var(--flame);font-style:italic;margin-top:7px;line-height:1.45;}
+.metrics{display:flex;gap:16px;flex-wrap:wrap;margin-top:11px;}
+.metric .v{font-weight:700;color:var(--text);font-size:13px;}
+.metric .v.warn{color:var(--flame);}
+.metric .v.good{color:#4F6310;}
+.metric .lbl{display:block;font-size:10px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-fade);margin-top:1px;}
+.verdict-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;}
+.verdict-tag.Scale{background:var(--chartreuse-soft);color:#4F6310;}
+.verdict-tag.Pivot{background:#FBF3D6;color:#8A6D0F;}
+.verdict-tag.Kill{background:var(--flame-soft);color:var(--flame);}
+.verdict-tag.Tooearly{background:var(--other-soft);color:var(--text-quiet);}
+.outcome-line{font-size:12.5px;color:var(--text-soft);margin-top:9px;line-height:1.5;}
+.outcome-line .who{font-weight:700;color:var(--text);}
 .right{text-align:right;white-space:nowrap;}
 .budget{font-size:17px;font-weight:900;letter-spacing:-0.01em;}
 .dash{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--text);text-decoration:none;border-bottom:2px solid var(--chartreuse);padding-bottom:1px;}
@@ -142,6 +154,10 @@ var all=[], platFilter=null, statusFilter=null, demo=false;
 
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function money(n){ if(n===null||n===undefined) return "&mdash;"; return "$"+Number(n).toLocaleString(); }
+function fmtNum(n){ if(n===null||n===undefined) return "&mdash;"; if(n>=1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'')+"M"; if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+"K"; return String(n); }
+function daysLive(iso){ if(!iso) return null; var d=new Date(iso); if(isNaN(d)) return null; return Math.max(0, Math.floor((Date.now()-d.getTime())/86400000)); }
+function cpv(budget,views){ if(!budget||!views) return null; return budget/views; }
+function fmtCPV(c){ if(c===null) return "&mdash;"; return "$"+c.toFixed(3); }
 
 function setConn(state,label){
   var d=document.getElementById("dot"); d.className="conn-dot "+state;
@@ -209,11 +225,28 @@ function card(c){
   var chips='<span class="chip" style="background:'+m.s+';color:'+m.c+'"><span class="d" style="background:'+m.c+'"></span>'+esc(c.platform)+'</span>';
   if(c.type) chips+='<span class="chip type">'+esc(c.type)+'</span>';
   if(c.status) chips+='<span class="chip status '+esc(c.status)+'">'+esc(c.status)+'</span>';
+  if(c.verdict) chips+='<span class="verdict-tag '+esc(c.verdict).replace(/\s/g,'')+'">'+esc(c.verdict)+'</span>';
+
+  var mts=[];
+  var dl=daysLive(c.startDate);
+  if(dl!==null) mts.push('<div class="metric"><span class="v">'+dl+'</span><span class="lbl">days live</span></div>');
+  if(c.views!==null&&c.views!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.views)+'</span><span class="lbl">views</span></div>');
+  var cv=cpv(c.budget,c.views);
+  if(cv!==null) mts.push('<div class="metric"><span class="v">'+fmtCPV(cv)+'</span><span class="lbl">cost / view</span></div>');
+  if(c.engRate!==null&&c.engRate!==undefined){ var er=c.engRate*100; var cls=er<4?'warn':(er>=6?'good':''); mts.push('<div class="metric"><span class="v '+cls+'">'+er.toFixed(1)+'%</span><span class="lbl">engagement'+(er<4?' \u26a0':'')+'</span></div>'); }
+  if(c.soundCreates!==null&&c.soundCreates!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.soundCreates)+'</span><span class="lbl">sound creates</span></div>');
+  var metrics = mts.length ? '<div class="metrics">'+mts.join('')+'</div>' : '';
+
+  var ol=[];
+  if(c.streaming) ol.push('\ud83d\udcc8 '+esc(c.streaming));
+  if(c.topCreator) ol.push('top: <span class="who">'+esc(c.topCreator)+'</span>');
+  var outcome = ol.length ? '<div class="outcome-line">'+ol.join(' &middot; ')+'</div>' : '';
+
   var flag = (c.flags && /FLAG|CONFIRM/i.test(c.flags)) ? '<div class="flag">&#9873; '+esc(c.flags)+'</div>' : '';
   var dash = c.link ? '<a class="dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="dash none">no link yet</span>';
   return '<div class="card"><div class="main">'
     + '<div class="ctitle">'+esc(c.campaign||c.song||"Untitled")+(c.song&&c.song!=="\u2014"?' <span class="song">&middot; '+esc(c.song)+'</span>':'')+'</div>'
-    + '<div class="chips">'+chips+'</div>'+flag
+    + '<div class="chips">'+chips+'</div>'+metrics+outcome+flag
     + '</div><div class="right"><div class="budget">'+money(c.budget)+'</div>'+dash+'</div></div>';
 }
 
