@@ -79,6 +79,26 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .verdict-tag.Tooearly{background:var(--other-soft);color:var(--text-quiet);}
 .outcome-line{font-size:12.5px;color:var(--text-soft);margin-top:9px;line-height:1.5;}
 .outcome-line .who{font-weight:700;color:var(--text);}
+.addbar{margin-bottom:22px;}
+.addbtn{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:9px 16px;background:var(--card);color:var(--text);border:1.5px solid var(--text);cursor:pointer;font-family:inherit;}
+.addbtn:hover{background:var(--text);color:var(--bg);}
+.addform{display:none;margin-top:16px;background:var(--card);border:1px solid var(--rule);padding:22px 24px;}
+.addform.open{display:block;}
+.addform h3{font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.addform .hint{font-size:12.5px;color:var(--text-quiet);margin-bottom:18px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fgrid .full{grid-column:1 / -1;}
+.fld label{display:block;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);margin-bottom:5px;}
+.fld label .req{color:var(--flame);}
+.fld input,.fld select{width:100%;padding:9px 11px;border:1px solid var(--rule);background:var(--bg);color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+.fld input:focus,.fld select:focus{border-color:var(--text-soft);}
+.addform .actions{display:flex;align-items:center;gap:14px;margin-top:18px;}
+.addform .submit{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:11px 22px;background:var(--text);color:var(--bg);border:none;cursor:pointer;font-family:inherit;}
+.addform .submit:disabled{background:var(--text-fade);cursor:default;}
+.addform .note{font-size:12.5px;font-style:italic;color:var(--text-fade);}
+.addform .note.warn{color:var(--flame);font-style:normal;}
+.addform .note.good{color:#4F6310;font-style:normal;}
+@media(max-width:560px){.fgrid{grid-template-columns:1fr;}}
 .right{text-align:right;white-space:nowrap;}
 .budget{font-size:17px;font-weight:900;letter-spacing:-0.01em;}
 .dash{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--text);text-decoration:none;border-bottom:2px solid var(--chartreuse);padding-bottom:1px;}
@@ -131,6 +151,30 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="flagbar" id="flagbar" style="display:none;"></div>
 
   <div class="filters" id="filters"></div>
+
+  <div class="addbar">
+    <button class="addbtn" id="addToggle" onclick="toggleAdd()">+ Add a campaign</button>
+    <div class="addform" id="addform">
+      <h3>Add a campaign</h3>
+      <div class="hint">For a new creator campaign on any platform. The performance numbers come later &mdash; this just gets it on the board.</div>
+      <div class="fgrid">
+        <div class="fld"><label>Artist <span class="req">*</span></label><input type="text" id="f_artist" placeholder="e.g. Audrey Hobert"></div>
+        <div class="fld"><label>Song</label><input type="text" id="f_song" placeholder="e.g. Sue Me"></div>
+        <div class="fld"><label>Platform <span class="req">*</span></label><select id="f_platform"><option value="">Choose…</option><option>Cobrand</option><option>ATG Media</option><option>Fortyone</option><option>CreatorCore</option><option>Other</option></select></div>
+        <div class="fld"><label>Type</label><select id="f_type"><option value="">—</option><option>Influencers</option><option>TV Edits</option><option>Macro</option><option>Micro</option><option>UGC</option><option>Mixed</option></select></div>
+        <div class="fld"><label>Campaign label</label><input type="text" id="f_campaign" placeholder="e.g. Phase 2 — Macro"></div>
+        <div class="fld"><label>Budget ($)</label><input type="text" id="f_budget" placeholder="e.g. 5000"></div>
+        <div class="fld full"><label>Dashboard link</label><input type="text" id="f_link" placeholder="https://…"></div>
+        <div class="fld"><label>Owner</label><input type="text" id="f_owner" placeholder="who's running it"></div>
+        <div class="fld"><label>Start date</label><input type="date" id="f_start"></div>
+        <div class="fld"><label>Status</label><select id="f_status"><option>Live</option><option>Planned</option><option>Wrapped</option><option>Paused</option></select></div>
+      </div>
+      <div class="actions">
+        <button class="submit" id="addSubmit" onclick="submitCampaign()">Add to the board</button>
+        <span class="note" id="addnote"></span>
+      </div>
+    </div>
+  </div>
 
   <div id="list"></div>
 
@@ -221,6 +265,49 @@ function renderFilters(){
   document.getElementById("filters").innerHTML=html;
 }
 function setPlat(p){ platFilter=p; renderFilters(); renderList(); }
+
+function toggleAdd(){
+  var f=document.getElementById("addform");
+  f.classList.toggle("open");
+  if(f.classList.contains("open")) document.getElementById("f_artist").focus();
+}
+function submitCampaign(){
+  var note=document.getElementById("addnote");
+  var btn=document.getElementById("addSubmit");
+  var artist=document.getElementById("f_artist").value.trim();
+  var platform=document.getElementById("f_platform").value;
+  if(!artist){ note.className="note warn"; note.textContent="Artist is required."; return; }
+  if(!platform){ note.className="note warn"; note.textContent="Pick a platform."; return; }
+  var payload={
+    artist:artist,
+    song:document.getElementById("f_song").value.trim(),
+    platform:platform,
+    type:document.getElementById("f_type").value,
+    campaign:document.getElementById("f_campaign").value.trim(),
+    budget:document.getElementById("f_budget").value.trim(),
+    link:document.getElementById("f_link").value.trim(),
+    owner:document.getElementById("f_owner").value.trim(),
+    startDate:document.getElementById("f_start").value,
+    status:document.getElementById("f_status").value
+  };
+  btn.disabled=true; note.className="note"; note.textContent="adding…";
+  fetch(API,{ method:"POST", headers:{ "Content-Type":"application/json","X-Grid-Password":BOARD_PASSWORD }, body:JSON.stringify(payload) })
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,status:r.status,j:j}; }); })
+    .then(function(res){
+      btn.disabled=false;
+      if(res.ok && res.j && res.j.campaign){
+        note.className="note good"; note.textContent="On the board.";
+        ["f_artist","f_song","f_campaign","f_budget","f_link","f_owner","f_start"].forEach(function(id){document.getElementById(id).value="";});
+        document.getElementById("f_type").value=""; document.getElementById("f_platform").value=""; document.getElementById("f_status").value="Live";
+        load();
+      } else if(res.status===403){
+        note.className="note warn"; note.textContent="Saved nothing — the token needs write access (data.records:write).";
+      } else {
+        note.className="note warn"; note.textContent="Couldn't save. "+((res.j&&res.j.message)||"Try again in a sec.");
+      }
+    })
+    .catch(function(){ btn.disabled=false; note.className="note warn"; note.textContent="Couldn't reach the board. Not saved."; });
+}
 
 function card(c){
   var m=pmeta(c.platform);
