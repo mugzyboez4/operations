@@ -53,8 +53,10 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .group-h .meta{font-size:12px;color:var(--text-quiet);}
 .card{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px 4px;border-bottom:1px solid var(--rule);align-items:start;}
 .card .main{min-width:0;}
-.card .ctitle{font-size:15px;font-weight:700;margin-bottom:6px;}
-.card .ctitle .song{color:var(--text-quiet);font-weight:400;font-style:italic;}
+.card .ctitle{font-size:16px;font-weight:900;letter-spacing:-0.01em;margin-bottom:5px;}
+.card .ctitle .song{font-style:italic;}
+.card .ctitle .desc{display:block;font-size:12px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);margin-top:3px;}
+.card .ctitle .nosong{font-weight:900;font-style:normal;}
 .chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .chip{font-size:11px;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;}
 .chip .d{width:6px;height:6px;border-radius:50%;}
@@ -244,8 +246,12 @@ function card(c){
 
   var flag = (c.flags && /FLAG|CONFIRM/i.test(c.flags)) ? '<div class="flag">&#9873; '+esc(c.flags)+'</div>' : '';
   var dash = c.link ? '<a class="dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="dash none">no link yet</span>';
+  var hasSong = c.song && c.song !== "\u2014" && c.song.trim() !== "";
+  var title = hasSong
+    ? '<span class="song">\u201c'+esc(c.song)+'\u201d</span><span class="desc">'+esc(c.campaign||"Campaign")+'</span>'
+    : '<span class="nosong">'+esc(c.campaign||"Untitled")+'</span>';
   return '<div class="card"><div class="main">'
-    + '<div class="ctitle">'+esc(c.campaign||c.song||"Untitled")+(c.song&&c.song!=="\u2014"?' <span class="song">&middot; '+esc(c.song)+'</span>':'')+'</div>'
+    + '<div class="ctitle">'+title+'</div>'
     + '<div class="chips">'+chips+'</div>'+metrics+outcome+flag
     + '</div><div class="right"><div class="budget">'+money(c.budget)+'</div>'+dash+'</div></div>';
 }
