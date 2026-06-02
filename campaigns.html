@@ -162,7 +162,6 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
   <div class="summary" id="summary"></div>
   <div class="byplat" id="byplat"></div>
-  <div class="flagbar" id="flagbar" style="display:none;"></div>
 
   <div class="filters" id="filters"></div>
 
@@ -387,8 +386,6 @@ function card(c){
   if(c.topCreator) ol.push('top: <span class="who">'+esc(c.topCreator)+'</span>');
   var outcome = ol.length ? '<div class="outcome-line">'+ol.join(' &middot; ')+'</div>' : '';
 
-  var flag = (c.flags && /FLAG|CONFIRM/i.test(c.flags)) ? '<div class="flag">&#9873; '+esc(c.flags)+'</div>' : '';
-  var ready = readiness(c);
   var proj = '';
   if(c.views && c.budget){
     proj = '<div class="projector"><div class="prow">'
@@ -404,7 +401,7 @@ function card(c){
     : '<span class="nosong">'+esc(c.campaign||"Untitled")+'</span>';
   return '<div class="card"><div class="main">'
     + '<div class="ctitle">'+title+'</div>'
-    + '<div class="chips">'+chips+'</div>'+metrics+outcome+ready+proj+flag
+    + '<div class="chips">'+chips+'</div>'+metrics+outcome+proj
     + '</div><div class="right"><div class="budget">'+money(c.budget)+'</div>'+dash+'</div></div>';
 }
 
@@ -425,7 +422,7 @@ function renderList(){
   document.getElementById("list").innerHTML=html;
 }
 
-function renderAll(){ buildTierMap(); renderSummary(); renderFlags(); renderFilters(); renderList(); }
+function renderAll(){ buildTierMap(); renderSummary(); renderFilters(); renderList(); }
 </script>
 
 </body>
