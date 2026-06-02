@@ -129,7 +129,9 @@ function mapRecord(r){
     streaming: r.fields['Streaming Signal'] || '',
     topCreator: r.fields['Top Creator'] || '',
     verdict: r.fields['Verdict'] || '',
-    tier: r.fields['Career Tier'] || ''
+    tier: r.fields['Career Tier'] || '',
+    learnings: r.fields['Learnings'] || '',
+    reviewed: r.fields['Reviewed'] === true
   };
 }
 

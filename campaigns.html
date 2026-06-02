@@ -79,6 +79,9 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .verdict-tag.Tooearly{background:var(--other-soft);color:var(--text-quiet);}
 .outcome-line{font-size:12.5px;color:var(--text-soft);margin-top:9px;line-height:1.5;}
 .outcome-line .who{font-weight:700;color:var(--text);}
+.reviewed-tag{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chartreuse-soft);color:#4F6310;display:inline-flex;align-items:center;gap:4px;}
+.learnings{font-size:12.5px;color:var(--text-soft);margin-top:9px;padding:9px 12px;background:var(--other-soft);border-radius:4px;line-height:1.5;}
+.learnings .lk{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);display:block;margin-bottom:2px;}
 .addbar{margin-bottom:22px;}
 .addbtn{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:9px 16px;background:var(--card);color:var(--text);border:1.5px solid var(--text);cursor:pointer;font-family:inherit;}
 .addbtn:hover{background:var(--text);color:var(--bg);}
@@ -370,11 +373,13 @@ function card(c){
   if(c.type) chips+='<span class="chip type">'+esc(c.type)+'</span>';
   if(c.status) chips+='<span class="chip status '+esc(c.status)+'">'+esc(c.status)+'</span>';
   if(c.verdict) chips+='<span class="verdict-tag '+esc(c.verdict).replace(/\s/g,'')+'">'+esc(c.verdict)+'</span>';
+  if(c.reviewed) chips+='<span class="reviewed-tag">\u2713 Reviewed</span>';
 
   var mts=[];
   var dl=daysLive(c.startDate);
   if(dl!==null) mts.push('<div class="metric"><span class="v">'+dl+'</span><span class="lbl">days live</span></div>');
   if(c.views!==null&&c.views!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.views)+'</span><span class="lbl">views</span></div>');
+  if(c.views && dl && dl>0) mts.push('<div class="metric"><span class="v">'+fmtNum(Math.round(c.views/dl))+'</span><span class="lbl">views / day</span></div>');
   var cv=cpv(c.budget,c.views);
   if(cv!==null) mts.push('<div class="metric"><span class="v">'+fmtCPV(cv)+'</span><span class="lbl">cost / view</span></div>');
   if(c.engRate!==null&&c.engRate!==undefined){ var er=c.engRate*100; var cls=er<4?'warn':(er>=6?'good':''); mts.push('<div class="metric"><span class="v '+cls+'">'+er.toFixed(1)+'%</span><span class="lbl">engagement'+(er<4?' \u26a0':'')+'</span></div>'); }
@@ -394,6 +399,7 @@ function card(c){
       + '<button class="pbtn" onclick="project(\''+c.id+'\')">Project</button>'
       + '</div><span class="pout" id="pout_'+c.id+'"></span></div>';
   }
+  var learn = c.learnings ? '<div class="learnings"><span class="lk">Learnings</span>'+esc(c.learnings)+'</div>' : '';
   var dash = c.link ? '<a class="dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="dash none">no link yet</span>';
   var hasSong = c.song && c.song !== "\u2014" && c.song.trim() !== "";
   var title = hasSong
@@ -401,7 +407,7 @@ function card(c){
     : '<span class="nosong">'+esc(c.campaign||"Untitled")+'</span>';
   return '<div class="card"><div class="main">'
     + '<div class="ctitle">'+title+'</div>'
-    + '<div class="chips">'+chips+'</div>'+metrics+outcome+proj
+    + '<div class="chips">'+chips+'</div>'+metrics+outcome+proj+learn
     + '</div><div class="right"><div class="budget">'+money(c.budget)+'</div>'+dash+'</div></div>';
 }
 
