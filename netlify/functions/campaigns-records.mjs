@@ -13,7 +13,7 @@ function readEnv(key){
 const ALLOWED_PLATFORMS = ['Cobrand','ATG Media','Fortyone','CreatorCore','Other'];
 const ALLOWED_TYPES = ['Influencers','TV Edits','Macro','Micro','UGC','Mixed'];
 const ALLOWED_STATUS = ['Live','Planned','Wrapped','Paused'];
-const ALLOWED_TIERS = ['Developing','Breaking','Established','Superstar','Legacy'];
+const ALLOWED_TIERS = ['Group 1 (10M+)','Group 2 (5-10M)','Group 3 (1-5M)','Group 4 (100K-1M)','Group 5 (under 100K)'];
 
 export default async (req) => {
   const BASE_ID = readEnv('CAMPAIGNS_BASE_ID') || 'appon9XPSAIySM1lA';

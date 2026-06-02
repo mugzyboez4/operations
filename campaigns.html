@@ -182,7 +182,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
         <div class="fld"><label>Owner</label><input type="text" id="f_owner" placeholder="who's running it"></div>
         <div class="fld"><label>Start date</label><input type="date" id="f_start"></div>
         <div class="fld"><label>Status</label><select id="f_status"><option>Live</option><option>Planned</option><option>Wrapped</option><option>Paused</option></select></div>
-        <div class="fld"><label>Artist tier</label><select id="f_tier"><option value="">—</option><option>Developing</option><option>Breaking</option><option>Established</option><option>Superstar</option><option>Legacy</option></select></div>
+        <div class="fld"><label>Streaming group</label><select id="f_tier"><option value="">—</option><option>Group 1 (10M+)</option><option>Group 2 (5-10M)</option><option>Group 3 (1-5M)</option><option>Group 4 (100K-1M)</option><option>Group 5 (under 100K)</option></select></div>
       </div>
       <div class="actions">
         <button class="submit" id="addSubmit" onclick="submitCampaign()">Add to the board</button>
@@ -223,7 +223,7 @@ function fmtCPV(c){ if(c===null) return "&mdash;"; return "$"+c.toFixed(3); }
 // Size-aware projection. Marginal spend converts at a LOWER rate than current
 // efficiency — and smaller tiers saturate faster. These are transparent, labeled
 // heuristics, not measured curves: directional decision-support, never a promise.
-var TIER_FACTOR = { "Developing":0.55, "Breaking":0.65, "Established":0.78, "Superstar":0.88, "Legacy":0.92 };
+var TIER_FACTOR = { "Group 1 (10M+)":0.90, "Group 2 (5-10M)":0.82, "Group 3 (1-5M)":0.72, "Group 4 (100K-1M)":0.62, "Group 5 (under 100K)":0.52 };
 var artistTier = {};
 function buildTierMap(){
   artistTier = {};
@@ -247,8 +247,8 @@ function project(id){
   var eff=tf*scaleFactor;
   var realistic=straight*eff;
   var tierNote = tier
-    ? 'Adjusted for <b>'+esc(tier)+'</b> tier (marginal spend converts at ~'+Math.round(tf*100)+'% of current efficiency; smaller fanbases saturate faster).'
-    : '<span class="tierflag">No tier set \u2014 using a neutral 70% estimate. Set the artist\u2019s tier for a real size-adjusted number.</span>';
+    ? 'Sized to <b>'+esc(tier)+'</b> (marginal spend converts at ~'+Math.round(tf*100)+'% of current efficiency; smaller groups saturate faster).'
+    : '<span class="tierflag">No group set \u2014 using a neutral 70% estimate. Set the artist\u2019s streaming group for a real size-adjusted number.</span>';
   out.innerHTML = '<span class="big">\u2248 +'+fmtNum(Math.round(realistic))+' views</span> realistic '
     + '<span class="cav">(straight-line +'+fmtNum(Math.round(straight))+')</span><br>'
     + tierNote + ' <span class="cav">Directional \u2014 a budget-conversation input, not a guarantee.</span>';
