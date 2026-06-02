@@ -14,9 +14,12 @@ export default async (req) => {
   const BASE_ID = readEnv('CAMPAIGNS_BASE_ID') || 'appon9XPSAIySM1lA';
   const TABLE_ID = readEnv('CAMPAIGNS_TABLE_ID') || 'tblzGn0Q1hxEzaHXD';
   const PASSWORD = readEnv('CAMPAIGNS_PASSWORD') || 'rca2026';
-  const TOKEN = readEnv('CAMPAIGNS_TOKEN') || readEnv('PHASE1_TOKEN');
+  // Reuse whichever Airtable token the site already has. AD_TAGGING_TOKEN and
+  // AIRTABLE_TOKEN are both known-good on this site; CAMPAIGNS_TOKEN/PHASE1_TOKEN
+  // kept as fallbacks. All point at tokens with access to the Campaign Ops Sandbox.
+  const TOKEN = readEnv('CAMPAIGNS_TOKEN') || readEnv('AD_TAGGING_TOKEN') || readEnv('AIRTABLE_TOKEN') || readEnv('PHASE1_TOKEN');
 
-  if (!TOKEN) return json(500, { error: 'misconfigured', missing: ['CAMPAIGNS_TOKEN or PHASE1_TOKEN'] });
+  if (!TOKEN) return json(500, { error: 'misconfigured', missing: ['no Airtable token env var found (tried CAMPAIGNS_TOKEN, AD_TAGGING_TOKEN, AIRTABLE_TOKEN, PHASE1_TOKEN)'] });
 
   const provided = req.headers.get('x-grid-password') || '';
   if (provided !== PASSWORD) return json(401, { error: 'unauthorized' });

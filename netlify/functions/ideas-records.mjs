@@ -33,7 +33,7 @@ export default async (req) => {
   const BASE_ID = readEnv('IDEAS_BASE_ID') || 'appOqoMYUnnPGppHF';
   const TABLE_ID = readEnv('IDEAS_TABLE_ID') || 'tblQ7Ql1cK89c1p71';
   const PASSWORD = readEnv('IDEAS_PASSWORD') || 'rca2026';
-  const TOKEN = readEnv('IDEAS_TOKEN') || readEnv('PHASE1_TOKEN');
+  const TOKEN = readEnv('IDEAS_TOKEN') || readEnv('AD_TAGGING_TOKEN') || readEnv('AIRTABLE_TOKEN') || readEnv('PHASE1_TOKEN');
 
   if (!TOKEN) {
     return jsonResponse(500, { error: 'misconfigured', missing: ['IDEAS_TOKEN or PHASE1_TOKEN'] });
