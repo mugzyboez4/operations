@@ -13,6 +13,7 @@ function readEnv(key){
 const ALLOWED_PLATFORMS = ['Cobrand','ATG Media','Fortyone','CreatorCore','Other'];
 const ALLOWED_TYPES = ['Influencers','TV Edits','Macro','Micro','UGC','Mixed'];
 const ALLOWED_STATUS = ['Live','Planned','Wrapped','Paused'];
+const ALLOWED_TIERS = ['Developing','Breaking','Established','Superstar','Legacy'];
 
 export default async (req) => {
   const BASE_ID = readEnv('CAMPAIGNS_BASE_ID') || 'appon9XPSAIySM1lA';
@@ -65,6 +66,7 @@ async function handlePost(req, BASE_ID, TABLE_ID, TOKEN){
   let platform = str(body.platform, 40);
   let type = str(body.type, 40);
   let status = str(body.status, 40);
+  let tier = str(body.tier, 40);
   const link = str(body.link, 1000);
   const owner = str(body.owner, 120);
   const startDate = str(body.startDate, 20);
@@ -76,6 +78,7 @@ async function handlePost(req, BASE_ID, TABLE_ID, TOKEN){
   if (type && !ALLOWED_TYPES.includes(type)) type = '';
   if (!ALLOWED_STATUS.includes(status)) status = 'Live';
   if (!campaign) campaign = type || 'Campaign';
+  if (tier && !ALLOWED_TIERS.includes(tier)) tier = '';
 
   const fields = { Artist: artist, Campaign: campaign, Status: status, Active: true, Verdict: 'Too early' };
   if (song) fields['Song'] = song;
@@ -85,6 +88,7 @@ async function handlePost(req, BASE_ID, TABLE_ID, TOKEN){
   if (link) fields['Dashboard Link'] = link;
   if (owner) fields['Owner'] = owner;
   if (/^\d{4}-\d{2}-\d{2}$/.test(startDate)) fields['Start Date'] = startDate;
+  if (tier) fields['Career Tier'] = tier;
 
   try {
     const url = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_ID)}`;
@@ -124,7 +128,8 @@ function mapRecord(r){
     soundCreates: typeof r.fields['Sound Creates'] === 'number' ? r.fields['Sound Creates'] : null,
     streaming: r.fields['Streaming Signal'] || '',
     topCreator: r.fields['Top Creator'] || '',
-    verdict: r.fields['Verdict'] || ''
+    verdict: r.fields['Verdict'] || '',
+    tier: r.fields['Career Tier'] || ''
   };
 }
 
