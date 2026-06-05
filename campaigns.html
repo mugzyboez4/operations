@@ -232,6 +232,20 @@ function buildTierMap(){
   all.forEach(function(c){ if(c.tier && c.artist && !artistTier[c.artist]) artistTier[c.artist]=c.tier; });
 }
 function tierFor(c){ return (c.tier || artistTier[c.artist] || ""); }
+
+// TikTok views -> streams conversion (Crawley June 3 analysis). Per-song. MEDIAN = 39 (range ~18-90).
+// Benchmarks derived from ORGANIC trend views, so applied to PAID views they are a CEILING, not a promise.
+var MEDIAN_CONV = 39;
+var songConv = {};
+function buildConvMap(){
+  songConv = {};
+  all.forEach(function(c){ if(c.viewsPerStream && c.song && !songConv[c.song]) songConv[c.song]=c.viewsPerStream; });
+}
+function convFor(c){ return c.viewsPerStream || songConv[c.song] || MEDIAN_CONV; }
+function convLabel(c){
+  var v=convFor(c);
+  return (c.viewsPerStream || songConv[c.song]) ? (v+'/stream for this song') : (v+'/stream (label median)');
+}
 function project(id){
   var c=null; for(var i=0;i<all.length;i++){ if(all[i].id===id){ c=all[i]; break; } }
   if(!c) return;
@@ -251,9 +265,28 @@ function project(id){
   var tierNote = tier
     ? 'Sized to <b>'+esc(tier)+'</b> (marginal spend converts at ~'+Math.round(tf*100)+'% of current efficiency; smaller groups saturate faster).'
     : '<span class="tierflag">No group set \u2014 using a neutral 70% estimate. Set the artist\u2019s streaming group for a real size-adjusted number.</span>';
+  var conv=convFor(c);
+  var addStreams=Math.round(realistic/conv);
   out.innerHTML = '<span class="big">\u2248 +'+fmtNum(Math.round(realistic))+' views</span> realistic '
     + '<span class="cav">(straight-line +'+fmtNum(Math.round(straight))+')</span><br>'
-    + tierNote + ' <span class="cav">Directional \u2014 a budget-conversation input, not a guarantee.</span>';
+    + '<span class="big">\u2248 +'+fmtNum(addStreams)+' streams</span> <span class="cav">ceiling, at '+convLabel(c)+'</span><br>'
+    + tierNote + ' <span class="cav">Paid views convert below organic \u2014 treat streams as a ceiling. Directional, not a guarantee.</span>';
+}
+function goal(id){
+  var c=null; for(var i=0;i<all.length;i++){ if(all[i].id===id){ c=all[i]; break; } }
+  if(!c) return;
+  var out=document.getElementById("gout_"+id);
+  var raw=document.getElementById("gin_"+id).value.replace(/[^0-9.]/g,"");
+  var s=parseFloat(raw);
+  if(!s||s<=0){ out.innerHTML='<span class="cav">Enter a stream goal.</span>'; return; }
+  var conv=convFor(c);
+  var viewsNeeded=s*conv;            // Crawley slide-8 logic: streams x views/stream
+  var baseCPV=c.budget/c.views;      // this campaign's measured efficiency
+  var dollars=viewsNeeded*baseCPV;
+  out.innerHTML = '<span class="big">\u2248 '+fmtNum(Math.round(viewsNeeded))+' views</span> needed '
+    + '<span class="cav">('+fmtNum(s)+' streams \u00d7 '+convLabel(c)+')</span><br>'
+    + '<span class="big">\u2248 $'+fmtNum(Math.round(dollars))+'</span> <span class="cav">rough, at this campaign\u2019s $'+baseCPV.toFixed(4)+'/view</span><br>'
+    + '<span class="cav">Floor estimate \u2014 paid views convert below the organic benchmark, so real spend likely runs higher. Crawley\u2019s framework; directional.</span>';
 }
 function readiness(c){
   if(c.engRate===null||c.engRate===undefined) return '';
@@ -384,6 +417,7 @@ function card(c){
   if(cv!==null) mts.push('<div class="metric"><span class="v">'+fmtCPV(cv)+'</span><span class="lbl">cost / view</span></div>');
   if(c.engRate!==null&&c.engRate!==undefined){ var er=c.engRate*100; var cls=er<4?'warn':(er>=6?'good':''); mts.push('<div class="metric"><span class="v '+cls+'">'+er.toFixed(1)+'%</span><span class="lbl">engagement'+(er<4?' \u26a0':'')+'</span></div>'); }
   if(c.soundCreates!==null&&c.soundCreates!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.soundCreates)+'</span><span class="lbl">sound creates</span></div>');
+  if(c.views){ var estS=Math.round(c.views/convFor(c)); mts.push('<div class="metric"><span class="v">'+fmtNum(estS)+'</span><span class="lbl">est. streams \u00b7 ceiling</span></div>'); }
   var metrics = mts.length ? '<div class="metrics">'+mts.join('')+'</div>' : '';
 
   var ol=[];
@@ -397,7 +431,12 @@ function card(c){
       + '<span class="plabel">If you add</span>'
       + '<input class="pin" id="pin_'+c.id+'" type="text" placeholder="$5,000" onkeydown="if(event.key===\'Enter\')project(\''+c.id+'\')">'
       + '<button class="pbtn" onclick="project(\''+c.id+'\')">Project</button>'
-      + '</div><span class="pout" id="pout_'+c.id+'"></span></div>';
+      + '</div><span class="pout" id="pout_'+c.id+'"></span>'
+      + '<div class="prow" style="margin-top:9px;">'
+      + '<span class="plabel">To gain</span>'
+      + '<input class="pin" id="gin_'+c.id+'" type="text" placeholder="50,000 streams" onkeydown="if(event.key===\'Enter\')goal(\''+c.id+'\')">'
+      + '<button class="pbtn" onclick="goal(\''+c.id+'\')">Plan</button>'
+      + '</div><span class="pout" id="gout_'+c.id+'"></span></div>';
   }
   var learn = c.learnings ? '<div class="learnings"><span class="lk">Learnings</span>'+esc(c.learnings)+'</div>' : '';
   var dash = c.link ? '<a class="dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="dash none">no link yet</span>';
@@ -428,7 +467,7 @@ function renderList(){
   document.getElementById("list").innerHTML=html;
 }
 
-function renderAll(){ buildTierMap(); renderSummary(); renderFilters(); renderList(); }
+function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderFilters(); renderList(); }
 </script>
 
 </body>
