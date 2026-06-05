@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lane Definition — Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F2F1EB;--surface:#EAE8E0;--card:#FFFFFF;--border:#E3E1D8;
+  --text:#16150F;--muted:#6B6A62;--fog:#8A887E;
+  --chart:#CDF851;--chart-ink:#5B6B00;--flame:#FF4A23;
+  --direction:#5B6B00;--managers:#0E7C7B;--design:#8B3FA8;--production:#C2410C;--support:#5B5750;
+  --campaigns:#0E7C7B;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:64px}
+
+/* Header */
+.header{max-width:1440px;margin:0 auto;padding:40px 24px 8px}
+.header-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:800;margin-bottom:10px}
+.header h1{font-weight:900;font-size:clamp(36px,6vw,52px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin-bottom:10px}
+.header h1 span{background:var(--chart);padding:0 10px}
+.header .sub{font-size:14px;color:var(--muted);max-width:700px}
+.header .sub b{color:var(--text);font-weight:600}
+.rule{height:3px;background:var(--text);margin:18px 0 4px}
+
+/* View bar */
+.viewbar{max-width:1440px;margin:16px auto 0;padding:0 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.toggle{display:flex;border:2px solid var(--text)}
+.toggle button{background:transparent;color:var(--muted);border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px}
+.toggle button.on{background:var(--text);color:var(--bg)}
+.principle{font-size:11.5px;color:var(--fog);font-weight:600}
+.principle b{color:var(--chart-ink);font-weight:800}
+
+/* Key */
+.key{max-width:1440px;margin:14px auto 0;padding:0 24px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.key-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.key-sw{width:16px;height:3px}
+.key-note{font-size:11px;color:var(--fog);margin-left:auto}
+/* RACI legend — only in ownership view */
+.raci-legend{display:none;max-width:1440px;margin:12px auto 0;padding:10px 24px;gap:20px;flex-wrap:wrap}
+body.raci .raci-legend{display:flex}
+.raci-legend .rl{font-size:11px;color:var(--muted)}
+.raci-legend .rl b{font-weight:800;color:var(--text)}
+
+/* Kanban */
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:1440px;margin:22px auto 24px;padding:0 24px;align-items:start}
+.lane{background:var(--surface);border:1px solid var(--border);border-top:4px solid var(--lc,var(--border));padding:11px;min-height:300px}
+.lane-header{padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--border)}
+.lane-title{font-weight:900;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--lc,var(--text));line-height:1.15}
+.lane-verbs{font-size:9.5px;color:var(--fog);margin-top:4px;letter-spacing:.04em;text-transform:uppercase}
+.lane-count{font-size:10px;color:var(--fog);margin-top:5px;font-weight:600}
+
+/* Cards */
+.card{position:relative;background:var(--card);border:1px solid var(--border);padding:9px 10px;margin-bottom:7px;cursor:grab;transition:border-color .12s,transform .1s,opacity .1s}
+.card:hover{border-color:var(--fog)}
+.card.dragging{opacity:.4;transform:scale(.96)}
+.card.tbd{border-left:3px solid var(--flame)}
+.card-title{font-size:12px;font-weight:700;color:var(--text);line-height:1.32}
+.card-note{font-size:10.5px;color:var(--muted);line-height:1.45;margin-top:5px}
+.card-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-top:7px}
+.tag-tbd{background:rgba(255,74,35,.13);color:var(--flame)}
+.lane.drag-over-lane{outline:2px dashed var(--chart);outline-offset:-2px;background:#fff}
+
+/* RACI strip on cards — hidden until ownership view */
+.raci{display:none;margin-top:8px;padding-top:7px;border-top:1px dashed var(--border);flex-wrap:wrap;gap:4px 10px}
+body.raci .raci{display:flex}
+.raci .ri{font-size:10px;color:var(--text);line-height:1.3}
+.raci .ri .k{font-weight:900;font-size:9px;letter-spacing:.04em;color:var(--chart-ink);margin-right:3px}
+.raci .ri .v{color:var(--muted);font-weight:600}
+.raci .ri.a .v{color:var(--text);font-weight:700}
+.raci .ri.a.open .k,.raci .ri.a.open .v{color:var(--flame)}
+.raci .ri.c .k{color:var(--campaigns)}
+/* in ownership view, gray the prose note so the RACI reads first */
+body.raci .card-note{opacity:.7}
+
+/* ===== CROSSOVER SECTION ===== */
+.cross{max-width:1440px;margin:8px auto 0;padding:0 24px}
+.cross-rule{height:3px;background:var(--text);margin:18px 0}
+.cross-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:800;margin-bottom:8px}
+.cross h2{font-weight:900;font-size:clamp(24px,4vw,34px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;margin-bottom:12px}
+.cross h2 span{background:var(--chart);padding:0 8px}
+.cross-intro{font-size:13.5px;color:var(--muted);max-width:760px;line-height:1.6;margin-bottom:6px}
+.cross-intro b{color:var(--text);font-weight:600}
+.legend-mini{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 18px;font-size:11px}
+.lg-camp{color:var(--campaigns)}
+.lg-crea{color:var(--chart-ink)}
+.handoffs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ho{background:var(--card);border:1px solid var(--border)}
+.ho-top{display:flex;justify-content:space-between;align-items:baseline;padding:12px 16px 0}
+.ho-name{font-weight:900;font-size:15px;letter-spacing:-.01em}
+.ho-tri{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--fog)}
+.ho-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;padding:12px 16px 0}
+.ho-role{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.ho-role.camp{color:var(--campaigns)}
+.ho-role.crea{color:var(--chart-ink)}
+.ho-do{font-size:11.5px;color:var(--text);line-height:1.4}
+.ho-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px;min-width:96px}
+.ho-cross{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--chart);padding:3px 7px;text-align:center;line-height:1.3}
+.ho-arrow{color:var(--flame);font-weight:900;font-size:15px;margin:3px 0}
+.ho-watch{margin-top:12px;border-top:1px solid var(--border);padding:9px 16px;font-size:10.5px;color:var(--muted);line-height:1.45}
+.ho-watch b{color:var(--chart-ink);font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:9.5px}
+.ho.wide{grid-column:1/-1}
+.ho-also{grid-column:1/-1;background:var(--surface);border:1px dashed var(--border);padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.5}
+.ho-also b{color:var(--text);font-weight:700}
+.cross-foot{margin:20px 0 4px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--chart);padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.6;max-width:900px}
+.cross-foot b{color:var(--text);font-weight:600}
+
+/* Save bar */
+.savebar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:9px 24px;display:flex;align-items:center;gap:10px;z-index:9999;box-shadow:0 -2px 12px rgba(0,0,0,.05)}
+.savebar .grp{display:flex;gap:8px;align-items:center}
+.savebar button{font-family:inherit;font-size:11px;font-weight:700;padding:7px 14px;cursor:pointer;border:1px solid var(--text);background:none;color:var(--text);transition:all .12s}
+.savebar button.primary{background:var(--chart);border-color:var(--chart);color:var(--text)}
+.savebar button:hover{transform:translateY(-1px)}
+.savebar .hint{font-size:10.5px;color:var(--fog);margin-left:auto}
+#saveStatus{font-size:10.5px;color:var(--chart-ink);font-weight:700;opacity:0;transition:opacity .3s}
+
+@media(max-width:1100px){.kanban{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.handoffs{grid-template-columns:1fr}}
+@media(max-width:760px){.kanban{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.kanban{grid-template-columns:1fr}.savebar{flex-wrap:wrap}.key-note{margin-left:0}
+  .ho-grid{grid-template-columns:1fr}.ho-mid{flex-direction:row;gap:8px;padding:10px 0;min-width:0}.ho-arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:16px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
+  <a href="/" style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px">Campaign <span style="color:#0F0E0E;background:#CDF851;padding:2px 6px;font-weight:900">Ops</span></a>
+  <a href="/reference/phase-gates.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Phase Gates</a>
+  <a href="/reference/budget.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Budget</a>
+  <a href="/reference/ar-ops-gaps.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">A&amp;R Ops Gaps</a>
+  <a href="/dept-workflows.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Handoff Map</a>
+  <a href="/reference/lanes.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Lanes</a>
+  <a href="/reference/creative-lanes.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0F0E0E;text-decoration:none;padding:6px 10px;border:1px solid #0F0E0E">Creative</a>
+</div>
+
+<div class="header">
+  <div class="header-tag">Lane Definition · Creative</div>
+  <h1>Who Does <span>What</span></h1>
+  <div class="sub">Every Creative responsibility, sorted into lanes from the team's job descriptions. <b>Drag a card to move it, click to edit.</b> A flame edge means the handoff is still fuzzy and needs a call.</div>
+  <div class="rule"></div>
+</div>
+
+<div class="viewbar">
+  <div class="toggle" role="group" aria-label="View">
+    <button id="vLanes" class="on">Lanes view</button>
+    <button id="vRaci">Ownership (RACI)</button>
+  </div>
+  <div class="principle">Campaign Ops surfaces this map — it <b>never assigns the A</b>. Ops is only ever <b>Informed</b>.</div>
+</div>
+
+<div class="key">
+  <div class="key-item"><span class="key-sw" style="background:var(--flame)"></span>Boundary TBD — overlaps another lane, needs a decision</div>
+  <div class="key-note">Edits save to this browser only · use Copy All to export</div>
+</div>
+
+<div class="raci-legend">
+  <span class="rl"><b>R</b> Responsible — does the work (the lane it sits in)</span>
+  <span class="rl"><b>A</b> Accountable — the single owner. Set by leadership, not Ops.</span>
+  <span class="rl"><b>C</b> Consulted — looped in two-way</span>
+  <span class="rl"><b>I</b> Informed — kept posted one-way</span>
+</div>
+
+<!-- ============ KANBAN ============ -->
+<div class="kanban">
+
+  <!-- DIRECTION -->
+  <div class="lane" style="--lc:var(--direction)">
+    <div class="lane-header">
+      <div class="lane-title">Direction</div>
+      <div class="lane-verbs">Set · Prioritise · Allocate · Assign</div>
+      <div class="lane-count">3 items</div>
+    </div>
+    <div class="card"><div class="card-title">Set Creative Direction</div><div class="card-note">Strategic direction across all artist campaigns.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Direction</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Creative</span></span></div></div>
+    <div class="card"><div class="card-title">Own Creative Budget</div><div class="card-note">Manage and allocate the overall creative budget.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Direction</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns · Finance</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">Prioritise &amp; Assign Projects</div><div class="card-note">Set priorities and assign internal teams to new projects.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Direction</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+  </div>
+
+  <!-- CREATIVE MANAGERS -->
+  <div class="lane" style="--lc:var(--managers)">
+    <div class="lane-header">
+      <div class="lane-title">Creative Managers</div>
+      <div class="lane-verbs">Own · Commission · Manage · Deliver</div>
+      <div class="lane-count">6 items</div>
+    </div>
+    <div class="card"><div class="card-title">Own Project Delivery</div><div class="card-note">End-to-end across all visual formats for their roster — shoots, videos, visualizers, experiential, short-form.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Creative Mgr</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns · Design · Production</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">Manage Budget &amp; Timeline</div><div class="card-note">Per-project budget and timeline.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Creative Mgr</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction · Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">Source &amp; Manage External Partners</div><div class="card-note">Stylists, designers, directors.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Creative Mgr</span></span><span class="ri c"><span class="k">C</span><span class="v">Business Affairs</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction</span></span></div></div>
+    <div class="card"><div class="card-title">Lead Cross-Functional Comms</div><div class="card-note">The creative point of contact into the campaign and other departments.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Creative Mgr</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card tbd"><div class="card-title">Commission Talent &amp; Contract</div><div class="card-note">Overlaps Production, which also commissions short-form &amp; MV. Who leads which?</div><span class="card-tag tag-tbd">boundary tbd</span>
+      <div class="raci"><span class="ri a open"><span class="k">A</span><span class="v">TBD — this meeting</span></span><span class="ri c"><span class="k">C</span><span class="v">Business Affairs</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction</span></span></div></div>
+    <div class="card tbd"><div class="card-title">Ensure Asset Delivery</div><div class="card-note">CM "ensures," Support routes/delivers, Production ingests. One owner, clean handoff.</div><span class="card-tag tag-tbd">boundary tbd</span>
+      <div class="raci"><span class="ri a open"><span class="k">A</span><span class="v">TBD — this meeting</span></span><span class="ri c"><span class="k">C</span><span class="v">Support · Production</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+  </div>
+
+  <!-- DESIGN -->
+  <div class="lane" style="--lc:var(--design)">
+    <div class="lane-header">
+      <div class="lane-title">Design</div>
+      <div class="lane-verbs">Direct · Design · Brand · Present</div>
+      <div class="lane-count">4 items</div>
+    </div>
+    <div class="card tbd"><div class="card-title">Drive Visual Creative Direction</div><div class="card-note">Direction across campaign visuals + brand consistency — overlaps the CM's per-project direction.</div><span class="card-tag tag-tbd">boundary tbd</span>
+      <div class="raci"><span class="ri a open"><span class="k">A</span><span class="v">TBD — this meeting</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Creative</span></span></div></div>
+    <div class="card"><div class="card-title">Artwork &amp; Packaging</div><div class="card-note">All in-house artwork and packaging design.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Design</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns · Creative Mgr</span></span><span class="ri i"><span class="k">I</span><span class="v">Support</span></span></div></div>
+    <div class="card"><div class="card-title">Brand Assets</div><div class="card-note">Logos, advertisements, banners, marketing assets.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Design</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Audience Dev</span></span></div></div>
+    <div class="card"><div class="card-title">Moodboards &amp; Decks</div><div class="card-note">Concept moodboards and presentation decks.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Design</span></span><span class="ri c"><span class="k">C</span><span class="v">Campaigns</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction</span></span></div></div>
+  </div>
+
+  <!-- PRODUCTION & COMMISSIONING -->
+  <div class="lane" style="--lc:var(--production)">
+    <div class="lane-header">
+      <div class="lane-title">Production &amp; Commissioning</div>
+      <div class="lane-verbs">Commission · Produce · QC · Ingest</div>
+      <div class="lane-count">4 items</div>
+    </div>
+    <div class="card tbd"><div class="card-title">Commission Short-form &amp; Music Videos</div><div class="card-note">Overlaps the CM's commissioning. Who leads which?</div><span class="card-tag tag-tbd">boundary tbd</span>
+      <div class="raci"><span class="ri a open"><span class="k">A</span><span class="v">TBD — this meeting</span></span><span class="ri c"><span class="k">C</span><span class="v">Creative Mgr</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction</span></span></div></div>
+    <div class="card"><div class="card-title">In-House Production (Low–Mid Budget)</div><div class="card-note">Video and experiential — sourcing, resourcing, logistics.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Production</span></span><span class="ri c"><span class="k">C</span><span class="v">Creative Mgr</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">Video Delivery Specs &amp; QC</div><div class="card-note">Delivery specifications and quality control (CI QC).</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Production</span></span><span class="ri c"><span class="k">C</span><span class="v">Commercial P'ships</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">Asset Ingestion</div><div class="card-note">Ingest finished assets into the system.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Production</span></span><span class="ri i"><span class="k">I</span><span class="v">Support</span></span></div></div>
+  </div>
+
+  <!-- OPS & SUPPORT -->
+  <div class="lane" style="--lc:var(--support)">
+    <div class="lane-header">
+      <div class="lane-title">Ops &amp; Support</div>
+      <div class="lane-verbs">Intake · Route · Process · Schedule</div>
+      <div class="lane-count">4 items</div>
+    </div>
+    <div class="card"><div class="card-title">Intake &amp; Ticketing</div><div class="card-note">Create and assign Airtable tickets — the front door for every request.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Support</span></span><span class="ri i"><span class="k">I</span><span class="v">Creative</span></span></div></div>
+    <div class="card tbd"><div class="card-title">Artwork Routing &amp; Final Delivery</div><div class="card-note">Routes artwork &amp; packaging and handles final delivery — confirm against the CM's "ensure delivery."</div><span class="card-tag tag-tbd">boundary tbd</span>
+      <div class="raci"><span class="ri a open"><span class="k">A</span><span class="v">TBD — this meeting</span></span><span class="ri c"><span class="k">C</span><span class="v">Design</span></span><span class="ri i"><span class="k">I</span><span class="v">Campaign Ops</span></span></div></div>
+    <div class="card"><div class="card-title">PO &amp; Invoice Processing</div><div class="card-note">Create POs and process payments for creative invoices.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Support</span></span><span class="ri c"><span class="k">C</span><span class="v">Finance</span></span><span class="ri i"><span class="k">I</span><span class="v">Direction</span></span></div></div>
+    <div class="card"><div class="card-title">Scheduling &amp; Admin Logistics</div><div class="card-note">Coordinate scheduling and administrative logistics for the team.</div>
+      <div class="raci"><span class="ri a"><span class="k">A</span><span class="v">Support</span></span><span class="ri i"><span class="k">I</span><span class="v">Team</span></span></div></div>
+  </div>
+
+</div>
+
+<!-- ============ CROSSOVER ============ -->
+<div class="cross">
+  <div class="cross-rule"></div>
+  <div class="cross-tag">Where It Crosses Over</div>
+  <h2>Creative <span>×</span> Campaigns</h2>
+  <p class="cross-intro"><b>Campaigns decides what the campaign says and when. Creative decides how it looks and gets made.</b> Almost every Creative responsibility is the back half of something Campaigns starts — which is why they feel like one team. These are the seams where the baton passes, and where work drops if the handoff is fuzzy.</p>
+  <div class="legend-mini">
+    <span class="lg-camp"><b>■ Campaigns</b> — strategy, narrative, timeline, budget, the ask</span>
+    <span class="lg-crea"><b>■ Creative</b> — concept, craft, production, delivery</span>
+  </div>
+
+  <div class="handoffs">
+
+    <div class="ho">
+      <div class="ho-top"><div class="ho-name">The Brief</div><div class="ho-tri">Trigger: campaign needs an asset</div></div>
+      <div class="ho-grid">
+        <div><div class="ho-role camp">Campaigns</div><div class="ho-do">Sets strategy &amp; narrative; triggers the assets the campaign needs.</div></div>
+        <div class="ho-mid"><div class="ho-cross">Brief in →<br>assets out</div><div class="ho-arrow">⇄</div></div>
+        <div><div class="ho-role crea">Creative</div><div class="ho-do">Turns the brief into finished work — shoots, videos, art, decks.</div></div>
+      </div>
+      <div class="ho-watch"><b>Ops watch ·</b> Did a real brief land, with enough to start? A vague brief is the #1 source of rework.</div>
+    </div>
+
+    <div class="ho">
+      <div class="ho-top"><div class="ho-name">The Calendar</div><div class="ho-tri">Trigger: rollout dates set</div></div>
+      <div class="ho-grid">
+        <div><div class="ho-role camp">Campaigns</div><div class="ho-do">Owns the rollout timeline &amp; milestones.</div></div>
+        <div class="ho-mid"><div class="ho-cross">Milestones →<br>prod. schedule</div><div class="ho-arrow">→</div></div>
+        <div><div class="ho-role crea">Creative</div><div class="ho-do">Schedules production to hit those dates.</div></div>
+      </div>
+      <div class="ho-watch"><b>Ops watch ·</b> A creative delivery slipping <i>before</i> it threatens a campaign milestone.</div>
+    </div>
+
+    <div class="ho">
+      <div class="ho-top"><div class="ho-name">The Budget</div><div class="ho-tri">Trigger: allocation set</div></div>
+      <div class="ho-grid">
+        <div><div class="ho-role camp">Campaigns</div><div class="ho-do">Allocates the campaign budget across departments.</div></div>
+        <div class="ho-mid"><div class="ho-cross">Allocation →<br>actual spend</div><div class="ho-arrow">→</div></div>
+        <div><div class="ho-role crea">Creative</div><div class="ho-do">Manages the creative line within that allocation.</div></div>
+      </div>
+      <div class="ho-watch"><b>Ops watch ·</b> Spend drifting from plan. Surface the flag — don't block the spend.</div>
+    </div>
+
+    <div class="ho">
+      <div class="ho-top"><div class="ho-name">Artist Image</div><div class="ho-tri">Trigger: shoot wraps</div></div>
+      <div class="ho-grid">
+        <div><div class="ho-role crea">Creative</div><div class="ho-do">Produces the shoot and the imagery.</div></div>
+        <div class="ho-mid"><div class="ho-cross">Deliverables →<br>hero selects</div><div class="ho-arrow">⇄</div></div>
+        <div><div class="ho-role camp">Campaigns</div><div class="ho-do">Aligns image selects across Press, Partnerships &amp; Packaging.</div></div>
+      </div>
+      <div class="ho-watch"><b>Ops watch ·</b> Selects stuck in approval, holding up every downstream department at once.</div>
+    </div>
+
+    <div class="ho wide">
+      <div class="ho-top"><div class="ho-name">Paid Ad Assets</div><div class="ho-tri">Three-way handoff</div></div>
+      <div class="ho-grid">
+        <div><div class="ho-role camp">Campaigns</div><div class="ho-do">Owns ad strategy and the brief.</div></div>
+        <div class="ho-mid"><div class="ho-cross">Brief → assets<br>→ paid media</div><div class="ho-arrow">→</div></div>
+        <div><div class="ho-role crea">Creative</div><div class="ho-do">Produces the ad assets → then <b style="color:var(--production)">Audience Dev</b> runs the paid media.</div></div>
+      </div>
+      <div class="ho-watch"><b>Ops watch ·</b> Assets finished and approved before the flight date — the seam where Creative and Aud Dev both touch it.</div>
+    </div>
+
+    <div class="ho-also">Also crosses on: <b>pitch decks</b> (Campaigns owns the ask → Design builds), <b>physical product</b> (Campaigns confirms config → Design packages → Support delivers), <b>promo items</b>, and <b>award-show assets</b>. Same shape every time — Campaigns owns the ask, Creative builds the artifact.</div>
+
+  </div>
+
+  <div class="cross-foot">
+    <b>On combining the two teams:</b> keep each team's lanes intact and let this handoff layer be the seam — don't melt Creative and Campaigns into one column set. Two clear boards joined at the handoffs reads as partnership; one merged column set reads as a takeover, and reintroduces the turf anxiety we're trying to defuse. Campaign Ops watches these seams; it doesn't own them.
+  </div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="savebar">
+  <div class="grp">
+    <button id="btnSave" class="primary">Save</button>
+    <button id="btnExport">Copy All</button>
+    <button id="btnReset">Reset</button>
+  </div>
+  <span id="saveStatus"></span>
+  <span class="hint">Drag cards between lanes · click any title or note to edit</span>
+</div>
+
+<script>
+var draggedCard=null;
+var INITIAL_KANBAN=null;
+var sessionSnapshot=null;
+var SAVE_KEY='creative-lanes-board';
+
+function setView(v){
+  document.body.classList.toggle('raci',v==='raci');
+  document.getElementById('vRaci').classList.toggle('on',v==='raci');
+  document.getElementById('vLanes').classList.toggle('on',v!=='raci');
+}
+
+function initDragDrop(){
+  document.querySelectorAll('.card').forEach(function(card){
+    card.setAttribute('draggable','true');
+    card.addEventListener('dragstart',function(e){draggedCard=this;this.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    card.addEventListener('dragend',function(){this.classList.remove('dragging');draggedCard=null;updateCounts();saveState();});
+  });
+  document.querySelectorAll('.kanban .lane').forEach(function(lane){
+    lane.addEventListener('dragover',function(e){e.preventDefault();e.dataTransfer.dropEffect='move';this.classList.add('drag-over-lane');});
+    lane.addEventListener('dragleave',function(e){if(!this.contains(e.relatedTarget))this.classList.remove('drag-over-lane');});
+    lane.addEventListener('drop',function(e){
+      e.preventDefault();this.classList.remove('drag-over-lane');
+      if(draggedCard){var after=getDropTarget(this,e.clientY);if(after==null)this.appendChild(draggedCard);else this.insertBefore(draggedCard,after);}
+    });
+  });
+}
+function getDropTarget(lane,y){
+  var cards=[].slice.call(lane.querySelectorAll('.card:not(.dragging)'));
+  for(var i=0;i<cards.length;i++){var b=cards[i].getBoundingClientRect();if(y<b.top+b.height/2)return cards[i];}
+  return null;
+}
+function updateCounts(){
+  document.querySelectorAll('.kanban .lane').forEach(function(lane){
+    var n=lane.querySelectorAll('.card').length;var el=lane.querySelector('.lane-count');
+    if(el)el.textContent=n+(n===1?' item':' items');
+  });
+}
+function wireEditing(){
+  document.querySelectorAll('.card-title, .card-note').forEach(function(el){
+    el.setAttribute('contenteditable','true');el.setAttribute('spellcheck','false');
+    el.addEventListener('focus',function(){var c=this.closest('.card');if(c)c.setAttribute('draggable','false');this.style.outline='1px solid var(--chart-ink)';this.style.outlineOffset='2px';});
+    el.addEventListener('blur',function(){var c=this.closest('.card');if(c)c.setAttribute('draggable','true');this.style.outline='none';saveState();});
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'&&this.classList.contains('card-title')){e.preventDefault();this.blur();}});
+  });
+}
+function saveState(){
+  try{sessionSnapshot=document.querySelector('.kanban').innerHTML;}catch(e){}
+  try{localStorage.setItem(SAVE_KEY,sessionSnapshot);showSaveStatus('Saved');}catch(e){showSaveStatus('Saved for this session');}
+}
+function loadStored(){
+  try{var s=localStorage.getItem(SAVE_KEY);if(s){document.querySelector('.kanban').innerHTML=s;return true;}}catch(e){}
+  return false;
+}
+function resetState(){
+  if(INITIAL_KANBAN==null)return;
+  if(confirm('Reset the board to the original layout? This clears saved changes.')){
+    try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+    document.querySelector('.kanban').innerHTML=INITIAL_KANBAN;
+    wireEditing();initDragDrop();updateCounts();showSaveStatus('Reset to original');
+  }
+}
+function exportState(){
+  var owner=document.body.classList.contains('raci');
+  var text='LANE DEFINITION — CREATIVE · '+new Date().toLocaleString()+'\n';
+  document.querySelectorAll('.kanban .lane').forEach(function(lane){
+    text+='\n=== '+lane.querySelector('.lane-title').textContent.toUpperCase()+' ===\n';
+    lane.querySelectorAll('.card').forEach(function(card){
+      var t=card.querySelector('.card-title').textContent;
+      text+='  • '+t;
+      var a=card.querySelector('.ri.a .v');
+      if(a)text+='   [A: '+a.textContent+']';
+      var note=card.querySelector('.card-note');
+      if(note&&!owner)text+='  — '+note.textContent;
+      text+='\n';
+    });
+  });
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showSaveStatus('Copied to clipboard');},function(){fallbackCopy(text);});}
+  else fallbackCopy(text);
+}
+function fallbackCopy(text){var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showSaveStatus('Copied to clipboard');}catch(e){showSaveStatus('Copy failed');}document.body.removeChild(ta);}
+function showSaveStatus(msg){var el=document.getElementById('saveStatus');el.textContent=msg;el.style.opacity='1';setTimeout(function(){el.style.opacity='0';},2500);}
+
+try{
+  INITIAL_KANBAN=document.querySelector('.kanban').innerHTML;
+  loadStored();
+  wireEditing();initDragDrop();updateCounts();
+
+  // Wire controls (inline onclick is blocked in sandboxed render)
+  document.getElementById('vLanes').addEventListener('click',function(){setView('lanes');});
+  document.getElementById('vRaci').addEventListener('click',function(){setView('raci');});
+  document.getElementById('btnSave').addEventListener('click',saveState);
+  document.getElementById('btnExport').addEventListener('click',exportState);
+  document.getElementById('btnReset').addEventListener('click',resetState);
+}catch(e){console.error('init error',e);}
+</script>
+</body>
+</html>
