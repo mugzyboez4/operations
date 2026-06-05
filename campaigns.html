@@ -38,6 +38,15 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .stat .l{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-quiet);margin-top:3px;}
 .byplat{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;font-size:12.5px;color:var(--text-quiet);align-items:center;}
 .byplat .seg{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--other-soft);}
+.quadrant-wrap{border:1px solid var(--rule);background:var(--card);margin-bottom:26px;padding:18px 20px 14px;}
+.quadrant-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+.quadrant-head .qt{font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text);}
+.quadrant-head .qn{font-size:12px;color:var(--text-quiet);}
+.quadrant-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--text-quiet);margin-top:8px;}
+.quadrant-legend .lg{display:inline-flex;align-items:center;gap:5px;}
+.quadrant-legend .ld{width:9px;height:9px;border-radius:50%;}
+.quadrant-svg text{font-family:'Inter',sans-serif;}
+.quadrant-empty{font-size:13px;color:var(--text-quiet);padding:40px 10px;text-align:center;font-style:italic;}
 .byplat .seg .d{width:8px;height:8px;border-radius:50%;}
 .flagbar{background:var(--flame-soft);border-left:4px solid var(--flame);padding:13px 18px;font-size:13px;color:var(--text-soft);line-height:1.5;margin-bottom:26px;}
 .flagbar b{font-weight:700;}
@@ -165,6 +174,8 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
   <div class="summary" id="summary"></div>
   <div class="byplat" id="byplat"></div>
+
+  <div class="quadrant-wrap" id="quadrant"></div>
 
   <div class="filters" id="filters"></div>
 
@@ -322,11 +333,19 @@ function renderSummary(){
   var total=all.reduce(function(a,c){return a+(c.budget||0);},0);
   var artists={}, plats={};
   all.forEach(function(c){ if(c.artist)artists[c.artist]=1; if(c.platform)plats[c.platform]=(plats[c.platform]||0)+1; });
+  var withV=all.filter(function(c){return c.views;});
+  var totV=withV.reduce(function(a,c){return a+c.views;},0);
+  var spV=withV.reduce(function(a,c){return a+(c.budget||0);},0);
+  var extra='';
+  if(totV>0){
+    extra+='<div class="stat"><div class="n">'+fmtNum(totV)+'</div><div class="l">Tracked views</div></div>';
+    extra+='<div class="stat"><div class="n">$'+(spV/totV).toFixed(4)+'</div><div class="l">Blended CPV</div></div>';
+  }
   document.getElementById("summary").innerHTML =
     '<div class="stat"><div class="n">'+all.length+'</div><div class="l">Campaigns</div></div>'+
     '<div class="stat"><div class="n">'+Object.keys(artists).length+'</div><div class="l">Artists</div></div>'+
     '<div class="stat"><div class="n">'+Object.keys(plats).length+'</div><div class="l">Platforms</div></div>'+
-    '<div class="stat"><div class="n">'+money(total)+'</div><div class="l">Tracked spend</div></div>';
+    '<div class="stat"><div class="n">'+money(total)+'</div><div class="l">Tracked spend</div></div>'+extra;
 
   var segs="";
   Object.keys(plats).sort(function(a,b){return plats[b]-plats[a];}).forEach(function(p){
@@ -467,7 +486,59 @@ function renderList(){
   document.getElementById("list").innerHTML=html;
 }
 
-function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderFilters(); renderList(); }
+function renderQuadrant(){
+  var el=document.getElementById("quadrant");
+  var pts=all.filter(function(c){ return c.views && c.engRate!==null && c.engRate!==undefined; });
+  var head='<div class="quadrant-head"><span class="qt">Performance Map</span><span class="qn">Reach \u00d7 engagement &middot; bubble size = spend</span></div>';
+  if(pts.length<1){
+    el.innerHTML=head+'<div class="quadrant-empty">No campaigns have both views and engagement yet \u2014 the map fills in as the numbers land.</div>';
+    return;
+  }
+  var W=880,H=500,mL=64,mR=28,mT=34,mB=58, pw=W-mL-mR, ph=H-mT-mB;
+  function niceCeil(x){ if(x<=0)return 1; var mag=Math.pow(10,Math.floor(Math.log(x)/Math.LN10)); var f=x/mag; var n=f<=1?1:f<=1.5?1.5:f<=2?2:f<=2.5?2.5:f<=3?3:f<=5?5:10; return n*mag; }
+  var maxV=Math.max.apply(null,pts.map(function(c){return c.views;}));
+  var maxE=Math.max(8,Math.max.apply(null,pts.map(function(c){return c.engRate*100;})));
+  var xMax=niceCeil(maxV), yMax=Math.ceil(maxE/5)*5;
+  var maxBud=Math.max.apply(null,pts.map(function(c){return c.budget||0;}))||1;
+  function sx(v){ return mL+(v/xMax)*pw; }
+  function sy(e){ return mT+ph-(e/yMax)*ph; }
+  function rad(b){ return 9+Math.sqrt((b||0)/maxBud)*22; }
+  var benchY=6;
+  var sv=pts.map(function(c){return c.views;}).sort(function(a,b){return a-b;});
+  var medV=sv.length%2?sv[(sv.length-1)/2]:(sv[sv.length/2-1]+sv[sv.length/2])/2;
+  var s='<svg class="quadrant-svg" viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect x="'+sx(medV)+'" y="'+mT+'" width="'+(mL+pw-sx(medV))+'" height="'+(sy(benchY)-mT)+'" fill="var(--chartreuse-soft)" opacity="0.55"/>';
+  s+='<line x1="'+mL+'" y1="'+(mT+ph)+'" x2="'+(mL+pw)+'" y2="'+(mT+ph)+'" stroke="var(--rule)" stroke-width="1"/>';
+  s+='<line x1="'+mL+'" y1="'+mT+'" x2="'+mL+'" y2="'+(mT+ph)+'" stroke="var(--rule)" stroke-width="1"/>';
+  s+='<line x1="'+sx(medV)+'" y1="'+mT+'" x2="'+sx(medV)+'" y2="'+(mT+ph)+'" stroke="var(--text-fade)" stroke-width="1" stroke-dasharray="3 3"/>';
+  s+='<line x1="'+mL+'" y1="'+sy(benchY)+'" x2="'+(mL+pw)+'" y2="'+sy(benchY)+'" stroke="var(--flame)" stroke-width="1" stroke-dasharray="4 3" opacity="0.55"/>';
+  s+='<text x="'+(mL+pw)+'" y="'+(sy(benchY)-5)+'" text-anchor="end" font-size="10" fill="var(--flame)">6% engagement benchmark</text>';
+  s+='<text x="'+(sx(medV)+4)+'" y="'+(mT+11)+'" font-size="10" fill="var(--text-fade)">median reach</text>';
+  [0,yMax/2,yMax].forEach(function(t){ s+='<text x="'+(mL-8)+'" y="'+(sy(t)+3)+'" text-anchor="end" font-size="10" fill="var(--text-quiet)">'+t+'%</text>'; });
+  [0,xMax/2,xMax].forEach(function(t){ s+='<text x="'+sx(t)+'" y="'+(mT+ph+16)+'" text-anchor="middle" font-size="10" fill="var(--text-quiet)">'+fmtNum(t)+'</text>'; });
+  s+='<text x="'+(mL+pw/2)+'" y="'+(H-12)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-soft)">Views (reach) \u2192</text>';
+  s+='<text transform="translate(15,'+(mT+ph/2)+') rotate(-90)" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-soft)">Engagement rate \u2191</text>';
+  pts.forEach(function(c){
+    var x=sx(c.views), y=sy(c.engRate*100), r=rad(c.budget), m=pmeta(c.platform);
+    var label=(c.song && c.song!=="\u2014") ? c.song : (c.artist||"");
+    var cv=cpv(c.budget,c.views);
+    var tip=esc((c.artist||"")+(c.song?' \u2014 "'+c.song+'"':'')+'\n'+(c.platform||'')+'\n'+fmtNum(c.views)+' views \u00b7 '+(c.engRate*100).toFixed(1)+'% eng\n'+money(c.budget)+(cv!==null?' \u00b7 $'+cv.toFixed(4)+'/view':''));
+    s+='<g><title>'+tip+'</title>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+m.c+'" fill-opacity="0.18" stroke="'+m.c+'" stroke-width="1.5"/>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+m.c+'"/>';
+    s+='<text x="'+x+'" y="'+(y-r-5)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--text)">'+esc(label)+'</text>';
+    s+='</g>';
+  });
+  s+='</svg>';
+  var plats={}; pts.forEach(function(c){ if(c.platform)plats[c.platform]=1; });
+  var leg='<div class="quadrant-legend">';
+  Object.keys(plats).forEach(function(p){ var m=pmeta(p); leg+='<span class="lg"><span class="ld" style="background:'+m.c+'"></span>'+esc(p)+'</span>'; });
+  leg+='<span class="lg" style="color:var(--text-fade);">\u25cb size = spend</span>';
+  leg+='<span class="lg" style="color:var(--text-fade);">'+pts.length+' of '+all.length+' campaigns mapped</span>';
+  leg+='</div>';
+  el.innerHTML=head+s+leg;
+}
+function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderQuadrant(); renderFilters(); renderList(); }
 </script>
 
 </body>
