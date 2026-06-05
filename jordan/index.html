@@ -97,7 +97,7 @@
   <section class="hero">
     <div class="ey">Campaign Ops</div>
     <h1>Jordan Dashboard</h1>
-    <div class="count">Six tools · four live, two coming &nbsp;·&nbsp; drag cards to rearrange</div>
+    <div class="count">Seven tools · five live, two coming &nbsp;·&nbsp; drag cards to rearrange</div>
   </section>
 
   <div class="grid" id="grid">
@@ -124,6 +124,12 @@
     <a class="tool" data-id="creators" href="https://operations.mugzyboez.co/creators.html">
       <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="72" y="40" width="20" height="48" rx="3" fill="#FAF9F4" stroke="#16150F" stroke-width="2.5"/><rect x="30" y="34" width="40" height="54" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><circle cx="50" cy="54" r="9" fill="#CDF851" stroke="#16150F" stroke-width="2"/><path d="M37 78 q13 -15 26 0" fill="none" stroke="#16150F" stroke-width="2.5"/></svg></div>
       <div class="info"><div class="tname">Creator Database</div><div class="tdesc">Filterable UGC roster — function, platform, size, genre, lifestyle, price.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- EXECUTIVE SCHEDULE -->
+    <a class="tool" data-id="schedule" href="https://operations.mugzyboez.co/executive-schedule.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="26" y="30" width="68" height="62" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="26" y1="48" x2="94" y2="48" stroke="#16150F" stroke-width="2.5"/><line x1="40" y1="24" x2="40" y2="36" stroke="#16150F" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="24" x2="80" y2="36" stroke="#16150F" stroke-width="3" stroke-linecap="round"/><rect x="34" y="56" width="13" height="9" rx="2" fill="#CDF851"/><rect x="53" y="56" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="72" y="56" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="34" y="71" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="53" y="71" width="13" height="9" rx="2" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="tname">Executive Schedule</div><div class="tdesc">The full release runway — every release by month, sorted by date and workability.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
     </a>
 
     <!-- BRAND SURVEY -->
@@ -174,6 +180,9 @@ function setupBoard(){
       saved.forEach(function(id){
         var el=grid.querySelector('.tool[data-id="'+id+'"]');
         if(el) grid.appendChild(el);
+      });
+      grid.querySelectorAll('.tool').forEach(function(el){
+        if(saved.indexOf(el.getAttribute('data-id'))===-1) grid.appendChild(el);
       });
     }
   }catch(e){}

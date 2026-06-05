@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Executive Schedule — RCA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+  :root{
+    --bg:#F2F1EB; --card:#FFFFFF; --shot:#FAF9F4; --text:#16150F; --muted:#6B6A62; --faint:#8A8576;
+    --chartreuse:#CDF851; --flame:#FF4A23; --line:#E3E1D8; --gray:#E9E7DE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.5;}
+  #gate{position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  #gate .gate-mark{width:46px; height:46px; background:var(--chartreuse); border-radius:10px; margin-bottom:18px;}
+  #gate .gate-title{font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.3px; text-transform:uppercase;}
+  #gate .gate-sub{font-size:11px; color:#847D96; margin-bottom:22px; letter-spacing:1.5px; text-transform:uppercase;}
+  #gate input{font-size:14px; padding:11px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; border-radius:8px;}
+  #gate input:focus{border-color:var(--chartreuse);}
+  #gate button{font-size:11px; font-weight:700; padding:11px 28px; background:var(--chartreuse); color:#0F0E0E; border:none; cursor:pointer; margin-top:12px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; border-radius:999px;}
+  #gate #err{color:var(--flame); font-size:11px; margin-top:10px; height:16px;}
+
+  .header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.94); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .header-in{max-width:1080px; margin:0 auto; padding:13px 28px; display:flex; align-items:center; gap:14px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .mark{width:20px; height:20px; background:var(--chartreuse); border-radius:4px;}
+  .brand .wm{font-weight:900; letter-spacing:0.04em; font-size:15px; text-transform:uppercase;}
+  .asof{margin-left:auto; font-size:11px; color:var(--faint); letter-spacing:0.04em;}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+  .hero{padding:44px 0 18px;}
+  .hero .ey{font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--faint); margin-bottom:12px;}
+  .hero h1{font-size:clamp(36px,6vw,58px); font-weight:900; letter-spacing:-0.025em; text-transform:uppercase; line-height:0.92;}
+
+  .controls{position:sticky; top:47px; z-index:40; background:var(--bg); padding:18px 0 14px; border-bottom:1px solid var(--line);}
+  .ctrl-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  #search{flex:1; min-width:200px; font-size:14px; padding:9px 15px; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--text); outline:none; font-family:inherit;}
+  #search:focus{border-color:var(--text);}
+  .pill{font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer; transition:all .15s;}
+  .pill:hover{border-color:var(--text);}
+  .pill.active{background:var(--text); color:#fff; border-color:var(--text);}
+  .pill.tog.active{background:var(--flame); border-color:var(--flame); color:#fff;}
+  .pill.tog.nw.active{background:var(--chartreuse); border-color:var(--chartreuse); color:#16150F;}
+  .legend{margin-top:11px; font-size:11.5px; color:var(--faint); display:flex; gap:16px; flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:5px;}
+  .dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+
+  .month{margin:30px 0 10px; display:flex; align-items:baseline; gap:12px;}
+  .month h2{font-size:13px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase;}
+  .month .mc{font-size:12px; color:var(--faint);}
+  .month::after{content:""; flex:1; height:1px; background:var(--line);}
+
+  .row{display:grid; grid-template-columns:78px 1fr auto; gap:16px; align-items:start; padding:14px 4px; border-bottom:1px solid var(--line);}
+  .row:hover{background:var(--shot);}
+  .date{font-size:13px; font-weight:800; color:var(--text); white-space:nowrap; padding-top:1px;}
+  .date .mo{color:var(--faint); font-weight:600;}
+  .date.tbs{color:var(--faint); font-weight:700; font-size:12px;}
+  .mid .title{font-size:15px; font-weight:600; line-height:1.3;}
+  .mid .title .art{font-weight:800;}
+  .mid .title em{font-style:italic;}
+  .mid .typ{display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); border-radius:4px; padding:1px 6px; margin-left:7px; vertical-align:middle;}
+  .mid .uk{display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-left:6px;}
+  .mid .note{font-size:12.5px; color:var(--muted); margin-top:4px;}
+  .mid .note .fo{color:#16150F; font-weight:600;}
+  .flags{display:flex; flex-direction:column; gap:5px; align-items:flex-end; white-space:nowrap;}
+  .flag{font-size:10px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:2px 8px; border-radius:999px;}
+  .flag.cl{background:var(--flame); color:#fff;}
+  .flag.tg{background:var(--card); color:var(--muted); border:1px solid var(--line);}
+  .flag.nw{background:var(--chartreuse); color:#16150F;}
+  .wkb{font-size:11px; color:var(--faint); margin-top:2px;}
+  .empty{padding:30px 4px; color:var(--faint); font-size:13px;}
+
+  footer{margin-top:46px; background:#16150F; color:#C9C7BD;}
+  .foot-in{max-width:1080px; margin:0 auto; padding:36px 28px 24px;}
+  .foot-in .wm{color:#F2F1EB; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; font-size:17px;}
+  .foot-in p{font-size:13px; line-height:1.7; margin-top:9px; max-width:460px;}
+  .foot-bottom{border-top:1px solid #2A2926; padding:15px 28px; text-align:center; font-size:11.5px; color:#8A8576;}
+  @media(max-width:620px){ .row{grid-template-columns:64px 1fr; } .flags{grid-column:1 / -1; flex-direction:row; align-items:center; margin-top:4px;} .wkb{margin-top:0;} }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-mark"></div>
+  <div class="gate-title">Executive Schedule</div>
+  <div class="gate-sub">Campaign Ops · RCA</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Enter</button>
+  <div id="err"></div>
+</div>
+
+<div id="app" style="display:none;">
+
+<header class="header">
+  <div class="header-in">
+    <div class="brand"><span class="mark"></span><span class="wm">Executive Schedule</span></div>
+    <span class="asof">As of Jun 5, 2026 · RCA</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="ey">Campaign Ops · Schedule</div>
+    <h1>Executive Schedule</h1>
+  </section>
+</div>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="ctrl-row">
+      <input id="search" type="text" placeholder="Search artist or title…">
+      <button class="pill active" data-month="all">All</button>
+      <button class="pill" data-month="JUN">Jun</button>
+      <button class="pill" data-month="JUL">Jul</button>
+      <button class="pill" data-month="AUG">Aug</button>
+      <button class="pill" data-month="SEP">Sep</button>
+      <button class="pill" data-month="OCT">Oct</button>
+      <button class="pill" data-month="TBS">TBS</button>
+      <button class="pill tog nw" data-tog="nw">New this week</button>
+      <button class="pill tog" data-tog="cl">Clearance flags</button>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--chartreuse)"></span> New this week (newly scheduled)</span>
+      <span><span class="dot" style="background:var(--flame)"></span> Clearance in progress</span>
+      <span><span class="dot" style="background:#E3E1D8;border:1px solid #cfcdc4"></span> Target (date not locked)</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="list"></div>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <div class="wm">Executive Schedule</div>
+    <p>A read-only view of the RCA release schedule, cleaned for scanning. Dates and notes track the executive grid as of Jun 5, 2026 — the source of record is Release Runway. Internal use only.</p>
+  </div>
+  <div class="foot-bottom">Meg Hourihan · RCA Records · 2026</div>
+</footer>
+
+</div><!-- /app -->
+
+<script>
+function checkPw(){var v=document.getElementById('pw').value; if(v==='RCA2026'){sessionStorage.setItem('rca_auth','1'); document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block';} else {document.getElementById('err').textContent='Incorrect password'; document.getElementById('pw').value=''; document.getElementById('pw').focus();}}
+document.addEventListener('DOMContentLoaded', function(){ if(sessionStorage.getItem('rca_auth')==='1'){document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block';} else {var p=document.getElementById('pw'); if(p) p.focus();} });
+// type: SINGLE | EP | ALBUM | MIXTAPE | DELUXE  → quoted vs italic handled in render
+// flags: cl=clearance, tg=target, sw=this-week scheduling ask
+var R=[
+ // JUNE
+ {m:'JUN',a:'Tems',t:'Me & U (Sammy Virji Remix)',ty:'SINGLE',d:'Jun 12',w:'Jun 2',n:'Capture momentum on the original track.',nw:1},
+ {m:'JUN',a:'Ari Abdul',t:'ENAMORED',ty:'SINGLE',d:'Jun 12',w:'Jun 2',n:'Official video.'},
+ {m:'JUN',a:'RIIZE',t:'The 2nd Mini Album II',ty:'ALBUM',d:'Jun 15',w:'Jun 5',fo:'Do Your Dance',n:'6p KST / 2a PT / 5a ET. Physical 7/22.'},
+ {m:'JUN',a:'Chris Brown',t:'BROWN (Deluxe)',ty:'DELUXE',d:'Jun 19',w:'Jun 9',n:'Potential move to 6/19 as preferred date.'},
+ {m:'JUN',a:'girlsweetvoiced',t:'Energizer',ty:'SINGLE',d:'Jun 19',w:'Jun 9',n:'Official video.'},
+ {m:'JUN',a:'Myles Smith',t:'My Mess, My Heart, My Life.',ty:'ALBUM',d:'Jun 19',w:'Jun 9',fo:'Heaven',uk:1},
+ {m:'JUN',a:'Frost Children',t:'Satellites',ty:'SINGLE',d:'Jun 23',w:'Jun 12',n:'Official video.'},
+ {m:'JUN',a:'The Red Clay Strays',t:'Heartbeat Of America',ty:'SINGLE',d:'Jun 24',w:'Jun 12',n:'Static pseudo / backdate release. Possibly temp art if band is too busy by 6/14.'},
+ {m:'JUN',a:'Love Spells',t:'Maybe I Still Love You',ty:'SINGLE',d:'Jun 24',w:'Jun 12',n:'Takes album artwork (all singles).'},
+ {m:'JUN',a:'Victoria Monet',t:'Juicy',ty:'SINGLE',d:'Jun 25',w:'Jun 15',n:'Globally timed TBC. Official video. Digital & physical preorder, CDP. Track may change.'},
+ {m:'JUN',a:'Audrey Hobert',t:'Punkrocker',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Teddybears interpolation — clearance concern.',cl:1,tg:1},
+ {m:'JUN',a:'Davido f. JAZZWRLD',t:'I Know Who I Be',ty:'SINGLE',d:'Jun 26',w:'Jun 16',fo:'Heaven',uk:1},
+ {m:'JUN',a:'Isabel LaRosa',t:'Promising Young Woman',ty:'EP',d:'Jun 26',w:'Jun 16',fo:'American Wedding',n:'Lyric video. Possible standalone vs. enhanced EP. (+1 track)',nw:1},
+ {m:'JUN',a:'The Strokes',t:'Going to Babble On',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Single #3. Video element TBC. Delivered to Spotify 6/4 with album artwork.',nw:1},
+ {m:'JUN',a:'Sheff G',t:'Weight On Me',ty:'MIXTAPE',d:'Jun 26',w:'Jun 16',fo:'Ventilator (f. G Herbo)',n:'Official video. Visualizers for all other records.',nw:1},
+ {m:'JUN',a:'Becky G',t:'PATRONA',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Album announce, preorder/CDP. Video element TBC.',nw:1},
+ {m:'JUN',a:'Baby J',t:"You Don't Know My Name",ty:'ALBUM',d:'Jun 26',w:'Jun 16',fo:'TBD',n:'Album/EP.'},
+ {m:'JUN',a:'kwn',t:'and all pride aside',ty:'EP',d:'Jun 26',w:'Jun 16'},
+ {m:'JUN',a:'Emma Andersen',t:'Too Much Maybe',ty:'EP',d:'Jun 26',w:'Jun 16',fo:'Matcha & Nicotine'},
+ {m:'JUN',a:'Becky G',t:'TBD (Chula?)',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Video TBC.'},
+ {m:'JUN',a:'Ally Salort',t:'Proof',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Single #4. EP announce.'},
+ {m:'JUN',a:'NOAH NOAH',t:'Purple Aura',ty:'SINGLE',d:'Jun 26',w:'Jun 16',n:'Pseudo video.'},
+ {m:'JUN',a:'Debbii Dawson',t:'Where Have All The Good Men Gone?',ty:'EP',d:'Jun 26',w:'Jun 16',fo:'Mars',n:'Static pseudo videos for all non-IG tracks.'},
+ {m:'JUN',a:'Steve Lacy',t:'doom',ty:'SINGLE',d:'Jun 26',w:'Jun 19',n:'Official video. Feature reveals on preorder/CDP.'},
+ // JULY
+ {m:'JUL',a:'Wolf Alice',t:'Gospel Oak',ty:'SINGLE',d:'Jul 3',w:'Jun 23',uk:1},
+ {m:'JUL',a:'Davido f. NO11',t:'Gimme Dat',ty:'SINGLE',d:'Jul 10',w:'Jun 30',fo:'Heaven',uk:1},
+ {m:'JUL',a:'Ray Vaughn',t:'TBD',ty:'SINGLE',d:'Jul 10',w:'Jun 30',n:'Single #3.',tg:1},
+ {m:'JUL',a:'Flo Milli',t:'Bossy',ty:'SINGLE',d:'Jul 10',w:'Jun 30',n:'Jive/RCA release. Target may shift to 7/10.',tg:1},
+ {m:'JUL',a:'Presley Regier',t:'Dirty Shoes',ty:'SINGLE',d:'Jul 10',w:'Jun 30',tg:1},
+ {m:'JUL',a:'Ose',t:'Feels Like Home',ty:'EP',d:'Jul 10',w:'Jun 30',fo:'TBD',n:'Official video. Visualizers for all other records.',nw:1},
+ {m:'JUL',a:'Victoria Monet',t:'Reach Out',ty:'SINGLE',d:'Jul 10',w:'Jun 30',n:'Single choice confirmed 5/26. Official video.'},
+ {m:'JUL',a:'Frost Children',t:'Tweaker Poem',ty:'EP',d:'Jul 10',w:'Jun 30',n:'Pseudo videos for all non-IG tracks.'},
+ {m:'JUL',a:'Ally Salort',t:"Isn't It Sweeter?",ty:'EP',d:'Jul 10',w:'Jun 30',fo:'TBD'},
+ {m:'JUL',a:'Eem Triplin',t:'She Call Me',ty:'SINGLE',d:'Jul 17',w:'Jul 7',tg:1},
+ {m:'JUL',a:'Sarah Lola',t:'TBD',ty:'SINGLE',d:'Jul 17',w:'Jul 7',n:'Single #2.',tg:1},
+ {m:'JUL',a:'Steve Lacy',t:'Oh yeah?',ty:'ALBUM',d:'Jul 17',w:'Jul 7',fo:'Is It Cool (f. SZA)',n:'Official video (shooting May 1 & May 20).'},
+ {m:'JUL',a:'The Strokes',t:'Reality Awaits',ty:'ALBUM',d:'Jul 24',w:'Jul 14',fo:'TBD'},
+ {m:'JUL',a:'Lizzy McAlpine',t:'Light In The Painting',ty:'SINGLE',d:'Jul 24',w:'Jul 14',n:'6/23: album preorder/CDP + official video.'},
+ {m:'JUL',a:'Love Spells',t:'Love Is The Law',ty:'ALBUM',d:'Jul 24',w:'Jul 14',fo:"Don't Touch"},
+ {m:'JUL',a:'Wolf Alice',t:'Hammond Song',ty:'SINGLE',d:'Jul 31',w:'Jul 21',uk:1},
+ {m:'JUL',a:'Davido',t:'Oriade',ty:'ALBUM',d:'Jul 31',w:'Jul 21',fo:'Tell Everybody (f. Leon Thomas)',uk:1},
+ {m:'JUL',a:'NOAH NOAH f. Absolutely',t:'DNA',ty:'SINGLE',d:'Jul 31',w:'Jul 21',n:'Pseudo video.'},
+ // AUGUST
+ {m:'AUG',a:'Presley Regier',t:'TBD',ty:'SINGLE',d:'Aug 7',w:'Jul 28',n:'Single #2.',tg:1},
+ {m:'AUG',a:'Eem Triplin f. Flo Milli',t:'Potion',ty:'SINGLE',d:'Aug 7',w:'Jul 28',tg:1},
+ {m:'AUG',a:'Sarah Lola',t:'TBD',ty:'SINGLE',d:'Aug 14',w:'Aug 4',n:'Single #3.',tg:1},
+ {m:'AUG',a:'Becky G',t:'BARAJA BENDITA',ty:'ALBUM',d:'Aug 14',w:'Aug 4',fo:'2AM'},
+ {m:'AUG',a:'Wolf Alice',t:'Hit The Sky',ty:'SINGLE',d:'Aug 21',w:'Aug 11',uk:1},
+ {m:'AUG',a:'Victoria Monet',t:'Frequency Of Love',ty:'ALBUM',d:'Aug 21',w:'Aug 11'},
+ {m:'AUG',a:'Lizzy McAlpine',t:'Ugly Things',ty:'SINGLE',d:'Aug 21',w:'Aug 11',n:'Official video.'},
+ {m:'AUG',a:'Eem Triplin',t:'Oh No',ty:'SINGLE',d:'Aug 28',w:'Aug 18',tg:1},
+ // SEPTEMBER
+ {m:'SEP',a:'LISA',t:'Sawadeeka',ty:'SINGLE',d:'Sep 3',w:'Aug 24',n:'Single #1. Official video. EP announce.'},
+ {m:'SEP',a:'Presley Regier',t:'TBD',ty:'SINGLE',d:'Sep 4',w:'Aug 25',n:'Single #3.',tg:1},
+ {m:'SEP',a:'Sarah Lola',t:'TBD',ty:'EP',d:'Sep 18',w:'Sep 8',tg:1},
+ {m:'SEP',a:'Lizzy McAlpine',t:'Angel',ty:'ALBUM',d:'Sep 18',w:'Sep 8',fo:'Over Country'},
+ // OCTOBER
+ {m:'OCT',a:'Presley Regier',t:'TBD',ty:'SINGLE',d:'Oct 2',w:'Sep 22',n:'Single #4.',tg:1},
+ {m:'OCT',a:'Presley Regier',t:'TBD',ty:'MIXTAPE',d:'Oct 16',w:'Oct 6',tg:1},
+ {m:'OCT',a:'LISA',t:'TBD',ty:'SINGLE',d:'Oct 16',w:'Oct 6',n:'Single #2. Official video.'},
+ {m:'OCT',a:'P!NK',t:'TBD',ty:'ALBUM',d:'Oct 30',w:'Oct 20',n:'Holiday album.',tg:1},
+ {m:'OCT',a:'LISA',t:'TBD',ty:'EP',d:'Oct 30',w:'Oct 20',n:'Official video.'},
+ // TBS
+ {m:'TBS',a:'Bryson Tiller',t:'A6',ty:'ALBUM',fo:'TBD',n:'To come with official video.'},
+ {m:'TBS',a:'Bryson Tiller & Kehlani',t:'TBD (Duet Album)',ty:'ALBUM',n:'August TBS.'},
+ {m:'TBS',a:'Bryson Tiller f. Kehlani',t:'Bandit',ty:'SINGLE',n:'Official video. Album announcement. Preorder & CDP? Video shoot 5/19.'},
+ {m:'TBS',a:'KAYTRANADA, Shay Lia',t:'SO GOOD',ty:'SINGLE',n:'Sent for sample vetting 5/21. "June TBS" per management.',cl:1,tg:1},
+ {m:'TBS',a:'Teezo Touchdown',t:'They Done Knocked Over My Grandma Wig',ty:'SINGLE',n:'June TBS.',tg:1},
+ {m:'TBS',a:'LAWSON f. Ty Dolla $ign',t:'Ballerina Tea',ty:'SINGLE',tg:1},
+ {m:'TBS',a:'Sheff G & Sleepy Hallow',t:'We Won',ty:'ALBUM',n:'Target Aug–Sept / Fall 2026.',tg:1},
+ {m:'TBS',a:'Ethan Garner',t:'LOW COUNTRY HIGH',ty:'SINGLE',n:'Official visualizer. Waterfall bundle @ Spotify.'},
+ {m:'TBS',a:'Elle King',t:'who is me',ty:'SINGLE',n:'Unmastered clip TBD to TT & Meta. Needs sample vetting.',cl:1},
+ {m:'TBS',a:'Ray Vaughn f. Trap Dickey',t:'4x4',ty:'SINGLE',n:'Samples "Get Low".',cl:1}
+];
+
+var MONTHS=[['JUN','June'],['JUL','July'],['AUG','August'],['SEP','September'],['OCT','October'],['TBS','To Be Scheduled']];
+var state={month:'all', nw:false, cl:false, q:''};
+var listEl=document.getElementById('list');
+
+function titleHTML(r){
+  var quoted=(r.ty==='SINGLE');
+  var t = quoted ? '&ldquo;'+r.t+'&rdquo;' : '<em>'+r.t+'</em>';
+  return '<span class="art">'+r.a+'</span> &mdash; '+t+'<span class="typ">'+r.ty+'</span>'+(r.uk?'<span class="uk">SME UK</span>':'');
+}
+function noteHTML(r){
+  var bits=[];
+  if(r.fo) bits.push('<span class="fo">Focus: '+r.fo+'</span>');
+  if(r.n) bits.push(r.n);
+  return bits.length ? '<div class="note">'+bits.join(' &middot; ')+'</div>' : '';
+}
+function flagsHTML(r){
+  var f='';
+  if(r.nw) f+='<span class="flag nw">New</span>';
+  if(r.cl) f+='<span class="flag cl">Clearance</span>';
+  if(r.tg) f+='<span class="flag tg">Target</span>';
+  if(r.w) f+='<div class="wkb">Workability '+r.w+'</div>';
+  return f ? '<div class="flags">'+f+'</div>' : '<div class="flags"></div>';
+}
+function rowHTML(r){
+  var date = r.m==='TBS' ? '<div class="date tbs">TBS</div>'
+    : '<div class="date">'+r.d.replace(/^(\w+)\s/,'<span class="mo">$1</span> ')+'</div>';
+  return '<div class="row">'+date+'<div class="mid"><div class="title">'+titleHTML(r)+'</div>'+noteHTML(r)+'</div>'+flagsHTML(r)+'</div>';
+}
+function match(r){
+  if(state.month!=='all' && r.m!==state.month) return false;
+  if(state.nw && !r.nw) return false;
+  if(state.cl && !r.cl) return false;
+  if(state.q){
+    var hay=(r.a+' '+r.t+' '+(r.fo||'')+' '+(r.n||'')).toLowerCase();
+    if(hay.indexOf(state.q)===-1) return false;
+  }
+  return true;
+}
+var MO={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+function dv(s){ if(!s) return 99999; var p=s.split(' '); return (MO[p[0]]||13)*100+(parseInt(p[1],10)||0); }
+function render(){
+  var html='', any=false;
+  MONTHS.forEach(function(mm){
+    var rows=R.filter(function(r){ return r.m===mm[0] && match(r); });
+    if(!rows.length) return;
+    rows.sort(function(a,b){ return (dv(a.d)-dv(b.d)) || (dv(a.w)-dv(b.w)); });
+    any=true;
+    html+='<div class="month"><h2>'+mm[1]+'</h2><span class="mc">'+rows.length+'</span></div>';
+    rows.forEach(function(r){ html+=rowHTML(r); });
+  });
+  listEl.innerHTML = any ? html : '<div class="empty">Nothing matches those filters.</div>';
+}
+document.querySelectorAll('.pill[data-month]').forEach(function(b){
+  b.addEventListener('click', function(){
+    state.month=b.getAttribute('data-month');
+    document.querySelectorAll('.pill[data-month]').forEach(function(x){ x.classList.toggle('active', x===b); });
+    render();
+  });
+});
+document.querySelectorAll('.pill[data-tog]').forEach(function(b){
+  b.addEventListener('click', function(){
+    var k=b.getAttribute('data-tog'); state[k]=!state[k];
+    b.classList.toggle('active', state[k]); render();
+  });
+});
+document.getElementById('search').addEventListener('input', function(e){ state.q=e.target.value.trim().toLowerCase(); render(); });
+render();
+</script>
+
+</body>
+</html>
