@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD Tagging Demo · Campaign Ops</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* PASSWORD GATE — matches home */
+#gate{position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;}
+#gate img{width:130px;height:130px;margin-bottom:16px;border-radius:16px;}
+#gate .gate-title{font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.5px;}
+#gate .gate-sub{font-size:11px;color:#847D96;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
+#gate input{font-size:14px;padding:10px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;}
+#gate input:focus{border-color:#CDF851;}
+#gate button{font-size:11px;font-weight:700;padding:10px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;}
+#gate #err{color:#FF4A23;font-size:11px;margin-top:8px;height:16px;}
+
+
+:root {
+  --bg: #F2F1EB;
+  --card: #FFFFFF;
+  --card-2: #FAF9F4;
+  --text: #16150F;
+  --text-soft: #3E3D36;
+  --fog: #6B6A62;
+  --fog-dim: #8A8576;
+  --rule: #E3E1D8;
+  --chartreuse: #CDF851;
+  --chartreuse-ink: #5F7E1C;
+  --chartreuse-bg: #EEF9CC;
+  --flame: #FF4A23;
+  --flame-bg: #FCEDE7;
+  --teal: #2C8A88;
+  --teal-bg: #E3F2F1;
+  --gold: #9A7B12;
+  --gold-bg: #FAF3DC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400; line-height: 1.5; font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1400px; margin: 0 auto; padding: 40px 32px 60px; }
+
+/* HEADER */
+header { padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 28px; }
+.eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--chartreuse-ink); margin-bottom: 10px;
+}
+h1 {
+  font-size: 42px; font-weight: 900; letter-spacing: -0.02em;
+  line-height: 1.0; text-transform: uppercase; margin-bottom: 12px;
+}
+h1 .x { color: var(--chartreuse-ink); }
+header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
+.meta {
+  font-size: 11px; color: var(--fog); margin-top: 14px;
+  letter-spacing: 0.5px;
+}
+.meta strong { color: var(--text-soft); font-weight: 600; }
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 16px; margin-bottom: 16px;
+  background: var(--card); border: 1px solid var(--rule);
+}
+.filter-bar .label {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--fog);
+}
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.filter-chip:hover {
+  border-color: var(--text-soft);
+}
+.filter-chip.active {
+  background: var(--chartreuse);
+  border-color: var(--chartreuse);
+  color: var(--text);
+}
+.filter-chip .count {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fog);
+  margin-left: 2px;
+}
+.filter-chip.active .count {
+  color: var(--text);
+}
+.filter-spacer { flex: 1; }
+.filter-result {
+  font-size: 11px; color: var(--fog);
+  letter-spacing: 0.3px;
+}
+.filter-result b { color: var(--text); font-weight: 700; }
+
+/* CONNECTION STATUS */
+.conn-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; margin-bottom: 20px;
+  background: var(--card); border: 1px solid var(--rule);
+  font-size: 12px;
+}
+.conn-status {
+  display: flex; align-items: center; gap: 10px;
+}
+.conn-dot {
+  width: 8px; height: 8px;
+  background: var(--fog-dim);
+}
+.conn-dot.live { background: var(--chartreuse-ink); }
+.conn-dot.demo { background: var(--gold); }
+.conn-dot.error { background: var(--flame); }
+.conn-status .label { font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; font-size: 10px; }
+.conn-status .desc { color: var(--text-soft); }
+.conn-actions { display: flex; gap: 8px; }
+.btn {
+  background: var(--text); color: var(--bg);
+  border: none;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn.ghost {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--text-soft);
+}
+
+/* CONNECT MODAL */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(15, 14, 14, 0.5);
+  display: none; align-items: center; justify-content: center;
+  z-index: 50;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--card);
+  padding: 32px;
+  max-width: 480px; width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal h3 {
+  font-size: 18px; font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.modal p {
+  font-size: 13px; color: var(--text-soft);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.modal label {
+  display: block;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-soft);
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+.modal input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+}
+.modal input:focus {
+  outline: none;
+  border-color: var(--chartreuse-ink);
+}
+.modal-actions {
+  display: flex; gap: 8px; justify-content: flex-end;
+  margin-top: 24px;
+}
+.modal .help {
+  font-size: 11px; color: var(--fog);
+  margin-top: 4px;
+}
+.modal .help a { color: var(--teal); }
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ARTIST LIST */
+.artists h2, .ad h2 {
+  font-size: 14px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 12px;
+}
+.artists h2 span, .ad h2 span {
+  font-size: 10px; font-weight: 600; color: var(--fog);
+  letter-spacing: 1.5px; margin-left: 8px;
+}
+.artist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.artist-list::-webkit-scrollbar { width: 6px; }
+.artist-list::-webkit-scrollbar-thumb { background: var(--rule); }
+
+.artist {
+  background: var(--card);
+  padding: 12px 16px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  border: 1px solid var(--rule);
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.artist:hover {
+  background: var(--chartreuse-bg);
+}
+.artist.selected {
+  background: var(--card);
+  border-left-color: var(--chartreuse-ink);
+  box-shadow: 0 0 0 1px var(--chartreuse-ink);
+}
+.artist.gap.selected {
+  border-left-color: var(--flame);
+  box-shadow: 0 0 0 1px var(--flame);
+}
+.artist-name {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+}
+.artist-tags {
+  display: flex; flex-wrap: wrap; gap: 4px;
+}
+.tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 2px 7px;
+  text-transform: uppercase;
+  border: 1px solid var(--rule);
+  color: var(--text-soft);
+  background: var(--bg);
+  transition: all 0.15s;
+}
+.tag.genre {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-bg);
+}
+.tag.lifestyle {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-bg);
+}
+.artist.selected .tag.genre {
+  background: var(--teal);
+  color: var(--bg);
+}
+.artist.selected .tag.lifestyle {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* AD SECTION */
+.ad { position: sticky; top: 32px; }
+.instruction {
+  font-size: 13px;
+  color: var(--text-soft);
+  padding: 14px 18px;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  margin-bottom: 16px;
+  border-left: 3px solid var(--rule);
+  font-style: italic;
+}
+.instruction.active {
+  border-left-color: var(--chartreuse-ink);
+  color: var(--text);
+  font-style: normal;
+}
+.instruction strong { color: var(--text); font-weight: 700; }
+
+.gap-banner {
+  background: var(--card);
+  border: 1px solid var(--flame);
+  border-left: 3px solid var(--flame);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text);
+}
+.gap-banner strong {
+  color: var(--flame); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; font-size: 11px;
+}
+.gap-banner p { margin-top: 4px; color: var(--text-soft); }
+
+/* AD GRID */
+.ad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.ad-card {
+  background: var(--card);
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  transition: all 0.2s;
+  position: relative;
+}
+.ad-card.matched {
+  border-color: var(--chartreuse-ink);
+  box-shadow: 0 0 0 1px var(--chartreuse-ink), 0 2px 12px rgba(95, 126, 28, 0.18);
+}
+.ad-card.dimmed {
+  opacity: 0.35;
+}
+.ad-card.open {
+  border-style: dashed;
+}
+.ad-card.open.matched {
+  border-color: var(--flame);
+  box-shadow: 0 0 0 1px var(--flame), 0 2px 12px rgba(227, 58, 20, 0.18);
+}
+.ad-name {
+  font-size: 16px; font-weight: 900; letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.ad-card.open .ad-name { color: var(--flame); }
+.ad-role {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--fog); margin-bottom: 12px;
+}
+.ad-section {
+  padding: 8px 0;
+  border-top: 1px solid var(--rule);
+}
+.ad-section:first-of-type { padding-top: 10px; }
+.ad-section-label {
+  font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--fog); margin-bottom: 6px;
+}
+.ad-tags {
+  display: flex; flex-wrap: wrap; gap: 4px;
+}
+.ad-tags .tag {
+  font-size: 9px;
+  padding: 2px 6px;
+}
+.ad-tags .tag.match {
+  background: var(--chartreuse);
+  color: var(--text);
+  border-color: var(--chartreuse);
+  animation: pulse 0.4s ease;
+}
+.ad-card.open .ad-tags .tag.match {
+  background: var(--flame);
+  border-color: var(--flame);
+  color: var(--bg);
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.match-summary {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  font-size: 10px;
+  color: var(--chartreuse-ink);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: none;
+}
+.ad-card.matched .match-summary { display: block; }
+.ad-card.open.matched .match-summary { color: var(--flame); }
+
+/* LOADING STATE */
+.loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--fog);
+  font-size: 13px;
+}
+.loading::before {
+  content: "";
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid var(--rule);
+  border-top-color: var(--chartreuse-ink);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 10px;
+  vertical-align: -3px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .ad-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .ad { position: static; }
+  .artist-list { max-height: 400px; }
+  .ad-grid { grid-template-columns: 1fr; }
+  .wrap { padding: 24px 16px 40px; }
+  h1 { font-size: 30px; }
+}
+
+/* ===== GOLD-STANDARD CHROME ===== */
+.announce{background:#16150F;color:#F2F1EB;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:0.01em;}
+.announce b{color:#CDF851;font-weight:600;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
+.topbar-in{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:20px;}
+.tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.tb-brand .tb-mark{width:22px;height:22px;background:var(--chartreuse);border-radius:4px;flex:none;}
+.tb-brand .tb-word{font-weight:900;font-size:18px;letter-spacing:0.04em;line-height:1;color:var(--text);}
+.tb-brand .tb-cap{font-size:9.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fog-dim);margin-top:2px;}
+.tb-nav{display:flex;gap:6px;margin-left:8px;}
+.tb-nav a{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;color:var(--fog);text-decoration:none;transition:background .12s,color .12s;}
+.tb-nav a:hover{background:var(--card-2);color:var(--text);}
+.tb-spacer{margin-left:auto;}
+.tb-pill{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--chartreuse-ink);border:1px solid var(--rule);border-radius:999px;padding:5px 11px;}
+.site-footer{margin-top:56px;background:#16150F;color:#C9C7BD;}
+.site-footer .sf-in{max-width:1400px;margin:0 auto;padding:30px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+.site-footer .sf-word{font-weight:900;font-size:16px;letter-spacing:0.04em;color:#F2F1EB;}
+.site-footer .sf-note{font-size:12px;color:#8A8576;}
+@media(max-width:760px){.tb-nav{display:none;}.topbar-in{padding:12px 18px;}}
+
+/* ===== LOOKUP REDESIGN ===== */
+.intro-hero{padding:4px 0 20px;}
+.lookup{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 14px;}
+.lk-field{position:relative;flex:1;min-width:260px;}
+.lk-field input{width:100%;padding:14px 16px;font-size:15px;font-family:inherit;color:var(--text);background:var(--card);border:1px solid var(--rule);border-radius:10px;outline:none;}
+.lk-field input:focus{border-color:var(--chartreuse-ink);box-shadow:0 0 0 3px var(--chartreuse-bg);}
+.lk-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--rule);border-radius:10px;box-shadow:0 12px 32px rgba(22,21,15,0.12);max-height:320px;overflow-y:auto;z-index:30;display:none;}
+.lk-dropdown.show{display:block;}
+.lk-opt{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--rule);}
+.lk-opt:last-child{border-bottom:none;}
+.lk-opt:hover{background:var(--chartreuse-bg);}
+.lk-opt .o-name{font-weight:700;font-size:14px;}
+.lk-opt .o-genre{font-size:11px;color:var(--fog);text-transform:uppercase;letter-spacing:0.5px;}
+.lk-toggle{font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 16px;border:1px solid var(--rule);background:var(--card);border-radius:999px;cursor:pointer;color:var(--fog);font-family:inherit;white-space:nowrap;}
+.lk-toggle.active{background:var(--chartreuse);border-color:var(--chartreuse);color:var(--text);}
+.lk-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;align-items:center;}
+.lk-chips .ch-lead{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-right:2px;}
+.lk-chip{font-size:12px;font-weight:600;padding:6px 13px;border:1px solid var(--rule);background:var(--card);border-radius:999px;cursor:pointer;font-family:inherit;color:var(--text);}
+.lk-chip:hover{border-color:var(--text-soft);}
+.lk-chip.gap{border-color:var(--flame);color:var(--flame);}
+.lk-chip .c-cap{font-size:10px;color:var(--fog-dim);text-transform:uppercase;letter-spacing:0.5px;margin-left:6px;}
+.lk-chip.gap .c-cap{color:var(--flame);}
+.answer{min-height:180px;}
+.ans-empty{padding:48px 28px;text-align:center;color:var(--fog);background:var(--card);border:1px dashed var(--rule);border-radius:12px;font-size:14px;}
+.ans-empty b{color:var(--text);}
+.ans-grid{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start;}
+.ans-artist{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:24px;position:sticky;top:88px;}
+.ans-artist .a-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.ans-artist .a-name{font-size:25px;font-weight:900;letter-spacing:-0.01em;line-height:1.05;margin-bottom:14px;}
+.ans-artist .a-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.cov-pill{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:8px 13px;border-radius:8px;}
+.cov-pill.ok{background:var(--chartreuse-bg);color:var(--chartreuse-ink);}
+.cov-pill.gap{background:var(--flame-bg);color:var(--flame);}
+.cov-dot{width:8px;height:8px;border-radius:50%;}
+.cov-pill.ok .cov-dot{background:var(--chartreuse-ink);}
+.cov-pill.gap .cov-dot{background:var(--flame);}
+.who-head{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.who-sub{font-size:12px;color:var(--fog);margin-bottom:14px;}
+.who-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px;}
+.who-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;}
+.who-card.top{border-color:var(--chartreuse-ink);box-shadow:0 0 0 1px var(--chartreuse-ink),0 2px 14px rgba(95,126,28,0.12);}
+.who-card.open{border-style:dashed;}
+.who-card .w-name{font-size:15px;font-weight:900;letter-spacing:-0.01em;}
+.who-card .w-role{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin:3px 0 11px;}
+.who-card .w-reason{font-size:10px;color:var(--chartreuse-ink);font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:9px;}
+.who-card.open .w-name{color:var(--flame);}
+.who-card .w-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.gap-callout{background:var(--card);border:1px solid var(--flame);border-left:4px solid var(--flame);border-radius:10px;padding:18px 20px;margin-bottom:18px;}
+.gap-callout .g-title{font-size:14px;font-weight:900;color:var(--flame);margin-bottom:6px;}
+.gap-callout p{font-size:13px;color:var(--text-soft);line-height:1.55;}
+.gap-callout em{font-style:normal;font-weight:700;}
+.gap-callout .g-frame{font-size:11px;color:var(--fog);margin-top:8px;font-style:italic;}
+.team-wrap{margin-top:40px;border-top:1px solid var(--rule);padding-top:20px;}
+.team-toggle{font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;background:none;border:none;color:var(--fog);cursor:pointer;font-family:inherit;padding:0;}
+.team-toggle:hover{color:var(--text);}
+.team-toggle #adCount{color:var(--fog-dim);}
+.team-grid{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px;}
+@media(max-width:760px){.ans-grid{grid-template-columns:1fr;}.ans-artist{position:static;}}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE (site-wide) -->
+<div id="gate">
+  <img src="/logo_neon.png" alt="Campaign Ops">
+  <div class="gate-title">Campaign Operations</div>
+  <div class="gate-sub">RCA Records</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">ENTER</button>
+  <div id="err"></div>
+</div>
+
+<!-- MINIMAL BACK NAV STRIP -->
+<div id="app" style="display:none;">
+  <div class="announce">Internal preview &middot; <b>AD Tagging</b> &mdash; concept demo &middot; surfaces who to ask, never decides</div>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="tb-brand" href="/">
+        <span class="tb-mark"></span>
+        <span><span class="tb-word">TEMPO</span><div class="tb-cap">Campaign Ops &middot; RCA</div></span>
+      </a>
+      <nav class="tb-nav">
+        <a href="/">Home</a>
+        <a href="/campaigns.html">Campaigns</a>
+        <a href="/dept-workflows.html">Workflows</a>
+      </nav>
+      <span class="tb-spacer"></span>
+      <span class="tb-pill">Demo &middot; for Tarek</span>
+    </div>
+  </header>
+</div>
+
+<script>
+function checkPw(){
+  var v=document.getElementById("pw").value;
+  if(v==="RCA2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("demo-body").style.display="block";
+    sessionStorage.setItem("rca_auth","1");
+    // Stash the password so the server-side proxy can authenticate (X-Grid-Password header).
+    sessionStorage.setItem("rca_auth_pw", v);
+    // Auto-load live data from Airtable as soon as we unlock. Fires asynchronously after main script attaches refresh().
+    setTimeout(function(){ if(typeof refresh==="function") refresh(); }, 0);
+  } else {
+    document.getElementById("err").textContent="Incorrect password";
+    document.getElementById("pw").value="";document.getElementById("pw").focus();
+  }
+}
+function initGate(){
+  var g=document.getElementById("gate");
+  var a=document.getElementById("app");
+  var b=document.getElementById("demo-body");
+  if(!g||!a||!b) return;
+  if(sessionStorage.getItem("rca_auth")==="1"){
+    g.style.display="none";
+    a.style.display="block";
+    b.style.display="block";
+  } else {
+    document.getElementById("pw").focus();
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",initGate);
+} else {
+  initGate();
+}
+</script>
+
+<div id="demo-body" style="display:none;">
+<div class="wrap">
+
+  <header class="intro-hero">
+    <div class="eyebrow">Demo &middot; for Tarek</div>
+    <h1>Who covers <span class="x">this artist?</span></h1>
+    <p>Pick an artist &mdash; see who in Audience Development to ask, and where coverage gaps are. Campaign Ops surfaces and flags; it never assigns.</p>
+  </header>
+
+  <!-- CONNECTION BAR -->
+  <div class="conn-bar">
+    <div class="conn-status">
+      <div class="conn-dot" id="connDot"></div>
+      <div>
+        <span class="label" id="connLabel">Loading…</span>
+        <span class="desc" id="connDesc"></span>
+      </div>
+    </div>
+    <div class="conn-actions">
+      <button class="btn ghost" id="reconnectBtn">Configure</button>
+      <button class="btn" id="refreshBtn">Refresh</button>
+    </div>
+  </div>
+
+  <!-- LOOKUP -->
+  <div class="lookup">
+    <div class="lk-field">
+      <input type="text" id="artistSearch" placeholder="Search an artist…" autocomplete="off">
+      <div class="lk-dropdown" id="artistDropdown"></div>
+    </div>
+    <button class="lk-toggle" id="filterActive">Active campaigns only <span id="activeCount"></span></button>
+  </div>
+  <div class="lk-chips" id="featuredChips"></div>
+
+  <div class="answer" id="answer">
+    <div class="loading">Loading…</div>
+  </div>
+
+  <div class="team-wrap">
+    <button class="team-toggle" id="teamToggle"><span id="ttLabel">▸ View full Audience Development team</span> <span id="adCount"></span></button>
+    <div class="team-grid" id="teamGrid" style="display:none;"></div>
+  </div>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="sf-in">
+    <div><span class="sf-word">TEMPO</span> &nbsp;&middot;&nbsp; <span class="sf-note">Concept demo for AD validation</span></div>
+    <div class="sf-note">Campaign Operations &middot; RCA Records &middot; Not for distribution</div>
+  </div>
+</footer>
+
+<!-- CONNECT MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3>Connect to Airtable</h3>
+    <p>Paste your Personal Access Token to load live data from Airtable. Token is held in memory for this session only — never saved.</p>
+
+    <label>Base ID</label>
+    <input type="text" id="baseIdInput" placeholder="appXXXXXXXXXXXXXX">
+    <div class="help">Default: <code>appB8Ee2okz5JNoef</code> ("AD Tagging Demo" base)</div>
+
+    <label>Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="patXXXXXX...">
+    <div class="help">Get one at <a href="https://airtable.com/create/tokens" target="_blank">airtable.com/create/tokens</a> · needs <code>data.records:read</code> scope on this base</div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="useDemoBtn">Use demo data</button>
+      <button class="btn" id="connectBtn">Connect</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// CONFIG · edit these to hardcode for deployment
+// ============================================
+const CONFIG = {
+  baseId: 'appB8Ee2okz5JNoef',        // "AD Tagging Demo" base (dedicated, isolated from production)
+  token: '',                          // paste PAT here to hardcode, or leave blank for runtime input
+  adTeamTable: 'AD_Team',
+  artistsTable: 'Artist_Tags'
+};
+
+// In-session token holder (not persisted)
+let SESSION_TOKEN = CONFIG.token;
+
+// ============================================
+// FALLBACK DEMO DATA · used if no Airtable connection
+// ============================================
+const DEMO_AD_TEAM = [
+  { name: 'Murdoc Hardy', role: 'Senior Director', open: false, genreTags: ['R&B', 'Rhythmic Pop', 'Rap'], lifestyleTags: ['Seeding', 'K-Pop Fandom', 'LGBTQ Culture'] },
+  { name: 'Alexis Gorlick', role: 'AD Specialist', open: false, genreTags: ['Pop'], lifestyleTags: ['Fan Pages', 'Pop Influencers'] },
+  { name: 'Christian Edusada', role: 'AD Specialist', open: false, genreTags: ['Rock', 'Alternative'], lifestyleTags: ['Advertising', 'Alt Influencers', 'Ink / Tattoo Culture'] },
+  { name: 'Cassidy Carson', role: 'AD Specialist', open: false, genreTags: ['Country', 'Pop'], lifestyleTags: ['AI Tools', 'Gaming Culture'] },
+  { name: 'Bird Cooley', role: 'AD Specialist', open: false, genreTags: ['Indie', 'Singer-Songwriter'], lifestyleTags: ['Data Acquisition', 'RCA Socials', 'Reddit Communities'] },
+  { name: 'Open Position', role: 'AD Specialist · Rap (pending hire)', open: true, genreTags: ['Rap (Street/Drill)'], lifestyleTags: ['Sports Culture', 'Clipping'] },
+  { name: "Noah Urrea", genre: "Pop", lifestyleTags: [], active: true }
+];
+
+const DEMO_ARTISTS = [
+  { name: "A$AP Mob", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: false },
+  { name: "A$AP Rocky", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "Alex G", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Aliyah's Interlude", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Ally Salort", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Alok", genre: "Electronic", lifestyleTags: [], active: false },
+  { name: "Amy Shark", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Ari Abdul", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Arima Ederra", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "ATEEZ", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Audrey Hobert", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "AVAION", genre: "Electronic", lifestyleTags: [], active: false },
+  { name: "Baby J", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Becky G", genre: "Latin Urban", lifestyleTags: [], active: true },
+  { name: "Benitt", genre: "R&B", lifestyleTags: [], active: false },
+  { name: "BERWYN", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Blessing Jolie", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Blood Orange", genre: "Indie", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Britney Spears", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Bryson Tiller", genre: "Rap", lifestyleTags: ["Sports Culture"], active: false },
+  { name: "Buddy Guy", genre: "Rock", lifestyleTags: [], active: true },
+  { name: "CA7RIEL & Paco Amoroso", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Cam", genre: "Country", lifestyleTags: [], active: false },
+  { name: "Carter Vail", genre: "Rock", lifestyleTags: [], active: true },
+  { name: "Cat Burns", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: false },
+  { name: "Childish Gambino", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "Chloe Qisha", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Chris Brown", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "cieratherapper", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Colter Wall", genre: "Country", lifestyleTags: [], active: true },
+  { name: "D'Angelo", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "DAMEDAME*", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Davido", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Deante' Hitchcock", genre: "R&B", lifestyleTags: [], active: false },
+  { name: "Debbii Dawson", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Doja Cat", genre: "Rap", lifestyleTags: ["Pop Influencers", "LGBTQ Culture"], active: true },
+  { name: "Eem Triplin", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "Eli", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Elle King", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Emma Andersen", genre: "Singer-Songwriter", lifestyleTags: [], active: true },
+  { name: "Ethan Garner", genre: "Pop", lifestyleTags: [], active: false },
+  { name: "Flo Milli", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Foo Fighters", genre: "Rock", lifestyleTags: [], active: false },
+  { name: "Frances Whitney", genre: "Indie", lifestyleTags: [], active: false },
+  { name: "Freddie Dredd", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Freddie Gibbs & Madlib", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "Frost Children", genre: "Pop", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: false },
+  { name: "girlsweetvoiced", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "H.E.R.", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Hailey Picardi", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "horsegiirL", genre: "Electronic", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: true },
+  { name: "I.Am.Lyric", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Isabel LaRosa", genre: "Pop", lifestyleTags: ["Pop Influencers"], active: true },
+  { name: "Isaia Huron", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "JACOTÉNE", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Jade Thirlwall", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Jazmine Sullivan", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Jharrel Jerome", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Joey Valence & Brae", genre: "Indie", lifestyleTags: ["Reddit Communities"], active: true },
+  { name: "Jourden", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Justin Timberlake", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Kane Brown", genre: "Country", lifestyleTags: [], active: false },
+  { name: "KAYTRANADA", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Khalid", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "King EJ", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "KNA", genre: "Alternative", lifestyleTags: [], active: true },
+  { name: "kwn", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Kygo", genre: "Electronic", lifestyleTags: [], active: false },
+  { name: "Lancey Foux", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Latto", genre: "Rap", lifestyleTags: ["Sports Culture"], active: true },
+  { name: "LAWSON", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "LISA", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Lizzy McAlpine", genre: "Indie", lifestyleTags: ["LGBTQ Culture", "Reddit Communities"], active: true },
+  { name: "Lost Frequencies", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Love Spells", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "LU", genre: "Rap", lifestyleTags: [], active: false },
+  { name: "Mark Ronson", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Matt Champion", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "Miguel", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Myles Smith", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "NOAH NOAH", genre: "Pop", lifestyleTags: [], active: false },
+  { name: "Oliver Heldens", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Osé", genre: "R&B", lifestyleTags: [], active: false },
+  { name: "P!NK", genre: "Pop", lifestyleTags: ["Fan Pages"], active: true },
+  { name: "Presley Regier", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Purple Disco Machine", genre: "Electronic", lifestyleTags: [], active: false },
+  { name: "Ray Vaughn", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Red Clay Strays", genre: "Country", lifestyleTags: [], active: true },
+  { name: "reggie", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "RIIZE", genre: "Pop", lifestyleTags: ["K-Pop Fandom", "Fan Pages"], active: true },
+  { name: "Room Full of Mirrors", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Sarah Lola", genre: "Singer-Songwriter", lifestyleTags: [], active: false },
+  { name: "Sasha Keable", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Sheff G", genre: "Rap", lifestyleTags: ["Clipping"], active: false },
+  { name: "Skepta", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Skillibeng", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "Skye Newman", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Sleep Token", genre: "Alternative", lifestyleTags: ["Gaming Culture", "Reddit Communities"], active: false },
+  { name: "Sleepy Hallow", genre: "Rap", lifestyleTags: ["Sports Culture", "Clipping"], active: false },
+  { name: "Steve Lacy", genre: "Pop", lifestyleTags: ["LGBTQ Culture"], active: true },
+  { name: "Suzy Clue", genre: "Indie", lifestyleTags: [], active: true },
+  { name: "SZA", genre: "R&B", lifestyleTags: [], active: true },
+  { name: "Tate McRae", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Teezo Touchdown", genre: "Rap", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "Tele", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Tems", genre: "Rap", lifestyleTags: [], active: true },
+  { name: "The Strokes", genre: "Alternative", lifestyleTags: ["Alt Influencers"], active: true },
+  { name: "Three Days Grace", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"], active: true },
+  { name: "TOOL", genre: "Rock", lifestyleTags: ["Ink / Tattoo Culture"], active: false },
+  { name: "Tyler Childers", genre: "Country", lifestyleTags: [], active: true },
+  { name: "Tyler ICU", genre: "Electronic", lifestyleTags: [], active: true },
+  { name: "Victoria Monét", genre: "Pop", lifestyleTags: [], active: true },
+  { name: "Walker Hayes", genre: "Country", lifestyleTags: [], active: false },
+  { name: "Wolf Alice", genre: "Alternative", lifestyleTags: ["Alt Influencers"], active: true },
+  { name: "Yebba", genre: "R&B", lifestyleTags: [], active: true }
+];
+
+// Active data (replaced when Airtable connects)
+let adTeam = DEMO_AD_TEAM;
+let artists = DEMO_ARTISTS;
+
+// ============================================
+// AIRTABLE FETCH (via server-side proxy)
+// Proxy at /api/ad-tagging-records keeps Airtable token off the client.
+// Page password (entered at gate) is used as X-Grid-Password header.
+// Falls back to legacy direct-fetch if SESSION_TOKEN was manually entered via modal.
+// ============================================
+async function fetchTable(tableName) {
+  const pagePassword = sessionStorage.getItem('rca_auth_pw') || '';
+
+  // Path A: use server-side proxy (preferred — no token in browser)
+  if (pagePassword) {
+    try {
+      const res = await fetch(`/api/ad-tagging-records?table=${encodeURIComponent(tableName)}`, {
+        headers: { 'X-Grid-Password': pagePassword }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error(`Proxy error (${res.status}):`, errText);
+        // Don't fail silently — fall through to legacy path if a manual token exists
+        if (!SESSION_TOKEN) return { error: `${res.status}: ${errText.substring(0, 100)}` };
+      } else {
+        const data = await res.json();
+        return { records: data.records };
+      }
+    } catch (e) {
+      console.error('Proxy fetch failed:', e);
+      if (!SESSION_TOKEN) return { error: e.message };
+    }
+  }
+
+  // Path B (fallback): legacy direct-to-Airtable, requires a manually entered PAT
+  if (!SESSION_TOKEN || !CONFIG.baseId) return null;
+  const url = `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(tableName)}?pageSize=100`;
+  try {
+    const res = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${SESSION_TOKEN}` }
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error(`Airtable error (${res.status}):`, errText);
+      return { error: `${res.status}: ${errText.substring(0, 100)}` };
+    }
+    const data = await res.json();
+    return { records: data.records };
+  } catch (e) {
+    console.error('Fetch failed:', e);
+    return { error: e.message };
+  }
+}
+
+function transformAdRecord(r) {
+  const f = r.fields || {};
+  return {
+    name: f.Name || f.name || 'Unnamed',
+    role: f.Role || f.role || '',
+    open: (f.Status || '').toLowerCase() === 'open',
+    genreTags: f.GenreTags || f['Genre Tags'] || f.genreTags || [],
+    lifestyleTags: f.LifestyleTags || f['Lifestyle Tags'] || f.lifestyleTags || [],
+    sortOrder: f.SortOrder || f['Sort Order'] || 999
+  };
+}
+
+function transformArtistRecord(r) {
+  const f = r.fields || {};
+  return {
+    name: f.Name || f.name || 'Unnamed',
+    genre: f.Genre || f.genre || 'Unknown',
+    lifestyleTags: f.LifestyleTags || f['Lifestyle Tags'] || f.lifestyleTags || [],
+    active: f.Active === true || f.active === true
+  };
+}
+
+async function loadFromAirtable() {
+  setConnState('loading', 'Connecting to Airtable…');
+
+  const adResult = await fetchTable(CONFIG.adTeamTable);
+  const artistResult = await fetchTable(CONFIG.artistsTable);
+
+  if (!adResult || !artistResult) {
+    setConnState('demo', 'No token configured · showing demo data');
+    return false;
+  }
+
+  if (adResult.error || artistResult.error) {
+    const errMsg = adResult.error || artistResult.error;
+    setConnState('error', `Connection failed: ${errMsg}`);
+    return false;
+  }
+
+  adTeam = adResult.records.map(transformAdRecord).sort((a, b) => a.sortOrder - b.sortOrder);
+  artists = artistResult.records.map(transformArtistRecord).sort((a, b) => a.name.localeCompare(b.name));
+
+  setConnState('live', `Connected to ${CONFIG.baseId} · ${artists.length} artists · ${adTeam.length} AD specialists`);
+  return true;
+}
+
+// ============================================
+// CONNECTION STATE UI
+// ============================================
+const connDot = document.getElementById('connDot');
+const connLabel = document.getElementById('connLabel');
+const connDesc = document.getElementById('connDesc');
+
+function setConnState(state, msg) {
+  connDot.className = 'conn-dot ' + state;
+  const labels = { loading: 'Loading', live: 'Live', demo: 'Demo data', error: 'Error' };
+  connLabel.textContent = labels[state] || state;
+  connDesc.textContent = ' · ' + (msg || '');
+}
+
+// ============================================
+// MODAL
+// ============================================
+const modal = document.getElementById('modal');
+const baseIdInput = document.getElementById('baseIdInput');
+const tokenInput = document.getElementById('tokenInput');
+
+document.getElementById('reconnectBtn').addEventListener('click', () => {
+  baseIdInput.value = CONFIG.baseId;
+  tokenInput.value = '';
+  modal.classList.add('show');
+});
+
+document.getElementById('connectBtn').addEventListener('click', async () => {
+  CONFIG.baseId = baseIdInput.value.trim() || CONFIG.baseId;
+  SESSION_TOKEN = tokenInput.value.trim();
+  modal.classList.remove('show');
+  await refresh();
+});
+
+document.getElementById('useDemoBtn').addEventListener('click', () => {
+  SESSION_TOKEN = '';
+  adTeam = DEMO_AD_TEAM;
+  artists = DEMO_ARTISTS;
+  modal.classList.remove('show');
+  setConnState('demo', 'Using demo data');
+  render();
+});
+
+document.getElementById('refreshBtn').addEventListener('click', refresh);
+
+modal.addEventListener('click', e => {
+  if (e.target === modal) modal.classList.remove('show');
+});
+
+async function refresh() {
+  const hasPagePw = !!sessionStorage.getItem('rca_auth_pw');
+  const hasManualToken = !!SESSION_TOKEN;
+
+  if (!hasPagePw && !hasManualToken) {
+    setConnState('demo', 'No auth configured · showing demo data');
+  } else {
+    const ok = await loadFromAirtable();
+    if (!ok) {
+      adTeam = DEMO_AD_TEAM;
+      artists = DEMO_ARTISTS;
+    }
+  }
+  render();
+}
+
+// ============================================
+// RENDER (lookup design)
+// ============================================
+const answerEl = document.getElementById('answer');
+const searchEl = document.getElementById('artistSearch');
+const dropdownEl = document.getElementById('artistDropdown');
+const chipsEl = document.getElementById('featuredChips');
+const teamGridEl = document.getElementById('teamGrid');
+const teamToggleEl = document.getElementById('teamToggle');
+const ttLabelEl = document.getElementById('ttLabel');
+const filterActiveBtn = document.getElementById('filterActive');
+const activeCountEl = document.getElementById('activeCount');
+const adCountEl = document.getElementById('adCount');
+
+let selectedName = null;
+let filterActive = false;
+let teamOpen = false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
+
+function visibleArtists(){ return filterActive ? artists.filter(a=>a.active===true) : artists.slice(); }
+function genreCovered(g){ return adTeam.some(p => p.genreTags.includes(g)); }
+function tagSpan(t, cls, on){ return `<span class="tag ${cls}${on?' match':''}">${escapeHtml(t)}</span>`; }
+
+function computeMatch(artist){
+  const wanted = [artist.genre, ...artist.lifestyleTags];
+  const results = adTeam.map(p=>{
+    const ptags = [...p.genreTags, ...p.lifestyleTags];
+    const matched = ptags.filter(t => wanted.includes(t));
+    const isGenre = p.genreTags.includes(artist.genre);
+    return { p, matched, isGenre };
+  }).filter(r => r.matched.length>0);
+  results.sort((a,b)=> ((b.isGenre?1:0)-(a.isGenre?1:0)) || (b.matched.length-a.matched.length));
+  return { results, genreMatched: results.some(r=>r.isGenre) };
+}
+
+function renderAnswer(){
+  if(!selectedName){
+    answerEl.innerHTML = '<div class="ans-empty">Pick an artist above (or tap an example) to see <b>who to ask in Audience Development</b> \u2014 and whether there\'s a coverage gap.</div>';
+    return;
+  }
+  const artist = artists.find(a=>a.name===selectedName);
+  if(!artist){ selectedName=null; renderAnswer(); return; }
+  const { results, genreMatched } = computeMatch(artist);
+  const wanted = [artist.genre, ...artist.lifestyleTags];
+
+  const artistTags = [tagSpan(artist.genre,'genre',false), ...artist.lifestyleTags.map(t=>tagSpan(t,'lifestyle',false))].join('');
+  const cov = genreMatched
+    ? '<span class="cov-pill ok"><span class="cov-dot"></span>Genre covered</span>'
+    : '<span class="cov-pill gap"><span class="cov-dot"></span>Coverage gap</span>';
+
+  const whoCards = results.map(r=>{
+    const g = r.p.genreTags.map(t=>tagSpan(t,'genre', wanted.includes(t))).join('');
+    const l = r.p.lifestyleTags.map(t=>tagSpan(t,'lifestyle', wanted.includes(t))).join('');
+    const reason = r.isGenre ? 'Genre match' : 'Lifestyle overlap';
+    return `<div class="who-card ${r.isGenre?'top':''} ${r.p.open?'open':''}">
+        <div class="w-name">${escapeHtml(r.p.name)}</div>
+        <div class="w-role">${escapeHtml(r.p.role||'')}${r.p.open?' \u00b7 open role':''}</div>
+        <div class="w-reason">${reason} \u00b7 ${r.matched.map(escapeHtml).join(' \u00b7 ')}</div>
+        <div class="w-tags">${g}${l}</div>
+      </div>`;
+  }).join('');
+
+  const gapBlock = genreMatched ? '' : `<div class="gap-callout">
+      <div class="g-title">No AD genre coverage for ${escapeHtml(artist.genre)} yet</div>
+      <p>No Audience Development specialist currently lists <em>${escapeHtml(artist.genre)}</em> as genre coverage.${artist.lifestyleTags.length? ' Lifestyle / activation overlaps below still apply.' : ' No lifestyle overlap to fall back on.'}</p>
+      <div class="g-frame">Campaign Ops flags the gap \u2014 filling it is Audience Development\'s call.</div>
+    </div>`;
+
+  const whoBlock = results.length
+    ? `<div class="who-head">Who to ask in Audience Development</div>
+       <div class="who-sub">${results.length} specialist${results.length===1?'':'s'} overlap with ${escapeHtml(artist.name)}${genreMatched?'':' (lifestyle only)'}</div>
+       <div class="who-list">${whoCards}</div>`
+    : '<div class="who-head">Who to ask in Audience Development</div><div class="who-sub">No current overlaps \u2014 neither genre nor lifestyle tags match any specialist.</div>';
+
+  answerEl.innerHTML = `<div class="ans-grid">
+      <div class="ans-artist">
+        <div class="a-eyebrow">Selected artist</div>
+        <div class="a-name">${escapeHtml(artist.name)}</div>
+        <div class="a-tags">${artistTags}</div>
+        ${cov}
+      </div>
+      <div class="ans-who">${gapBlock}${whoBlock}</div>
+    </div>`;
+}
+
+function renderChips(){
+  const pool = visibleArtists();
+  const covered = pool.filter(a=>genreCovered(a.genre)).sort((a,b)=> b.lifestyleTags.length - a.lifestyleTags.length);
+  const gapped = pool.filter(a=>!genreCovered(a.genre));
+  const picks = covered.slice(0,3);
+  if(gapped.length) picks.push(gapped[0]);
+  const lead = '<span class="ch-lead">Try</span>';
+  chipsEl.innerHTML = lead + picks.map(a=>{
+    const gap = !genreCovered(a.genre);
+    return `<button class="lk-chip ${gap?'gap':''}" data-name="${escapeAttr(a.name)}">${escapeHtml(a.name)}<span class="c-cap">${gap?'gap':escapeHtml(a.genre)}</span></button>`;
+  }).join('');
+  chipsEl.querySelectorAll('.lk-chip').forEach(b=> b.addEventListener('click', ()=>selectArtist(b.dataset.name)));
+}
+
+function renderDropdown(){
+  const q = (searchEl.value||'').trim().toLowerCase();
+  let list = visibleArtists();
+  if(q) list = list.filter(a=>a.name.toLowerCase().includes(q));
+  list = list.slice(0,40);
+  if(!list.length){ dropdownEl.innerHTML = '<div class="lk-opt"><span class="o-name" style="font-weight:400;color:var(--fog)">No artist matches</span></div>'; dropdownEl.classList.add('show'); return; }
+  dropdownEl.innerHTML = list.map(a=>{
+    const gap = !genreCovered(a.genre);
+    const cov = gap ? '<span class="o-genre" style="color:var(--flame);font-weight:700">no coverage</span>' : `<span class="o-genre">${escapeHtml(a.genre)}</span>`;
+    return `<div class="lk-opt" data-name="${escapeAttr(a.name)}"><span class="o-name">${escapeHtml(a.name)}</span>${cov}</div>`;
+  }).join('');
+  dropdownEl.querySelectorAll('.lk-opt[data-name]').forEach(opt=> opt.addEventListener('mousedown', e=>{ e.preventDefault(); selectArtist(opt.dataset.name); }));
+  dropdownEl.classList.add('show');
+}
+
+function selectArtist(name){
+  selectedName = name;
+  searchEl.value = name;
+  dropdownEl.classList.remove('show');
+  renderAnswer();
+  const y = answerEl.getBoundingClientRect().top + window.scrollY - 88;
+  window.scrollTo({ top: Math.max(0,y), behavior:'smooth' });
+}
+
+function renderTeam(){
+  adCountEl.textContent = `\u00b7 ${adTeam.length}`;
+  teamGridEl.innerHTML = adTeam.map(p=>{
+    const g = p.genreTags.map(t=>`<span class="tag genre">${escapeHtml(t)}</span>`).join('');
+    const l = p.lifestyleTags.map(t=>`<span class="tag lifestyle">${escapeHtml(t)}</span>`).join('');
+    return `<div class="who-card ${p.open?'open':''}">
+        <div class="w-name">${escapeHtml(p.name)}</div>
+        <div class="w-role">${escapeHtml(p.role||'')}${p.open?' \u00b7 open role':''}</div>
+        <div class="w-tags">${g}${l}</div>
+      </div>`;
+  }).join('');
+}
+
+function render(){
+  if(selectedName && !artists.some(a=>a.name===selectedName)) selectedName=null;
+  activeCountEl.textContent = `\u00b7 ${artists.filter(a=>a.active===true).length}`;
+  renderChips();
+  renderTeam();
+  renderAnswer();
+}
+
+searchEl.addEventListener('focus', renderDropdown);
+searchEl.addEventListener('input', renderDropdown);
+searchEl.addEventListener('blur', ()=> setTimeout(()=>dropdownEl.classList.remove('show'), 150));
+filterActiveBtn.addEventListener('click', ()=>{
+  filterActive = !filterActive;
+  filterActiveBtn.classList.toggle('active', filterActive);
+  if(selectedName && !visibleArtists().some(a=>a.name===selectedName)){ selectedName=null; searchEl.value=''; }
+  renderChips(); renderAnswer();
+});
+teamToggleEl.addEventListener('click', ()=>{
+  teamOpen = !teamOpen;
+  teamGridEl.style.display = teamOpen ? 'grid' : 'none';
+  ttLabelEl.textContent = (teamOpen ? '\u25be Hide' : '\u25b8 View') + ' full Audience Development team';
+});
+
+// ============================================
+// BOOTSTRAP
+// ============================================
+refresh();
+</script>
+</div>
+</body>
+</html>
