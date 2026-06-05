@@ -5,38 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AD Tagging Demo · Campaign Ops</title>
 <link rel="icon" type="image/png" href="/tempoicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-/* PASSWORD GATE — matches site pattern */
-#gate { position:fixed; inset:0; background:#FCFDF8; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family:Inter,-apple-system,sans-serif; }
-#gate img { width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
-#gate .gate-title { font-size:22px; font-weight:900; color:#0F0E0E; margin-bottom:4px; letter-spacing:-1px; }
-#gate .gate-sub { font-size:11px; color:#999; margin-bottom:20px; }
-#gate input { font-size:14px; padding:10px 20px; border:2px solid #ECEAE3; width:240px; text-align:center; outline:none; background:#fff; font-family:inherit; }
-#gate button { font-size:11px; font-weight:700; padding:10px 28px; background:#0F0E0E; color:#FCFDF8; border:none; cursor:pointer; margin-top:10px; letter-spacing:1px; font-family:inherit; }
-#gate #err { color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
+/* PASSWORD GATE — matches home */
+#gate{position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;}
+#gate img{width:130px;height:130px;margin-bottom:16px;border-radius:16px;}
+#gate .gate-title{font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.5px;}
+#gate .gate-sub{font-size:11px;color:#847D96;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
+#gate input{font-size:14px;padding:10px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;}
+#gate input:focus{border-color:#CDF851;}
+#gate button{font-size:11px;font-weight:700;padding:10px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;}
+#gate #err{color:#FF4A23;font-size:11px;margin-top:8px;height:16px;}
 
-/* MINIMAL SITE NAV STRIP */
-.site-strip { padding:10px 20px; border-bottom:1px solid #E5E3DC; background:#FCFDF8; display:flex; align-items:center; justify-content:space-between; font-family:Inter,-apple-system,sans-serif; font-size:11px; }
-.site-strip a { color:#6B6976; text-decoration:none; font-weight:600; letter-spacing:0.5px; }
-.site-strip a:hover { color:#0F0E0E; }
-.site-strip .crumb { font-family:'Inter',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#9A95A5; }
-.site-strip .crumb b { color:#0F0E0E; font-weight:700; }
+
 :root {
-  --bg: #FCFDF8;
+  --bg: #F2F1EB;
   --card: #FFFFFF;
-  --card-2: #F5F5F0;
-  --text: #0F0E0E;
-  --text-soft: #3E3F41;
-  --fog: #6B6976;
-  --fog-dim: #9A95A5;
-  --rule: #E5E3DC;
-  --chartreuse: #9BC424;
-  --chartreuse-bg: #F0F8D9;
-  --flame: #E33A14;
-  --flame-bg: #FEEDE7;
+  --card-2: #FAF9F4;
+  --text: #16150F;
+  --text-soft: #3E3D36;
+  --fog: #6B6A62;
+  --fog-dim: #8A8576;
+  --rule: #E3E1D8;
+  --chartreuse: #CDF851;
+  --chartreuse-ink: #5F7E1C;
+  --chartreuse-bg: #EEF9CC;
+  --flame: #FF4A23;
+  --flame-bg: #FCEDE7;
   --teal: #2C8A88;
   --teal-bg: #E3F2F1;
-  --gold: #B8941F;
+  --gold: #9A7B12;
   --gold-bg: #FAF3DC;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,13 +50,13 @@ body {
 header { padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 28px; }
 .eyebrow {
   font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--chartreuse); margin-bottom: 10px;
+  text-transform: uppercase; color: var(--chartreuse-ink); margin-bottom: 10px;
 }
 h1 {
   font-size: 42px; font-weight: 900; letter-spacing: -0.02em;
   line-height: 1.0; text-transform: uppercase; margin-bottom: 12px;
 }
-h1 .x { color: var(--chartreuse); }
+h1 .x { color: var(--chartreuse-ink); }
 header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 .meta {
   font-size: 11px; color: var(--fog); margin-top: 14px;
@@ -127,7 +125,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   width: 8px; height: 8px;
   background: var(--fog-dim);
 }
-.conn-dot.live { background: var(--chartreuse); }
+.conn-dot.live { background: var(--chartreuse-ink); }
 .conn-dot.demo { background: var(--gold); }
 .conn-dot.error { background: var(--flame); }
 .conn-status .label { font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; font-size: 10px; }
@@ -194,7 +192,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 }
 .modal input:focus {
   outline: none;
-  border-color: var(--chartreuse);
+  border-color: var(--chartreuse-ink);
 }
 .modal-actions {
   display: flex; gap: 8px; justify-content: flex-end;
@@ -248,8 +246,8 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 }
 .artist.selected {
   background: var(--card);
-  border-left-color: var(--chartreuse);
-  box-shadow: 0 0 0 1px var(--chartreuse);
+  border-left-color: var(--chartreuse-ink);
+  box-shadow: 0 0 0 1px var(--chartreuse-ink);
 }
 .artist.gap.selected {
   border-left-color: var(--flame);
@@ -307,7 +305,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   font-style: italic;
 }
 .instruction.active {
-  border-left-color: var(--chartreuse);
+  border-left-color: var(--chartreuse-ink);
   color: var(--text);
   font-style: normal;
 }
@@ -342,8 +340,8 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   position: relative;
 }
 .ad-card.matched {
-  border-color: var(--chartreuse);
-  box-shadow: 0 0 0 1px var(--chartreuse), 0 2px 12px rgba(155, 196, 36, 0.2);
+  border-color: var(--chartreuse-ink);
+  box-shadow: 0 0 0 1px var(--chartreuse-ink), 0 2px 12px rgba(95, 126, 28, 0.18);
 }
 .ad-card.dimmed {
   opacity: 0.35;
@@ -382,7 +380,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 }
 .ad-tags .tag.match {
   background: var(--chartreuse);
-  color: var(--bg);
+  color: var(--text);
   border-color: var(--chartreuse);
   animation: pulse 0.4s ease;
 }
@@ -401,7 +399,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   padding-top: 10px;
   border-top: 1px solid var(--rule);
   font-size: 10px;
-  color: var(--chartreuse);
+  color: var(--chartreuse-ink);
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -422,7 +420,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   display: inline-block;
   width: 14px; height: 14px;
   border: 2px solid var(--rule);
-  border-top-color: var(--chartreuse);
+  border-top-color: var(--chartreuse-ink);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin-right: 10px;
@@ -445,15 +443,25 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   h1 { font-size: 30px; }
 }
 
-/* FOOTER */
-footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--rule);
-  font-size: 11px;
-  color: var(--fog);
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-}
+/* ===== GOLD-STANDARD CHROME ===== */
+.announce{background:#16150F;color:#F2F1EB;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:0.01em;}
+.announce b{color:#CDF851;font-weight:600;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
+.topbar-in{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:20px;}
+.tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.tb-brand .tb-mark{width:22px;height:22px;background:var(--chartreuse);border-radius:4px;flex:none;}
+.tb-brand .tb-word{font-weight:900;font-size:18px;letter-spacing:0.04em;line-height:1;color:var(--text);}
+.tb-brand .tb-cap{font-size:9.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fog-dim);margin-top:2px;}
+.tb-nav{display:flex;gap:6px;margin-left:8px;}
+.tb-nav a{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;color:var(--fog);text-decoration:none;transition:background .12s,color .12s;}
+.tb-nav a:hover{background:var(--card-2);color:var(--text);}
+.tb-spacer{margin-left:auto;}
+.tb-pill{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--chartreuse-ink);border:1px solid var(--rule);border-radius:999px;padding:5px 11px;}
+.site-footer{margin-top:56px;background:#16150F;color:#C9C7BD;}
+.site-footer .sf-in{max-width:1400px;margin:0 auto;padding:30px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+.site-footer .sf-word{font-weight:900;font-size:16px;letter-spacing:0.04em;color:#F2F1EB;}
+.site-footer .sf-note{font-size:12px;color:#8A8576;}
+@media(max-width:760px){.tb-nav{display:none;}.topbar-in{padding:12px 18px;}}
 </style>
 </head>
 <body>
@@ -469,10 +477,23 @@ footer {
 </div>
 
 <!-- MINIMAL BACK NAV STRIP -->
-<div class="site-strip" id="app" style="display:none;">
-  <a href="/">← Home</a>
-  <div class="crumb">Campaign Ops · <b>AD Tagging Demo</b></div>
-  <a href="/">Home</a>
+<div id="app" style="display:none;">
+  <div class="announce">Internal preview &middot; <b>AD Tagging</b> &mdash; concept demo &middot; surfaces who to ask, never decides</div>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="tb-brand" href="/">
+        <span class="tb-mark"></span>
+        <span><span class="tb-word">TEMPO</span><div class="tb-cap">Campaign Ops &middot; RCA</div></span>
+      </a>
+      <nav class="tb-nav">
+        <a href="/">Home</a>
+        <a href="/campaigns.html">Campaigns</a>
+        <a href="/dept-workflows.html">Workflows</a>
+      </nav>
+      <span class="tb-spacer"></span>
+      <span class="tb-pill">Demo &middot; for Tarek</span>
+    </div>
+  </header>
 </div>
 
 <script>
@@ -480,7 +501,7 @@ function checkPw(){
   var v=document.getElementById("pw").value;
   if(v==="RCA2026"){
     document.getElementById("gate").style.display="none";
-    document.getElementById("app").style.display="flex";
+    document.getElementById("app").style.display="block";
     document.getElementById("demo-body").style.display="block";
     sessionStorage.setItem("rca_auth","1");
     // Stash the password so the server-side proxy can authenticate (X-Grid-Password header).
@@ -499,7 +520,7 @@ function initGate(){
   if(!g||!a||!b) return;
   if(sessionStorage.getItem("rca_auth")==="1"){
     g.style.display="none";
-    a.style.display="flex";
+    a.style.display="block";
     b.style.display="block";
   } else {
     document.getElementById("pw").focus();
@@ -569,12 +590,15 @@ if(document.readyState==="loading"){
 
   </div>
 
-  <footer>
-    <div>Campaign Ops · Concept demo for AD validation</div>
-    <div>Not for distribution</div>
-  </footer>
 
 </div>
+
+<footer class="site-footer">
+  <div class="sf-in">
+    <div><span class="sf-word">TEMPO</span> &nbsp;&middot;&nbsp; <span class="sf-note">Concept demo for AD validation</span></div>
+    <div class="sf-note">Campaign Operations &middot; RCA Records &middot; Not for distribution</div>
+  </div>
+</footer>
 
 <!-- CONNECT MODAL -->
 <div class="modal-bg" id="modal">
