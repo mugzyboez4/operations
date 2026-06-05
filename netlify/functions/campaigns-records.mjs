@@ -131,7 +131,8 @@ function mapRecord(r){
     verdict: r.fields['Verdict'] || '',
     tier: r.fields['Career Tier'] || '',
     learnings: r.fields['Learnings'] || '',
-    reviewed: r.fields['Reviewed'] === true
+    reviewed: r.fields['Reviewed'] === true,
+    viewsPerStream: typeof r.fields['Views per Stream'] === 'number' ? r.fields['Views per Stream'] : null
   };
 }
 
