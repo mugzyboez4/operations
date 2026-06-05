@@ -1,6 +1,8 @@
 // Read-only proxy to the RCA AD Tagging Airtable base.
-// Mirrors the airtable-records.mjs pattern — password gate + server-side token.
-// Accepts ?table=<tableName> query param so a single endpoint can serve multiple tables.
+// Resilient pattern (matches campaigns / creative-tickets fns): hardcoded base + password
+// defaults, and a token fallback chain that reuses whatever Airtable token is already
+// configured in Netlify — so this works without dedicated AD_TAGGING_* secrets.
+// Accepts ?table=<tableName> so one endpoint serves multiple whitelisted tables.
 
 function readEnv(key) {
   try {
@@ -18,35 +20,35 @@ function readEnv(key) {
 }
 
 export default async (req) => {
-  const AD_TAGGING_BASE_ID = readEnv('AD_TAGGING_BASE_ID');
-  const AD_TAGGING_TOKEN = readEnv('AD_TAGGING_TOKEN');
-  const AD_TAGGING_PASSWORD = readEnv('AD_TAGGING_PASSWORD');
+  // Base + password have safe defaults; token reuses any existing server-side var.
+  const AD_TAGGING_BASE_ID = readEnv('AD_TAGGING_BASE_ID') || 'appB8Ee2okz5JNoef';
+  const AD_TAGGING_PASSWORD = readEnv('AD_TAGGING_PASSWORD') || readEnv('GRID_PASSWORD') || 'RCA2026';
+  const AD_TAGGING_TOKEN =
+    readEnv('AD_TAGGING_TOKEN') ||
+    readEnv('AIRTABLE_TOKEN') ||
+    readEnv('PHASE1_TOKEN') ||
+    readEnv('CT_TOKEN') ||
+    readEnv('CAMPAIGNS_TOKEN');
 
-  const missing = [];
-  if (!AD_TAGGING_BASE_ID) missing.push('AD_TAGGING_BASE_ID');
-  if (!AD_TAGGING_TOKEN) missing.push('AD_TAGGING_TOKEN');
-  if (!AD_TAGGING_PASSWORD) missing.push('AD_TAGGING_PASSWORD');
-  if (missing.length > 0) {
-    return jsonResponse(500, { error: 'misconfigured', missing });
+  if (!AD_TAGGING_TOKEN) {
+    return jsonResponse(500, { error: 'misconfigured', missing: ['no Airtable token env var found (AD_TAGGING_TOKEN / AIRTABLE_TOKEN / PHASE1_TOKEN)'] });
   }
 
   if (req.method !== 'GET') {
     return jsonResponse(405, { error: 'method_not_allowed' });
   }
 
-  // Password gate
+  // Password gate — page sends the gate password as X-Grid-Password.
   const provided = req.headers.get('x-grid-password') || '';
   if (provided !== AD_TAGGING_PASSWORD) {
     return jsonResponse(401, { error: 'unauthorized' });
   }
 
-  // Table name from query param
   const url = new URL(req.url);
   const tableName = url.searchParams.get('table');
   if (!tableName) {
     return jsonResponse(400, { error: 'missing_table_param' });
   }
-  // Whitelist tables to prevent arbitrary table access
   const allowed = ['AD_Team', 'Artist_Tags'];
   if (!allowed.includes(tableName)) {
     return jsonResponse(403, { error: 'table_not_allowed', allowed });
@@ -66,6 +68,9 @@ export default async (req) => {
         return jsonResponse(502, {
           error: 'airtable_error',
           status: res.status,
+          hint: res.status === 403 || res.status === 404
+            ? 'The reused token likely does not have the AD Tagging Demo base in scope. Add base appB8Ee2okz5JNoef to the PAT scope, or set a dedicated AD_TAGGING_TOKEN.'
+            : undefined,
           detail: errText.substring(0, 500)
         });
       }
@@ -85,10 +90,7 @@ export default async (req) => {
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: {
-      'content-type': 'application/json',
-      'cache-control': 'no-store'
-    }
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
   });
 }
 
