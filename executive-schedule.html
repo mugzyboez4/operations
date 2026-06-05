@@ -21,6 +21,14 @@
   #gate input:focus{border-color:var(--chartreuse);}
   #gate button{font-size:11px; font-weight:700; padding:11px 28px; background:var(--chartreuse); color:#0F0E0E; border:none; cursor:pointer; margin-top:12px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; border-radius:999px;}
   #gate #err{color:var(--flame); font-size:11px; margin-top:10px; height:16px;}
+  #gate{position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  #gate .gate-mark{width:46px; height:46px; background:var(--chartreuse); border-radius:10px; margin-bottom:18px;}
+  #gate .gate-title{font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.3px; text-transform:uppercase;}
+  #gate .gate-sub{font-size:11px; color:#847D96; margin-bottom:22px; letter-spacing:1.5px; text-transform:uppercase;}
+  #gate input{font-size:14px; padding:11px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; border-radius:8px;}
+  #gate input:focus{border-color:var(--chartreuse);}
+  #gate button{font-size:11px; font-weight:700; padding:11px 28px; background:var(--chartreuse); color:#0F0E0E; border:none; cursor:pointer; margin-top:12px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; border-radius:999px;}
+  #gate #err{color:var(--flame); font-size:11px; margin-top:10px; height:16px;}
 
   .header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.94); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
   .header-in{max-width:1080px; margin:0 auto; padding:13px 28px; display:flex; align-items:center; gap:14px;}
@@ -93,6 +101,17 @@
 
 <div id="app" style="display:none;">
 
+<div id="gate">
+  <div class="gate-mark"></div>
+  <div class="gate-title">Executive Schedule</div>
+  <div class="gate-sub">Campaign Ops · RCA</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Enter</button>
+  <div id="err"></div>
+</div>
+
+<div id="app" style="display:none;">
+
 <header class="header">
   <div class="header-in">
     <div class="brand"><span class="mark"></span><span class="wm">Executive Schedule</span></div>
@@ -140,6 +159,8 @@
   </div>
   <div class="foot-bottom">Meg Hourihan · RCA Records · 2026</div>
 </footer>
+
+</div><!-- /app -->
 
 </div><!-- /app -->
 
@@ -293,6 +314,10 @@ document.querySelectorAll('.pill[data-tog]').forEach(function(b){
 });
 document.getElementById('search').addEventListener('input', function(e){ state.q=e.target.value.trim().toLowerCase(); render(); });
 render();
+
+function checkPw(){ var v=document.getElementById('pw').value; if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); } else { document.getElementById('err').textContent='Incorrect password'; document.getElementById('pw').value=''; document.getElementById('pw').focus(); } }
+function unlock(){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+document.addEventListener('DOMContentLoaded', function(){ if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); } else { var p=document.getElementById('pw'); if(p) p.focus(); } });
 </script>
 
 </body>
