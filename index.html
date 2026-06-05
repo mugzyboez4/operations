@@ -6,65 +6,140 @@
 <title>Campaign Operations · TEMPO</title>
 <link rel="icon" type="image/png" href="/tempoicon.png">
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+*{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#F4F3EE; --card:#FFFFFF; --card-2:#FBFAF5; --border:#E4E2D8; --ink:#1A1A1A;
-  --text:#1A1A1A; --dim:#5A5750; --fog:#8A8678;
-  --chartreuse:#CDF851; --chartreuse-ink:#5F7E1C; --flame:#FF4A23; --teal:#5BC0BE; --teal-ink:#1A8C88; --gold-ink:#9A7B12;
+  --bg:#F2F1EB; --card:#FFFFFF; --shot:#FAF9F4; --text:#16150F;
+  --muted:#6B6A62; --faint:#8A8576; --line:#E3E1D8; --gray:#E9E7DE;
+  --chartreuse:#CDF851; --flame:#FF4A23;
 }
-body{ background:var(--bg); color:var(--text); font-family:'Inter',-apple-system,sans-serif; font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; }
-a{ color:inherit; text-decoration:none; }
+body{background:var(--bg);color:var(--text);font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
 
 /* GATE */
-#gate{ position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; }
-#gate img{ width:140px; height:140px; margin-bottom:16px; border-radius:16px; }
-#gate .gate-title{ font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.5px; }
-#gate .gate-sub{ font-size:11px; color:#847D96; margin-bottom:20px; letter-spacing:1px; text-transform:uppercase; }
-#gate input{ font-size:14px; padding:10px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; }
-#gate input:focus{ border-color:#CDF851; }
-#gate button{ font-size:11px; font-weight:700; padding:10px 28px; background:#CDF851; color:#0F0E0E; border:none; cursor:pointer; margin-top:10px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; }
-#gate #err{ color:#FF4A23; font-size:11px; margin-top:8px; height:16px; }
+#gate{position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+#gate img{width:130px;height:130px;margin-bottom:16px;border-radius:16px;}
+#gate .gate-title{font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.5px;}
+#gate .gate-sub{font-size:11px;color:#847D96;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
+#gate input{font-size:14px;padding:10px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;}
+#gate input:focus{border-color:#CDF851;}
+#gate button{font-size:11px;font-weight:700;padding:10px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;}
+#gate #err{color:#FF4A23;font-size:11px;margin-top:8px;height:16px;}
 
-.bgtex{ background-image:radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0); background-size:22px 22px; min-height:100vh; }
-.wrap{ max-width:1180px; margin:0 auto; padding:54px 32px 80px; }
+/* ANNOUNCEMENT BAR */
+.announce{background:#16150F;color:#F2F1EB;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:0.01em;}
+.announce b{color:#CDF851;font-weight:600;}
 
-/* HEADER */
-.masthead{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding-bottom:24px; border-bottom:3px solid var(--ink); margin-bottom:40px; }
-.eyebrow{ font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--chartreuse-ink); margin-bottom:12px; }
-h1{ font-size:64px; font-weight:900; letter-spacing:-0.03em; line-height:0.88; text-transform:uppercase; }
-h1 .x{ background:var(--chartreuse); padding:0 10px; }
-.masthead .right{ text-align:right; color:var(--fog); font-size:11px; letter-spacing:0.5px; line-height:1.7; }
-.masthead .right b{ color:var(--text); }
+/* STICKY HEADER */
+.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.header-in{max-width:1280px;margin:0 auto;padding:13px 28px;display:flex;align-items:center;gap:24px;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand .mark{width:22px;height:22px;background:var(--chartreuse);border-radius:4px;flex:none;}
+.brand .word{font-weight:900;font-size:18px;letter-spacing:0.04em;line-height:1;}
+.brand .cap{font-size:9.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-top:2px;}
+.nav{display:flex;gap:6px;margin-left:8px;}
+.nav a{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;color:var(--muted);cursor:pointer;transition:background .12s,color .12s;}
+.nav a:hover{background:var(--shot);color:var(--text);}
+.nav a.on{background:#16150F;color:#fff;}
+.htools{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.vpill{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:5px 11px;}
+.bag{position:relative;width:34px;height:34px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;}
+.bag svg{width:17px;height:17px;}
+.bag .cnt{position:absolute;top:-7px;right:-7px;background:var(--flame);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
 
-.sectlabel{ font-size:11px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; color:var(--fog); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-.sectlabel::after{ content:""; flex:1; height:1px; background:var(--border); }
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px;}
 
-/* GRID */
-.grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(330px,1fr)); gap:16px; margin-bottom:44px; }
-.tile{ background:var(--card); border:1px solid var(--border); border-left:5px solid var(--ink); padding:22px 22px 18px; display:flex; flex-direction:column; min-height:150px; transition:transform .13s ease, box-shadow .13s ease, border-color .13s; }
-.tile:hover{ transform:translate(-4px,-4px); }
-.tile .tag{ font-size:9px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; color:var(--fog); margin-bottom:12px; }
-.tile h3{ font-size:20px; font-weight:900; letter-spacing:-0.01em; line-height:1.05; margin-bottom:9px; }
-.tile p{ font-size:12.5px; color:var(--dim); line-height:1.5; flex:1; }
-.tile .go{ font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink); margin-top:16px; display:inline-flex; align-items:center; gap:6px; }
-.tile .go .arr{ transition:transform .13s; } .tile:hover .go .arr{ transform:translateX(4px); }
+/* HERO */
+.hero{padding:54px 0 18px;}
+.hero .eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;}
+.hero h1{font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.92;font-size:clamp(40px,6.5vw,68px);}
+.hero h1 .hl{background:var(--chartreuse);padding:0 .08em;}
+.hero .sub{font-size:16px;color:var(--muted);max-width:620px;margin-top:18px;line-height:1.55;}
 
-.tile.a1{ border-left-color:var(--flame); } .tile.a1:hover{ box-shadow:7px 7px 0 var(--flame); border-color:var(--ink); }
-.tile.a2{ border-left-color:var(--chartreuse-ink); } .tile.a2:hover{ box-shadow:7px 7px 0 var(--chartreuse); border-color:var(--ink); }
-.tile.a3{ border-left-color:var(--teal); } .tile.a3:hover{ box-shadow:7px 7px 0 var(--teal); border-color:var(--ink); }
-.tile .tag b{ color:var(--chartreuse-ink); }
+/* FEATURED — SHOP THE SET */
+.featured{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px 24px;}
+.featured .ftop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+.featured h2{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;}
+.tagpill{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--chartreuse);color:#16150F;border-radius:999px;padding:4px 11px;}
+.featured .fcap{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.fset{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.ftile{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;transition:transform .14s,box-shadow .14s;}
+.ftile:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(22,21,15,0.08);}
+.ftile .fmedia{aspect-ratio:1.45/1;background:var(--shot);border-bottom:1px solid var(--line);overflow:hidden;}
+.ftile .fmedia svg{width:100%;height:100%;transition:transform .35s ease;}
+.ftile:hover .fmedia svg{transform:scale(1.07);}
+.ftile .fbody{padding:11px 12px 13px;}
+.ftile .fname{font-size:13px;font-weight:700;line-height:1.2;}
+.ftile .fdesc{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35;}
 
-/* INTERNAL STRIP */
-.internal{ display:flex; gap:12px; flex-wrap:wrap; }
-.mini{ background:var(--card-2); border:1px dashed var(--border); padding:12px 16px; flex:1; min-width:220px; transition:border-color .12s; }
-.mini:hover{ border-color:var(--fog); }
-.mini .mtag{ font-size:9px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; color:var(--fog); }
-.mini h4{ font-size:14px; font-weight:800; margin-top:4px; color:var(--dim); }
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:48px 0 22px;}
+.count{font-size:13px;font-weight:600;color:var(--muted);}
+.count b{color:var(--text);}
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.filt{font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--text);font-family:inherit;transition:background .12s,color .12s,border-color .12s;}
+.filt:hover{border-color:var(--faint);}
+.filt.active{background:#16150F;color:#fff;border-color:#16150F;}
+.sorted{margin-left:auto;font-size:12px;color:var(--faint);font-weight:600;}
+.sorted b{color:var(--muted);}
 
-footer{ margin-top:46px; padding-top:16px; border-top:1px solid var(--border); display:flex; justify-content:space-between; color:var(--fog); font-size:11px; flex-wrap:wrap; gap:8px; }
-@media(max-width:760px){ h1{ font-size:44px; } .masthead{ flex-direction:column; align-items:flex-start; } .masthead .right{ text-align:left; } }
+/* PRODUCT GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:20px;}
+.product{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;}
+.product:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(22,21,15,0.08);}
+.media{position:relative;aspect-ratio:1/1;background:var(--shot);border-bottom:1px solid var(--line);overflow:hidden;}
+.media svg{width:100%;height:100%;transition:transform .35s ease;}
+.product:hover .media svg{transform:scale(1.06);}
+.badge-cat{position:absolute;top:11px;left:11px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);padding:4px 9px;}
+.badge-new{position:absolute;top:11px;right:11px;background:var(--flame);color:#fff;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:4px 9px;}
+.badge-chart{position:absolute;top:11px;right:11px;background:var(--chartreuse);color:#16150F;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:4px 9px;}
+.pbody{padding:15px 16px 17px;display:flex;flex-direction:column;flex:1;}
+.pname{font-size:15.5px;font-weight:700;line-height:1.18;}
+.pprice{display:flex;align-items:baseline;gap:7px;margin-top:9px;}
+.price{font-size:19px;font-weight:900;}
+.price.live{color:#3f7d12;}
+.price-cap{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:0.04em;}
+.pdesc{font-size:13px;color:var(--muted);line-height:1.45;margin-top:10px;flex:1;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+.chip{font-size:10.5px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);}
+.chip b{color:var(--text);font-weight:600;}
+.watch{font-size:12px;color:var(--muted);margin-top:11px;line-height:1.4;}
+.watch b{color:var(--flame);font-weight:700;}
+.popen{margin-top:14px;font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;}
+.popen .arr{transition:transform .14s;}
+.product:hover .popen .arr{transform:translateX(4px);}
+
+/* BUYER'S NOTES */
+.notes{margin-top:56px;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--chartreuse);border-radius:10px;padding:26px 28px;}
+.notes h3{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;}
+.notes ul{list-style:none;display:grid;gap:11px;}
+.notes li{font-size:13.5px;color:var(--muted);line-height:1.5;padding-left:18px;position:relative;}
+.notes li::before{content:"\2014";position:absolute;left:0;color:var(--text);}
+.notes li b{color:var(--text);font-weight:600;}
+
+/* FRAMING NOTE */
+.framing{margin-top:18px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--flame);border-radius:10px;padding:20px 24px;}
+.framing .fh{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px;}
+.framing p{font-size:13.5px;color:var(--muted);line-height:1.55;}
+.framing p b{color:var(--text);font-weight:600;}
+
+/* FOOTER */
+.store-footer{margin-top:64px;background:#16150F;color:#C9C7BD;}
+.sf-in{max-width:1280px;margin:0 auto;padding:44px 28px 18px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;}
+.sf-brand .word{font-weight:900;font-size:18px;letter-spacing:0.04em;color:#F2F1EB;}
+.sf-brand p{font-size:12.5px;line-height:1.55;margin-top:12px;max-width:320px;color:#C9C7BD;}
+.sf-col h4{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8A8576;margin-bottom:13px;}
+.sf-col a{display:block;font-size:13px;color:#C9C7BD;margin-bottom:9px;cursor:pointer;}
+.sf-col a:hover{color:#CDF851;}
+.sf-bottom{border-top:1px solid #2A2926;padding:16px 28px;text-align:center;font-size:11px;color:#8A8576;letter-spacing:0.03em;}
+
+@media(max-width:880px){.nav{display:none;}}
+@media(max-width:760px){
+  .fset{grid-template-columns:repeat(2,1fr);}
+  .sf-in{grid-template-columns:1fr;}
+  .sorted{display:none;}
+}
 </style>
 </head>
 <body>
@@ -79,96 +154,307 @@ footer{ margin-top:46px; padding-top:16px; border-top:1px solid var(--border); d
 </div>
 
 <script>
-function checkPw(){ var v=document.getElementById("pw").value;
-  if(v==="RCA2026"){ document.getElementById("gate").style.display="none"; document.getElementById("page-body").style.display="block"; sessionStorage.setItem("rca_auth","1"); sessionStorage.setItem("rca_auth_pw",v); }
-  else { document.getElementById("err").textContent="Incorrect password"; document.getElementById("pw").value=""; document.getElementById("pw").focus(); } }
-function initGate(){ var g=document.getElementById("gate"),b=document.getElementById("page-body"); if(!g||!b)return;
-  if(sessionStorage.getItem("rca_auth")==="1"){ g.style.display="none"; b.style.display="block"; } else { document.getElementById("pw").focus(); } }
-if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",initGate); } else { initGate(); }
+function checkPw(){var v=document.getElementById("pw").value;
+  if(v==="RCA2026"){document.getElementById("gate").style.display="none";document.getElementById("page-body").style.display="block";sessionStorage.setItem("rca_auth","1");sessionStorage.setItem("rca_auth_pw",v);}
+  else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus();}}
+function initGate(){var g=document.getElementById("gate"),b=document.getElementById("page-body");if(!g||!b)return;
+  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";b.style.display="block";}else{document.getElementById("pw").focus();}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
 </script>
 
-<div id="page-body" class="bgtex" style="display:none;">
+<div id="page-body" style="display:none;">
+
+<div class="announce">Internal preview &middot; <b>TEMPO v1</b> &mdash; the connective tissue between departments &middot; <b>track &middot; surface &middot; flag &middot; prompt &middot; confirm</b></div>
+
+<header class="header">
+  <div class="header-in">
+    <a class="brand" href="/">
+      <span class="mark"></span>
+      <span><span class="word">TEMPO</span><div class="cap">Campaign Ops &middot; RCA</div></span>
+    </a>
+    <nav class="nav">
+      <a class="on" data-filter="all">Home</a>
+      <a data-filter="boards">Boards</a>
+      <a data-filter="reference">Reference</a>
+      <a data-filter="demos">Demos</a>
+      <a data-filter="working">Working</a>
+    </nav>
+    <div class="htools">
+      <span class="vpill">v1</span>
+      <span class="bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cnt">9</span>
+      </span>
+    </div>
+  </div>
+</header>
+
 <div class="wrap">
 
-  <div class="masthead">
-    <div>
-      <div class="eyebrow">RCA Records · Campaign Operations</div>
-      <h1>TEM<span class="x">PO</span></h1>
+  <section class="hero">
+    <div class="eyebrow">RCA Records &middot; Campaign Operations</div>
+    <h1>The shelf where<br>the work <span class="hl">lives</span>.</h1>
+    <p class="sub">Every board, tracker, and reference Campaign Ops keeps &mdash; in one place you browse, not a binder you dig through. A map of who to ask, never who's responsible.</p>
+  </section>
+
+  <section class="featured">
+    <div class="ftop">
+      <h2>Featured &mdash; shop the set</h2>
+      <span class="tagpill">This week's lineup</span>
     </div>
-    <div class="right">
-      <div>The connective tissue —</div>
-      <div><b>track · surface · flag · prompt · confirm</b></div>
-      <div>Meg Hourihan · Gerard · Christian</div>
+    <p class="fcap">The live boards in motion right now &mdash; what the team is pulling off the shelf this week.</p>
+    <div class="fset">
+      <a class="ftile" href="team.html">
+        <div class="fmedia">
+          <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="66" ry="7" fill="#000" opacity="0.05"/><rect x="78" y="34" width="84" height="106" rx="6" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="98" y="26" width="44" height="16" rx="5" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="92" y1="62" x2="148" y2="62" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="92" y1="80" x2="148" y2="80" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="92" y1="98" x2="130" y2="98" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="fbody"><div class="fname">OPS HQ</div><div class="fdesc">This week's live board</div></div>
+      </a>
+      <a class="ftile" href="d2c-grid.html">
+        <div class="fmedia">
+          <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="68" ry="7" fill="#000" opacity="0.05"/><rect x="62" y="40" width="116" height="96" rx="6" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="62" y="40" width="116" height="22" rx="6" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="62" y1="84" x2="178" y2="84" stroke="#16150F" stroke-width="2.5"/><line x1="62" y1="110" x2="178" y2="110" stroke="#16150F" stroke-width="2.5"/><line x1="100" y1="62" x2="100" y2="136" stroke="#16150F" stroke-width="2.5"/><line x1="140" y1="62" x2="140" y2="136" stroke="#16150F" stroke-width="2.5"/></svg>
+        </div>
+        <div class="fbody"><div class="fname">D2C Long Lead</div><div class="fdesc">May '26 &rarr; Apr '27</div></div>
+      </a>
+      <a class="ftile" href="campaigns.html">
+        <div class="fmedia">
+          <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="64" ry="7" fill="#000" opacity="0.05"/><rect x="74" y="46" width="92" height="86" rx="6" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5"/><rect x="84" y="36" width="92" height="86" rx="6" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><circle cx="102" cy="58" r="6" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="118" y1="58" x2="160" y2="58" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="98" y1="80" x2="160" y2="80" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="98" y1="98" x2="142" y2="98" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="fbody"><div class="fname">Campaign Index</div><div class="fdesc">Every creator campaign</div></div>
+      </a>
+      <a class="ftile" href="dept-workflows.html">
+        <div class="fmedia">
+          <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="66" ry="7" fill="#000" opacity="0.05"/><rect x="96" y="30" width="48" height="26" rx="5" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><rect x="62" y="100" width="48" height="26" rx="5" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="130" y="100" width="48" height="26" rx="5" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><path d="M120 56 V78 M120 78 H86 V100 M120 78 H154 V100" fill="none" stroke="#16150F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="fbody"><div class="fname">Dept Workflows</div><div class="fdesc">Who does what, when</div></div>
+      </a>
+      <a class="ftile" href="ad-tagging.html">
+        <div class="fmedia">
+          <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="62" ry="7" fill="#000" opacity="0.05"/><path d="M70 60 L120 40 L168 88 L120 136 L72 110 Z" fill="#FFF" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><circle cx="92" cy="74" r="7" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><path d="M150 96 q12 6 12 18" fill="none" stroke="#FF4A23" stroke-width="2.5" stroke-linecap="round"/><path d="M156 88 q20 10 20 30" fill="none" stroke="#FF4A23" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="fbody"><div class="fname">AD Tagging</div><div class="fdesc">Working demo &middot; for Tarek</div></div>
+      </a>
     </div>
+  </section>
+
+  <div class="toolbar">
+    <span class="count"><b id="cnt">9</b> on the shelf</span>
+    <div class="pills">
+      <button class="filt active" data-filter="all">All</button>
+      <button class="filt" data-filter="boards">Boards</button>
+      <button class="filt" data-filter="reference">Reference</button>
+      <button class="filt" data-filter="demos">Demos</button>
+      <button class="filt" data-filter="working">Working</button>
+    </div>
+    <span class="sorted">Sorted: <b>Featured</b></span>
   </div>
 
-  <div class="sectlabel">Boards &amp; Trackers</div>
-  <div class="grid">
-    <a class="tile a1" href="team.html">
-      <div class="tag">Live Board · <b>Shared with the team</b></div>
-      <h3>OPS HQ — This Week</h3>
-      <p>The team's live priorities — what's moving, who's on it, and where it sits. Backed by Airtable.</p>
-      <span class="go">Open <span class="arr">→</span></span>
+  <div class="grid" id="grid">
+
+    <a class="product" data-cat="boards" href="team.html">
+      <div class="media">
+        <span class="badge-cat">Boards</span>
+        <span class="badge-chart">Live</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="66" ry="7" fill="#000" opacity="0.05"/><rect x="76" y="32" width="88" height="110" rx="7" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="98" y="24" width="44" height="16" rx="5" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="90" y1="60" x2="150" y2="60" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="90" y1="80" x2="150" y2="80" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="90" y1="100" x2="150" y2="100" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="90" y1="120" x2="128" y2="120" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">OPS HQ &mdash; This Week</div>
+        <div class="pprice"><span class="price live">Live</span><span class="price-cap">status &middot; weekly</span></div>
+        <div class="pdesc">The team's live priorities &mdash; what's moving, who's on it, where it sits.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Campaign Ops</b></span><span class="chip">Backed by &middot; <b>Airtable</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
     </a>
-    <a class="tile a3" href="d2c-grid.html">
-      <div class="tag">Calendar · Commercial Partnerships</div>
-      <h3>D2C Long Lead</h3>
-      <p>The D2C activation calendar at a glance — May 2026 through April 2027.</p>
-      <span class="go">Open <span class="arr">→</span></span>
+
+    <a class="product" data-cat="boards" href="d2c-grid.html">
+      <div class="media">
+        <span class="badge-cat">Boards</span>
+        <span class="badge-chart">88 plays</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="70" ry="7" fill="#000" opacity="0.05"/><rect x="56" y="38" width="128" height="100" rx="7" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="56" y="38" width="128" height="24" rx="7" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="56" y1="86" x2="184" y2="86" stroke="#16150F" stroke-width="2.5"/><line x1="56" y1="112" x2="184" y2="112" stroke="#16150F" stroke-width="2.5"/><line x1="98" y1="62" x2="98" y2="138" stroke="#16150F" stroke-width="2.5"/><line x1="142" y1="62" x2="142" y2="138" stroke="#16150F" stroke-width="2.5"/><rect x="148" y="92" width="30" height="14" rx="3" fill="#FF4A23"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">D2C Long Lead</div>
+        <div class="pprice"><span class="price">12 mo</span><span class="price-cap">window &middot; May '26&ndash;Apr '27</span></div>
+        <div class="pdesc">The D2C activation calendar at a glance &mdash; every drop, long-lead, across the year.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Commercial Partnerships</b></span><span class="chip">View &middot; <b>Calendar</b></span></div>
+        <div class="watch"><b>Watch:</b> D2C isn't tracked in RDX &mdash; this is the only full view of it.</div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
     </a>
-    <a class="tile a2" href="creative-tickets.html">
-      <div class="tag">Live · Creative Production</div>
-      <h3>Creative Ticket Requests</h3>
-      <p>Creative asset requests and their status — the intake lane for production work.</p>
-      <span class="go">Open <span class="arr">→</span></span>
+
+    <a class="product" data-cat="boards" href="creative-tickets.html">
+      <div class="media">
+        <span class="badge-cat">Boards</span>
+        <span class="badge-chart">Live</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="64" ry="7" fill="#000" opacity="0.05"/><path d="M64 64 a8 8 0 0 0 0 16 v24 a8 8 0 0 0 0 16 h112 a8 8 0 0 0 0-16 V80 a8 8 0 0 0 0-16 Z" fill="#FFF" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><line x1="120" y1="64" x2="120" y2="120" stroke="#16150F" stroke-width="2.5" stroke-dasharray="5 6"/><circle cx="96" cy="92" r="9" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="138" y1="84" x2="166" y2="84" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="138" y1="100" x2="160" y2="100" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">Creative Ticket Requests</div>
+        <div class="pprice"><span class="price live">Live</span><span class="price-cap">status &middot; intake</span></div>
+        <div class="pdesc">Creative asset requests and their status &mdash; the intake lane for production work.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Creative &amp; Content</b></span><span class="chip">Type &middot; <b>Intake</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
     </a>
+
+    <a class="product" data-cat="reference" href="campaigns.html">
+      <div class="media">
+        <span class="badge-cat">Reference</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="66" ry="7" fill="#000" opacity="0.05"/><rect x="66" y="50" width="92" height="84" rx="6" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5"/><rect x="78" y="40" width="92" height="84" rx="6" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="90" y="30" width="92" height="84" rx="6" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><circle cx="108" cy="52" r="7" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><line x1="124" y1="52" x2="168" y2="52" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="104" y1="74" x2="168" y2="74" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="104" y1="92" x2="150" y2="92" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">Creator Campaign Index</div>
+        <div class="pprice"><span class="price">Cross-vendor</span><span class="price-cap">scope &middot; all platforms</span></div>
+        <div class="pdesc">Every creator campaign across every platform in one view &mdash; the read none of the platforms give on their own.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Audience Development</b></span><span class="chip">Vendors &middot; <b>4+</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="product" data-cat="reference" href="creators.html">
+      <div class="media">
+        <span class="badge-cat">Reference</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="64" ry="7" fill="#000" opacity="0.05"/><rect x="70" y="38" width="100" height="92" rx="7" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><circle cx="98" cy="68" r="13" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><path d="M82 100 a16 13 0 0 1 32 0 Z" fill="#FFF" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><line x1="126" y1="62" x2="158" y2="62" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="126" y1="78" x2="158" y2="78" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="82" y1="116" x2="158" y2="116" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">Creator Database</div>
+        <div class="pprice"><span class="price">Roster</span><span class="price-cap">type &middot; contacts</span></div>
+        <div class="pdesc">The creator roster &mdash; handles, reach, contacts &mdash; modeled after Cobrand.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Audience Development</b></span><span class="chip">Source &middot; <b>Cobrand</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="product" data-cat="reference" href="dept-workflows.html">
+      <div class="media">
+        <span class="badge-cat">Reference</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="66" ry="7" fill="#000" opacity="0.05"/><rect x="94" y="28" width="52" height="28" rx="5" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><rect x="58" y="98" width="52" height="28" rx="5" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><rect x="130" y="98" width="52" height="28" rx="5" fill="#FFF" stroke="#16150F" stroke-width="2.5"/><path d="M120 56 V78 M120 78 H84 V98 M120 78 H156 V98" fill="none" stroke="#16150F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">Dept Workflows</div>
+        <div class="pprice"><span class="price">Framework</span><span class="price-cap">type &middot; the lanes</span></div>
+        <div class="pdesc">Who does what, and what happens when &mdash; the line between Campaign Ops and Campaign Leads, the verbs, the phases.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Campaign Ops</b></span><span class="chip">Depts &middot; <b>13</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="product" data-cat="demos" href="ad-tagging.html">
+      <div class="media">
+        <span class="badge-cat">Demos</span>
+        <span class="badge-new">New</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="62" ry="7" fill="#000" opacity="0.05"/><path d="M66 58 L122 36 L172 90 L120 138 L70 112 Z" fill="#FFF" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><circle cx="90" cy="74" r="8" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><path d="M150 98 q13 7 13 20" fill="none" stroke="#FF4A23" stroke-width="2.5" stroke-linecap="round"/><path d="M158 90 q22 11 22 32" fill="none" stroke="#FF4A23" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">AD Tagging</div>
+        <div class="pprice"><span class="price">Demo</span><span class="price-cap">status &middot; for Tarek</span></div>
+        <div class="pdesc">A working demo of the ad-tagging concept &mdash; surfacing, not deciding.</div>
+        <div class="chips"><span class="chip">Ask &middot; <b>Audience Development</b></span><span class="chip">State &middot; <b>Prototype</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="product" data-cat="working" href="ideas.html">
+      <div class="media">
+        <span class="badge-cat">Working &middot; not for sharing</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="58" ry="7" fill="#000" opacity="0.05"/><path d="M120 36 a30 30 0 0 1 18 54 q-6 5-6 14 h-24 q0-9-6-14 a30 30 0 0 1 18-54 Z" fill="#CDF851" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><line x1="106" y1="116" x2="134" y2="116" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="110" y1="126" x2="130" y2="126" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">The Board</div>
+        <div class="pprice"><span class="price">Scratch</span><span class="price-cap">type &middot; ideas</span></div>
+        <div class="pdesc">Where half-formed ideas go before they're anything. Working space.</div>
+        <div class="chips"><span class="chip">Visibility &middot; <b>Internal</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="product" data-cat="working" href="sandbox.html">
+      <div class="media">
+        <span class="badge-cat">Working &middot; not for sharing</span>
+        <svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="150" rx="56" ry="7" fill="#000" opacity="0.05"/><path d="M104 36 h32 v30 l24 50 a8 8 0 0 1-7 12 H87 a8 8 0 0 1-7-12 l24-50 Z" fill="#FFF" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><line x1="104" y1="36" x2="104" y2="30" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><line x1="136" y1="36" x2="136" y2="30" stroke="#16150F" stroke-width="2.5" stroke-linecap="round"/><path d="M96 104 h48 l12 24 H84 Z" fill="#CDF851" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><circle cx="116" cy="116" r="3" fill="#16150F"/><circle cx="130" cy="120" r="2.5" fill="#16150F"/></svg>
+      </div>
+      <div class="pbody">
+        <div class="pname">Sandbox</div>
+        <div class="pprice"><span class="price">Scratch</span><span class="price-cap">type &middot; experiments</span></div>
+        <div class="pdesc">Where we use what we know to make better decisions. Working space.</div>
+        <div class="chips"><span class="chip">Visibility &middot; <b>Internal</b></span></div>
+        <span class="popen">Open <span class="arr">&rarr;</span></span>
+      </div>
+    </a>
+
   </div>
 
-  <div class="sectlabel">Reference &amp; Databases</div>
-  <div class="grid">
-    <a class="tile a2" href="campaigns.html">
-      <div class="tag">Index · Cross-Vendor</div>
-      <h3>Creator Campaign Index</h3>
-      <p>Every creator campaign across every platform — Cobrand, ATG, Fortyone, CreatorCore — in one view. The read none of the platforms give on their own.</p>
-      <span class="go">Open <span class="arr">→</span></span>
-    </a>
-    <a class="tile a3" href="creators.html">
-      <div class="tag">Database</div>
-      <h3>Creator Database</h3>
-      <p>The creator roster — handles, reach, contacts — modeled after Cobrand.</p>
-      <span class="go">Open <span class="arr">→</span></span>
-    </a>
-    <a class="tile a1" href="dept-workflows.html">
-      <div class="tag">Framework</div>
-      <h3>Dept Workflows</h3>
-      <p>Who does what, and what happens when — the line between Campaign Ops and Campaign Leads, the verbs, the phases.</p>
-      <span class="go">Open <span class="arr">→</span></span>
-    </a>
-  </div>
+  <section class="notes">
+    <h3>How to browse the shelf</h3>
+    <ul>
+      <li><b>Boards</b> are live and moving &mdash; OPS HQ, the D2C calendar, the creative intake. Check them, don't archive them.</li>
+      <li><b>Reference</b> is the stuff you look up &mdash; the campaign index, the creator roster, the workflow map. Stable, not breaking news.</li>
+      <li><b>Demos</b> are working prototypes built to show a concept, not run production yet.</li>
+      <li><b>Working</b> is scratch space &mdash; not for sharing outside the team.</li>
+      <li>Every department named on a card is <b>who to ask</b>, never who's on the hook. The shelf is a gift, not an audit.</li>
+    </ul>
+  </section>
 
-  <div class="sectlabel">Demos</div>
-  <div class="grid">
-    <a class="tile a1" href="ad-tagging.html">
-      <div class="tag">Demo · <b>For Tarek</b></div>
-      <h3>AD Tagging</h3>
-      <p>A working demo of the ad-tagging concept.</p>
-      <span class="go">Open <span class="arr">→</span></span>
-    </a>
-  </div>
-
-  <div class="sectlabel">Working Space · not for sharing</div>
-  <div class="internal">
-    <a class="mini" href="ideas.html"><div class="mtag">Scratch</div><h4>The Board →</h4></a>
-    <a class="mini" href="sandbox.html"><div class="mtag">Scratch</div><h4>Sandbox →</h4></a>
-  </div>
-
-  <footer>
-    <span>TEMPO · Campaign Operations · RCA Records</span>
-    <span>Internal · access by password</span>
-  </footer>
+  <section class="framing">
+    <div class="fh">What TEMPO is</div>
+    <p>Sony built the pipes &mdash; RDX. Nobody at the label reads the water. <b>TEMPO is the human translation layer.</b> It tracks, surfaces, flags, prompts, confirms. It never approves, decides, oversees, or manages. A map of who to ask, not a map of who's responsible.</p>
+  </section>
 
 </div>
+
+<footer class="store-footer">
+  <div class="sf-in">
+    <div class="sf-brand">
+      <div class="word">TEMPO</div>
+      <p>The connective tissue between RCA's departments &mdash; the boards, trackers, and references Campaign Ops keeps so the work stays visible and nobody has to dig.</p>
+    </div>
+    <div class="sf-col">
+      <h4>Collections</h4>
+      <a data-filter="boards">Boards</a>
+      <a data-filter="reference">Reference &amp; Databases</a>
+      <a data-filter="demos">Demos</a>
+      <a data-filter="working">Working Space</a>
+    </div>
+    <div class="sf-col">
+      <h4>Guide</h4>
+      <a href="dept-workflows.html">Who does what</a>
+      <a href="campaigns.html">Campaign Index</a>
+      <a href="team.html">This week</a>
+    </div>
+  </div>
+  <div class="sf-bottom">TEMPO &middot; Campaign Operations &middot; RCA Records &middot; Internal &mdash; access by password</div>
+</footer>
+
 </div>
+
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.product'));
+  var cntEl=document.getElementById('cnt');
+  function apply(f){
+    var n=0;
+    cards.forEach(function(c){
+      var show=(f==='all'||c.getAttribute('data-cat')===f);
+      c.style.display=show?'':'none';
+      if(show)n++;
+    });
+    if(cntEl)cntEl.textContent=n;
+    document.querySelectorAll('.filt').forEach(function(b){
+      b.classList.toggle('active',b.getAttribute('data-filter')===f);
+    });
+    document.querySelectorAll('.nav a').forEach(function(a){
+      a.classList.toggle('on',a.getAttribute('data-filter')===f);
+    });
+  }
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('[data-filter]');
+    if(!t)return;
+    if(t.tagName==='A'){e.preventDefault();}
+    apply(t.getAttribute('data-filter'));
+    if(t.closest('.sf-col')||t.closest('.nav')){var tb=document.querySelector('.toolbar');if(tb)window.scrollTo({top:tb.offsetTop-80,behavior:'smooth'});}
+  });
+})();
+</script>
 
 </body>
 </html>
