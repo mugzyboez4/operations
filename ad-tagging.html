@@ -462,6 +462,65 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 .site-footer .sf-word{font-weight:900;font-size:16px;letter-spacing:0.04em;color:#F2F1EB;}
 .site-footer .sf-note{font-size:12px;color:#8A8576;}
 @media(max-width:760px){.tb-nav{display:none;}.topbar-in{padding:12px 18px;}}
+
+/* ===== LOOKUP REDESIGN ===== */
+.intro-hero{padding:4px 0 20px;}
+.lookup{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 14px;}
+.lk-field{position:relative;flex:1;min-width:260px;}
+.lk-field input{width:100%;padding:14px 16px;font-size:15px;font-family:inherit;color:var(--text);background:var(--card);border:1px solid var(--rule);border-radius:10px;outline:none;}
+.lk-field input:focus{border-color:var(--chartreuse-ink);box-shadow:0 0 0 3px var(--chartreuse-bg);}
+.lk-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--rule);border-radius:10px;box-shadow:0 12px 32px rgba(22,21,15,0.12);max-height:320px;overflow-y:auto;z-index:30;display:none;}
+.lk-dropdown.show{display:block;}
+.lk-opt{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--rule);}
+.lk-opt:last-child{border-bottom:none;}
+.lk-opt:hover{background:var(--chartreuse-bg);}
+.lk-opt .o-name{font-weight:700;font-size:14px;}
+.lk-opt .o-genre{font-size:11px;color:var(--fog);text-transform:uppercase;letter-spacing:0.5px;}
+.lk-toggle{font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 16px;border:1px solid var(--rule);background:var(--card);border-radius:999px;cursor:pointer;color:var(--fog);font-family:inherit;white-space:nowrap;}
+.lk-toggle.active{background:var(--chartreuse);border-color:var(--chartreuse);color:var(--text);}
+.lk-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;align-items:center;}
+.lk-chips .ch-lead{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog-dim);margin-right:2px;}
+.lk-chip{font-size:12px;font-weight:600;padding:6px 13px;border:1px solid var(--rule);background:var(--card);border-radius:999px;cursor:pointer;font-family:inherit;color:var(--text);}
+.lk-chip:hover{border-color:var(--text-soft);}
+.lk-chip.gap{border-color:var(--flame);color:var(--flame);}
+.lk-chip .c-cap{font-size:10px;color:var(--fog-dim);text-transform:uppercase;letter-spacing:0.5px;margin-left:6px;}
+.lk-chip.gap .c-cap{color:var(--flame);}
+.answer{min-height:180px;}
+.ans-empty{padding:48px 28px;text-align:center;color:var(--fog);background:var(--card);border:1px dashed var(--rule);border-radius:12px;font-size:14px;}
+.ans-empty b{color:var(--text);}
+.ans-grid{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start;}
+.ans-artist{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:24px;position:sticky;top:88px;}
+.ans-artist .a-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.ans-artist .a-name{font-size:25px;font-weight:900;letter-spacing:-0.01em;line-height:1.05;margin-bottom:14px;}
+.ans-artist .a-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.cov-pill{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:8px 13px;border-radius:8px;}
+.cov-pill.ok{background:var(--chartreuse-bg);color:var(--chartreuse-ink);}
+.cov-pill.gap{background:var(--flame-bg);color:var(--flame);}
+.cov-dot{width:8px;height:8px;border-radius:50%;}
+.cov-pill.ok .cov-dot{background:var(--chartreuse-ink);}
+.cov-pill.gap .cov-dot{background:var(--flame);}
+.who-head{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.who-sub{font-size:12px;color:var(--fog);margin-bottom:14px;}
+.who-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px;}
+.who-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;}
+.who-card.top{border-color:var(--chartreuse-ink);box-shadow:0 0 0 1px var(--chartreuse-ink),0 2px 14px rgba(95,126,28,0.12);}
+.who-card.open{border-style:dashed;}
+.who-card .w-name{font-size:15px;font-weight:900;letter-spacing:-0.01em;}
+.who-card .w-role{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin:3px 0 11px;}
+.who-card .w-reason{font-size:10px;color:var(--chartreuse-ink);font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:9px;}
+.who-card.open .w-name{color:var(--flame);}
+.who-card .w-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.gap-callout{background:var(--card);border:1px solid var(--flame);border-left:4px solid var(--flame);border-radius:10px;padding:18px 20px;margin-bottom:18px;}
+.gap-callout .g-title{font-size:14px;font-weight:900;color:var(--flame);margin-bottom:6px;}
+.gap-callout p{font-size:13px;color:var(--text-soft);line-height:1.55;}
+.gap-callout em{font-style:normal;font-weight:700;}
+.gap-callout .g-frame{font-size:11px;color:var(--fog);margin-top:8px;font-style:italic;}
+.team-wrap{margin-top:40px;border-top:1px solid var(--rule);padding-top:20px;}
+.team-toggle{font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;background:none;border:none;color:var(--fog);cursor:pointer;font-family:inherit;padding:0;}
+.team-toggle:hover{color:var(--text);}
+.team-toggle #adCount{color:var(--fog-dim);}
+.team-grid{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px;}
+@media(max-width:760px){.ans-grid{grid-template-columns:1fr;}.ans-artist{position:static;}}
 </style>
 </head>
 <body>
@@ -536,13 +595,10 @@ if(document.readyState==="loading"){
 <div id="demo-body" style="display:none;">
 <div class="wrap">
 
-  <header>
-    <div class="eyebrow">Demo · For Tarek</div>
-    <h1>AD Tagging <span class="x">·</span> Demo</h1>
-    <p>Click an artist. AD specialists tagged for that artist light up — matched tags show why. Concept demo to validate the model before building the full version.</p>
-    <div class="meta">
-      <strong>Backed by</strong> Airtable · Tags managed in <code>AD_Team</code> and <code>Artist_Tags</code> tables
-    </div>
+  <header class="intro-hero">
+    <div class="eyebrow">Demo &middot; for Tarek</div>
+    <h1>Who covers <span class="x">this artist?</span></h1>
+    <p>Pick an artist &mdash; see who in Audience Development to ask, and where coverage gaps are. Campaign Ops surfaces and flags; it never assigns.</p>
   </header>
 
   <!-- CONNECTION BAR -->
@@ -560,34 +616,23 @@ if(document.readyState==="loading"){
     </div>
   </div>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <span class="label">Filters</span>
-    <button class="filter-chip" data-filter="active" id="filterActive">
-      Active campaign <span class="count" id="activeCount"></span>
-    </button>
-    <div class="filter-spacer"></div>
-    <div class="filter-result" id="filterResult"></div>
+  <!-- LOOKUP -->
+  <div class="lookup">
+    <div class="lk-field">
+      <input type="text" id="artistSearch" placeholder="Search an artist…" autocomplete="off">
+      <div class="lk-dropdown" id="artistDropdown"></div>
+    </div>
+    <button class="lk-toggle" id="filterActive">Active campaigns only <span id="activeCount"></span></button>
+  </div>
+  <div class="lk-chips" id="featuredChips"></div>
+
+  <div class="answer" id="answer">
+    <div class="loading">Loading…</div>
   </div>
 
-  <div class="layout">
-
-    <section class="artists">
-      <h2>Artists <span id="artistCount">· loading</span></h2>
-      <div class="artist-list" id="artistList">
-        <div class="loading">Loading…</div>
-      </div>
-    </section>
-
-    <section class="ad">
-      <h2>Audience Development team <span id="adCount">· loading</span></h2>
-      <div class="instruction" id="instruction">Click any artist on the left to see which specialists are tagged for them.</div>
-      <div class="gap-banner" id="gapBanner" style="display: none;"></div>
-      <div class="ad-grid" id="adGrid">
-        <div class="loading">Loading…</div>
-      </div>
-    </section>
-
+  <div class="team-wrap">
+    <button class="team-toggle" id="teamToggle"><span id="ttLabel">▸ View full Audience Development team</span> <span id="adCount"></span></button>
+    <div class="team-grid" id="teamGrid" style="display:none;"></div>
   </div>
 
 
@@ -932,178 +977,165 @@ async function refresh() {
 }
 
 // ============================================
-// RENDER
+// RENDER (lookup design)
 // ============================================
-const artistList = document.getElementById('artistList');
-const adGrid = document.getElementById('adGrid');
-const instruction = document.getElementById('instruction');
-const gapBanner = document.getElementById('gapBanner');
-const artistCount = document.getElementById('artistCount');
-const adCount = document.getElementById('adCount');
+const answerEl = document.getElementById('answer');
+const searchEl = document.getElementById('artistSearch');
+const dropdownEl = document.getElementById('artistDropdown');
+const chipsEl = document.getElementById('featuredChips');
+const teamGridEl = document.getElementById('teamGrid');
+const teamToggleEl = document.getElementById('teamToggle');
+const ttLabelEl = document.getElementById('ttLabel');
+const filterActiveBtn = document.getElementById('filterActive');
+const activeCountEl = document.getElementById('activeCount');
+const adCountEl = document.getElementById('adCount');
 
-let selectedArtistIdx = null;
-let filterActive = false; // Active-campaign filter toggle
+let selectedName = null;
+let filterActive = false;
+let teamOpen = false;
 
-// Filter chip click handler
-document.getElementById('filterActive').addEventListener('click', () => {
-  filterActive = !filterActive;
-  document.getElementById('filterActive').classList.toggle('active', filterActive);
-  selectedArtistIdx = null; // reset selection when filter changes
-  renderArtists();
-  clearSelection();
-});
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
 
-function getVisibleArtists() {
-  if (filterActive) return artists.filter(a => a.active === true);
-  return artists;
+function visibleArtists(){ return filterActive ? artists.filter(a=>a.active===true) : artists.slice(); }
+function genreCovered(g){ return adTeam.some(p => p.genreTags.includes(g)); }
+function tagSpan(t, cls, on){ return `<span class="tag ${cls}${on?' match':''}">${escapeHtml(t)}</span>`; }
+
+function computeMatch(artist){
+  const wanted = [artist.genre, ...artist.lifestyleTags];
+  const results = adTeam.map(p=>{
+    const ptags = [...p.genreTags, ...p.lifestyleTags];
+    const matched = ptags.filter(t => wanted.includes(t));
+    const isGenre = p.genreTags.includes(artist.genre);
+    return { p, matched, isGenre };
+  }).filter(r => r.matched.length>0);
+  results.sort((a,b)=> ((b.isGenre?1:0)-(a.isGenre?1:0)) || (b.matched.length-a.matched.length));
+  return { results, genreMatched: results.some(r=>r.isGenre) };
 }
 
-function renderArtists() {
-  const activeTotal = artists.filter(a => a.active === true).length;
-  document.getElementById('activeCount').textContent = `(${activeTotal})`;
-
-  const visible = getVisibleArtists();
-  artistCount.textContent = `· ${visible.length} of ${artists.length}`;
-
-  document.getElementById('filterResult').innerHTML = filterActive
-    ? `Showing <b>${visible.length}</b> active · ${artists.length - visible.length} hidden`
-    : `Showing all <b>${artists.length}</b> artists`;
-
-  artistList.innerHTML = visible.map((a) => {
-    const hasGenreCoverage = adTeam.some(p => p.genreTags.includes(a.genre));
-    const gapClass = hasGenreCoverage ? '' : 'gap';
-    const allTags = [
-      `<span class="tag genre">${escapeHtml(a.genre)}</span>`,
-      ...a.lifestyleTags.map(t => `<span class="tag lifestyle">${escapeHtml(t)}</span>`)
-    ].join('');
-    return `
-      <div class="artist ${gapClass}" data-name="${escapeAttr(a.name)}">
-        <div class="artist-name">${escapeHtml(a.name)}</div>
-        <div class="artist-tags">${allTags}</div>
-      </div>
-    `;
-  }).join('');
-
-  artistList.querySelectorAll('.artist').forEach(el => {
-    el.addEventListener('click', () => {
-      const name = el.dataset.name;
-      selectArtistByName(name);
-    });
-  });
-}
-
-function renderAdTeam() {
-  adCount.textContent = `· ${adTeam.length} specialist${adTeam.length === 1 ? '' : 's'}`;
-  adGrid.innerHTML = adTeam.map(p => {
-    const genreHtml = p.genreTags.map(t =>
-      `<span class="tag genre" data-tag="${escapeAttr(t)}">${escapeHtml(t)}</span>`
-    ).join('');
-    const lifestyleHtml = p.lifestyleTags.map(t =>
-      `<span class="tag lifestyle" data-tag="${escapeAttr(t)}">${escapeHtml(t)}</span>`
-    ).join('');
-    return `
-      <div class="ad-card ${p.open ? 'open' : ''}" data-name="${escapeAttr(p.name)}">
-        <div class="ad-name">${escapeHtml(p.name)}</div>
-        <div class="ad-role">${escapeHtml(p.role)}</div>
-        <div class="ad-section">
-          <div class="ad-section-label">Genre Coverage</div>
-          <div class="ad-tags">${genreHtml}</div>
-        </div>
-        <div class="ad-section">
-          <div class="ad-section-label">Activation Lanes</div>
-          <div class="ad-tags">${lifestyleHtml}</div>
-        </div>
-        <div class="match-summary"></div>
-      </div>
-    `;
-  }).join('');
-}
-
-function render() {
-  selectedArtistIdx = null;
-  renderArtists();
-  renderAdTeam();
-  clearSelection();
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function escapeAttr(s) { return escapeHtml(s); }
-
-// ============================================
-// SELECTION & MATCHING
-// ============================================
-function selectArtistByName(name) {
-  const idx = artists.findIndex(a => a.name === name);
-  if (idx === -1) return;
-  const artist = artists[idx];
-  if (selectedArtistIdx === idx) { clearSelection(); return; }
-  selectedArtistIdx = idx;
-
-  artistList.querySelectorAll('.artist').forEach(el => {
-    el.classList.toggle('selected', el.dataset.name === name);
-  });
-
-  const artistTags = [artist.genre, ...artist.lifestyleTags];
-
-  let anyMatch = false;
-  let genreMatched = false;
-  const cards = adGrid.querySelectorAll('.ad-card');
-  cards.forEach(card => {
-    const name = card.dataset.name;
-    const person = adTeam.find(p => p.name === name);
-    if (!person) return;
-    const allPersonTags = [...person.genreTags, ...person.lifestyleTags];
-
-    card.classList.remove('matched', 'dimmed');
-    card.querySelectorAll('.tag').forEach(t => t.classList.remove('match'));
-
-    const matched = [];
-    allPersonTags.forEach(personTag => {
-      if (artistTags.includes(personTag)) {
-        matched.push(personTag);
-        const tagEl = card.querySelector(`[data-tag="${CSS.escape(personTag)}"]`);
-        if (tagEl) tagEl.classList.add('match');
-      }
-    });
-
-    if (matched.length > 0) {
-      card.classList.add('matched');
-      anyMatch = true;
-      if (person.genreTags.includes(artist.genre)) genreMatched = true;
-      const summary = card.querySelector('.match-summary');
-      summary.textContent = `Matched on: ${matched.join(' · ')}`;
-    } else {
-      card.classList.add('dimmed');
-    }
-  });
-
-  instruction.classList.add('active');
-  instruction.innerHTML = `<strong>${escapeHtml(artist.name)}</strong> — ${anyMatch ? 'specialists tagged below' : 'no current AD coverage for this genre'}`;
-
-  if (!genreMatched) {
-    gapBanner.style.display = 'block';
-    gapBanner.innerHTML = `
-      <strong>⚠ Coverage gap</strong>
-      <p>No AD specialist currently covers <em>${escapeHtml(artist.genre)}</em> as a genre.${artist.lifestyleTags.length > 0 ? ' Lifestyle / activation overlaps still apply where tagged above.' : ' No lifestyle overlap to fall back on.'}</p>
-    `;
-  } else {
-    gapBanner.style.display = 'none';
+function renderAnswer(){
+  if(!selectedName){
+    answerEl.innerHTML = '<div class="ans-empty">Pick an artist above (or tap an example) to see <b>who to ask in Audience Development</b> \u2014 and whether there\'s a coverage gap.</div>';
+    return;
   }
+  const artist = artists.find(a=>a.name===selectedName);
+  if(!artist){ selectedName=null; renderAnswer(); return; }
+  const { results, genreMatched } = computeMatch(artist);
+  const wanted = [artist.genre, ...artist.lifestyleTags];
+
+  const artistTags = [tagSpan(artist.genre,'genre',false), ...artist.lifestyleTags.map(t=>tagSpan(t,'lifestyle',false))].join('');
+  const cov = genreMatched
+    ? '<span class="cov-pill ok"><span class="cov-dot"></span>Genre covered</span>'
+    : '<span class="cov-pill gap"><span class="cov-dot"></span>Coverage gap</span>';
+
+  const whoCards = results.map(r=>{
+    const g = r.p.genreTags.map(t=>tagSpan(t,'genre', wanted.includes(t))).join('');
+    const l = r.p.lifestyleTags.map(t=>tagSpan(t,'lifestyle', wanted.includes(t))).join('');
+    const reason = r.isGenre ? 'Genre match' : 'Lifestyle overlap';
+    return `<div class="who-card ${r.isGenre?'top':''} ${r.p.open?'open':''}">
+        <div class="w-name">${escapeHtml(r.p.name)}</div>
+        <div class="w-role">${escapeHtml(r.p.role||'')}${r.p.open?' \u00b7 open role':''}</div>
+        <div class="w-reason">${reason} \u00b7 ${r.matched.map(escapeHtml).join(' \u00b7 ')}</div>
+        <div class="w-tags">${g}${l}</div>
+      </div>`;
+  }).join('');
+
+  const gapBlock = genreMatched ? '' : `<div class="gap-callout">
+      <div class="g-title">No AD genre coverage for ${escapeHtml(artist.genre)} yet</div>
+      <p>No Audience Development specialist currently lists <em>${escapeHtml(artist.genre)}</em> as genre coverage.${artist.lifestyleTags.length? ' Lifestyle / activation overlaps below still apply.' : ' No lifestyle overlap to fall back on.'}</p>
+      <div class="g-frame">Campaign Ops flags the gap \u2014 filling it is Audience Development\'s call.</div>
+    </div>`;
+
+  const whoBlock = results.length
+    ? `<div class="who-head">Who to ask in Audience Development</div>
+       <div class="who-sub">${results.length} specialist${results.length===1?'':'s'} overlap with ${escapeHtml(artist.name)}${genreMatched?'':' (lifestyle only)'}</div>
+       <div class="who-list">${whoCards}</div>`
+    : '<div class="who-head">Who to ask in Audience Development</div><div class="who-sub">No current overlaps \u2014 neither genre nor lifestyle tags match any specialist.</div>';
+
+  answerEl.innerHTML = `<div class="ans-grid">
+      <div class="ans-artist">
+        <div class="a-eyebrow">Selected artist</div>
+        <div class="a-name">${escapeHtml(artist.name)}</div>
+        <div class="a-tags">${artistTags}</div>
+        ${cov}
+      </div>
+      <div class="ans-who">${gapBlock}${whoBlock}</div>
+    </div>`;
 }
 
-function clearSelection() {
-  selectedArtistIdx = null;
-  artistList.querySelectorAll('.artist').forEach(el => el.classList.remove('selected'));
-  adGrid.querySelectorAll('.ad-card').forEach(card => {
-    card.classList.remove('matched', 'dimmed');
-    card.querySelectorAll('.tag').forEach(t => t.classList.remove('match'));
-  });
-  instruction.classList.remove('active');
-  instruction.textContent = 'Click any artist on the left to see which specialists are tagged for them.';
-  gapBanner.style.display = 'none';
+function renderChips(){
+  const pool = visibleArtists();
+  const covered = pool.filter(a=>genreCovered(a.genre)).sort((a,b)=> b.lifestyleTags.length - a.lifestyleTags.length);
+  const gapped = pool.filter(a=>!genreCovered(a.genre));
+  const picks = covered.slice(0,3);
+  if(gapped.length) picks.push(gapped[0]);
+  const lead = '<span class="ch-lead">Try</span>';
+  chipsEl.innerHTML = lead + picks.map(a=>{
+    const gap = !genreCovered(a.genre);
+    return `<button class="lk-chip ${gap?'gap':''}" data-name="${escapeAttr(a.name)}">${escapeHtml(a.name)}<span class="c-cap">${gap?'gap':escapeHtml(a.genre)}</span></button>`;
+  }).join('');
+  chipsEl.querySelectorAll('.lk-chip').forEach(b=> b.addEventListener('click', ()=>selectArtist(b.dataset.name)));
 }
+
+function renderDropdown(){
+  const q = (searchEl.value||'').trim().toLowerCase();
+  let list = visibleArtists();
+  if(q) list = list.filter(a=>a.name.toLowerCase().includes(q));
+  list = list.slice(0,40);
+  if(!list.length){ dropdownEl.innerHTML = '<div class="lk-opt"><span class="o-name" style="font-weight:400;color:var(--fog)">No artist matches</span></div>'; dropdownEl.classList.add('show'); return; }
+  dropdownEl.innerHTML = list.map(a=>{
+    const gap = !genreCovered(a.genre);
+    const cov = gap ? '<span class="o-genre" style="color:var(--flame);font-weight:700">no coverage</span>' : `<span class="o-genre">${escapeHtml(a.genre)}</span>`;
+    return `<div class="lk-opt" data-name="${escapeAttr(a.name)}"><span class="o-name">${escapeHtml(a.name)}</span>${cov}</div>`;
+  }).join('');
+  dropdownEl.querySelectorAll('.lk-opt[data-name]').forEach(opt=> opt.addEventListener('mousedown', e=>{ e.preventDefault(); selectArtist(opt.dataset.name); }));
+  dropdownEl.classList.add('show');
+}
+
+function selectArtist(name){
+  selectedName = name;
+  searchEl.value = name;
+  dropdownEl.classList.remove('show');
+  renderAnswer();
+  const y = answerEl.getBoundingClientRect().top + window.scrollY - 88;
+  window.scrollTo({ top: Math.max(0,y), behavior:'smooth' });
+}
+
+function renderTeam(){
+  adCountEl.textContent = `\u00b7 ${adTeam.length}`;
+  teamGridEl.innerHTML = adTeam.map(p=>{
+    const g = p.genreTags.map(t=>`<span class="tag genre">${escapeHtml(t)}</span>`).join('');
+    const l = p.lifestyleTags.map(t=>`<span class="tag lifestyle">${escapeHtml(t)}</span>`).join('');
+    return `<div class="who-card ${p.open?'open':''}">
+        <div class="w-name">${escapeHtml(p.name)}</div>
+        <div class="w-role">${escapeHtml(p.role||'')}${p.open?' \u00b7 open role':''}</div>
+        <div class="w-tags">${g}${l}</div>
+      </div>`;
+  }).join('');
+}
+
+function render(){
+  if(selectedName && !artists.some(a=>a.name===selectedName)) selectedName=null;
+  activeCountEl.textContent = `\u00b7 ${artists.filter(a=>a.active===true).length}`;
+  renderChips();
+  renderTeam();
+  renderAnswer();
+}
+
+searchEl.addEventListener('focus', renderDropdown);
+searchEl.addEventListener('input', renderDropdown);
+searchEl.addEventListener('blur', ()=> setTimeout(()=>dropdownEl.classList.remove('show'), 150));
+filterActiveBtn.addEventListener('click', ()=>{
+  filterActive = !filterActive;
+  filterActiveBtn.classList.toggle('active', filterActive);
+  if(selectedName && !visibleArtists().some(a=>a.name===selectedName)){ selectedName=null; searchEl.value=''; }
+  renderChips(); renderAnswer();
+});
+teamToggleEl.addEventListener('click', ()=>{
+  teamOpen = !teamOpen;
+  teamGridEl.style.display = teamOpen ? 'grid' : 'none';
+  ttLabelEl.textContent = (teamOpen ? '\u25be Hide' : '\u25b8 View') + ' full Audience Development team';
+});
 
 // ============================================
 // BOOTSTRAP
