@@ -117,6 +117,24 @@ a{color:inherit;text-decoration:none;}
   .nav-group{margin-bottom:0;}
   .tb-date{display:none;}
 }
+
+/* INTENT LAUNCHER */
+.intents{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px;}
+.intent{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px;transition:box-shadow .14s,transform .14s,border-color .14s;}
+.intent:hover{box-shadow:0 10px 26px rgba(22,21,15,0.07);transform:translateY(-2px);border-color:var(--faint);}
+.intent .iico{width:38px;height:38px;border-radius:9px;background:var(--tile);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.intent .iico svg{width:19px;height:19px;color:var(--chartreuse-ink);}
+.intent .it{font-size:16px;font-weight:800;letter-spacing:-0.01em;}
+.intent .id{font-size:12.5px;color:var(--muted);margin-top:4px;}
+.intent .iarr{position:absolute;top:20px;right:20px;color:var(--faint);font-size:15px;transition:transform .14s,color .14s;}
+.intent:hover .iarr{transform:translateX(3px);color:var(--text);}
+.flagline{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);}
+.flagline .fl-lead{font-weight:700;text-transform:uppercase;letter-spacing:0.1em;font-size:10.5px;color:var(--faint);margin-right:10px;}
+.flagline a{color:var(--text);font-weight:600;border-bottom:1px solid var(--flame);padding-bottom:1px;}
+.flagline a:hover{color:var(--flame);}
+.flagline .sep{color:var(--faint);margin:0 9px;}
+@media(max-width:980px){.intents{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.intents{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -186,69 +204,31 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
       </div>
       <div class="tb-right">
         <span class="tb-date" id="tbDate"></span>
-        <span class="tb-pill">Sandbox data</span>
+        <span class="tb-pill">Internal · v1</span>
       </div>
     </header>
 
     <div class="content">
       <div class="page-h">
-        <h1>Good to see you.</h1>
-        <p>What's moving across Campaign Ops, what needs a look, and fast access to every board and reference. TEMPO surfaces and flags — it never decides.</p>
+        <h1>What are you here for?</h1>
+        <div class="subline">Jump straight to it. The sidebar has everything &mdash; these are the usual reasons you're here.</div>
       </div>
 
-      <div class="sec-label">Needs attention</div>
-      <div class="flags">
-        <a class="flag" href="ad-tagging.html">
-          <div class="ft">Coverage gap</div>
-          <div class="fh">2 genres have no AD coverage</div>
-          <div class="fd">Electronic and Latin Urban aren't owned by any Audience Development specialist. Flagged for AD to assign.</div>
-        </a>
-        <a class="flag" href="team.html">
-          <div class="ft">In build</div>
-          <div class="fh">Physical Tracker still pending</div>
-          <div class="fd">Last open card on the Jordan dashboard. Surfacing it so it doesn't stall silently.</div>
-        </a>
-        <a class="flag calm" href="d2c-grid.html">
-          <div class="ft">Heads up</div>
-          <div class="fh">D2C isn't tracked in RDX</div>
-          <div class="fd">The long-lead calendar is the only full view of D2C activity. Worth knowing before planning off it.</div>
-        </a>
+      <div class="intents">
+        <a class="intent" href="team.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><div class="it">See what’s moving</div><div class="id">OPS HQ · this week’s board</div></a>
+        <a class="intent" href="dept-workflows.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg></span><div class="it">Find out who to ask</div><div class="id">Dept Workflows · who does what</div></a>
+        <a class="intent" href="campaigns.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg></span><div class="it">Look up a campaign</div><div class="id">Campaign Index · every creator campaign</div></a>
+        <a class="intent" href="creators.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span><div class="it">Find a creator</div><div class="id">Creator Database · the roster</div></a>
+        <a class="intent" href="d2c-grid.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div class="it">Check what’s dropping</div><div class="id">D2C Long Lead · the calendar</div></a>
+        <a class="intent" href="creative-tickets.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 1 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg></span><div class="it">Request creative</div><div class="id">Creative Tickets · intake lane</div></a>
       </div>
 
-      <div class="sec-label">At a glance</div>
-      <div class="metrics">
-        <div class="metric">
-          <div class="mv">42</div>
-          <div class="ml">Releases tracked</div>
-          <div class="mc">Partner Release Tracker</div>
-          <div class="bar"></div>
-        </div>
-        <div class="metric">
-          <div class="mv">88</div>
-          <div class="ml">D2C activations</div>
-          <div class="mc">12-month long-lead window</div>
-          <div class="bar"></div>
-        </div>
-        <div class="metric">
-          <div class="mv">35</div>
-          <div class="ml">Artists surveyed</div>
-          <div class="mc">Branding survey</div>
-          <div class="bar"></div>
-        </div>
-        <div class="metric">
-          <div class="mv">292</div>
-          <div class="ml">Roster scored</div>
-          <div class="mc">artistGPS percentile pipeline</div>
-          <div class="bar"></div>
-        </div>
-        <div class="metric alert">
-          <div class="mv">2</div>
-          <div class="ml">Open coverage gaps</div>
-          <div class="mc">From AD tagging</div>
-          <div class="bar"></div>
-        </div>
+      <div class="flagline">
+        <span class="fl-lead">Needs a look</span>
+        <a href="ad-tagging.html">2 AD coverage gaps</a>
+        <span class="sep">·</span>
+        <a href="team.html">Physical Tracker still in build</a>
       </div>
-
     </div>
   </div>
 </div>
