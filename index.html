@@ -135,6 +135,15 @@ a{color:inherit;text-decoration:none;}
 .flagline .sep{color:var(--faint);margin:0 9px;}
 @media(max-width:980px){.intents{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:560px){.intents{grid-template-columns:1fr;}}
+
+/* DEPARTMENT DIRECTORY */
+.deptgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:10px;}
+.dept{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;transition:box-shadow .14s,transform .14s,border-color .14s;}
+.dept:hover{box-shadow:0 8px 22px rgba(22,21,15,0.07);transform:translateY(-2px);border-color:var(--faint);}
+.dept .dt{font-size:15.5px;font-weight:800;letter-spacing:-0.01em;}
+.dept .dd{font-size:12px;color:var(--muted);margin-top:3px;}
+.dept .iarr{position:absolute;top:16px;right:16px;color:var(--faint);font-size:14px;transition:transform .14s,color .14s;}
+.dept:hover .iarr{transform:translateX(3px);color:var(--text);}
 </style>
 </head>
 <body>
@@ -211,16 +220,21 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
     <div class="content">
       <div class="page-h">
         <h1>What are you here for?</h1>
-        <div class="subline">Jump straight to it. The sidebar has everything &mdash; these are the usual reasons you're here.</div>
+        <div class="subline">Pick a department. Campaign Ops is the connective tissue between them.</div>
       </div>
 
-      <div class="intents">
-        <a class="intent" href="team.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><div class="it">See what’s moving</div><div class="id">OPS HQ · this week’s board</div></a>
-        <a class="intent" href="dept-workflows.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg></span><div class="it">Find out who to ask</div><div class="id">Dept Workflows · who does what</div></a>
-        <a class="intent" href="campaigns.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg></span><div class="it">Look up a campaign</div><div class="id">Campaign Index · every creator campaign</div></a>
-        <a class="intent" href="creators.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span><div class="it">Find a creator</div><div class="id">Creator Database · the roster</div></a>
-        <a class="intent" href="d2c-grid.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div class="it">Check what’s dropping</div><div class="id">D2C Long Lead · the calendar</div></a>
-        <a class="intent" href="creative-tickets.html"><span class="iarr">→</span><span class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 1 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg></span><div class="it">Request creative</div><div class="id">Creative Tickets · intake lane</div></a>
+      <div class="deptgrid">
+        <a class="dept" href="campaigns.html"><span class="iarr">→</span><div class="dt">Campaigns</div><div class="dd">Campaign Index</div></a>
+        <a class="dept" href="d2c-grid.html"><span class="iarr">→</span><div class="dt">Commercial Partnerships</div><div class="dd">D2C long-lead calendar</div></a>
+        <a class="dept" href="creative-tickets.html"><span class="iarr">→</span><div class="dt">Creative</div><div class="dd">Creative ticket intake</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">A&amp;R</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">Data &amp; Analytics</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">A&amp;R Admin</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">BA/BAA</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="reference/budget.html"><span class="iarr">→</span><div class="dt">Finance</div><div class="dd">Budget reference</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">Touring</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">Media</div><div class="dd">Who to ask</div></a>
+        <a class="dept" href="dept-workflows.html"><span class="iarr">→</span><div class="dt">International</div><div class="dd">Who to ask</div></a>
       </div>
 
       <div class="flagline">
