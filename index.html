@@ -133,8 +133,9 @@ a{color:inherit;text-decoration:none;}
 function checkPw(){var v=document.getElementById("pw").value;
   if(v==="RCA2026"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="grid";sessionStorage.setItem("rca_auth","1");}
   else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus();}}
-(function(){var g=document.getElementById("gate"),a=document.getElementById("app");
-  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="grid";}else{document.getElementById("pw").focus();}})();
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;
+  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="grid";}else{var p=document.getElementById("pw");if(p)p.focus();}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
 </script>
 
 <div class="app" id="app" style="display:none;">
@@ -248,54 +249,6 @@ function checkPw(){var v=document.getElementById("pw").value;
         </div>
       </div>
 
-      <div class="sec-label">Jump back in</div>
-      <div class="tools">
-        <div class="tool-grp-h">Boards · live</div>
-        <a class="tool" href="team.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-          <span class="tmeta"><div class="tn">OPS HQ — This Week</div><div class="td">The team's live priorities and where they sit</div></span>
-          <span class="tstat"><span class="sd"></span>Live</span>
-          <span class="open">Open →</span>
-        </a>
-        <a class="tool" href="d2c-grid.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
-          <span class="tmeta"><div class="tn">D2C Long Lead</div><div class="td">Every D2C drop, May '26 → Apr '27</div></span>
-          <span class="tstat"><span class="sd"></span>Live</span>
-          <span class="open">Open →</span>
-        </a>
-        <a class="tool" href="creative-tickets.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 1 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg></span>
-          <span class="tmeta"><div class="tn">Creative Ticket Requests</div><div class="td">Intake lane for creative production</div></span>
-          <span class="tstat"><span class="sd"></span>Live</span>
-          <span class="open">Open →</span>
-        </a>
-        <div class="tool-grp-h">Reference</div>
-        <a class="tool" href="campaigns.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg></span>
-          <span class="tmeta"><div class="tn">Creator Campaign Index</div><div class="td">Every creator campaign, across every platform</div></span>
-          <span class="tstat">Cross-vendor</span>
-          <span class="open">Open →</span>
-        </a>
-        <a class="tool" href="creators.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
-          <span class="tmeta"><div class="tn">Creator Database</div><div class="td">The roster — handles, reach, contacts</div></span>
-          <span class="tstat">Roster</span>
-          <span class="open">Open →</span>
-        </a>
-        <a class="tool" href="dept-workflows.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg></span>
-          <span class="tmeta"><div class="tn">Dept Workflows</div><div class="td">Who does what, and what happens when</div></span>
-          <span class="tstat">Framework</span>
-          <span class="open">Open →</span>
-        </a>
-        <div class="tool-grp-h">Demos</div>
-        <a class="tool" href="ad-tagging.html">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg></span>
-          <span class="tmeta"><div class="tn">AD Tagging</div><div class="td">Who to ask in Audience Development — and where the gaps are</div></span>
-          <span class="tstat build"><span class="sd"></span>Demo</span>
-          <span class="open">Open →</span>
-        </a>
-      </div>
     </div>
   </div>
 </div>

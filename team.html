@@ -128,8 +128,9 @@ a{color:inherit;text-decoration:none;}
 function checkPw(){var v=document.getElementById("pw").value;
   if(v==="RCA2026"){document.getElementById("gate").style.display="none";document.getElementById("app").style.display="grid";sessionStorage.setItem("rca_auth","1");}
   else{document.getElementById("err").textContent="Incorrect password";document.getElementById("pw").value="";document.getElementById("pw").focus();}}
-(function(){var g=document.getElementById("gate"),a=document.getElementById("app");
-  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="grid";}else{document.getElementById("pw").focus();}})();
+function initGate(){var g=document.getElementById("gate"),a=document.getElementById("app");if(!g||!a)return;
+  if(sessionStorage.getItem("rca_auth")==="1"){g.style.display="none";a.style.display="grid";}else{var p=document.getElementById("pw");if(p)p.focus();}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
 </script>
 
 <div class="app" id="app" style="display:none;">
