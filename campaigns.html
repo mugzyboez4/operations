@@ -31,16 +31,34 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,Bl
 .kicker{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-quiet);margin-bottom:12px;}
 h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margin-bottom:10px;}
 .sub{font-size:15px;color:var(--text-quiet);max-width:640px;margin-bottom:30px;}
-.summary{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--rule);background:var(--card);margin-bottom:14px;}
-.stat{flex:1;min-width:130px;padding:18px 22px;border-right:1px solid var(--rule);}
-.stat:last-child{border-right:none;}
-.stat .n{font-size:26px;font-weight:900;letter-spacing:-0.02em;}
-.stat .l{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-quiet);margin-top:3px;}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:14px;}
+.stat{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 17px 14px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(20,21,15,.04),0 10px 24px -14px rgba(20,21,15,.18);}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--chartreuse);}
+.stat.flame::before{background:var(--flame);}
+.stat .n{font-size:27px;font-weight:900;letter-spacing:-0.03em;line-height:1;}
+.stat .l{font-size:10.5px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-quiet);margin-top:9px;}
+.stat .kc{font-size:11px;color:var(--text-fade);margin-top:4px;line-height:1.35;}
 .byplat{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;font-size:12.5px;color:var(--text-quiet);align-items:center;}
 .byplat .seg{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--other-soft);}
-.quadrant-wrap{border:1px solid var(--rule);background:var(--card);margin-bottom:26px;padding:18px 20px 14px;}
+.lboard{border:1px solid var(--rule);border-radius:10px;background:var(--card);margin-bottom:14px;padding:18px 22px 16px;box-shadow:0 1px 2px rgba(20,21,15,.04),0 10px 24px -14px rgba(20,21,15,.16);}
+.lboard-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.lboard-head .qt{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);}
+.lboard-head .qn{font-size:12px;color:var(--text-quiet);}
+.lrow{display:grid;grid-template-columns:165px 1fr 96px;gap:14px;align-items:center;padding:7px 0;}
+.lrow+.lrow{border-top:1px solid var(--rule);}
+.lname{min-width:0;}
+.lname .ls{font-size:13px;font-weight:800;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lname .la{font-size:11px;color:var(--text-quiet);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.lbar-track{background:var(--bg);border:1px solid var(--rule);border-radius:7px;height:28px;position:relative;overflow:hidden;}
+.lbar{height:100%;display:flex;align-items:center;padding-left:11px;min-width:3px;border-radius:6px 0 0 6px;}
+.lbar .bl{font-size:11.5px;font-weight:800;color:#fff;white-space:nowrap;text-shadow:0 1px 1.5px rgba(0,0,0,.22);}
+.lval{text-align:right;}
+.lval .lv{font-size:15px;font-weight:900;letter-spacing:-0.02em;line-height:1;}
+.lval .lvl{font-size:9.5px;color:var(--text-fade);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;}
+@media(max-width:560px){.lrow{grid-template-columns:1fr;gap:5px;}.lval{text-align:left;}}
+.quadrant-wrap{border:1px solid var(--rule);border-radius:10px;background:var(--card);margin-bottom:26px;padding:18px 22px 16px;box-shadow:0 1px 2px rgba(20,21,15,.04),0 10px 24px -14px rgba(20,21,15,.14);}
 .quadrant-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
-.quadrant-head .qt{font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text);}
+.quadrant-head .qt{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);}
 .quadrant-head .qn{font-size:12px;color:var(--text-quiet);}
 .quadrant-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--text-quiet);margin-top:8px;}
 .quadrant-legend .lg{display:inline-flex;align-items:center;gap:5px;}
@@ -175,6 +193,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="summary" id="summary"></div>
   <div class="byplat" id="byplat"></div>
 
+  <div class="lboard" id="leaderboard"></div>
   <div class="quadrant-wrap" id="quadrant"></div>
 
   <div class="filters" id="filters"></div>
@@ -336,16 +355,15 @@ function renderSummary(){
   var withV=all.filter(function(c){return c.views;});
   var totV=withV.reduce(function(a,c){return a+c.views;},0);
   var spV=withV.reduce(function(a,c){return a+(c.budget||0);},0);
-  var extra='';
-  if(totV>0){
-    extra+='<div class="stat"><div class="n">'+fmtNum(totV)+'</div><div class="l">Tracked views</div></div>';
-    extra+='<div class="stat"><div class="n">$'+(spV/totV).toFixed(4)+'</div><div class="l">Blended CPV</div></div>';
-  }
+  var withE=all.filter(function(c){return c.engRate!==null&&c.engRate!==undefined;});
+  var avgE=withE.length? withE.reduce(function(a,c){return a+c.engRate;},0)/withE.length*100 : null;
+  function kcard(nn,l,kc,flame){ return '<div class="stat'+(flame?' flame':'')+'"><div class="n">'+nn+'</div><div class="l">'+l+'</div>'+(kc?'<div class="kc">'+kc+'</div>':'')+'</div>'; }
   document.getElementById("summary").innerHTML =
-    '<div class="stat"><div class="n">'+all.length+'</div><div class="l">Campaigns</div></div>'+
-    '<div class="stat"><div class="n">'+Object.keys(artists).length+'</div><div class="l">Artists</div></div>'+
-    '<div class="stat"><div class="n">'+Object.keys(plats).length+'</div><div class="l">Platforms</div></div>'+
-    '<div class="stat"><div class="n">'+money(total)+'</div><div class="l">Tracked spend</div></div>'+extra;
+    kcard(money(total),'Tracked spend',all.length+' campaigns · '+Object.keys(plats).length+' platforms',true)+
+    kcard(totV>0?fmtNum(totV):'—','Tracked views',withV.length+' of '+all.length+' with data',false)+
+    kcard(totV>0?'$'+(spV/totV).toFixed(4):'—','Blended CPV','cost per view, measured',false)+
+    kcard(avgE!==null?avgE.toFixed(1)+'%':'—','Avg engagement',avgE!==null?'vs 4–6% benchmark':'no data yet',false)+
+    kcard(Object.keys(artists).length,'Artists','in rotation',false);
 
   var segs="";
   Object.keys(plats).sort(function(a,b){return plats[b]-plats[a];}).forEach(function(p){
@@ -507,13 +525,19 @@ function renderQuadrant(){
   var sv=pts.map(function(c){return c.views;}).sort(function(a,b){return a-b;});
   var medV=sv.length%2?sv[(sv.length-1)/2]:(sv[sv.length/2-1]+sv[sv.length/2])/2;
   var s='<svg class="quadrant-svg" viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">';
-  s+='<rect x="'+sx(medV)+'" y="'+mT+'" width="'+(mL+pw-sx(medV))+'" height="'+(sy(benchY)-mT)+'" fill="var(--chartreuse-soft)" opacity="0.55"/>';
-  s+='<line x1="'+mL+'" y1="'+(mT+ph)+'" x2="'+(mL+pw)+'" y2="'+(mT+ph)+'" stroke="var(--rule)" stroke-width="1"/>';
-  s+='<line x1="'+mL+'" y1="'+mT+'" x2="'+mL+'" y2="'+(mT+ph)+'" stroke="var(--rule)" stroke-width="1"/>';
+  s+='<rect x="'+mL+'" y="'+mT+'" width="'+pw+'" height="'+ph+'" fill="var(--bg)" opacity="0.5"/>';
+  s+='<rect x="'+sx(medV)+'" y="'+mT+'" width="'+(mL+pw-sx(medV))+'" height="'+(sy(benchY)-mT)+'" fill="var(--chartreuse-soft)" opacity="0.7"/>';
+  [0,yMax/2,yMax].forEach(function(t){ s+='<line x1="'+mL+'" y1="'+sy(t)+'" x2="'+(mL+pw)+'" y2="'+sy(t)+'" stroke="var(--rule)" stroke-width="1" opacity="0.7"/>'; });
+  [0,xMax/2,xMax].forEach(function(t){ s+='<line x1="'+sx(t)+'" y1="'+mT+'" x2="'+sx(t)+'" y2="'+(mT+ph)+'" stroke="var(--rule)" stroke-width="1" opacity="0.5"/>'; });
+  s+='<line x1="'+mL+'" y1="'+(mT+ph)+'" x2="'+(mL+pw)+'" y2="'+(mT+ph)+'" stroke="var(--text-fade)" stroke-width="1.2"/>';
+  s+='<line x1="'+mL+'" y1="'+mT+'" x2="'+mL+'" y2="'+(mT+ph)+'" stroke="var(--text-fade)" stroke-width="1.2"/>';
   s+='<line x1="'+sx(medV)+'" y1="'+mT+'" x2="'+sx(medV)+'" y2="'+(mT+ph)+'" stroke="var(--text-fade)" stroke-width="1" stroke-dasharray="3 3"/>';
-  s+='<line x1="'+mL+'" y1="'+sy(benchY)+'" x2="'+(mL+pw)+'" y2="'+sy(benchY)+'" stroke="var(--flame)" stroke-width="1" stroke-dasharray="4 3" opacity="0.55"/>';
+  s+='<line x1="'+mL+'" y1="'+sy(benchY)+'" x2="'+(mL+pw)+'" y2="'+sy(benchY)+'" stroke="var(--flame)" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.6"/>';
+  s+='<text x="'+(mL+pw-6)+'" y="'+(mT+14)+'" text-anchor="end" font-size="9.5" font-weight="700" letter-spacing="0.5" fill="var(--chartreuse)">EFFICIENT \u00b7 HIGH REACH</text>';
+  s+='<text x="'+(mL+6)+'" y="'+(mT+14)+'" font-size="9.5" font-weight="700" letter-spacing="0.5" fill="var(--text-fade)">EFFICIENT \u00b7 NICHE</text>';
+  s+='<text x="'+(mL+6)+'" y="'+(mT+ph-8)+'" font-size="9.5" font-weight="700" letter-spacing="0.5" fill="var(--text-fade)">LOW SIGNAL</text>';
+  s+='<text x="'+(mL+pw-6)+'" y="'+(mT+ph-8)+'" text-anchor="end" font-size="9.5" font-weight="700" letter-spacing="0.5" fill="var(--text-fade)">BROAD \u00b7 LOW ENG</text>';
   s+='<text x="'+(mL+pw)+'" y="'+(sy(benchY)-5)+'" text-anchor="end" font-size="10" fill="var(--flame)">6% engagement benchmark</text>';
-  s+='<text x="'+(sx(medV)+4)+'" y="'+(mT+11)+'" font-size="10" fill="var(--text-fade)">median reach</text>';
   [0,yMax/2,yMax].forEach(function(t){ s+='<text x="'+(mL-8)+'" y="'+(sy(t)+3)+'" text-anchor="end" font-size="10" fill="var(--text-quiet)">'+t+'%</text>'; });
   [0,xMax/2,xMax].forEach(function(t){ s+='<text x="'+sx(t)+'" y="'+(mT+ph+16)+'" text-anchor="middle" font-size="10" fill="var(--text-quiet)">'+fmtNum(t)+'</text>'; });
   s+='<text x="'+(mL+pw/2)+'" y="'+(H-12)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-soft)">Views (reach) \u2192</text>';
@@ -524,9 +548,10 @@ function renderQuadrant(){
     var cv=cpv(c.budget,c.views);
     var tip=esc((c.artist||"")+(c.song?' \u2014 "'+c.song+'"':'')+'\n'+(c.platform||'')+'\n'+fmtNum(c.views)+' views \u00b7 '+(c.engRate*100).toFixed(1)+'% eng\n'+money(c.budget)+(cv!==null?' \u00b7 $'+cv.toFixed(4)+'/view':''));
     s+='<g><title>'+tip+'</title>';
-    s+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+m.c+'" fill-opacity="0.18" stroke="'+m.c+'" stroke-width="1.5"/>';
-    s+='<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+m.c+'"/>';
-    s+='<text x="'+x+'" y="'+(y-r-5)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--text)">'+esc(label)+'</text>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="'+(r*1.75)+'" fill="'+m.c+'" opacity="0.07"/>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+m.c+'" fill-opacity="0.22" stroke="'+m.c+'" stroke-width="2"/>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="'+m.c+'"/>';
+    s+='<text x="'+x+'" y="'+(y-r-6)+'" text-anchor="middle" font-size="11.5" font-weight="800" paint-order="stroke" stroke="var(--card)" stroke-width="3.5" fill="var(--text)">'+esc(label)+'</text>';
     s+='</g>';
   });
   s+='</svg>';
@@ -538,7 +563,29 @@ function renderQuadrant(){
   leg+='</div>';
   el.innerHTML=head+s+leg;
 }
-function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderQuadrant(); renderFilters(); renderList(); }
+function renderLeaderboard(){
+  var el=document.getElementById("leaderboard");
+  var rows=all.filter(function(c){return (c.budget||0)>0;}).sort(function(a,b){return (b.budget||0)-(a.budget||0);});
+  var head='<div class="lboard-head"><span class="qt">Spend &amp; Reach</span><span class="qn">Every campaign by budget · bar color = platform</span></div>';
+  if(!rows.length){ el.innerHTML=head+'<div class="quadrant-empty">No campaigns yet.</div>'; return; }
+  var maxB=Math.max.apply(null,rows.map(function(c){return c.budget||0;}))||1;
+  var body='';
+  rows.forEach(function(c){
+    var m=pmeta(c.platform), w=Math.max(4,(c.budget/maxB)*100);
+    var song=(c.song&&c.song!=="—")?c.song:(c.campaign||"Untitled");
+    var cv=cpv(c.budget,c.views);
+    var right = c.views
+      ? '<div class="lv">'+fmtNum(c.views)+'</div><div class="lvl">views'+(cv!==null?' · $'+cv.toFixed(3):'')+'</div>'
+      : '<div class="lv" style="color:var(--text-fade)">—</div><div class="lvl">no views yet</div>';
+    body+='<div class="lrow">'
+      +'<div class="lname"><div class="ls">'+esc(song)+'</div><div class="la">'+esc(c.artist||"")+' · '+esc(c.platform||"")+'</div></div>'
+      +'<div class="lbar-track"><div class="lbar" style="width:'+w+'%;background:'+m.c+'"><span class="bl">'+money(c.budget)+'</span></div></div>'
+      +'<div class="lval">'+right+'</div>'
+      +'</div>';
+  });
+  el.innerHTML=head+body;
+}
+function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderLeaderboard(); renderQuadrant(); renderFilters(); renderList(); }
 </script>
 
 </body>

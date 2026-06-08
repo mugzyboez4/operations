@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physical Product — Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+  :root{
+    --bg:#F2F1EB; --card:#FFFFFF; --shot:#FAF9F4; --text:#16150F; --muted:#6B6A62; --faint:#8A8576;
+    --chartreuse:#CDF851; --flame:#FF4A23; --line:#E3E1D8; --gray:#E9E7DE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.5;}
+
+  .announce{background:#16150F; color:#F2F1EB; font-size:12px; letter-spacing:0.03em; text-align:center; padding:9px 16px;}
+  .announce b{color:var(--chartreuse); font-weight:600;}
+
+  .header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .header-in{max-width:1280px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; gap:28px;}
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);}
+  .brand .mark{width:22px; height:22px; background:var(--chartreuse); border-radius:4px;}
+  .brand .wm{font-weight:900; letter-spacing:0.04em; font-size:16px; text-transform:uppercase;}
+  .brand .sub{font-size:10px; color:var(--faint); letter-spacing:0.14em; text-transform:uppercase; margin-top:1px;}
+  .nav{display:flex; gap:22px; margin-left:14px;}
+  .nav a{text-decoration:none; color:var(--text); font-size:13.5px; font-weight:500; padding:4px 0; border-bottom:2px solid transparent; cursor:pointer;}
+  .nav a:hover{border-bottom-color:var(--text);}
+  .header-right{margin-left:auto; display:flex; align-items:center; gap:16px;}
+  .pill{font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); padding:4px 10px; border-radius:999px;}
+  .bag{position:relative; width:24px; height:24px;}
+  .bag svg{width:24px; height:24px;}
+  .bag .count{position:absolute; top:-6px; right:-8px; background:var(--flame); color:#fff; font-size:10px; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  @media(max-width:880px){ .nav{display:none;} }
+
+  .wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
+
+  .hero{padding:54px 0 30px;}
+  .hero .ey{font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--faint); margin-bottom:14px;}
+  .hero h1{font-size:clamp(40px,6.5vw,68px); font-weight:900; letter-spacing:-0.025em; text-transform:uppercase; line-height:0.92;}
+  .hero p{color:var(--muted); font-size:16px; max-width:680px; margin-top:18px;}
+
+  .finder{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin-top:6px;}
+  .finder-q{font-size:15px; font-weight:700; margin-bottom:16px;}
+  .finder-row{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:12px;}
+  .finder-label{font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); width:74px;}
+  .opts{display:flex; gap:8px; flex-wrap:wrap;}
+  .opt-btn{font-size:13px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer; transition:all .15s;}
+  .opt-btn:hover{border-color:var(--text);}
+  .opt-btn.active{background:var(--chartreuse); color:#16150F; border-color:var(--chartreuse);}
+  .finder-result{margin-top:8px; font-size:13px; color:var(--muted);}
+  .finder-result b{color:var(--text); font-weight:700;}
+  .featured{margin:14px 0 8px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:26px 28px 24px;}
+  .featured .ftop{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:4px;}
+  .featured h2{font-size:13px; font-weight:900; letter-spacing:0.08em; text-transform:uppercase;}
+  .featured .ftag{font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#16150F; background:var(--chartreuse); padding:3px 9px; border-radius:999px;}
+  .featured .cap{color:var(--muted); font-size:13.5px; margin-bottom:20px; max-width:720px;}
+  .fset{display:flex; gap:14px; flex-wrap:wrap;}
+  .fitem{flex:1 1 130px; text-align:center;}
+  .fitem .m{background:var(--shot); border:1px solid var(--line); border-radius:8px; aspect-ratio:1/0.84; overflow:hidden;}
+  .fitem .m svg{width:100%; height:100%; display:block;}
+  .fitem .fn{font-size:12.5px; font-weight:700; margin-top:10px;}
+  .fitem .fd{font-size:11.5px; color:var(--muted); margin-top:1px;}
+  @media(max-width:760px){ .fitem{flex:1 1 40%;} }
+
+  .toolbar{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:42px 0 22px; padding-bottom:16px; border-bottom:1px solid var(--line);}
+  .count{font-size:13px; color:var(--muted); margin-right:4px;}
+  .filters{display:flex; gap:8px; flex-wrap:wrap;}
+  .filt{font-size:13px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer; transition:all .15s;}
+  .filt:hover{border-color:var(--text);}
+  .filt.active{background:var(--text); color:#fff; border-color:var(--text);}
+  .sortwrap{margin-left:auto; font-size:13px; color:var(--muted);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(258px,1fr)); gap:20px; padding-bottom:24px;}
+  .product{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; transition:transform .15s, box-shadow .15s;}
+  .product:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(22,21,15,0.08);}
+  .media{position:relative; aspect-ratio:1/1; background:var(--shot); border-bottom:1px solid var(--line); overflow:hidden;}
+  .media svg{width:100%; height:100%; display:block; transition:transform .35s ease;}
+  .product:hover .media svg{transform:scale(1.06);}
+  .badge-cat{position:absolute; top:12px; left:12px; font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); background:rgba(255,255,255,0.9); border:1px solid var(--line); padding:3px 8px; border-radius:999px;}
+  .badge-new{position:absolute; top:12px; right:12px; font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#fff; background:var(--flame); padding:3px 8px; border-radius:999px;}
+  .badge-chart{position:absolute; top:12px; right:12px; font-size:10px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#16150F; background:var(--chartreuse); padding:3px 8px; border-radius:999px;}
+  .info{padding:16px 18px 16px; display:flex; flex-direction:column; flex-grow:1;}
+  .pname{font-size:15.5px; font-weight:700; line-height:1.2; margin-bottom:6px;}
+  .priceline{display:flex; align-items:baseline; gap:8px; margin-bottom:12px;}
+  .price{font-size:19px; font-weight:900; letter-spacing:0.01em;}
+  .price-cap{font-size:11px; color:var(--faint); text-transform:uppercase; letter-spacing:0.04em;}
+  .desc{font-size:13px; color:var(--muted); margin-bottom:13px;}
+  .attrs{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto;}
+  .chip{font-size:10.5px; font-weight:600; padding:3px 8px; border-radius:4px; border:1px solid var(--line); color:var(--muted); white-space:nowrap;}
+  .chip b{color:var(--text); font-weight:600;}
+
+  footer{margin-top:56px; background:#16150F; color:#C9C7BD;}
+  .foot-in{max-width:1280px; margin:0 auto; padding:44px 28px 30px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px;}
+  .foot-in .fbrand .wm{color:#F2F1EB; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; font-size:18px;}
+  .foot-in p{font-size:13px; line-height:1.7; margin-top:12px; max-width:340px;}
+  .foot-col h4{font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#8A8576; margin-bottom:12px;}
+  .foot-col a{display:block; color:#C9C7BD; text-decoration:none; font-size:13px; margin-bottom:8px; cursor:pointer;}
+  .foot-col a:hover{color:var(--chartreuse);}
+  .foot-bottom{border-top:1px solid #2A2926; padding:18px 28px; text-align:center; font-size:11.5px; color:#8A8576;}
+  @media(max-width:760px){ .foot-in{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-in">
+    <a class="brand" href="#top">
+      <span class="mark"></span>
+      <span><span class="wm">Physical</span><div class="sub">RCA Campaign Ops</div></span>
+    </a>
+    <nav class="nav">
+      <a data-filter="housing">Housing</a>
+      <a data-filter="vinyl">Vinyl</a>
+      <a data-filter="inclusions">Inclusions</a>
+      <a data-filter="connected">Connected</a>
+      <a data-filter="channels">Channels</a>
+    </nav>
+    <div class="header-right">
+      <span class="pill">Catalog v1</span>
+      <span class="bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16150F" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="count">5</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<div id="top" class="wrap">
+
+  <section class="hero">
+    <div class="ey">Campaign Ops · Reference</div>
+    <h1>Physical Product<br>Catalog</h1>
+  </section>
+
+  <section class="finder">
+    <div class="finder-q">What's your budget, and how much time do you have?</div>
+    <div class="finder-row">
+      <span class="finder-label">Budget</span>
+      <div class="opts" data-group="budget">
+        <button class="opt-btn active" data-val="any">Any</button>
+        <button class="opt-btn" data-val="1">Lean · $</button>
+        <button class="opt-btn" data-val="2">Standard · $$</button>
+        <button class="opt-btn" data-val="3">Premium · $$$</button>
+      </div>
+    </div>
+    <div class="finder-row">
+      <span class="finder-label">Timeline</span>
+      <div class="opts" data-group="time">
+        <button class="opt-btn active" data-val="any">Any</button>
+        <button class="opt-btn" data-val="1">Tight</button>
+        <button class="opt-btn" data-val="2">Some time</button>
+        <button class="opt-btn" data-val="3">Plenty</button>
+      </div>
+    </div>
+    <div class="finder-result" id="finderResult">Showing every option</div>
+  </section>
+
+  <section class="featured">
+    <div class="ftop">
+      <h2>Example build</h2>
+      <span class="ftag" id="buildTag">Any budget · any time</span>
+    </div>
+    <p class="cap">An example assortment that fits your budget and timeline — it updates as you change the picks above.</p>
+    <div class="fset" id="fset"></div>
+  </section>
+
+  <div class="toolbar">
+    <span class="count" id="count">Showing all 28 items</span>
+    <div class="filters" id="filters">
+      <button class="filt active" data-filter="all">All</button>
+      <button class="filt" data-filter="housing">Housing</button>
+      <button class="filt" data-filter="vinyl">Vinyl</button>
+      <button class="filt" data-filter="inclusions">Inclusions</button>
+      <button class="filt" data-filter="connected">Connected</button>
+      <button class="filt" data-filter="channels">Channels</button>
+    </div>
+    <span class="sortwrap">Sorted: Format</span>
+  </div>
+
+  <div class="grid" id="grid">
+
+    <!-- HOUSING -->
+    <div class="product" data-cat="housing" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="74" ry="8" fill="#000" opacity="0.05"/><rect x="62" y="28" width="116" height="112" rx="9" fill="#fff" stroke="#16150F" stroke-width="2.5"/><line x1="90" y1="28" x2="90" y2="140" stroke="#B9B6AC" stroke-width="1.5"/><rect x="102" y="46" width="62" height="50" fill="#CDF851"/><rect x="102" y="106" width="46" height="6" fill="#E9E7DE"/><rect x="102" y="118" width="30" height="6" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Soft Pack</div><div class="priceline"><span class="price">$–$$</span><span class="price-cap">cost band</span></div><div class="desc">Soft card wallet holding the disc. Lightweight; print can be automated.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low–Med</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="74" ry="8" fill="#000" opacity="0.05"/><rect x="56" y="30" width="128" height="106" rx="4" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="56" y="30" width="13" height="106" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5"/><circle cx="132" cy="83" r="36" fill="none" stroke="#16150F" stroke-width="2.5"/><circle cx="132" cy="83" r="9" fill="#CDF851"/><circle cx="132" cy="83" r="3" fill="#fff"/></svg></div>
+      <div class="info"><div class="pname">Super Jewel</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Heavier-stock jewel case. Insertion can be automated.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="70" ry="8" fill="#000" opacity="0.05"/><rect x="62" y="34" width="116" height="98" rx="3" fill="#fff" stroke="#16150F" stroke-width="2.5"/><circle cx="120" cy="83" r="32" fill="none" stroke="#16150F" stroke-width="2.5"/><circle cx="120" cy="83" r="8" fill="#E9E7DE" stroke="#16150F" stroke-width="1.5"/><circle cx="120" cy="83" r="2.5" fill="#fff"/></svg></div>
+      <div class="info"><div class="pname">Standard Jewel</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Standard plastic CD case.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="78" ry="8" fill="#000" opacity="0.05"/><rect x="40" y="40" width="160" height="92" fill="#fff" stroke="#16150F" stroke-width="2.5"/><line x1="120" y1="40" x2="120" y2="132" stroke="#16150F" stroke-width="2"/><rect x="54" y="56" width="42" height="6" fill="#E9E7DE"/><rect x="54" y="68" width="36" height="6" fill="#E9E7DE"/><rect x="54" y="80" width="42" height="6" fill="#E9E7DE"/><rect x="54" y="92" width="30" height="6" fill="#E9E7DE"/><rect x="134" y="56" width="50" height="50" fill="#FAF9F4" stroke="#B9B6AC" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="159" cy="81" r="14" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="pname">Zine</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Booklet format with a CD pocket. Common in K-pop physical.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>High</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="80" ry="8" fill="#000" opacity="0.05"/><path d="M44 128 L72 56 L100 128 L128 56 L156 128 L184 56" fill="none" stroke="#16150F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path d="M52 130 L80 58 L108 130 L136 58 L164 130 L192 58" fill="none" stroke="#CDF851" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+      <div class="info"><div class="pname">Accordion Fold-Out</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Multi-panel unbound fold-out; pages and images without staples or stitching.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Med–High</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="3" data-speed="3">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="62" ry="8" fill="#000" opacity="0.05"/><rect x="74" y="22" width="104" height="118" rx="3" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="74" y="22" width="16" height="118" fill="#16150F"/><rect x="100" y="42" width="64" height="58" fill="#CDF851"/><rect x="100" y="110" width="48" height="6" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Hardcover Book</div><div class="priceline"><span class="price">$$$</span><span class="price-cap">cost band</span></div><div class="desc">Hardcover book format; can run slightly taller than a standard CD footprint.</div><div class="attrs"><span class="chip">Speed <b>Slow</b></span><span class="chip">Domestic <b>Check</b></span><span class="chip">Imagery <b>High</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="74" ry="8" fill="#000" opacity="0.05"/><rect x="44" y="42" width="104" height="84" rx="3" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5"/><rect x="138" y="48" width="62" height="72" rx="2" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="150" y="60" width="40" height="34" fill="#CDF851"/><path d="M126 84 L142 84 M136 78 L142 84 L136 90" fill="none" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="info"><div class="pname">O-Card Slipcase</div><div class="priceline"><span class="price">$–$$</span><span class="price-cap">cost band</span></div><div class="desc">Printed sleeve over an inner package; art can wrap the full sleeve.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low–Med</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="housing" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Housing</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="68" ry="8" fill="#000" opacity="0.05"/><rect x="68" y="32" width="104" height="104" rx="5" fill="#fff" stroke="#16150F" stroke-width="2.5" opacity="0.96"/><line x1="86" y1="44" x2="154" y2="44" stroke="#B9B6AC" stroke-width="2"/><rect x="84" y="58" width="50" height="42" fill="#CDF851"/><circle cx="150" cy="108" r="15" fill="none" stroke="#16150F" stroke-width="2"/><circle cx="150" cy="108" r="4" fill="#E9E7DE"/><line x1="78" y1="40" x2="120" y2="128" stroke="#fff" stroke-width="6" opacity="0.5"/></svg></div>
+      <div class="info"><div class="pname">Plastic Sleeve / PVC</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Square slot-in plastic housing; holds components without a bound book.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Check</b></span><span class="chip">Approval <b>XUS</b></span></div></div>
+    </div>
+
+    <!-- VINYL -->
+    <div class="product" data-cat="vinyl" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Vinyl</span><span class="badge-chart">Chart · Full</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="74" ry="8" fill="#000" opacity="0.05"/><circle cx="164" cy="84" r="40" fill="#16150F"/><circle cx="164" cy="84" r="22" fill="none" stroke="#3E3F41" stroke-width="1"/><circle cx="164" cy="84" r="10" fill="#CDF851"/><circle cx="164" cy="84" r="2.5" fill="#FAF9F4"/><rect x="50" y="40" width="92" height="92" rx="3" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="64" y="54" width="52" height="44" fill="#CDF851"/><rect x="64" y="106" width="40" height="6" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Pocket Jacket</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Single sleeve, single disc.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Chart <b>Full</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="vinyl" data-cost="3" data-speed="3">
+      <div class="media"><span class="badge-cat">Vinyl</span><span class="badge-chart">Chart · Full</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="82" ry="8" fill="#000" opacity="0.05"/><rect x="36" y="46" width="84" height="84" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="120" y="46" width="84" height="84" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="134" y="60" width="56" height="44" fill="#CDF851"/><circle cx="78" cy="88" r="26" fill="#16150F"/><circle cx="78" cy="88" r="7" fill="#CDF851"/><circle cx="78" cy="88" r="2" fill="#FAF9F4"/></svg></div>
+      <div class="info"><div class="pname">Gatefold</div><div class="priceline"><span class="price">$$$</span><span class="price-cap">cost band</span></div><div class="desc">Double-panel sleeve that opens; additional printed surface.</div><div class="attrs"><span class="chip">Speed <b>Slow</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Chart <b>Full</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="vinyl" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Vinyl</span><span class="badge-chart">Chart · Full</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="66" ry="8" fill="#000" opacity="0.05"/><circle cx="120" cy="82" r="56" fill="#CDF851" stroke="#16150F" stroke-width="2.5"/><circle cx="120" cy="82" r="46" fill="none" stroke="#16150F" stroke-width="1" opacity="0.35"/><circle cx="120" cy="82" r="38" fill="none" stroke="#16150F" stroke-width="1" opacity="0.35"/><circle cx="120" cy="82" r="30" fill="none" stroke="#16150F" stroke-width="1" opacity="0.35"/><circle cx="120" cy="82" r="17" fill="#16150F"/><circle cx="120" cy="82" r="3" fill="#FAF9F4"/></svg></div>
+      <div class="info"><div class="pname">Color Variant</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Colored vinyl pressing.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Chart <b>Full</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="vinyl" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Vinyl</span><span class="badge-chart">Chart · Full</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="70" ry="8" fill="#000" opacity="0.05"/><rect x="58" y="56" width="92" height="80" rx="3" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="72" y="68" width="50" height="40" fill="#CDF851"/><g transform="rotate(-8 150 60)"><rect x="120" y="26" width="74" height="56" fill="#fff" stroke="#16150F" stroke-width="2.5"/><line x1="145" y1="26" x2="145" y2="82" stroke="#B9B6AC" stroke-width="1.5"/><line x1="169" y1="26" x2="169" y2="82" stroke="#B9B6AC" stroke-width="1.5"/></g><path d="M176 110 l12 0 m-6 -6 l6 6 l-6 6 M196 122 l-12 0 m6 6 l-6 -6 l6 -6" fill="none" stroke="#FF4A23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="info"><div class="pname">Randomized Variant</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">Randomized insert or poster distributed across the pressing run.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Chart <b>Full</b></span></div></div>
+    </div>
+
+    <!-- INCLUSIONS -->
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="66" ry="8" fill="#000" opacity="0.05"/><rect x="66" y="30" width="108" height="104" rx="4" fill="#fff" stroke="#16150F" stroke-width="2.5" stroke-dasharray="6 4"/><polygon points="98,50 104,64 119,65 108,75 111,90 98,82 85,90 88,75 77,65 92,64" fill="#CDF851" stroke="#16150F" stroke-width="1.5"/><circle cx="146" cy="58" r="13" fill="#FF4A23" stroke="#16150F" stroke-width="1.5"/><path d="M140 108 q6 -10 12 0 q6 -10 12 0 l0 8 q-6 8 -12 0 q-6 8 -12 0 z" fill="#CDF851" stroke="#16150F" stroke-width="1.5"/><rect x="84" y="104" width="30" height="20" rx="3" fill="#E9E7DE" stroke="#16150F" stroke-width="1.5"/></svg></div>
+      <div class="info"><div class="pname">Sticker / Sticker Sheet</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Printed sticker or sticker sheet.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="66" ry="8" fill="#000" opacity="0.05"/><g transform="rotate(-9 120 84)"><rect x="78" y="34" width="64" height="92" rx="5" fill="#fff" stroke="#16150F" stroke-width="2.5"/></g><g transform="rotate(9 120 84)"><rect x="98" y="34" width="64" height="92" rx="5" fill="#fff" stroke="#16150F" stroke-width="2.5"/></g><rect x="88" y="32" width="64" height="92" rx="5" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="98" y="44" width="44" height="46" fill="#CDF851"/><circle cx="120" cy="62" r="11" fill="#fff" opacity="0.7"/><rect x="98" y="98" width="34" height="5" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Photo Cards</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Printed cards, fixed or randomized images. Common in K-pop physical.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Med</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="146" rx="74" ry="8" fill="#000" opacity="0.05"/><rect x="48" y="46" width="144" height="80" rx="4" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="60" y="58" width="56" height="56" fill="#CDF851"/><line x1="130" y1="58" x2="180" y2="58" stroke="#E9E7DE" stroke-width="5"/><line x1="130" y1="72" x2="180" y2="72" stroke="#E9E7DE" stroke-width="5"/><line x1="130" y1="86" x2="166" y2="86" stroke="#E9E7DE" stroke-width="5"/><rect x="164" y="54" width="20" height="20" fill="none" stroke="#FF4A23" stroke-width="2" stroke-dasharray="2 2"/></svg></div>
+      <div class="info"><div class="pname">Postcards</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Printed postcards.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low–Med</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="80" ry="8" fill="#000" opacity="0.05"/><rect x="44" y="34" width="152" height="100" fill="#fff" stroke="#16150F" stroke-width="2.5"/><line x1="94" y1="34" x2="94" y2="134" stroke="#B9B6AC" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="146" y1="34" x2="146" y2="134" stroke="#B9B6AC" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="44" y1="84" x2="196" y2="84" stroke="#B9B6AC" stroke-width="1.5" stroke-dasharray="4 3"/><rect x="56" y="46" width="30" height="28" fill="#CDF851"/><polygon points="196,34 178,34 196,52" fill="#E9E7DE" stroke="#16150F" stroke-width="1.5"/></svg></div>
+      <div class="info"><div class="pname">Fold-Out Poster</div><div class="priceline"><span class="price">$–$$</span><span class="price-cap">cost band</span></div><div class="desc">Folded poster insert.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Med</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="72" ry="8" fill="#000" opacity="0.05"/><rect x="52" y="62" width="118" height="56" rx="5" fill="#fff" stroke="#16150F" stroke-width="2.5"/><circle cx="52" cy="90" r="7" fill="#FAF9F4" stroke="#16150F" stroke-width="2"/><circle cx="170" cy="90" r="7" fill="#FAF9F4" stroke="#16150F" stroke-width="2"/><line x1="134" y1="62" x2="134" y2="118" stroke="#B9B6AC" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="64" y="76" width="56" height="12" fill="#CDF851"/><rect x="64" y="94" width="40" height="6" fill="#E9E7DE"/><g transform="rotate(18 176 56)"><rect x="158" y="34" width="36" height="24" rx="4" fill="#fff" stroke="#16150F" stroke-width="2"/><circle cx="164" cy="40" r="3" fill="none" stroke="#16150F" stroke-width="1.5"/><rect x="170" y="44" width="18" height="4" fill="#FF4A23"/></g></svg></div>
+      <div class="info"><div class="pname">Themed Mementos</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Themed paper ephemera, e.g. a ticket, a printed list, or keepsake items.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="1">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="64" ry="8" fill="#000" opacity="0.05"/><path d="M76 44 h88 v92 h-88 z" fill="#fff" stroke="#16150F" stroke-width="2.5"/><path d="M76 44 q44 14 88 0" fill="none" stroke="#B9B6AC" stroke-width="1.5"/><path d="M120 96 q8 -12 16 0 q8 -12 16 0 l0 9 q-8 11 -16 0 q-8 11 -16 0 z" transform="translate(-16 -6)" fill="#FF4A23" stroke="#16150F" stroke-width="1.5"/><rect x="92" y="116" width="56" height="5" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Thank-You Note</div><div class="priceline"><span class="price">$</span><span class="price-cap">cost band</span></div><div class="desc">Printed note card.</div><div class="attrs"><span class="chip">Speed <b>Fast</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>Low</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="inclusions" data-cost="1" data-speed="2">
+      <div class="media"><span class="badge-cat">Inclusion</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="60" ry="8" fill="#000" opacity="0.05"/><rect x="80" y="40" width="86" height="96" rx="2" fill="#fff" stroke="#16150F" stroke-width="2.5"/><circle cx="89" cy="58" r="2.5" fill="#16150F"/><circle cx="89" cy="118" r="2.5" fill="#16150F"/><rect x="98" y="52" width="56" height="16" fill="#CDF851"/><line x1="98" y1="82" x2="150" y2="82" stroke="#E9E7DE" stroke-width="5"/><line x1="98" y1="94" x2="150" y2="94" stroke="#E9E7DE" stroke-width="5"/><line x1="98" y1="106" x2="134" y2="106" stroke="#E9E7DE" stroke-width="5"/></svg></div>
+      <div class="info"><div class="pname">Lyric Booklet / Insert</div><div class="priceline"><span class="price">$–$$</span><span class="price-cap">cost band</span></div><div class="desc">Printed lyric booklet or editorial insert.</div><div class="attrs"><span class="chip">Speed <b>Mod</b></span><span class="chip">Domestic <b>Yes</b></span><span class="chip">Imagery <b>High</b></span></div></div>
+    </div>
+
+    <!-- CONNECTED -->
+    <div class="product" data-cat="connected" data-cost="1" data-speed="2">
+      <div class="media"><span class="badge-cat">Connected</span><span class="badge-new">New</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="72" ry="8" fill="#000" opacity="0.05"/><rect x="140" y="38" width="60" height="100" rx="9" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="148" y="50" width="44" height="64" rx="2" fill="#FAF9F4"/><circle cx="170" cy="125" r="3.5" fill="#16150F"/><circle cx="72" cy="86" r="34" fill="#16150F"/><circle cx="72" cy="86" r="8" fill="#CDF851"/><circle cx="72" cy="86" r="2.5" fill="#FAF9F4"/><path d="M112 64 a18 18 0 0 1 0 44" fill="none" stroke="#CDF851" stroke-width="2.5"/><path d="M122 56 a28 28 0 0 1 0 60" fill="none" stroke="#CDF851" stroke-width="2.5" opacity="0.55"/></svg></div>
+      <div class="info"><div class="pname">NFC Mini Album</div><div class="priceline"><span class="price">$–$$</span><span class="price-cap">cost band</span></div><div class="desc">Mini disc with an embedded NFC chip; tap to a phone to access songs, videos, and content.</div><div class="attrs"><span class="chip">Domestic <b>Check</b></span><span class="chip">Chart <b>50%</b></span><span class="chip">Approval <b>New</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="connected" data-cost="2" data-speed="2">
+      <div class="media"><span class="badge-cat">Connected</span><span class="badge-new">New</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="74" ry="8" fill="#000" opacity="0.05"/><path d="M88 44 l-30 16 l10 24 l16 -8 v60 h72 v-60 l16 8 l10 -24 l-30 -16 q-32 18 -64 0 z" fill="#fff" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><rect x="112" y="86" width="20" height="20" rx="3" fill="#CDF851" stroke="#16150F" stroke-width="1.5"/><path d="M150 78 a14 14 0 0 1 0 30" fill="none" stroke="#FF4A23" stroke-width="2.5"/></svg></div>
+      <div class="info"><div class="pname">NFC-in-Garment / Soft Goods</div><div class="priceline"><span class="price">$$</span><span class="price-cap">cost band</span></div><div class="desc">NFC chip embedded in a garment (tag or sleeve) or hat; the item also serves as album access.</div><div class="attrs"><span class="chip">Domestic <b>Check</b></span><span class="chip">Chart <b>50%</b></span><span class="chip">Approval <b>New</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="connected" data-cost="3" data-speed="3">
+      <div class="media"><span class="badge-cat">Connected</span><span class="badge-new">New</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="150" rx="70" ry="8" fill="#000" opacity="0.05"/><polygon points="76,64 120,44 164,64 120,84" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><polygon points="76,64 120,84 120,134 76,114" fill="#fff" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><polygon points="164,64 120,84 120,134 164,114" fill="#F2F1EB" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><rect x="90" y="96" width="20" height="20" rx="3" fill="#CDF851" stroke="#16150F" stroke-width="1.5"/><path d="M150 92 a12 12 0 0 1 0 26" fill="none" stroke="#FF4A23" stroke-width="2.5"/></svg></div>
+      <div class="info"><div class="pname">NFC Box / Premium</div><div class="priceline"><span class="price">$$$</span><span class="price-cap">cost band</span></div><div class="desc">Boxed format with an embedded NFC chip.</div><div class="attrs"><span class="chip">Domestic <b>Check</b></span><span class="chip">Chart <b>50%</b></span><span class="chip">Approval <b>New</b></span></div></div>
+    </div>
+
+    <!-- CHANNELS -->
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="60" ry="8" fill="#000" opacity="0.05"/><rect x="84" y="58" width="72" height="74" fill="#fff" stroke="#16150F" stroke-width="2.5"/><path d="M78 58 h84 l-10 -18 h-64 z" fill="#CDF851" stroke="#16150F" stroke-width="2"/><rect x="110" y="92" width="20" height="40" fill="#E9E7DE" stroke="#16150F" stroke-width="1.5"/></svg></div>
+      <div class="info"><div class="pname">Wide / Retail</div><div class="desc">General retail distribution; one wide configuration.</div><div class="attrs"><span class="chip">Connect <b>Standing</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="56" ry="8" fill="#000" opacity="0.05"/><path d="M92 56 h56 l-5 76 h-46 z" fill="#fff" stroke="#16150F" stroke-width="2.5"/><path d="M104 56 a16 16 0 0 1 32 0" fill="none" stroke="#16150F" stroke-width="2.5"/><circle cx="120" cy="92" r="9" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="pname">D2C Exclusive</div><div class="desc">Direct-to-consumer store-exclusive configuration; signed runs are typically sold here.</div><div class="attrs"><span class="chip">Connect <b>Owned</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="56" ry="8" fill="#000" opacity="0.05"/><rect x="84" y="54" width="72" height="78" rx="2" fill="#fff" stroke="#16150F" stroke-width="2.5"/><rect x="96" y="68" width="8" height="48" fill="#E9E7DE"/><rect x="108" y="68" width="8" height="48" fill="#CDF851"/><rect x="120" y="68" width="8" height="48" fill="#E9E7DE"/><rect x="132" y="68" width="8" height="48" fill="#E9E7DE"/></svg></div>
+      <div class="info"><div class="pname">Indie / Specialty</div><div class="desc">Independent record store channel.</div><div class="attrs"><span class="chip">Connect <b>Check</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="58" ry="8" fill="#000" opacity="0.05"/><rect x="82" y="58" width="76" height="74" fill="#fff" stroke="#16150F" stroke-width="2.5"/><path d="M76 58 h88 l-10 -16 h-68 z" fill="#fff" stroke="#16150F" stroke-width="2"/><polygon points="120,74 125,86 138,86 128,94 132,107 120,99 108,107 112,94 102,86 115,86" fill="#CDF851" stroke="#16150F" stroke-width="1.2"/></svg></div>
+      <div class="info"><div class="pname">K-Pop Specialty Network</div><div class="desc">K-pop retail and distribution network, including its online store.</div><div class="attrs"><span class="chip">Connect <b>Limited</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="62" ry="8" fill="#000" opacity="0.05"/><rect x="74" y="44" width="92" height="88" fill="#fff" stroke="#16150F" stroke-width="2.5"/><line x1="97" y1="44" x2="97" y2="132" stroke="#B9B6AC" stroke-width="1.5"/><line x1="120" y1="44" x2="120" y2="132" stroke="#B9B6AC" stroke-width="1.5"/><line x1="143" y1="44" x2="143" y2="132" stroke="#B9B6AC" stroke-width="1.5"/><rect x="108" y="112" width="18" height="20" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="pname">Big-Box / Lifestyle</div><div class="desc">High-volume lifestyle retail channel.</div><div class="attrs"><span class="chip">Connect <b>Check</b></span></div></div>
+    </div>
+
+    <div class="product" data-cat="channels" data-cost="0" data-speed="0">
+      <div class="media"><span class="badge-cat">Channel</span><svg viewBox="0 0 240 168"><ellipse cx="120" cy="148" rx="56" ry="8" fill="#000" opacity="0.05"/><path d="M82 120 q26 -42 60 -52" fill="none" stroke="#CDF851" stroke-width="4" stroke-linecap="round"/><path d="M138 56 l14 9 -32 44 -14 -6 z" fill="#fff" stroke="#16150F" stroke-width="2"/><line x1="78" y1="126" x2="160" y2="126" stroke="#16150F" stroke-width="2.5"/></svg></div>
+      <div class="info"><div class="pname">Signed Edition</div><div class="desc">Autographed run.</div><div class="attrs"><span class="chip">Connect <b>Owned</b></span></div></div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-in">
+    <div class="fbrand">
+      <div class="wm">Physical Catalog</div>
+      <p>A reference of physical product options. Illustrations are indicative form factors, not finished designs. Internal use only.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Collections</h4>
+      <a data-filter="housing">Housing</a>
+      <a data-filter="vinyl">Vinyl</a>
+      <a data-filter="inclusions">Inclusions</a>
+      <a data-filter="connected">Connected</a>
+    </div>
+    <div class="foot-col">
+      <h4>More</h4>
+      <a data-filter="channels">Channels</a>
+      <a href="#top">Back to top</a>
+    </div>
+  </div>
+  <div class="foot-bottom">Relative cost bands shown — not live pricing. · v1</div>
+</footer>
+
+<script>
+  var products = Array.prototype.slice.call(document.querySelectorAll('.product'));
+  var collBtns = document.querySelectorAll('.filt');
+  var countEl = document.getElementById('count');
+  var finderResult = document.getElementById('finderResult');
+  var labels = {all:'all', housing:'Housing', vinyl:'Vinyl', inclusions:'Inclusions', connected:'Connected', channels:'Channels'};
+  var state = {coll:'all', budget:'any', time:'any'};
+
+  var lookup={};
+  products.forEach(function(p){
+    var nm=p.querySelector('.pname').textContent;
+    lookup[nm]={cost:parseInt(p.getAttribute('data-cost'),10), speed:parseInt(p.getAttribute('data-speed'),10), svg:p.querySelector('.media svg').outerHTML};
+  });
+  var pref={
+    housing:['Hardcover Book','Zine','Accordion Fold-Out','Super Jewel','Plastic Sleeve / PVC','Soft Pack','O-Card Slipcase','Standard Jewel'],
+    inclusions:['Fold-Out Poster','Lyric Booklet / Insert','Photo Cards','Themed Mementos','Sticker / Sticker Sheet','Postcards','Thank-You Note'],
+    vinyl:['Gatefold','Color Variant','Randomized Variant','Pocket Jacket'],
+    connected:['NFC Box / Premium','NFC-in-Garment / Soft Goods','NFC Mini Album']
+  };
+  var slotLabel={housing:'CD format', inclusions:'Inclusion', vinyl:'Vinyl', connected:'Connected'};
+  var budgetLabel={any:'Any budget','1':'Lean','2':'Standard','3':'Premium'};
+  var timeLabel={any:'any time','1':'tight','2':'some time','3':'plenty'};
+
+  function pickFit(cat, bc, tc){
+    var list=pref[cat];
+    for(var i=0;i<list.length;i++){
+      var it=lookup[list[i]];
+      if(it && it.cost<=bc && it.speed<=tc) return {name:list[i], svg:it.svg};
+    }
+    return null;
+  }
+  function buildSet(){
+    var bc=state.budget==='any'?3:parseInt(state.budget,10);
+    var tc=state.time==='any'?3:parseInt(state.time,10);
+    var html='';
+    ['housing','inclusions','vinyl','connected'].forEach(function(cat){
+      var pick=pickFit(cat,bc,tc);
+      if(pick){
+        html+='<div class="fitem"><div class="m">'+pick.svg+'</div><div class="fn">'+pick.name+'</div><div class="fd">'+slotLabel[cat]+'</div></div>';
+      }
+    });
+    document.getElementById('fset').innerHTML=html || '<div class="fd" style="padding:14px 0; color:var(--muted);">No formats fit those constraints — loosen budget or timeline.</div>';
+    document.getElementById('buildTag').textContent=budgetLabel[state.budget]+' · '+timeLabel[state.time];
+  }
+
+  function apply(){
+    var shown=0, formats=0;
+    products.forEach(function(p){
+      var cat=p.getAttribute('data-cat');
+      var cost=parseInt(p.getAttribute('data-cost')||'0',10);
+      var spd=parseInt(p.getAttribute('data-speed')||'0',10);
+      var okColl=(state.coll==='all'||cat===state.coll);
+      var okBudget=(state.budget==='any'||cost===0||cost<=parseInt(state.budget,10));
+      var okTime=(state.time==='any'||spd===0||spd<=parseInt(state.time,10));
+      var show=okColl&&okBudget&&okTime;
+      p.style.display=show?'':'none';
+      if(show){shown++; if(cat!=='channels') formats++;}
+    });
+    countEl.textContent=(state.coll==='all'?'Showing '+shown+' items':'Showing '+shown+' in '+labels[state.coll]);
+    if(state.budget==='any'&&state.time==='any'){
+      finderResult.innerHTML='Showing every option';
+    } else {
+      finderResult.innerHTML='<b>'+formats+'</b> format'+(formats===1?'':'s')+' fit your budget &amp; timeline';
+    }
+    buildSet();
+  }
+
+  collBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      state.coll=b.getAttribute('data-filter');
+      collBtns.forEach(function(x){ x.classList.toggle('active', x===b); });
+      apply();
+    });
+  });
+
+  document.querySelectorAll('.opts').forEach(function(group){
+    var key=group.getAttribute('data-group');
+    group.querySelectorAll('.opt-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        state[key]=btn.getAttribute('data-val');
+        group.querySelectorAll('.opt-btn').forEach(function(x){ x.classList.toggle('active', x===btn); });
+        apply();
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-filter]').forEach(function(el){
+    if(el.classList.contains('filt')) return;
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      state.coll=el.getAttribute('data-filter');
+      collBtns.forEach(function(x){ x.classList.toggle('active', x.getAttribute('data-filter')===state.coll); });
+      apply();
+      document.getElementById('grid').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  apply();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+  :root{
+    --bg:#F2F1EB; --card:#FFFFFF; --shot:#FAF9F4; --text:#16150F; --muted:#6B6A62; --faint:#8A8576;
+    --chartreuse:#CDF851; --flame:#FF4A23; --line:#E3E1D8; --gray:#E9E7DE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.5;}
+
+  /* PASSWORD GATE */
+  #gate{position:fixed; inset:0; background:#0F0E0E; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  #gate .gate-mark{width:46px; height:46px; background:var(--chartreuse); border-radius:10px; margin-bottom:18px;}
+  #gate .gate-title{font-size:22px; font-weight:900; color:#FCFDF8; margin-bottom:4px; letter-spacing:-0.3px; text-transform:uppercase;}
+  #gate .gate-sub{font-size:11px; color:#847D96; margin-bottom:22px; letter-spacing:1.5px; text-transform:uppercase;}
+  #gate input{font-size:14px; padding:11px 20px; border:2px solid #2A2A2A; background:#1A1A1A; color:#FCFDF8; width:240px; text-align:center; outline:none; font-family:inherit; border-radius:8px;}
+  #gate input:focus{border-color:var(--chartreuse);}
+  #gate button{font-size:11px; font-weight:700; padding:11px 28px; background:var(--chartreuse); color:#0F0E0E; border:none; cursor:pointer; margin-top:12px; letter-spacing:1.5px; text-transform:uppercase; font-family:inherit; border-radius:999px;}
+  #gate #err{color:var(--flame); font-size:11px; margin-top:10px; height:16px;}
+
+  .header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .header-in{max-width:1180px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; gap:28px;}
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);}
+  .brand .mark{width:22px; height:22px; background:var(--chartreuse); border-radius:4px;}
+  .brand .wm{font-weight:900; letter-spacing:0.04em; font-size:16px; text-transform:uppercase;}
+  .brand .sub{font-size:10px; color:var(--faint); letter-spacing:0.14em; text-transform:uppercase; margin-top:1px;}
+  .header-right{margin-left:auto; display:flex; align-items:center; gap:16px;}
+  .reset{font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--faint); text-decoration:none; border:1px solid var(--line); padding:5px 11px; border-radius:999px; cursor:pointer;}
+  .reset:hover{color:var(--text); border-color:var(--text);}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  .hero{padding:54px 0 22px;}
+  .hero .ey{font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--faint); margin-bottom:14px;}
+  .hero h1{font-size:clamp(40px,6.5vw,64px); font-weight:900; letter-spacing:-0.025em; text-transform:uppercase; line-height:0.92;}
+  .count{margin-top:24px; padding-bottom:18px; border-bottom:1px solid var(--line); font-size:13px; color:var(--muted);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; padding:24px 0;}
+  .tool{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; text-decoration:none; color:var(--text); transition:transform .15s, box-shadow .15s; cursor:grab;}
+  .tool:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(22,21,15,0.08);}
+  .tool.dragging{opacity:0.45; outline:2px dashed var(--chartreuse); outline-offset:3px; box-shadow:none;}
+  .media{position:relative; height:132px; background:var(--shot); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+  .media svg{width:86px; height:86px; transition:transform .35s ease; pointer-events:none;}
+  .tool:hover .media svg{transform:scale(1.08);}
+  .badge-live{position:absolute; top:12px; right:12px; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#16150F; background:var(--chartreuse); padding:3px 8px; border-radius:999px;}
+  .badge-new{position:absolute; top:12px; right:12px; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#fff; background:var(--flame); padding:3px 8px; border-radius:999px;}
+  .badge-soon{position:absolute; top:12px; right:12px; font-size:10px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); background:rgba(255,255,255,0.9); border:1px solid var(--line); padding:3px 8px; border-radius:999px;}
+  .grip{position:absolute; top:12px; left:12px; color:var(--faint); font-size:13px; letter-spacing:1px; opacity:0.5;}
+  .info{padding:17px 19px; display:flex; flex-direction:column; flex-grow:1;}
+  .tname{font-size:16.5px; font-weight:700; line-height:1.2; margin-bottom:6px;}
+  .tdesc{font-size:13px; color:var(--muted); margin-bottom:14px;}
+  .open{margin-top:auto; padding-top:12px; border-top:1px solid var(--line); font-size:12px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--text); display:flex; align-items:center; gap:6px;}
+  .open .arr{color:var(--chartreuse);}
+  .tool.soon .open{color:var(--faint);}
+
+  footer{margin-top:44px; background:#16150F; color:#C9C7BD;}
+  .foot-in{max-width:1180px; margin:0 auto; padding:40px 28px 26px;}
+  .foot-in .wm{color:#F2F1EB; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; font-size:18px;}
+  .foot-in p{font-size:13px; line-height:1.7; margin-top:10px; max-width:440px;}
+  .foot-bottom{border-top:1px solid #2A2926; padding:16px 28px; text-align:center; font-size:11.5px; color:#8A8576;}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-mark"></div>
+  <div class="gate-title">Jordan Dashboard</div>
+  <div class="gate-sub">Campaign Ops · RCA</div>
+  <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Enter</button>
+  <div id="err"></div>
+</div>
+
+<div id="app" style="display:none;">
+
+<header class="header">
+  <div class="header-in">
+    <a class="brand" href="#top">
+      <span class="mark"></span>
+      <span><span class="wm">Campaign Ops</span><div class="sub">Dashboard</div></span>
+    </a>
+    <div class="header-right">
+      <a class="reset" id="resetLayout">Reset layout</a>
+    </div>
+  </div>
+</header>
+
+<div id="top" class="wrap">
+
+  <section class="hero">
+    <div class="ey">Campaign Ops</div>
+    <h1>Jordan Dashboard</h1>
+    <div class="count">Seven tools · six live, one coming &nbsp;·&nbsp; drag cards to rearrange</div>
+  </section>
+
+  <div class="grid" id="grid">
+
+    <!-- D2C LONG LEAD -->
+    <a class="tool" data-id="d2c" href="https://operations.mugzyboez.co/d2c-grid.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="26" y="28" width="68" height="64" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="26" y1="46" x2="94" y2="46" stroke="#16150F" stroke-width="2.5"/><rect x="34" y="54" width="15" height="9" rx="2" fill="#CDF851"/><rect x="55" y="54" width="15" height="9" rx="2" fill="#E9E7DE"/><rect x="45" y="70" width="15" height="9" rx="2" fill="#E9E7DE"/><rect x="66" y="70" width="18" height="9" rx="2" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="tname">D2C Long Lead</div><div class="tdesc">The year of D2C activations, month by category — live from Airtable.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- EXECUTIVE SCHEDULE -->
+    <a class="tool" data-id="schedule" href="https://operations.mugzyboez.co/executive-schedule.html">
+      <div class="media"><span class="grip">⣿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="28" y="26" width="64" height="68" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="50" y1="26" x2="50" y2="94" stroke="#E3E1D8" stroke-width="2"/><rect x="34" y="38" width="10" height="7" rx="1.5" fill="#CDF851"/><line x1="56" y1="41" x2="84" y2="41" stroke="#E9E7DE" stroke-width="5"/><rect x="34" y="56" width="10" height="7" rx="1.5" fill="#E9E7DE"/><line x1="56" y1="59" x2="84" y2="59" stroke="#E9E7DE" stroke-width="5"/><rect x="34" y="74" width="10" height="7" rx="1.5" fill="#CDF851"/><line x1="56" y1="77" x2="78" y2="77" stroke="#E9E7DE" stroke-width="5"/></svg></div>
+      <div class="info"><div class="tname">Executive Schedule</div><div class="tdesc">The release runway, cleaned for scanning — sorted by date and workability, with flags.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- PHYSICAL PRODUCT CATALOG -->
+    <a class="tool" data-id="catalog" href="physical-catalog.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-new">New</span><svg viewBox="0 0 120 120"><rect x="36" y="42" width="48" height="52" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><path d="M32 42 h56 l-8 -14 h-40 z" fill="#CDF851" stroke="#16150F" stroke-width="2.5" stroke-linejoin="round"/><circle cx="60" cy="64" r="7" fill="none" stroke="#16150F" stroke-width="2.5"/><circle cx="60" cy="64" r="2" fill="#16150F"/></svg></div>
+      <div class="info"><div class="tname">Physical Product Catalog</div><div class="tdesc">Every config, inclusion, and channel — filter by budget and timeline.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- AD TAGGING -->
+    <a class="tool" data-id="adtag" href="https://operations.mugzyboez.co/ad-tagging.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><path d="M34 60 l26 -26 h24 v24 l-26 26 z" fill="#fff" stroke="#16150F" stroke-width="3" stroke-linejoin="round"/><circle cx="74" cy="48" r="5" fill="#16150F"/><circle cx="48" cy="84" r="7" fill="#CDF851" stroke="#16150F" stroke-width="2"/><line x1="54" y1="78" x2="62" y2="70" stroke="#16150F" stroke-width="2"/></svg></div>
+      <div class="info"><div class="tname">AD Tagging</div><div class="tdesc">Click an artist, the matching AD specialists light up by genre and lifestyle.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- CREATOR DATABASE -->
+    <a class="tool" data-id="creators" href="https://operations.mugzyboez.co/creators.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="72" y="40" width="20" height="48" rx="3" fill="#FAF9F4" stroke="#16150F" stroke-width="2.5"/><rect x="30" y="34" width="40" height="54" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><circle cx="50" cy="54" r="9" fill="#CDF851" stroke="#16150F" stroke-width="2"/><path d="M37 78 q13 -15 26 0" fill="none" stroke="#16150F" stroke-width="2.5"/></svg></div>
+      <div class="info"><div class="tname">Creator Database</div><div class="tdesc">Filterable UGC roster — function, platform, size, genre, lifestyle, price.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- EXECUTIVE SCHEDULE -->
+    <a class="tool" data-id="schedule" href="https://operations.mugzyboez.co/executive-schedule.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="26" y="30" width="68" height="62" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="26" y1="48" x2="94" y2="48" stroke="#16150F" stroke-width="2.5"/><line x1="40" y1="24" x2="40" y2="36" stroke="#16150F" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="24" x2="80" y2="36" stroke="#16150F" stroke-width="3" stroke-linecap="round"/><rect x="34" y="56" width="13" height="9" rx="2" fill="#CDF851"/><rect x="53" y="56" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="72" y="56" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="34" y="71" width="13" height="9" rx="2" fill="#E9E7DE"/><rect x="53" y="71" width="13" height="9" rx="2" fill="#CDF851"/></svg></div>
+      <div class="info"><div class="tname">Executive Schedule</div><div class="tdesc">The full release runway — every release by month, sorted by date and workability.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- EXECUTIVE SCHEDULE -->
+    <a class="tool" data-id="schedule" href="https://operations.mugzyboez.co/executive-schedule.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="26" y="26" width="68" height="68" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="26" y1="44" x2="94" y2="44" stroke="#16150F" stroke-width="2.5"/><line x1="40" y1="56" x2="80" y2="56" stroke="#E9E7DE" stroke-width="5"/><rect x="40" y="65" width="40" height="7" rx="2" fill="#CDF851"/><line x1="40" y1="80" x2="68" y2="80" stroke="#E9E7DE" stroke-width="5"/><circle cx="32" cy="56" r="2.5" fill="#16150F"/><circle cx="32" cy="69" r="2.5" fill="#16150F"/><circle cx="32" cy="80" r="2.5" fill="#16150F"/></svg></div>
+      <div class="info"><div class="tname">Executive Schedule</div><div class="tdesc">The full release runway by month — workability deadlines and clearance flags.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- BRAND SURVEY -->
+    <a class="tool" data-id="brand" href="https://operations.mugzyboez.co/brand-survey.html">
+      <div class="media"><span class="grip">⠿</span><span class="badge-live">Live</span><svg viewBox="0 0 120 120"><rect x="34" y="30" width="52" height="64" rx="4" fill="#fff" stroke="#16150F" stroke-width="3"/><rect x="49" y="23" width="22" height="13" rx="3" fill="#E9E7DE" stroke="#16150F" stroke-width="2.5"/><rect x="44" y="48" width="11" height="11" rx="2" fill="#CDF851" stroke="#16150F" stroke-width="2"/><line x1="61" y1="54" x2="78" y2="54" stroke="#E9E7DE" stroke-width="4"/><rect x="44" y="68" width="11" height="11" rx="2" fill="#fff" stroke="#16150F" stroke-width="2"/><line x1="61" y1="74" x2="78" y2="74" stroke="#E9E7DE" stroke-width="4"/></svg></div>
+      <div class="info"><div class="tname">Brand Survey</div><div class="tdesc">Roster brand-affinity and partnership readiness, surfaced for Brand Partnerships.</div><div class="open">Open <span class="arr">&rarr;</span></div></div>
+    </a>
+
+    <!-- PHYSICAL TRACKER -->
+    <a class="tool soon" data-id="tracker" href="#">
+      <div class="media"><span class="grip">⠿</span><span class="badge-soon">In build</span><svg viewBox="0 0 120 120"><rect x="28" y="42" width="28" height="28" rx="3" fill="#fff" stroke="#16150F" stroke-width="3"/><line x1="28" y1="51" x2="56" y2="51" stroke="#16150F" stroke-width="2"/><path d="M33 80 l5 5 l9 -10" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="66" y="44" width="26" height="8" rx="2" fill="#CDF851"/><line x1="66" y1="62" x2="92" y2="62" stroke="#E9E7DE" stroke-width="5"/><line x1="66" y1="74" x2="86" y2="74" stroke="#E9E7DE" stroke-width="5"/></svg></div>
+      <div class="info"><div class="tname">Physical Tracker</div><div class="tdesc">Status of each physical config through manufacturing, approval, and street.</div><div class="open">In build</div></div>
+    </a>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-in">
+    <div class="wm">Campaign Ops</div>
+    <p>A curated set of Campaign Ops tools. Campaign Ops tracks, surfaces, flags, prompts, and confirms — it does not approve, decide, or own. Internal use only.</p>
+  </div>
+  <div class="foot-bottom">Meg Hourihan · RCA Records · 2026</div>
+</footer>
+
+</div><!-- /app -->
+
+<script>
+function checkPw(){
+  var v=document.getElementById('pw').value;
+  if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+  else { document.getElementById('err').textContent='Incorrect password'; document.getElementById('pw').value=''; document.getElementById('pw').focus(); }
+}
+function unlock(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+  setupBoard();
+}
+function setupBoard(){
+  var grid=document.getElementById('grid');
+  if(!grid || grid.dataset.ready) return;
+  grid.dataset.ready='1';
+  var KEY='jordan_dash_order';
+  try{
+    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(saved && saved.length){
+      saved.forEach(function(id){
+        var el=grid.querySelector('.tool[data-id="'+id+'"]');
+        if(el) grid.appendChild(el);
+      });
+      grid.querySelectorAll('.tool').forEach(function(el){
+        if(saved.indexOf(el.getAttribute('data-id'))===-1) grid.appendChild(el);
+      });
+    }
+  }catch(e){}
+  var dragEl=null;
+  function save(){
+    var ids=[].slice.call(grid.querySelectorAll('.tool')).map(function(t){return t.getAttribute('data-id');});
+    try{ localStorage.setItem(KEY, JSON.stringify(ids)); }catch(e){}
+  }
+  grid.querySelectorAll('.tool').forEach(function(card){
+    card.setAttribute('draggable','true');
+    card.addEventListener('dragstart', function(e){
+      dragEl=card; setTimeout(function(){card.classList.add('dragging');},0);
+      e.dataTransfer.effectAllowed='move';
+      try{ e.dataTransfer.setData('text/plain', card.getAttribute('data-id')||''); }catch(_){}
+    });
+    card.addEventListener('dragend', function(){ card.classList.remove('dragging'); save(); });
+    card.addEventListener('dragover', function(e){
+      e.preventDefault();
+      if(!dragEl || dragEl===card) return;
+      var box=card.getBoundingClientRect();
+      if(e.clientX < box.left + box.width/2){ grid.insertBefore(dragEl, card); }
+      else { grid.insertBefore(dragEl, card.nextSibling); }
+    });
+  });
+  grid.addEventListener('dragover', function(e){ e.preventDefault(); });
+  grid.addEventListener('drop', function(e){ e.preventDefault(); });
+  var rb=document.getElementById('resetLayout');
+  if(rb){ rb.addEventListener('click', function(e){ e.preventDefault(); try{localStorage.removeItem(KEY);}catch(_){} location.reload(); }); }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+  else { var p=document.getElementById('pw'); if(p) p.focus(); }
+});
+</script>
+
+</body>
+</html>
