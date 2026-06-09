@@ -7,10 +7,10 @@
 <link rel="icon" type="image/png" href="/tempoicon.png">
 <style>
 :root{
-  --bg:#FCFDF8; --card:#FFFFFF; --text:#1A1A1A; --text-soft:#3D3935; --text-quiet:#6B6660; --text-fade:#9C968D;
-  --rule:#E6E4DA; --chartreuse:#7E9E1F; --chartreuse-soft:#F0F4DE; --flame:#D8401C; --flame-soft:#FBE6E0;
+  --bg:#F2F1EB; --card:#FFFFFF; --tile:#FAF9F4; --ink:#16150F; --text:#16150F; --text-soft:#3D3935; --text-quiet:#6B6A62; --text-fade:#9C968D;
+  --rule:#E3E1D8; --chartreuse:#7E9E1F; --chartreuse-bright:#CDF851; --chartreuse-soft:#F0F4DE; --flame:#D8401C; --flame-soft:#FBE6E0;
   --cobrand:#7C5BC9; --cobrand-soft:#EDE7F8; --atg:#2F6FB0; --atg-soft:#E2ECF6;
-  --fortyone:#2C8A88; --fortyone-soft:#DEEDEC; --creatorcore:#C2641F; --creatorcore-soft:#F7E8DA; --other:#7A756E; --other-soft:#ECEAE4;
+  --fortyone:#2C8A88; --fortyone-soft:#DEEDEC; --creatorcore:#C2641F; --creatorcore-soft:#F7E8DA; --spade:#9E3B3B; --spade-soft:#F2E1E1; --clementine:#B5497E; --clementine-soft:#F5E3EE; --createmate:#5E7A8C; --createmate-soft:#E6EDF1; --googlesheet:#3E8E5A; --googlesheet-soft:#E2F0E7; --other:#7A756E; --other-soft:#ECEAE4;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-weight:400;line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased;}
@@ -152,6 +152,33 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 @media(max-width:640px){.wrap{padding:32px 20px 70px;}h1{font-size:27px;}.card{grid-template-columns:1fr;}.right{text-align:left;}.stat{min-width:50%;}}
 .air-corner{position:fixed;top:12px;right:14px;z-index:45;font-size:11px;font-weight:600;color:#6B6A62;background:rgba(255,255,255,0.92);border:1px solid #E3E1D8;border-radius:999px;padding:5px 11px;text-decoration:none;backdrop-filter:blur(4px);transition:color .12s,border-color .12s;}
 .air-corner:hover{color:#16150F;border-color:#8A8576;}
+
+/* --- storefront chrome (gold-standard) --- */
+.annbar{background:var(--ink);color:#F2F1EB;font-size:11.5px;letter-spacing:.4px;text-align:center;padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.annbar b{color:var(--chartreuse-bright);font-weight:800;}
+.anndot{width:6px;height:6px;border-radius:50%;background:var(--chartreuse-bright);box-shadow:0 0 0 3px rgba(205,248,81,.25);flex:none;}
+.shead{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--rule);}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);}
+.brand img{width:30px;height:30px;border-radius:7px;display:block;}
+.brand .bw{display:flex;flex-direction:column;line-height:1.08;}
+.brand .bw b{font-size:14px;font-weight:900;letter-spacing:1.5px;}
+.brand .bw i{font-size:11px;font-style:normal;color:var(--text-quiet);letter-spacing:.3px;}
+.snav{display:flex;align-items:center;gap:18px;font-size:12.5px;}
+.snav a{color:var(--text-quiet);text-decoration:none;letter-spacing:.3px;}
+.snav a:hover{color:var(--text);}
+.snav .conn{display:inline-flex;align-items:center;gap:7px;color:var(--text-quiet);font-size:11px;}
+.group{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 20px 4px;box-shadow:0 1px 2px rgba(20,21,15,.04),0 12px 28px -18px rgba(20,21,15,.18);}
+.group-h .a{font-size:20px;}
+.card{transition:background .15s;border-radius:8px;padding-left:12px;padding-right:12px;}
+.card:hover{background:var(--tile);}
+.card:last-child{border-bottom:none;}
+.sfoot{margin-top:64px;background:var(--ink);}
+.sfoot-in{max-width:1180px;margin:0 auto;padding:34px 40px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;}
+.sf-brand{display:flex;align-items:center;gap:10px;color:#F2F1EB;font-weight:900;letter-spacing:1.5px;font-size:14px;}
+.sf-brand img{width:26px;height:26px;border-radius:6px;}
+.sf-meta{font-size:12px;color:#9C988C;max-width:520px;line-height:1.5;}
+.sf-links a{color:var(--chartreuse-bright);text-decoration:none;font-size:12px;margin-left:14px;}
+@media(max-width:620px){.shead{flex-wrap:wrap;gap:10px;}.snav{gap:12px;}.sfoot-in{padding:28px 22px;}}
 </style>
 </head>
 <body>
@@ -181,17 +208,21 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </script>
 
 <div id="body" style="display:none;">
-<a class="air-corner" href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">↗ Airtable</a>
 
-<div class="site-strip">
-  <a href="/">&larr; Home</a>
-  <div class="conn"><span class="conn-dot" id="dot"></span><span id="connlabel">connecting…</span></div>
-</div>
+<div class="annbar"><span class="anndot"></span>Live cross-vendor campaign index &middot; <b id="anncount">…</b> campaigns across every platform &amp; agency</div>
+<header class="shead">
+  <a class="brand" href="/"><img src="/tempoicon.png" alt="TEMPO"><span class="bw"><b>TEMPO</b><i>Creator Campaign Index</i></span></a>
+  <nav class="snav">
+    <a href="/">Home</a>
+    <a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Airtable &#8599;</a>
+    <span class="conn"><span class="conn-dot" id="dot"></span><span id="connlabel">connecting…</span></span>
+  </nav>
+</header>
 
 <div class="wrap">
   <div class="kicker">Campaign Operations &middot; Working View</div>
   <h1>Creator Campaign Index</h1>
-  <div class="sub">Every creator campaign, across every platform &mdash; Cobrand, ATG, Fortyone, CreatorCore. One view, with a click-through to each dashboard. The platforms do the tracking; this is the cross-vendor read none of them can give.</div>
+  <div class="sub">Every creator, seeding, and edits campaign &mdash; across every platform and agency, both books. One place to see what's running, who's running it, and where to click through. The platforms do the tracking; this is the cross-vendor read none of them can give.</div>
 
   <div class="summary" id="summary"></div>
   <div class="byplat" id="byplat"></div>
@@ -241,6 +272,10 @@ var PLAT = {
   "ATG Media":   {c:"var(--atg)",        s:"var(--atg-soft)"},
   "Fortyone":    {c:"var(--fortyone)",   s:"var(--fortyone-soft)"},
   "CreatorCore": {c:"var(--creatorcore)",s:"var(--creatorcore-soft)"},
+  "Spade":       {c:"var(--spade)",      s:"var(--spade-soft)"},
+  "Clementine":  {c:"var(--clementine)", s:"var(--clementine-soft)"},
+  "Create Mate": {c:"var(--createmate)", s:"var(--createmate-soft)"},
+  "Google Sheet":{c:"var(--googlesheet)",s:"var(--googlesheet-soft)"},
   "Other":       {c:"var(--other)",      s:"var(--other-soft)"}
 };
 function pmeta(p){ return PLAT[p] || PLAT["Other"]; }
@@ -374,6 +409,7 @@ function renderSummary(){
     segs+='<span class="seg" style="background:'+m.s+'"><span class="d" style="background:'+m.c+'"></span>'+esc(p)+' &middot; '+plats[p]+' &middot; '+money(spend)+'</span>';
   });
   document.getElementById("byplat").innerHTML='<span>By platform:</span>'+segs;
+  var _ab=document.getElementById("anncount"); if(_ab)_ab.textContent=all.length;
 }
 
 function renderFlags(){
@@ -591,5 +627,10 @@ function renderLeaderboard(){
 function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderLeaderboard(); renderQuadrant(); renderFilters(); renderList(); }
 </script>
 
+<footer class="sfoot"><div class="sfoot-in">
+  <div class="sf-brand"><img src="/tempoicon.png" alt="TEMPO"><span>TEMPO</span></div>
+  <div class="sf-meta">RCA Records &middot; Campaign Operations &middot; sandbox view. Campaign Ops surfaces and routes; each team owns its own numbers.</div>
+  <div class="sf-links"><a href="/">Home</a><a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Source data &#8599;</a></div>
+</div></footer>
 </body>
 </html>
