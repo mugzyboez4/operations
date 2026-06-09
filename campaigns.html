@@ -28,12 +28,12 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,Bl
 .conn-dot{width:8px;height:8px;border-radius:50%;background:var(--text-fade);}
 .conn-dot.live{background:var(--chartreuse);} .conn-dot.demo{background:#C9A227;} .conn-dot.error{background:var(--flame);}
 .wrap{max-width:1180px;margin:0 auto;padding:44px 40px 90px;}
-.kicker{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-quiet);margin-bottom:12px;}
-h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margin-bottom:10px;}
-.sub{font-size:15px;color:var(--text-quiet);max-width:640px;margin-bottom:30px;}
+.kicker{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--flame);margin-bottom:11px;}
+h1{font-size:42px;font-weight:900;letter-spacing:-1.2px;line-height:.98;text-transform:uppercase;margin-bottom:13px;}
+.sub{font-size:14.5px;color:var(--text-quiet);max-width:680px;margin-bottom:30px;}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:14px;}
-.stat{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 17px 14px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(20,21,15,.04),0 10px 24px -14px rgba(20,21,15,.18);}
-.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--chartreuse);}
+.stat{background:var(--tile);border:1px solid var(--rule);border-radius:12px;padding:14px 18px;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--chartreuse-bright);}
 .stat.flame::before{background:var(--flame);}
 .stat .n{font-size:27px;font-weight:900;letter-spacing:-0.03em;line-height:1;}
 .stat .l{font-size:10.5px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-quiet);margin-top:9px;}
@@ -78,37 +78,45 @@ h1{font-size:36px;font-weight:900;letter-spacing:-0.025em;line-height:1.05;margi
 .group-h{display:flex;align-items:baseline;gap:10px;padding-bottom:9px;border-bottom:2px solid var(--text);margin-bottom:2px;}
 .group-h .a{font-size:18px;font-weight:900;letter-spacing:-0.01em;}
 .group-h .meta{font-size:12px;color:var(--text-quiet);}
-.card{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px 4px;border-bottom:1px solid var(--rule);align-items:start;}
-.card .main{min-width:0;}
-.card .ctitle{font-size:16px;font-weight:900;letter-spacing:-0.01em;margin-bottom:5px;}
-.card .ctitle .song{font-style:italic;}
-.card .ctitle .desc{display:block;font-size:12px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);margin-top:3px;}
-.card .ctitle .nosong{font-weight:900;font-style:normal;}
-.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-.chip{font-size:11px;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;}
-.chip .d{width:6px;height:6px;border-radius:50%;}
-.chip.type{background:var(--other-soft);color:var(--text-soft);}
-.chip.status{font-weight:600;}
-.chip.status.Live{background:var(--chartreuse-soft);color:#4F6310;}
-.chip.status.Wrapped{background:#E2ECF6;color:#2F6FB0;}
-.chip.status.Paused{background:var(--other-soft);color:var(--text-quiet);}
-.chip.status.Planned{background:#FBF3D6;color:#8A6D0F;}
-.flag{font-size:12px;color:var(--flame);font-style:italic;margin-top:7px;line-height:1.45;}
-.metrics{display:flex;gap:16px;flex-wrap:wrap;margin-top:11px;}
-.metric .v{font-weight:700;color:var(--text);font-size:13px;}
-.metric .v.warn{color:var(--flame);}
-.metric .v.good{color:#4F6310;}
-.metric .lbl{display:block;font-size:10px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-fade);margin-top:1px;}
-.verdict-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;}
-.verdict-tag.Scale{background:var(--chartreuse-soft);color:#4F6310;}
-.verdict-tag.Pivot{background:#FBF3D6;color:#8A6D0F;}
-.verdict-tag.Kill{background:var(--flame-soft);color:var(--flame);}
-.verdict-tag.Tooearly{background:var(--other-soft);color:var(--text-quiet);}
-.outcome-line{font-size:12.5px;color:var(--text-soft);margin-top:9px;line-height:1.5;}
-.outcome-line .who{font-weight:700;color:var(--text);}
-.reviewed-tag{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chartreuse-soft);color:#4F6310;display:inline-flex;align-items:center;gap:4px;}
-.learnings{font-size:12.5px;color:var(--text-soft);margin-top:9px;padding:9px 12px;background:var(--other-soft);border-radius:4px;line-height:1.5;}
-.learnings .lk{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);display:block;margin-bottom:2px;}
+/* --- campaign collections + card grid (storefront) --- */
+.collection{margin-bottom:36px;}
+.coll-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding-bottom:11px;border-bottom:2px solid var(--ink);}
+.coll-h .a{font-size:23px;font-weight:900;letter-spacing:-.02em;}
+.coll-h .a::after{content:"";display:inline-block;width:26px;height:4px;background:var(--chartreuse-bright);margin-left:11px;vertical-align:middle;border-radius:2px;}
+.coll-h .meta{font-size:12px;color:var(--text-quiet);font-weight:600;margin-left:auto;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(286px,1fr));gap:16px;}
+.ccard{background:var(--card);border:1px solid var(--rule);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(20,21,15,.04),0 14px 30px -20px rgba(20,21,15,.22);transition:transform .18s,box-shadow .18s;}
+.ccard:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(20,21,15,.09),0 28px 54px -26px rgba(20,21,15,.32);}
+.ccover{height:96px;padding:13px 16px;display:flex;flex-direction:column;justify-content:space-between;background:var(--ink);}
+.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.cc-plat{font-size:10.5px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;color:var(--chartreuse-bright);}
+.cc-plat .pd{width:7px;height:7px;border-radius:50%;flex:none;}
+.cc-badge{font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;background:rgba(255,255,255,.9);color:var(--ink);}
+.cc-badge.Live{background:var(--chartreuse-bright);color:var(--ink);}
+.cc-badge.Wrapped{background:rgba(255,255,255,.92);color:#2F6FB0;}
+.cc-badge.Paused{background:rgba(255,255,255,.16);color:#fff;}
+.cc-badge.Planned{background:#FBF3D6;color:#8A6D0F;}
+.cc-hero{display:flex;align-items:baseline;gap:6px;}
+.cc-views{font-size:31px;font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;color:#fff;}
+.cc-vl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.65);}
+.cc-body{padding:14px 16px;display:flex;flex-direction:column;gap:9px;flex:1;}
+.cc-title{font-size:17px;font-weight:800;font-style:italic;letter-spacing:-.01em;line-height:1.12;}
+.cc-title.nosong{font-style:normal;}
+.cc-sub{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-quiet);margin-top:-4px;}
+.cc-stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:3px;}
+.cc-stats>div{display:flex;flex-direction:column;}
+.cc-stats b{font-size:15px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;}
+.cc-stats b.good{color:#5A7212;}
+.cc-stats b.warn{color:var(--flame);}
+.cc-stats b.empty{color:var(--text-fade);font-weight:600;}
+.cc-stats span{font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-fade);margin-top:5px;}
+.cc-pending{font-size:12px;font-style:italic;color:var(--text-fade);margin-top:2px;}
+.cc-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.cc-dash{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--text);text-decoration:none;border-bottom:2px solid var(--chartreuse-bright);padding-bottom:2px;white-space:nowrap;}
+.cc-dash:hover{color:#5A7212;}
+.cc-dash.none{color:var(--text-fade);border-bottom:none;text-transform:none;font-style:italic;font-weight:500;letter-spacing:.2px;}
+.cc-days{font-size:10px;color:var(--text-fade);white-space:nowrap;}
+@media(max-width:560px){.cgrid{grid-template-columns:1fr;}}
 .addbar{margin-bottom:22px;}
 .addbtn{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:9px 16px;background:var(--card);color:var(--text);border:1.5px solid var(--text);cursor:pointer;font-family:inherit;}
 .addbtn:hover{background:var(--text);color:var(--bg);}
@@ -220,12 +228,11 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </header>
 
 <div class="wrap">
-  <div class="kicker">Campaign Operations &middot; Working View</div>
+  <div class="kicker">RCA &middot; Campaign Ops</div>
   <h1>Creator Campaign Index</h1>
   <div class="sub">Every creator, seeding, and edits campaign &mdash; across every platform and agency, both books. One place to see what's running, who's running it, and where to click through. The platforms do the tracking; this is the cross-vendor read none of them can give.</div>
 
   <div class="summary" id="summary"></div>
-  <div class="byplat" id="byplat"></div>
 
   <div class="lboard" id="leaderboard"></div>
   <div class="quadrant-wrap" id="quadrant"></div>
@@ -408,7 +415,7 @@ function renderSummary(){
     var m=pmeta(p), spend=all.filter(function(c){return c.platform===p;}).reduce(function(a,c){return a+(c.budget||0);},0);
     segs+='<span class="seg" style="background:'+m.s+'"><span class="d" style="background:'+m.c+'"></span>'+esc(p)+' &middot; '+plats[p]+' &middot; '+money(spend)+'</span>';
   });
-  document.getElementById("byplat").innerHTML='<span>By platform:</span>'+segs;
+  var _bp=document.getElementById("byplat"); if(_bp){ _bp.innerHTML='<span>By platform:</span>'+segs; }
   var _ab=document.getElementById("anncount"); if(_ab)_ab.textContent=all.length;
 }
 
@@ -478,52 +485,41 @@ function submitCampaign(){
 
 function card(c){
   var m=pmeta(c.platform);
-  var chips='<span class="chip" style="background:'+m.s+';color:'+m.c+'"><span class="d" style="background:'+m.c+'"></span>'+esc(c.platform)+'</span>';
-  if(c.type) chips+='<span class="chip type">'+esc(c.type)+'</span>';
-  if(c.status) chips+='<span class="chip status '+esc(c.status)+'">'+esc(c.status)+'</span>';
-  if(c.verdict) chips+='<span class="verdict-tag '+esc(c.verdict).replace(/\s/g,'')+'">'+esc(c.verdict)+'</span>';
-  if(c.reviewed) chips+='<span class="reviewed-tag">\u2713 Reviewed</span>';
-
-  var mts=[];
-  var dl=daysLive(c.startDate);
-  if(dl!==null) mts.push('<div class="metric"><span class="v">'+dl+'</span><span class="lbl">days live</span></div>');
-  if(c.views!==null&&c.views!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.views)+'</span><span class="lbl">views</span></div>');
-  if(c.views && dl && dl>0) mts.push('<div class="metric"><span class="v">'+fmtNum(Math.round(c.views/dl))+'</span><span class="lbl">views / day</span></div>');
-  var cv=cpv(c.budget,c.views);
-  if(cv!==null) mts.push('<div class="metric"><span class="v">'+fmtCPV(cv)+'</span><span class="lbl">cost / view</span></div>');
-  if(c.engRate!==null&&c.engRate!==undefined){ var er=c.engRate*100; var cls=er<4?'warn':(er>=6?'good':''); mts.push('<div class="metric"><span class="v '+cls+'">'+er.toFixed(1)+'%</span><span class="lbl">engagement'+(er<4?' \u26a0':'')+'</span></div>'); }
-  if(c.soundCreates!==null&&c.soundCreates!==undefined) mts.push('<div class="metric"><span class="v">'+fmtNum(c.soundCreates)+'</span><span class="lbl">sound creates</span></div>');
-  if(c.views){ var estS=Math.round(c.views/convFor(c)); mts.push('<div class="metric"><span class="v">'+fmtNum(estS)+'</span><span class="lbl">est. streams \u00b7 ceiling</span></div>'); }
-  var metrics = mts.length ? '<div class="metrics">'+mts.join('')+'</div>' : '';
-
-  var ol=[];
-  if(c.streaming) ol.push('\ud83d\udcc8 '+esc(c.streaming));
-  if(c.topCreator) ol.push('top: <span class="who">'+esc(c.topCreator)+'</span>');
-  var outcome = ol.length ? '<div class="outcome-line">'+ol.join(' &middot; ')+'</div>' : '';
-
-  var proj = '';
-  if(c.views && c.budget){
-    proj = '<div class="projector"><div class="prow">'
-      + '<span class="plabel">If you add</span>'
-      + '<input class="pin" id="pin_'+c.id+'" type="text" placeholder="$5,000" onkeydown="if(event.key===\'Enter\')project(\''+c.id+'\')">'
-      + '<button class="pbtn" onclick="project(\''+c.id+'\')">Project</button>'
-      + '</div><span class="pout" id="pout_'+c.id+'"></span>'
-      + '<div class="prow" style="margin-top:9px;">'
-      + '<span class="plabel">To gain</span>'
-      + '<input class="pin" id="gin_'+c.id+'" type="text" placeholder="50,000 streams" onkeydown="if(event.key===\'Enter\')goal(\''+c.id+'\')">'
-      + '<button class="pbtn" onclick="goal(\''+c.id+'\')">Plan</button>'
-      + '</div><span class="pout" id="gout_'+c.id+'"></span></div>';
+  var st=(c.status&&(''+c.status).trim())?(''+c.status).trim():'Live';
+  var hasViews=(c.views!==null&&c.views!==undefined);
+  var hasEng=(c.engRate!==null&&c.engRate!==undefined);
+  var hasBud=(c.budget!==null&&c.budget!==undefined&&c.budget!=="");
+  var hasSong=c.song && c.song!=="\u2014" && c.song.trim()!=="";
+  var sub=(c.campaign||"").trim();
+  if(hasSong && sub){
+    var so=c.song.trim().toLowerCase();
+    if(sub.toLowerCase().indexOf(so)===0){ sub=sub.replace(/^[\u201c"']?[^\u2014:\-]*[\u201d"']?\s*[\u2014:\-]+\s*/,'').trim(); }
   }
-  var learn = c.learnings ? '<div class="learnings"><span class="lk">Learnings</span>'+esc(c.learnings)+'</div>' : '';
-  var dash = c.link ? '<a class="dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="dash none">no link yet</span>';
-  var hasSong = c.song && c.song !== "\u2014" && c.song.trim() !== "";
-  var title = hasSong
-    ? '<span class="song">\u201c'+esc(c.song)+'\u201d</span><span class="desc">'+esc(c.campaign||"Campaign")+'</span>'
-    : '<span class="nosong">'+esc(c.campaign||"Untitled")+'</span>';
-  return '<div class="card"><div class="main">'
-    + '<div class="ctitle">'+title+'</div>'
-    + '<div class="chips">'+chips+'</div>'+metrics+outcome+proj+learn
-    + '</div><div class="right"><div class="budget">'+money(c.budget)+'</div>'+dash+'</div></div>';
+  if(!sub) sub=c.type||"";
+  var titleTxt = hasSong ? '\u201c'+esc(c.song)+'\u201d' : esc(c.campaign||"Untitled");
+  var title='<div class="cc-title'+(hasSong?'':' nosong')+'">'+titleTxt+'</div>';
+  var viewsBig = hasViews ? fmtNum(c.views) : '\u2014';
+  var cover='<div class="ccover"><div class="cc-top">'
+    +'<span class="cc-plat"><span class="pd" style="background:'+m.c+'"></span>'+esc(c.platform)+'</span>'
+    +'<span class="cc-badge '+st.replace(/\s/g,'')+'">'+esc(st)+'</span></div>'
+    +'<div class="cc-hero"><span class="cc-views">'+viewsBig+'</span><span class="cc-vl">views</span></div></div>';
+  var body;
+  if(hasViews||hasEng||hasBud){
+    var stats='';
+    if(hasEng){ var er=c.engRate*100; stats+='<div><b class="'+(er<4?'warn':(er>=6?'good':''))+'">'+er.toFixed(1)+'%</b><span>engagement</span></div>'; }
+    else stats+='<div><b class="empty">\u2014</b><span>engagement</span></div>';
+    stats+='<div><b'+(hasBud?'':' class="empty"')+'>'+(hasBud?money(c.budget):'\u2014')+'</b><span>spend</span></div>';
+    stats+='<div><b'+(hasViews?'':' class="empty"')+'>'+(hasViews?fmtNum(Math.round(c.views/convFor(c))):'\u2014')+'</b><span>est. streams</span></div>';
+    body='<div class="cc-stats">'+stats+'</div>';
+  } else {
+    body='<div class="cc-pending">'+(c.status==='Planned'?'Planned \u2014 not live yet':'Performance data pending')+'</div>';
+  }
+  var dl=daysLive(c.startDate);
+  var dash = c.link ? '<a class="cc-dash" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open dashboard &rarr;</a>' : '<span class="cc-dash none">no link yet</span>';
+  var days = dl!==null ? '<span class="cc-days">'+dl+'d live</span>' : '<span class="cc-days"></span>';
+  return '<div class="ccard">'+cover
+    +'<div class="cc-body">'+title+(sub?'<div class="cc-sub">'+esc(sub)+'</div>':'')+body
+    +'<div class="cc-foot">'+dash+days+'</div></div></div>';
 }
 
 function renderList(){
@@ -534,11 +530,12 @@ function renderList(){
   if(!artists.length){ document.getElementById("list").innerHTML='<p style="color:var(--text-quiet);font-style:italic;">Nothing under that filter.</p>'; return; }
   var html="";
   artists.forEach(function(a){
-    var rows=byArtist[a], spend=rows.reduce(function(s,c){return s+(c.budget||0);},0);
-    html+='<div class="group"><div class="group-h"><span class="a">'+esc(a)+'</span>'
-      +'<span class="meta">'+rows.length+' campaign'+(rows.length>1?'s':'')+' &middot; '+money(spend)+'</span></div>';
-    rows.forEach(function(c){ html+=card(c); });
-    html+='</div>';
+    var rows=byArtist[a];
+    var spend=rows.reduce(function(s,c){return s+(c.budget||0);},0);
+    var tv=rows.reduce(function(s,c){return s+(c.views||0);},0);
+    var meta=rows.length+' campaign'+(rows.length>1?'s':'')+' &middot; '+money(spend)+(tv>0?' &middot; '+fmtNum(tv)+' views':'');
+    html+='<div class="collection"><div class="coll-h"><span class="a">'+esc(a)+'</span><span class="meta">'+meta+'</span></div>'
+      +'<div class="cgrid">'+rows.map(card).join('')+'</div></div>';
   });
   document.getElementById("list").innerHTML=html;
 }
