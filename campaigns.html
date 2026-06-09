@@ -70,7 +70,7 @@ h1{font-size:42px;font-weight:900;letter-spacing:-1.2px;line-height:.98;text-tra
 .flagbar b{font-weight:700;}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;align-items:center;}
 .filt{font-size:12.5px;padding:7px 13px;border:1px solid var(--rule);background:var(--card);color:var(--text-quiet);cursor:pointer;border-radius:999px;display:inline-flex;align-items:center;gap:6px;user-select:none;}
-.filt .d{width:7px;height:7px;border-radius:50%;}
+.filt .d{width:7px;height:7px;border-radius:50%;background:var(--ink);}
 .filt:hover{border-color:var(--text-fade);}
 .filt.active{background:var(--text);color:var(--bg);border-color:var(--text);}
 .filt .n{opacity:0.6;font-size:11px;}
@@ -90,7 +90,7 @@ h1{font-size:42px;font-weight:900;letter-spacing:-1.2px;line-height:.98;text-tra
 .ccover{height:96px;padding:13px 16px;display:flex;flex-direction:column;justify-content:space-between;background:var(--tile);border-bottom:1px solid var(--rule);}
 .cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
 .cc-plat{font-size:10.5px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;color:var(--text-quiet);}
-.cc-plat .pd{width:7px;height:7px;border-radius:50%;flex:none;}
+.cc-plat .pd{width:7px;height:7px;border-radius:50%;flex:none;background:var(--ink);}
 .cc-badge{font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;background:var(--text);color:#fff;}
 .cc-badge.Live{background:var(--chartreuse-bright);color:var(--ink);}
 .cc-badge.Wrapped{background:#E2ECF6;color:#2F6FB0;}
@@ -411,7 +411,7 @@ function renderSummary(){
   var segs="";
   Object.keys(plats).sort(function(a,b){return plats[b]-plats[a];}).forEach(function(p){
     var m=pmeta(p), spend=all.filter(function(c){return c.platform===p;}).reduce(function(a,c){return a+(c.budget||0);},0);
-    segs+='<span class="seg" style="background:'+m.s+'"><span class="d" style="background:'+m.c+'"></span>'+esc(p)+' &middot; '+plats[p]+' &middot; '+money(spend)+'</span>';
+    segs+='<span class="seg" style="background:'+m.s+'"><span class="d"></span>'+esc(p)+' &middot; '+plats[p]+' &middot; '+money(spend)+'</span>';
   });
   var _bp=document.getElementById("byplat"); if(_bp){ _bp.innerHTML='<span>By platform:</span>'+segs; }
   var _ab=document.getElementById("anncount"); if(_ab)_ab.textContent=all.length;
@@ -498,7 +498,7 @@ function card(c){
   var title='<div class="cc-title'+(hasSong?'':' nosong')+'">'+titleTxt+'</div>';
   var viewsBig = hasViews ? fmtNum(c.views) : '\u2014';
   var cover='<div class="ccover"><div class="cc-top">'
-    +'<span class="cc-plat"><span class="pd" style="background:'+m.c+'"></span>'+esc(c.platform)+'</span>'
+    +'<span class="cc-plat"><span class="pd"></span>'+esc(c.platform)+'</span>'
     +'<span class="cc-badge '+st.replace(/\s/g,'')+'">'+esc(st)+'</span></div>'
     +'<div class="cc-hero"><span class="cc-views">'+viewsBig+'</span><span class="cc-vl">views</span></div></div>';
   var body;
