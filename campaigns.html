@@ -230,12 +230,10 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="wrap">
   <div class="kicker">RCA &middot; Campaign Ops</div>
   <h1>Creator Campaign Index</h1>
-  <div class="sub">Every creator, seeding, and edits campaign &mdash; across every platform and agency, both books. One place to see what's running, who's running it, and where to click through. The platforms do the tracking; this is the cross-vendor read none of them can give.</div>
+  <div class="sub">Every creator, seeding, and edits campaign &mdash; across every platform and agency, both books.</div>
 
   <div class="summary" id="summary"></div>
 
-  <div class="lboard" id="leaderboard"></div>
-  <div class="quadrant-wrap" id="quadrant"></div>
 
   <div class="filters" id="filters"></div>
 
@@ -407,7 +405,7 @@ function renderSummary(){
     kcard(money(total),'Tracked spend',all.length+' campaigns · '+Object.keys(plats).length+' platforms',true)+
     kcard(totV>0?fmtNum(totV):'—','Tracked views',withV.length+' of '+all.length+' with data',false)+
     kcard(totV>0?'$'+(spV/totV).toFixed(4):'—','Blended CPV','cost per view, measured',false)+
-    kcard(avgE!==null?avgE.toFixed(1)+'%':'—','Avg engagement',avgE!==null?'vs 4–6% benchmark':'no data yet',false)+
+    kcard(avgE!==null?avgE.toFixed(1)+'%':'—','Avg engagement',avgE!==null?withE.length+' campaigns measured':'no data yet',false)+
     kcard(Object.keys(artists).length,'Artists','in rotation',false);
 
   var segs="";
@@ -621,12 +619,12 @@ function renderLeaderboard(){
   });
   el.innerHTML=head+body;
 }
-function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderLeaderboard(); renderQuadrant(); renderFilters(); renderList(); }
+function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderFilters(); renderList(); }
 </script>
 
 <footer class="sfoot"><div class="sfoot-in">
   <div class="sf-brand"><img src="/tempoicon.png" alt="TEMPO"><span>TEMPO</span></div>
-  <div class="sf-meta">RCA Records &middot; Campaign Operations &middot; sandbox view. Campaign Ops surfaces and routes; each team owns its own numbers.</div>
+  <div class="sf-meta">RCA Records &middot; Campaign Operations &middot; sandbox view.</div>
   <div class="sf-links"><a href="/">Home</a><a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Source data &#8599;</a></div>
 </div></footer>
 </body>
