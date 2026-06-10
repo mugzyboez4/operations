@@ -132,8 +132,18 @@ function mapRecord(r){
     tier: r.fields['Career Tier'] || '',
     learnings: r.fields['Learnings'] || '',
     reviewed: r.fields['Reviewed'] === true,
-    viewsPerStream: typeof r.fields['Views per Stream'] === 'number' ? r.fields['Views per Stream'] : null
+    viewsPerStream: typeof r.fields['Views per Stream'] === 'number' ? r.fields['Views per Stream'] : null,
+    livePosts: typeof r.fields['Live Posts'] === 'number' ? r.fields['Live Posts'] : null,
+    totalEng: typeof r.fields['Total Engagement'] === 'number' ? r.fields['Total Engagement'] : null,
+    trend: parseSeries(r.fields['Trend Views']),
+    trendEng: parseSeries(r.fields['Trend Eng'])
   };
+}
+
+function parseSeries(s){
+  if (typeof s !== 'string' || !s.trim()) return null;
+  const a = s.split(',').map(x => Number(String(x).trim())).filter(n => !isNaN(n));
+  return a.length > 1 ? a : null;
 }
 
 function json(status, body){
