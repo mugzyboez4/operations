@@ -692,7 +692,6 @@ const DEMO_AD_TEAM = [
   { name: 'Cassidy Carson', role: 'AD Specialist', open: false, genreTags: ['Country', 'Pop'], lifestyleTags: ['AI Tools', 'Gaming Culture'] },
   { name: 'Bird Cooley', role: 'AD Specialist', open: false, genreTags: ['Indie', 'Singer-Songwriter'], lifestyleTags: ['Data Acquisition', 'RCA Socials', 'Reddit Communities'] },
   { name: 'Open Position', role: 'AD Specialist · Rap (pending hire)', open: true, genreTags: ['Rap (Street/Drill)'], lifestyleTags: ['Sports Culture', 'Clipping'] },
-  { name: "Noah Urrea", genre: "Pop", lifestyleTags: [], active: true }
 ];
 
 const DEMO_ARTISTS = [
@@ -902,7 +901,8 @@ async function loadFromAirtable() {
 
   if (adResult.error || artistResult.error) {
     const errMsg = adResult.error || artistResult.error;
-    setConnState('error', `Connection failed: ${errMsg}`);
+    console.warn('AD Tagging: live data unavailable —', errMsg);
+    setConnState('demo', 'Live data unavailable · showing demo roster');
     return false;
   }
 
@@ -1000,15 +1000,15 @@ function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<
 function escapeAttr(s){ return escapeHtml(s); }
 
 function visibleArtists(){ return filterActive ? artists.filter(a=>a.active===true) : artists.slice(); }
-function genreCovered(g){ return adTeam.some(p => p.genreTags.includes(g)); }
+function genreCovered(g){ return adTeam.some(p => (p.genreTags||[]).includes(g)); }
 function tagSpan(t, cls, on){ return `<span class="tag ${cls}${on?' match':''}">${escapeHtml(t)}</span>`; }
 
 function computeMatch(artist){
-  const wanted = [artist.genre, ...artist.lifestyleTags];
+  const wanted = [artist.genre, ...(artist.lifestyleTags||[])];
   const results = adTeam.map(p=>{
-    const ptags = [...p.genreTags, ...p.lifestyleTags];
+    const ptags = [...(p.genreTags||[]), ...(p.lifestyleTags||[])];
     const matched = ptags.filter(t => wanted.includes(t));
-    const isGenre = p.genreTags.includes(artist.genre);
+    const isGenre = (p.genreTags||[]).includes(artist.genre);
     return { p, matched, isGenre };
   }).filter(r => r.matched.length>0);
   results.sort((a,b)=> ((b.isGenre?1:0)-(a.isGenre?1:0)) || (b.matched.length-a.matched.length));
@@ -1025,14 +1025,14 @@ function renderAnswer(){
   const { results, genreMatched } = computeMatch(artist);
   const wanted = [artist.genre, ...artist.lifestyleTags];
 
-  const artistTags = [tagSpan(artist.genre,'genre',false), ...artist.lifestyleTags.map(t=>tagSpan(t,'lifestyle',false))].join('');
+  const artistTags = [tagSpan(artist.genre,'genre',false), ...(artist.lifestyleTags||[]).map(t=>tagSpan(t,'lifestyle',false))].join('');
   const cov = genreMatched
     ? '<span class="cov-pill ok"><span class="cov-dot"></span>Genre covered</span>'
     : '<span class="cov-pill gap"><span class="cov-dot"></span>Coverage gap</span>';
 
   const whoCards = results.map(r=>{
-    const g = r.p.genreTags.map(t=>tagSpan(t,'genre', wanted.includes(t))).join('');
-    const l = r.p.lifestyleTags.map(t=>tagSpan(t,'lifestyle', wanted.includes(t))).join('');
+    const g = (r.p.genreTags||[]).map(t=>tagSpan(t,'genre', wanted.includes(t))).join('');
+    const l = (r.p.lifestyleTags||[]).map(t=>tagSpan(t,'lifestyle', wanted.includes(t))).join('');
     const reason = r.isGenre ? 'Genre match' : 'Lifestyle overlap';
     return `<div class="who-card ${r.isGenre?'top':''} ${r.p.open?'open':''}">
         <div class="w-name">${escapeHtml(r.p.name)}</div>
@@ -1044,7 +1044,7 @@ function renderAnswer(){
 
   const gapBlock = genreMatched ? '' : `<div class="gap-callout">
       <div class="g-title">No AD genre coverage for ${escapeHtml(artist.genre)} yet</div>
-      <p>No Audience Development specialist currently lists <em>${escapeHtml(artist.genre)}</em> as genre coverage.${artist.lifestyleTags.length? ' Lifestyle / activation overlaps below still apply.' : ' No lifestyle overlap to fall back on.'}</p>
+      <p>No Audience Development specialist currently lists <em>${escapeHtml(artist.genre)}</em> as genre coverage.${(artist.lifestyleTags||[]).length? ' Lifestyle / activation overlaps below still apply.' : ' No lifestyle overlap to fall back on.'}</p>
       <div class="g-frame">Campaign Ops flags the gap \u2014 filling it is Audience Development\'s call.</div>
     </div>`;
 
@@ -1067,7 +1067,7 @@ function renderAnswer(){
 
 function renderChips(){
   const pool = visibleArtists();
-  const covered = pool.filter(a=>genreCovered(a.genre)).sort((a,b)=> b.lifestyleTags.length - a.lifestyleTags.length);
+  const covered = pool.filter(a=>genreCovered(a.genre)).sort((a,b)=> (b.lifestyleTags||[]).length - (a.lifestyleTags||[]).length);
   const gapped = pool.filter(a=>!genreCovered(a.genre));
   const picks = covered.slice(0,3);
   if(gapped.length) picks.push(gapped[0]);
@@ -1106,8 +1106,8 @@ function selectArtist(name){
 function renderTeam(){
   adCountEl.textContent = `\u00b7 ${adTeam.length}`;
   teamGridEl.innerHTML = adTeam.map(p=>{
-    const g = p.genreTags.map(t=>`<span class="tag genre">${escapeHtml(t)}</span>`).join('');
-    const l = p.lifestyleTags.map(t=>`<span class="tag lifestyle">${escapeHtml(t)}</span>`).join('');
+    const g = (p.genreTags||[]).map(t=>`<span class="tag genre">${escapeHtml(t)}</span>`).join('');
+    const l = (p.lifestyleTags||[]).map(t=>`<span class="tag lifestyle">${escapeHtml(t)}</span>`).join('');
     return `<div class="who-card ${p.open?'open':''}">
         <div class="w-name">${escapeHtml(p.name)}</div>
         <div class="w-role">${escapeHtml(p.role||'')}${p.open?' \u00b7 open role':''}</div>
