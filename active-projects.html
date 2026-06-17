@@ -80,6 +80,27 @@ h1{font-size:46px;font-weight:900;letter-spacing:-1.4px;line-height:.96;text-tra
 .ans{display:inline-block;margin-left:7px;font-size:8.5px;letter-spacing:.6px;text-transform:uppercase;font-weight:800;color:var(--chartreuse);background:var(--chartreuse-soft);border-radius:4px;padding:1px 5px;vertical-align:middle;}
 .foot{margin-top:46px;padding-top:16px;border-top:1px solid var(--rule);font-size:11px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);}
 @media(max-width:560px){.cgrid{grid-template-columns:1fr;}h1{font-size:36px;}}
+
+/* exec context capture */
+.ctx-load{font-size:11.5px;color:var(--text-quiet);margin:-14px 0 24px;}
+.ctx-load.err{color:var(--flame);}
+.ctx{margin-top:13px;padding-top:13px;border-top:1px dashed var(--rule);}
+.ctx-head{font-size:9px;letter-spacing:1.3px;text-transform:uppercase;font-weight:700;color:var(--text-fade);margin-bottom:9px;}
+.ctx-field{margin-bottom:11px;}
+.ctx-field:last-child{margin-bottom:0;}
+.ctx-row1{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.ctx-tag{font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:5px;}
+.ctx-tag.t{background:var(--chartreuse-soft);color:#5A7212;}
+.ctx-tag.j{background:var(--atg-soft);color:var(--atg);}
+.ctx-save{font-size:9.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:none;border:1px solid var(--rule);color:var(--text-quiet);padding:2px 9px;border-radius:5px;cursor:pointer;font-family:inherit;}
+.ctx-save:hover{border-color:var(--ink);color:var(--ink);}
+.ctx-save.busy{opacity:.5;cursor:default;}
+.ctx-stat{font-size:10px;letter-spacing:.3px;color:var(--text-fade);margin-left:auto;}
+.ctx-stat.ok{color:var(--chartreuse);font-weight:700;}
+.ctx-stat.err{color:var(--flame);font-weight:700;}
+.ctx-in{width:100%;font-family:inherit;font-size:12.5px;line-height:1.45;color:var(--text);background:#fff;border:1px solid var(--rule);border-radius:8px;padding:8px 10px;resize:vertical;min-height:46px;outline:none;}
+.ctx-in:focus{border-color:var(--ink);}
+.ctx-in::placeholder{color:var(--text-fade);}
 </style>
 </head>
 <body>
@@ -99,10 +120,11 @@ function checkPw(){
     document.getElementById("gate").style.display="none";
     document.getElementById("body").style.display="block";
     sessionStorage.setItem("sandbox_open","1");
+    if(typeof apLoad==="function")apLoad();
   } else { document.getElementById("err").textContent="not quite"; document.getElementById("pw").value=""; document.getElementById("pw").focus(); }
 }
 function initGate(){
-  if(sessionStorage.getItem("sandbox_open")==="1"){ document.getElementById("gate").style.display="none"; document.getElementById("body").style.display="block"; }
+  if(sessionStorage.getItem("sandbox_open")==="1"){ document.getElementById("gate").style.display="none"; document.getElementById("body").style.display="block"; if(typeof apLoad==="function")apLoad(); }
   else { document.getElementById("pw").focus(); }
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
@@ -116,7 +138,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <nav class="snav">
     <a href="/">Home</a>
     <a href="https://airtable.com/appCDKRkljLKSu211" target="_blank" rel="noopener">Airtable &#8599;</a>
-    <a class="cta" href="https://airtable.com/appCDKRkljLKSu211/pbdqyay6KBvMvOGDG" target="_blank" rel="noopener">Add your context</a>
+    <a class="cta" href="#grid">Add context</a>
   </nav>
 </header>
 
@@ -133,12 +155,13 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   </div>
 
   <div class="callout">
-    <div class="ct"><b>The cycle:</b> add your context per artist &mdash; it feeds straight into Airtable, and gets pulled into Wednesday&rsquo;s agenda.</div>
-    <a href="https://airtable.com/appCDKRkljLKSu211/pbdqyay6KBvMvOGDG" target="_blank" rel="noopener">Add your context &#8599;</a>
+    <div class="ct"><b>The cycle &mdash; Tarek &amp; Jordan:</b> type your context in the boxes on each artist below. It saves straight to Airtable and gets pulled into Wednesday&rsquo;s agenda &mdash; saves on blur or with the Save button.</div>
+    <a href="https://airtable.com/appCDKRkljLKSu211" target="_blank" rel="noopener">Open in Airtable &#8599;</a>
   </div>
+  <div class="ctx-load" id="ctxload">Loading saved context&hellip;</div>
 
-  <div class="cgrid">
-<div class="acard">
+  <div class="cgrid" id="grid">
+<div class="acard" data-rec="recphbi8FaLyrzlrJ">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">Steve Lacy</span>
@@ -147,9 +170,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>Confirming the "doom" tease date with Steve</span></li><li class="ok"><span class="mk">&#10003;</span><span>Locking IRL &mdash; London + Paris playback, targeting end of June<span class="ans">answered</span></span></li><li><span class="mk">&#8226;</span><span>Physical ramps when product lands; store links + video assets in progress</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recqSbR2UEt2NnI3f">
   <div class="acov">
     <div class="acov-top"><span class="ast TBD">TBD</span></div>
     <span class="an">Audrey Hobert</span>
@@ -158,9 +192,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>Strong UK + Ireland Top 200</span></li><li><span class="mk">&#8226;</span><span>Growth now hinges on artist participation &mdash; ideas going to her + mgmt</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recJUDpK1m2Nstmtq">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">Chris Brown</span>
@@ -169,9 +214,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>"Chocolate Edition" 6/19 &mdash; week-long rollout, WizKid feature leading</span></li><li><span class="mk">&#8226;</span><span>Masters / cover + "Just The Bro" feature still clearing</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recXtJbHk6FJi2ycP">
   <div class="acov">
     <div class="acov-top"><span class="ast Released">Released</span></div>
     <span class="an">Latto</span>
@@ -180,9 +236,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>Tentpole call (video vs. live) is the open decision</span></li><li><span class="mk">&#8226;</span><span>Apple "Latto Essentials" top three + paid into Hostage</span></li><li><span class="mk">&#8226;</span><span>Physical timeline heading to mgmt</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recTIY5toBa0fiqMf">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">Victoria Monét</span>
@@ -191,9 +258,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li class="ok"><span class="mk">&#10003;</span><span>Open Gina's update<span class="ans">answered</span></span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recUJwKvEBtrP8tAB">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an" style="text-transform:none">kwn</span>
@@ -202,9 +280,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>"Risk It All" at 85K pre-adds; BET + Apple takeover ahead</span></li><li><span class="mk">&#8226;</span><span>Activate features (Ty Dolla $ign, Destin Conrad, Monaleo)</span></li><li><span class="mk">&#8226;</span><span>Sample still clearing for the album</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recBeg2AvtoHo7j3A">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">The Strokes</span>
@@ -213,9 +302,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li class="ok"><span class="mk">&#10003;</span><span>"Reality Awaits" out Friday 7/24<span class="ans">answered</span></span></li><li class="ok"><span class="mk">&#10003;</span><span>Timing + NY headline show (Oct 2) announced this Thursday<span class="ans">answered</span></span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recnecvsvkurmSXTG">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">Frost Children</span>
@@ -224,9 +324,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>"Satellites" first, EP to follow; assets out early</span></li><li><span class="mk">&#8226;</span><span>Roblox / Twitch remixes / Frost Fest ahead</span></li><li><span class="mk">&#8226;</span><span>Sample / interpolation still clearing</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recs3Ochsm5QPzWnO">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an" style="text-transform:none">girlsweetvoiced</span>
@@ -235,9 +346,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>"Energizer" leading, album to follow</span></li><li><span class="mk">&#8226;</span><span>Newsletter + Discord launching</span></li><li><span class="mk">&#8226;</span><span>Pre-order / physical planning meeting to come</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="recEWbVK8IeBW29I5">
   <div class="acov">
     <div class="acov-top"><span class="ast Released">Released</span></div>
     <span class="an">RIIZE</span>
@@ -246,9 +368,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>"Do Your Dance" challenge live</span></li><li><span class="mk">&#8226;</span><span>US fan page + newsletter spinning up</span></li><li><span class="mk">&#8226;</span><span>Physical logistics heading to a breakout session</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="rec2qETvQSUqJNJ4o">
   <div class="acov">
     <div class="acov-top"><span class="ast Ontrack">On track</span></div>
     <span class="an">Myles Smith</span>
@@ -257,9 +390,20 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>Release-day creator push on "Heaven" + a Zane Lowe premiere</span></li><li><span class="mk">&#8226;</span><span>Release party shifting to something more fan-facing</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
-<div class="acard">
+<div class="acard" data-rec="rec99e1Xbk07H5y7Q">
   <div class="acov">
     <div class="acov-top"><span class="ast Open">Open</span></div>
     <span class="an">Becky G</span>
@@ -268,6 +412,17 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="abod">
     <div class="afl">Follow-ups from last week</div>
     <ul class="afus"><li><span class="mk">&#8226;</span><span>Net-new this week &mdash; kickoff; near-term priorities + anything to track</span></li></ul>
+    <div class="ctx">
+      <div class="ctx-head">Add context &mdash; saves to Airtable</div>
+      <div class="ctx-field" data-who="tarek">
+        <div class="ctx-row1"><span class="ctx-tag t">Tarek</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+      <div class="ctx-field" data-who="jordan">
+        <div class="ctx-row1"><span class="ctx-tag j">Jordan</span><button type="button" class="ctx-save">Save</button><span class="ctx-stat"></span></div>
+        <textarea class="ctx-in" rows="2" placeholder="Add your context&hellip;"></textarea>
+      </div>
+    </div>
   </div>
 </div>
   </div>
@@ -275,5 +430,52 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   <div class="foot">Active Projects &middot; Campaign Operations &middot; Internal Use Only &middot; RCA Records</div>
 </div>
 </div>
+
+<script>
+var AP_PW="rca2026", AP_LOADED=false;
+function apLoad(){
+  if(AP_LOADED)return; AP_LOADED=true;
+  var note=document.getElementById("ctxload");
+  fetch("/api/active-projects",{headers:{"X-Grid-Password":AP_PW}})
+    .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+    .then(function(res){
+      if(!res.ok||!res.j.records){ if(note){note.className="ctx-load err";note.textContent="Couldn't load saved context ("+(res.j&&(res.j.error||res.j.status)||"error")+") — you can still type and save below.";} return; }
+      var by={}; res.j.records.forEach(function(rec){by[rec.id]=rec;});
+      document.querySelectorAll(".acard").forEach(function(card){
+        var rec=by[card.getAttribute("data-rec")]; if(!rec)return;
+        var t=card.querySelector('.ctx-field[data-who="tarek"] .ctx-in');
+        var j=card.querySelector('.ctx-field[data-who="jordan"] .ctx-in');
+        if(t){t.value=rec.tarek||"";t.setAttribute("data-saved",t.value);}
+        if(j){j.value=rec.jordan||"";j.setAttribute("data-saved",j.value);}
+      });
+      if(note)note.style.display="none";
+    })
+    .catch(function(e){ if(note){note.className="ctx-load err";note.textContent="Couldn't load saved context — you can still type and save below.";} });
+}
+function apSave(f){
+  var card=f.closest(".acard"), rec=card.getAttribute("data-rec"), who=f.getAttribute("data-who");
+  var ta=f.querySelector(".ctx-in"), btn=f.querySelector(".ctx-save"), stat=f.querySelector(".ctx-stat");
+  var val=ta.value;
+  if(ta.getAttribute("data-saved")===val)return;
+  btn.classList.add("busy"); stat.className="ctx-stat"; stat.textContent="Saving…";
+  fetch("/api/active-projects",{method:"PATCH",headers:{"Content-Type":"application/json","X-Grid-Password":AP_PW},body:JSON.stringify({recordId:rec,who:who,context:val})})
+    .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+    .then(function(res){
+      btn.classList.remove("busy");
+      if(res.ok&&res.j.ok){ ta.setAttribute("data-saved",val); stat.className="ctx-stat ok"; stat.textContent="Saved ✓"; }
+      else { stat.className="ctx-stat err"; stat.textContent="Save failed ("+(res.j.error||res.j.status||"error")+")"; }
+    })
+    .catch(function(e){ btn.classList.remove("busy"); stat.className="ctx-stat err"; stat.textContent="Save failed"; });
+}
+(function(){
+  document.querySelectorAll(".ctx-field").forEach(function(f){
+    var ta=f.querySelector(".ctx-in"), btn=f.querySelector(".ctx-save");
+    btn.addEventListener("click",function(){apSave(f);});
+    ta.addEventListener("blur",function(){apSave(f);});
+    ta.addEventListener("keydown",function(e){ if((e.metaKey||e.ctrlKey)&&e.key==="Enter"){e.preventDefault();apSave(f);} });
+  });
+  if(sessionStorage.getItem("sandbox_open")==="1"){ apLoad(); }
+})();
+</script>
 </body>
 </html>
