@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Projects &mdash; 6.17.26</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F1EB; --card:#FFFFFF; --tile:#FAF9F4; --ink:#16150F; --text:#16150F; --text-soft:#3D3935; --text-quiet:#6B6A62; --text-fade:#9C968D;
+  --rule:#E3E1D8; --chartreuse:#7E9E1F; --chartreuse-bright:#CDF851; --chartreuse-soft:#F0F4DE; --flame:#D8401C; --flame-soft:#FBE6E0;
+  --cobrand:#7C5BC9; --cobrand-soft:#EDE7F8; --atg:#2F6FB0; --atg-soft:#E2ECF6;
+  --fortyone:#2C8A88; --fortyone-soft:#DEEDEC; --creatorcore:#C2641F; --creatorcore-soft:#F7E8DA; --spade:#9E3B3B; --spade-soft:#F2E1E1; --clementine:#B5497E; --clementine-soft:#F5E3EE; --createmate:#5E7A8C; --createmate-soft:#E6EDF1; --googlesheet:#3E8E5A; --googlesheet-soft:#E2F0E7; --other:#7A756E; --other-soft:#ECEAE4;
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-weight:400;line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased;}
+#gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;}
+#gate .gt{font-size:30px;font-weight:900;letter-spacing:-0.02em;margin-bottom:8px;}
+#gate .gs{font-size:13px;color:var(--text-quiet);margin-bottom:26px;}
+#gate input{font-size:15px;padding:12px 20px;border:1.5px solid var(--rule);width:270px;text-align:center;outline:none;background:#fff;font-family:inherit;}
+#gate input:focus{border-color:var(--text);}
+#gate button{font-size:11px;font-weight:700;padding:12px 32px;background:var(--text);color:var(--bg);border:none;cursor:pointer;margin-top:13px;letter-spacing:1.5px;font-family:inherit;text-transform:uppercase;}
+#gate #err{color:var(--flame);font-size:12px;margin-top:10px;height:16px;font-style:italic;}
+.annbar{background:var(--ink);color:#F2F1EB;font-size:11.5px;letter-spacing:.4px;text-align:center;padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.annbar b{color:var(--chartreuse-bright);font-weight:800;}
+.anndot{width:6px;height:6px;border-radius:50%;background:var(--chartreuse-bright);box-shadow:0 0 0 3px rgba(205,248,81,.25);flex:none;}
+.shead{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--rule);}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);}
+.brand img{width:30px;height:30px;border-radius:7px;display:block;}
+.brand .bw{display:flex;flex-direction:column;line-height:1.08;}
+.brand .bw b{font-size:14px;font-weight:900;letter-spacing:1.5px;}
+.brand .bw i{font-size:11px;font-style:normal;color:var(--text-quiet);letter-spacing:.3px;}
+.snav{display:flex;align-items:center;gap:18px;font-size:12.5px;}
+.snav a{color:var(--text-quiet);text-decoration:none;letter-spacing:.3px;}
+.snav a:hover{color:var(--text);}
+.snav a.cta{color:var(--ink);font-weight:800;border-bottom:2px solid var(--chartreuse-bright);padding-bottom:2px;}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 40px 80px;}
+.kicker{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--flame);margin-bottom:11px;}
+h1{font-size:46px;font-weight:900;letter-spacing:-1.4px;line-height:.96;text-transform:uppercase;margin-bottom:12px;}
+.sub{font-size:14.5px;color:var(--text-quiet);max-width:720px;margin-bottom:8px;}
+.sub .ok{color:var(--chartreuse);font-weight:800;}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0 22px;}
+.stat{background:var(--tile);border:1px solid var(--rule);border-radius:12px;padding:14px 18px;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--chartreuse-bright);}
+.stat.flame::before{background:var(--flame);}
+.stat .n{font-size:27px;font-weight:900;letter-spacing:-0.03em;line-height:1;}
+.stat .l{font-size:10.5px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-quiet);margin-top:9px;}
+.callout{background:var(--chartreuse-soft);border:1px solid #DDE8BE;border-radius:12px;padding:15px 20px;margin-bottom:30px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.callout .ct{font-size:13.5px;color:var(--text-soft);line-height:1.5;}
+.callout .ct b{color:var(--ink);}
+.callout a{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;}
+.acard{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--chartreuse-bright);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(20,21,15,.04),0 14px 30px -20px rgba(20,21,15,.22);transition:transform .18s,box-shadow .18s;}
+.acard:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(20,21,15,.09),0 28px 54px -26px rgba(20,21,15,.32);}
+.acov{padding:15px 17px 16px;background:var(--tile);border-bottom:1px solid var(--rule);}
+.acov-top{display:flex;justify-content:flex-end;margin-bottom:6px;}
+.ast{font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:var(--other-soft);color:var(--text-quiet);}
+.ast.Ontrack{background:var(--chartreuse-soft);color:#5A7212;}
+.ast.Released{background:var(--atg-soft);color:var(--atg);}
+.ast.TBD{background:var(--flame-soft);color:var(--flame);}
+.ast.Open{background:var(--other-soft);color:var(--text-quiet);}
+.an{display:block;font-size:21px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;line-height:1.05;margin-bottom:11px;}
+.achips{display:flex;flex-wrap:wrap;gap:6px;}
+.rc{display:inline-flex;align-items:center;gap:7px;border-radius:7px;padding:4px 10px;font-size:12px;line-height:1.3;background:#fff;border:1px solid var(--rule);}
+.rc .rl{font-weight:800;font-size:10px;letter-spacing:.4px;}
+.rc.dt .rl{color:var(--chartreuse);}
+.rc.out{background:var(--chartreuse);border-color:var(--chartreuse);color:#fff;}
+.rc.out .rl,.rc.out i{color:#fff;}
+.rc.tbd{background:var(--flame-soft);border-color:var(--flame);}
+.rc.tbd .rl{color:var(--flame);}
+.abod{padding:14px 17px 16px;flex:1;}
+.afl{font-size:9px;letter-spacing:1.3px;text-transform:uppercase;font-weight:700;color:var(--text-quiet);margin-bottom:7px;}
+.afus{list-style:none;}
+.afus li{display:flex;gap:8px;font-size:12.5px;line-height:1.5;color:var(--text-soft);padding:2px 0;}
+.afus li .mk{color:var(--text-fade);flex:none;}
+.afus li.ok .mk{color:var(--chartreuse);font-weight:800;}
+.ans{display:inline-block;margin-left:7px;font-size:8.5px;letter-spacing:.6px;text-transform:uppercase;font-weight:800;color:var(--chartreuse);background:var(--chartreuse-soft);border-radius:4px;padding:1px 5px;vertical-align:middle;}
+.foot{margin-top:46px;padding-top:16px;border-top:1px solid var(--rule);font-size:11px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);}
+@media(max-width:560px){.cgrid{grid-template-columns:1fr;}h1{font-size:36px;}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gt">Active Projects</div>
+  <div class="gs">enter site password</div>
+  <input type="password" id="pw" onkeydown="if(event.key==='Enter')checkPw()" autofocus>
+  <button onclick="checkPw()">Enter</button>
+  <div id="err"></div>
+</div>
+
+<script>
+function checkPw(){
+  var v=document.getElementById("pw").value.trim().toLowerCase();
+  if(v==="hope"||v==="build"||v==="rca2026"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("body").style.display="block";
+    sessionStorage.setItem("sandbox_open","1");
+  } else { document.getElementById("err").textContent="not quite"; document.getElementById("pw").value=""; document.getElementById("pw").focus(); }
+}
+function initGate(){
+  if(sessionStorage.getItem("sandbox_open")==="1"){ document.getElementById("gate").style.display="none"; document.getElementById("body").style.display="block"; }
+  else { document.getElementById("pw").focus(); }
+}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initGate);}else{initGate();}
+</script>
+
+<div id="body" style="display:none;">
+
+<div class="annbar"><span class="anndot"></span>Active Projects &middot; <b>Wednesday, June 17, 2026</b> &middot; follow-ups from last week, carried into the room</div>
+<header class="shead">
+  <a class="brand" href="/"><img src="/tempoicon.png" alt="TEMPO"><span class="bw"><b>TEMPO</b><i>Active Projects</i></span></a>
+  <nav class="snav">
+    <a href="/">Home</a>
+    <a href="https://airtable.com/appCDKRkljLKSu211" target="_blank" rel="noopener">Airtable &#8599;</a>
+    <a class="cta" href="https://airtable.com/appCDKRkljLKSu211/pbdqyay6KBvMvOGDG" target="_blank" rel="noopener">Add your context</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="kicker">RCA &middot; Campaign Ops</div>
+  <h1>Active Projects</h1>
+  <div class="sub">Release dates and last week&rsquo;s follow-ups for this week&rsquo;s twelve. <span class="ok">&#10003;</span> marks the ones we already have an answer on.</div>
+
+  <div class="summary">
+    <div class="stat"><div class="n">12</div><div class="l">Artists</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">Already out</div></div>
+    <div class="stat flame"><div class="n">1</div><div class="l">Date TBD</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Answered since last week</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="ct"><b>The cycle:</b> add your context per artist &mdash; it feeds straight into Airtable, and gets pulled into Wednesday&rsquo;s agenda.</div>
+    <a href="https://airtable.com/appCDKRkljLKSu211/pbdqyay6KBvMvOGDG" target="_blank" rel="noopener">Add your context &#8599;</a>
+  </div>
+
+  <div class="cgrid">
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">Steve Lacy</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 26</span>&ldquo;doom&rdquo;</span><span class="rc dt"><span class="rl">JUL 17</span><i>Oh yeah?</i></span><span class="rc dt"><span class="rl">AUG 7</span><i>Oh yeah? (Physical)</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>Confirming the "doom" tease date with Steve</span></li><li class="ok"><span class="mk">&#10003;</span><span>Locking IRL &mdash; London + Paris playback, targeting end of June<span class="ans">answered</span></span></li><li><span class="mk">&#8226;</span><span>Physical ramps when product lands; store links + video assets in progress</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast TBD">TBD</span></div>
+    <span class="an">Audrey Hobert</span>
+    <div class="achips"><span class="rc tbd"><span class="rl">&#9203;&nbsp;TBD &middot; AROUND LOLLA</span>&ldquo;Punkrocker&rdquo;</span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>Strong UK + Ireland Top 200</span></li><li><span class="mk">&#8226;</span><span>Growth now hinges on artist participation &mdash; ideas going to her + mgmt</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">Chris Brown</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 18</span>&ldquo;Obvious&rdquo;</span><span class="rc dt"><span class="rl">JUN 19</span><i>BROWN (The Chocolate Edition)</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>"Chocolate Edition" 6/19 &mdash; week-long rollout, WizKid feature leading</span></li><li><span class="mk">&#8226;</span><span>Masters / cover + "Just The Bro" feature still clearing</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Released">Released</span></div>
+    <span class="an">Latto</span>
+    <div class="achips"><span class="rc out"><span class="rl">&#10003;&nbsp;RELEASED</span><i>Big Mama</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>Tentpole call (video vs. live) is the open decision</span></li><li><span class="mk">&#8226;</span><span>Apple "Latto Essentials" top three + paid into Hostage</span></li><li><span class="mk">&#8226;</span><span>Physical timeline heading to mgmt</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">Victoria Monét</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUL 9</span>&ldquo;Reach Out&rdquo;</span><span class="rc dt"><span class="rl">AUG 21</span><i>Frequency Of Love</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li class="ok"><span class="mk">&#10003;</span><span>Open Gina's update<span class="ans">answered</span></span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an" style="text-transform:none">kwn</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 26</span><i>and all pride aside</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>"Risk It All" at 85K pre-adds; BET + Apple takeover ahead</span></li><li><span class="mk">&#8226;</span><span>Activate features (Ty Dolla $ign, Destin Conrad, Monaleo)</span></li><li><span class="mk">&#8226;</span><span>Sample still clearing for the album</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">The Strokes</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 26</span>&ldquo;Going to Babble On&rdquo;</span><span class="rc dt"><span class="rl">JUL 24</span><i>Reality Awaits</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li class="ok"><span class="mk">&#10003;</span><span>"Reality Awaits" out Friday 7/24<span class="ans">answered</span></span></li><li class="ok"><span class="mk">&#10003;</span><span>Timing + NY headline show (Oct 2) announced this Thursday<span class="ans">answered</span></span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">Frost Children</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 23</span>&ldquo;Satellites&rdquo;</span><span class="rc dt"><span class="rl">JUL 10</span><i>Tweaker Poem</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>"Satellites" first, EP to follow; assets out early</span></li><li><span class="mk">&#8226;</span><span>Roblox / Twitch remixes / Frost Fest ahead</span></li><li><span class="mk">&#8226;</span><span>Sample / interpolation still clearing</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an" style="text-transform:none">girlsweetvoiced</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 19</span>&ldquo;Energizer&rdquo;</span><span class="rc dt"><span class="rl">JUL 24</span><i>Lovesweet</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>"Energizer" leading, album to follow</span></li><li><span class="mk">&#8226;</span><span>Newsletter + Discord launching</span></li><li><span class="mk">&#8226;</span><span>Pre-order / physical planning meeting to come</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Released">Released</span></div>
+    <span class="an">RIIZE</span>
+    <div class="achips"><span class="rc out"><span class="rl">&#10003;&nbsp;RELEASED</span><i>II</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>"Do Your Dance" challenge live</span></li><li><span class="mk">&#8226;</span><span>US fan page + newsletter spinning up</span></li><li><span class="mk">&#8226;</span><span>Physical logistics heading to a breakout session</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Ontrack">On track</span></div>
+    <span class="an">Myles Smith</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 17</span>&ldquo;Heaven&rdquo;</span><span class="rc dt"><span class="rl">JUN 19</span><i>My Mess, My Heart, My Life.</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>Release-day creator push on "Heaven" + a Zane Lowe premiere</span></li><li><span class="mk">&#8226;</span><span>Release party shifting to something more fan-facing</span></li></ul>
+  </div>
+</div>
+<div class="acard">
+  <div class="acov">
+    <div class="acov-top"><span class="ast Open">Open</span></div>
+    <span class="an">Becky G</span>
+    <div class="achips"><span class="rc dt"><span class="rl">JUN 25</span>&ldquo;Patrona&rdquo;</span><span class="rc dt"><span class="rl">AUG 14</span><i>Baraja Bendita</i></span></div>
+  </div>
+  <div class="abod">
+    <div class="afl">Follow-ups from last week</div>
+    <ul class="afus"><li><span class="mk">&#8226;</span><span>Net-new this week &mdash; kickoff; near-term priorities + anything to track</span></li></ul>
+  </div>
+</div>
+  </div>
+
+  <div class="foot">Active Projects &middot; Campaign Operations &middot; Internal Use Only &middot; RCA Records</div>
+</div>
+</div>
+</body>
+</html>
