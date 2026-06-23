@@ -19,7 +19,18 @@ function readEnv(key) {
   return null;
 }
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const BASE_ID = readEnv('CT_BASE_ID') || 'appLwUF3H4KjtiRdW';
   const TABLE_ID = readEnv('CT_TABLE_ID') || 'tblWIAkg07zrksJln';
   const PASSWORD = readEnv('GRID_PASSWORD') || readEnv('CT_PASSWORD') || 'RCA2026';
@@ -67,7 +78,7 @@ export default async (req) => {
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...CORS_HEADERS }
   });
 }
 

@@ -33,7 +33,18 @@ const F = {
 
 const WHO_FIELD = { tarek: F.tarek, jordan: F.jordan };
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, PATCH, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const BASE_ID  = readEnv('AP_BASE_ID')  || 'appCDKRkljLKSu211';
   const TABLE_ID = readEnv('AP_TABLE_ID') || 'tblMuzMNUsF7eDajh';
   const PASSWORD = readEnv('AP_PASSWORD') || readEnv('GRID_PASSWORD') || 'rca2026';
@@ -113,7 +124,7 @@ async function handlePatch(req, baseId, tableId, token) {
 function json(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...CORS_HEADERS }
   });
 }
 

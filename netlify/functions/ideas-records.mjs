@@ -23,7 +23,18 @@ const MAX_IDEA = 2000;
 const MAX_FROM = 80;
 const ALLOWED_TOPICS = ['An idea', 'A frustration', 'Something working', 'A question', 'Thinking out loud'];
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   // Reuse-friendly config. Env vars win if set; otherwise sensible defaults.
   // Base IDs and table IDs are NOT credentials, and the gate password already
   // lives in the client — so they can default here safely. The only true secret
@@ -150,7 +161,7 @@ async function handlePost(req, baseId, tableId, token) {
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...CORS_HEADERS }
   });
 }
 

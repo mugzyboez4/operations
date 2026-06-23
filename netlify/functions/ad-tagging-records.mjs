@@ -19,7 +19,18 @@ function readEnv(key) {
   return null;
 }
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   // Base + password have safe defaults; token reuses any existing server-side var.
   const AD_TAGGING_BASE_ID = readEnv('AD_TAGGING_BASE_ID') || 'appB8Ee2okz5JNoef';
   const AD_TAGGING_PASSWORD = readEnv('AD_TAGGING_PASSWORD') || readEnv('GRID_PASSWORD') || 'RCA2026';
@@ -90,7 +101,7 @@ export default async (req) => {
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...CORS_HEADERS }
   });
 }
 

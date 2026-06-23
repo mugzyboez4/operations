@@ -15,7 +15,18 @@ const ALLOWED_TYPES = ['Influencers','TV Edits','Macro','Micro','UGC','Mixed'];
 const ALLOWED_STATUS = ['Live','Planned','Wrapped','Paused'];
 const ALLOWED_TIERS = ['Group 1 (10M+)','Group 2 (5-10M)','Group 3 (1-5M)','Group 4 (100K-1M)','Group 5 (under 100K)'];
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const BASE_ID = readEnv('CAMPAIGNS_BASE_ID') || 'appon9XPSAIySM1lA';
   const TABLE_ID = readEnv('CAMPAIGNS_TABLE_ID') || 'tblzGn0Q1hxEzaHXD';
   const PASSWORD = readEnv('CAMPAIGNS_PASSWORD') || 'rca2026';
@@ -147,7 +158,7 @@ function parseSeries(s){
 }
 
 function json(status, body){
-  return new Response(JSON.stringify(body), { status, headers: { 'content-type':'application/json', 'cache-control':'no-store' } });
+  return new Response(JSON.stringify(body), { status, headers: { 'content-type':'application/json', 'cache-control':'no-store', ...CORS_HEADERS } });
 }
 
 export const config = { path: '/api/campaigns' };

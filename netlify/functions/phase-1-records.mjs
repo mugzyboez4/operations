@@ -20,7 +20,18 @@ function readEnv(key) {
 
 const ALLOWED_STATUSES = ['To Do', 'In Progress', 'Done', 'Blocked', 'N/A'];
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, PATCH, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const BASE_ID = readEnv('PHASE1_BASE_ID');
   const TABLE_ID = readEnv('PHASE1_TABLE_ID');
   const TOKEN = readEnv('PHASE1_TOKEN');
@@ -133,7 +144,7 @@ function jsonResponse(status, body) {
     status,
     headers: {
       'content-type': 'application/json',
-      'cache-control': 'no-store'
+      'cache-control': 'no-store', ...CORS_HEADERS
     }
   });
 }

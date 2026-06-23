@@ -18,7 +18,21 @@ function readEnv(key) {
   return null;
 }
 
+const CORS_HEADERS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, OPTIONS',
+  'access-control-allow-headers': 'X-Grid-Password, Content-Type',
+  'access-control-max-age': '86400'
+};
+
 export default async (req) => {
+  // CORS preflight: browsers send OPTIONS before any request carrying the custom
+  // X-Grid-Password header. Answer it before the env/password checks so the gate
+  // never blocks the preflight itself.
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const AIRTABLE_BASE_ID = readEnv('AIRTABLE_BASE_ID');
   const AIRTABLE_TABLE_ID = readEnv('AIRTABLE_TABLE_ID');
   const AIRTABLE_TOKEN = readEnv('AIRTABLE_TOKEN');
@@ -87,7 +101,8 @@ function jsonResponse(status, body) {
     status,
     headers: {
       'content-type': 'application/json',
-      'cache-control': 'no-store'
+      'cache-control': 'no-store',
+      ...CORS_HEADERS
     }
   });
 }
