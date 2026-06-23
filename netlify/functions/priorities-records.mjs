@@ -9,8 +9,9 @@
 // are NEVER returned, even though they exist on the records in Airtable. Add a field
 // to SAFE_FIELDS only if it is safe to publish to anyone who can read the page.
 //
-// Reuses PHASE1_BASE_ID + PHASE1_TOKEN (Campaign Priorities lives in the same base
-// as Phase 1 Tasks). The table id is not secret, so it is hardcoded.
+// Campaign Priorities lives in the Ops HQ base (app2RsHO0Erdgrl22). Base + table ids
+// are not secret, so they are hardcoded (overridable via PRIORITIES_BASE_ID). The
+// Airtable PAT is read from AIRTABLE_TOKEN (the master token already set on the site).
 
 function readEnv(key) {
   try {
@@ -29,6 +30,7 @@ function readEnv(key) {
 
 // Campaign Priorities table in the Ops HQ base.
 const TABLE_ID = 'tblLut1VdpvYZf7q4';
+const DEFAULT_BASE_ID = 'app2RsHO0Erdgrl22';
 
 // The ONLY fields ever returned to the browser. Everything else is dropped.
 const SAFE_FIELDS = ['Priority', 'Stage', 'Workstream', 'Board', 'Cluster'];
@@ -48,11 +50,11 @@ export default async (req) => {
     return jsonResponse(405, { error: 'method_not_allowed' });
   }
 
-  const BASE_ID = readEnv('PHASE1_BASE_ID');
-  const TOKEN = readEnv('PHASE1_TOKEN');
+  const BASE_ID = readEnv('PRIORITIES_BASE_ID') || DEFAULT_BASE_ID;
+  const TOKEN = readEnv('AIRTABLE_TOKEN') || readEnv('PHASE1_TOKEN');
   const missing = [];
-  if (!BASE_ID) missing.push('PHASE1_BASE_ID');
-  if (!TOKEN) missing.push('PHASE1_TOKEN');
+  if (!BASE_ID) missing.push('PRIORITIES_BASE_ID');
+  if (!TOKEN) missing.push('AIRTABLE_TOKEN');
   if (missing.length > 0) {
     return jsonResponse(500, { error: 'misconfigured', missing });
   }
