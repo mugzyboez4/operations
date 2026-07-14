@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pitches by Artist — Ops HQ</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/pitches-grid.css">
+<style>
+  .site-strip {
+    padding: 10px 22px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; letter-spacing: 0.5px;
+  }
+  .site-strip a { color: var(--text-dim); text-decoration: none; }
+  .site-strip a:hover { color: var(--text); }
+  .site-strip .brand { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-eyebrow">RCA &middot; Campaign Ops</div>
+    <div class="gate-title">Pitches by Artist</div>
+    <div class="gate-sub">Team access only. Enter the shared Ops HQ password to view the licensing pitch catalog.</div>
+    <input class="gate-input" id="gate-pw" type="password" placeholder="Password" autocomplete="off">
+    <button class="gate-btn" id="gate-submit">Unlock</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app" id="app">
+  <div class="site-strip">
+    <span class="brand">Ops HQ</span>
+    <a href="/">&larr; Home</a>
+  </div>
+  <div class="wrap">
+    <div class="header">
+      <div class="title-block">
+        <div class="eyebrow">Licensing &middot; DISCO</div>
+        <h1>Pitches by Artist</h1>
+      </div>
+      <div class="meta" id="meta">Loading&hellip;</div>
+    </div>
+
+    <div class="panes">
+      <div class="pane">
+        <div class="pane-head">
+          <span>Artists</span>
+          <span class="count" id="artist-count"></span>
+        </div>
+        <div class="search-wrap">
+          <input class="search-input" id="artist-search" type="text" placeholder="Search artists&hellip;" autocomplete="off">
+        </div>
+        <div class="artist-list" id="artist-list">
+          <div class="loading">Loading snapshot&hellip;</div>
+        </div>
+      </div>
+
+      <div class="pane">
+        <div class="pane-head">
+          <span id="pitches-head">Select an artist</span>
+        </div>
+        <div class="pitches-wrap" id="pitches-wrap">
+          <div class="empty">Pick an artist on the left to see their pitches.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Daily snapshot of the licensing pitch catalog (DISCO playlists), grouped by roster artist.
+      Links open the pitch in DISCO. Refreshed once a day &mdash; check the timestamp above for currency.
+    </div>
+  </div>
+</div>
+
+<script src="/pitches-grid.js"></script>
+</body>
+</html>
