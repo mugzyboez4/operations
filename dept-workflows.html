@@ -160,7 +160,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 <body>
 <div class="deptstrip">
   <a href="/">← Home</a>
-  <div class="grp"><a href="/department-board.html">Department Board</a><span class="sep">·</span><b>Handoff Map</b></div>
+  <div class="grp"><a href="/department-org-chart.html">Org Chart</a><span class="sep">·</span><b>Handoff Map</b></div>
 </div>
 <div class="wrap">
   <div class="masthead">
@@ -169,278 +169,11 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
   </div>
 
   <div class="toggle">
-    <button class="tbtn on" data-v="model">Org Chart</button>
-    <button class="tbtn" data-v="swim">Lifecycle</button>
-    <button class="tbtn" data-v="flow">Handoff</button>
+    <button class="tbtn on" data-v="flow">Handoff</button>
     <button class="tbtn" data-v="switch">Switchboard</button>
   </div>
-  <div class="subtitle" id="subtitle">How the work moves: Leads own &amp; trigger → Creative, Audience Dev &amp; Support execute → Campaign Ops connects across.</div>
-
-  <section class="view" id="view-model">
-    <div class="band acc-ink">
-      <div class="band-head">
-        <div><span class="dept-name lg">Campaign Leads</span><span class="verb">Own + Trigger</span></div>
-        <span class="count">12</span>
-      </div>
-      <div class="band-role">Own the campaign — strategy, budget and timeline — and trigger work across every department.</div>
-      <div class="band-cells"><div class="cell">
-    <div class="cell-t">Campaign Strategy & Narrative</div>
-    <div class="cell-d">Defining how the story & narrative of the campaign go to market.</div>
-  </div><div class="cell">
-    <div class="cell-t">Timeline & Milestones</div>
-    <div class="cell-d">Create and maintain the campaign timeline.</div>
-  </div><div class="cell">
-    <div class="cell-t">Artist & Management Relations</div>
-    <div class="cell-d">Primary point of contact. Secure buy-in on direction and key decisions.</div>
-  </div><div class="cell">
-    <div class="cell-t">Budget & Allocation</div>
-    <div class="cell-d">Build the budget, manage allocation across departments, own spend decisions.</div>
-  </div><div class="cell">
-    <div class="cell-t">Trigger Key Asset Creation</div>
-    <div class="cell-d">Kick off asset creation — ads, announcements, highlight reels, UGC mashups.</div>
-  </div><div class="cell">
-    <div class="cell-t">Website Oversight</div>
-    <div class="cell-d">Trigger and oversee website creation and campaign tie-ins.</div>
-  </div><div class="cell">
-    <div class="cell-t">Out of Home & Trades Marketing</div>
-    <div class="cell-d">Oversee IRL media/trade media bookings and messaging.</div>
-  </div><div class="cell">
-    <div class="cell-t">Award Show Alignment</div>
-    <div class="cell-d">Asset creation, ad spends & communication for Award Shows.</div>
-  </div><div class="cell">
-    <div class="cell-t">Pitch Deck Oversight</div>
-    <div class="cell-d">Flow of pitch decks and department content delivery timelines.</div>
-  </div><div class="cell">
-    <div class="cell-t">Physical Product Management</div>
-    <div class="cell-d">Configuration details and follow-through for physical releases.</div>
-  </div><div class="cell">
-    <div class="cell-t">Artist Image Alignment</div>
-    <div class="cell-d">Image selects across Press, Partnerships and Packaging.</div>
-  </div><div class="cell">
-    <div class="cell-t">Promo Item Oversight</div>
-    <div class="cell-d">Product content, budgeting, execution and distribution.</div>
-  </div></div>
-    </div>
-
-    <div class="flowcue">Triggers work down to the engine <span class="arr">▾</span></div>
-
-    <div class="engine">
-      <div class="pillar acc-flame is-cre">
-    <div class="pillar-head">
-      <div class="ph-l"><span class="dept-name">Creative</span><span class="verb">Make</span></div>
-      <span class="count">14</span>
-    </div>
-    <div class="pillar-role">Make the work — every visual format, on brand, end to end.</div>
-    <div class="pillar-flow">Intake → Execution &amp; Design → QC → Routing &amp; Delivery</div>
-    <div class="pillar-lanes"><div class="lane">
-    <div class="lane-t">Creative Direction & Assignment</div>
-    <div class="lane-d">Strategic creative direction across all artist campaigns; assigns internal teams to projects.</div>
-  </div><div class="lane">
-    <div class="lane-t">Creative Budget & Allocation</div>
-    <div class="lane-d">Owns and allocates the overall creative budget; sets priorities across projects.</div>
-  </div><div class="lane">
-    <div class="lane-t">Project Intake & Ticketing</div>
-    <div class="lane-d">Airtable ticket creation and assignment; routes incoming work into the team.</div>
-  </div><div class="lane">
-    <div class="lane-t">Creative Execution</div>
-    <div class="lane-d">End-to-end delivery across photoshoots, music videos, visualizers and short-form.</div>
-  </div><div class="lane">
-    <div class="lane-t">Experiential & In-House Production</div>
-    <div class="lane-d">In-house production for low-to-mid-budget video and experiential; sourcing, resourcing, logistics.</div>
-  </div><div class="lane">
-    <div class="lane-t">Commissioning</div>
-    <div class="lane-d">Commission talent for short-form content and music videos.</div>
-  </div><div class="lane">
-    <div class="lane-t">Talent & Vendor Management</div>
-    <div class="lane-d">Source and manage external stylists, designers and directors; contracting and timelines.</div>
-  </div><div class="lane">
-    <div class="lane-t">Brand Identity & Direction</div>
-    <div class="lane-d">Brand identity and creative direction across campaign visuals; ensure consistency.</div>
-  </div><div class="lane">
-    <div class="lane-t">Artwork & Packaging</div>
-    <div class="lane-d">Artwork and packaging, logos, advertisements, banners and marketing assets.</div>
-  </div><div class="lane">
-    <div class="lane-t">Moodboards & Decks</div>
-    <div class="lane-d">Moodboards and presentation decks to support concepts and campaign alignment.</div>
-  </div><div class="lane">
-    <div class="lane-t">Delivery Specs & QC</div>
-    <div class="lane-d">Video delivery specifications, quality control (CI QC) and asset ingestion.</div>
-  </div><div class="lane">
-    <div class="lane-t">Asset Routing & Delivery</div>
-    <div class="lane-d">Artwork and packaging routing and final delivery.</div>
-  </div><div class="lane">
-    <div class="lane-t">Motion</div>
-    <div class="lane-d">Cutdowns, animated art and motion assets, including Audience Dev requests.</div>
-  </div><div class="lane">
-    <div class="lane-t">POs, Invoices & Logistics</div>
-    <div class="lane-d">PO creation, invoice payments, and scheduling/admin support for the SVP and team.</div>
-  </div></div>
-  </div>
-      <div class="pillar acc-teal">
-    <div class="pillar-head">
-      <div class="ph-l"><span class="dept-name">Audience Dev</span><span class="verb">Grow</span></div>
-      <span class="count">13</span>
-    </div>
-    <div class="pillar-role">Find and grow the audience — research, paid media, social and reporting.</div>
-    
-    <div class="pillar-lanes"><div class="lane">
-    <div class="lane-t">Audience Definition & Research</div>
-    <div class="lane-d">Demos, engagement rate, listening behavior, psychographics. With Strategic Analytics.</div>
-  </div><div class="lane">
-    <div class="lane-t">New Signing Audience Profiles</div>
-    <div class="lane-d">Baseline audience profile for newly signed artists.</div>
-  </div><div class="lane">
-    <div class="lane-t">Performance & Reporting</div>
-    <div class="lane-d">Campaign KPIs, audience metrics. Present to leadership.</div>
-  </div><div class="lane">
-    <div class="lane-t">Audience Growth</div>
-    <div class="lane-d">Strategy for growth and engagement in line with Creative and campaign strategy.</div>
-  </div><div class="lane">
-    <div class="lane-t">Paid Media Campaign Execution</div>
-    <div class="lane-d">Advertising across social, search & programmatic. Leveraging FanSifter, etc.</div>
-  </div><div class="lane">
-    <div class="lane-t">Shortform Strategy & Execution</div>
-    <div class="lane-d">Ideation, 3rd party booking, first-person shoots and coaching.</div>
-  </div><div class="lane">
-    <div class="lane-t">Influencer Marketing</div>
-    <div class="lane-d">All aspects of influencer campaigns from ideation through execution.</div>
-  </div><div class="lane">
-    <div class="lane-t">Seeding</div>
-    <div class="lane-d">Paid narrative and discovery campaigns across social platforms.</div>
-  </div><div class="lane">
-    <div class="lane-t">UGC & Clipping</div>
-    <div class="lane-d">UGC & clipping campaigns. Collaborates with CL, Creative, Publicity.</div>
-  </div><div class="lane">
-    <div class="lane-t">Engagement Campaigns</div>
-    <div class="lane-d">Web-based campaigns (library scans, contests) to collect fan data.</div>
-  </div><div class="lane">
-    <div class="lane-t">RCA Web & Social Property Mgmt</div>
-    <div class="lane-d">Flow and content across RCA’s websites, newsletter and social properties.</div>
-  </div><div class="lane">
-    <div class="lane-t">IRL Event Collaboration</div>
-    <div class="lane-d">Fan component of IRL events for reach and impact online.</div>
-  </div><div class="lane">
-    <div class="lane-t">DSP & Partner Tools</div>
-    <div class="lane-d">DSP marketing tools and partner marketing features.</div>
-  </div></div>
-  </div>
-      <div class="pillar acc-gold">
-    <div class="pillar-head">
-      <div class="ph-l"><span class="dept-name">Support</span><span class="verb">Execute</span></div>
-      <span class="count">12</span>
-    </div>
-    <div class="pillar-role">Execute the operational tasks that get a release out the door.</div>
-    
-    <div class="pillar-lanes"><div class="lane">
-    <div class="lane-t">Asset Routing</div>
-    <div class="lane-d">Creative tickets, follow-through, QA and approvals/routing.</div>
-  </div><div class="lane">
-    <div class="lane-t">Pre-Save Setup</div>
-    <div class="lane-d">SMF, CoBrand, Laylo, signup code for custom development.</div>
-  </div><div class="lane">
-    <div class="lane-t">Content Claims</div>
-    <div class="lane-d">Submit claims across social platforms at CL/CM direction.</div>
-  </div><div class="lane">
-    <div class="lane-t">Allow-Listing</div>
-    <div class="lane-d">Content teasing/sharing for artist, fan, brand and F&F accounts.</div>
-  </div><div class="lane">
-    <div class="lane-t">Takedowns</div>
-    <div class="lane-d">Submit takedown requests. Source links as needed.</div>
-  </div><div class="lane">
-    <div class="lane-t">Profile Verification</div>
-    <div class="lane-d">Artist profile verification across socials.</div>
-  </div><div class="lane">
-    <div class="lane-t">Artist Newsletter Builds</div>
-    <div class="lane-d">Build, QA and send via FanSifter at CM direction.</div>
-  </div><div class="lane">
-    <div class="lane-t">Shortlink Generation</div>
-    <div class="lane-d">Shortlinks, pixel integration & QA across the roster.</div>
-  </div><div class="lane">
-    <div class="lane-t">Website Support</div>
-    <div class="lane-d">WebOps process, pixel management, follow-through and QA.</div>
-  </div><div class="lane">
-    <div class="lane-t">Vendors & Invoices</div>
-    <div class="lane-d">Vendor setup, maintenance, invoice processing. Police with Ops.</div>
-  </div><div class="lane">
-    <div class="lane-t">Gratis Orders</div>
-    <div class="lane-d">Submit gratis orders at CL direction.</div>
-  </div><div class="lane">
-    <div class="lane-t">Team/Project Meeting Setup</div>
-    <div class="lane-d">Multi-department meetings for artists/projects. Not huddles.</div>
-  </div></div>
-  </div>
-    </div>
-
-    <div class="flowcue up"><span class="arr">▴</span> Campaign Ops reads across all three</div>
-
-    <div class="band acc-graphite ops-band">
-      <div class="band-head">
-        <div><span class="dept-name lg">Campaign Ops</span><span class="verb">Connects across</span></div>
-        <span class="count">6</span>
-      </div>
-      <div class="band-role">The connective layer — reads across every team for readiness, gaps, blockers and scheduling.</div>
-      <div class="band-cells ops-cells"><div class="cell">
-    <div class="cell-t">Release Readiness</div>
-    <div class="cell-d">Monitor all departments, assets, and runway fields for upcoming releases.</div>
-  </div><div class="cell">
-    <div class="cell-t">Cross-Department Visibility</div>
-    <div class="cell-d">Artist status, budget gaps, dependencies, and blockers across teams.</div>
-  </div><div class="cell">
-    <div class="cell-t">Action Items & Approvals</div>
-    <div class="cell-d">Follow up on action items. Monitor pending management approvals.</div>
-  </div><div class="cell">
-    <div class="cell-t">Meeting Operations</div>
-    <div class="cell-d">Prep, capture, and distribute decisions and action items.</div>
-  </div><div class="cell">
-    <div class="cell-t">Dashboards & System of Record</div>
-    <div class="cell-d">Build and maintain operational dashboards and data infrastructure.</div>
-  </div><div class="cell">
-    <div class="cell-t">Release Scheduling</div>
-    <div class="cell-d">Check prerequisites, submit scheduling requests, communicate back to CLs.</div>
-  </div></div>
-    </div>
-  </section>
-  <section class="view hidden" id="view-swim">
-    <div class="swim-head"><div class="swim-label-sp">Campaign phase →</div><div class="phase-row"><div class="phase-h p01"><span class="pn">01</span>Prep</div><div class="phase-h p02"><span class="pn">02</span>Plan</div><div class="phase-h p03"><span class="pn">03</span>Pre-Release</div><div class="phase-h p04"><span class="pn">04</span>Release</div><div class="phase-h p05"><span class="pn">05</span>Post-Release</div></div><span class="count-sp"></span></div>
-    <div class="swim-row acc-ink">
-    <div class="swim-label">
-      <span class="dept-name">Campaign Leads</span>
-      <span class="swim-role">Own the campaign — strategy, budget and timeline — and trigger work across every department.</span>
-    </div>
-    <div class="track"><div class="pcell on p01"><span>Prep</span></div><div class="pcell on p02"><span>Plan</span></div><div class="pcell on p03"><span>Pre-Release</span></div><div class="pcell on p04"><span>Release</span></div><div class="pcell on p05"><span>Post-Release</span></div></div>
-    <span class="count">12</span>
-  </div><div class="swim-row acc-flame">
-    <div class="swim-label">
-      <span class="dept-name">Creative</span>
-      <span class="swim-role">Make the work — every visual format, on brand, end to end.</span>
-    </div>
-    <div class="track"><div class="pcell on p01"><span>Prep</span></div><div class="pcell on p02"><span>Plan</span></div><div class="pcell on p03"><span>Pre-Release</span></div><div class="pcell on p04"><span>Release</span></div><div class="pcell off p05"><span>Post-Release</span></div></div>
-    <span class="count">14</span>
-  </div><div class="swim-row acc-teal">
-    <div class="swim-label">
-      <span class="dept-name">Audience Dev</span>
-      <span class="swim-role">Find and grow the audience — research, paid media, social and reporting.</span>
-    </div>
-    <div class="track"><div class="pcell off p01"><span>Prep</span></div><div class="pcell on p02"><span>Plan</span></div><div class="pcell on p03"><span>Pre-Release</span></div><div class="pcell on p04"><span>Release</span></div><div class="pcell on p05"><span>Post-Release</span></div></div>
-    <span class="count">13</span>
-  </div><div class="swim-row acc-gold">
-    <div class="swim-label">
-      <span class="dept-name">Support</span>
-      <span class="swim-role">Execute the operational tasks that get a release out the door.</span>
-    </div>
-    <div class="track"><div class="pcell off p01"><span>Prep</span></div><div class="pcell on p02"><span>Plan</span></div><div class="pcell on p03"><span>Pre-Release</span></div><div class="pcell on p04"><span>Release</span></div><div class="pcell off p05"><span>Post-Release</span></div></div>
-    <span class="count">12</span>
-  </div><div class="swim-row acc-graphite">
-    <div class="swim-label">
-      <span class="dept-name">Campaign Ops</span>
-      <span class="swim-role">The connective layer — reads across every team for readiness, gaps, blockers and scheduling.</span>
-    </div>
-    <div class="track"><div class="pcell on p01"><span>Prep</span></div><div class="pcell on p02"><span>Plan</span></div><div class="pcell on p03"><span>Pre-Release</span></div><div class="pcell on p04"><span>Release</span></div><div class="pcell on p05"><span>Post-Release</span></div></div>
-    <span class="count">6</span>
-  </div>
-    <div class="swim-note">Filled = department is active in that phase. <b>Campaign Leads</b> and <b>Campaign Ops</b> run the full length; Creative front-loads, Audience Dev and Support peak around pre-release &amp; release.</div>
-  </section>
-  <section class="view hidden" id="view-flow">
+  <div class="subtitle" id="subtitle">The baton-pass: how work hands off between teams, and the gate each pass must clear.</div>
+  <section class="view" id="view-flow">
     <div class="hm-grid" id="hm-grid">
       <div class="hm-corner">Lane &darr; / Phase &rarr;</div>
       <div class="hm-ph p01"><span class="pn">01</span>Prep</div><div class="hm-ph p02"><span class="pn">02</span>Plan</div><div class="hm-ph p03"><span class="pn">03</span>Pre-Release</div><div class="hm-ph p04"><span class="pn">04</span>Release</div><div class="hm-ph p05"><span class="pn">05</span>Post-Release</div>
@@ -712,7 +445,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 <script>
 const SUB={"model":"How the work moves: Leads own &amp; trigger → Creative, Audience Dev &amp; Support execute → Campaign Ops connects across.","swim":"When each department is active across the campaign lifecycle.","flow":"The baton-pass: how work hands off between teams, and the gate each pass must clear.","switch":"Look up any need and see who to go to — and who owns it."};
 const HE=[{"from":"h1","to":"h2","gate":"Gate 01 · 28","gt":"Advance when every dept can start planning"},{"from":"h2","to":"h3"},{"from":"h3","to":"h4"},{"from":"h4","to":"h3","loop":true,"gt":"QC fail → revise"},{"from":"h4","to":"h5","gate":"Gate 02 · 53","gt":"Advance when plan locked, date set, music workable"},{"from":"h4","to":"h5b"},{"from":"h5","to":"h6","gate":"Gate 03 · 39","gt":"Advance when announced, cleared, ready to ship"},{"from":"h5b","to":"h6"},{"from":"h6","to":"h7"},{"from":"h7","to":"h8","gate":"Gate 04 · 29","gt":"Advance when week-1 shipped, numbers captured"}];
-const views={model:'view-model',swim:'view-swim',flow:'view-flow',switch:'view-switch'};
+const views={flow:'view-flow',switch:'view-switch'};
 document.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');
@@ -761,6 +494,7 @@ function drawFlow(){
   });
 }
 window.addEventListener('resize',()=>{const f=document.getElementById('view-flow');if(f&&!f.classList.contains('hidden'))drawFlow();});
+window.addEventListener('load',()=>requestAnimationFrame(drawFlow));
 // switchboard filter + search
 let curF='all';
 function applySw(){
