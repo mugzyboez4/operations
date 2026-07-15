@@ -805,6 +805,32 @@ const WORKFLOWS = [
     ]
   },
 
+
+  {
+    id: 'creative-asset-delivery',
+    title: 'Creative Asset Delivery',
+    status: 'live',
+    statusLabel: 'Documented \u00b7 Live',
+    desc: 'From a campaign brief to finished assets landing in the DAM and routed to DSPs, paid, and physical. The internal Creative pipeline (Creative Manager \u2192 Design \u2192 Production / QC) is documented on the Department Board \u2014 but the brief-in handoff and spec QC are the recurring break points.',
+    depts: ['CAMPAIGN_LEADS', 'CREATIVE', 'DIGITAL_OPS', 'COMMERCIAL', 'AUDIENCE_DEV'],
+    steps: [
+      { dept:'CAMPAIGN_LEADS', title:'Brief in', note:'Ticket + campaign brief: deliverables, budget envelope, timeline. Creative Manager takes it from here.', tags:['handoff'] },
+      { dept:'CREATIVE', title:'Concept', note:'Treatment + moodboards with Design; align to creative direction before spend.' },
+      { dept:'CREATIVE', title:'Produce', note:'Run the shoot / production or build artwork, packaging, ad units. Creative owns logistics.' },
+      { dept:'CREATIVE', title:'Review', note:'Internal rounds, then the artist / management feedback loop to lock.', tags:['friction'] },
+      { dept:'CREATIVE', title:'QC + specs', note:'CI QC pass \u2014 technical quality, versions, metadata \u2014 checked against DSP / platform specs.', tags:['gate'] },
+      { dept:'CREATIVE', title:'Fix loop', note:'Issues kicked back to Creative Manager / Design; corrected files re-confirmed before anything ships.', tags:['friction'] },
+      { dept:'DIGITAL_OPS', title:'Ingest to DAM', note:'Approved source + finals ingested and archived to Asset HQ \u2014 tagged and findable.', tags:['handoff'] },
+      { dept:'COMMERCIAL', title:'Route to DSP', note:'Final files routed to DSPs and partners against platform specs.', tags:['handoff','parallel'] },
+      { dept:'AUDIENCE_DEV', title:'Paid + social', note:'Assets flow into the paid + social calendar for the live campaign.', tags:['parallel'] },
+    ],
+    handoffs: [
+      { from:'CAMPAIGN_LEADS', to:'CREATIVE', detail:'No standing brief. Each request tends to be a one-off \u2014 Creative often builds reactively, without a locked brief or budget envelope up front.' },
+      { from:'CREATIVE', to:'CREATIVE', detail:'The internal QC fix-loop is the most common delay: specs, versions, or metadata bounce back to Design before an asset can ship.' },
+      { from:'CREATIVE', to:'COMMERCIAL', detail:'Delivery specs vary by DSP / platform. A miss caught late means the asset is rejected downstream and has to be re-cut and re-routed.' },
+    ]
+  },
+
   {
     id: 'sync-clearance',
     title: 'Sync Clearance',
