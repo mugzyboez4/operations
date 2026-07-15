@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RCA · Creative — Onboarding Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{
+  --cream:#F5F2EB;--card:#FFFFFF;--sunken:#FAFAF5;--ink:#0F0E0E;--fog:#888888;
+  --hair:#ECEAE3;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--lime:#CDF851;--graphite:#3E3F41;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:0 0 72px}
+.wrap{max-width:1000px;margin:0 auto;padding:40px 28px 0}
+a{color:var(--flame)}
+
+.deptstrip{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--hair);background:var(--card);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.deptstrip a{color:var(--fog);font-weight:600;text-decoration:none}
+.deptstrip a:hover{color:var(--ink)}
+.deptstrip .grp{display:flex;gap:8px;align-items:center}
+.deptstrip .grp b{color:var(--flame);font-weight:700}
+.deptstrip .grp .sep{color:var(--hair)}
+
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--flame);margin-bottom:12px}
+h1{font-weight:800;text-transform:uppercase;font-size:52px;line-height:.92;letter-spacing:-2px;margin-bottom:16px}
+.lede{font-size:17px;line-height:1.6;max-width:680px;margin-bottom:10px}
+.lede b{font-weight:600}
+.meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:18px;padding-top:14px;border-top:1px solid var(--hair)}
+
+.sec{margin-top:52px}
+.sec-n{font-size:11px;font-weight:600;letter-spacing:.2em;color:var(--flame)}
+.sec-label{font-weight:800;text-transform:uppercase;letter-spacing:-.6px;font-size:26px;margin:4px 0 6px}
+.sec-sub{font-size:14px;color:var(--fog);margin-bottom:20px;max-width:660px;line-height:1.5}
+
+.owns{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.own{background:var(--card);padding:16px 18px}
+.own .ot{font-weight:700;text-transform:uppercase;letter-spacing:-.2px;font-size:14px;margin-bottom:5px}
+.own .od{font-size:12.5px;line-height:1.5;color:var(--ink)}
+
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.rolec{background:var(--card);border:1px solid var(--hair);border-top:3px solid var(--flame);padding:18px}
+.rolec .rt{font-weight:800;text-transform:uppercase;letter-spacing:-.3px;font-size:16px}
+.rolec .rn{font-size:12px;color:var(--fog);margin:3px 0 10px;font-weight:500}
+.rolec .rd{font-size:12.5px;line-height:1.5}
+.rolec.teal{border-top-color:var(--teal)}
+.rolec.gold{border-top-color:var(--gold)}
+.rolec.graphite{border-top-color:var(--graphite)}
+
+.intake{background:var(--card);border:1px solid var(--hair);border-left:3px solid var(--flame);padding:18px 20px;font-size:13.5px;line-height:1.6}
+.intake b{font-weight:600}
+
+.pflow{background:var(--card);border:1px solid var(--hair);margin-bottom:14px}
+.plane{padding:16px 22px;border-top:1px solid var(--hair)}
+.plane:first-child{border-top:none}
+.plane .pbar{display:inline-block;width:26px;height:3px;margin-bottom:12px}
+.plane-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.plane-h .pnm{font-weight:800;text-transform:uppercase;letter-spacing:-.3px;font-size:17px}
+.plane-h .pdesc{font-size:12px;color:var(--fog)}
+.psteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.pstep{background:var(--sunken);padding:11px 13px}
+.ps-n{font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--fog)}
+.ps-t{font-weight:800;text-transform:uppercase;letter-spacing:-.2px;font-size:13px;margin:3px 0 5px}
+.ps-d{font-size:11px;line-height:1.45;color:var(--ink)}
+.pnote{font-size:11.5px;line-height:1.5;color:var(--ink);background:var(--sunken);border-left:3px solid var(--flame);padding:9px 13px;margin-top:11px}
+
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.path{background:var(--card);border:1px solid var(--hair);padding:18px 20px}
+.path .pt{font-weight:800;text-transform:uppercase;letter-spacing:-.3px;font-size:16px;margin-bottom:8px}
+.path .pl{font-size:12.5px;line-height:1.6}
+
+.expand{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.exp{background:var(--sunken);border:1px dashed var(--hair);padding:16px 18px}
+.exp .et{font-weight:700;text-transform:uppercase;letter-spacing:-.2px;font-size:13px;margin-bottom:5px;color:var(--fog)}
+.exp .ed{font-size:12px;line-height:1.5;color:var(--fog)}
+
+.foot{font-size:11.5px;line-height:1.6;color:var(--fog);margin-top:48px;padding-top:18px;border-top:1px solid var(--hair)}
+.foot b{color:var(--ink);font-weight:600}
+@media(max-width:720px){h1{font-size:38px}.paths{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="deptstrip">
+  <a href="/">← Home</a>
+  <div class="grp"><b>Creative — Onboarding Guide</b></div>
+</div>
+<div class="wrap">
+  <div class="eyebrow">Department Onboarding · 01 of series</div>
+  <h1>Creative</h1>
+  <p class="lede">Everything a new team member — or a partner from another team — needs to understand how Creative works: <b>what it owns, who does what, how work comes in, and how a project moves from brief to archive.</b></p>
+  <div class="meta">Draft template · one guide per department · expand over time</div>
+
+  <div class="sec">
+    <div class="sec-n">01</div>
+    <div class="sec-label">What Creative Owns</div>
+    <p class="sec-sub">Creative makes the work — every visual format, on brand, end to end. The mandate, in plain terms.</p>
+    <div class="owns">
+      <div class="own"><div class="ot">Music Video</div><div class="od">The signature format — greenlight through director, shoot, post, delivery and social cutdowns.</div></div>
+      <div class="own"><div class="ot">Art &amp; Packaging</div><div class="od">Cover art, packaging, logos and the campaign look — built to brand and to delivery spec.</div></div>
+      <div class="own"><div class="ot">Press &amp; Photo</div><div class="od">Photo shoots, selects, press imagery and the guidelines that keep it consistent.</div></div>
+      <div class="own"><div class="ot">Ad &amp; Social Units</div><div class="od">Banners, ad units and the resized assets each platform and campaign needs.</div></div>
+      <div class="own"><div class="ot">QC &amp; Delivery</div><div class="od">Spec-checking, ingestion and routing finals to DSPs, partners and socials.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">02</div>
+    <div class="sec-label">Who's Who</div>
+    <p class="sec-sub">The roles inside Creative and what each one is on the hook for. Names fill in as the team is confirmed.</p>
+    <div class="who">
+      <div class="rolec"><div class="rt">SVP, Creative</div><div class="rn">Name TBD</div><div class="rd">Sets creative direction and signs off at concept. Active early — prep and plan — then delegates execution.</div></div>
+      <div class="rolec"><div class="rt">Creative Manager</div><div class="rn">Name TBD</div><div class="rd">Runs a project end to end: brief, concept, resourcing, production, review, delivery. The through-line owner.</div></div>
+      <div class="rolec gold"><div class="rt">Design</div><div class="rn">Name TBD</div><div class="rd">Builds artwork, packaging, logos, banners and ad units — from moodboard to final export.</div></div>
+      <div class="rolec teal"><div class="rt">Tickets &amp; Routing</div><div class="rn">Name TBD</div><div class="rd">The front door — intake, prioritization and routing of design and creative requests.</div></div>
+      <div class="rolec graphite"><div class="rt">Production / QC</div><div class="rn">Chris S</div><div class="rd">The last mile — spec-checks finals, runs QC, ingests and routes files to their destinations.</div></div>
+      <div class="rolec graphite"><div class="rt">POs &amp; Payments</div><div class="rn">Name TBD</div><div class="rd">Raises POs, books vendors and closes invoices so production can move without finance snags.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">03</div>
+    <div class="sec-label">How Work Comes In</div>
+    <p class="sec-sub">Creative is triggered by the Campaign Lead. Nothing starts without a ticket and a brief.</p>
+    <div class="intake">
+      A <b>Campaign Lead</b> owns the campaign — strategy, budget, timeline — and opens a ticket with the brief. That ticket lands with the <b>Creative Manager</b> (production work) or <b>Tickets &amp; Routing</b> (design requests), who confirms deliverables, budget envelope and timeline before any spend. From there it moves through the lanes below.
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">04</div>
+    <div class="sec-label">How A Project Moves</div>
+    <p class="sec-sub">Three lanes, one spine — from brief in to archive. This is the step-by-step of the day-to-day.</p>
+
+    <div class="pflow">
+      <div class="plane">
+        <span class="pbar" style="background:var(--flame)"></span>
+        <div class="plane-h"><span class="pnm">Creative Manager</span><span class="pdesc">How a project moves</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Brief In</div><div class="ps-d">Take the ticket + campaign brief; confirm deliverables, budget envelope and timeline with the Campaign Lead.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Concept</div><div class="ps-d">Develop the treatment; pull moodboards with Design; align to creative direction before spend.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">Resource</div><div class="ps-d">Assign the internal team or commission talent — directors, stylists; book vendors, raise POs.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Produce</div><div class="ps-d">Run the shoot / production; own logistics and the on-the-day calls.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">Review</div><div class="ps-d">Edit + internal rounds; manage the artist / management feedback loop to lock.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">QC + Deliver</div><div class="ps-d">Hand to QC for specs and ingestion; route the final files out.</div></div>
+          <div class="pstep"><div class="ps-n">07</div><div class="ps-t">Wrap</div><div class="ps-d">Close POs and invoices; file finals to Asset HQ / DAM.</div></div>
+        </div>
+        <div class="pnote"><b>Music video</b> is the signature version of this flow: greenlight → director + treatment → pre-pro → shoot → post → QC + delivery → social cutdowns (Motion) + archive.</div>
+      </div>
+
+      <div class="plane">
+        <span class="pbar" style="background:var(--gold)"></span>
+        <div class="plane-h"><span class="pnm">Design</span><span class="pdesc">How design moves</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Brief In</div><div class="ps-d">Take the design ticket — references, specs, deadline; clarify what's actually needed.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Explore</div><div class="ps-d">Direction options + moodboards; check against brand identity and the campaign look.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">Design</div><div class="ps-d">Build artwork, packaging, logos, banners, ad units; keep versions clean.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Review</div><div class="ps-d">Design-lead review, then rounds with the Creative Manager, artist and management.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">Finalize</div><div class="ps-d">Prep delivery specs and export formats; lock packaging specs.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">QC + Route</div><div class="ps-d">QC check, route to delivery, file source + finals to the DAM.</div></div>
+        </div>
+      </div>
+
+      <div class="plane">
+        <span class="pbar" style="background:var(--graphite)"></span>
+        <div class="plane-h"><span class="pnm">Production / QC</span><span class="pdesc">The last mile — QC &amp; routing (Chris S)</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Intake</div><div class="ps-d">Take the finals + the ticket; confirm what's delivered and to which specs / platforms.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Spec Check</div><div class="ps-d">Check against delivery specs and platform / DSP requirements; flag anything off.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">QC</div><div class="ps-d">CI QC pass — technical quality, versions, metadata.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Fix Loop</div><div class="ps-d">Kick issues back to Creative Mgr / Design; confirm corrected files.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">Ingest</div><div class="ps-d">Ingest approved assets into the system.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">Route + Deliver</div><div class="ps-d">Route final files to their destinations — DSP, partners, socials, physical.</div></div>
+          <div class="pstep"><div class="ps-n">07</div><div class="ps-t">Archive</div><div class="ps-d">File source + finals to Asset HQ / DAM — tagged and findable.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">05</div>
+    <div class="sec-label">The Two Paths</div>
+    <p class="sec-sub">Most work follows the same spine. The music-video and art/press paths differ at only a few points.</p>
+    <div class="paths">
+      <div class="path"><div class="pt">Music Video</div><div class="pl">Director treatments → creative call · production plan + call sheet · rough &amp; final edit reviews · QC + delivery specs. Adds a shoot and a dedicated Video QC step.</div></div>
+      <div class="path"><div class="pt">Art &amp; Press</div><div class="pl">Photographer + moodboards · art specs + press guidelines · selects + photo approvals. No shoot-QC lane — the review loop is photo selects and approvals.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">06</div>
+    <div class="sec-label">To Expand</div>
+    <p class="sec-sub">Placeholders for the depth this guide grows into — tools, examples, standards, contacts.</p>
+    <div class="expand">
+      <div class="exp"><div class="et">Tools &amp; Systems</div><div class="ed">Ticketing, DAM / Asset HQ, delivery platforms — where things live and how to get access.</div></div>
+      <div class="exp"><div class="et">Specs &amp; Standards</div><div class="ed">Delivery specs, brand guidelines and QC checklists in one place.</div></div>
+      <div class="exp"><div class="et">Worked Examples</div><div class="ed">A real campaign start-to-finish, so the flow above has something concrete behind it.</div></div>
+      <div class="exp"><div class="et">Key Contacts</div><div class="ed">Named owners, vendors and escalation paths as the team is confirmed.</div></div>
+    </div>
+  </div>
+
+  <p class="foot"><b>This is the template for the series.</b> Every department gets a guide with the same shape: Mandate → Who's Who → Intake → How Work Moves → Paths → To Expand. Creative is built out first; the rest fill in from here.</p>
+</div>
+</body></html>
