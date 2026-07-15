@@ -114,8 +114,19 @@ h1{font-family:var(--disp);font-weight:900;text-transform:uppercase;
 #ovx:hover{border-color:var(--ink)}
 
 @media(max-width:900px){h1{font-size:38px}}
+
+.deptstrip{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--hair);background:var(--card);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.deptstrip a{color:var(--fog);font-weight:600;text-decoration:none}
+.deptstrip a:hover{color:var(--ink)}
+.deptstrip .grp{display:flex;gap:8px;align-items:center}
+.deptstrip .grp b{color:var(--flame);font-weight:700}
+.deptstrip .grp .sep{color:var(--hair)}
 </style></head>
 <body>
+<div class="deptstrip">
+  <a href="/">← Home</a>
+  <div class="grp"><b>Org Chart</b><span class="sep">·</span><a href="/department-board.html">Department Board</a><span class="sep">·</span><a href="/dept-workflows">Handoff Map</a></div>
+</div>
 <div class="wrap">
   <div class="eyebrow">Campaign Ops</div>
   <h1>Department<br>Org Chart</h1>

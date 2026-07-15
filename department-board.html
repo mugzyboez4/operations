@@ -86,8 +86,19 @@ body.art .row[data-mv]{opacity:.4}
   .row,.row.head{grid-template-columns:150px 1fr}
   .lbl .sub{display:none}.node .nl{display:none}
 }
+
+.deptstrip{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--hair);background:var(--card);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.deptstrip a{color:var(--fog);font-weight:600;text-decoration:none}
+.deptstrip a:hover{color:var(--ink)}
+.deptstrip .grp{display:flex;gap:8px;align-items:center}
+.deptstrip .grp b{color:var(--flame);font-weight:700}
+.deptstrip .grp .sep{color:var(--hair)}
 </style></head>
 <body class="mv">
+<div class="deptstrip">
+  <a href="/">← Home</a>
+  <div class="grp"><a href="/department-org-chart.html">Org Chart</a><span class="sep">·</span><b>Department Board</b><span class="sep">·</span><a href="/dept-workflows">Handoff Map</a></div>
+</div>
 <div class="wrap">
   <div class="eyebrow">Campaign Ops</div>
   <h1>The Department<br>Board</h1>
