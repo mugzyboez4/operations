@@ -150,6 +150,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 .foot-note b{color:var(--ink);font-weight:600;}
 .foot-stamp{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);white-space:nowrap;}
 
+.orgframe{width:100%;height:76vh;border:1px solid var(--border);border-top:3px solid var(--ink);display:block;background:var(--card);}
 .deptstrip{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--card);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
 .deptstrip a{color:var(--fog);font-weight:600;text-decoration:none}
 .deptstrip a:hover{color:var(--ink)}
@@ -160,20 +161,24 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 <body>
 <div class="deptstrip">
   <a href="/">← Home</a>
-  <div class="grp"><a href="/department-org-chart.html">Org Chart</a><span class="sep">·</span><b>Handoff Map</b></div>
+  <div class="grp"><b>Departments</b></div>
 </div>
 <div class="wrap">
   <div class="masthead">
-    <div><div class="eyebrow">Lane Definition</div><div class="title">Who Does What</div></div>
+    <div><div class="eyebrow">RCA Campaign Operations</div><div class="title">Departments</div></div>
     <div class="meta">RCA Records &middot; Campaign Operations<br><b>July 2026</b></div>
   </div>
 
   <div class="toggle">
-    <button class="tbtn on" data-v="flow">Handoff</button>
+    <button class="tbtn on" data-v="org">Org Chart</button>
+    <button class="tbtn" data-v="flow">Handoff</button>
     <button class="tbtn" data-v="switch">Switchboard</button>
   </div>
-  <div class="subtitle" id="subtitle">The baton-pass: how work hands off between teams, and the gate each pass must clear.</div>
-  <section class="view" id="view-flow">
+  <div class="subtitle" id="subtitle">The people in each department and the lane they own — click any card for the full detail.</div>
+  <section class="view" id="view-org">
+    <iframe id="orgframe" class="orgframe" src="/department-org-chart" title="Department Org Chart"></iframe>
+  </section>
+  <section class="view hidden" id="view-flow">
     <div class="hm-grid" id="hm-grid">
       <div class="hm-corner">Lane &darr; / Phase &rarr;</div>
       <div class="hm-ph p01"><span class="pn">01</span>Prep</div><div class="hm-ph p02"><span class="pn">02</span>Plan</div><div class="hm-ph p03"><span class="pn">03</span>Pre-Release</div><div class="hm-ph p04"><span class="pn">04</span>Release</div><div class="hm-ph p05"><span class="pn">05</span>Post-Release</div>
@@ -443,9 +448,18 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 </div>
 
 <script>
-const SUB={"model":"How the work moves: Leads own &amp; trigger → Creative, Audience Dev &amp; Support execute → Campaign Ops connects across.","swim":"When each department is active across the campaign lifecycle.","flow":"The baton-pass: how work hands off between teams, and the gate each pass must clear.","switch":"Look up any need and see who to go to — and who owns it."};
+const SUB={"org":"The people in each department and the lane they own \u2014 click any card for the full detail.","model":"How the work moves: Leads own &amp; trigger → Creative, Audience Dev &amp; Support execute → Campaign Ops connects across.","swim":"When each department is active across the campaign lifecycle.","flow":"The baton-pass: how work hands off between teams, and the gate each pass must clear.","switch":"Look up any need and see who to go to — and who owns it."};
 const HE=[{"from":"h1","to":"h2","gate":"Gate 01 · 28","gt":"Advance when every dept can start planning"},{"from":"h2","to":"h3"},{"from":"h3","to":"h4"},{"from":"h4","to":"h3","loop":true,"gt":"QC fail → revise"},{"from":"h4","to":"h5","gate":"Gate 02 · 53","gt":"Advance when plan locked, date set, music workable"},{"from":"h4","to":"h5b"},{"from":"h5","to":"h6","gate":"Gate 03 · 39","gt":"Advance when announced, cleared, ready to ship"},{"from":"h5b","to":"h6"},{"from":"h6","to":"h7"},{"from":"h7","to":"h8","gate":"Gate 04 · 29","gt":"Advance when week-1 shipped, numbers captured"}];
-const views={flow:'view-flow',switch:'view-switch'};
+const views={org:'view-org',flow:'view-flow',switch:'view-switch'};
+const orgframe=document.getElementById('orgframe');
+function trimOrg(){
+  try{
+    const d=orgframe.contentDocument; if(!d) return;
+    ['.deptstrip','.eyebrow','h1','.plinth-wrap'].forEach(function(sel){var el=d.querySelector(sel); if(el) el.style.display='none';});
+    if(d.body) d.body.style.padding='18px 24px 44px';
+  }catch(e){}
+}
+if(orgframe) orgframe.addEventListener('load',trimOrg);
 document.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');
@@ -454,6 +468,7 @@ document.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',()=>{
   document.getElementById(views[v]).classList.remove('hidden');
   document.getElementById('subtitle').innerHTML=SUB[v];
   if(v==='flow') requestAnimationFrame(drawFlow);
+  if(v==='org') trimOrg();
 }));
 
 // ---- handoff connector drawing ----
