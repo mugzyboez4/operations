@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RCA · Release Planning — Onboarding Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{
+  --cream:#F5F2EB;--card:#FFFFFF;--sunken:#FAFAF5;--ink:#0F0E0E;--fog:#888888;
+  --hair:#ECEAE3;--flame:#FF4A23;--teal:#5BC0BE;--gold:#E8C547;--lime:#CDF851;--graphite:#3E3F41;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:0 0 72px}
+.wrap{max-width:1000px;margin:0 auto;padding:40px 28px 0}
+a{color:var(--flame)}
+
+.deptstrip{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--hair);background:var(--card);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.deptstrip a{color:var(--fog);font-weight:600;text-decoration:none}
+.deptstrip a:hover{color:var(--ink)}
+.deptstrip .grp{display:flex;gap:8px;align-items:center}
+.deptstrip .grp b{color:var(--flame);font-weight:700}
+.deptstrip .grp .sep{color:var(--hair)}
+
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--flame);margin-bottom:12px}
+h1{font-weight:800;text-transform:uppercase;font-size:52px;line-height:.92;letter-spacing:-2px;margin-bottom:16px}
+.lede{font-size:17px;line-height:1.6;max-width:700px;margin-bottom:10px}
+.lede b{font-weight:600}
+.meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:18px;padding-top:14px;border-top:1px solid var(--hair)}
+
+.sec{margin-top:52px}
+.sec-n{font-size:11px;font-weight:600;letter-spacing:.2em;color:var(--flame)}
+.sec-label{font-weight:800;text-transform:uppercase;letter-spacing:-.6px;font-size:26px;margin:4px 0 6px}
+.sec-sub{font-size:14px;color:var(--fog);margin-bottom:20px;max-width:680px;line-height:1.5}
+
+.owns{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.own{background:var(--card);padding:16px 18px}
+.own .ot{font-weight:700;text-transform:uppercase;letter-spacing:-.2px;font-size:14px;margin-bottom:5px}
+.own .od{font-size:12.5px;line-height:1.5;color:var(--ink)}
+
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.rolec{background:var(--card);border:1px solid var(--hair);border-top:3px solid var(--flame);padding:18px}
+.rolec .rt{font-weight:800;text-transform:uppercase;letter-spacing:-.3px;font-size:16px}
+.rolec .rn{font-size:12px;color:var(--fog);margin:3px 0 10px;font-weight:500}
+.rolec .rd{font-size:12.5px;line-height:1.5}
+.rolec.teal{border-top-color:var(--teal)}
+.rolec.gold{border-top-color:var(--gold)}
+.rolec.graphite{border-top-color:var(--graphite)}
+
+.intake{background:var(--card);border:1px solid var(--hair);border-left:3px solid var(--flame);padding:18px 20px;font-size:13.5px;line-height:1.6}
+.intake b{font-weight:600}
+
+.pflow{background:var(--card);border:1px solid var(--hair);margin-bottom:14px}
+.plane{padding:16px 22px;border-top:1px solid var(--hair)}
+.plane:first-child{border-top:none}
+.plane .pbar{display:inline-block;width:26px;height:3px;margin-bottom:12px}
+.plane-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.plane-h .pnm{font-weight:800;text-transform:uppercase;letter-spacing:-.3px;font-size:17px}
+.plane-h .pdesc{font-size:12px;color:var(--fog)}
+.psteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.pstep{background:var(--sunken);padding:11px 13px}
+.ps-n{font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--fog)}
+.ps-t{font-weight:800;text-transform:uppercase;letter-spacing:-.2px;font-size:13px;margin:3px 0 5px}
+.ps-d{font-size:11px;line-height:1.45;color:var(--ink)}
+.pnote{font-size:11.5px;line-height:1.5;color:var(--ink);background:var(--sunken);border-left:3px solid var(--flame);padding:9px 13px;margin-top:11px}
+
+.expand{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.exp{background:var(--sunken);border:1px dashed var(--hair);padding:16px 18px}
+.exp .et{font-weight:700;text-transform:uppercase;letter-spacing:-.2px;font-size:13px;margin-bottom:5px;color:var(--fog)}
+.exp .ed{font-size:12px;line-height:1.5;color:var(--fog)}
+
+.foot{font-size:11.5px;line-height:1.6;color:var(--fog);margin-top:48px;padding-top:18px;border-top:1px solid var(--hair)}
+.foot b{color:var(--ink);font-weight:600}
+@media(max-width:720px){h1{font-size:38px}}
+</style></head>
+<body>
+<div class="deptstrip">
+  <a href="/">← Home</a>
+  <div class="grp"><b>Release Planning — Onboarding Guide</b></div>
+</div>
+<div class="wrap">
+  <div class="eyebrow">Department Onboarding · 02 of series</div>
+  <h1>Release Planning</h1>
+  <p class="lede">Everything a new team member — or a partner from another team — needs to understand how Release Planning works: <b>what it owns, who does what, how work comes in, and how a release moves from internal approval to shipped product, digital and physical, US and international.</b></p>
+  <div class="meta">Draft · grounded in the Release Planning Key Responsibilities · expand over time</div>
+
+  <div class="sec">
+    <div class="sec-n">01</div>
+    <div class="sec-label">What Release Planning Owns</div>
+    <p class="sec-sub">The operational engine that turns an approved release into scheduled, cleared, manufactured and delivered product. The mandate, in plain terms.</p>
+    <div class="owns">
+      <div class="own"><div class="ot">Digital Delivery</div><div class="od">Every digital asset — audio (stereo, Atmos, 360RA), artwork, metadata, video — cleared and delivered to DSPs accurately and on schedule.</div></div>
+      <div class="own"><div class="ot">GRPS Setup &amp; Scheduling</div><div class="od">Set up, manage and schedule releases in GRPS once senior management approves. The system of record for what ships when.</div></div>
+      <div class="own"><div class="ot">Rights &amp; Clearance</div><div class="od">Coordinate with A&amp;R Admin, Business Affairs and IPL/Copyright so samples, side-artist and rights are cleared before release.</div></div>
+      <div class="own"><div class="ot">Physical — US</div><div class="od">Manufacturing timelines with U.S. Supply Chain — costs, mastering, test pressings, packaging, on-time delivery to plants.</div></div>
+      <div class="own"><div class="ot">Physical — Ex-US</div><div class="od">International product through European Services and Int'l Marketing — territory versions, forecasting and local manufacturing.</div></div>
+      <div class="own"><div class="ot">High-Security Releases</div><div class="od">Controlled delivery cadence, watermarking and confidentiality on sensitive projects to minimize leak risk.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">02</div>
+    <div class="sec-label">Who's Who</div>
+    <p class="sec-sub">The roles inside Release Planning and what each is on the hook for. Names fill in as the team is confirmed.</p>
+    <div class="who">
+      <div class="rolec"><div class="rt">Release Planning Lead</div><div class="rn">Name TBD</div><div class="rd">Owns the release calendar and cross-functional alignment; runs the recurring product-planning and release-strategy meetings.</div></div>
+      <div class="rolec"><div class="rt">Digital Release Mgr</div><div class="rn">Name TBD</div><div class="rd">Assets, metadata and DSP delivery — from clearance through GRPS setup to on-schedule delivery with Digital Ops.</div></div>
+      <div class="rolec gold"><div class="rt">Physical Release Mgr · US</div><div class="rn">Name TBD</div><div class="rd">U.S. manufacturing end to end — Supply Chain, costs, mastering, test pressings, packaging and delivery to plants.</div></div>
+      <div class="rolec graphite"><div class="rt">Physical Release Mgr · Ex-US</div><div class="rn">Name TBD</div><div class="rd">International product via European Services and Int'l Marketing — territory setup, versions and local manufacturing.</div></div>
+      <div class="rolec teal"><div class="rt">Assets &amp; AOMA</div><div class="rn">Sandra</div><div class="rd">POC for digital cover-art uploads to AOMA and for packaging/printer files to RRD and European Services.</div></div>
+      <div class="rolec graphite"><div class="rt">Pricing Sign-off</div><div class="rn">Senior leadership · Andjelina, Ian</div><div class="rd">Approve retail pricing off routed manufacturing costs; Canadian quantities cleared with Amanda + Andjelina.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">03</div>
+    <div class="sec-label">How Work Comes In</div>
+    <p class="sec-sub">Release Planning is triggered by internal approval. Nothing is set up in GRPS until senior management signs off.</p>
+    <div class="intake">
+      A release is <b>confirmed internally</b> and approved by <b>senior management</b> — that is the trigger. Release Planning then independently sets it up in GRPS and becomes the operational owner: sequencing clearance, asset delivery, manufacturing and scheduling across every partner team. For physical, the same confirmation kicks off coordination with <b>U.S. Supply Chain</b> or <b>European Services</b>. From there it moves through the lanes below.
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">04</div>
+    <div class="sec-label">How A Release Moves</div>
+    <p class="sec-sub">Three lanes off one approval — digital and two physical. This is the step-by-step of the day-to-day.</p>
+
+    <div class="pflow">
+      <div class="plane">
+        <span class="pbar" style="background:var(--flame)"></span>
+        <div class="plane-h"><span class="pnm">Digital</span><span class="pdesc">Approval → DSPs</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Assets In</div><div class="ps-d">Gather all digital assets — audio (stereo, Atmos, 360RA), cover + motion art, metadata, video.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Clear</div><div class="ps-d">With A&amp;R Admin, Business Affairs, IPL — samples, side-artist clearances and rights verified.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">Register</div><div class="ps-d">Register audio + video in AOMA with Media Production.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Metadata</div><div class="ps-d">Accurate tagging, mapping and delivery standards across all DSPs and platforms.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">GRPS Setup</div><div class="ps-d">Set up and schedule the release in GRPS after senior approval.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">Price</div><div class="ps-d">With Commerce — digital pricing for bundles, EPs and album configs.</div></div>
+          <div class="pstep"><div class="ps-n">07</div><div class="ps-t">Deliver</div><div class="ps-d">With Digital Ops — deliver every product accurately and on schedule to DSPs.</div></div>
+        </div>
+        <div class="pnote"><b>High-priority / sensitive releases:</b> partner with Digital Ops to run a controlled delivery cadence and watermarking to minimize leak risk.</div>
+      </div>
+
+      <div class="plane">
+        <span class="pbar" style="background:var(--gold)"></span>
+        <div class="plane-h"><span class="pnm">Physical — US</span><span class="pdesc">Confirmed → plants</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Kickoff</div><div class="ps-d">Partner U.S. Supply Chain; send production timelines to Campaign Leads, Creative, A&amp;R, print vendor.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Cost &amp; Specs</div><div class="ps-d">Finalize manufacturing cost estimates once product specs are confirmed.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">GRPS Setup</div><div class="ps-d">Set up in GRPS with tentative dates + pre-order → feeds CDS for PO creation.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Price &amp; Qty</div><div class="ps-d">Route costs to leadership (Andjelina, Ian); roll approved Canadian quantities into the US run.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">Master</div><div class="ps-d">Cleared audio to mastering for lacquers / 24-bit vinyl; AOMA export to plants.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">Test Press</div><div class="ps-d">Distribute test pressings, track shipments, manage approvals; communicate back to Supply Chain.</div></div>
+          <div class="pstep"><div class="ps-n">07</div><div class="ps-t">Package &amp; Proof</div><div class="ps-d">Finalize packaging with Creative; proof + QC with print vendors before manufacturing.</div></div>
+        </div>
+      </div>
+
+      <div class="plane">
+        <span class="pbar" style="background:var(--graphite)"></span>
+        <div class="plane-h"><span class="pnm">Physical — Ex-US</span><span class="pdesc">Via European Services + Int'l Marketing</span></div>
+        <div class="psteps">
+          <div class="pstep"><div class="ps-n">01</div><div class="ps-t">Notify ES</div><div class="ps-d">Notify European Services of upcoming releases; coordinate with Int'l Marketing on setup + timelines.</div></div>
+          <div class="pstep"><div class="ps-n">02</div><div class="ps-t">Cost &amp; Territory</div><div class="ps-d">Cost estimates per territory; confirm approved versions and which US exclusives can be repurposed.</div></div>
+          <div class="pstep"><div class="ps-n">03</div><div class="ps-t">GRPS Setup</div><div class="ps-d">Set up with correct territory scopes + tentative dates → feeds ES for PO creation.</div></div>
+          <div class="pstep"><div class="ps-n">04</div><div class="ps-t">Deliver Masters</div><div class="ps-d">Lacquers, 24-bit vinyl, CD DDP and final packaging assets to European Services.</div></div>
+          <div class="pstep"><div class="ps-n">05</div><div class="ps-t">Test Press</div><div class="ps-d">Participant addresses + test pressing distribution; manage approvals; communicate to ES.</div></div>
+          <div class="pstep"><div class="ps-n">06</div><div class="ps-t">Local Mfg</div><div class="ps-d">Assess local-manufacturing requests with Int'l Marketing; territory-specific versions + CD singles.</div></div>
+          <div class="pstep"><div class="ps-n">07</div><div class="ps-t">Proof &amp; Approve</div><div class="ps-d">Finalize files with Sandra; review + approve final production files circulated by ES.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">05</div>
+    <div class="sec-label">Who Release Planning Works With</div>
+    <p class="sec-sub">This team lives at the seams. Every release is a hand-off chain — these are the partners on the other side.</p>
+    <div class="owns">
+      <div class="own"><div class="ot">A&amp;R Admin</div><div class="od">Clearances, cleared audio to mastering, participant shipping addresses.</div></div>
+      <div class="own"><div class="ot">Business Affairs / IPL</div><div class="od">Sample approvals, side-artist clearances and rights verification.</div></div>
+      <div class="own"><div class="ot">Media Production</div><div class="od">AOMA registration and export for audio + video masters.</div></div>
+      <div class="own"><div class="ot">Commerce</div><div class="od">Digital and retail pricing across configs and platforms.</div></div>
+      <div class="own"><div class="ot">Digital Operations</div><div class="od">Accurate, on-schedule DSP delivery and leak-risk controls.</div></div>
+      <div class="own"><div class="ot">U.S. Supply Chain</div><div class="od">Domestic manufacturing, costs, POs and delivery to plants.</div></div>
+      <div class="own"><div class="ot">European Services</div><div class="od">Ex-US manufacturing, territory forecasting and production files.</div></div>
+      <div class="own"><div class="ot">Int'l Marketing</div><div class="od">Territory version approvals and local-manufacturing decisions.</div></div>
+      <div class="own"><div class="ot">Creative</div><div class="od">Packaging assets, proofs and production specs.</div></div>
+      <div class="own"><div class="ot">Campaign Leads &amp; A&amp;R</div><div class="od">Timelines, priorities and participant coordination.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-n">06</div>
+    <div class="sec-label">To Expand</div>
+    <p class="sec-sub">Placeholders for the depth this guide grows into — systems, timelines, examples, contacts.</p>
+    <div class="expand">
+      <div class="exp"><div class="et">Systems</div><div class="ed">GRPS, AOMA, CDS — what each is for, how they feed each other, and how to get access.</div></div>
+      <div class="exp"><div class="et">Timelines &amp; Templates</div><div class="ed">Standard lead times for vinyl, CD and digital; the setup and pre-order date conventions.</div></div>
+      <div class="exp"><div class="et">Worked Example</div><div class="ed">A real release — digital + vinyl — start to finish, so the lanes above have something concrete behind them.</div></div>
+      <div class="exp"><div class="et">Key Contacts</div><div class="ed">Named owners, vendors, plants and escalation paths as the team is confirmed.</div></div>
+    </div>
+  </div>
+
+  <p class="foot"><b>Second in the series.</b> Same shape as the Creative guide: Mandate → Who's Who → Intake → How Work Moves → Partners → To Expand. Grounded in the Release Planning Key Responsibilities; it deepens as owners and systems are confirmed.</p>
+</div>
+</body></html>
