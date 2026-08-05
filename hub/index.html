@@ -46,7 +46,13 @@
   .sec-label { font-size:11px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:#FF4A23; margin:22px 0 10px; }
   .sec-label:first-child { margin-top:0; }
   .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
-  .card { display:block; border:2px solid #0F0E0E; background:#fff; padding:16px 18px; cursor:pointer; text-align:left; font-family:inherit; }
+  .card { display:block; border:2px solid #0F0E0E; background:#fff; padding:16px 18px; cursor:grab; text-align:left; font-family:inherit; position:relative; }
+  .card:active { cursor:grabbing; }
+  .card.dragging { opacity:.45; outline:2px dashed #CDF851; outline-offset:3px; }
+  .card .grip { position:absolute; top:10px; right:12px; color:#CCC; font-size:12px; letter-spacing:1px; }
+  .card:hover .grip { color:#666; }
+  .hint { font-size:11px; color:#847D96; margin-top:10px; }
+  .hint a { color:#CDF851; text-decoration:none; font-weight:700; cursor:pointer; }
   .card:hover { background:#0F0E0E; color:#FCFDF8; }
   .card:hover .go { color:#CDF851; }
   .card:hover p { color:#C9C9C4; }
@@ -103,35 +109,36 @@
       <div class="kicker">RCA Records · Campaign Ops</div>
       <h1>Everything, one place.</h1>
       <p>Every live board, reference tool, and workspace across Campaign Ops — click any card to open it right here.</p>
+      <div class="hint">Drag cards to rearrange · order saves automatically · <a id="reset-layout">reset layout</a></div>
     </div>
     <div class="dash-body">
       <div class="sec-label">Boards</div>
       <div class="cards">
-        <button class="card" data-src="/team.html"><h3>OPS HQ — This Week</h3><p>The weekly command center — active projects, priorities, team notes.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/d2c-grid.html"><h3>D2C Long Lead</h3><p>Direct-to-consumer planning grid across the roster.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/creative-tickets.html"><h3>Creative Tickets</h3><p>Creative request queue and status tracking.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/team.html"><span class="grip">⠿</span><h3>OPS HQ — This Week</h3><p>The weekly command center — active projects, priorities, team notes.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/d2c-grid.html"><span class="grip">⠿</span><h3>D2C Long Lead</h3><p>Direct-to-consumer planning grid across the roster.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creative-tickets.html"><span class="grip">⠿</span><h3>Creative Tickets</h3><p>Creative request queue and status tracking.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Reference</div>
       <div class="cards">
-        <button class="card" data-src="/campaigns.html"><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/pitches.html"><h3>Pitches by Artist</h3><p>8,500+ licensing pitches across 755 artists.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/creators.html"><h3>Creator Database</h3><p>The creator network — contacts, platforms, past work.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/dept-workflows.html"><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/campaigns.html"><span class="grip">⠿</span><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/pitches.html"><span class="grip">⠿</span><h3>Pitches by Artist</h3><p>8,500+ licensing pitches across 755 artists.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creators.html"><span class="grip">⠿</span><h3>Creator Database</h3><p>The creator network — contacts, platforms, past work.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/dept-workflows.html"><span class="grip">⠿</span><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Pitch Decks</div>
       <div class="cards">
-        <button class="card" data-src="/pitchdecks/"><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Jordan</div>
       <div class="cards">
-        <button class="card" data-src="/jordan/"><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/jordan/"><span class="grip">⠿</span><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Other Sites</div>
       <div class="cards">
-        <button class="card" data-src="https://mugzyboez.co/"><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://kits.mugzyboez.co/"><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://analytics.mugzyboez.co/"><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://budget-approval-demo.netlify.app/"><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></button>
       </div>
     </div>
   </div>
@@ -197,6 +204,36 @@
       show(src); setActive(src);
     });
   });
+
+  /* drag-to-rearrange cards (saved per browser) */
+  var KEY='hub_card_order_v1';
+  var grids=Array.prototype.slice.call(document.querySelectorAll('#home .cards'));
+  function layout(){ return grids.map(function(g){ return Array.prototype.map.call(g.querySelectorAll('.card'),function(c){return c.getAttribute('data-src');}); }); }
+  function saveLayout(){ try{ localStorage.setItem(KEY, JSON.stringify(layout())); }catch(e){} }
+  function findCard(src){ return document.querySelector('#home .card[data-src="'+src+'"]'); }
+  (function restore(){
+    var saved; try{ saved=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ saved=null; }
+    if(!saved || saved.length!==grids.length) return;
+    saved.forEach(function(list,i){ list.forEach(function(src){ var c=findCard(src); if(c) grids[i].appendChild(c); }); });
+  })();
+  var dragEl=null;
+  document.querySelectorAll('#home .card').forEach(function(card){
+    card.setAttribute('draggable','true');
+    card.addEventListener('dragstart',function(e){ dragEl=card; e.dataTransfer.effectAllowed='move'; setTimeout(function(){card.classList.add('dragging');},0); });
+    card.addEventListener('dragend',function(){ card.classList.remove('dragging'); dragEl=null; saveLayout(); });
+    card.addEventListener('dragover',function(e){
+      e.preventDefault();
+      if(!dragEl || dragEl===card) return;
+      var g=card.parentNode, box=card.getBoundingClientRect();
+      if(e.clientX < box.left + box.width/2){ g.insertBefore(dragEl, card); }
+      else { g.insertBefore(dragEl, card.nextSibling); }
+    });
+  });
+  grids.forEach(function(g){
+    g.addEventListener('dragover',function(e){ e.preventDefault(); if(dragEl && !g.contains(dragEl)) g.appendChild(dragEl); });
+  });
+  var rb=document.getElementById('reset-layout');
+  if(rb){ rb.addEventListener('click',function(){ try{localStorage.removeItem(KEY);}catch(e){} location.reload(); }); }
 })();
 </script>
 </body>
