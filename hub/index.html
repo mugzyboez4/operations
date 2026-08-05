@@ -5,223 +5,196 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campaign Ops — Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body { height:100%; }
-  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; display:flex; overflow:hidden; }
+  body { font-family:Inter,system-ui,sans-serif; background:#F5F2EB; color:#0F0E0E; -webkit-font-smoothing:antialiased; display:flex; flex-direction:column; overflow:hidden; }
+  a { color:#FF4A23; text-decoration:none; }
 
-  /* ============ SIDE NAV ============ */
-  .side { width:232px; flex-shrink:0; background:#0F0E0E; color:#FCFDF8; display:flex; flex-direction:column; height:100vh; }
-  .side-brand { display:flex; align-items:center; gap:10px; padding:18px 18px 14px; border-bottom:1px solid #262626; }
-  .side-brand .mk { width:26px; height:26px; background:#CDF851; border-radius:6px; flex-shrink:0; }
-  .side-brand .wd { font-size:15px; font-weight:900; letter-spacing:-.01em; }
-  .side-brand .cp { font-size:10px; color:#847D96; letter-spacing:.12em; text-transform:uppercase; font-weight:600; }
-  .side-nav { flex:1; overflow-y:auto; padding:10px 10px 16px; }
-  .side-nav::-webkit-scrollbar { width:6px; }
-  .side-nav::-webkit-scrollbar-thumb { background:#2A2A2A; border-radius:3px; }
-  .nav-label { font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#666; padding:14px 10px 6px; }
-  .nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; font-size:12.5px; font-weight:600; color:#B8B8B4; border-radius:7px; cursor:pointer; border:none; background:none; width:100%; text-align:left; font-family:inherit; }
-  .nav-item:hover { color:#FCFDF8; background:#1A1A1A; }
-  .nav-item.on { color:#0F0E0E; background:#CDF851; font-weight:700; }
-  .nav-item .ic { width:15px; height:15px; flex-shrink:0; }
-  .nav-item .ext { margin-left:auto; font-size:9px; font-weight:800; letter-spacing:.08em; color:#666; }
-  .nav-item.on .ext { color:#0F0E0E; opacity:.55; }
-  .side-foot { padding:12px 18px; border-top:1px solid #262626; font-size:10px; color:#666; display:flex; justify-content:space-between; align-items:center; }
-  .side-foot .dot { display:inline-block; width:6px; height:6px; background:#CDF851; border-radius:50%; margin-right:5px; }
+  /* ===== top bar ===== */
+  .top { position:sticky; top:0; z-index:20; background:#F5F2EB; border-bottom:1px solid #ECEAE3; flex-shrink:0; }
+  .top-in { max-width:1180px; margin:0 auto; padding:0 32px; height:60px; display:flex; align-items:center; gap:28px; }
+  .brand { display:flex; align-items:center; gap:11px; cursor:pointer; border:none; background:none; font-family:inherit; padding:0; }
+  .brand img { width:30px; height:30px; border-radius:6px; display:block; }
+  .brand span { font-size:14px; font-weight:600; letter-spacing:-.2px; color:#0F0E0E; }
+  .brand em { font-style:normal; color:#CDF851; background:#0F0E0E; padding:2px 5px; }
+  .top-nav { display:flex; gap:4px; margin-left:auto; overflow-x:auto; }
+  .tlink { font-family:inherit; font-size:13px; font-weight:500; color:#3E3F41; background:none; border:none; cursor:pointer; padding:8px 12px; white-space:nowrap; }
+  .tlink:hover { color:#0F0E0E; }
+  .tlink.on { color:#0F0E0E; font-weight:600; box-shadow:inset 0 -2px 0 #CDF851; }
 
-  /* ============ CONTENT ============ */
-  .content { flex:1; height:100vh; position:relative; background:#F5F2EB; }
+  /* ===== shell ===== */
+  .content { flex:1; min-height:0; position:relative; }
   .content iframe { width:100%; height:100%; border:none; display:none; }
   .content iframe.on { display:block; }
-
-  /* ============ HOME DASH ============ */
-  #home { display:none; height:100vh; overflow-y:auto; padding:0; }
+  #home { display:none; height:100%; overflow-y:auto; }
   #home.on { display:block; }
-  .dash-head { background:#0F0E0E; color:#FCFDF8; padding:44px 44px 38px; }
-  .dash-head .kicker { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:6px; }
-  .dash-head h1 { font-size:31px; font-weight:900; letter-spacing:-.02em; margin-bottom:5px; }
-  .dash-head p { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; }
-  .dash-body { padding:30px 44px 56px; }
-  .sec-label { font-size:12px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:#FF4A23; margin:28px 0 12px; }
-  .sec-label:first-child { margin-top:0; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
-  .card { display:block; border:2px solid #0F0E0E; background:#fff; padding:26px 26px 22px; cursor:grab; text-align:left; font-family:inherit; position:relative; min-height:150px; }
-  .card:active { cursor:grabbing; }
-  .card.dragging { opacity:.45; outline:2px dashed #CDF851; outline-offset:3px; }
-  .card .grip { position:absolute; top:10px; right:12px; color:#CCC; font-size:12px; letter-spacing:1px; }
-  .card:hover .grip { color:#666; }
-  .card .cut { position:absolute; top:6px; right:32px; width:20px; height:20px; border:none; background:none; color:#CCC; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; line-height:1; display:none; padding:0; }
-  .card:hover .cut { display:block; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  /* ===== hero ===== */
+  .hero { padding:64px 0 48px; border-bottom:1px solid #ECEAE3; }
+  .kicker { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:#FF4A23; margin-bottom:18px; }
+  .hero h1 { font-size:44px; line-height:1.08; font-weight:600; letter-spacing:-1.4px; margin-bottom:20px; }
+  .hero p { font-size:16px; line-height:1.7; max-width:56ch; color:#3E3F41; margin-bottom:36px; }
+  .tiles { display:flex; flex-wrap:wrap; gap:12px; }
+  .tile { display:flex; flex-direction:column; gap:5px; padding:16px 24px; min-width:160px; border:1px solid #ECEAE3; background:#fff; color:#0F0E0E; cursor:pointer; font-family:inherit; text-align:left; }
+  .tile:hover { border-color:#0F0E0E; }
+  .tile.pri { background:#FF4A23; border-color:#FF4A23; color:#fff; }
+  .tile.pri:hover { background:#0F0E0E; border-color:#0F0E0E; }
+  .tile .t1 { font-size:14px; font-weight:600; }
+  .tile .t2 { font-size:12px; color:#8A8781; }
+  .tile.pri .t2 { color:rgba(255,255,255,.85); }
+  .hint { font-size:12px; color:#8A8781; margin-top:22px; }
+  .hint a { font-weight:500; cursor:pointer; }
+
+  /* ===== sections ===== */
+  .sec { padding:52px 0 72px; }
+  .sec + .sec { padding-top:0; }
+  .sec-head { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:26px; }
+  .sec h2 { font-size:28px; line-height:1.15; font-weight:600; letter-spacing:-.8px; }
+  .sec .meta-r { font-size:13px; color:#8A8781; white-space:nowrap; padding-bottom:4px; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .card { position:relative; display:flex; flex-direction:column; background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#3E3F41); padding:24px 24px 20px; min-height:180px; cursor:pointer; font-family:inherit; text-align:left; }
+  .card:hover { border-color:#0F0E0E; border-top-color:var(--ac,#3E3F41); }
+  .card .hd { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+  .card .num { font-size:13px; font-weight:600; color:#8A8781; }
+  .card h3 { font-size:17px; font-weight:600; letter-spacing:-.4px; }
+  .card p { font-size:13.5px; line-height:1.65; color:#3E3F41; margin-bottom:auto; }
+  .card .ft { border-top:1px dashed #ECEAE3; margin-top:18px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; }
+  .card .ft span { font-size:12px; color:#8A8781; }
+  .card .ft .go { font-size:13px; color:#FF4A23; }
+  .card .grip { position:absolute; top:8px; right:32px; color:#D8D4CC; font-size:11px; cursor:grab; display:none; }
+  .card .cut { position:absolute; top:5px; right:10px; border:none; background:none; color:#D8D4CC; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; line-height:1; padding:2px; display:none; }
+  .card:hover .grip, .card:hover .cut { display:block; }
   .card .cut:hover { color:#FF4A23; }
-  .hint { font-size:11px; color:#847D96; margin-top:10px; }
-  .hint a { color:#CDF851; text-decoration:none; font-weight:700; cursor:pointer; }
-  .card:hover { background:#0F0E0E; color:#FCFDF8; }
-  .card:hover .go { color:#CDF851; }
-  .card:hover p { color:#C9C9C4; }
-  .card h3 { font-size:17px; font-weight:900; letter-spacing:-.01em; margin-bottom:6px; }
-  .card p { font-size:13px; color:#888; line-height:1.55; margin-bottom:16px; }
-  .card .go { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+  .card.dragging { opacity:.4; outline:2px dashed #CDF851; outline-offset:3px; }
 
-  /* hero */
-  .hero { background:#0F0E0E; color:#FCFDF8; padding:54px 44px 46px; }
-  .hero .kicker { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:10px; }
-  .hero h1 { font-size:36px; font-weight:900; letter-spacing:-.02em; line-height:1.1; max-width:22ch; margin-bottom:12px; }
-  .hero p { font-size:15px; color:#C9C9C4; max-width:58ch; line-height:1.6; margin-bottom:24px; }
-  .hero .ctas { display:flex; gap:10px; flex-wrap:wrap; }
-  .cta { font-family:inherit; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:12px 22px; cursor:pointer; border:2px solid #CDF851; }
-  .cta.pri { background:#CDF851; color:#0F0E0E; }
-  .cta.pri:hover { background:#FCFDF8; border-color:#FCFDF8; }
-  .cta.sec { background:none; color:#FCFDF8; border-color:#3A3A3A; }
-  .cta.sec:hover { border-color:#CDF851; color:#CDF851; }
-  .hero .hint { margin-top:16px; }
+  /* quote callout */
+  .quote { background:#0F0E0E; border-left:3px solid #CDF851; padding:24px 26px; margin:0 0 72px; }
+  .quote p { font-size:15px; line-height:1.55; font-weight:500; color:#F5F2EB; max-width:60ch; }
 
-  /* info strip */
-  .info-strip { background:#fff; border-top:2px solid #0F0E0E; border-bottom:2px solid #0F0E0E; }
-  .info-inner { display:grid; grid-template-columns:1fr 1fr 1fr; }
-  .info-cell { padding:24px 28px; border-right:2px solid #0F0E0E; }
-  .info-cell:last-child { border-right:none; }
-  .info-cell .n { font-size:12px; font-weight:800; color:#FF4A23; margin-bottom:6px; }
-  .info-cell h4 { font-size:15px; font-weight:900; margin-bottom:5px; letter-spacing:-.01em; }
-  .info-cell p { font-size:12.5px; color:#666; line-height:1.55; }
+  /* ===== contacts ===== */
+  .contacts { background:#0F0E0E; color:#F5F2EB; }
+  .contacts .in { max-width:1180px; margin:0 auto; padding:48px 32px; }
+  .contacts .kicker { color:#CDF851; margin-bottom:26px; }
+  .c-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+  .c-grid .nm { font-size:17px; font-weight:600; letter-spacing:-.3px; margin-bottom:5px; }
+  .c-grid .rl { font-size:13px; color:#8A8781; margin-bottom:12px; }
+  .c-grid a { font-size:13px; font-weight:500; color:#CDF851; }
+  .foot { margin-top:34px; padding-top:18px; border-top:1px solid #2A2827; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#8A8781; }
 
-  /* contact */
-  .contact { background:#0F0E0E; color:#FCFDF8; padding:34px 44px; margin-top:36px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
-  .contact .ct-l h3 { font-size:19px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
-  .contact .ct-l p { font-size:13px; color:#C9C9C4; }
-  .contact .ct-team { display:flex; gap:26px; flex-wrap:wrap; }
-  .contact .person .nm { font-size:13.5px; font-weight:800; }
-  .contact .person .rl { font-size:11px; color:#847D96; letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
-  .contact .person .nm .dot2 { display:inline-block; width:7px; height:7px; background:#CDF851; border-radius:50%; margin-right:7px; }
   @media (max-width:760px){
-    body { flex-direction:column; overflow:auto; }
-    .side { width:100%; height:auto; flex-direction:column; }
-    .side-brand { padding:14px 16px 10px; border-bottom:none; }
-    .side-nav { display:flex; flex-direction:row; overflow-x:auto; overflow-y:hidden; padding:0 12px 12px; gap:6px; -webkit-overflow-scrolling:touch; }
-    .side-nav::-webkit-scrollbar { height:0; }
-    .nav-label { display:none; }
-    .nav-item { width:auto; flex-shrink:0; white-space:nowrap; padding:8px 13px; border:1px solid #2A2A2A; border-radius:999px; }
-    .nav-item.on { border-color:#CDF851; }
-    .nav-item .ext { display:none; }
-    .side-foot { display:none; }
-    .content { height:auto; flex:1; min-height:0; }
-    .content iframe.on { height:calc(100vh - 110px); }
-    #home { height:auto; }
-    #home.on { min-height:calc(100vh - 110px); }
-    .hero { padding:32px 20px 28px; }
-    .hero h1 { font-size:26px; }
-    .info-inner { grid-template-columns:1fr; }
-    .info-cell { border-right:none; border-bottom:2px solid #0F0E0E; }
-    .info-cell:last-child { border-bottom:none; }
-    .contact { padding:26px 20px; }
-    .dash-head { padding:28px 20px 24px; }
-    .dash-head h1 { font-size:24px; }
-    .dash-body { padding:20px 20px 40px; }
-    .cards { grid-template-columns:1fr; gap:12px; }
-    .card { min-height:0; padding:20px 20px 16px; }
+    .top-in { padding:0 16px; gap:14px; }
+    .wrap { padding:0 18px; }
+    .hero { padding:40px 0 34px; }
+    .hero h1 { font-size:30px; letter-spacing:-1px; }
+    .cards { grid-template-columns:1fr; }
+    .c-grid { grid-template-columns:1fr; gap:26px; }
+    .sec h2 { font-size:22px; }
+    .content iframe.on { height:100%; }
   }
 </style>
 </head>
 <body>
 
-<aside class="side">
-  <div class="side-brand">
-    <span class="mk"></span>
-    <span><span class="wd">Campaign Ops</span><div class="cp">RCA Records</div></span>
-  </div>
-  <nav class="side-nav" id="nav">
-    <button class="nav-item on" data-view="home"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span class="txt">Home</span></button>
-
-    <div class="nav-label">Reference</div>
-    <button class="nav-item" data-src="/campaigns.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg><span class="txt">Campaign Index</span></button>
-    <button class="nav-item" data-src="https://mugzyboez.co/deadline-tracker"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span class="txt">Deadline Tracker</span><span class="ext">EXT</span></button>
-    <button class="nav-item" data-src="/dept-workflows.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg><span class="txt">Dept Workflows</span></button>
-
-    <div class="nav-label">Pitch Decks</div>
-    <button class="nav-item" data-src="/pitchdecks/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M8 20h8M12 16v4"/></svg><span class="txt">Pitch Deck System</span></button>
-
-    <div class="nav-label">Jordan</div>
-    <button class="nav-item" data-src="/jordan/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="txt">Jordan Dashboard</span></button>
-
-    <div class="nav-label">Other Sites</div>
-    <button class="nav-item" data-src="https://mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg><span class="txt">Workspace</span><span class="ext">EXT</span></button>
-    <button class="nav-item" data-src="https://kits.mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg><span class="txt">Kits</span><span class="ext">EXT</span></button>
-    <button class="nav-item" data-src="https://analytics.mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg><span class="txt">Analytics</span><span class="ext">EXT</span></button>
-    <button class="nav-item" data-src="https://budget-approval-demo.netlify.app/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="txt">Budget Approvals</span><span class="ext">EXT</span></button>
+<div class="top"><div class="top-in">
+  <button class="brand" data-view="home"><img src="../logo_neon.png" alt=""><span>Campaign <em>Ops</em></span></button>
+  <nav class="top-nav">
+    <button class="tlink on" data-view="home">Home</button>
+    <button class="tlink" data-src="/campaigns.html">Campaign Index</button>
+    <button class="tlink" data-src="/dept-workflows.html">Workflows</button>
+    <button class="tlink" data-src="https://mugzyboez.co/deadline-tracker">Deadlines</button>
+    <button class="tlink" data-src="/pitchdecks/">Pitch Decks</button>
+    <button class="tlink" data-src="/jordan/">Jordan</button>
   </nav>
-  <div class="side-foot">
-    <span>RCA Records</span>
-    <span><span class="dot"></span>Internal · v1</span>
-  </div>
-</aside>
+</div></div>
 
 <div class="content">
 
-  <!-- HOME DASHBOARD -->
   <div id="home" class="on">
+    <div class="wrap">
 
-    <div class="hero">
-      <div class="kicker">RCA Records · Campaign Ops</div>
-      <h1>Sony built the pipes. We read the water.</h1>
-      <p>Campaign Ops is the connective tissue between departments — tracking, surfacing, and routing what every campaign needs, so the right people see the right thing at the right time. This hub is everything we run, in one place.</p>
-      <div class="ctas">
-        <button class="cta pri" data-src="/jordan/">Open the Dashboard</button>
-        <button class="cta sec" data-src="/pitchdecks/">Pitch Deck System</button>
+      <div class="hero">
+        <div class="kicker">RCA Records · Sony Music</div>
+        <h1>Campaign Ops</h1>
+        <p>Three people keeping every RCA artist campaign moving — tracking, surfacing, and routing what each department needs. Every tool, board, and doc we run starts here.</p>
+        <div class="tiles">
+          <button class="tile pri" data-src="/jordan/"><span class="t1">Jordan Dashboard ↗</span><span class="t2">The full tool suite</span></button>
+          <button class="tile" data-src="/pitchdecks/"><span class="t1">Pitch Deck System ↗</span><span class="t2">Why-RCA + modules</span></button>
+          <button class="tile" data-src="/campaigns.html"><span class="t1">Campaign Index ↗</span><span class="t2">Every live campaign</span></button>
+          <button class="tile" data-src="https://mugzyboez.co/deadline-tracker"><span class="t1">Deadline Tracker ↗</span><span class="t2">Delivery floors</span></button>
+        </div>
+        <div class="hint">Drag cards to rearrange · hover and hit × to remove · <a id="reset-layout">reset layout</a></div>
       </div>
-      <div class="hint">Drag to rearrange · hover a card and hit × to remove it · <a id="reset-layout">reset layout</a> brings everything back</div>
+
+      <div class="sec" id="tools">
+        <div class="sec-head">
+          <div>
+            <div class="kicker" style="margin-bottom:10px;">Live tools</div>
+            <h2>Everything we run, one place.</h2>
+          </div>
+          <span class="meta-r">rcaops.netlify.app</span>
+        </div>
+        <div class="cards">
+          <div class="card" style="--ac:#FF4A23;" data-src="/jordan/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">01</span><h3>Jordan Dashboard</h3></div><p>Schedules, catalogs, trackers, and briefs — the full tool suite in one grid.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#CDF851;" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">02</span><h3>Pitch Deck System</h3></div><p>Why-RCA boilerplate, the module library, and the A&amp;R deck-for-a-deck process.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#5BC0BE;" data-src="/campaigns.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">03</span><h3>Campaign Index</h3></div><p>Every active campaign, indexed and searchable.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#E8C547;" data-src="/dept-workflows.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">04</span><h3>Dept Workflows</h3></div><p>How each department works — routing, inputs, and timelines.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#3E3F41;" data-src="https://mugzyboez.co/deadline-tracker"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">05</span><h3>Deadline Tracker</h3></div><p>Delivery floors and street-date deadlines across the roster.</p><div class="ft"><span>workspace</span><span class="go">→</span></div></div>
+        </div>
+      </div>
+
+      <div class="sec" id="demos">
+        <div class="sec-head">
+          <div>
+            <div class="kicker" style="margin-bottom:10px;">Demos</div>
+            <h2>In build — previewable now.</h2>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card" style="--ac:#5BC0BE;" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">01</span><h3>Budget Approvals</h3></div><p>Form-in, sheet-out spend capture — the invoice tracker rebuilt as a flow.</p><div class="ft"><span>demo</span><span class="go">→</span></div></div>
+        </div>
+      </div>
+
+      <div class="sec" id="workspaces">
+        <div class="sec-head">
+          <div>
+            <div class="kicker" style="margin-bottom:10px;">Workspaces</div>
+            <h2>The wider system.</h2>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card" style="--ac:#3E3F41;" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">01</span><h3>Workspace</h3></div><p>The mugzyboez.co home base.</p><div class="ft"><span>external</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#E8C547;" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">02</span><h3>Kits</h3></div><p>Asset and design kits.</p><div class="ft"><span>external</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#CDF851;" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">03</span><h3>Analytics</h3></div><p>Performance and analytics views.</p><div class="ft"><span>external</span><span class="go">→</span></div></div>
+        </div>
+      </div>
+
+      <div class="quote"><p>The system says no — not us. Campaign Ops helps you clear the gate.</p></div>
+
     </div>
 
-    <div class="info-strip"><div class="info-inner">
-      <div class="info-cell"><div class="n">01</div><h4>We track</h4><p>Campaigns, priorities, and deliverables across all six departments — one live picture instead of nine threads.</p></div>
-      <div class="info-cell"><div class="n">02</div><h4>We surface</h4><p>What's coming, what's blocked, and who to ask — a map of who to ask, not who to blame.</p></div>
-      <div class="info-cell"><div class="n">03</div><h4>We route</h4><p>The right ask to the right team, same day. No forms, no friction — flag it and it moves.</p></div>
+    <div class="contacts" id="contacts"><div class="in">
+      <div class="kicker">Who to ask</div>
+      <div class="c-grid">
+        <div><div class="nm">Meg Hourihan</div><div class="rl">Campaign Ops Lead · gates, cadence, escalation</div><a href="#">Message on Teams →</a></div>
+        <div><div class="nm">Gerard Rice</div><div class="rl">Campaign Ops · tracker, exports, boards</div><a href="#">Message on Teams →</a></div>
+        <div><div class="nm">Christian</div><div class="rl">Campaign Ops · agendas, recaps, intake</div><a href="#">Message on Teams →</a></div>
+      </div>
+      <div class="foot"><span>Campaign Ops · RCA Records</span><span>Internal only</span></div>
     </div></div>
-
-    <div class="dash-body">
-      <div class="sec-label">Live Tools</div>
-      <div class="cards">
-        <div class="card" data-src="/jordan/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Jordan Dashboard</h3><p>The full tool suite — schedules, catalogs, trackers, and briefs in one grid.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="/campaigns.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="/dept-workflows.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="https://mugzyboez.co/deadline-tracker"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Deadline Tracker</h3><p>Delivery floors and street-date deadlines across the roster.</p><span class="go">Open →</span></div>
-      </div>
-
-      <div class="sec-label">Demos</div>
-      <div class="cards">
-        <div class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Budget Approvals</h3><p>Form-in, sheet-out spend capture — the invoice tracker, rebuilt as a flow.</p><span class="go">Open →</span></div>
-      </div>
-
-      <div class="sec-label">Workspaces</div>
-      <div class="cards">
-        <div class="card" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></div>
-      </div>
-
-      <div class="contact">
-        <div class="ct-l">
-          <h3>Need something routed?</h3>
-          <p>Flag it the moment it's live — we move same day. Find us on Teams.</p>
-        </div>
-        <div class="ct-team">
-          <div class="person"><div class="nm"><span class="dot2"></span>Meg Hourihan</div><div class="rl">Campaign Ops Lead</div></div>
-          <div class="person"><div class="nm"><span class="dot2"></span>Gerard Rice</div><div class="rl">Campaign Ops</div></div>
-          <div class="person"><div class="nm"><span class="dot2"></span>Christian</div><div class="rl">Campaign Ops</div></div>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <!-- TOOL FRAME -->
   <iframe id="frame" title="Campaign Ops tool"></iframe>
 </div>
 
-<!-- shared Ops HQ gate -->
-<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
-  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
-  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Campaign Ops Hub</div>
-  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+<!-- gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:Inter,sans-serif;">
+  <img src="../logo_neon.png" alt="" style="width:46px;height:46px;border-radius:10px;margin-bottom:18px;">
+  <div style="font-size:22px;font-weight:600;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;">Campaign Ops</div>
+  <div style="font-size:11px;color:#8A8781;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Team access only</div>
   <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
   <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
@@ -241,50 +214,31 @@
   document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
   if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
 
-  /* nav + cards → frame */
+  /* nav / tiles / cards → frame */
   var frame=document.getElementById('frame');
   var home=document.getElementById('home');
-  var navItems=document.querySelectorAll('.nav-item');
-
+  var tlinks=document.querySelectorAll('.tlink, .brand');
   function show(src){
-    if(!src){ /* home */
-      frame.classList.remove('on'); frame.src='about:blank'; home.classList.add('on');
-      return;
-    }
-    home.classList.remove('on');
-    frame.src=src;
-    frame.classList.add('on');
-  }
-  function setActive(src){
-    navItems.forEach(function(n){
+    if(!src){ frame.classList.remove('on'); frame.src='about:blank'; home.classList.add('on'); }
+    else { home.classList.remove('on'); frame.src=src; frame.classList.add('on'); }
+    document.querySelectorAll('.tlink').forEach(function(n){
       var ns=n.getAttribute('data-src');
-      var match = src ? (ns===src) : (n.getAttribute('data-view')==='home');
-      n.classList.toggle('on', match);
+      n.classList.toggle('on', src ? ns===src : n.getAttribute('data-view')==='home');
     });
   }
-  navItems.forEach(function(n){
-    n.addEventListener('click',function(){
-      var src=n.getAttribute('data-src')||null;
-      show(src); setActive(src);
-    });
-  });
-  document.querySelectorAll('.card, .cta').forEach(function(c){
-    c.addEventListener('click',function(){
-      var src=c.getAttribute('data-src');
-      show(src); setActive(src);
-    });
+  tlinks.forEach(function(n){ n.addEventListener('click',function(){ show(n.getAttribute('data-src')||null); }); });
+  document.querySelectorAll('.tile, .card').forEach(function(c){
+    c.addEventListener('click',function(e){ if(e.target.classList.contains('cut'))return; show(c.getAttribute('data-src')); });
   });
 
-  /* drag-to-rearrange cards (saved per browser) */
-  var KEY='hub_card_order_v1';
+  /* drag-to-rearrange (per browser) */
+  var KEY='hub_card_order_v2';
   var grids=Array.prototype.slice.call(document.querySelectorAll('#home .cards'));
-  function layout(){ return grids.map(function(g){ return Array.prototype.map.call(g.querySelectorAll('.card'),function(c){return c.getAttribute('data-src');}); }); }
-  function saveLayout(){ try{ localStorage.setItem(KEY, JSON.stringify(layout())); }catch(e){} }
-  function findCard(src){ return document.querySelector('#home .card[data-src="'+src+'"]'); }
+  function saveLayout(){ try{ localStorage.setItem(KEY, JSON.stringify(grids.map(function(g){ return Array.prototype.map.call(g.querySelectorAll('.card'),function(c){return c.getAttribute('data-src');}); }))); }catch(e){} }
   (function restore(){
     var saved; try{ saved=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ saved=null; }
     if(!saved || saved.length!==grids.length) return;
-    saved.forEach(function(list,i){ list.forEach(function(src){ var c=findCard(src); if(c) grids[i].appendChild(c); }); });
+    saved.forEach(function(list,i){ list.forEach(function(src){ var c=document.querySelector('#home .card[data-src="'+src+'"]'); if(c) grids[i].appendChild(c); }); });
   })();
   var dragEl=null;
   document.querySelectorAll('#home .card').forEach(function(card){
@@ -294,28 +248,21 @@
     card.addEventListener('dragover',function(e){
       e.preventDefault();
       if(!dragEl || dragEl===card) return;
-      var g=card.parentNode, box=card.getBoundingClientRect();
-      if(e.clientX < box.left + box.width/2){ g.insertBefore(dragEl, card); }
-      else { g.insertBefore(dragEl, card.nextSibling); }
+      var p=card.parentNode, box=card.getBoundingClientRect();
+      if(e.clientX < box.left + box.width/2){ p.insertBefore(dragEl, card); } else { p.insertBefore(dragEl, card.nextSibling); }
     });
   });
-  grids.forEach(function(g){
-    g.addEventListener('dragover',function(e){ e.preventDefault(); if(dragEl && !g.contains(dragEl)) g.appendChild(dragEl); });
-  });
+  grids.forEach(function(gr){ gr.addEventListener('dragover',function(e){ e.preventDefault(); if(dragEl && !gr.contains(dragEl)) gr.appendChild(dragEl); }); });
 
-  /* hide cards (and matching nav items) — saved per browser */
-  var HKEY='hub_hidden_v1';
+  /* hide cards (per browser) */
+  var HKEY='hub_hidden_v2';
   function hiddenList(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'[]'); }catch(e){ return []; } }
   function applyHidden(){
     var h=hiddenList();
     document.querySelectorAll('#home .card').forEach(function(c){ c.style.display = h.indexOf(c.getAttribute('data-src'))>-1 ? 'none' : ''; });
-    navItems.forEach(function(n){ var ns=n.getAttribute('data-src'); if(ns) n.style.display = h.indexOf(ns)>-1 ? 'none' : ''; });
-    /* hide section labels whose grids are fully empty/hidden */
-    grids.forEach(function(g){
-      var any=Array.prototype.some.call(g.querySelectorAll('.card'),function(c){return c.style.display!=='none';});
-      var lbl=g.previousElementSibling;
-      if(lbl && lbl.classList.contains('sec-label')) lbl.style.display = any?'':'none';
-      g.style.display = any?'':'none';
+    grids.forEach(function(gr){
+      var any=Array.prototype.some.call(gr.querySelectorAll('.card'),function(c){return c.style.display!=='none';});
+      var sec=gr.closest('.sec'); if(sec) sec.style.display = any?'':'none';
     });
   }
   document.querySelectorAll('#home .card .cut').forEach(function(b){
