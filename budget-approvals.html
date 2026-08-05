@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Approvals · Campaign Ops</title>
+<script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F2EB;--card:#FFFFFF;--line:#ECEAE3;--ink:#0F0E0E;--sec:#3E3F41;--muted:#8A8781;--flame:#FF4A23;--lime:#CDF851;--teal:#5BC0BE;--gold:#E8C547}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding:40px 32px 72px;max-width:1200px;margin:0 auto}
+.kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:10px}
+h1{font-size:clamp(32px,4.5vw,44px);font-weight:600;letter-spacing:-1.4px;line-height:1.08}
+.sub{font-size:15px;color:var(--sec);max-width:62ch;margin-top:12px}
+.sub b{font-weight:600}
+header{padding-bottom:28px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.grid{display:grid;grid-template-columns:minmax(340px,460px) 1fr;gap:24px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--teal);padding:24px}
+.card h2{font-size:17px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
+.card .hint{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+label{display:block;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--sec);margin:14px 0 5px}
+label .opt{font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+input,select,textarea{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--line);padding:9px 10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+textarea{resize:vertical;min-height:54px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.6px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--sec);margin-left:8px;vertical-align:middle}
+.toggle{display:flex;border:1px solid var(--line);margin-top:4px}
+.toggle button{flex:1;font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 0;background:#fff;color:var(--sec);border:0;cursor:pointer}
+.toggle button.on{background:var(--ink);color:var(--bg)}
+#lines .li{display:grid;grid-template-columns:1fr 110px 28px;gap:8px;margin-top:8px}
+#lines .li button{border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;font-size:14px}
+.addline{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--flame);background:none;border:0;cursor:pointer;padding:0}
+.submit{margin-top:22px;width:100%;font-family:inherit;font-size:14px;font-weight:600;padding:12px 0;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
+.submit:hover{background:#000}
+.note{font-size:11.5px;color:var(--muted);margin-top:10px}
+.sheet-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--gold);padding:24px;overflow-x:auto}
+.sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:6px}
+.export{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--flame);background:none;border:1px solid var(--line);padding:6px 12px;cursor:pointer;white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:14px;min-width:820px}
+th{font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--sec)}
+td.amt{font-weight:700;color:var(--ink);white-space:nowrap}
+td .a{font-weight:600;color:var(--ink)}
+.steps{display:flex;gap:3px;cursor:pointer;user-select:none}
+.step{width:14px;height:14px;border:1px solid var(--line);background:#fff}
+.step.done{background:var(--lime);border-color:var(--lime)}
+.stlbl{font-size:10.5px;color:var(--muted);margin-top:4px;white-space:nowrap}
+.sample{font-size:10px;font-weight:600;letter-spacing:.8px;color:var(--muted);border:1px solid var(--line);padding:1px 5px;margin-left:6px;vertical-align:1px}
+.empty{padding:28px 10px;color:var(--muted);font-size:13px}
+.ft{display:flex;justify-content:space-between;border-top:1px dashed var(--line);margin-top:18px;padding-top:12px;font-size:12px;color:var(--muted)}
+.ft a{color:var(--flame);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Campaign Ops · Working Demo</div>
+  <h1>Budget Approvals</h1>
+  <p class="sub">Form in, sheet out. A spend request is created the moment someone <b>decides</b> to pay a vendor — before any invoice exists. Every row below feeds the PO tracker and rolls up into the G1–G5 budget groups.</p>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>New spend request</h2>
+    <div class="hint">Fill what you know now. PO# and Invoice# come later from support.</div>
+    <form id="f">
+      <label>Artist</label>
+      <select id="artist" required>
+        <option value="">— select artist —</option>
+        <option>Teezo Touchdown</option><option>Doja Cat</option><option>SZA</option>
+        <option>Tate McRae</option><option>The Strokes</option><option>Victoria Monét</option>
+      </select>
+      <div class="two">
+        <div><label>Budget phase</label>
+          <select id="phase"><option>Single</option><option>EP</option><option>Album</option><option>Catalog</option></select></div>
+        <div><label>Category <span class="opt">(finance bucket)</span></label>
+          <select id="cat"><option>Marketing</option><option>Creative / Content</option><option>Video Production</option><option>Digital Advertising</option><option>Publicity / Press</option><option>Touring / Promo</option><option>Radio</option><option>Retainer / Fan Page</option></select></div>
+      </div>
+      <label>Service description</label>
+      <textarea id="svc" placeholder="Who / what / where / when — e.g. content capture, NYC, week of release" required></textarea>
+      <div class="two">
+        <div><label>Vendor</label><input id="vendor" placeholder="Vendor name" required></div>
+        <div><label>Vendor contact <span class="opt">(email)</span></label><input id="vcontact" type="email" placeholder="name@vendor.com"></div>
+      </div>
+      <label>PO type</label>
+      <div class="toggle"><button type="button" id="tSingle" class="on">Single</button><button type="button" id="tBlanket">Blanket · pro-rated</button></div>
+      <div id="singleAmt"><label>Amount</label><input id="amt" type="number" min="0" step="50" placeholder="0.00" required></div>
+      <div id="blanket" style="display:none">
+        <label>Line items <span class="opt">(each deliverable gets its own category line)</span></label>
+        <div id="lines"></div>
+        <button type="button" class="addline" id="addLine">+ Add line item</button>
+      </div>
+      <div class="two">
+        <div><label>Start date <span class="opt">(date service is agreed)</span></label><input id="start" type="date"></div>
+        <div><label>PO # <span class="opt">(support fills)</span></label><input id="po" placeholder="—"></div>
+      </div>
+      <label>Lead <span class="opt">(auto from roster map)</span><span class="chip" id="leadChip">—</span></label>
+      <button class="submit" type="submit">Submit spend request →</button>
+      <div class="note">Retainers &amp; fan pages: use month only (e.g. "July 2026") in the description. Vendors invoice straight to Console: 2000.ap.invoicereceiving@sonymusic.com, quoting the PO#.</div>
+    </form>
+  </div>
+
+  <div class="sheet-card">
+    <div class="sheet-head">
+      <div><h2>The sheet <span class="chip">live output</span></h2>
+      <div class="hint">Click a tracker to advance a request: Submitted → Approved → PO issued → Vendor notified → Invoice in → Receipted.</div></div>
+      <button class="export" id="csv">Export CSV →</button>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Artist</th><th>Phase</th><th>Category</th><th>Service</th><th>Vendor</th><th>Amount</th><th>Start</th><th>Tracker</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="ft"><span>Demo — data lives in this browser only</span><a href="/hub/">← Back to hub</a></div>
+  </div>
+</div>
+
+<script>
+var STEPS=["Submitted","Approved","PO issued","Vendor notified","Invoice in","Receipted"];
+var KEY="ba_rows_v1";
+var seed=[
+ {d:"7/28",artist:"Teezo Touchdown",phase:"Single",cat:"Creative / Content",svc:"Casting-concept teaser shoot",vendor:"Field Day Studio",amt:18500,start:"2026-08-10",st:3,sample:1},
+ {d:"7/30",artist:"The Strokes",phase:"Album",cat:"Publicity / Press",svc:"Press day production, NYC",vendor:"Overnight PR",amt:9200,start:"2026-08-17",st:2,sample:1},
+ {d:"8/3",artist:"Tate McRae",phase:"Single",cat:"Digital Advertising",svc:"Launch-week paid social",vendor:"(in-house trafficked)",amt:45000,start:"2026-08-21",st:1,sample:1}
+];
+function load(){try{var r=JSON.parse(localStorage.getItem(KEY));return Array.isArray(r)?r:seed.slice()}catch(e){return seed.slice()}}
+function save(r){try{localStorage.setItem(KEY,JSON.stringify(r))}catch(e){}}
+var rows=load();
+function money(n){return "$"+Number(n).toLocaleString()}
+function render(){
+ var tb=document.getElementById("rows");tb.innerHTML="";
+ if(!rows.length){tb.innerHTML='<tr><td colspan="9" class="empty">No requests yet — submit one on the left.</td></tr>';return}
+ rows.forEach(function(r,i){
+  var tr=document.createElement("tr");
+  var steps='<div class="steps" data-i="'+i+'" title="Click to advance">';
+  for(var s=0;s<STEPS.length;s++) steps+='<span class="step'+(s<=r.st?" done":"")+'"></span>';
+  steps+='</div><div class="stlbl">'+STEPS[r.st]+'</div>';
+  tr.innerHTML='<td>'+r.d+'</td><td><span class="a">'+r.artist+'</span>'+(r.sample?'<span class="sample">SAMPLE</span>':'')+'</td><td>'+r.phase+'</td><td>'+r.cat+'</td><td>'+r.svc+'</td><td>'+r.vendor+'</td><td class="amt">'+money(r.amt)+'</td><td>'+(r.start||"—")+'</td><td>'+steps+'</td>';
+  tb.appendChild(tr);
+ });
+}
+document.getElementById("rows").addEventListener("click",function(e){
+ var el=e.target.closest(".steps");if(!el)return;
+ var i=+el.getAttribute("data-i");rows[i].st=(rows[i].st+1)%STEPS.length;save(rows);render();
+});
+var blanket=false;
+function setToggle(b){blanket=b;
+ document.getElementById("tSingle").className=b?"":"on";
+ document.getElementById("tBlanket").className=b?"on":"";
+ document.getElementById("singleAmt").style.display=b?"none":"";
+ document.getElementById("blanket").style.display=b?"":"none";
+ document.getElementById("amt").required=!b;
+ if(b&&!document.querySelector("#lines .li"))addLine();
+}
+document.getElementById("tSingle").onclick=function(){setToggle(false)};
+document.getElementById("tBlanket").onclick=function(){setToggle(true)};
+function addLine(){
+ var d=document.createElement("div");d.className="li";
+ d.innerHTML='<input placeholder="Deliverable — e.g. artwork" class="ld"><input type="number" min="0" placeholder="Amount" class="la"><button type="button">×</button>';
+ d.querySelector("button").onclick=function(){d.remove()};
+ document.getElementById("lines").appendChild(d);
+}
+document.getElementById("addLine").onclick=addLine;
+document.getElementById("artist").onchange=function(){
+ document.getElementById("leadChip").textContent=this.value?"Auto · roster map":"—";
+};
+document.getElementById("f").addEventListener("submit",function(e){
+ e.preventDefault();
+ var amt=0,svc=document.getElementById("svc").value;
+ if(blanket){
+  var items=[].map.call(document.querySelectorAll("#lines .li"),function(li){
+   return {d:li.querySelector(".ld").value,a:+li.querySelector(".la").value||0}
+  }).filter(function(x){return x.d||x.a});
+  amt=items.reduce(function(t,x){return t+x.a},0);
+  if(items.length)svc+=" · Blanket: "+items.map(function(x){return x.d+" "+money(x.a)}).join(", ");
+ } else amt=+document.getElementById("amt").value||0;
+ var now=new Date();
+ rows.unshift({d:(now.getMonth()+1)+"/"+now.getDate(),
+  artist:document.getElementById("artist").value,
+  phase:document.getElementById("phase").value,
+  cat:document.getElementById("cat").value,
+  svc:svc,vendor:document.getElementById("vendor").value,
+  amt:amt,start:document.getElementById("start").value,st:0});
+ save(rows);render();this.reset();setToggle(false);
+ document.getElementById("leadChip").textContent="—";
+});
+document.getElementById("csv").onclick=function(){
+ var head="Date,Artist,Phase,Category,Service,Vendor,Amount,Start,Status\n";
+ var body=rows.map(function(r){
+  return [r.d,r.artist,r.phase,r.cat,'"'+String(r.svc).replace(/"/g,'""')+'"',r.vendor,r.amt,r.start||"",STEPS[r.st]].join(",");
+ }).join("\n");
+ var a=document.createElement("a");
+ a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(head+body);
+ a.download="spend-requests.csv";a.click();
+};
+render();
+</script>
+</body>
+</html>
