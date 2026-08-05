@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops · Budget Approval</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
+    --chartreuse:#CDF851; --flame:#FF4A23;
+    --green:#1F9D55; --yellow:#E8B923; --grey-fill:#DAD7D0; --teal:#4FB8B0;
+    --g1:#1A1A1A; --g2:#4FB8B0; --g3:#E8B923; --g4:#CDF851; --g5:#FF4A23;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:28px;min-height:100vh}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
+  .mono-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;display:inline-block}
+
+  /* top bar */
+  header.top{display:flex;justify-content:space-between;align-items:flex-end;max-width:1200px;margin:0 auto 22px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+  header.top h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  header.top .sub{margin-top:6px;color:var(--muted);font-size:13px}
+  .toggle{display:flex;gap:0;border:1.5px solid var(--ink);border-radius:8px;overflow:hidden}
+  .toggle button{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+  .toggle button.active{background:var(--ink);color:#fff}
+
+  /* layout */
+  .shell{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start}
+
+  /* queue */
+  .queue h2{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .qcard{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px;cursor:pointer;transition:border-color .12s,transform .12s;position:relative}
+  .qcard:hover{transform:translateY(-1px)}
+  .qcard.sel{border-color:var(--ink);border-width:2px}
+  .qcard .verdict-dot{position:absolute;top:16px;right:15px;width:11px;height:11px;border-radius:50%}
+  .qcard .name{font-size:16px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  .qcard .meta{font-size:12px;color:var(--muted);margin-top:3px}
+  .qcard .row{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
+  .qcard .amt{font-size:17px;font-weight:800}
+  .qcard .grp{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F3F1EB;color:var(--muted)}
+  .status-pill.done{background:rgba(31,157,85,.14);color:var(--green)}
+  .status-pill.sent{background:rgba(255,74,35,.12);color:var(--flame)}
+
+  /* ===== DESKTOP RECORD (page 4 style) ===== */
+  .record{background:var(--card);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+  .rec-head{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1.5px solid var(--line)}
+  .rec-head .lbl{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .rec-head .lbl .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+  .rec-head .rt{font-size:12px;color:var(--muted)}
+  .rec-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .rec-left{padding:24px 22px;border-right:1.5px solid var(--line)}
+  .rec-right{padding:24px 22px}
+  .rec-left h3{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .rec-left .byline{color:var(--muted);font-size:13px;margin-top:7px}
+  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAF9F6}
+  .sec-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px}
+
+  /* ceiling gauge */
+  .gauge-wrap{position:relative;margin-top:4px}
+  .gauge{position:relative;height:34px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
+  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .thisb{height:100%}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .ceiling-mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);z-index:3}
+  .ceiling-lbl{position:absolute;top:40px;transform:translateX(-50%);font-size:11px;font-weight:700;white-space:nowrap}
+  .legend{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  .note-box{margin-top:26px;background:#EAF7F5;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
+  .note-box.warn{background:#FFF7E0}
+  .note-box.bad{background:#FDECE7}
+  .note-box .u{font-weight:800}
+
+  /* line items */
+  .li{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .li .cat{font-size:14px;font-weight:700}
+  .li .desc{font-size:12px;color:var(--muted);margin-top:2px}
+  .li .val{font-size:15px;font-weight:800;white-space:nowrap;padding-left:14px}
+  .li-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px}
+  .li-total .cat{font-size:16px;font-weight:900}
+  .li-total .val{font-size:18px;font-weight:900}
+  .cap-note{background:#F4FBDD;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
+
+  /* approval chain */
+  .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+  .stage{border:1.5px solid var(--line);border-radius:9px;padding:11px 11px 13px}
+  .stage.active{border-color:var(--flame);border-width:2px}
+  .stage.done{background:#F5FAF2;border-color:#CBE7D3}
+  .stage .st{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+  .stage.done .st{color:var(--green)}
+  .stage.active .st{color:var(--flame)}
+  .stage.wait .st{color:var(--muted)}
+  .stage .who{font-size:14px;font-weight:800;margin-top:7px;line-height:1.1}
+  .stage .role{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .actions{display:flex;gap:12px;margin-top:24px}
+  .btn{font-family:inherit;font-size:14px;font-weight:800;letter-spacing:.01em;padding:15px 22px;border-radius:9px;border:1.5px solid var(--ink);cursor:pointer;flex:1;transition:transform .1s,opacity .1s}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--flame);border-color:var(--flame);color:#fff}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .btn.dark{background:var(--ink);color:#fff}
+  .btn[disabled]{opacity:.35;cursor:not-allowed}
+
+  /* ===== PHONE (page 5 style) ===== */
+  .phone-stage{display:flex;justify-content:center;padding:8px 0}
+  .phone{width:390px;background:#fff;border-radius:42px;border:10px solid #111;box-shadow:0 24px 60px rgba(0,0,0,.22);overflow:hidden}
+  .p-status{display:flex;justify-content:space-between;align-items:center;padding:12px 26px 4px;font-size:13px;font-weight:700}
+  .p-notch{width:96px;height:26px;background:#111;border-radius:20px}
+  .p-body{padding:6px 22px 26px}
+  .p-back{display:flex;justify-content:space-between;align-items:center;padding:8px 0 4px;color:var(--muted)}
+  .p-circle{width:34px;height:34px;border-radius:50%;background:#F0EEE8;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .p-app{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:6px 0 18px}
+  .p-need{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--flame)}
+  .p-name{font-size:21px;font-weight:900;letter-spacing:-.01em;margin-top:3px}
+  .p-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .p-grp{display:inline-block;margin-top:11px;font-size:11px;font-weight:600;padding:5px 10px;border:1.2px solid var(--line);border-radius:6px}
+  .verdict{border-radius:11px;padding:15px 16px;margin-top:18px;border-top-width:4px;border-top-style:solid}
+  .verdict.yes{background:#F3FAEF;border-top-color:var(--green)}
+  .verdict.flag{background:#FDF8E6;border-top-color:var(--yellow)}
+  .verdict.no{background:#FDECE7;border-top-color:var(--flame)}
+  .verdict .vh{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900}
+  .vbadge{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900}
+  .vbadge.yes{background:var(--green)} .vbadge.flag{background:var(--yellow)} .vbadge.no{background:var(--flame)}
+  .verdict p{font-size:13px;line-height:1.5;margin-top:8px;color:#333}
+  .p-gaugelbl{font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:20px 0 9px;display:flex;justify-content:space-between}
+  .p-scale{font-size:11px;color:var(--muted);margin-top:9px;display:flex;gap:9px;flex-wrap:wrap}
+  .p-scale b.up{color:var(--green)} .p-scale b.over{color:var(--flame)}
+  .p-checks{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAF9F6;border-radius:9px;padding:11px 13px}
+  .p-check .ic{font-weight:900;font-size:13px;line-height:1.3}
+  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--yellow)} .p-check.bad .ic{color:var(--flame)}
+  .p-check .ct{font-size:12.5px;font-weight:800}
+  .p-check .cd{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+  .p-actions{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .p-btn{font-family:inherit;font-size:15px;font-weight:800;padding:15px;border-radius:11px;border:1.5px solid var(--ink);cursor:pointer;text-align:center}
+  .p-btn.primary{background:var(--flame);border-color:var(--flame);color:#fff}
+  .p-btn.dark{background:var(--ink);color:#fff}
+  .p-btn.ghost{background:#fff}
+  .p-btn.faint{background:#fff;border-color:var(--line);color:var(--muted)}
+
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:14px 22px;border-radius:11px;font-size:14px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:50;display:flex;align-items:center;gap:10px}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast .tk{width:9px;height:9px;border-radius:50%;background:var(--chartreuse)}
+  .footer{max-width:1200px;margin:26px auto 0;color:var(--muted);font-size:11.5px;border-top:1px solid var(--line);padding-top:14px}
+  @media(max-width:900px){.shell{grid-template-columns:1fr}.rec-body{grid-template-columns:1fr}.rec-left{border-right:0;border-bottom:1.5px solid var(--line)}}
+</style>
+</head>
+<body>
+  <header class="top">
+    <div>
+      <div class="kicker">Campaign Ops · Workflow</div>
+      <h1>Budget Approval</h1>
+      <div class="sub">One record per campaign budget, checked against the group ceiling. Lead → Niki + Tarek → Finance → Fleck.</div>
+    </div>
+    <div class="toggle" id="viewToggle">
+      <button class="active" data-view="desktop">Desktop review</button>
+      <button data-view="phone">Phone sign-off</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="queue">
+      <h2>Awaiting approval · <span id="qcount">3</span></h2>
+      <div id="queueList"></div>
+    </aside>
+    <main id="stage"></main>
+  </div>
+
+  <div class="footer">
+    Prototype · RCA Campaign Ops · directional data from the Budget Approval Workflow deck (v0.3). Ceilings set with Ian from RCA historical actuals.
+  </div>
+
+  <div class="toast" id="toast"><span class="tk"></span><span id="toastMsg"></span></div>
+
+<script>
+// ---------- DATA (from the deck, directional) ----------
+const CEILINGS = {
+  G1:{tier:'Flagship', streams:'10M+',      ceiling:2000000},
+  G2:{tier:'Scaling',  streams:'5–10M',     ceiling:1500000},
+  G3:{tier:'Building', streams:'1–5M',      ceiling:715000},
+  G4:{tier:'Foundation',streams:'100K–1M',  ceiling:242000},
+  G5:{tier:'Emerging', streams:'under 100K',ceiling:137000},
+};
+
+const BUDGETS = [
+  {
+    id:'BUD-0431', verdict:'yes', name:'Chloe Qisha', project:'“Fantasize” EP',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 14', group:'G4',
+    budget:150000, spent:60000,
+    lines:[
+      {cat:'Digital Marketing', desc:'In-house paid social + DSP', val:80000},
+      {cat:'Video', desc:'Performance video package', val:45000},
+      {cat:'Radio Promotion', desc:'Indie promo — light add', val:25000},
+    ],
+    headline:'Looks normal', verdictText:'Comfortably under ceiling and a typical size for the group. Nothing unusual.',
+    note:'This budget lands well under the Group 4 ceiling — a routine Foundation-tier spend.',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$32K of headroom still in Group 4.'},
+      {t:'ok', title:'Typical size', d:'Group 4 EPs usually run $130–170K.'},
+    ]
+  },
+  {
+    id:'BUD-0428', verdict:'flag', name:'Isabel LaRosa', project:'Single — Fall release',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 15', group:'G3',
+    budget:250000, spent:410000,
+    lines:[
+      {cat:'Video', desc:'Prettybird — video finishing', val:140000},
+      {cat:'Digital Marketing', desc:'In-house paid social + DSP', val:70000},
+      {cat:'Radio Promotion', desc:'Indie promo — add campaign', val:40000},
+    ],
+    headline:'Mostly normal — one flag', verdictText:'Within ceiling and about average in size. One category is running hot — the lead explained it.',
+    note:'This budget lands <span class="u">$55K under</span> the Group 3 ceiling — within the not-to-exceed. Lead’s note: “Radio add + video finishing — front-loaded spend, expect Q4 to run under.”',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$55K of headroom left in Group 3.'},
+      {t:'warn', title:'Radio ~2× the usual', d:'$40K vs. ~$20K. Lead: “Add campaign — front-loaded, Q4 runs under.”'},
+    ]
+  },
+  {
+    id:'BUD-0435', verdict:'no', name:'Sarah Lola', project:'“New Boy” single',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 18', group:'G5',
+    budget:240000, spent:45000,
+    lines:[
+      {cat:'Video', desc:'Full video treatment', val:120000},
+      {cat:'Digital Marketing', desc:'Paid social + DSP push', val:80000},
+      {cat:'Radio Promotion', desc:'Add campaign', val:40000},
+    ],
+    headline:'Over ceiling — take a look', verdictText:'This ask is bigger than the entire Group 5 ceiling — an Emerging artist on a Building-tier budget.',
+    note:'This budget runs <span class="u">$148K over</span> the Group 5 ceiling. The budget alone exceeds the whole Group 5 cap.',
+    checks:[
+      {t:'bad', title:'$148K over the ceiling', d:'Budget alone exceeds the whole Group 5 cap.'},
+      {t:'warn', title:'Size fits Group 3, not 5', d:'If she’s breaking out, re-group her first.'},
+    ]
+  },
+];
+
+// mutable approval state per budget: 0=awaiting Niki+Tarek,1=Finance,2=Fleck,3=released, -1=sent back
+BUDGETS.forEach(b=>b.stageIdx=0);
+
+const STAGES=[
+  {who:'Niki + Tarek', role:'Portfolio review'},
+  {who:'Finance', role:'Sign-off'},
+  {who:'Fleck', role:'Final sign-off'},
+];
+const fmt=n=>'$'+n.toLocaleString('en-US');
+const fmtK=n=>{const k=Math.round(n/1000);return '$'+(k>=1000?(k/1000).toFixed(k%1000?1:0)+'M':k+'K');};
+
+let view='desktop';
+let selId=BUDGETS[0].id;
+
+// ---------- QUEUE ----------
+function verdictColor(v){return v==='yes'?'var(--green)':v==='flag'?'var(--yellow)':'var(--flame)';}
+function renderQueue(){
+  const pending=BUDGETS.filter(b=>b.stageIdx>=0 && b.stageIdx<3);
+  document.getElementById('qcount').textContent=pending.length;
+  document.getElementById('queueList').innerHTML=BUDGETS.map(b=>{
+    const c=CEILINGS[b.group];
+    let pill;
+    if(b.stageIdx===3)pill='<span class="status-pill done">Released ✓</span>';
+    else if(b.stageIdx===-1)pill='<span class="status-pill sent">Sent back</span>';
+    else pill='<span class="status-pill">Awaiting '+STAGES[b.stageIdx].who+'</span>';
+    return `<div class="qcard ${b.id===selId?'sel':''}" onclick="select('${b.id}')">
+      <span class="verdict-dot" style="background:${verdictColor(b.verdict)}"></span>
+      <div class="name">${b.name}</div>
+      <div class="meta">${b.project} · ${b.id}</div>
+      <div class="row"><span class="amt">${fmt(b.budget)}</span><span class="grp">${b.group} · ${c.tier}</span></div>
+      <div class="row" style="margin-top:9px">${pill}</div>
+    </div>`;
+  }).join('');
+}
+function select(id){selId=id;render();}
+
+// ---------- GAUGE ----------
+function gaugeHTML(b){
+  const c=CEILINGS[b.group].ceiling;
+  const spent=b.spent, budg=b.budget, committed=spent+budg;
+  const over=Math.max(0,committed-c);
+  const scaleMax=Math.max(c,committed)*1.06;
+  const pct=n=>(n/scaleMax*100);
+  const thisColor=b.verdict==='yes'?'var(--green)':b.verdict==='flag'?'var(--yellow)':'var(--flame)';
+  const underPortion=over>0?Math.max(0,c-spent):budg;
+  let bar=`<div class="spent" style="width:${pct(spent)}%"></div>`;
+  if(over>0){
+    bar+=`<div class="thisb" style="width:${pct(underPortion)}%;background:${thisColor}"></div>`;
+    bar+=`<div class="over" style="width:${pct(over)}%"></div>`;
+  }else{
+    bar+=`<div class="thisb" style="width:${pct(budg)}%;background:${thisColor}"></div>`;
+  }
+  const cpos=pct(c);
+  const headroom=c-committed;
+  return `<div class="gauge-wrap">
+    <div class="gauge">${bar}<div class="ceiling-mark" style="left:${cpos}%"></div></div>
+    <div class="ceiling-lbl" style="left:${cpos}%">Ceiling ${fmtK(c)}</div>
+    <div class="legend">
+      <span><i class="sw" style="background:#C9C6BE"></i>Spent this cycle · ${fmtK(spent)}</span>
+      <span><i class="sw" style="background:${thisColor}"></i>This budget · ${fmtK(budg)}</span>
+      ${over>0
+        ? `<span><i class="sw" style="background:var(--flame)"></i>Over ceiling · ${fmtK(over)}</span>`
+        : `<span><i class="sw" style="border:1.4px solid var(--ink);background:transparent"></i>Headroom · ${fmtK(headroom)}</span>`}
+    </div>
+  </div>`;
+}
+
+// ---------- DESKTOP RECORD ----------
+function renderDesktop(b){
+  const c=CEILINGS[b.group];
+  const total=b.lines.reduce((s,l)=>s+l.val,0);
+  const active=b.stageIdx;
+  const chain=[{who:'Campaign Lead',role:'Budget set · '+b.set,done:true}]
+    .concat(STAGES.map((s,i)=>({who:s.who,role:s.role,done:b.stageIdx>i,active:b.stageIdx===i})));
+  const noteClass=b.verdict==='yes'?'':b.verdict==='flag'?'warn':'bad';
+  const released=b.stageIdx===3, sentBack=b.stageIdx===-1;
+  const stageName=b.stageIdx>=0&&b.stageIdx<3?STAGES[b.stageIdx].who:'—';
+
+  let headStatus=`<span class="mono-tag" style="background:#FBF3C9;color:#8a6d00">Awaiting ${stageName}</span>`;
+  if(released)headStatus=`<span class="mono-tag" style="background:rgba(31,157,85,.15);color:var(--green)">Released ✓</span>`;
+  if(sentBack)headStatus=`<span class="mono-tag" style="background:rgba(255,74,35,.13);color:var(--flame)">Sent back</span>`;
+
+  return `<div class="record">
+    <div class="rec-head">
+      <div class="lbl"><span class="dot"></span>Campaign Marketing Budget</div>
+      <div class="rt">${b.id} · set ${b.set} · Airtable &nbsp; ${headStatus}</div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-left">
+        <h3>${b.name}</h3>
+        <div class="byline">${b.project} · ${b.lead}</div>
+        <div class="grp-chip">${b.group} · ${c.tier} · ${c.streams} weekly streams</div>
+        <div class="sec-lbl">This budget against the ${b.group} ceiling</div>
+        ${gaugeHTML(b)}
+        <div class="note-box ${noteClass}">${b.note}</div>
+      </div>
+      <div class="rec-right">
+        <div class="sec-lbl" style="margin-top:0">Line items · the spending envelope</div>
+        ${b.lines.map(l=>`<div class="li"><div><div class="cat">${l.cat}</div><div class="desc">${l.desc}</div></div><div class="val">${fmt(l.val)}</div></div>`).join('')}
+        <div class="li-total"><div class="cat">Total budget</div><div class="val">${fmt(total)}</div></div>
+        <div class="cap-note">↓ These lines are the caps. Every PO draws down against its line — the money committed here is exactly what gets spent.</div>
+        <div class="sec-lbl">Approval chain</div>
+        <div class="chain">
+          ${chain.map(s=>{
+            const cls=s.done?'done':s.active?'active':'wait';
+            const st=s.done?'✓ Set':s.active?'● Your call':'○ Waiting';
+            return `<div class="stage ${cls}"><div class="st">${st}</div><div class="who">${s.who}</div><div class="role">${s.role}</div></div>`;
+          }).join('')}
+        </div>
+        ${renderActions(b)}
+      </div>
+    </div>
+  </div>`;
+}
+function renderActions(b){
+  if(b.stageIdx===3)return `<div class="actions"><button class="btn dark" disabled>Released — live number ✓</button></div>`;
+  if(b.stageIdx===-1)return `<div class="actions"><button class="btn ghost" onclick="reopen('${b.id}')">Reopen for review</button></div>`;
+  const next=b.stageIdx<2?'send to '+STAGES[b.stageIdx+1].who:'release';
+  const hardNo=b.verdict==='no';
+  return `<div class="actions">
+    <button class="btn ${hardNo?'ghost':'primary'}" onclick="approve('${b.id}')">${b.stageIdx===2?'Approve — release budget':'Approve & '+next}</button>
+    <button class="btn ${hardNo?'dark':'ghost'}" onclick="sendBack('${b.id}')">Send back with a note</button>
+  </div>`;
+}
+
+// ---------- PHONE (Fleck final sign-off) ----------
+function renderPhone(b){
+  const c=CEILINGS[b.group].ceiling;
+  const committed=b.spent+b.budget, over=Math.max(0,committed-c), headroom=c-committed;
+  const scaleMax=Math.max(c,committed)*1.06, pct=n=>n/scaleMax*100;
+  const thisColor=b.verdict==='yes'?'var(--green)':b.verdict==='flag'?'var(--yellow)':'var(--flame)';
+  const underPortion=over>0?Math.max(0,c-b.spent):b.budget;
+  let bar=`<div class="spent" style="width:${pct(b.spent)}%"></div>`;
+  bar+= over>0
+    ? `<div class="thisb" style="width:${pct(underPortion)}%;background:${thisColor}"></div><div class="over" style="width:${pct(over)}%"></div>`
+    : `<div class="thisb" style="width:${pct(b.budget)}%;background:${thisColor}"></div>`;
+  const cpos=pct(c);
+  const vico=b.verdict==='yes'?'✓':b.verdict==='flag'?'!':'✕';
+  const scale = over>0
+    ? `${fmtK(b.spent)} spent · <b class="over">+${fmtK(b.budget)} this</b> · ceiling ${fmtK(c)} · <b class="over">${fmtK(over)} over</b>`
+    : `${fmtK(b.spent)} spent · <b class="up">+${fmtK(b.budget)} this</b> · ceiling ${fmtK(c)} · ${fmtK(headroom)} left`;
+
+  let actions;
+  if(b.stageIdx===3){
+    actions=`<div class="p-actions"><div class="p-btn dark" style="opacity:.55">Released — live number ✓</div></div>`;
+  }else if(b.stageIdx===-1){
+    actions=`<div class="p-actions"><div class="p-btn ghost" onclick="reopen('${b.id}')">Reopen for review</div></div>`;
+  }else if(b.verdict==='no'){
+    actions=`<div class="p-actions"><div class="p-btn dark" onclick="sendBack('${b.id}')">Send back with a note</div><div class="p-btn faint" onclick="approve('${b.id}')">Approve anyway</div></div>`;
+  }else{
+    actions=`<div class="p-actions"><div class="p-btn primary" onclick="approve('${b.id}')">Approve</div><div class="p-btn ghost" onclick="sendBack('${b.id}')">Send back with a note</div></div>`;
+  }
+  return `<div class="phone-stage"><div class="phone">
+    <div class="p-status"><span>9:41</span><span class="p-notch"></span><span>■ ᴵᴵᴵ ▮</span></div>
+    <div class="p-body">
+      <div class="p-back"><span class="p-circle">‹</span><span class="p-circle">···</span></div>
+      <div class="p-app">Campaign Ops</div>
+      <div class="p-need">Needs your sign-off</div>
+      <div class="p-name">${b.name}</div>
+      <div class="p-sub">${fmt(b.budget)} · ${b.project}</div>
+      <div class="p-grp">${b.group} · ${CEILINGS[b.group].tier} · ${CEILINGS[b.group].streams} streams</div>
+      <div class="verdict ${b.verdict}">
+        <div class="vh"><span class="vbadge ${b.verdict}">${vico}</span>${b.headline}</div>
+        <p>${b.verdictText}</p>
+      </div>
+      <div class="p-gaugelbl"><span>${b.group} spend to date</span><span>Ceiling</span></div>
+      <div class="gauge">${bar}<div class="ceiling-mark" style="left:${cpos}%"></div></div>
+      <div class="p-scale">${scale}</div>
+      <div class="p-checks">
+        ${b.checks.map(ch=>{
+          const ic=ch.t==='ok'?'✓':ch.t==='warn'?'!':'✕';
+          return `<div class="p-check ${ch.t}"><span class="ic">${ic}</span><div><div class="ct">${ch.title}</div><div class="cd">${ch.d}</div></div></div>`;
+        }).join('')}
+      </div>
+      ${actions}
+    </div>
+  </div></div>`;
+}
+
+// ---------- ACTIONS ----------
+function approve(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  if(b.stageIdx<0)b.stageIdx=0;
+  const doneStage=STAGES[b.stageIdx].who;
+  b.stageIdx++;
+  toast(b.stageIdx>=3?`${b.name} — budget released. Now a live number.`:`Approved by ${doneStage} → sent to ${STAGES[b.stageIdx].who}.`);
+  render();
+}
+function sendBack(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=-1;
+  toast(`${b.name} — sent back to the lead with a note.`);
+  render();
+}
+function reopen(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=0;
+  toast(`${b.name} — reopened for portfolio review.`);
+  render();
+}
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ---------- RENDER ----------
+function render(){
+  renderQueue();
+  const b=BUDGETS.find(x=>x.id===selId);
+  document.getElementById('stage').innerHTML = view==='desktop'?renderDesktop(b):renderPhone(b);
+}
+document.getElementById('viewToggle').addEventListener('click',e=>{
+  const btn=e.target.closest('button');if(!btn)return;
+  view=btn.dataset.view;
+  [...document.querySelectorAll('#viewToggle button')].forEach(x=>x.classList.toggle('active',x===btn));
+  render();
+});
+render();
+</script>
+</body>
+</html>

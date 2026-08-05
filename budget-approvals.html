@@ -67,6 +67,18 @@ td .a{font-weight:600;color:var(--ink)}
 .fstep .tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--flame);margin-top:8px}
 .rules{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
 @media(max-width:900px){.rules{grid-template-columns:1fr}}
+.demos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+@media(max-width:900px){.demos{grid-template-columns:1fr}}
+.demo-card{display:block;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame);padding:20px;text-decoration:none;color:var(--ink)}
+.demo-card.t{border-top-color:var(--teal)}
+.demo-card.g{border-top-color:var(--gold)}
+.demo-card:hover{border-color:var(--ink)}
+.demo-card.t:hover{border-color:var(--ink);border-top-color:var(--teal)}
+.demo-card.g:hover{border-color:var(--ink);border-top-color:var(--gold)}
+.demo-card:hover{border-top-color:var(--flame)}
+.demo-card h3{font-size:16px;font-weight:600;letter-spacing:-.3px;margin:0 0 6px}
+.demo-card p{font-size:13px;color:var(--sec);line-height:1.5}
+.demo-card .go{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--flame)}
 .rule-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame);padding:24px}
 .rule-card.g{border-top-color:var(--lime)}
 .rule-card h3{font-size:17px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
@@ -173,6 +185,15 @@ td .a{font-weight:600;color:var(--ink)}
         <li>That gives every budget conversation a <b>baseline to point at</b>, instead of a personal judgment call.</li>
       </ul>
     </div>
+  </div>
+
+  <div class="kicker" style="margin-top:44px">Working Demos</div>
+  <h2>The sign-off side, before any of this happens</h2>
+  <p class="lede">Before a spend request exists, the marketing budget behind it gets approved &mdash; proposed by the lead, checked against the group ceiling, signed off by Finance, Tarek, and Niki. These working demos walk that whole flow with sample data.</p>
+  <div class="demos">
+    <a class="demo-card" href="/budget/demo.html" target="_blank" rel="noopener"><h3>Budget approval &mdash; full demo</h3><p>The combined desktop view. Switch between Submitter, Finance, Tarek, and Niki to see each role's queue, questions, and sign-off &mdash; sample data, nothing live.</p><span class="go">Open demo &rarr;</span></a>
+    <a class="demo-card t" href="/budget/fleck.html" target="_blank" rel="noopener"><h3>Fleck sign-off &mdash; phone</h3><p>The finale: final sign-off from a phone. One screen, one decision, done between meetings.</p><span class="go">Open demo &rarr;</span></a>
+    <a class="demo-card g" href="/budget/tracker.html" target="_blank" rel="noopener"><h3>Budget tracker</h3><p>Prototype of the roll-up: spent against ceiling by artist and group, so a gap is a worth-a-why, not a verdict.</p><span class="go">Open demo &rarr;</span></a>
   </div>
 </section>
 

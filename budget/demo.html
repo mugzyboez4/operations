@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Approval — Demo (sample data)</title>
+<style>
+  :root{
+    --bg:#EDEAE3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862;
+    --line:#DAD6CD; --chart:#CDF851; --flame:#FF4A23; --green:#1F9D55; --yellow:#E8B923;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);
+    min-height:100vh;padding:0}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px 60px}
+  /* top bar */
+  .top{background:var(--ink);color:#fff;padding:0}
+  .top .in{max-width:1120px;margin:0 auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .top .app{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--chart);font-weight:700}
+  .top h1{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-top:2px}
+  .who{text-align:right;font-size:12px;color:#B9B6AE}
+  .who b{color:#fff;font-size:14px;display:block}
+  .who .role-chip{display:inline-block;margin-top:4px;background:var(--chart);color:var(--ink);font-weight:800;
+    font-size:11px;padding:3px 10px;border-radius:20px;letter-spacing:.02em}
+  /* tabs */
+  .tabs{display:flex;gap:4px;border-bottom:1.5px solid var(--line);margin:20px 0 22px}
+  .tab{padding:10px 16px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;
+    font-family:inherit;border-bottom:2.5px solid transparent;margin-bottom:-1.5px}
+  .tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+  .tab .n{display:inline-block;min-width:18px;text-align:center;background:var(--flame);color:#fff;font-size:11px;
+    font-weight:800;padding:1px 6px;border-radius:20px;margin-left:6px}
+  .tab.on .n{background:var(--ink)}
+  /* dashboard */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+  .kpi{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+  .kpi.hot{border-color:var(--ink)}
+  .kpi .k{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .kpi .v{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
+  .kpi .v small{font-size:13px;font-weight:700;color:var(--muted)}
+  .panel{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:20px}
+  .panel h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px}
+  table.grp{width:100%;border-collapse:collapse;font-size:13px}
+  table.grp th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;padding:6px 8px;border-bottom:1.5px solid var(--line)}
+  table.grp td{padding:9px 8px;border-bottom:1px solid var(--line)}
+  table.grp td.r,table.grp th.r{text-align:right}
+  .hbar{position:relative;height:8px;background:#F0EEE8;border-radius:5px;overflow:hidden;border:1px solid var(--line);min-width:120px}
+  .hbar i{position:absolute;top:0;bottom:0;left:0;border-radius:5px}
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px}
+  .p-green{background:rgba(31,157,85,.14);color:var(--green)}
+  .p-yellow{background:rgba(232,185,35,.20);color:#9a7a00}
+  .p-red{background:rgba(255,74,35,.13);color:var(--flame)}
+  .p-gray{background:#EFEDE7;color:var(--muted)}
+  .p-ink{background:var(--ink);color:#fff}
+  /* request rows */
+  .section-h{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:4px 2px 12px}
+  .req{background:var(--card);border:1.5px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+  .req.mine{border-color:var(--ink)}
+  .rhead{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;user-select:none}
+  .rhead:hover{background:#FBFAF7}
+  .caret{width:16px;height:16px;flex:0 0 16px;transition:transform .15s;color:var(--muted);font-size:13px;line-height:16px;text-align:center}
+  .req.open .caret{transform:rotate(90deg)}
+  .rhead .name{font-size:16px;font-weight:800;letter-spacing:-.01em;min-width:150px}
+  .rhead .sub{font-size:12px;color:var(--muted)}
+  .rhead .mini{flex:1;max-width:230px}
+  .rhead .amt{font-size:13px;font-weight:700;text-align:right;min-width:150px}
+  .rhead .amt small{color:var(--muted);font-weight:600}
+  .rhead .flags{display:flex;gap:6px;align-items:center}
+  .rbody{border-top:1.5px solid var(--line);padding:18px;display:none;background:#FCFBF9}
+  .req.open .rbody{display:block}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.rhead .mini,.rhead .sub{display:none}}
+  .verdict{font-size:14px;font-weight:700;margin-bottom:6px}
+  .verdict .why{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-top:4px;line-height:1.45}
+  /* gauge */
+  .gauge{margin:14px 0 4px}
+  .gtrack{position:relative;height:20px;background:#F0EEE8;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+  .seg{position:absolute;top:0;bottom:0}
+  .seg.spent{background:#C7C3BA}
+  .seg.bud-green{background:var(--green)} .seg.bud-yellow{background:var(--yellow)} .seg.bud-red{background:var(--flame)}
+  .seg.over{background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 5px,#c2361a 5px,#c2361a 10px)}
+  .ceilmark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+  .glabels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:7px}
+  .glabels b{color:var(--ink)}
+  /* line items */
+  .li-h{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:16px 0 8px}
+  .li{border:1px solid var(--line);border-radius:10px;margin-bottom:7px;background:#fff;overflow:hidden}
+  .li-row{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer}
+  .li-row:hover{background:#FBFAF7}
+  .li-row .lname{font-weight:700;font-size:13px;flex:1}
+  .li-row .lamt{font-weight:700;font-size:13px}
+  .li-row .qdot{width:7px;height:7px;border-radius:50%;background:var(--flame);display:inline-block}
+  .li-body{display:none;padding:0 12px 11px 12px;font-size:12.5px;color:var(--muted);line-height:1.45}
+  .li.open .li-body{display:block}
+  .li .askline{margin-top:8px;font-size:11.5px;font-weight:700;color:var(--flame);background:none;border:none;
+    cursor:pointer;font-family:inherit;padding:0}
+  /* co-sign chips */
+  .cosign{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+  .signer{border:1px solid var(--line);border-radius:10px;padding:7px 11px;font-size:12px;flex:1;min-width:90px}
+  .signer .s-n{font-weight:800;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted)}
+  .signer .s-v{font-weight:700;margin-top:2px}
+  .signer.ok{border-color:var(--green);background:rgba(31,157,85,.06)} .signer.ok .s-v{color:var(--green)}
+  .signer.back{border-color:var(--flame);background:rgba(255,74,35,.05)} .signer.back .s-v{color:var(--flame)}
+  .signer.wait .s-v{color:var(--muted)}
+  /* questions */
+  .qthread{margin-top:6px}
+  .q{border-left:2.5px solid var(--line);padding:2px 0 2px 12px;margin-bottom:12px}
+  .q.open-q{border-left-color:var(--flame)}
+  .q .qmeta{font-size:11px;color:var(--muted);font-weight:700}
+  .q .qtgt{display:inline-block;background:#EFEDE7;color:var(--muted);font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px}
+  .q .qtext{font-size:13px;margin-top:4px;line-height:1.45}
+  .q .qans{font-size:12.5px;margin-top:6px;padding:8px 10px;background:#F1EFE9;border-radius:8px;line-height:1.45}
+  .q .qans b{color:var(--ink)}
+  .q .qwait{font-size:11.5px;color:var(--flame);font-weight:700;margin-top:5px}
+  /* forms */
+  textarea,select,input{font-family:inherit}
+  textarea{width:100%;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;resize:vertical;min-height:60px}
+  select{padding:8px 10px;border:1.5px solid var(--line);border-radius:9px;font-size:12.5px;background:#fff}
+  .actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+  .btn{padding:10px 16px;border-radius:10px;border:1.5px solid var(--ink);font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;background:#fff;color:var(--ink)}
+  .btn-approve{background:var(--chart);color:var(--ink)}
+  .btn-back{background:#fff;color:var(--ink)}
+  .btn-surge{background:var(--flame);color:#fff;border-color:var(--flame)}
+  .btn-sm{padding:7px 12px;font-size:12px}
+  .btn:disabled{opacity:.45;cursor:default}
+  .composer{border:1.5px dashed var(--flame);border-radius:12px;padding:14px;margin-top:14px;background:#FFF6F3;display:none}
+  .composer.on{display:block}
+  .composer h4{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--flame);font-weight:800;margin-bottom:10px}
+  .composer .crow{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+  .composer .crow select{flex:0 0 190px}
+  .staged{list-style:none;margin:4px 0 10px}
+  .staged li{font-size:12.5px;padding:8px 10px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:6px}
+  .staged li .st{background:#EFEDE7;color:var(--muted);font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:6px}
+  /* surge */
+  .surge{border:2px solid var(--flame);border-radius:12px;padding:14px;margin:14px 0;background:linear-gradient(180deg,#FFF1EC 0%,#fff 60%)}
+  .surge.live{border-color:var(--green);background:linear-gradient(180deg,#EEF9F1 0%,#fff 60%)}
+  .surge .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--flame)}
+  .surge.live .tag{color:var(--green)}
+  .surge .pulse{width:8px;height:8px;border-radius:50%;background:var(--flame);animation:pulse 1.3s infinite}
+  .surge.live .pulse{background:var(--green);animation:none}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,74,35,.5)}70%{box-shadow:0 0 0 7px rgba(255,74,35,0)}100%{box-shadow:0 0 0 0 rgba(255,74,35,0)}}
+  .surge .sig{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+  .surge .env{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .surge .env .n{font-size:20px;font-weight:800;letter-spacing:-.01em}
+  .surge .env .c{font-size:10.5px;color:var(--muted);margin-top:1px}
+  .state{padding:44px 20px;text-align:center;color:var(--muted);font-size:13px}
+  .err{color:var(--flame);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+  .toast.show{opacity:1}
+  .setup{background:#FFF6E6;border:1.5px solid var(--yellow);border-radius:12px;padding:14px 16px;margin:24px 0;font-size:13px;line-height:1.55;max-width:560px}
+  .setup code{background:#EFEDE7;padding:1px 5px;border-radius:4px;font-size:12px}
+  .connect-card{max-width:420px}
+  /* role switcher (combined demo) */
+  .rolebar{background:#1b1a19;border-top:1px solid #2a2827}
+  .rolebar .in2{max-width:1120px;margin:0 auto;padding:9px 22px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rolebar .rl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#8A8780;font-weight:700;margin-right:4px}
+  .rs{padding:6px 14px;border-radius:20px;border:1.5px solid #3a3836;background:none;color:#C9C6BE;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .rs:hover{border-color:#5a5854;color:#fff}
+  .rs.on{background:var(--chart);color:var(--ink);border-color:var(--chart)}
+  .rs .rn{display:inline-block;min-width:16px;text-align:center;background:var(--flame);color:#fff;font-size:10px;font-weight:800;padding:0 5px;border-radius:20px;margin-left:5px}
+  .rs.on .rn{background:var(--ink);color:#fff}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <div><div class="app">RCA Records · Budget Approval · Demo</div><h1 id="h1">Budget Approval</h1></div>
+  <div class="who">Signed in as<b id="whoName">—</b><span class="role-chip" id="roleChip">—</span></div>
+</div></div>
+<div class="rolebar"><div class="in2">
+  <span class="rl">Demo · view as</span>
+  <button class="rs on" id="rs-Submitter" onclick="switchRole('Submitter')">Submitter</button>
+  <button class="rs" id="rs-Finance" onclick="switchRole('Finance')">Finance</button>
+  <button class="rs" id="rs-Tarek" onclick="switchRole('Tarek')">Tarek</button>
+  <button class="rs" id="rs-Niki" onclick="switchRole('Niki')">Niki</button>
+</div></div>
+<div class="wrap"><div id="root"><div class="state">Loading…</div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== ROLE: one of "Submitter" | "Finance" | "Tarek" | "Niki" ===== */
+let ROLE = "Submitter";   // combined demo — switchable at runtime
+
+/* Token entered at runtime, kept only in memory. Never saved to the file. */
+let TOKEN = "";
+
+const BASE_ID  = "appQvSuxoqlmoSbuN";
+const TABLE_ID = "tbloOBCtTUvW81nRZ";
+const API = "https://api.airtable.com/v0/" + BASE_ID + "/" + TABLE_ID;
+
+/* ===== SAMPLE DATA — self-contained demo, no Airtable, no token ===== */
+const STORE = [{"id": "recREQ001", "fields": {"Request ID": "REQ-001", "Artist": "SZA", "Group": "Group 1", "Tier": "Flagship", "Spent": 2400000, "This Budget": 900000, "Status": "Final Sign-off", "Lead": "A. Rivera", "Notes": "Flagship — bespoke against contractual commitments, no fixed cap.", "Fleck Date": "", "Trending": false, "Signal": "", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"TV & streaming ads\", \"amount\": 400000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"Out-of-home (billboards, transit)\", \"amount\": 250000, \"note\": \"\"}, {\"id\": \"l3\", \"label\": \"Content production\", \"amount\": 150000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Influencer & creator\", \"amount\": 100000, \"note\": \"\"}]", "Questions": "[]", "Finance State": "Approved", "Tarek State": "Pending", "Niki State": "Pending"}}, {"id": "recREQ002", "fields": {"Request ID": "REQ-002", "Artist": "Isabel LaRosa", "Group": "Group 4", "Tier": "Developing", "Spent": 300000, "This Budget": 180000, "Status": "Final Sign-off", "Lead": "J. Kim", "Notes": "", "Fleck Date": "", "Trending": true, "Signal": "Streams +140% WoW · TikTok UGC spike · 3 editorial playlist adds in 48h.", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"Paid social\", \"amount\": 70000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"Influencer & UGC amplification\", \"amount\": 50000, \"note\": \"\"}, {\"id\": \"l3\", \"label\": \"Editorial & playlist support\", \"amount\": 30000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Content\", \"amount\": 30000, \"note\": \"\"}]", "Questions": "[]", "Finance State": "Approved", "Tarek State": "Pending", "Niki State": "Pending", "Ceiling": 715000}}, {"id": "recREQ003", "fields": {"Request ID": "REQ-003", "Artist": "Victoria Monét", "Group": "Group 3", "Tier": "Priority", "Spent": 1100000, "This Budget": 500000, "Status": "Final Sign-off", "Lead": "M. Osei", "Notes": "Awards run — pushes 100K over ceiling.", "Fleck Date": "", "Trending": false, "Signal": "", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"Awards campaign\", \"amount\": 200000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"FYC ads\", \"amount\": 150000, \"note\": \"For-your-consideration placements across trades.\"}, {\"id\": \"l3\", \"label\": \"PR & publicity\", \"amount\": 90000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Events & showcases\", \"amount\": 60000, \"note\": \"\"}]", "Questions": "[]", "Finance State": "Approved", "Tarek State": "Pending", "Niki State": "Pending", "Ceiling": 1500000}}, {"id": "recREQ004", "fields": {"Request ID": "REQ-004", "Artist": "LISA", "Group": "Group 2", "Tier": "Core", "Spent": 1200000, "This Budget": 600000, "Status": "Portfolio Review", "Lead": "S. Tan", "Notes": "", "Fleck Date": "", "Trending": false, "Signal": "", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"Global paid media\", \"amount\": 300000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"Content shoot\", \"amount\": 150000, \"note\": \"\"}, {\"id\": \"l3\", \"label\": \"Retail & DSP\", \"amount\": 90000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Fan activation\", \"amount\": 60000, \"note\": \"\"}]", "Questions": "[{\"id\": \"q1\", \"from\": \"Finance\", \"target\": \"l1\", \"text\": \"Can you split the $300K global media by market? Want US vs. EU vs. APAC before signing.\", \"answer\": \"\", \"answeredBy\": \"\", \"ts\": \"2026-07-20\"}]", "Finance State": "Sent Back", "Tarek State": "Pending", "Niki State": "Pending", "Ceiling": 3200000}}, {"id": "recREQ005", "fields": {"Request ID": "REQ-005", "Artist": "Myles Smith", "Group": "Group 3", "Tier": "Priority", "Spent": 800000, "This Budget": 350000, "Status": "Approved", "Lead": "D. Cole", "Notes": "", "Fleck Date": "2026-07-15", "Trending": false, "Signal": "", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"Paid social\", \"amount\": 150000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"Radio\", \"amount\": 100000, \"note\": \"\"}, {\"id\": \"l3\", \"label\": \"Tour marketing\", \"amount\": 60000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Content\", \"amount\": 40000, \"note\": \"\"}]", "Questions": "[]", "Finance State": "Approved", "Tarek State": "Approved", "Niki State": "Approved", "Ceiling": 1500000}}, {"id": "recREQ006", "fields": {"Request ID": "REQ-006", "Artist": "Wolf Alice", "Group": "Emerging", "Tier": "Emerging", "Spent": 40000, "This Budget": 52000, "Status": "Finance Review", "Lead": "R. Okafor", "Notes": "", "Fleck Date": "", "Trending": false, "Signal": "", "Surge Budget": 0, "Surge Ends": "", "Line Items": "[{\"id\": \"l1\", \"label\": \"Paid social\", \"amount\": 22000, \"note\": \"\"}, {\"id\": \"l2\", \"label\": \"PR & publicity\", \"amount\": 15000, \"note\": \"\"}, {\"id\": \"l3\", \"label\": \"Content\", \"amount\": 10000, \"note\": \"\"}, {\"id\": \"l4\", \"label\": \"Merch & activation\", \"amount\": 5000, \"note\": \"\"}]", "Questions": "[]", "Finance State": "Pending", "Tarek State": "Pending", "Niki State": "Pending", "Ceiling": 100000}}];
+let SAMPLE_MODE = true;
+
+const F = {
+  rid:"Request ID", artist:"Artist", group:"Group", tier:"Tier",
+  ceiling:"Ceiling", spent:"Spent", budget:"This Budget", status:"Status",
+  lead:"Lead", notes:"Notes", fleckDate:"Fleck Date",
+  trending:"Trending", signal:"Signal", surgeBudget:"Surge Budget", surgeEnds:"Surge Ends",
+  lineItems:"Line Items", questions:"Questions",
+  finance:"Finance State", tarek:"Tarek State", niki:"Niki State"
+};
+const SURGE_PCT = 0.25, SURGE_WEEKS = 6;
+
+const ROLE_PERSON = {Submitter:"Campaign Lead", Finance:"Finance", Tarek:"Tarek", Niki:"Niki"};
+
+const $ = id => document.getElementById(id);
+const usd  = n => "$" + Math.round(n).toLocaleString();
+const usdK = n => Math.abs(n)>=1e6 ? "$"+(n/1e6).toFixed(n%1e6?1:0)+"M" : "$"+Math.round(n/1000)+"K";
+const sval = v => (v && typeof v==="object") ? (v.name ?? "") : (v ?? "");
+function gf(f,name){ if(name in f) return f[name];
+  const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,""); const t=norm(name);
+  for(const k in f){ if(norm(k)===t) return f[k]; } return undefined; }
+function parseJSON(s,fb){ try{ const v=JSON.parse(s); return v==null?fb:v; }catch(e){ return fb; } }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- data ---------- */
+async function fetchBudgets(){
+  const data = { records: STORE.map(r=>({id:r.id, fields:Object.assign({}, r.fields)})) };
+  return data.records.map(rec=>{
+    const f = rec.fields || {};
+    const ceiling=+gf(f,F.ceiling)||0, spent=+gf(f,F.spent)||0, budget=+gf(f,F.budget)||0;
+    const committed = spent+budget;
+    const grp = sval(gf(f,F.group));
+    const noCap = grp==="Group 1" || ceiling<=0;
+    const headroom = noCap ? Infinity : (ceiling-committed);
+    const surgeEnds = gf(f,F.surgeEnds) || "";
+    const today = new Date(); today.setHours(0,0,0,0);
+    const surgeActive = surgeEnds && (new Date(surgeEnds) >= today);
+    const surgeDaysLeft = surgeActive ? Math.ceil((new Date(surgeEnds)-today)/864e5) : 0;
+    const surgePool = noCap ? 0 : Math.round(ceiling*SURGE_PCT);
+    const lineItems = parseJSON(gf(f,F.lineItems), []);
+    const questions = parseJSON(gf(f,F.questions), []);
+    const finance = sval(gf(f,F.finance)) || "Pending";
+    const tarek   = sval(gf(f,F.tarek))   || "Pending";
+    const niki    = sval(gf(f,F.niki))    || "Pending";
+    const b = {
+      id:rec.id, rid:gf(f,F.rid)||"", artist:gf(f,F.artist)||"—",
+      group:grp, tier:sval(gf(f,F.tier)), status:sval(gf(f,F.status)),
+      lead:gf(f,F.lead)||"", notes:gf(f,F.notes)||"",
+      ceiling, spent, budget, committed, headroom, noCap,
+      trending:!!gf(f,F.trending), signal:gf(f,F.signal)||"",
+      surgeBudget:+gf(f,F.surgeBudget)||0, surgeEnds, surgeActive, surgeDaysLeft, surgePool,
+      lineItems, questions, finance, tarek, niki
+    };
+    b.stage = stageOf(b);
+    return b;
+  });
+}
+function anyBack(b){ return b.finance==="Sent Back"||b.tarek==="Sent Back"||b.niki==="Sent Back"; }
+function stageOf(b){
+  if(anyBack(b)) return "Returned";
+  if(b.finance!=="Approved") return "Finance";
+  if(b.tarek==="Approved" && b.niki==="Approved") return "Released";
+  return "Co-sign";
+}
+function openQ(b){ return b.questions.filter(q=>!q.answer); }
+function awaitingMe(b){
+  if(ROLE==="Finance")  return b.finance==="Pending";
+  if(ROLE==="Tarek")    return b.finance==="Approved" && b.tarek==="Pending" && !anyBack(b);
+  if(ROLE==="Niki")     return b.finance==="Approved" && b.niki==="Pending" && !anyBack(b);
+  if(ROLE==="Submitter")return anyBack(b);
+  return false;
+}
+function myState(b){ return ROLE==="Finance"?b.finance:ROLE==="Tarek"?b.tarek:ROLE==="Niki"?b.niki:""; }
+
+/* ---------- verdict / gauge ---------- */
+function verdict(b){
+  if(b.noCap) return {k:"green",label:"No ceiling — bespoke",why:"Group 1 flagship — handled bespoke against contractual commitments, not a fixed cap. Committed "+usd(b.committed)+" so far."};
+  if(b.headroom<0) return {k:"red",label:"Over ceiling",why:"Committed "+usd(b.committed)+" against a "+usd(b.ceiling)+" ceiling — "+usd(-b.headroom)+" over."};
+  if(b.headroom<b.ceiling*0.10) return {k:"yellow",label:"Within ceiling — tight",why:"Lands "+usd(b.headroom)+" under the "+usd(b.ceiling)+" ceiling. Little room left in the group."};
+  return {k:"green",label:"Within ceiling",why:"Lands "+usd(b.headroom)+" under the "+usd(b.ceiling)+" ceiling. Comfortable."};
+}
+function gauge(b){
+  if(b.noCap){
+    const s=Math.max(b.committed,1), sw=b.spent/s*100, bw=b.budget/s*100;
+    return `<div class="gauge"><div class="gtrack">
+      <div class="seg spent" style="left:0;width:${sw}%"></div>
+      <div class="seg bud-green" style="left:${sw}%;width:${bw}%"></div></div>
+      <div class="glabels"><span>Spent <b>${usdK(b.spent)}</b></span><span>This request <b>${usdK(b.budget)}</b></span><span>Ceiling <b>None</b></span></div></div>`;
+  }
+  const scale=Math.max(b.ceiling,b.committed), pct=x=>x/scale*100, v=verdict(b);
+  const sw=pct(b.spent), over=Math.max(0,b.committed-b.ceiling), inb=b.budget-over, bw=pct(Math.max(0,inb)), ow=pct(over), cl=pct(b.ceiling);
+  return `<div class="gauge"><div class="gtrack">
+    <div class="seg spent" style="left:0;width:${sw}%"></div>
+    <div class="seg bud-${v.k}" style="left:${sw}%;width:${bw}%"></div>
+    ${over>0?`<div class="seg over" style="left:${sw+bw}%;width:${ow}%"></div>`:``}
+    <div class="ceilmark" style="left:${cl}%"></div></div>
+    <div class="glabels"><span>Spent <b>${usdK(b.spent)}</b></span><span>This request <b>${usdK(b.budget)}</b></span><span>Ceiling <b>${usdK(b.ceiling)}</b></span></div></div>`;
+}
+function pill(v){ const c=v.k==="green"?"p-green":v.k==="yellow"?"p-yellow":"p-red"; return `<span class="pill ${c}">${v.label}</span>`; }
+function stagePill(b){
+  const map={Finance:["p-yellow","Finance review"],"Co-sign":["p-ink","Awaiting co-sign"],Returned:["p-red","Returned — questions"],Released:["p-green","Released"]};
+  const m=map[b.stage]||["p-gray",b.stage]; return `<span class="pill ${m[0]}">${m[1]}</span>`;
+}
+
+/* ---------- expand state ---------- */
+const EXPANDED = new Set();      // record ids
+const LINEEXP  = new Set();      // `${recId}:${lineId}`
+const DRAFT = {};                // recId -> [{target,text}]  staged send-back questions
+let TAB = "dash";
+
+/* ---------- rows ---------- */
+function reqRow(b){
+  const v = verdict(b);
+  const mine = awaitingMe(b);
+  const open = EXPANDED.has(b.id);
+  const nq = openQ(b).length;
+  const miniW = b.noCap?100:Math.min(100,b.committed/Math.max(b.ceiling,b.committed)*100);
+  const miniColor = v.k==="red"?"var(--flame)":v.k==="yellow"?"var(--yellow)":"var(--green)";
+  return `<div class="req ${mine?'mine':''} ${open?'open':''}" id="req-${b.id}">
+    <div class="rhead" onclick="toggleReq('${b.id}')">
+      <span class="caret">▶</span>
+      <div><div class="name">${esc(b.artist)}</div><div class="sub">${b.rid} · ${b.group} · ${b.tier}</div></div>
+      <div class="mini"><div class="hbar"><i style="width:${miniW}%;background:${miniColor}"></i></div></div>
+      <div class="amt">${usdK(b.committed)} <small>/ ${b.noCap?'bespoke':usdK(b.ceiling)}</small></div>
+      <div class="flags">
+        ${b.trending?`<span class="pill p-red">⚡ Trending</span>`:``}
+        ${nq?`<span class="pill p-red">${nq} Q</span>`:``}
+        ${mine?`<span class="pill p-ink">You</span>`:``}
+        ${stagePill(b)}
+      </div>
+    </div>
+    <div class="rbody">${open?reqDetail(b):''}</div>
+  </div>`;
+}
+
+function reqDetail(b){
+  const v = verdict(b);
+  return `<div class="grid2">
+    <div>
+      <div class="verdict">${pill(v)} &nbsp;${v.label}<span class="why">${v.why}</span></div>
+      ${gauge(b)}
+      ${b.trending?surgeBlock(b):''}
+      <div class="li-h">Line items · ${b.lineItems.length}</div>
+      ${b.lineItems.map(li=>lineRow(b,li)).join("")||'<div class="sub">No line breakdown.</div>'}
+    </div>
+    <div>
+      <div class="li-h">Co-sign status</div>
+      ${cosign(b)}
+      <div class="li-h" style="margin-top:18px">Questions${b.questions.length?' · '+b.questions.length:''}</div>
+      ${questionsThread(b)}
+      ${actionBar(b)}
+      ${composer(b)}
+    </div>
+  </div>`;
+}
+
+function lineRow(b,li){
+  const key=b.id+":"+li.id, open=LINEEXP.has(key);
+  const lq=b.questions.filter(q=>q.target===li.id);
+  const canAsk = (ROLE!=="Submitter") && awaitingMe(b);
+  return `<div class="li ${open?'open':''}">
+    <div class="li-row" onclick="toggleLine('${b.id}','${li.id}')">
+      <span class="lname">${esc(li.label)}</span>
+      ${lq.length?`<span class="qdot" title="${lq.length} question(s)"></span>`:``}
+      <span class="lamt">${usd(li.amount)}</span>
+    </div>
+    <div class="li-body">
+      ${li.note?esc(li.note):'Portion of this request allocated to '+esc(li.label)+'.'}
+      ${lq.length?`<div style="margin-top:9px">${lq.map(q=>qBlock(b,q)).join("")}</div>`:``}
+      ${canAsk?`<button class="askline" onclick="askLine('${b.id}','${li.id}')">+ Ask about this line</button>`:``}
+    </div>
+  </div>`;
+}
+
+function cosign(b){
+  const one=(name,st)=>{ const cls=st==="Approved"?"ok":st==="Sent Back"?"back":"wait";
+    return `<div class="signer ${cls}"><div class="s-n">${name}</div><div class="s-v">${st}</div></div>`; };
+  return `<div class="cosign">${one("Finance",b.finance)}${one("Tarek",b.tarek)}${one("Niki",b.niki)}</div>`;
+}
+
+function qBlock(b,q){
+  const answered=!!q.answer;
+  const canAnswer = ROLE==="Submitter" && !answered;
+  return `<div class="q ${answered?'':'open-q'}">
+    <div class="qmeta">${esc(q.from)} asked${q.target&&q.target!=="overall"?`<span class="qtgt">${esc(lineLabel(b,q.target))}</span>`:`<span class="qtgt">Overall</span>`} · ${q.ts||''}</div>
+    <div class="qtext">${esc(q.text)}</div>
+    ${answered?`<div class="qans"><b>${esc(q.answeredBy||'Submitter')}:</b> ${esc(q.answer)}</div>`
+      :canAnswer?`<div style="margin-top:7px"><textarea id="ans-${b.id}-${q.id}" placeholder="Type your answer…"></textarea>
+         <div class="actions" style="margin-top:8px"><button class="btn btn-approve btn-sm" onclick="answerQ('${b.id}','${q.id}')">Send answer</button></div></div>`
+      :`<div class="qwait">Awaiting answer from submitter</div>`}
+  </div>`;
+}
+function lineLabel(b,id){ const li=b.lineItems.find(x=>x.id===id); return li?li.label:"Overall"; }
+function questionsThread(b){
+  const overall=b.questions.filter(q=>!q.target||q.target==="overall");
+  const perline=b.questions.filter(q=>q.target&&q.target!=="overall");
+  if(!b.questions.length) return `<div class="sub" style="font-size:12.5px;color:var(--muted)">No questions yet.</div>`;
+  return `<div class="qthread">${overall.map(q=>qBlock(b,q)).join("")}
+    ${perline.length?`<div class="sub" style="font-size:11px;color:var(--muted);margin:2px 0 8px">Line-item questions also appear under their line at left.</div>`:``}
+    ${perline.map(q=>qBlock(b,q)).join("")}</div>`;
+}
+
+/* ---------- actions ---------- */
+function actionBar(b){
+  if(ROLE==="Submitter"){
+    if(anyBack(b)){
+      const unanswered=openQ(b).length;
+      return `<div class="actions">
+        <button class="btn btn-approve" onclick="resubmit('${b.id}')" ${unanswered?'disabled':''}>Resubmit${unanswered?` · ${unanswered} open`:''}</button>
+      </div>${unanswered?`<div class="sub" style="font-size:11.5px;margin-top:6px;color:var(--muted)">Answer the open question${unanswered>1?'s':''} above, then resubmit.</div>`:''}`;
+    }
+    return `<div class="sub" style="font-size:12px;color:var(--muted);margin-top:14px">Status: ${b.stage}. Nothing needed from you right now.</div>`;
+  }
+  if(!awaitingMe(b)){
+    const st=myState(b);
+    return `<div class="sub" style="font-size:12px;color:var(--muted);margin-top:14px">${st==="Approved"?"You've approved this.":st==="Sent Back"?"You sent this back.":"Not in your court yet."}</div>`;
+  }
+  const surgeBtn = (b.trending && !b.surgeActive && (ROLE==="Tarek"||ROLE==="Niki"))
+    ? `<button class="btn btn-surge" onclick="launchSurge('${b.id}')">⚡ Launch surge · ${usdK(b.surgePool)}</button>` : '';
+  return `<div class="actions">
+    <button class="btn btn-approve" onclick="approveMine('${b.id}')">Approve${(ROLE==="Tarek"||ROLE==="Niki")?" (co-sign)":""}</button>
+    <button class="btn btn-back" onclick="openComposer('${b.id}')">Send back with questions</button>
+    ${surgeBtn}
+  </div>`;
+}
+function composer(b){
+  const staged=DRAFT[b.id]||[];
+  const opts=`<option value="overall">Overall request</option>`+b.lineItems.map(li=>`<option value="${li.id}">${esc(li.label)} · ${usd(li.amount)}</option>`).join("");
+  return `<div class="composer" id="comp-${b.id}">
+    <h4>Send back — ask targeted questions</h4>
+    <ul class="staged" id="staged-${b.id}">${staged.map((q,i)=>`<li><span class="st">${q.target==="overall"?"Overall":esc(lineLabel(b,q.target))}</span>${esc(q.text)}</li>`).join("")}</ul>
+    <div class="crow">
+      <select id="tgt-${b.id}">${opts}</select>
+      <textarea id="qtext-${b.id}" placeholder="What do you need answered before this can move?"></textarea>
+    </div>
+    <div class="actions">
+      <button class="btn btn-sm" onclick="stageQ('${b.id}')">+ Add question</button>
+      <button class="btn btn-back btn-sm" onclick="submitBack('${b.id}')">Send back${staged.length?` · ${staged.length} question${staged.length>1?'s':''}`:''}</button>
+      <button class="btn btn-sm" onclick="closeComposer('${b.id}')" style="border-color:var(--line);color:var(--muted)">Cancel</button>
+    </div>
+  </div>`;
+}
+function surgeBlock(b){
+  if(b.surgeActive){
+    const ends=new Date(b.surgeEnds).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    return `<div class="surge live"><div class="tag"><span class="pulse"></span>Surge live · audience dev</div>
+      <div class="env"><div><div class="n">${usd(b.surgeBudget)}</div><div class="c">unlocked on top of the ${usdK(b.ceiling)} ceiling · closes ${ends} (${b.surgeDaysLeft}d left)</div></div><span class="pill p-green">Approved</span></div></div>`;
+  }
+  return `<div class="surge"><div class="tag"><span class="pulse"></span>Trending now · moment detected</div>
+    <div class="sig">${esc(b.signal||"Velocity spike detected.")}</div>
+    <div class="env"><div><div class="n">${usd(b.surgePool)}</div><div class="c">pre-approved surge envelope · +${Math.round(SURGE_PCT*100)}% of ceiling · ${SURGE_WEEKS}-wk window</div></div>
+    ${(ROLE==="Tarek"||ROLE==="Niki")?`<button class="btn btn-surge btn-sm" onclick="launchSurge('${b.id}')">⚡ Launch</button>`:`<span class="pill p-gray">Tarek / Niki launch</span>`}</div></div>`;
+}
+
+/* ---------- views ---------- */
+function renderDashboard(list){
+  const queue=list.filter(awaitingMe);
+  const inflight=list.filter(b=>b.stage!=="Released");
+  const trending=list.filter(b=>b.trending);
+  const over=list.filter(b=>!b.noCap && b.committed>b.ceiling);
+  const released=list.filter(b=>b.stage==="Released");
+  const committed=list.reduce((s,b)=>s+b.committed,0);
+  // group headroom
+  const groups={};
+  list.forEach(b=>{ if(b.noCap) return; (groups[b.group]=groups[b.group]||{ceiling:0,committed:0}); groups[b.group].ceiling=Math.max(groups[b.group].ceiling,b.ceiling); groups[b.group].committed+=b.committed; });
+  const grpRows=Object.keys(groups).sort().map(g=>{ const x=groups[g]; const hr=x.ceiling-x.committed; const w=Math.min(100,x.committed/x.ceiling*100);
+    const col=hr<0?"var(--flame)":hr<x.ceiling*0.1?"var(--yellow)":"var(--green)";
+    return `<tr><td><b>${g}</b></td><td class="r">${usdK(x.ceiling)}</td><td class="r">${usdK(x.committed)}</td>
+      <td><div class="hbar"><i style="width:${w}%;background:${col}"></i></div></td>
+      <td class="r">${hr<0?`<span class="pill p-red">${usdK(-hr)} over</span>`:`<b>${usdK(hr)}</b>`}</td></tr>`; }).join("");
+  const kpi=(k,v,hot)=>`<div class="kpi ${hot?'hot':''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  return `<div class="kpis">
+    ${kpi("Awaiting you", queue.length, queue.length>0)}
+    ${kpi("In flight", inflight.length)}
+    ${kpi("Trending", trending.length)}
+    ${kpi("Over ceiling", over.length)}
+    ${kpi("Committed", usdK(committed))}
+  </div>
+  <div class="panel"><h2>Group headroom</h2>
+    <table class="grp"><thead><tr><th>Group</th><th class="r">Ceiling</th><th class="r">Committed</th><th>Utilization</th><th class="r">Headroom</th></tr></thead>
+    <tbody>${grpRows||'<tr><td colspan="5" class="sub">No capped groups.</td></tr>'}</tbody></table>
+    <div class="sub" style="font-size:11.5px;color:var(--muted);margin-top:10px">Group 1 (flagship) is bespoke — handled against contractual commitments, not a fixed ceiling.</div>
+  </div>
+  ${queue.length?`<div class="section-h">Waiting on you · ${queue.length}</div>${queue.map(reqRow).join("")}`:`<div class="panel"><div class="sub">Nothing is waiting on you right now.</div></div>`}`;
+}
+function renderQueue(list){
+  const queue=list.filter(awaitingMe);
+  return `<div class="section-h">Your queue · ${queue.length}</div>`+(queue.length?queue.map(reqRow).join(""):`<div class="panel"><div class="sub">Your queue is clear.</div></div>`);
+}
+function renderAll(list){
+  return `<div class="section-h">All requests · ${list.length}</div>`+list.map(reqRow).join("");
+}
+
+let CACHE=[];
+function render(list){
+  CACHE=list;
+  const q=list.filter(awaitingMe).length;
+  $("h1").textContent = TAB==="dash"?"Dashboard":TAB==="queue"?"Your queue":"All requests";
+  const tabs=`<div class="tabs">
+    <button class="tab ${TAB==='dash'?'on':''}" onclick="setTab('dash')">Dashboard</button>
+    <button class="tab ${TAB==='queue'?'on':''}" onclick="setTab('queue')">Your queue${q?`<span class="n">${q}</span>`:''}</button>
+    <button class="tab ${TAB==='all'?'on':''}" onclick="setTab('all')">All requests</button>
+  </div>`;
+  const body = TAB==="dash"?renderDashboard(list):TAB==="queue"?renderQueue(list):renderAll(list);
+  $("root").innerHTML = tabs+body;
+  paintRoleSwitch();
+}
+function setTab(t){ TAB=t; render(CACHE); }
+function toggleReq(id){ EXPANDED.has(id)?EXPANDED.delete(id):EXPANDED.add(id); render(CACHE); }
+function toggleLine(rid,lid){ const k=rid+":"+lid; LINEEXP.has(k)?LINEEXP.delete(k):LINEEXP.add(k); render(CACHE); }
+
+/* ---------- writes ---------- */
+function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2400); }
+async function writeFields(recId, fields){
+  const r = STORE.find(x=>x.id===recId);
+  if(!r) throw new Error("Record not found");
+  Object.assign(r.fields, fields);
+  return Promise.resolve();
+}
+async function reload(){ render(await fetchBudgets()); }
+
+const STATE_FIELD = {Finance:F.finance, Tarek:F.tarek, Niki:F.niki};
+async function approveMine(id){
+  const b=CACHE.find(x=>x.id===id); if(!b) return;
+  try{
+    toast("Approving "+b.artist+"…");
+    const fields={}; fields[STATE_FIELD[ROLE]]="Approved";
+    // will this release it?
+    const other={finance:b.finance,tarek:b.tarek,niki:b.niki};
+    other[ROLE.toLowerCase()]="Approved";
+    if(other.finance==="Approved"&&other.tarek==="Approved"&&other.niki==="Approved"){
+      fields[F.status]="Approved"; fields[F.fleckDate]=new Date().toISOString().slice(0,10);
+    }
+    await writeFields(id,fields);
+    toast("Approved ✓");
+    await reload();
+  }catch(e){ toast(e.message); }
+}
+function openComposer(id){ EXPANDED.add(id); render(CACHE); const c=$("comp-"+id); if(c) c.classList.add("on"); }
+function closeComposer(id){ const c=$("comp-"+id); if(c) c.classList.remove("on"); }
+function askLine(id,lid){ openComposer(id); const sel=$("tgt-"+id); if(sel) sel.value=lid; const t=$("qtext-"+id); if(t) t.focus(); }
+function stageQ(id){
+  const t=$("qtext-"+id), sel=$("tgt-"+id); const text=(t.value||"").trim(); if(!text){ toast("Type a question first."); return; }
+  (DRAFT[id]=DRAFT[id]||[]).push({target:sel.value,text});
+  render(CACHE); const c=$("comp-"+id); if(c) c.classList.add("on");
+}
+async function submitBack(id){
+  const b=CACHE.find(x=>x.id===id); if(!b) return;
+  const staged=(DRAFT[id]||[]).slice();
+  const t=$("qtext-"+id), sel=$("tgt-"+id); const pending=(t&&t.value||"").trim();
+  if(pending) staged.push({target:sel.value,text:pending});
+  if(!staged.length){ toast("Add at least one question."); return; }
+  try{
+    toast("Sending "+b.artist+" back…");
+    const now=new Date().toISOString().slice(0,10);
+    const qs=b.questions.concat(staged.map((q,i)=>({id:"q"+Date.now()+i,from:ROLE,target:q.target,text:q.text,answer:"",answeredBy:"",ts:now})));
+    const fields={}; fields[F.questions]=JSON.stringify(qs); fields[STATE_FIELD[ROLE]]="Sent Back"; fields[F.status]="Portfolio Review";
+    await writeFields(id,fields);
+    delete DRAFT[id];
+    toast("Sent back with "+staged.length+" question"+(staged.length>1?"s":""));
+    await reload();
+  }catch(e){ toast(e.message); }
+}
+async function answerQ(id,qid){
+  const b=CACHE.find(x=>x.id===id); if(!b) return;
+  const box=$("ans-"+id+"-"+qid); const ans=(box&&box.value||"").trim(); if(!ans){ toast("Type an answer first."); return; }
+  try{
+    const qs=b.questions.map(q=>q.id===qid?{...q,answer:ans,answeredBy:"Submitter"}:q);
+    await writeFields(id,{[F.questions]:JSON.stringify(qs)});
+    toast("Answer sent ✓");
+    await reload();
+  }catch(e){ toast(e.message); }
+}
+async function resubmit(id){
+  const b=CACHE.find(x=>x.id===id); if(!b) return;
+  if(openQ(b).length){ toast("Answer the open questions first."); return; }
+  try{
+    toast("Resubmitting "+b.artist+"…");
+    const fields={};
+    if(b.finance==="Sent Back") fields[F.finance]="Pending";
+    if(b.tarek==="Sent Back")   fields[F.tarek]="Pending";
+    if(b.niki==="Sent Back")    fields[F.niki]="Pending";
+    fields[F.status]= b.finance==="Sent Back" ? "Finance Review":"Final Sign-off";
+    await writeFields(id,fields);
+    toast("Resubmitted ✓");
+    await reload();
+  }catch(e){ toast(e.message); }
+}
+async function launchSurge(id){
+  const b=CACHE.find(x=>x.id===id); if(!b) return;
+  const ends=new Date(); ends.setHours(0,0,0,0); ends.setDate(ends.getDate()+SURGE_WEEKS*7);
+  try{
+    toast("Releasing "+usd(b.surgePool)+" surge…");
+    await writeFields(id,{[F.surgeBudget]:b.surgePool,[F.surgeEnds]:ends.toISOString().slice(0,10)});
+    toast("Surge live ✓ — "+usd(b.surgePool)+" for "+SURGE_WEEKS+" weeks");
+    await reload();
+  }catch(e){ toast(e.message); }
+}
+
+/* ---------- connect ---------- */
+function connectScreen(msg){
+  $("root").innerHTML = `<div class="setup"><b>Connect to Airtable.</b> Paste a Personal Access Token scoped to the
+    <b>Budget Approval — Demo</b> base (needs <code>data.records:read</code> + <code>data.records:write</code>).
+    The token stays in this browser tab only — it is never saved to the file.
+    ${msg?`<div class="err" style="margin-top:8px">${msg}</div>`:``}</div>
+    <div class="connect-card">
+      <input id="tok" type="password" placeholder="pat…" autocomplete="off" style="width:100%;padding:11px;border:1.5px solid var(--line);border-radius:10px;font-size:13px;font-family:inherit">
+      <button class="btn btn-approve" style="width:100%;margin-top:10px" onclick="connect()">Connect</button>
+    </div>`;
+}
+async function connect(){
+  const v=($("tok").value||"").trim(); if(!v){ connectScreen("Paste a token first."); return; }
+  TOKEN=v; $("root").innerHTML=`<div class="state">Loading live budgets…</div>`;
+  try{ render(await fetchBudgets()); }catch(e){ TOKEN=""; connectScreen("Couldn't connect — "+e.message); }
+}
+function switchRole(r){
+  ROLE=r; TAB="dash";
+  document.title="Budget Approval — "+r+" · Demo";
+  $("whoName").textContent=ROLE_PERSON[r]||r;
+  $("roleChip").textContent=r;
+  paintRoleSwitch();
+  if(TOKEN) render(CACHE);
+}
+function paintRoleSwitch(){
+  ["Submitter","Finance","Tarek","Niki"].forEach(r=>{
+    const el=$("rs-"+r); if(!el) return;
+    el.classList.toggle("on", r===ROLE);
+    const n = TOKEN ? CACHE.filter(b=>{const save=ROLE;ROLE=r;const a=awaitingMe(b);ROLE=save;return a;}).length : 0;
+    el.innerHTML = r + (n?`<span class="rn">${n}</span>`:"");
+  });
+}
+function init(){
+  document.title = "Budget Approval — "+ROLE+" · Demo";
+  $("whoName").textContent = ROLE_PERSON[ROLE]||ROLE;
+  $("roleChip").textContent = ROLE;
+  TOKEN = "sample";           // sentinel so counts + writes run; no network used
+  paintRoleSwitch();
+  reload().catch(e=>{ $("root").innerHTML='<div class="state err">'+e.message+'</div>'; });
+}
+init();
+</script>
+</body>
+</html>

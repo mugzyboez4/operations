@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Sign-off — Fleck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EDEAE3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
+    --chartreuse:#CDF851; --flame:#FF4A23; --green:#1F9D55; --yellow:#E8B923;
+    --grey-fill:#DAD7D0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:26px 18px 40px}
+
+  .head{text-align:center;max-width:560px;margin-bottom:20px}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
+  .head h1{font-size:27px;font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-top:8px}
+  .head p{color:var(--muted);font-size:13.5px;line-height:1.5;margin-top:9px}
+
+  /* scenario tabs */
+  .tabs{display:flex;gap:8px;margin:18px 0 4px}
+  .tab{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.02em;padding:9px 15px;border-radius:30px;border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:7px;transition:all .12s}
+  .tab .d{width:9px;height:9px;border-radius:50%}
+  .tab.active{border-color:var(--ink);color:var(--ink);border-width:2px}
+
+  /* phone */
+  .phone-stage{position:relative;margin-top:20px}
+  .phone{width:392px;background:#fff;border-radius:44px;border:11px solid #111;box-shadow:0 30px 70px rgba(0,0,0,.24);overflow:hidden;position:relative}
+  .p-status{display:flex;justify-content:space-between;align-items:center;padding:13px 28px 4px;font-size:13px;font-weight:700}
+  .p-notch{width:100px;height:27px;background:#111;border-radius:20px}
+  .sig{font-size:12px;letter-spacing:1px}
+  .p-body{padding:6px 22px 24px}
+  .p-back{display:flex;justify-content:space-between;align-items:center;padding:8px 0 2px;color:var(--muted)}
+  .p-circle{width:34px;height:34px;border-radius:50%;background:#F0EEE8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px}
+  .p-app{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:8px 0 18px}
+  .p-need{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--flame)}
+  .p-name{font-size:22px;font-weight:900;letter-spacing:-.01em;margin-top:3px}
+  .p-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .p-grp{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;padding:5px 10px;border:1.2px solid var(--line);border-radius:6px}
+
+  .verdict{border-radius:12px;padding:15px 16px;margin-top:18px;border-top-width:4px;border-top-style:solid}
+  .verdict.yes{background:#F3FAEF;border-top-color:var(--green)}
+  .verdict.flag{background:#FDF8E6;border-top-color:var(--yellow)}
+  .verdict.no{background:#FDECE7;border-top-color:var(--flame)}
+  .vh{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900}
+  .vbadge{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900;flex:none}
+  .vbadge.yes{background:var(--green)} .vbadge.flag{background:var(--yellow)} .vbadge.no{background:var(--flame)}
+  .verdict p{font-size:13px;line-height:1.5;margin-top:8px;color:#333}
+
+  .p-gaugelbl{font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:20px 0 9px;display:flex;justify-content:space-between}
+  .gauge{position:relative;height:32px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
+  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .thisb{height:100%}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .ceiling-mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);z-index:3}
+  .p-scale{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
+  .p-scale b.up{color:var(--green)} .p-scale b.over{color:var(--flame)}
+
+  .p-checks{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAF9F6;border-radius:9px;padding:11px 13px}
+  .p-check .ic{font-weight:900;font-size:13px;line-height:1.3;flex:none}
+  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--yellow)} .p-check.bad .ic{color:var(--flame)}
+  .p-check .ct{font-size:12.5px;font-weight:800}
+  .p-check .cd{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+
+  .p-actions{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .p-btn{font-family:inherit;font-size:15px;font-weight:800;padding:15px;border-radius:12px;border:1.5px solid var(--ink);cursor:pointer;text-align:center;transition:transform .08s}
+  .p-btn:active{transform:translateY(1px)}
+  .p-btn.primary{background:var(--flame);border-color:var(--flame);color:#fff}
+  .p-btn.dark{background:var(--ink);color:#fff}
+  .p-btn.ghost{background:#fff}
+  .p-btn.faint{background:#fff;border-color:var(--line);color:var(--muted)}
+
+  /* confirmation overlay */
+  .confirm{position:absolute;inset:0;background:rgba(255,255,255,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;opacity:0;pointer-events:none;transition:opacity .22s}
+  .confirm.show{opacity:1;pointer-events:auto}
+  .confirm .cbadge{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;color:#fff;margin-bottom:20px}
+  .confirm.approved .cbadge{background:var(--green)}
+  .confirm.sent .cbadge{background:var(--ink)}
+  .confirm h3{font-size:22px;font-weight:900;letter-spacing:-.01em}
+  .confirm p{color:var(--muted);font-size:13.5px;margin-top:8px;line-height:1.5;max-width:250px}
+  .confirm .cbtn{margin-top:26px;font-family:inherit;font-size:14px;font-weight:800;padding:13px 22px;border-radius:11px;border:1.5px solid var(--ink);background:#fff;cursor:pointer}
+
+  /* nav */
+  .nav{display:flex;align-items:center;gap:18px;margin-top:26px}
+  .arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;cursor:pointer;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .arrow:disabled{opacity:.3;cursor:not-allowed}
+  .dots{display:flex;gap:9px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#CFCBC2;cursor:pointer}
+  .dot.active{background:var(--ink);width:26px;border-radius:6px}
+  .caption{margin-top:16px;font-size:12px;color:var(--muted);text-align:center}
+  .footer{margin-top:30px;color:var(--muted);font-size:11px;text-align:center;max-width:520px;line-height:1.5}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="kicker">Final Sign-off · On his phone</div>
+    <h1>Is this normal? And if not, why.</h1>
+    <p>Fleck gets a push and one screen — verdict color, a spend-to-date gauge against the group ceiling, and any flag in plain English. Same layout every time; only the story changes.</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="phone-stage">
+    <div class="phone">
+      <div class="p-status"><span>9:41</span><span class="p-notch"></span><span class="sig">▮▮▮ ᴵᴵᴵ ▮</span></div>
+      <div class="p-body" id="pbody"></div>
+      <div class="confirm" id="confirm">
+        <div class="cbadge" id="cbadge"></div>
+        <h3 id="ctitle"></h3>
+        <p id="ctext"></p>
+        <button class="cbtn" onclick="dismiss()">Back to the record</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="arrow" id="prev" onclick="go(-1)">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="arrow" id="next" onclick="go(1)">›</button>
+  </div>
+  <div class="caption" id="caption"></div>
+
+  <div class="footer">
+    Demo · Budget Approval Workflow · Fleck's final sign-off. Directional data from the deck (v0.3); ceilings set with Ian from RCA historical actuals.
+  </div>
+
+<script>
+const SCEN=[
+  {
+    key:'yes', label:'The easy yes',
+    name:'Chloe Qisha', budget:150000, project:'“Fantasize” EP',
+    group:'G4', tier:'Foundation', streams:'100K–1M', ceiling:242000, spent:60000,
+    headline:'Looks normal', text:'Comfortably under ceiling and a typical size for the group. Nothing unusual.',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$32K of headroom still in Group 4.'},
+      {t:'ok', title:'Typical size', d:'Group 4 EPs usually run $130–170K.'},
+    ]
+  },
+  {
+    key:'flag', label:'One flag',
+    name:'Isabel LaRosa', budget:250000, project:'Single — Fall release',
+    group:'G3', tier:'Building', streams:'1–5M', ceiling:715000, spent:410000,
+    headline:'Mostly normal — one flag', text:'Within ceiling and about average in size. One category is running hot — the lead explained it.',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$55K of headroom left in Group 3.'},
+      {t:'warn', title:'Radio ~2× the usual', d:'$40K vs. ~$20K. Lead: “Add campaign — front-loaded, Q4 runs under.”'},
+    ]
+  },
+  {
+    key:'no', label:'The hard no',
+    name:'Sarah Lola', budget:240000, project:'“New Boy” single',
+    group:'G5', tier:'Emerging', streams:'under 100K', ceiling:137000, spent:45000,
+    headline:'Over ceiling — take a look', text:'This ask is bigger than the entire Group 5 ceiling — an Emerging artist on a Building-tier budget.',
+    checks:[
+      {t:'bad', title:'$148K over the ceiling', d:'Budget alone exceeds the whole Group 5 cap.'},
+      {t:'warn', title:'Size fits Group 3, not 5', d:'If she’s breaking out, re-group her first.'},
+    ]
+  },
+];
+const fmt=n=>'$'+n.toLocaleString('en-US');
+const fmtK=n=>{const k=Math.round(n/1000);return '$'+(k>=1000?(k/1000).toFixed(k%1000?1:0)+'M':k+'K');};
+const vcolor=k=>k==='yes'?'var(--green)':k==='flag'?'var(--yellow)':'var(--flame)';
+let idx=0;
+
+function gauge(s){
+  const c=s.ceiling, committed=s.spent+s.budget, over=Math.max(0,committed-c), headroom=c-committed;
+  const scaleMax=Math.max(c,committed)*1.06, pct=n=>n/scaleMax*100;
+  const col=vcolor(s.key), underPortion=over>0?Math.max(0,c-s.spent):s.budget;
+  let bar=`<div class="spent" style="width:${pct(s.spent)}%"></div>`;
+  bar+= over>0
+    ? `<div class="thisb" style="width:${pct(underPortion)}%;background:${col}"></div><div class="over" style="width:${pct(over)}%"></div>`
+    : `<div class="thisb" style="width:${pct(s.budget)}%;background:${col}"></div>`;
+  const scale = over>0
+    ? `${fmtK(s.spent)} spent · <b class="over">+${fmtK(s.budget)} this</b> · ceiling ${fmtK(c)} · <b class="over">${fmtK(over)} over</b>`
+    : `${fmtK(s.spent)} spent · <b class="up">+${fmtK(s.budget)} this</b> · ceiling ${fmtK(c)} · ${fmtK(headroom)} left`;
+  return {bar, scale, cpos:pct(c)};
+}
+
+function renderCard(){
+  const s=SCEN[idx], g=gauge(s), vico=s.key==='yes'?'✓':s.key==='flag'?'!':'✕';
+  let actions = s.key==='no'
+    ? `<div class="p-btn dark" onclick="act('sent')">Send back with a note</div><div class="p-btn faint" onclick="act('approved')">Approve anyway</div>`
+    : `<div class="p-btn primary" onclick="act('approved')">Approve</div><div class="p-btn ghost" onclick="act('sent')">Send back with a note</div>`;
+  document.getElementById('pbody').innerHTML=`
+    <div class="p-back"><span class="p-circle">‹</span><span class="p-circle">···</span></div>
+    <div class="p-app">Budget Approval</div>
+    <div class="p-need">Needs your sign-off</div>
+    <div class="p-name">${s.name}</div>
+    <div class="p-sub">${fmt(s.budget)} · ${s.project}</div>
+    <div class="p-grp">${s.group} · ${s.tier} · ${s.streams} streams</div>
+    <div class="verdict ${s.key}">
+      <div class="vh"><span class="vbadge ${s.key}">${vico}</span>${s.headline}</div>
+      <p>${s.text}</p>
+    </div>
+    <div class="p-gaugelbl"><span>${s.group} spend to date</span><span>Ceiling</span></div>
+    <div class="gauge">${g.bar}<div class="ceiling-mark" style="left:${g.cpos}%"></div></div>
+    <div class="p-scale">${g.scale}</div>
+    <div class="p-checks">
+      ${s.checks.map(ch=>{const ic=ch.t==='ok'?'✓':ch.t==='warn'?'!':'✕';
+        return `<div class="p-check ${ch.t}"><span class="ic">${ic}</span><div><div class="ct">${ch.title}</div><div class="cd">${ch.d}</div></div></div>`;}).join('')}
+    </div>
+    <div class="p-actions">${actions}</div>`;
+  // tabs
+  document.getElementById('tabs').innerHTML=SCEN.map((x,i)=>
+    `<button class="tab ${i===idx?'active':''}" onclick="jump(${i})"><span class="d" style="background:${vcolor(x.key)}"></span>${x.label}</button>`).join('');
+  // dots + nav
+  document.getElementById('dots').innerHTML=SCEN.map((x,i)=>`<span class="dot ${i===idx?'active':''}" onclick="jump(${i})"></span>`).join('');
+  document.getElementById('prev').disabled=idx===0;
+  document.getElementById('next').disabled=idx===SCEN.length-1;
+  document.getElementById('caption').textContent=`Scenario ${idx+1} of ${SCEN.length} · ${s.label}`;
+  hideConfirm();
+}
+function act(kind){
+  const s=SCEN[idx], c=document.getElementById('confirm');
+  document.getElementById('cbadge').textContent=kind==='approved'?'✓':'↩';
+  if(kind==='approved'){
+    document.getElementById('ctitle').textContent='Approved';
+    document.getElementById('ctext').innerHTML=`${s.name}’s budget is released — now a live number. Finance and the PO Creator are notified.`;
+  }else{
+    document.getElementById('ctitle').textContent='Sent back';
+    document.getElementById('ctext').innerHTML=`${s.name}’s budget goes back to the lead with your note. Nothing releases until it returns.`;
+  }
+  c.className='confirm show '+(kind==='approved'?'approved':'sent');
+}
+function dismiss(){hideConfirm();}
+function hideConfirm(){document.getElementById('confirm').className='confirm';}
+function go(d){const n=idx+d; if(n<0||n>=SCEN.length)return; idx=n; renderCard();}
+function jump(i){idx=i; renderCard();}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);});
+renderCard();
+</script>
+</body>
+</html>
