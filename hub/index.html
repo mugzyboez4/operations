@@ -62,6 +62,37 @@
   .card h3 { font-size:17px; font-weight:900; letter-spacing:-.01em; margin-bottom:6px; }
   .card p { font-size:13px; color:#888; line-height:1.55; margin-bottom:16px; }
   .card .go { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+
+  /* hero */
+  .hero { background:#0F0E0E; color:#FCFDF8; padding:54px 44px 46px; }
+  .hero .kicker { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:10px; }
+  .hero h1 { font-size:36px; font-weight:900; letter-spacing:-.02em; line-height:1.1; max-width:22ch; margin-bottom:12px; }
+  .hero p { font-size:15px; color:#C9C9C4; max-width:58ch; line-height:1.6; margin-bottom:24px; }
+  .hero .ctas { display:flex; gap:10px; flex-wrap:wrap; }
+  .cta { font-family:inherit; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:12px 22px; cursor:pointer; border:2px solid #CDF851; }
+  .cta.pri { background:#CDF851; color:#0F0E0E; }
+  .cta.pri:hover { background:#FCFDF8; border-color:#FCFDF8; }
+  .cta.sec { background:none; color:#FCFDF8; border-color:#3A3A3A; }
+  .cta.sec:hover { border-color:#CDF851; color:#CDF851; }
+  .hero .hint { margin-top:16px; }
+
+  /* info strip */
+  .info-strip { background:#fff; border-top:2px solid #0F0E0E; border-bottom:2px solid #0F0E0E; }
+  .info-inner { display:grid; grid-template-columns:1fr 1fr 1fr; }
+  .info-cell { padding:24px 28px; border-right:2px solid #0F0E0E; }
+  .info-cell:last-child { border-right:none; }
+  .info-cell .n { font-size:12px; font-weight:800; color:#FF4A23; margin-bottom:6px; }
+  .info-cell h4 { font-size:15px; font-weight:900; margin-bottom:5px; letter-spacing:-.01em; }
+  .info-cell p { font-size:12.5px; color:#666; line-height:1.55; }
+
+  /* contact */
+  .contact { background:#0F0E0E; color:#FCFDF8; padding:34px 44px; margin-top:36px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+  .contact .ct-l h3 { font-size:19px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
+  .contact .ct-l p { font-size:13px; color:#C9C9C4; }
+  .contact .ct-team { display:flex; gap:26px; flex-wrap:wrap; }
+  .contact .person .nm { font-size:13.5px; font-weight:800; }
+  .contact .person .rl { font-size:11px; color:#847D96; letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+  .contact .person .nm .dot2 { display:inline-block; width:7px; height:7px; background:#CDF851; border-radius:50%; margin-right:7px; }
   @media (max-width:760px){
     body { flex-direction:column; overflow:auto; }
     .side { width:100%; height:auto; flex-direction:column; }
@@ -77,6 +108,12 @@
     .content iframe.on { height:calc(100vh - 110px); }
     #home { height:auto; }
     #home.on { min-height:calc(100vh - 110px); }
+    .hero { padding:32px 20px 28px; }
+    .hero h1 { font-size:26px; }
+    .info-inner { grid-template-columns:1fr; }
+    .info-cell { border-right:none; border-bottom:2px solid #0F0E0E; }
+    .info-cell:last-child { border-bottom:none; }
+    .contact { padding:26px 20px; }
     .dash-head { padding:28px 20px 24px; }
     .dash-head h1 { font-size:24px; }
     .dash-body { padding:20px 20px 40px; }
@@ -97,6 +134,7 @@
 
     <div class="nav-label">Reference</div>
     <button class="nav-item" data-src="/campaigns.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg><span class="txt">Campaign Index</span></button>
+    <button class="nav-item" data-src="https://mugzyboez.co/deadline-tracker"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span class="txt">Deadline Tracker</span><span class="ext">EXT</span></button>
     <button class="nav-item" data-src="/dept-workflows.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg><span class="txt">Dept Workflows</span></button>
 
     <div class="nav-label">Pitch Decks</div>
@@ -121,32 +159,56 @@
 
   <!-- HOME DASHBOARD -->
   <div id="home" class="on">
-    <div class="dash-head">
+
+    <div class="hero">
       <div class="kicker">RCA Records · Campaign Ops</div>
-      <h1>Everything, one place.</h1>
-      <p>Every live board, reference tool, and workspace across Campaign Ops — click any card to open it right here.</p>
+      <h1>Sony built the pipes. We read the water.</h1>
+      <p>Campaign Ops is the connective tissue between departments — tracking, surfacing, and routing what every campaign needs, so the right people see the right thing at the right time. This hub is everything we run, in one place.</p>
+      <div class="ctas">
+        <button class="cta pri" data-src="/jordan/">Open the Dashboard</button>
+        <button class="cta sec" data-src="/pitchdecks/">Pitch Deck System</button>
+      </div>
       <div class="hint">Drag to rearrange · hover a card and hit × to remove it · <a id="reset-layout">reset layout</a> brings everything back</div>
     </div>
+
+    <div class="info-strip"><div class="info-inner">
+      <div class="info-cell"><div class="n">01</div><h4>We track</h4><p>Campaigns, priorities, and deliverables across all six departments — one live picture instead of nine threads.</p></div>
+      <div class="info-cell"><div class="n">02</div><h4>We surface</h4><p>What's coming, what's blocked, and who to ask — a map of who to ask, not who to blame.</p></div>
+      <div class="info-cell"><div class="n">03</div><h4>We route</h4><p>The right ask to the right team, same day. No forms, no friction — flag it and it moves.</p></div>
+    </div></div>
+
     <div class="dash-body">
-      <div class="sec-label">Reference</div>
+      <div class="sec-label">Live Tools</div>
       <div class="cards">
+        <div class="card" data-src="/jordan/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Jordan Dashboard</h3><p>The full tool suite — schedules, catalogs, trackers, and briefs in one grid.</p><span class="go">Open →</span></div>
+        <div class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></div>
         <div class="card" data-src="/campaigns.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></div>
         <div class="card" data-src="/dept-workflows.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></div>
+        <div class="card" data-src="https://mugzyboez.co/deadline-tracker"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Deadline Tracker</h3><p>Delivery floors and street-date deadlines across the roster.</p><span class="go">Open →</span></div>
       </div>
-      <div class="sec-label">Pitch Decks</div>
+
+      <div class="sec-label">Demos</div>
       <div class="cards">
-        <div class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></div>
+        <div class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Budget Approvals</h3><p>Form-in, sheet-out spend capture — the invoice tracker, rebuilt as a flow.</p><span class="go">Open →</span></div>
       </div>
-      <div class="sec-label">Jordan</div>
-      <div class="cards">
-        <div class="card" data-src="/jordan/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></div>
-      </div>
-      <div class="sec-label">Other Sites</div>
+
+      <div class="sec-label">Workspaces</div>
       <div class="cards">
         <div class="card" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></div>
         <div class="card" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></div>
         <div class="card" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></div>
-        <div class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></div>
+      </div>
+
+      <div class="contact">
+        <div class="ct-l">
+          <h3>Need something routed?</h3>
+          <p>Flag it the moment it's live — we move same day. Find us on Teams.</p>
+        </div>
+        <div class="ct-team">
+          <div class="person"><div class="nm"><span class="dot2"></span>Meg Hourihan</div><div class="rl">Campaign Ops Lead</div></div>
+          <div class="person"><div class="nm"><span class="dot2"></span>Gerard Rice</div><div class="rl">Campaign Ops</div></div>
+          <div class="person"><div class="nm"><span class="dot2"></span>Christian</div><div class="rl">Campaign Ops</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -206,7 +268,7 @@
       show(src); setActive(src);
     });
   });
-  document.querySelectorAll('.card').forEach(function(c){
+  document.querySelectorAll('.card, .cta').forEach(function(c){
     c.addEventListener('click',function(){
       var src=c.getAttribute('data-src');
       show(src); setActive(src);
