@@ -54,6 +54,28 @@ td .a{font-weight:600;color:var(--ink)}
 .empty{padding:28px 10px;color:var(--muted);font-size:13px}
 .ft{display:flex;justify-content:space-between;border-top:1px dashed var(--line);margin-top:18px;padding-top:12px;font-size:12px;color:var(--muted)}
 .ft a{color:var(--flame);text-decoration:none;font-weight:600}
+.flow-sec{margin-top:40px}
+.flow-sec h2{font-size:28px;font-weight:600;letter-spacing:-.8px}
+.flow-sec .lede{font-size:14px;color:var(--sec);max-width:62ch;margin:8px 0 22px}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.fstep{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--line);padding:16px 16px 14px;position:relative}
+.fstep.here{border-top-color:var(--teal)}
+.fstep.fin{border-top-color:var(--gold)}
+.fstep .n{font-size:11px;font-weight:600;letter-spacing:1px;color:var(--muted)}
+.fstep h3{font-size:14px;font-weight:600;letter-spacing:-.2px;margin:6px 0 4px}
+.fstep p{font-size:12px;color:var(--sec);line-height:1.45}
+.fstep .tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--flame);margin-top:8px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+@media(max-width:900px){.rules{grid-template-columns:1fr}}
+.rule-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame);padding:24px}
+.rule-card.g{border-top-color:var(--lime)}
+.rule-card h3{font-size:17px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
+.rule-card .who{font-size:12px;color:var(--muted);margin-bottom:14px}
+.rule-card ul{list-style:none}
+.rule-card li{font-size:13px;color:var(--sec);padding:8px 0;border-bottom:1px dashed var(--line);line-height:1.5}
+.rule-card li:last-child{border-bottom:0}
+.rule-card li b{font-weight:600;color:var(--ink)}
+
 </style>
 </head>
 <body>
@@ -117,6 +139,42 @@ td .a{font-weight:600;color:var(--ink)}
     <div class="ft"><span>Demo — data lives in this browser only</span><a href="/hub/">← Back to hub</a></div>
   </div>
 </div>
+
+<section class="flow-sec">
+  <div class="kicker">The Whole Flow</div>
+  <h2>Where a request goes after you hit submit</h2>
+  <p class="lede">The form is step two of seven. Everything downstream already exists in Console — the demo just puts a front door on it.</p>
+  <div class="flow">
+    <div class="fstep"><span class="n">01</span><h3>Decision</h3><p>Someone decides to pay a vendor. Nothing else has happened yet — that's the capture moment.</p><span class="tag">Lead</span></div>
+    <div class="fstep here"><span class="n">02</span><h3>Spend request</h3><p>This form. Artist, phase, finance bucket, vendor, amount, start date.</p><span class="tag">You are here</span></div>
+    <div class="fstep"><span class="n">03</span><h3>PO raised</h3><p>Support enters it in Console and fills the PO#. Blanket POs keep multi-part budgets in one place.</p><span class="tag">Support</span></div>
+    <div class="fstep"><span class="n">04</span><h3>Vendor notified</h3><p>Console's "Email vendor" button auto-sends the PO — amount can be hidden.</p><span class="tag">Console · automated</span></div>
+    <div class="fstep"><span class="n">05</span><h3>Invoice in</h3><p>Vendor emails the invoice straight to Console's drop-box, quoting the PO#. No re-keying.</p><span class="tag">Vendor</span></div>
+    <div class="fstep"><span class="n">06</span><h3>Goods receipt</h3><p>Support reviews — not enters — and receipts the goods. Console blocks duplicate invoice#s.</p><span class="tag">Support</span></div>
+    <div class="fstep fin"><span class="n">07</span><h3>Released &amp; rolled up</h3><p>Finance releases payment. Category + phase roll actuals into the G1–G5 budget group ceilings.</p><span class="tag">Finance</span></div>
+  </div>
+  <div class="rules">
+    <div class="rule-card">
+      <h3>Finance's rules of the road</h3>
+      <div class="who">From Sony finance's Console PO requirements</div>
+      <ul>
+        <li><b>PO description</b> = Artist + single/album + date(s) of service. Due date = expected date of service.</li>
+        <li><b>Pro-rate everything.</b> Each deliverable gets its own category line — artwork vs video, TV vs other. Lumping has artist-cap implications.</li>
+        <li><b>Blanket POs</b> when one budget spans multiple vendors or front/back payments — shoots, tour support, retainers.</li>
+        <li><b>Attachments by type:</b> tour support → approved budget · official video → VRA · T&amp;E → receipts + pre-approval.</li>
+      </ul>
+    </div>
+    <div class="rule-card g">
+      <h3>Why the buckets matter</h3>
+      <div class="who">Category + phase → budget groups</div>
+      <ul>
+        <li>Every row lands in a <b>finance bucket</b> against a <b>budget phase</b>, so actuals are analyzable the moment they're captured.</li>
+        <li>Actuals roll up into the <b>five roster groups</b> — G1 Flagship through G5 Emerging — the uniform tiering behind budget reviews.</li>
+        <li>That gives every budget conversation a <b>baseline to point at</b>, instead of a personal judgment call.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <script>
 var STEPS=["Submitted","Approved","PO issued","Vendor notified","Invoice in","Receipted"];
