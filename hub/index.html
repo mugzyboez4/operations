@@ -19,7 +19,7 @@
   .brand { display:flex; align-items:center; gap:11px; cursor:pointer; border:none; background:none; font-family:inherit; padding:0; }
   .brand img { width:30px; height:30px; border-radius:6px; display:block; }
   .brand span { font-size:14px; font-weight:600; letter-spacing:-.2px; color:#0F0E0E; }
-  .brand em { font-style:normal; color:#CDF851; background:#0F0E0E; padding:2px 5px; }
+  .brand em { font-style:normal; font-weight:600; }
   .top-nav { display:flex; gap:4px; margin-left:auto; overflow-x:auto; }
   .tlink { font-family:inherit; font-size:13px; font-weight:500; color:#3E3F41; background:none; border:none; cursor:pointer; padding:8px 12px; white-space:nowrap; }
   .tlink:hover { color:#0F0E0E; }
@@ -71,19 +71,16 @@
   .card .cut:hover { color:#FF4A23; }
   .card.dragging { opacity:.4; outline:2px dashed #CDF851; outline-offset:3px; }
 
-  /* quote callout */
-  .quote { background:#0F0E0E; border-left:3px solid #CDF851; padding:24px 26px; margin:0 0 72px; }
-  .quote p { font-size:15px; line-height:1.55; font-weight:500; color:#F5F2EB; max-width:60ch; }
 
   /* ===== contacts ===== */
-  .contacts { background:#0F0E0E; color:#F5F2EB; }
+  .contacts { border-top:1px solid #ECEAE3; }
   .contacts .in { max-width:1180px; margin:0 auto; padding:48px 32px; }
-  .contacts .kicker { color:#CDF851; margin-bottom:26px; }
+  .contacts .kicker { margin-bottom:26px; }
   .c-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
   .c-grid .nm { font-size:17px; font-weight:600; letter-spacing:-.3px; margin-bottom:5px; }
   .c-grid .rl { font-size:13px; color:#8A8781; margin-bottom:12px; }
-  .c-grid a { font-size:13px; font-weight:500; color:#CDF851; }
-  .foot { margin-top:34px; padding-top:18px; border-top:1px solid #2A2827; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#8A8781; }
+  .c-grid a { font-size:13px; font-weight:500; color:#FF4A23; }
+  .foot { margin-top:34px; padding-top:18px; border-top:1px solid #ECEAE3; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#8A8781; }
 
   @media (max-width:760px){
     .top-in { padding:0 16px; gap:14px; }
@@ -169,7 +166,6 @@
         </div>
       </div>
 
-      <div class="quote"><p>The system says no — not us. Campaign Ops helps you clear the gate.</p></div>
 
     </div>
 
@@ -188,12 +184,12 @@
 </div>
 
 <!-- gate -->
-<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:Inter,sans-serif;">
+<div id="rca-gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:Inter,sans-serif;">
   <img src="../logo_neon.png" alt="" style="width:46px;height:46px;border-radius:10px;margin-bottom:18px;">
-  <div style="font-size:22px;font-weight:600;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;">Campaign Ops</div>
+  <div style="font-size:22px;font-weight:600;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.3px;">Campaign Ops</div>
   <div style="font-size:11px;color:#8A8781;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Team access only</div>
-  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
-  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:1px solid #ECEAE3;background:#fff;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#0F0E0E;color:#F5F2EB;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
   <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
 </div>
 
