@@ -14,7 +14,7 @@
   /* dark header band */
   .head { background:#0F0E0E; color:#FCFDF8; padding:48px 0 0; }
   .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
-  h1 { font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:6px; }
+  h1 { font-size:32px; font-weight:600; letter-spacing:-.02em; margin-bottom:6px; }
   .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; margin-bottom:28px; }
   .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:3px 10px; margin-left:10px; text-transform:uppercase; }
 
@@ -28,11 +28,11 @@
   .pane.on { display:block; }
 
   .pagehead { margin-bottom:18px; }
-  .pagehead h2 { font-size:22px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
+  .pagehead h2 { font-size:22px; font-weight:600; letter-spacing:-.01em; margin-bottom:4px; }
   .pagehead p { font-size:14px; color:#555; max-width:62ch; line-height:1.55; }
 
   /* accordions */
-  details { border:2px solid #0F0E0E; background:#fff; margin-bottom:8px; }
+  details { border:1px solid #ECEAE3; background:#fff; margin-bottom:8px; }
   details summary { list-style:none; cursor:pointer; display:flex; gap:14px; align-items:baseline; padding:13px 16px; }
   details summary::-webkit-details-marker { display:none; }
   summary .num { flex-shrink:0; font-size:12px; font-weight:800; color:#FF4A23; }
@@ -44,7 +44,7 @@
   details .body p { font-size:13px; color:#444; line-height:1.6; max-width:62ch; }
 
   /* timeline — visible at skim level */
-  .timeline { display:flex; border:2px solid #0F0E0E; margin:16px 0 14px; background:#fff; }
+  .timeline { display:flex; border:1px solid #ECEAE3; margin:16px 0 14px; background:#fff; }
   .t-seg { flex:1; padding:12px 14px; border-right:2px solid #0F0E0E; }
   .t-seg:last-child { border-right:none; }
   .t-seg .day { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#FF4A23; margin-bottom:3px; }
@@ -54,7 +54,7 @@
   .callout { background:#0F0E0E; color:#FCFDF8; padding:18px 24px; font-size:14px; font-weight:600; line-height:1.55; margin-top:14px; }
   .callout .zing { color:#CDF851; }
 
-  .footer-line { text-align:center; font-size:19px; font-weight:900; margin-top:20px; }
+  .footer-line { text-align:center; font-size:19px; font-weight:600; margin-top:20px; }
   .footer-line .a { color:#FF4A23; }
   .meta { margin-top:28px; font-size:12px; color:#888; }
   @media (max-width:800px){ .timeline{flex-direction:column;} .t-seg{border-right:none;border-bottom:2px solid #0F0E0E;} .t-seg:last-child{border-bottom:none;} }
@@ -138,7 +138,7 @@
 <!-- shared Ops HQ gate -->
 <div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
   <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
-  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:22px;font-weight:600;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
   <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
   <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
