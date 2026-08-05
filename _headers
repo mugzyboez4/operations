@@ -13,3 +13,12 @@
 
 /artists/*
   Content-Security-Policy: frame-ancestors *
+
+/pitchdecks/*
+  Content-Security-Policy: frame-ancestors *
+
+/pitchdecks
+  Content-Security-Policy: frame-ancestors *
+
+/pitchdecks/
+  Content-Security-Policy: frame-ancestors *
