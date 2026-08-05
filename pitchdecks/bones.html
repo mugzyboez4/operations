@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pitch Deck Bones (v2)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; }
   .wrap { max-width:960px; margin:0 auto; }
-  .head { background:#0F0E0E; color:#FCFDF8; padding:48px 24px 0; }
+  .head { background:#F5F2EB; color:#0F0E0E; padding:48px 24px 0; }
   .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
   h1 { font-size:32px; font-weight:600; letter-spacing:-.02em; margin-bottom:6px; }
   .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; }
@@ -20,8 +20,8 @@
   /* tabs */
   .tabs { display:flex; gap:4px; margin-top:28px; flex-wrap:wrap; }
   .tab { background:none; border:none; font-family:inherit; font-size:13px; font-weight:700; color:#888; padding:10px 16px; cursor:pointer; border-bottom:3px solid transparent; }
-  .tab:hover { color:#FCFDF8; }
-  .tab.on { color:#FCFDF8; border-bottom-color:#CDF851; }
+  .tab:hover { color:#0F0E0E; }
+  .tab.on { color:#0F0E0E; border-bottom-color:#CDF851; }
 
   .main { padding:36px 24px 56px; }
   .pane { display:none; }
@@ -34,20 +34,20 @@
   details summary { list-style:none; cursor:pointer; display:flex; gap:16px; align-items:baseline; padding:14px 18px; }
   details summary::-webkit-details-marker { display:none; }
   details summary:hover { background:#F5F2EB; }
-  details[open] summary { background:#0F0E0E; color:#FCFDF8; }
-  .num { flex-shrink:0; width:28px; font-size:12px; font-weight:800; color:#FF4A23; }
-  .ttl { flex-shrink:0; font-size:14px; font-weight:800; min-width:180px; }
+  details[open] summary { background:#F5F2EB; color:#0F0E0E; }
+  .num { flex-shrink:0; width:28px; font-size:12px; font-weight:700; color:#FF4A23; }
+  .ttl { flex-shrink:0; font-size:14px; font-weight:700; min-width:180px; }
   .gloss { font-size:13px; color:#777; }
   details[open] .gloss { color:#C9C9C4; }
-  .body { padding:16px 20px 18px 62px; font-size:13.5px; line-height:1.6; color:#333; border-top:2px solid #0F0E0E; }
+  .body { padding:16px 20px 18px 62px; font-size:13.5px; line-height:1.6; color:#333; border-top:1px solid #ECEAE3; }
   .body ul { padding-left:16px; }
   .body li { margin-bottom:5px; max-width:70ch; }
   .body p { margin-bottom:8px; max-width:62ch; }
-  .new { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:10px; font-weight:800; padding:1px 7px; margin-left:8px; letter-spacing:.06em; text-transform:uppercase; position:relative; top:-1px; }
+  .new { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:10px; font-weight:700; padding:1px 7px; margin-left:8px; letter-spacing:.06em; text-transform:uppercase; position:relative; top:-1px; }
   .done summary .ttl { text-decoration:line-through; color:#999; }
-  .check { background:#FF4A23; color:#fff; font-size:10px; font-weight:800; padding:1px 6px; letter-spacing:.06em; text-transform:uppercase; }
+  .check { background:#FF4A23; color:#fff; font-size:10px; font-weight:700; padding:1px 6px; letter-spacing:.06em; text-transform:uppercase; }
 
-  .callout { background:#0F0E0E; color:#FCFDF8; padding:16px 22px; font-size:14px; font-weight:600; line-height:1.55; margin-top:24px; max-width:none; }
+  .callout { background:#F5F2EB; color:#0F0E0E; padding:16px 22px; font-size:14px; font-weight:600; line-height:1.55; margin-top:24px; max-width:none; }
   .callout .zing { color:#CDF851; }
   .meta { margin-top:28px; font-size:11px; color:#999; }
 </style>
@@ -206,11 +206,11 @@
 </script>
 
 <!-- shared Ops HQ gate -->
-<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+<div id="rca-gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
   <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
-  <div style="font-size:22px;font-weight:600;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:22px;font-weight:600;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
   <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
-  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:1px solid #ECEAE3;background:#FFFFFF;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
   <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
 </div>

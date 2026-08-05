@@ -5,16 +5,16 @@ a{color:var(--lime);text-decoration:none}
 
 /* NAV */
 nav{display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid var(--border);gap:20px;position:sticky;top:0;background:var(--bg);z-index:50;flex-wrap:wrap}
-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase}
+nav .logo{font-size:13px;font-weight:700;letter-spacing:-.5px;text-transform:uppercase}
 nav .logo span{color:var(--lime)}
-nav a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
+nav a{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:5px 10px;border:1px solid transparent;transition:all .15s}
 nav a:hover{color:var(--w);border-color:var(--border)}
 nav a.active{color:var(--lime);border-color:var(--lime)}
 
 /* Common */
 .page-header{padding:32px 32px 20px}
-.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
-.page-title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:.95;text-transform:uppercase;margin-bottom:8px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
+.page-title{font-size:48px;font-weight:700;letter-spacing:-2px;line-height:.95;text-transform:uppercase;margin-bottom:8px}
 .page-sub{font-size:13px;color:var(--fog);max-width:600px}
 .footer{padding:24px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:9px;color:var(--slate)}
 .footer .tag{color:var(--teal);font-style:italic}

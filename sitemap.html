@@ -7,23 +7,23 @@
 <title>Site map · Campaign Ops</title>
 <link rel="icon" type="image/png" href="/logo_neon.png">
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#F4F3EE; --card:#FFFFFF; --tile:#FAF9F4; --text:#16150F; --muted:#6B6A62;
+  --bg:#F4F3EE; --card:#FFFFFF; --tile:#FAF9F4; --text:#0F0E0E; --muted:#6B6A62;
   --faint:#8A8576; --line:#E5E3DA;
-  --side:#16150F; --side-2:#211F1A; --side-text:#B9B7AD; --side-faint:#6E6C63; --side-line:#2A2924;
+  --side:#FFFFFF; --side-2:#F5F2EB; --side-text:#3E3F41; --side-faint:#8A8781; --side-line:#ECEAE3;
   --chartreuse:#CDF851; --chartreuse-ink:#5F7E1C; --flame:#FF4A23;
 }
 html,body{height:100%;}
 body{background:var(--bg);color:var(--text);font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
 a{color:inherit;text-decoration:none;}
-#gate{position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+#gate{position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;}
 #gate img{width:120px;height:120px;margin-bottom:16px;border-radius:16px;}
-#gate .gate-title{font-size:21px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.5px;}
+#gate .gate-title{font-size:21px;font-weight:700;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.5px;}
 #gate .gate-sub{font-size:11px;color:#847D96;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
-#gate input{font-size:14px;padding:10px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;}
+#gate input{font-size:14px;padding:10px 20px;border:1px solid #ECEAE3;background:#FFFFFF;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;}
 #gate input:focus{border-color:#CDF851;}
 #gate button{font-size:11px;font-weight:700;padding:10px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;}
 #gate #err{color:#FF4A23;font-size:11px;margin-top:8px;height:16px;}
@@ -31,14 +31,14 @@ a{color:inherit;text-decoration:none;}
 .side{background:var(--side);color:var(--side-text);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;border-right:1px solid var(--side-line);}
 .side-brand{display:flex;align-items:center;gap:10px;padding:18px 20px 16px;border-bottom:1px solid var(--side-line);}
 .side-brand .mk{width:24px;height:24px;background:var(--chartreuse);border-radius:5px;flex:none;}
-.side-brand .wd{font-weight:900;font-size:17px;letter-spacing:0.05em;color:#F2F1EB;line-height:1;}
+.side-brand .wd{font-weight:700;font-size:17px;letter-spacing:0.05em;color:#F5F2EB;line-height:1;}
 .side-brand .cp{font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--side-faint);margin-top:3px;}
 .side-nav{flex:1;overflow-y:auto;padding:14px 12px;}
 .nav-group{margin-bottom:18px;}
 .nav-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--side-faint);padding:0 10px;margin-bottom:7px;}
 .nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;color:var(--side-text);font-size:13.5px;font-weight:500;cursor:pointer;position:relative;transition:background .12s,color .12s;}
-.nav-item:hover{background:rgba(255,255,255,0.05);color:#F2F1EB;}
-.nav-item.on{background:var(--side-2);color:#FCFDF8;font-weight:600;}
+.nav-item:hover{background:rgba(255,255,255,0.05);color:#F5F2EB;}
+.nav-item.on{background:var(--side-2);color:#0F0E0E;font-weight:600;}
 .nav-item.on::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:0 3px 3px 0;background:var(--chartreuse);}
 .nav-item .ic{width:16px;height:16px;flex:none;opacity:0.8;}
 .nav-item.on .ic{opacity:1;}
@@ -47,12 +47,12 @@ a{color:inherit;text-decoration:none;}
 .side-foot .dot{width:7px;height:7px;border-radius:50%;background:var(--chartreuse);}
 .main{display:flex;flex-direction:column;min-width:0;}
 .topbar{height:58px;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 28px;position:sticky;top:0;z-index:20;}
-.topbar .ttl{font-size:16px;font-weight:800;letter-spacing:-0.01em;}
+.topbar .ttl{font-size:16px;font-weight:700;letter-spacing:-0.01em;}
 .topbar .crumb{font-size:11px;color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
 .tb-stamp{font-size:12px;color:var(--muted);}
 .content{padding:26px 28px 56px;max-width:1180px;width:100%;}
-.page-h h1{font-size:23px;font-weight:900;letter-spacing:-0.02em;}
+.page-h h1{font-size:23px;font-weight:700;letter-spacing:-0.02em;}
 .subline{font-size:13px;color:var(--muted);margin-top:5px;max-width:640px;}
 .legend{display:flex;gap:18px;flex-wrap:wrap;margin:20px 0 8px;}
 .lg{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
@@ -149,28 +149,28 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <path d="M590 746.0 H615.0 V821.0 H640" fill="none" stroke="#CFCDC3" stroke-width="1.5"/>
 <path d="M590 746.0 H615.0 V871.0 H640" fill="none" stroke="#CFCDC3" stroke-width="1.5"/>
 <path d="M174 481.0 H210" fill="none" stroke="#CFCDC3" stroke-width="1.5"/>
-<a href="team.html"><g><rect x="640" y="70" width="440" height="42" rx="8" fill="#CDF851" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="88" font-size="13" font-weight="700" fill="#16150F">OPS HQ — This Week</text><text x="655" y="103" font-size="10.5" fill="#6B6A62">team.html</text><circle cx="1064" cy="91.0" r="5" fill="#5F7E1C"/></g></a>
-<a href="d2c-grid.html"><g><rect x="640" y="120" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="138" font-size="13" font-weight="700" fill="#16150F">D2C Long Lead</text><text x="655" y="153" font-size="10.5" fill="#6B6A62">d2c-grid.html</text><circle cx="1064" cy="141.0" r="5" fill="#FF4A23"/></g></a>
-<a href="creative-tickets.html"><g><rect x="640" y="170" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="188" font-size="13" font-weight="700" fill="#16150F">Creative Tickets</text><text x="655" y="203" font-size="10.5" fill="#6B6A62">creative-tickets.html</text><circle cx="1064" cy="191.0" r="5" fill="#5F7E1C"/></g></a>
-<a href="campaigns.html"><g><rect x="640" y="240" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="258" font-size="13" font-weight="700" fill="#16150F">Campaign Index</text><text x="655" y="273" font-size="10.5" fill="#6B6A62">campaigns.html</text><circle cx="1064" cy="261.0" r="5" fill="#FF4A23"/></g></a>
-<a href="creators.html"><g><rect x="640" y="290" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="308" font-size="13" font-weight="700" fill="#16150F">Creator Database</text><text x="655" y="323" font-size="10.5" fill="#6B6A62">creators.html</text><circle cx="1064" cy="311.0" r="5" fill="#5F7E1C"/></g></a>
-<a href="dept-workflows.html"><g><rect x="640" y="340" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="358" font-size="13" font-weight="700" fill="#16150F">Dept Workflows</text><text x="655" y="373" font-size="10.5" fill="#6B6A62">dept-workflows.html</text><circle cx="1064" cy="361.0" r="5" fill="#FF4A23"/></g></a>
-<a href="ad-tagging.html"><g><rect x="640" y="410" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="428" font-size="13" font-weight="700" fill="#16150F">AD Tagging</text><text x="655" y="443" font-size="10.5" fill="#6B6A62">ad-tagging.html</text><circle cx="1064" cy="431.0" r="5" fill="#5F7E1C"/></g></a>
-<a href="ideas.html"><g><rect x="640" y="480" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="498" font-size="13" font-weight="700" fill="#16150F">The Board</text><text x="655" y="513" font-size="10.5" fill="#6B6A62">ideas.html</text><circle cx="1064" cy="501.0" r="5" fill="#FF4A23"/></g></a>
-<a href="sandbox.html"><g><rect x="640" y="530" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="548" font-size="13" font-weight="700" fill="#16150F">Sandbox</text><text x="655" y="563" font-size="10.5" fill="#6B6A62">sandbox.html</text><circle cx="1064" cy="551.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/ar-ops-gaps.html"><g><rect x="640" y="600" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="618" font-size="13" font-weight="700" fill="#16150F">A&amp;R Ops Gaps</text><text x="655" y="633" font-size="10.5" fill="#6B6A62">reference/ar-ops-gaps.html</text><circle cx="1064" cy="621.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/budget.html"><g><rect x="640" y="650" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="668" font-size="13" font-weight="700" fill="#16150F">Budget</text><text x="655" y="683" font-size="10.5" fill="#6B6A62">reference/budget.html</text><circle cx="1064" cy="671.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/creative-lanes.html"><g><rect x="640" y="700" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="718" font-size="13" font-weight="700" fill="#16150F">Creative Lanes</text><text x="655" y="733" font-size="10.5" fill="#6B6A62">reference/creative-lanes.html</text><circle cx="1064" cy="721.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/lanes.html"><g><rect x="640" y="750" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="768" font-size="13" font-weight="700" fill="#16150F">Lanes — dark</text><text x="655" y="783" font-size="10.5" fill="#6B6A62">reference/lanes.html</text><circle cx="1064" cy="771.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/phase-1.html"><g><rect x="640" y="800" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="818" font-size="13" font-weight="700" fill="#16150F">Phase 1</text><text x="655" y="833" font-size="10.5" fill="#6B6A62">reference/phase-1.html</text><circle cx="1064" cy="821.0" r="5" fill="#FF4A23"/></g></a>
-<a href="reference/phase-gates.html"><g><rect x="640" y="850" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="868" font-size="13" font-weight="700" fill="#16150F">Phase Gates</text><text x="655" y="883" font-size="10.5" fill="#6B6A62">reference/phase-gates.html</text><circle cx="1064" cy="871.0" r="5" fill="#FF4A23"/></g></a>
-<rect x="432" y="124.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="146.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#16150F" text-transform="uppercase">BOARDS</text>
-<rect x="432" y="294.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="316.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#16150F" text-transform="uppercase">REFERENCE</text>
-<rect x="432" y="414.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="436.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#16150F" text-transform="uppercase">DEMOS</text>
-<rect x="432" y="509.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="531.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#16150F" text-transform="uppercase">WORKING · URL-ONLY</text>
-<rect x="432" y="729.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="751.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#16150F" text-transform="uppercase">REFERENCE/ · NOT IN NAV</text>
-<a href="/"><g><rect x="210" y="458.0" width="178" height="46" rx="9" fill="#CDF851" stroke="#5F7E1C" stroke-width="2"/><text x="225" y="479.0" font-size="14" font-weight="800" fill="#16150F">Home</text><text x="225" y="495.0" font-size="10.5" fill="#3f5510">redirects to OPS HQ</text></g></a>
-<rect x="24" y="458.0" width="150" height="46" rx="9" fill="#16150F" stroke="#CDF851" stroke-width="2"/><text x="99.0" y="480.0" font-size="15" font-weight="900" letter-spacing="1" text-anchor="middle" fill="#F2F1EB">Hub</text><text x="99.0" y="495.0" font-size="9" text-anchor="middle" fill="#8A8576">gated site</text>
+<a href="team.html"><g><rect x="640" y="70" width="440" height="42" rx="8" fill="#CDF851" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="88" font-size="13" font-weight="700" fill="#0F0E0E">OPS HQ — This Week</text><text x="655" y="103" font-size="10.5" fill="#6B6A62">team.html</text><circle cx="1064" cy="91.0" r="5" fill="#5F7E1C"/></g></a>
+<a href="d2c-grid.html"><g><rect x="640" y="120" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="138" font-size="13" font-weight="700" fill="#0F0E0E">D2C Long Lead</text><text x="655" y="153" font-size="10.5" fill="#6B6A62">d2c-grid.html</text><circle cx="1064" cy="141.0" r="5" fill="#FF4A23"/></g></a>
+<a href="creative-tickets.html"><g><rect x="640" y="170" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="188" font-size="13" font-weight="700" fill="#0F0E0E">Creative Tickets</text><text x="655" y="203" font-size="10.5" fill="#6B6A62">creative-tickets.html</text><circle cx="1064" cy="191.0" r="5" fill="#5F7E1C"/></g></a>
+<a href="campaigns.html"><g><rect x="640" y="240" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="258" font-size="13" font-weight="700" fill="#0F0E0E">Campaign Index</text><text x="655" y="273" font-size="10.5" fill="#6B6A62">campaigns.html</text><circle cx="1064" cy="261.0" r="5" fill="#FF4A23"/></g></a>
+<a href="creators.html"><g><rect x="640" y="290" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="308" font-size="13" font-weight="700" fill="#0F0E0E">Creator Database</text><text x="655" y="323" font-size="10.5" fill="#6B6A62">creators.html</text><circle cx="1064" cy="311.0" r="5" fill="#5F7E1C"/></g></a>
+<a href="dept-workflows.html"><g><rect x="640" y="340" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="358" font-size="13" font-weight="700" fill="#0F0E0E">Dept Workflows</text><text x="655" y="373" font-size="10.5" fill="#6B6A62">dept-workflows.html</text><circle cx="1064" cy="361.0" r="5" fill="#FF4A23"/></g></a>
+<a href="ad-tagging.html"><g><rect x="640" y="410" width="440" height="42" rx="8" fill="#FFFFFF" stroke="#5F7E1C" stroke-width="2" /><text x="655" y="428" font-size="13" font-weight="700" fill="#0F0E0E">AD Tagging</text><text x="655" y="443" font-size="10.5" fill="#6B6A62">ad-tagging.html</text><circle cx="1064" cy="431.0" r="5" fill="#5F7E1C"/></g></a>
+<a href="ideas.html"><g><rect x="640" y="480" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="498" font-size="13" font-weight="700" fill="#0F0E0E">The Board</text><text x="655" y="513" font-size="10.5" fill="#6B6A62">ideas.html</text><circle cx="1064" cy="501.0" r="5" fill="#FF4A23"/></g></a>
+<a href="sandbox.html"><g><rect x="640" y="530" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="548" font-size="13" font-weight="700" fill="#0F0E0E">Sandbox</text><text x="655" y="563" font-size="10.5" fill="#6B6A62">sandbox.html</text><circle cx="1064" cy="551.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/ar-ops-gaps.html"><g><rect x="640" y="600" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="618" font-size="13" font-weight="700" fill="#0F0E0E">A&amp;R Ops Gaps</text><text x="655" y="633" font-size="10.5" fill="#6B6A62">reference/ar-ops-gaps.html</text><circle cx="1064" cy="621.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/budget.html"><g><rect x="640" y="650" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="668" font-size="13" font-weight="700" fill="#0F0E0E">Budget</text><text x="655" y="683" font-size="10.5" fill="#6B6A62">reference/budget.html</text><circle cx="1064" cy="671.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/creative-lanes.html"><g><rect x="640" y="700" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="718" font-size="13" font-weight="700" fill="#0F0E0E">Creative Lanes</text><text x="655" y="733" font-size="10.5" fill="#6B6A62">reference/creative-lanes.html</text><circle cx="1064" cy="721.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/lanes.html"><g><rect x="640" y="750" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="768" font-size="13" font-weight="700" fill="#0F0E0E">Lanes — dark</text><text x="655" y="783" font-size="10.5" fill="#6B6A62">reference/lanes.html</text><circle cx="1064" cy="771.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/phase-1.html"><g><rect x="640" y="800" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="818" font-size="13" font-weight="700" fill="#0F0E0E">Phase 1</text><text x="655" y="833" font-size="10.5" fill="#6B6A62">reference/phase-1.html</text><circle cx="1064" cy="821.0" r="5" fill="#FF4A23"/></g></a>
+<a href="reference/phase-gates.html"><g><rect x="640" y="850" width="440" height="42" rx="8" fill="#FCEDE7" stroke="#FF4A23" stroke-width="1.5" stroke-dasharray="4 3"/><text x="655" y="868" font-size="13" font-weight="700" fill="#0F0E0E">Phase Gates</text><text x="655" y="883" font-size="10.5" fill="#6B6A62">reference/phase-gates.html</text><circle cx="1064" cy="871.0" r="5" fill="#FF4A23"/></g></a>
+<rect x="432" y="124.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="146.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#0F0E0E" text-transform="uppercase">BOARDS</text>
+<rect x="432" y="294.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="316.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#0F0E0E" text-transform="uppercase">REFERENCE</text>
+<rect x="432" y="414.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="436.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#0F0E0E" text-transform="uppercase">DEMOS</text>
+<rect x="432" y="509.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="531.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#0F0E0E" text-transform="uppercase">WORKING · URL-ONLY</text>
+<rect x="432" y="729.0" width="158" height="34" rx="8" fill="#FAF9F4" stroke="#8A8576" stroke-width="1" stroke-dasharray="4 3"/><text x="511.0" y="751.0" font-size="10.5" font-weight="700" letter-spacing="0.5" text-anchor="middle" fill="#0F0E0E" text-transform="uppercase">REFERENCE/ · NOT IN NAV</text>
+<a href="/"><g><rect x="210" y="458.0" width="178" height="46" rx="9" fill="#CDF851" stroke="#5F7E1C" stroke-width="2"/><text x="225" y="479.0" font-size="14" font-weight="800" fill="#0F0E0E">Home</text><text x="225" y="495.0" font-size="10.5" fill="#3f5510">redirects to OPS HQ</text></g></a>
+<rect x="24" y="458.0" width="150" height="46" rx="9" fill="#0F0E0E" stroke="#CDF851" stroke-width="2"/><text x="99.0" y="480.0" font-size="15" font-weight="900" letter-spacing="1" text-anchor="middle" fill="#F5F2EB">Hub</text><text x="99.0" y="495.0" font-size="9" text-anchor="middle" fill="#8A8576">gated site</text>
 </svg>
       </div>
     </div>

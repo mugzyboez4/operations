@@ -6,12 +6,12 @@
 <title>Lane Definition — Creative</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#F2F1EB;--surface:#EAE8E0;--card:#FFFFFF;--border:#E3E1D8;
-  --text:#16150F;--muted:#6B6A62;--fog:#8A887E;
+  --bg:#F5F2EB;--surface:#EAE8E0;--card:#FFFFFF;--border:#ECEAE3;
+  --text:#0F0E0E;--muted:#6B6A62;--fog:#8A887E;
   --chart:#CDF851;--chart-ink:#5B6B00;--flame:#FF4A23;
   --direction:#5B6B00;--managers:#0E7C7B;--design:#8B3FA8;--production:#C2410C;--support:#5B5750;
   --campaigns:#0E7C7B;
@@ -20,8 +20,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',-appl
 
 /* Header */
 .header{max-width:1440px;margin:0 auto;padding:40px 24px 8px}
-.header-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:800;margin-bottom:10px}
-.header h1{font-weight:900;font-size:clamp(36px,6vw,52px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin-bottom:10px}
+.header-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:700;margin-bottom:10px}
+.header h1{font-weight:700;font-size:clamp(36px,6vw,52px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin-bottom:10px}
 .header h1 span{background:var(--chart);padding:0 10px}
 .header .sub{font-size:14px;color:var(--muted);max-width:700px}
 .header .sub b{color:var(--text);font-weight:600}
@@ -30,10 +30,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',-appl
 /* View bar */
 .viewbar{max-width:1440px;margin:16px auto 0;padding:0 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .toggle{display:flex;border:2px solid var(--text)}
-.toggle button{background:transparent;color:var(--muted);border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px}
+.toggle button{background:transparent;color:var(--muted);border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px}
 .toggle button.on{background:var(--text);color:var(--bg)}
 .principle{font-size:11.5px;color:var(--fog);font-weight:600}
-.principle b{color:var(--chart-ink);font-weight:800}
+.principle b{color:var(--chart-ink);font-weight:700}
 
 /* Key */
 .key{max-width:1440px;margin:14px auto 0;padding:0 24px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
@@ -44,13 +44,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',-appl
 .raci-legend{display:none;max-width:1440px;margin:12px auto 0;padding:10px 24px;gap:20px;flex-wrap:wrap}
 body.raci .raci-legend{display:flex}
 .raci-legend .rl{font-size:11px;color:var(--muted)}
-.raci-legend .rl b{font-weight:800;color:var(--text)}
+.raci-legend .rl b{font-weight:700;color:var(--text)}
 
 /* Kanban */
 .kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:1440px;margin:22px auto 24px;padding:0 24px;align-items:start}
 .lane{background:var(--surface);border:1px solid var(--border);border-top:4px solid var(--lc,var(--border));padding:11px;min-height:300px}
 .lane-header{padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--border)}
-.lane-title{font-weight:900;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--lc,var(--text));line-height:1.15}
+.lane-title{font-weight:700;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--lc,var(--text));line-height:1.15}
 .lane-verbs{font-size:9.5px;color:var(--fog);margin-top:4px;letter-spacing:.04em;text-transform:uppercase}
 .lane-count{font-size:10px;color:var(--fog);margin-top:5px;font-weight:600}
 
@@ -61,7 +61,7 @@ body.raci .raci-legend{display:flex}
 .card.tbd{border-left:3px solid var(--flame)}
 .card-title{font-size:12px;font-weight:700;color:var(--text);line-height:1.32}
 .card-note{font-size:10.5px;color:var(--muted);line-height:1.45;margin-top:5px}
-.card-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-top:7px}
+.card-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-top:7px}
 .tag-tbd{background:rgba(255,74,35,.13);color:var(--flame)}
 .lane.drag-over-lane{outline:2px dashed var(--chart);outline-offset:-2px;background:#fff}
 
@@ -69,7 +69,7 @@ body.raci .raci-legend{display:flex}
 .raci{display:none;margin-top:8px;padding-top:7px;border-top:1px dashed var(--border);flex-wrap:wrap;gap:4px 10px}
 body.raci .raci{display:flex}
 .raci .ri{font-size:10px;color:var(--text);line-height:1.3}
-.raci .ri .k{font-weight:900;font-size:9px;letter-spacing:.04em;color:var(--chart-ink);margin-right:3px}
+.raci .ri .k{font-weight:700;font-size:9px;letter-spacing:.04em;color:var(--chart-ink);margin-right:3px}
 .raci .ri .v{color:var(--muted);font-weight:600}
 .raci .ri.a .v{color:var(--text);font-weight:700}
 .raci .ri.a.open .k,.raci .ri.a.open .v{color:var(--flame)}
@@ -80,8 +80,8 @@ body.raci .card-note{opacity:.7}
 /* ===== CROSSOVER SECTION ===== */
 .cross{max-width:1440px;margin:8px auto 0;padding:0 24px}
 .cross-rule{height:3px;background:var(--text);margin:18px 0}
-.cross-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:800;margin-bottom:8px}
-.cross h2{font-weight:900;font-size:clamp(24px,4vw,34px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;margin-bottom:12px}
+.cross-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--chart-ink);font-weight:700;margin-bottom:8px}
+.cross h2{font-weight:700;font-size:clamp(24px,4vw,34px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;margin-bottom:12px}
 .cross h2 span{background:var(--chart);padding:0 8px}
 .cross-intro{font-size:13.5px;color:var(--muted);max-width:760px;line-height:1.6;margin-bottom:6px}
 .cross-intro b{color:var(--text);font-weight:600}
@@ -91,18 +91,18 @@ body.raci .card-note{opacity:.7}
 .handoffs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ho{background:var(--card);border:1px solid var(--border)}
 .ho-top{display:flex;justify-content:space-between;align-items:baseline;padding:12px 16px 0}
-.ho-name{font-weight:900;font-size:15px;letter-spacing:-.01em}
-.ho-tri{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--fog)}
+.ho-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.ho-tri{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fog)}
 .ho-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;padding:12px 16px 0}
-.ho-role{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.ho-role{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .ho-role.camp{color:var(--campaigns)}
 .ho-role.crea{color:var(--chart-ink)}
 .ho-do{font-size:11.5px;color:var(--text);line-height:1.4}
 .ho-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px;min-width:96px}
-.ho-cross{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--chart);padding:3px 7px;text-align:center;line-height:1.3}
-.ho-arrow{color:var(--flame);font-weight:900;font-size:15px;margin:3px 0}
+.ho-cross{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--chart);padding:3px 7px;text-align:center;line-height:1.3}
+.ho-arrow{color:var(--flame);font-weight:700;font-size:15px;margin:3px 0}
 .ho-watch{margin-top:12px;border-top:1px solid var(--border);padding:9px 16px;font-size:10.5px;color:var(--muted);line-height:1.45}
-.ho-watch b{color:var(--chart-ink);font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:9.5px}
+.ho-watch b{color:var(--chart-ink);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:9.5px}
 .ho.wide{grid-column:1/-1}
 .ho-also{grid-column:1/-1;background:var(--surface);border:1px dashed var(--border);padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.5}
 .ho-also b{color:var(--text);font-weight:700}
@@ -127,7 +127,7 @@ body.raci .card-note{opacity:.7}
 </head>
 <body>
 <div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:16px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
-  <a href="/" style="font-size:13px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px">Campaign <span style="color:#0F0E0E;background:#CDF851;padding:2px 6px;font-weight:900">Ops</span></a>
+  <a href="/" style="font-size:13px;font-weight:700;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px">Campaign <span style="color:#0F0E0E;background:#CDF851;padding:2px 6px;font-weight:700">Ops</span></a>
   <a href="/reference/phase-gates.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Phase Gates</a>
   <a href="/reference/budget.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Budget</a>
   <a href="/reference/ar-ops-gaps.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">A&amp;R Ops Gaps</a>
