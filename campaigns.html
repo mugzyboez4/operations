@@ -241,14 +241,6 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div id="body" style="display:none;">
 
 <div class="annbar"><span class="anndot"></span>Live cross-vendor campaign index &middot; <b id="anncount">…</b> campaigns across every platform &amp; agency</div>
-<header class="shead">
-  <a class="brand" href="/"><img src="/logo_neon.png" alt=""><span class="bw"><b>Campaign Ops</b><i>Creator Campaign Index</i></span></a>
-  <nav class="snav">
-    <a href="/">Home</a>
-    <a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Airtable &#8599;</a>
-    <span class="conn"><span class="conn-dot" id="dot"></span><span id="connlabel">connecting…</span></span>
-  </nav>
-</header>
 
 <div class="wrap">
   <div class="kicker">RCA &middot; Campaign Ops</div>
@@ -392,8 +384,8 @@ function readiness(c){
 }
 
 function setConn(state,label){
-  var d=document.getElementById("dot"); d.className="conn-dot "+state;
-  document.getElementById("connlabel").textContent=label;
+  var d=document.getElementById("dot"); if(d) d.className="conn-dot "+state;
+  var cl=document.getElementById("connlabel"); if(cl) cl.textContent=label;
 }
 
 function load(){
