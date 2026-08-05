@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Deck Bones (v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; }
+  .wrap { max-width:960px; margin:0 auto; }
+  .head { background:#0F0E0E; color:#FCFDF8; padding:48px 24px 0; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
+  h1 { font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:6px; }
+  .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; }
+  .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:2px 9px; margin-left:10px; text-transform:uppercase; }
+
+  /* tabs */
+  .tabs { display:flex; gap:4px; margin-top:28px; flex-wrap:wrap; }
+  .tab { background:none; border:none; font-family:inherit; font-size:13px; font-weight:700; color:#888; padding:10px 16px; cursor:pointer; border-bottom:3px solid transparent; }
+  .tab:hover { color:#FCFDF8; }
+  .tab.on { color:#FCFDF8; border-bottom-color:#CDF851; }
+
+  .main { padding:36px 24px 56px; }
+  .pane { display:none; }
+  .pane.on { display:block; }
+  .pane .lede { font-size:14px; color:#555; margin-bottom:22px; max-width:62ch; line-height:1.55; }
+  .pane .lede b { color:#0F0E0E; }
+
+  /* accordion rows */
+  details { border:2px solid #0F0E0E; background:#fff; margin-bottom:-2px; }
+  details summary { list-style:none; cursor:pointer; display:flex; gap:16px; align-items:baseline; padding:14px 18px; }
+  details summary::-webkit-details-marker { display:none; }
+  details summary:hover { background:#F5F2EB; }
+  details[open] summary { background:#0F0E0E; color:#FCFDF8; }
+  .num { flex-shrink:0; width:28px; font-size:12px; font-weight:800; color:#FF4A23; }
+  .ttl { flex-shrink:0; font-size:14px; font-weight:800; min-width:180px; }
+  .gloss { font-size:13px; color:#777; }
+  details[open] .gloss { color:#C9C9C4; }
+  .body { padding:16px 20px 18px 62px; font-size:13.5px; line-height:1.6; color:#333; border-top:2px solid #0F0E0E; }
+  .body ul { padding-left:16px; }
+  .body li { margin-bottom:5px; max-width:70ch; }
+  .body p { margin-bottom:8px; max-width:62ch; }
+  .new { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:10px; font-weight:800; padding:1px 7px; margin-left:8px; letter-spacing:.06em; text-transform:uppercase; position:relative; top:-1px; }
+  .done summary .ttl { text-decoration:line-through; color:#999; }
+  .check { background:#FF4A23; color:#fff; font-size:10px; font-weight:800; padding:1px 6px; letter-spacing:.06em; text-transform:uppercase; }
+
+  .callout { background:#0F0E0E; color:#FCFDF8; padding:16px 22px; font-size:14px; font-weight:600; line-height:1.55; margin-top:24px; max-width:none; }
+  .callout .zing { color:#CDF851; }
+  .meta { margin-top:28px; font-size:11px; color:#999; }
+</style>
+</head>
+<body>
+<div class="head"><div class="wrap">
+  <div class="kicker">RCA Records · Campaign Ops · Pitch Deck System</div>
+  <h1>Pitch Deck Bones</h1>
+  <div class="sub">Six decks, one skeleton. Click anything to open it.<span class="v">v2 · 6 of 6 decks</span></div>
+  <div class="tabs">
+    <button class="tab on" data-p="skeleton">Skeleton</button>
+    <button class="tab" data-p="modules">Modules</button>
+    <button class="tab" data-p="proof">Proof</button>
+    <button class="tab" data-p="variants">Variants</button>
+    <button class="tab" data-p="copy">Why-RCA copy</button>
+    <button class="tab" data-p="next">Next</button>
+  </div>
+</div></div>
+
+<div class="main"><div class="wrap">
+
+  <!-- SKELETON -->
+  <div class="pane on" id="skeleton">
+    <p class="lede"><b>Every deck is the same animal in different clothes.</b> Nine bones, always in this order. Design is bespoke; the bones never change.</p>
+    <details><summary><span class="num">01</span><span class="ttl">Cover</span><span class="gloss">artist × RCA, in their world</span></summary>
+      <div class="body"><p>Artist x RCA lockup in the artist's visual world. Sets the tone: the deck is <i>their</i> world, RCA-built.</p></div></details>
+    <details><summary><span class="num">02</span><span class="ttl">Why RCA / The Family</span><span class="gloss">the boilerplate slot</span></summary>
+      <div class="body"><p>Team intro, exec grid, the Sony system. Laufey shows the full form: eleven named execs. This is the "Why RCA" boilerplate slot — 2–3 pages, textable, top of every deck. Draft copy lives in the companion doc.</p></div></details>
+    <details><summary><span class="num">03</span><span class="ttl">The Thesis</span><span class="gloss">why this artist, why now</span></summary>
+      <div class="body"><p>One bespoke slide in narrative prose. The A&amp;R "story" input from the 2-slider drops straight in. In renewal decks (Variant D) it expands into a data story: what's working → what's missing.</p></div></details>
+    <details><summary><span class="num">04</span><span class="ttl">Goals</span><span class="gloss">three, numbered, verb-first</span></summary>
+      <div class="body"><p>Måneskin: Activate Consumption / Expand The Movement / Fuel The Fandom. RoseHill: Sonic Identity / Extend The World / Drive Consumption. The template confirms 3-goal structure as house style.</p></div></details>
+    <details><summary><span class="num">05</span><span class="ttl">Campaign Tentpoles</span><span class="gloss">4–5 named big swings</span></summary>
+      <div class="body"><p>Each expanded on its own slide. The most bespoke section — where the deck earns its keep. (Template: "Strategic Tent Poles.")</p></div></details>
+    <details><summary><span class="num">06</span><span class="ttl">Timeline</span><span class="gloss">setup → core → post</span></summary>
+      <div class="body"><p>SETUP → CORE CAMPAIGN (6–10 wks) → POST-RELEASE. Established artists get real dates; developing artists a 12–18 month horizon. Laufey's commerce frame: "BUILD FAST, LAND LOUD" — sub-3-month single-to-album window, DSPs briefed 3+ months out.</p></div></details>
+    <details><summary><span class="num">07</span><span class="ttl">Department Modules</span><span class="gloss">the repeatable middle — see Modules tab</span></summary>
+      <div class="body"><p>Divider + 1–3 slides per department. Recurring order: Audience Dev → Digital → Advertising → Commercial → Physical/D2C → Publicity → Radio → Brands → Licensing → International. Fourteen modules in the library.</p></div></details>
+    <details><summary><span class="num">08</span><span class="ttl">RCA In Action</span><span class="gloss">2–4 case studies — see Proof tab</span></summary>
+      <div class="body"><p>The same handful reused constantly, numbers refreshed from Laufey. Pre-packaged in the Proof library.</p></div></details>
+    <details><summary><span class="num">09</span><span class="ttl">Closing</span><span class="gloss">personality, never a summary</span></summary>
+      <div class="body"><p>"&lt;3 rca records" · template: "a welcome home for ARTIST NAME."</p></div></details>
+    <div class="callout">The bottleneck is never design — it's content for bones 03–07. <span class="zing">Pre-build the modules and a deck becomes an assembly job, not a fire drill.</span></div>
+  </div>
+
+  <!-- MODULES -->
+  <div class="pane" id="modules">
+    <p class="lede"><b>Fourteen modules. Pre-build once, swap the artist in.</b> Each is a candidate for a designed master — the Part B plan from the 8/4 meeting.</p>
+    <details><summary><span class="ttl">Audience Development</span><span class="gloss">reach numbers · first-party data · fan funnel</span></summary>
+      <div class="body"><ul><li>Headline reach number (Måneskin: 200M+ pre-release impressions, broken down by source)</li><li>First-party data plan: email/SMS capture, retargeting pools</li><li>Platform-by-platform presence; for new acts, digital identity from zero pre-launch</li><li>Fan funnel: launch → capture → build → seed (street teams) → surface</li><li>Standing insight slides: age/gender split, streams by market</li></ul></div></details>
+    <details><summary><span class="ttl">Digital / Creator</span><span class="gloss">UGC · seeding · community CRM</span></summary>
+      <div class="body"><ul><li>Creator campaigns + UGC volume plays; platform-native seeding (fan pages, subreddits, memes)</li><li>Laufey's named cycle: Audience Data → Fan Pages → Influencers → Seeding → Clipping/UGC</li><li>Community CRM: Discord/fan-club funnel to VIP (Nina: 4–5K → VIP tiers)</li><li>Influencer lanes matched to the artist's world (RoseHill: BookTok; Nina: gaming)</li><li>In-character / in-world collabs where the concept allows</li></ul></div></details>
+    <details><summary><span class="ttl">Advertising</span><span class="gloss">Marquee · paid on organic · lookalikes</span></summary>
+      <div class="body"><ul><li>Spotify Marquee + Showcase (Måneskin: ~24M-listener ecosystem)</li><li>TikTok/Meta paid layered on proven organic</li><li>Lookalike audiences off named comp artists; retargeting off owned data</li></ul></div></details>
+    <details><summary><span class="ttl">Commercial / DSP</span><span class="gloss">per-platform partner asks</span></summary>
+      <div class="body"><ul><li>Per-platform pitch: Spotify, Apple, Amazon, YouTube, Meta — template has detailed on/off-platform ask lists</li><li>Partner Support Pitches standing slide: YouTube / IG / TikTok / Snapchat / Reddit / Discord / Facebook</li><li>VEVO DSCVR, COLORS, TikTok Elevate, Tiny Desk for developing acts, with precedent artists named</li><li>"Informed decision making" — data feedback loop framing</li></ul></div></details>
+    <details><summary><span class="ttl">Physical / D2C</span><span class="gloss">variants · retail · superfan product</span></summary>
+      <div class="body"><ul><li>Staggered variant rollout; themed D2C-exclusive drops as first-party data capture (Laufey)</li><li>Retail: Amazon/Walmart/Target/B&amp;N exclusives, in-store moments, pop-ups</li><li>Low-entry + collectible superfan balance</li><li>Product-concept slide: die-cut vinyl inserts, punch-out zines (template)</li></ul></div></details>
+    <details><summary><span class="ttl">Publicity</span><span class="gloss">broadcast ladder · named target lists</span></summary>
+      <div class="body"><ul><li>Two lanes: performance (morning TV → daytime → late night → digital → specialty → awards) and editorial (print/online + podcasts)</li><li>Template carries the master lists: Music, Fashion &amp; Entertainment, Personality &amp; Video, Podcasts, TV &amp; Performance</li><li>"More With Less" posture for established acts (Laufey): fewer, bigger brand-forward moments + element of surprise</li></ul></div></details>
+    <details><summary><span class="ttl">Radio</span><span class="gloss">format claims · networks · headroom math</span></summary>
+      <div class="body"><ul><li>Format claim ("RCA dominated Alternative and Rock in 2025 — 10 #1 singles")</li><li>Single campaign: NY/LA/national syndication, named shows; "clean-slate next single" for renewals</li><li>Networks (iHeart, Audacy, SiriusXM, Cumulus, Townsquare) + events (Jingle Ball, iHeart Festival, We Can Survive)</li><li>The headroom argument (Laufey): Myles Smith 41.1M radio audience / 2.1M ODA vs. Laufey 2.6M / 2.0M — similar streams, 16x radio gap. Reusable for any under-radioed artist.</li></ul></div></details>
+    <details><summary><span class="ttl">Brand Partnerships</span><span class="gloss">brand lanes · experiential</span></summary>
+      <div class="body"><ul><li>Per-artist brand lanes matched to identity — template spread: Sony Electronics, Crunchyroll, Hinge, Sims, Urban Outfitters, Fortnite</li><li>Experiential: pop-ups, café takeovers, studio-as-venue, mini festivals + masterclasses (Laufey: "A Very, Very Laufey Day", Cherry Lane residencies)</li><li>Named existing relationships (La Colombe, Postmates, Uber Eats) as proof of reach</li></ul></div></details>
+    <details><summary><span class="ttl">Licensing / Sync</span><span class="gloss">targeted B2B · three lanes</span></summary>
+      <div class="body"><ul><li>"Sync success does not stem from passive discovery — it is a targeted B2B discipline"</li><li>Three-lane structure now standard: Prestige/Bespoke film · YA-focused sync · Lifestyle &amp; Cultural (cozy games, Simlish, Fortnite/Roblox concerts)</li><li>Named target lists kept current per artist world</li><li>Bespoke placements as precedent (SZA "Hoppers", H.E.R., Red Clay Strays)</li></ul></div></details>
+    <details><summary><span class="ttl">International</span><span class="gloss">50+ markets · localized execution</span></summary>
+      <div class="body"><ul><li>Sony global network — 50+ markets, locally relevant execution</li><li>Global DSP + Filtr playlisting; over-index geography slide (Laufey: Philippines, Indonesia, Malaysia, Thailand, Canada, Brazil, India)</li><li>Global creator strategy with localized assets</li><li>Events + ATL: listening events, landmark OOH, projections</li><li>Named outlets per territory (UK/Canada/Australia)</li></ul></div></details>
+    <details><summary><span class="ttl">A&amp;R — Collabs &amp; Producers<span class="new">New</span></span><span class="gloss">wishlists · development prose</span></summary>
+      <div class="body"><ul><li>Superstar Collaborations slide: 22-name wishlist keyed produce/remix/feature (Doja → KATSEYE)</li><li>Producers/Writers slide: A.G. Cook, Cirkut, Amy Allen, Ilsey Juber et al.</li><li>Development prose written out in the template: Tate / Steve Lacy / Doja — "we develop, we don't harvest," shown not said</li></ul></div></details>
+    <details><summary><span class="ttl">Awards / Recording Academy<span class="new">New</span></span><span class="gloss">Grammy strategy as standing slide</span></summary>
+      <div class="body"><ul><li>Voter registration, GRAMMY U, MusiCares, submission planning</li><li>Genre-fit awards ladder (Grammys/CMAs/ACMs/AMAs/VMAs) — its own module in the template, not buried in Publicity</li></ul></div></details>
+    <details><summary><span class="ttl">Creative — Personnel &amp; World<span class="new">New</span></span><span class="gloss">photographers · directors · moodboards</span></summary>
+      <div class="body"><ul><li>Named photographers (Daria Kobayashi Ritch, Logan Mock, Jasa Muller) + creative directors (Iris Kim, Gia Coppola, Cara Stricker…)</li><li>Moodboard as standing slot</li><li>Website concepts (archive site, hot-spot room) + world-building (Laufey: Lin Sisters Studio with sister Junia)</li></ul></div></details>
+    <details><summary><span class="ttl">Premium Content<span class="new">New</span></span><span class="gloss">film/TV slate as pitch asset</span></summary>
+      <div class="body"><ul><li>RCA's development slate: Porgy &amp; Bess film w/ SZA, Khalid scripted TV, Lisa documentary, SZA unscripted</li><li>Bespoke concept per artist (Laufey: "The Queen of Christmas" live special)</li><li>Signals long-horizon investment — strong Variant A/D material</li></ul></div></details>
+  </div>
+
+  <!-- PROOF -->
+  <div class="pane" id="proof">
+    <p class="lede"><b>The same case studies win every room.</b> Pre-package each as a designed module with numbers kept current — pulled off the shelf, never rebuilt.</p>
+    <details><summary><span class="ttl">Tate McRae</span><span class="gloss">177K first week · #1 in 13 markets</span></summary>
+      <div class="body"><p>So Close To What. The pop-scale flagship; doubles as the development story (signed young, built patiently). <span class="check">Check numbers</span></p></div></details>
+    <details><summary><span class="ttl">Sleep Token</span><span class="gloss">127K · #1 in 9 markets</span></summary>
+      <div class="body"><p>Even In Arcadia; Take Me Back To Eden's 29K → #16 shows the trajectory. "Caramel" and "Emergence" both #1 Active Rock. The "we broke a left-field act" proof — used constantly per Aaron. <span class="check">Check numbers</span></p></div></details>
+    <details><summary><span class="ttl">SZA — SOS</span><span class="gloss">318K · 14 wks #1 · 110 wks Top 10</span></summary>
+      <div class="body"><p>The cultural-dominance card. <span class="check">Check numbers</span></p></div></details>
+    <details><summary><span class="ttl">Audrey Hobert — "Sue Me"</span><span class="gloss">one sync → 104M+ views</span></summary>
+      <div class="body"><p>Sync → story → scaled moment. 104M+ campaign-driven views, 18% of all TikTok views, 40% peak daily share. Ready-made two-slide module. <span class="check">Check numbers</span></p></div></details>
+    <details><summary><span class="ttl">Development stories</span><span class="gloss">Doja · Steve Lacy · KAYTRANADA · Tate</span></summary>
+      <div class="body"><p>The "we develop" set. Full written prose for Tate/Steve/Doja sits in the template's A&amp;R Strategy slide — lift, don't re-draft.</p></div></details>
+    <details><summary><span class="ttl">Comparable-artist headroom</span><span class="gloss">Laufey's reusable analytical shape</span></summary>
+      <div class="body"><p>Socials vs. top-track ODA vs. chart peak across comps (Tate 9M IG → 19M ODA #2; Myles Smith → 10M #34; Laufey 8M IG → 5M #97). Swap the artist in; the argument builds itself.</p></div></details>
+    <details><summary><span class="ttl">Super-listener engagement</span><span class="gloss">quality-of-fandom stat</span></summary>
+      <div class="body"><p>Streams per super listener across Sony artists (Tate 71, Laufey 60, Harry 55, Lisa 51). Strong for renewal and developing pitches.</p></div></details>
+    <details><summary><span class="ttl">Streaming-vs-sales mix</span><span class="gloss">where the growth lever is</span></summary>
+      <div class="body"><p>% first-week streaming vs. sales across comps (Laufey 28/72 → Olivia Dean 74/26). Frames the lever for a given artist.</p></div></details>
+    <details><summary><span class="ttl">Format dominance</span><span class="gloss">"10 #1 Alt/Rock singles in 2025"</span></summary>
+      <div class="body"><p>And siblings per format. Needs the live stat sheet so decks never ship stale numbers. <span class="check">Check numbers</span></p></div></details>
+  </div>
+
+  <!-- VARIANTS -->
+  <div class="pane" id="variants">
+    <p class="lede"><b>One skeleton, four postures.</b> Pick the posture first — it decides which modules go heavy.</p>
+    <details><summary><span class="num">A</span><span class="ttl">Established / Re-signing</span><span class="gloss">Teddy · Måneskin — "the machine at full power"</span></summary>
+      <div class="body"><ul><li>Lead with the family + Sony system — relationship and scale</li><li>Heavy on dominance stats and named partner leverage</li><li>Timeline has real dates tied to the next album cycle</li></ul></div></details>
+    <details><summary><span class="num">B</span><span class="ttl">Developing Artist</span><span class="gloss">Ninajirachi — "help me make this world"</span></summary>
+      <div class="body"><ul><li>Lead with belief in the artist's world; development stories early</li><li>Tentpoles creative/community-first (listening parties, mixtapes, UGC, stems)</li><li>12–18 month horizon through award-cycle ambitions</li><li>Partner-support pitches matter more than dominance stats</li></ul></div></details>
+    <details><summary><span class="num">C</span><span class="ttl">Partnership / Soundtrack</span><span class="gloss">RoseHill — IP world-building</span></summary>
+      <div class="body"><ul><li>Goals reframed to IP world-building (sonic identity, extend the world)</li><li>Playbook: launch a fictional artist as real (ecosystem → fan club → staged signing → single → breakout)</li><li>Bridge adjacent fandoms (readers → viewers → listeners)</li><li>Experiential and brands go heavy</li></ul></div></details>
+    <details><summary><span class="num">D</span><span class="ttl">Roster Renewal<span class="new">New</span></span><span class="gloss">Laufey — "we know where your ceiling is"</span></summary>
+      <div class="body"><ul><li>Data-led thesis in three beats: what's working → what's missing (no Top 200 track ever; 16x radio gap) → the RCA plan</li><li>Celebrate first, then diagnose — "…But Something's Missing" lands because momentum came first</li><li>Heavy on Radio headroom, Commerce ("Build Fast, Land Loud"), Premium Content, Creative world-building</li><li>Publicity runs "More With Less"</li></ul></div></details>
+  </div>
+
+  <!-- COPY -->
+  <div class="pane" id="copy">
+    <p class="lede"><b>The boilerplate already exists — scattered across six decks.</b> The load-bearing claims, each with its source. Drafted copy lives in "Why RCA — Boilerplate Copy."</p>
+    <details><summary><span class="ttl">The family frame</span><span class="gloss">people who happen to have infrastructure</span></summary>
+      <div class="body"><p>Named-people exec grid plus "The Sony System." Laufey's version is the fullest: eleven named execs, chairman to promotion. <i>(Teddy · Laufey · everywhere)</i></p></div></details>
+    <details><summary><span class="ttl">The world-building ethos</span><span class="gloss">answer the #1 artist ask first</span></summary>
+      <div class="body"><p>Every deck answers "help me make this world" before anything commercial. Laufey opens with "The World of Laufey" before a single stat. <i>(Nina intro · RoseHill thesis · Laufey open)</i></p></div></details>
+    <details><summary><span class="ttl">The development claim</span><span class="gloss">Tate / Steve / Doja prose, ready to lift</span></summary>
+      <div class="body"><p>The template's A&amp;R Strategy slide has the written-out arcs — nearly verbatim boilerplate material. <i>(Template)</i></p></div></details>
+    <details><summary><span class="ttl">The global claim</span><span class="gloss">50+ markets, one campaign</span></summary>
+      <div class="body"><p>"A coordinated, locally relevant campaign across every major market" — named per-territory outlets. <i>(Nina · RoseHill · Template · Laufey)</i></p></div></details>
+    <details><summary><span class="ttl">The proof stack</span><span class="gloss">numbers instead of adjectives</span></summary>
+      <div class="body"><p>3–4 case studies with hard numbers stand in for every adjective. The decks never say "best digital team" — they show "Sue Me." <i>(All decks)</i></p></div></details>
+    <details><summary><span class="ttl">The sync posture</span><span class="gloss">the voice of the whole boilerplate</span></summary>
+      <div class="body"><p>"Not passive discovery — a targeted B2B discipline." Confidence with receipts. <i>(Måneskin licensing close)</i></p></div></details>
+  </div>
+
+  <!-- NEXT -->
+  <div class="pane" id="next">
+    <p class="lede"><b>What v3 needs.</b></p>
+    <details class="done"><summary><span class="ttl">Fifth deck (Google Slides)</span><span class="gloss">done in v2</span></summary>
+      <div class="body"><p>Extracted; revealed the in-house template — an "ARTIST NAME" placeholder deck cloned from the Nina deck (with Ninajirachi leftovers on two slides). Confirms the skeleton; contributed four new modules. De facto assembly vehicle until Figma masters exist.</p></div></details>
+    <details class="done"><summary><span class="ttl">Laufey deck</span><span class="gloss">done in v2</span></summary>
+      <div class="body"><p>Walked in Figma; became Variant D plus four new proof entries and refreshed case numbers.</p></div></details>
+    <details><summary><span class="ttl">Why-RCA copy draft</span><span class="gloss">drafted — needs Meg's pass</span></summary>
+      <div class="body"><p>Three pages drafted in the companion doc: The Room (credits per exec), Track Record (before→after arcs), Worlds We've Built. One real content lift remains: sourcing exec credits.</p></div></details>
+    <details><summary><span class="ttl">Live stat sheet</span><span class="gloss">kills the stale-numbers problem</span></summary>
+      <div class="body"><p>Case numbers go stale fast — v1 of this doc shipped a wrong Sleep Token title, caught only because Laufey had the current one. One owned, dated sheet feeds every module.</p></div></details>
+    <details><summary><span class="ttl">Module masters in Figma</span><span class="gloss">Niki's team · sequence with Aaron's folder</span></summary>
+      <div class="body"><p>This doc is the content spec; each module becomes a designed master. Until then the Google Slides template is the assembly vehicle — after a cleanup pass (Ninajirachi leftovers).</p></div></details>
+    <div class="meta">v2 · Campaign Ops · Aug 2026 · Companion to "Deck for a Deck — A&amp;R 2-Slider" + "Why RCA — Boilerplate Copy" · Sources: Teddy, NINAJIRACHI, MÅNESKIN, RoseHill, RCA Template, Laufey</div>
+  </div>
+
+</div></div>
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+  }));
+</script>
+
+<!-- shared Ops HQ gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
+  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+</div>
+<script>
+(function(){
+  var g=document.getElementById('rca-gate');
+  function unlock(){ g.style.display='none'; }
+  function check(){
+    var v=document.getElementById('rca-pw').value;
+    if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+    else { document.getElementById('rca-err').textContent='Incorrect password'; document.getElementById('rca-pw').value=''; document.getElementById('rca-pw').focus(); }
+  }
+  document.getElementById('rca-go').addEventListener('click',check);
+  document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+})();
+</script>
+</body>
+</html>

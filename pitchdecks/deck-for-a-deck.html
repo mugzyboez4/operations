@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deck for a Deck — A&R 2-Slider (Draft)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+
+  /* dark header band */
+  .head { background:#0F0E0E; color:#FCFDF8; padding:48px 0 0; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
+  h1 { font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:6px; }
+  .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; margin-bottom:28px; }
+  .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:3px 10px; margin-left:10px; text-transform:uppercase; }
+
+  .tabs { display:flex; gap:2px; flex-wrap:wrap; }
+  .tab { font-family:inherit; font-size:13px; font-weight:700; background:none; border:none; color:#888; padding:12px 18px; cursor:pointer; border-bottom:3px solid transparent; }
+  .tab:hover { color:#FCFDF8; }
+  .tab.on { color:#FCFDF8; border-bottom-color:#CDF851; }
+
+  .main { padding:32px 0 56px; }
+  .pane { display:none; }
+  .pane.on { display:block; }
+
+  .pagehead { margin-bottom:18px; }
+  .pagehead h2 { font-size:22px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
+  .pagehead p { font-size:14px; color:#555; max-width:62ch; line-height:1.55; }
+
+  /* accordions */
+  details { border:2px solid #0F0E0E; background:#fff; margin-bottom:8px; }
+  details summary { list-style:none; cursor:pointer; display:flex; gap:14px; align-items:baseline; padding:13px 16px; }
+  details summary::-webkit-details-marker { display:none; }
+  summary .num { flex-shrink:0; font-size:12px; font-weight:800; color:#FF4A23; }
+  summary .ttl { font-size:14px; font-weight:800; }
+  summary .gloss { font-size:13px; color:#555; }
+  details[open] summary { background:#0F0E0E; color:#FCFDF8; }
+  details[open] summary .gloss { color:#C9C9C4; }
+  details .body { padding:6px 16px 14px 42px; }
+  details .body p { font-size:13px; color:#444; line-height:1.6; max-width:62ch; }
+
+  /* timeline — visible at skim level */
+  .timeline { display:flex; border:2px solid #0F0E0E; margin:16px 0 14px; background:#fff; }
+  .t-seg { flex:1; padding:12px 14px; border-right:2px solid #0F0E0E; }
+  .t-seg:last-child { border-right:none; }
+  .t-seg .day { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#FF4A23; margin-bottom:3px; }
+  .t-seg .what { font-size:13px; font-weight:600; line-height:1.4; }
+  .t-seg.hot { background:#CDF851; }
+
+  .callout { background:#0F0E0E; color:#FCFDF8; padding:18px 24px; font-size:14px; font-weight:600; line-height:1.55; margin-top:14px; }
+  .callout .zing { color:#CDF851; }
+
+  .footer-line { text-align:center; font-size:19px; font-weight:900; margin-top:20px; }
+  .footer-line .a { color:#FF4A23; }
+  .meta { margin-top:28px; font-size:12px; color:#888; }
+  @media (max-width:800px){ .timeline{flex-direction:column;} .t-seg{border-right:none;border-bottom:2px solid #0F0E0E;} .t-seg:last-child{border-bottom:none;} }
+</style>
+</head>
+<body>
+<div class="head"><div class="wrap">
+  <div class="kicker">RCA Records · Campaign Ops</div>
+  <h1>Deck for a Deck</h1>
+  <div class="sub">How to get an artist pitch deck — two slides, that's it. Click any row to open it.<span class="v">Draft</span></div>
+  <div class="tabs">
+    <button class="tab on" data-p="play">Slide 1 · The Play</button>
+    <button class="tab" data-p="bring">Slide 2 · What You Bring</button>
+  </div>
+</div></div>
+
+<div class="main"><div class="wrap">
+
+  <!-- SLIDE 1 -->
+  <div class="pane on" id="play">
+    <div class="pagehead">
+      <h2>Five steps. One rule: flag it early.</h2>
+      <p>The "Why RCA" boilerplate is always ready to send the same day — the bespoke deck is what needs runway.</p>
+    </div>
+
+    <details><summary><span class="num">01</span><span class="ttl">Raise the flag</span><span class="gloss">tell Campaign Ops the moment it's competitive</span></summary>
+      <div class="body"><p>The moment a chase looks competitive, tell Campaign Ops. We route it same day — no forms, no friction.</p></div></details>
+    <details><summary><span class="num">02</span><span class="ttl">The huddle</span><span class="gloss">30 minutes, you + a campaign-side partner</span></summary>
+      <div class="body"><p>What's the story? Which departments get the spotlight?</p></div></details>
+    <details><summary><span class="num">03</span><span class="ttl">Deliver your inputs</span><span class="gloss">the slide-2 checklist starts the clock</span></summary>
+      <div class="body"><p>The checklist on slide 2. Complete inputs are what start the design clock.</p></div></details>
+    <details><summary><span class="num">04</span><span class="ttl">Design</span><span class="gloss">minimum 3 working days from complete inputs</span></summary>
+      <div class="body"><p>Creative builds from the template + module library. Minimum 3 working days from complete inputs.</p></div></details>
+    <details><summary><span class="num">05</span><span class="ttl">The room</span><span class="gloss">you lead the why, the team lays out the campaign</span></summary>
+      <div class="body"><p>Everyone knows their part before the door opens.</p></div></details>
+
+    <div class="timeline">
+      <div class="t-seg hot"><div class="day">Day 0</div><div class="what">Flag it + huddle + "Why RCA" sent</div></div>
+      <div class="t-seg"><div class="day">Day 1</div><div class="what">Your inputs due</div></div>
+      <div class="t-seg"><div class="day">Days 2–4</div><div class="what">Creative designs</div></div>
+      <div class="t-seg"><div class="day">Day 5</div><div class="what">In the room</div></div>
+    </div>
+
+    <div class="callout">24 hours isn't a deadline — it's a fire drill. <span class="zing">Complete inputs + three days = a deck that wins.</span></div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="pane" id="bring">
+    <div class="pagehead">
+      <h2>Six things. If you have these, you get a deck.</h2>
+      <p>Nobody knows this artist better than you. This is the stuff only you have — everything else, we pull from the library.</p>
+    </div>
+
+    <details><summary><span class="num">01</span><span class="ttl">The story</span><span class="gloss">why this artist, why now, why RCA — in your words</span></summary>
+      <div class="body"><p>3 to 5 sentences. This becomes the deck's narrative spine.</p></div></details>
+    <details><summary><span class="num">02</span><span class="ttl">The world</span><span class="gloss">the sound, the comps, the world they're building</span></summary>
+      <div class="body"><p>"Help me make this world" is the #1 thing artists ask for.</p></div></details>
+    <details><summary><span class="num">03</span><span class="ttl">The links</span><span class="gloss">socials, streaming, EPK, unreleased if you have it</span></summary>
+      <div class="body"><p>Handles, not screenshots.</p></div></details>
+    <details><summary><span class="num">04</span><span class="ttl">What they care about</span><span class="gloss">pick the 2–3 departments that get the spotlight</span></summary>
+      <div class="body"><p>Sync? Touring? Digital? Brands? The rest stay baseline.</p></div></details>
+    <details><summary><span class="num">05</span><span class="ttl">The tea</span><span class="gloss">deal context, who else is chasing, the real timeline</span></summary>
+      <div class="body"><p>This shapes how hard and how fast we go.</p></div></details>
+    <details><summary><span class="num">06</span><span class="ttl">The proof</span><span class="gloss">2–3 past RCA campaigns that will land with this artist</span></summary>
+      <div class="body"><p>Point at them and we pull the case studies from the library.</p></div></details>
+
+    <div class="footer-line">You bring the story. <span class="a">We bring the deck.</span></div>
+    <div class="meta">Draft · Campaign Ops · Aug 2026 · For review with Aaron before it goes anywhere near A&amp;R</div>
+  </div>
+</div></div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+  }));
+</script>
+
+<!-- shared Ops HQ gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
+  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+</div>
+<script>
+(function(){
+  var g=document.getElementById('rca-gate');
+  function unlock(){ g.style.display='none'; }
+  function check(){
+    var v=document.getElementById('rca-pw').value;
+    if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+    else { document.getElementById('rca-err').textContent='Incorrect password'; document.getElementById('rca-pw').value=''; document.getElementById('rca-pw').focus(); }
+  }
+  document.getElementById('rca-go').addEventListener('click',check);
+  document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+})();
+</script>
+</body>
+</html>

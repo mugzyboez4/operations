@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why RCA — Boilerplate Copy (Draft v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+
+  /* dark header band */
+  .head { background:#0F0E0E; color:#FCFDF8; padding:48px 0 0; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
+  h1 { font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:6px; }
+  .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; margin-bottom:28px; }
+  .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:3px 10px; margin-left:10px; text-transform:uppercase; }
+
+  .tabs { display:flex; gap:2px; flex-wrap:wrap; }
+  .tab { font-family:inherit; font-size:13px; font-weight:700; background:none; border:none; color:#888; padding:12px 18px; cursor:pointer; border-bottom:3px solid transparent; }
+  .tab:hover { color:#FCFDF8; }
+  .tab.on { color:#FCFDF8; border-bottom-color:#CDF851; }
+
+  .main { padding:32px 0 56px; }
+  .pane { display:none; }
+  .pane.on { display:block; }
+
+  .rules { font-size:12px; color:#555; margin-bottom:24px; max-width:72ch; line-height:1.6; }
+  .rules b { font-weight:700; }
+
+  .pagehead { margin-bottom:18px; }
+  .pagehead h2 { font-size:22px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
+  .pagehead p { font-size:14px; color:#555; max-width:62ch; line-height:1.55; }
+
+  /* the copy block — always visible: the actual deck copy */
+  .copy { border:2px solid #0F0E0E; background:#FFFFFF; padding:26px 30px; margin-bottom:14px; }
+  .copy .headline { font-size:19px; font-weight:900; letter-spacing:-.01em; margin-bottom:14px; }
+  .copy p { font-size:14px; line-height:1.7; color:#222; margin-bottom:10px; max-width:62ch; }
+  .copy p:last-child { margin-bottom:0; }
+  .slot { background:#CDF851; font-weight:700; padding:0 4px; }
+  .check { background:#FF4A23; color:#fff; font-size:10px; font-weight:800; padding:1px 6px; letter-spacing:.06em; text-transform:uppercase; }
+
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0 4px; }
+  .exec { border:2px solid #0F0E0E; background:#F5F2EB; padding:9px 11px; }
+  .exec b { display:block; font-size:12px; font-weight:800; }
+  .exec span { font-size:11px; color:#555; line-height:1.35; display:block; margin-top:2px; }
+  .exec .cred { font-size:10px; color:#888; margin-top:4px; display:block; font-style:italic; }
+
+  .arcs { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0 4px; }
+  .arc { border:2px solid #0F0E0E; background:#F5F2EB; padding:13px 15px; }
+  .arc .who { font-size:13px; font-weight:800; margin-bottom:5px; }
+  .arc .from { font-size:12px; color:#555; line-height:1.5; }
+  .arc .to { font-size:13px; font-weight:700; margin-top:5px; line-height:1.5; }
+  .arc .to::before { content:"→ "; color:#FF4A23; font-weight:900; }
+
+  /* accordions — notes hidden behind a click */
+  details { border:2px solid #0F0E0E; background:#fff; margin-bottom:8px; }
+  details summary { list-style:none; cursor:pointer; display:flex; gap:14px; align-items:baseline; padding:12px 16px; }
+  details summary::-webkit-details-marker { display:none; }
+  summary .tag { flex-shrink:0; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:2px 8px; background:#0F0E0E; color:#CDF851; }
+  summary .gloss { font-size:13px; color:#555; }
+  details[open] summary { background:#0F0E0E; }
+  details[open] summary .gloss { color:#C9C9C4; }
+  details .body { padding:4px 16px 14px; }
+  details .body p { font-size:13px; color:#444; line-height:1.6; max-width:62ch; }
+
+  .callout { background:#0F0E0E; color:#FCFDF8; padding:18px 24px; font-size:14px; font-weight:600; line-height:1.55; margin-top:14px; }
+  .callout .zing { color:#CDF851; }
+
+  .meta { margin-top:28px; font-size:12px; color:#888; }
+  @media (max-width:800px){ .grid{grid-template-columns:1fr 1fr;} .arcs{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="head"><div class="wrap">
+  <div class="kicker">RCA Records · Campaign Ops · Pitch Deck System · Part A</div>
+  <h1>Why RCA — The Boilerplate</h1>
+  <div class="sub">The 2–3 pages that open every bespoke deck — and stand alone as the thing you text a manager an hour after the first call. Rule for every line: show the receipt, skip the speech.<span class="v">Draft v2 · for review</span></div>
+  <div class="tabs">
+    <button class="tab on" data-p="room">1 · The Room</button>
+    <button class="tab" data-p="track">2 · Track Record</button>
+    <button class="tab" data-p="worlds">3 · Worlds</button>
+    <button class="tab" data-p="usage">Usage</button>
+  </div>
+</div></div>
+
+<div class="main"><div class="wrap">
+  <div class="rules"><b>Rules of the road:</b> <span class="slot">green slots</span> get tailored per pitch · <span class="check">Check</span> = verify against the live stat sheet (or confirm executed vs. pitched) before anything ships.</div>
+
+  <!-- PAGE 1 -->
+  <div class="pane on" id="room">
+    <div class="pagehead">
+      <h2>Names, faces, credits. No mission statement.</h2>
+      <p>The specific people who would work this artist, each carrying a credit that proves it.</p>
+    </div>
+
+    <div class="copy">
+      <div class="headline">The people on <span class="slot">[ARTIST]</span>'s team, day one.</div>
+      <div class="grid">
+        <div class="exec"><b>Peter Edge</b><span>Chairman &amp; CEO</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>John Fleckenstein</b><span>COO</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Dan Chertoff</b><span>SVP A&amp;R</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Val Pensa</b><span>SVP Marketing</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Niki Roberton</b><span>SVP Creative</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Tarek Al-Hamdouni</b><span>SVP Digital Marketing</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Keith Rothschild</b><span>SVP Promotion</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+        <div class="exec"><b>Camille Yorrick</b><span>EVP Visual Content</span><span class="cred">[credit] <span class="check">Check</span></span></div>
+      </div>
+      <p style="margin-top:12px">Behind the room: Sony Music — 50+ markets, every DSP and retailer, one coordinated campaign.</p>
+    </div>
+
+    <details><summary><span class="tag">The move</span><span class="gloss">one artist credit per exec, matched to the pitch</span></summary>
+      <div class="body"><p>Each exec gets ONE artist credit relevant to this pitch ("A&amp;R'd Tate McRae's first EP", "ran the SOS campaign"). Signing an alt act? Show the Sleep Token credits. That's the whole argument — no "we're a family" prose needed. Credits to be sourced per person; flagged CHECK.</p></div></details>
+    <details><summary><span class="tag">Tailor</span><span class="gloss">swap in the people who'd actually work this artist</span></summary>
+      <div class="body"><p>A&amp;R lead, campaign lead, genre promo. Laufey's 11-name grid is the master list; 8 fits one page.</p></div></details>
+    <details><summary><span class="tag">Design</span><span class="gloss">photo grid with captions, not a text page</span></summary>
+      <div class="body"><p>Faces required. This page fails as text-only — the whole argument is "you'd know these people."</p></div></details>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="pane" id="track">
+    <div class="pagehead">
+      <h2>Where they started → where they landed.</h2>
+      <p>Four arcs, each a before-and-after. The gap between the lines is the label's work — the reader does that math.</p>
+    </div>
+
+    <div class="copy">
+      <div class="headline">Signed here. Built here.</div>
+      <div class="arcs">
+        <div class="arc"><div class="who">Tate McRae</div>
+          <div class="from">Signed as a teenager posting songs from her bedroom.</div>
+          <div class="to">So Close To What: 177K first week, #1 in 13 markets. <span class="check">Check</span></div></div>
+        <div class="arc"><div class="who">Sleep Token</div>
+          <div class="from">Masked, anonymous, zero radio profile. Take Me Back To Eden opened at 29K, #16.</div>
+          <div class="to">Even In Arcadia: 127K, #1 in 9 markets. "Caramel" and "Emergence" both #1 Active Rock. <span class="check">Check</span></div></div>
+        <div class="arc"><div class="who">SZA</div>
+          <div class="from">Ctrl era: a critical favorite, not yet a chart force.</div>
+          <div class="to">SOS: 318K first week, 14 weeks at #1, 110 weeks in the Top 10. <span class="check">Check</span></div></div>
+        <div class="arc"><div class="who">Audrey Hobert</div>
+          <div class="from">One song, one sync placement on Off Campus.</div>
+          <div class="to">104M+ campaign-driven views · 18% of all TikTok views · 40% peak daily share. <span class="check">Check</span></div></div>
+      </div>
+    </div>
+
+    <details><summary><span class="tag">Tailor</span><span class="gloss">four tiles max, matched to the pitch posture</span></summary>
+      <div class="body"><p>Developing act → Sleep Token + Audrey up front; pop scale → Tate + SZA; renewal → add format dominance ("10 #1 Alternative/Rock singles in 2025" <span class="check">Check</span>). Doja Cat, Steve Lacy, KAYTRANADA arcs are on the bench — full prose sits in the RCA template's A&amp;R Strategy slide.</p></div></details>
+    <details><summary><span class="tag">Voice</span><span class="gloss">the arrows are the meaning — never explain them</span></summary>
+      <div class="body"><p>Headline is four words. If a sentence explains what the arcs "mean," cut it.</p></div></details>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="pane" id="worlds">
+    <div class="pagehead">
+      <h2>Not "we build worlds." Here are the worlds.</h2>
+      <p>The #1 artist ask is "help me make this world." Answer with a wall of things that actually got made.</p>
+    </div>
+
+    <div class="copy">
+      <div class="headline">Built for artists on this roster:</div>
+      <p>· A fictional artist launched as a real one — ecosystem, fan club, staged signing, debut single, breakout campaign. <span class="check">Check</span><br>
+      · A sync placement turned into a 104M-view story in three weeks. <span class="check">Check</span><br>
+      · SZA's "Hoppers" — a bespoke placement created for the film, not licensed off a shelf. <span class="check">Check</span><br>
+      · Theatrical residencies, a fan festival with ticketed masterclasses, a studio built with the artist's sister. <span class="check">Check</span><br>
+      · Films, documentaries, and scripted TV in development around roster artists — Porgy &amp; Bess with SZA, a Lisa documentary, Khalid scripted. <span class="check">Check</span><br>
+      · Simlish re-recordings, in-game acoustic sets, cozy-game placements — fandoms met where they live. <span class="check">Check</span><br>
+      · The same campaign, localized and executed in 50+ markets at once.</p>
+      <p><b>Page 4 onward: the version of this built for <span class="slot">[ARTIST]</span>.</b></p>
+    </div>
+
+    <details><summary><span class="tag">Critical</span><span class="gloss">executed only — a pitched idea is not a receipt</span></summary>
+      <div class="body"><p>Every item on this wall must be EXECUTED, not pitched. Several above come from pitch decks (Laufey residencies, premium content slate) — before shipping, sort into "done" vs. "in development" and either label honestly or cut. A pitched idea presented as a receipt is the fastest way to lose the room.</p></div></details>
+    <details><summary><span class="tag">Design</span><span class="gloss">image wall — each build shown, not listed</span></summary>
+      <div class="body"><p>The copy above is caption stock.</p></div></details>
+  </div>
+
+  <!-- USAGE -->
+  <div class="pane" id="usage">
+    <div class="pagehead">
+      <h2>How this module behaves.</h2>
+      <p>What's fixed, what flexes, and what happens next.</p>
+    </div>
+
+    <details><summary><span class="tag">Fixed</span><span class="gloss">structure + the show-don't-tell rule</span></summary>
+      <div class="body"><p>Names carry credits, arcs carry numbers, worlds carry proof. If a line states a value ("we develop," "we're global"), it gets cut and replaced with the receipt.</p></div></details>
+    <details><summary><span class="tag">Tailored</span><span class="gloss">grid, arcs, wall order — 20 minutes per pitch</span></summary>
+      <div class="body"><p>Exec grid + credits, four arc tiles, world wall order. A tailoring job, not a rebuild.</p></div></details>
+    <details><summary><span class="tag">Numbers</span><span class="gloss">every stat is CHECK until the live stat sheet exists</span></summary>
+      <div class="body"><p>Page 3 additionally needs executed-vs-pitched sorting. Whoever assembles verifies against the sheet, not memory.</p></div></details>
+    <details><summary><span class="tag">Next</span><span class="gloss">Meg review → source credits → Niki's team designs</span></summary>
+      <div class="body"><p>Sourcing the exec credits is the one real content lift. Then Niki's team designs the 3-page master in Figma → standing top of every bespoke deck + the standalone textable version.</p></div></details>
+
+    <div class="callout">Part A done means the first hour after any pitch call is covered. <span class="zing">Part B (module masters) makes the rest of the deck an assembly job.</span></div>
+    <div class="meta">Draft v2 · Campaign Ops · Aug 2026 · Companion to "Pitch Deck Bones v2" + "Deck for a Deck — A&amp;R 2-Slider" · Copy sources: Teddy, NINAJIRACHI, MÅNESKIN, RoseHill, RCA Template, Laufey</div>
+  </div>
+</div></div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+  }));
+</script>
+
+<!-- shared Ops HQ gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
+  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+</div>
+<script>
+(function(){
+  var g=document.getElementById('rca-gate');
+  function unlock(){ g.style.display='none'; }
+  function check(){
+    var v=document.getElementById('rca-pw').value;
+    if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+    else { document.getElementById('rca-err').textContent='Incorrect password'; document.getElementById('rca-pw').value=''; document.getElementById('rca-pw').focus(); }
+  }
+  document.getElementById('rca-go').addEventListener('click',check);
+  document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+})();
+</script>
+</body>
+</html>

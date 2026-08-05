@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Deck System — Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+  .head { background:#0F0E0E; color:#FCFDF8; padding:48px 0 40px; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:8px; }
+  h1 { font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:6px; }
+  .sub { font-size:14px; color:#C9C9C4; max-width:62ch; line-height:1.55; }
+
+  .main { padding:36px 0 56px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  a.card { display:block; border:2px solid #0F0E0E; background:#fff; padding:22px 24px; text-decoration:none; color:#0F0E0E; }
+  a.card:hover { background:#0F0E0E; color:#FCFDF8; }
+  a.card:hover .go { color:#CDF851; }
+  .card .part { font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#FF4A23; margin-bottom:8px; }
+  .card h2 { font-size:18px; font-weight:900; letter-spacing:-.01em; margin-bottom:6px; }
+  .card p { font-size:13px; color:#888; line-height:1.55; margin-bottom:14px; }
+  a.card:hover p { color:#C9C9C4; }
+  .card .go { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+  .meta { margin-top:28px; font-size:12px; color:#888; max-width:62ch; line-height:1.6; }
+  @media (max-width:800px){ .cards{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="head"><div class="wrap">
+  <div class="kicker">RCA Records · Campaign Ops</div>
+  <h1>Pitch Deck System</h1>
+  <div class="sub">Three working docs, all interactive — click anything inside to open it. Drafts, for review.</div>
+</div></div>
+
+<div class="main"><div class="wrap">
+  <div class="cards">
+    <a class="card" href="why-rca.html">
+      <div class="part">Part A · Draft v2</div>
+      <h2>Why RCA — The Boilerplate</h2>
+      <p>The 2–3 pages that open every deck and stand alone as the same-day textable. Room · arcs · worlds.</p>
+      <div class="go">Open →</div>
+    </a>
+    <a class="card" href="bones.html">
+      <div class="part">Part B · v2</div>
+      <h2>Pitch Deck Bones</h2>
+      <p>Six decks, one skeleton — the master module library, proof library, and four pitch variants.</p>
+      <div class="go">Open →</div>
+    </a>
+    <a class="card" href="deck-for-a-deck.html">
+      <div class="part">Process · Draft</div>
+      <h2>Deck for a Deck</h2>
+      <p>The A&amp;R 2-slider: how to get a deck — five steps, six inputs, five days.</p>
+      <div class="go">Open →</div>
+    </a>
+  </div>
+  <div class="meta">All stats carry CHECK flags until the live stat sheet exists. Sequence: Why-RCA copy review → exec credits sourced → Niki's team designs the 3-page master.</div>
+</div></div>
+
+<!-- shared Ops HQ gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
+  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
+  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+</div>
+<script>
+(function(){
+  var g=document.getElementById('rca-gate');
+  function unlock(){ g.style.display='none'; }
+  function check(){
+    var v=document.getElementById('rca-pw').value;
+    if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+    else { document.getElementById('rca-err').textContent='Incorrect password'; document.getElementById('rca-pw').value=''; document.getElementById('rca-pw').focus(); }
+  }
+  document.getElementById('rca-go').addEventListener('click',check);
+  document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+})();
+</script>
+</body>
+</html>
