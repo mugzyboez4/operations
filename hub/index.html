@@ -51,6 +51,9 @@
   .card.dragging { opacity:.45; outline:2px dashed #CDF851; outline-offset:3px; }
   .card .grip { position:absolute; top:10px; right:12px; color:#CCC; font-size:12px; letter-spacing:1px; }
   .card:hover .grip { color:#666; }
+  .card .cut { position:absolute; top:6px; right:32px; width:20px; height:20px; border:none; background:none; color:#CCC; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; line-height:1; display:none; padding:0; }
+  .card:hover .cut { display:block; }
+  .card .cut:hover { color:#FF4A23; }
   .hint { font-size:11px; color:#847D96; margin-top:10px; }
   .hint a { color:#CDF851; text-decoration:none; font-weight:700; cursor:pointer; }
   .card:hover { background:#0F0E0E; color:#FCFDF8; }
@@ -109,36 +112,36 @@
       <div class="kicker">RCA Records · Campaign Ops</div>
       <h1>Everything, one place.</h1>
       <p>Every live board, reference tool, and workspace across Campaign Ops — click any card to open it right here.</p>
-      <div class="hint">Drag cards to rearrange · order saves automatically · <a id="reset-layout">reset layout</a></div>
+      <div class="hint">Drag to rearrange · hover a card and hit × to remove it · <a id="reset-layout">reset layout</a> brings everything back</div>
     </div>
     <div class="dash-body">
       <div class="sec-label">Boards</div>
       <div class="cards">
-        <button class="card" data-src="/team.html"><span class="grip">⠿</span><h3>OPS HQ — This Week</h3><p>The weekly command center — active projects, priorities, team notes.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/d2c-grid.html"><span class="grip">⠿</span><h3>D2C Long Lead</h3><p>Direct-to-consumer planning grid across the roster.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/creative-tickets.html"><span class="grip">⠿</span><h3>Creative Tickets</h3><p>Creative request queue and status tracking.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/team.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>OPS HQ — This Week</h3><p>The weekly command center — active projects, priorities, team notes.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/d2c-grid.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>D2C Long Lead</h3><p>Direct-to-consumer planning grid across the roster.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creative-tickets.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Creative Tickets</h3><p>Creative request queue and status tracking.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Reference</div>
       <div class="cards">
-        <button class="card" data-src="/campaigns.html"><span class="grip">⠿</span><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/pitches.html"><span class="grip">⠿</span><h3>Pitches by Artist</h3><p>8,500+ licensing pitches across 755 artists.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/creators.html"><span class="grip">⠿</span><h3>Creator Database</h3><p>The creator network — contacts, platforms, past work.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="/dept-workflows.html"><span class="grip">⠿</span><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/campaigns.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/pitches.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Pitches by Artist</h3><p>8,500+ licensing pitches across 755 artists.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creators.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Creator Database</h3><p>The creator network — contacts, platforms, past work.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/dept-workflows.html"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Pitch Decks</div>
       <div class="cards">
-        <button class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Jordan</div>
       <div class="cards">
-        <button class="card" data-src="/jordan/"><span class="grip">⠿</span><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/jordan/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></button>
       </div>
       <div class="sec-label">Other Sites</div>
       <div class="cards">
-        <button class="card" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></button>
-        <button class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://kits.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://analytics.mugzyboez.co/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://budget-approval-demo.netlify.app/"><span class="grip">⠿</span><button class="cut" title="Remove from hub">×</button><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></button>
       </div>
     </div>
   </div>
@@ -232,8 +235,34 @@
   grids.forEach(function(g){
     g.addEventListener('dragover',function(e){ e.preventDefault(); if(dragEl && !g.contains(dragEl)) g.appendChild(dragEl); });
   });
+
+  /* hide cards (and matching nav items) — saved per browser */
+  var HKEY='hub_hidden_v1';
+  function hiddenList(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'[]'); }catch(e){ return []; } }
+  function applyHidden(){
+    var h=hiddenList();
+    document.querySelectorAll('#home .card').forEach(function(c){ c.style.display = h.indexOf(c.getAttribute('data-src'))>-1 ? 'none' : ''; });
+    navItems.forEach(function(n){ var ns=n.getAttribute('data-src'); if(ns) n.style.display = h.indexOf(ns)>-1 ? 'none' : ''; });
+    /* hide section labels whose grids are fully empty/hidden */
+    grids.forEach(function(g){
+      var any=Array.prototype.some.call(g.querySelectorAll('.card'),function(c){return c.style.display!=='none';});
+      var lbl=g.previousElementSibling;
+      if(lbl && lbl.classList.contains('sec-label')) lbl.style.display = any?'':'none';
+      g.style.display = any?'':'none';
+    });
+  }
+  document.querySelectorAll('#home .card .cut').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      var src=b.closest('.card').getAttribute('data-src');
+      var h=hiddenList(); if(h.indexOf(src)<0) h.push(src);
+      try{ localStorage.setItem(HKEY, JSON.stringify(h)); }catch(err){}
+      applyHidden();
+    });
+  });
+  applyHidden();
   var rb=document.getElementById('reset-layout');
-  if(rb){ rb.addEventListener('click',function(){ try{localStorage.removeItem(KEY);}catch(e){} location.reload(); }); }
+  if(rb){ rb.addEventListener('click',function(){ try{localStorage.removeItem(KEY);localStorage.removeItem(HKEY);}catch(e){} location.reload(); }); }
 })();
 </script>
 </body>
