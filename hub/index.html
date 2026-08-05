@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Ops — Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; display:flex; overflow:hidden; }
+
+  /* ============ SIDE NAV ============ */
+  .side { width:232px; flex-shrink:0; background:#0F0E0E; color:#FCFDF8; display:flex; flex-direction:column; height:100vh; }
+  .side-brand { display:flex; align-items:center; gap:10px; padding:18px 18px 14px; border-bottom:1px solid #262626; }
+  .side-brand .mk { width:26px; height:26px; background:#CDF851; border-radius:6px; flex-shrink:0; }
+  .side-brand .wd { font-size:15px; font-weight:900; letter-spacing:-.01em; }
+  .side-brand .cp { font-size:10px; color:#847D96; letter-spacing:.12em; text-transform:uppercase; font-weight:600; }
+  .side-nav { flex:1; overflow-y:auto; padding:10px 10px 16px; }
+  .side-nav::-webkit-scrollbar { width:6px; }
+  .side-nav::-webkit-scrollbar-thumb { background:#2A2A2A; border-radius:3px; }
+  .nav-label { font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#666; padding:14px 10px 6px; }
+  .nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; font-size:12.5px; font-weight:600; color:#B8B8B4; border-radius:7px; cursor:pointer; border:none; background:none; width:100%; text-align:left; font-family:inherit; }
+  .nav-item:hover { color:#FCFDF8; background:#1A1A1A; }
+  .nav-item.on { color:#0F0E0E; background:#CDF851; font-weight:700; }
+  .nav-item .ic { width:15px; height:15px; flex-shrink:0; }
+  .nav-item .ext { margin-left:auto; font-size:9px; font-weight:800; letter-spacing:.08em; color:#666; }
+  .nav-item.on .ext { color:#0F0E0E; opacity:.55; }
+  .side-foot { padding:12px 18px; border-top:1px solid #262626; font-size:10px; color:#666; display:flex; justify-content:space-between; align-items:center; }
+  .side-foot .dot { display:inline-block; width:6px; height:6px; background:#CDF851; border-radius:50%; margin-right:5px; }
+
+  /* ============ CONTENT ============ */
+  .content { flex:1; height:100vh; position:relative; background:#F5F2EB; }
+  .content iframe { width:100%; height:100%; border:none; display:none; }
+  .content iframe.on { display:block; }
+
+  /* ============ HOME DASH ============ */
+  #home { display:none; height:100vh; overflow-y:auto; padding:0; }
+  #home.on { display:block; }
+  .dash-head { background:#0F0E0E; color:#FCFDF8; padding:38px 36px 32px; }
+  .dash-head .kicker { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#CDF851; margin-bottom:6px; }
+  .dash-head h1 { font-size:27px; font-weight:900; letter-spacing:-.02em; margin-bottom:5px; }
+  .dash-head p { font-size:13px; color:#C9C9C4; max-width:62ch; line-height:1.55; }
+  .dash-body { padding:26px 36px 48px; }
+  .sec-label { font-size:11px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:#FF4A23; margin:22px 0 10px; }
+  .sec-label:first-child { margin-top:0; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+  .card { display:block; border:2px solid #0F0E0E; background:#fff; padding:16px 18px; cursor:pointer; text-align:left; font-family:inherit; }
+  .card:hover { background:#0F0E0E; color:#FCFDF8; }
+  .card:hover .go { color:#CDF851; }
+  .card:hover p { color:#C9C9C4; }
+  .card h3 { font-size:14.5px; font-weight:900; letter-spacing:-.01em; margin-bottom:4px; }
+  .card p { font-size:12px; color:#888; line-height:1.5; margin-bottom:10px; }
+  .card .go { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+  @media (max-width:760px){ .side{width:64px;} .side .wd,.side .cp,.nav-label,.nav-item span.txt,.nav-item .ext,.side-foot{display:none;} .nav-item{justify-content:center;} }
+</style>
+</head>
+<body>
+
+<aside class="side">
+  <div class="side-brand">
+    <span class="mk"></span>
+    <span><span class="wd">Campaign Ops</span><div class="cp">RCA Records</div></span>
+  </div>
+  <nav class="side-nav" id="nav">
+    <button class="nav-item on" data-view="home"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span class="txt">Home</span></button>
+
+    <div class="nav-label">Boards</div>
+    <button class="nav-item" data-src="/team.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="txt">OPS HQ — This Week</span></button>
+    <button class="nav-item" data-src="/d2c-grid.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span class="txt">D2C Long Lead</span></button>
+    <button class="nav-item" data-src="/creative-tickets.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 1 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg><span class="txt">Creative Tickets</span></button>
+
+    <div class="nav-label">Reference</div>
+    <button class="nav-item" data-src="/campaigns.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg><span class="txt">Campaign Index</span></button>
+    <button class="nav-item" data-src="/pitches.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/></svg><span class="txt">Pitches by Artist</span></button>
+    <button class="nav-item" data-src="/creators.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg><span class="txt">Creator Database</span></button>
+    <button class="nav-item" data-src="/dept-workflows.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M6 16v-2h12v2"/></svg><span class="txt">Dept Workflows</span></button>
+
+    <div class="nav-label">Pitch Decks</div>
+    <button class="nav-item" data-src="/pitchdecks/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M8 20h8M12 16v4"/></svg><span class="txt">Pitch Deck System</span></button>
+
+    <div class="nav-label">Jordan</div>
+    <button class="nav-item" data-src="/jordan/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="txt">Jordan Dashboard</span></button>
+
+    <div class="nav-label">Other Sites</div>
+    <button class="nav-item" data-src="https://mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg><span class="txt">Workspace</span><span class="ext">EXT</span></button>
+    <button class="nav-item" data-src="https://kits.mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg><span class="txt">Kits</span><span class="ext">EXT</span></button>
+    <button class="nav-item" data-src="https://analytics.mugzyboez.co/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg><span class="txt">Analytics</span><span class="ext">EXT</span></button>
+    <button class="nav-item" data-src="https://budget-approval-demo.netlify.app/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="txt">Budget Approvals</span><span class="ext">EXT</span></button>
+  </nav>
+  <div class="side-foot">
+    <span>RCA Records</span>
+    <span><span class="dot"></span>Internal · v1</span>
+  </div>
+</aside>
+
+<div class="content">
+
+  <!-- HOME DASHBOARD -->
+  <div id="home" class="on">
+    <div class="dash-head">
+      <div class="kicker">RCA Records · Campaign Ops</div>
+      <h1>Everything, one place.</h1>
+      <p>Every live board, reference tool, and workspace across Campaign Ops — click any card to open it right here.</p>
+    </div>
+    <div class="dash-body">
+      <div class="sec-label">Boards</div>
+      <div class="cards">
+        <button class="card" data-src="/team.html"><h3>OPS HQ — This Week</h3><p>The weekly command center — active projects, priorities, team notes.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/d2c-grid.html"><h3>D2C Long Lead</h3><p>Direct-to-consumer planning grid across the roster.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creative-tickets.html"><h3>Creative Tickets</h3><p>Creative request queue and status tracking.</p><span class="go">Open →</span></button>
+      </div>
+      <div class="sec-label">Reference</div>
+      <div class="cards">
+        <button class="card" data-src="/campaigns.html"><h3>Campaign Index</h3><p>Every active campaign, indexed and searchable.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/pitches.html"><h3>Pitches by Artist</h3><p>8,500+ licensing pitches across 755 artists.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/creators.html"><h3>Creator Database</h3><p>The creator network — contacts, platforms, past work.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="/dept-workflows.html"><h3>Dept Workflows</h3><p>How each department works — routing, inputs, timelines.</p><span class="go">Open →</span></button>
+      </div>
+      <div class="sec-label">Pitch Decks</div>
+      <div class="cards">
+        <button class="card" data-src="/pitchdecks/"><h3>Pitch Deck System</h3><p>Why-RCA boilerplate, module library, and the A&amp;R deck-for-a-deck process.</p><span class="go">Open →</span></button>
+      </div>
+      <div class="sec-label">Jordan</div>
+      <div class="cards">
+        <button class="card" data-src="/jordan/"><h3>Jordan Dashboard</h3><p>The full tool suite — eight tools, one grid.</p><span class="go">Open →</span></button>
+      </div>
+      <div class="sec-label">Other Sites</div>
+      <div class="cards">
+        <button class="card" data-src="https://mugzyboez.co/"><h3>Workspace</h3><p>The mugzyboez.co home base.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://kits.mugzyboez.co/"><h3>Kits</h3><p>Asset and design kits.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://analytics.mugzyboez.co/"><h3>Analytics</h3><p>Performance and analytics views.</p><span class="go">Open →</span></button>
+        <button class="card" data-src="https://budget-approval-demo.netlify.app/"><h3>Budget Approvals</h3><p>Budget approval flow demo.</p><span class="go">Open →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOL FRAME -->
+  <iframe id="frame" title="Campaign Ops tool"></iframe>
+</div>
+
+<!-- shared Ops HQ gate -->
+<div id="rca-gate" style="position:fixed;inset:0;background:#0F0E0E;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
+  <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
+  <div style="font-size:22px;font-weight:900;color:#FCFDF8;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Campaign Ops Hub</div>
+  <div style="font-size:11px;color:#847D96;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:2px solid #2A2A2A;background:#1A1A1A;color:#FCFDF8;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
+  <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
+  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+</div>
+
+<script>
+(function(){
+  /* gate */
+  var g=document.getElementById('rca-gate');
+  function unlock(){ g.style.display='none'; }
+  function check(){
+    var v=document.getElementById('rca-pw').value;
+    if(v==='RCA2026'){ sessionStorage.setItem('rca_auth','1'); unlock(); }
+    else { document.getElementById('rca-err').textContent='Incorrect password'; document.getElementById('rca-pw').value=''; document.getElementById('rca-pw').focus(); }
+  }
+  document.getElementById('rca-go').addEventListener('click',check);
+  document.getElementById('rca-pw').addEventListener('keydown',function(e){ if(e.key==='Enter')check(); });
+  if(sessionStorage.getItem('rca_auth')==='1'){ unlock(); }
+
+  /* nav + cards → frame */
+  var frame=document.getElementById('frame');
+  var home=document.getElementById('home');
+  var navItems=document.querySelectorAll('.nav-item');
+
+  function show(src){
+    if(!src){ /* home */
+      frame.classList.remove('on'); frame.src='about:blank'; home.classList.add('on');
+      return;
+    }
+    home.classList.remove('on');
+    frame.src=src;
+    frame.classList.add('on');
+  }
+  function setActive(src){
+    navItems.forEach(function(n){
+      var ns=n.getAttribute('data-src');
+      var match = src ? (ns===src) : (n.getAttribute('data-view')==='home');
+      n.classList.toggle('on', match);
+    });
+  }
+  navItems.forEach(function(n){
+    n.addEventListener('click',function(){
+      var src=n.getAttribute('data-src')||null;
+      show(src); setActive(src);
+    });
+  });
+  document.querySelectorAll('.card').forEach(function(c){
+    c.addEventListener('click',function(){
+      var src=c.getAttribute('data-src');
+      show(src); setActive(src);
+    });
+  });
+})();
+</script>
+</body>
+</html>
