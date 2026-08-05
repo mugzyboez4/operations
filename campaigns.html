@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creator Campaign Index</title>
-<link rel="icon" type="image/png" href="/tempoicon.png">
+<link rel="icon" type="image/png" href="/logo_neon.png">
 <style>
 :root{
   --bg:#F5F2EB; --card:#FFFFFF; --tile:#FAF9F4; --ink:#0F0E0E; --text:#0F0E0E; --text-soft:#3E3F41; --text-quiet:#8A8781; --text-fade:#A8A49C;
@@ -76,12 +76,12 @@ h1{font-size:44px;font-weight:600;letter-spacing:-1.4px;line-height:1.08;margin-
 .filt.active{background:var(--text);color:var(--bg);border-color:var(--text);}
 .filt .n{opacity:0.6;font-size:11px;}
 .group{margin-bottom:30px;}
-.group-h{display:flex;align-items:baseline;gap:10px;padding-bottom:9px;border-bottom:2px solid var(--text);margin-bottom:2px;}
+.group-h{display:flex;align-items:baseline;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:2px;}
 .group-h .a{font-size:18px;font-weight:700;letter-spacing:-0.01em;}
 .group-h .meta{font-size:12px;color:var(--text-quiet);}
 /* --- campaign collections + card grid (storefront) --- */
 .collection{margin-bottom:36px;}
-.coll-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding-bottom:11px;border-bottom:2px solid var(--ink);}
+.coll-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding-bottom:11px;border-bottom:1px solid var(--rule);}
 .coll-h .a{font-size:23px;font-weight:700;letter-spacing:-.02em;}
 .coll-h .a::after{content:"";display:inline-block;width:26px;height:4px;background:var(--chartreuse-bright);margin-left:11px;vertical-align:middle;border-radius:2px;}
 .coll-h .meta{font-size:12px;color:var(--text-quiet);font-weight:600;margin-left:auto;}
@@ -119,7 +119,7 @@ h1{font-size:44px;font-weight:600;letter-spacing:-1.4px;line-height:1.08;margin-
 .cc-days{font-size:10px;color:var(--text-fade);white-space:nowrap;}
 @media(max-width:560px){.cgrid{grid-template-columns:1fr;}}
 .addbar{margin-bottom:22px;}
-.addbtn{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:9px 16px;background:var(--card);color:var(--text);border:1.5px solid var(--text);cursor:pointer;font-family:inherit;}
+.addbtn{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:9px 16px;background:var(--card);color:var(--text);border:1px solid var(--ink);cursor:pointer;font-family:inherit;}
 .addbtn:hover{background:var(--text);color:var(--bg);}
 .addform{display:none;margin-top:16px;background:var(--card);border:1px solid var(--rule);padding:22px 24px;}
 .addform.open{display:block;}
@@ -159,18 +159,18 @@ h1{font-size:44px;font-weight:600;letter-spacing:-1.4px;line-height:1.08;margin-
 .dash.none{color:var(--text-fade);border-bottom-color:var(--rule);cursor:default;}
 .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:11px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-quiet);}
 @media(max-width:640px){.wrap{padding:32px 20px 70px;}h1{font-size:27px;}.card{grid-template-columns:1fr;}.right{text-align:left;}.stat{min-width:50%;}}
-.air-corner{position:fixed;top:12px;right:14px;z-index:45;font-size:11px;font-weight:600;color:#6B6A62;background:rgba(255,255,255,0.92);border:1px solid #E3E1D8;border-radius:999px;padding:5px 11px;text-decoration:none;backdrop-filter:blur(4px);transition:color .12s,border-color .12s;}
-.air-corner:hover{color:#16150F;border-color:#8A8576;}
+.air-corner{position:fixed;top:12px;right:14px;z-index:45;font-size:11px;font-weight:600;color:#6B6A62;background:rgba(255,255,255,0.92);border:1px solid #ECEAE3;border-radius:999px;padding:5px 11px;text-decoration:none;backdrop-filter:blur(4px);transition:color .12s,border-color .12s;}
+.air-corner:hover{color:#0F0E0E;border-color:#8A8576;}
 
 /* --- storefront chrome (gold-standard) --- */
-.annbar{background:var(--ink);color:#F2F1EB;font-size:11.5px;letter-spacing:.4px;text-align:center;padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:8px;}
-.annbar b{color:var(--chartreuse-bright);font-weight:800;}
+.annbar{background:var(--card);color:var(--text);border-bottom:1px solid var(--rule);font-size:11.5px;letter-spacing:.4px;text-align:center;padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.annbar b{color:var(--flame);font-weight:700;}
 .anndot{width:6px;height:6px;border-radius:50%;background:var(--chartreuse-bright);box-shadow:0 0 0 3px rgba(205,248,81,.25);flex:none;}
 .shead{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--rule);}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);}
 .brand img{width:30px;height:30px;border-radius:7px;display:block;}
 .brand .bw{display:flex;flex-direction:column;line-height:1.08;}
-.brand .bw b{font-size:14px;font-weight:700;letter-spacing:1.5px;}
+.brand .bw b{font-size:14px;font-weight:600;letter-spacing:-.2px;}
 .brand .bw i{font-size:11px;font-style:normal;color:var(--text-quiet);letter-spacing:.3px;}
 .snav{display:flex;align-items:center;gap:18px;font-size:12.5px;}
 .snav a{color:var(--text-quiet);text-decoration:none;letter-spacing:.3px;}
@@ -181,12 +181,12 @@ h1{font-size:44px;font-weight:600;letter-spacing:-1.4px;line-height:1.08;margin-
 .card{transition:background .15s;border-radius:8px;padding-left:12px;padding-right:12px;}
 .card:hover{background:var(--tile);}
 .card:last-child{border-bottom:none;}
-.sfoot{margin-top:64px;background:var(--ink);}
+.sfoot{margin-top:64px;background:var(--card);border-top:1px solid var(--rule);}
 .sfoot-in{max-width:1180px;margin:0 auto;padding:34px 40px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;}
-.sf-brand{display:flex;align-items:center;gap:10px;color:#F2F1EB;font-weight:700;letter-spacing:1.5px;font-size:14px;}
+.sf-brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:600;letter-spacing:-.2px;font-size:14px;}
 .sf-brand img{width:26px;height:26px;border-radius:6px;}
-.sf-meta{font-size:12px;color:#9C988C;max-width:520px;line-height:1.5;}
-.sf-links a{color:var(--chartreuse-bright);text-decoration:none;font-size:12px;margin-left:14px;}
+.sf-meta{font-size:12px;color:var(--text-quiet);max-width:520px;line-height:1.5;}
+.sf-links a{color:var(--flame);text-decoration:none;font-size:12px;margin-left:14px;}
 @media(max-width:620px){.shead{flex-wrap:wrap;gap:10px;}.snav{gap:12px;}.sfoot-in{padding:28px 22px;}}
 
 /* --- contribution sparkline + drill-down modal --- */
@@ -242,7 +242,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 
 <div class="annbar"><span class="anndot"></span>Live cross-vendor campaign index &middot; <b id="anncount">…</b> campaigns across every platform &amp; agency</div>
 <header class="shead">
-  <a class="brand" href="/"><img src="/tempoicon.png" alt="TEMPO"><span class="bw"><b>TEMPO</b><i>Creator Campaign Index</i></span></a>
+  <a class="brand" href="/"><img src="/logo_neon.png" alt=""><span class="bw"><b>Campaign Ops</b><i>Creator Campaign Index</i></span></a>
   <nav class="snav">
     <a href="/">Home</a>
     <a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Airtable &#8599;</a>
@@ -562,7 +562,7 @@ function fullchart(c){
   var W=660,H=230,L=48,R=14,T=14,B=28,iw=W-L-R,ih=H-T-B,yMax=niceCeilC(Math.max.apply(null,v));
   var x=function(i){return L+iw*(i/(v.length-1));}, y=function(val){return T+ih*(1-val/yMax);};
   var s='';
-  [0,.5,1].forEach(function(f){var gv=yMax*f,yy=y(gv).toFixed(1);s+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="#E3E1D8"/><text x="'+(L-7)+'" y="'+(parseFloat(yy)+3)+'" fill="#6B6A62" font-size="10" text-anchor="end">'+fmtNum(gv)+'</text>';});
+  [0,.5,1].forEach(function(f){var gv=yMax*f,yy=y(gv).toFixed(1);s+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="#ECEAE3"/><text x="'+(L-7)+'" y="'+(parseFloat(yy)+3)+'" fill="#6B6A62" font-size="10" text-anchor="end">'+fmtNum(gv)+'</text>';});
   var p='M'+L+','+y(0).toFixed(1);for(var i=0;i<v.length;i++)p+=' L'+x(i).toFixed(1)+','+y(v[i]).toFixed(1);p+=' L'+x(v.length-1).toFixed(1)+','+y(0).toFixed(1)+' Z';
   s+='<path d="'+p+'" fill="#FF4A23" fill-opacity="0.1"/>';
   var tp='M'+L+','+y(v[0]).toFixed(1);for(var k=1;k<v.length;k++)tp+=' L'+x(k).toFixed(1)+','+y(v[k]).toFixed(1);s+='<path d="'+tp+'" fill="none" stroke="#FF4A23" stroke-width="2.5"/>';
@@ -694,7 +694,7 @@ function renderAll(){ buildTierMap(); buildConvMap(); renderSummary(); renderFil
 </script>
 
 <footer class="sfoot"><div class="sfoot-in">
-  <div class="sf-brand"><img src="/tempoicon.png" alt="TEMPO"><span>TEMPO</span></div>
+  <div class="sf-brand"><img src="/logo_neon.png" alt=""><span>Campaign Ops</span></div>
   <div class="sf-meta">RCA Records &middot; Campaign Operations &middot; sandbox view.</div>
   <div class="sf-links"><a href="/">Home</a><a href="https://airtable.com/appon9XPSAIySM1lA/tblzGn0Q1hxEzaHXD" target="_blank" rel="noopener">Source data &#8599;</a></div>
 </div></footer>

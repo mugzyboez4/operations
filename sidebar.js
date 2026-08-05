@@ -1,5 +1,5 @@
 /* ============================================
-   TEMPO — Team Notes Sidebar
+   Campaign Ops — Team Notes Sidebar
    Injectable component. Add to any page with:
    <script src="sidebar.js"></script>
    ============================================ */
@@ -63,7 +63,7 @@ var dragIdx = null;
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(notes)); }
 
 function getPage(){
-  return document.title.replace(/TEMPO\s*[—\-]\s*/,'').trim() || location.pathname.split('/').pop() || 'Home';
+  return document.title.replace(/Campaign Ops\s*[·—\-]\s*/,'').trim() || location.pathname.split('/').pop() || 'Home';
 }
 
 function timeAgo(ts){
@@ -185,7 +185,7 @@ function addNote(){
 
 function exportNotes(){
   if(notes.length === 0) return;
-  var txt = 'TEMPO — Team Notes Export\n' + new Date().toLocaleDateString() + '\n' + '========================================\n\n';
+  var txt = 'Campaign Ops — Team Notes Export\n' + new Date().toLocaleDateString() + '\n' + '========================================\n\n';
   for(var i = 0; i < notes.length; i++){
     var n = notes[i];
     txt += '[' + n.page + '] ' + new Date(n.ts).toLocaleString() + '\n' + n.text + '\n\n';
