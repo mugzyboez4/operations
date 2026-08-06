@@ -94,7 +94,7 @@ td .a{font-weight:600;color:var(--ink)}
 <header>
   <div class="kicker">Campaign Ops · Working Demo</div>
   <h1>Budget Approvals</h1>
-  <p class="sub">Form in, sheet out. A spend request is created the moment someone <b>decides</b> to pay a vendor — before any invoice exists. Every row below feeds the PO tracker and rolls up into the G1–G5 budget groups.</p>
+  <p class="sub">A spend request is created the moment someone <b>decides</b> to pay a vendor — before any invoice exists. Every row below feeds the PO tracker and rolls up into the G1–G5 budget groups.</p>
 </header>
 
 <div class="grid">
@@ -155,9 +155,9 @@ td .a{font-weight:600;color:var(--ink)}
 <section class="flow-sec">
   <div class="kicker">The Whole Flow</div>
   <h2>Where a request goes after you hit submit</h2>
-  <p class="lede">The form is step two of seven. Everything downstream already exists in Console — the demo just puts a front door on it.</p>
+  <p class="lede">The form is step two of seven. Everything downstream already exists in Console — the demo adds a single intake point in front of it.</p>
   <div class="flow">
-    <div class="fstep"><span class="n">01</span><h3>Decision</h3><p>Someone decides to pay a vendor. Nothing else has happened yet — that's the capture moment.</p><span class="tag">Lead</span></div>
+    <div class="fstep"><span class="n">01</span><h3>Decision</h3><p>Someone decides to pay a vendor. Nothing else has happened yet — this is when the request gets captured.</p><span class="tag">Lead</span></div>
     <div class="fstep here"><span class="n">02</span><h3>Spend request</h3><p>This form. Artist, phase, finance bucket, vendor, amount, start date.</p><span class="tag">You are here</span></div>
     <div class="fstep"><span class="n">03</span><h3>PO raised</h3><p>Support enters it in Console and fills the PO#. Blanket POs keep multi-part budgets in one place.</p><span class="tag">Support</span></div>
     <div class="fstep"><span class="n">04</span><h3>Vendor notified</h3><p>Console's "Email vendor" button auto-sends the PO — amount can be hidden.</p><span class="tag">Console · automated</span></div>
@@ -167,7 +167,7 @@ td .a{font-weight:600;color:var(--ink)}
   </div>
   <div class="rules">
     <div class="rule-card">
-      <h3>Finance's rules of the road</h3>
+      <h3>Finance requirements</h3>
       <div class="who">From Sony finance's Console PO requirements</div>
       <ul>
         <li><b>PO description</b> = Artist + single/album + date(s) of service. Due date = expected date of service.</li>
@@ -182,7 +182,7 @@ td .a{font-weight:600;color:var(--ink)}
       <ul>
         <li>Every row lands in a <b>finance bucket</b> against a <b>budget phase</b>, so actuals are analyzable the moment they're captured.</li>
         <li>Actuals roll up into the <b>five roster groups</b> — G1 Flagship through G5 Emerging — the uniform tiering behind budget reviews.</li>
-        <li>That gives every budget conversation a <b>baseline to point at</b>, instead of a personal judgment call.</li>
+        <li>That gives every budget conversation a <b>shared baseline</b> instead of a personal judgment call.</li>
       </ul>
     </div>
   </div>
@@ -192,8 +192,8 @@ td .a{font-weight:600;color:var(--ink)}
   <p class="lede">Before a spend request exists, the marketing budget behind it gets approved &mdash; proposed by the lead, checked against the group ceiling, signed off by Finance, Tarek, and Niki. These working demos walk that whole flow with sample data.</p>
   <div class="demos">
     <a class="demo-card" href="/budget/demo.html" target="_blank" rel="noopener"><h3>Budget approval &mdash; full demo</h3><p>The combined desktop view. Switch between Submitter, Finance, Tarek, and Niki to see each role's queue, questions, and sign-off &mdash; sample data, nothing live.</p><span class="go">Open demo &rarr;</span></a>
-    <a class="demo-card t" href="/budget/fleck.html" target="_blank" rel="noopener"><h3>Fleck sign-off &mdash; phone</h3><p>The finale: final sign-off from a phone. One screen, one decision, done between meetings.</p><span class="go">Open demo &rarr;</span></a>
-    <a class="demo-card g" href="/budget/tracker.html" target="_blank" rel="noopener"><h3>Budget tracker</h3><p>Prototype of the roll-up: spent against ceiling by artist and group, so a gap is a worth-a-why, not a verdict.</p><span class="go">Open demo &rarr;</span></a>
+    <a class="demo-card t" href="/budget/fleck.html" target="_blank" rel="noopener"><h3>Fleck sign-off &mdash; phone</h3><p>Final sign-off from a phone — one screen with the decision and its context.</p><span class="go">Open demo &rarr;</span></a>
+    <a class="demo-card g" href="/budget/tracker.html" target="_blank" rel="noopener"><h3>Budget tracker</h3><p>Prototype of the roll-up: spent against ceiling by artist and group, so gaps in either direction are easy to spot and ask about.</p><span class="go">Open demo &rarr;</span></a>
   </div>
 </section>
 
