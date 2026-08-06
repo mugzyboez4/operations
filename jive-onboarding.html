@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jive Records — New Artist Onboarding</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#D9D6CE; --panel:#D9D6CE; --card:#DEDBD3; --line:rgba(0,82,159,.35);
+    --gold:#00529F; --gold-bright:#3860BE; --green:#1E8465; --red:#D02800;
+    --txt:#00447F; --txt2:#3F6A94; --txt3:#7189A3; --txt4:#9DACBD;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg)}
+  body{font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--txt);-webkit-font-smoothing:antialiased;position:relative}
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.5;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/></svg>")}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-thumb{background:rgba(0,82,159,.3)}
+  ::-webkit-scrollbar-track{background:transparent}
+  button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:pointer;text-align:left}
+  select{font:inherit;cursor:pointer}
+  .kicker{font-family:var(--mono);font-size:10.5px;font-weight:300;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+  .microlabel{font-family:var(--mono);font-size:10px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--txt3)}
+
+  .app{display:grid;grid-template-columns:314px 1fr;height:100vh;width:100%;overflow:hidden}
+  aside{display:flex;flex-direction:column;border-right:2px solid var(--line);background:var(--panel);overflow:hidden}
+  main{overflow-y:auto}
+
+  .brand{padding:22px 26px 18px;border-bottom:2px solid var(--line);cursor:pointer;width:100%}
+  .brand h1{font-weight:600;font-size:20px;line-height:1.15;letter-spacing:.08em;margin:8px 0 0;text-transform:uppercase;color:var(--gold)}
+
+  .artistbox{padding:14px 26px;border-bottom:2px solid var(--line)}
+  .artistrow{display:flex;gap:8px;margin-top:8px}
+  .artistrow select{flex:1;min-width:0;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:0;padding:8px 10px;font-size:13px}
+  .btn-sm{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 11px;border:1px solid var(--line);border-radius:0;color:var(--txt2);transition:all .15s;flex:none;background:transparent}
+  .btn-sm:hover{color:var(--gold);border-color:var(--gold)}
+  .btn-sm.on{border-color:var(--gold);color:var(--bg);background:var(--gold)}
+
+  .progressbox{padding:14px 26px;border-bottom:2px solid var(--line)}
+  .track{height:5px;background:rgba(0,82,159,.14);overflow:hidden}
+  .fill{height:100%;background:var(--gold);transition:width .35s ease}
+
+  .tabs{display:flex;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+  .tab{flex:1 1 50%;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;padding:12px 4px;color:var(--txt3);border-bottom:2px solid transparent;transition:all .15s;border-top:1px solid var(--line)}
+  .tab:nth-child(-n+2){border-top:none}
+  .tab:nth-child(odd){border-right:1px solid var(--line)}
+  .tab:hover{color:var(--gold)}
+  .tab.on{color:var(--bg);background:var(--gold);border-bottom-color:var(--gold)}
+
+  nav{flex:1;overflow-y:auto;padding:8px 0 16px}
+  .navitem{display:flex;align-items:baseline;gap:6px;padding:9px 26px;width:100%;transition:all .13s;color:var(--txt2);border-left:3px solid transparent}
+  .navitem:hover{background:rgba(0,82,159,.06)}
+  .navitem.active{color:var(--gold);background:rgba(0,82,159,.09);border-left-color:var(--gold)}
+  .navitem.full{color:var(--txt3)}
+  .navitem .num{font-family:var(--mono);font-size:10.5px;width:24px;flex:none;color:var(--txt3)}
+  .navitem.active .num{color:var(--gold)}
+  .navitem.full .num{color:var(--green)}
+  .navitem .t{flex:1;font-size:13px;line-height:1.35;padding-right:8px}
+  .navitem .c{font-family:var(--mono);font-size:10px;flex:none;color:var(--txt3)}
+  .navitem.full .c{color:var(--green)}
+
+  .sidefoot{padding:14px 26px;border-top:2px solid var(--line);display:flex;gap:9px}
+  .sidefoot .btn-sm{flex:1;text-align:center}
+
+  .hero{padding:56px 68px 44px;border-bottom:2px solid var(--line)}
+  .hero h2{font-weight:600;font-size:clamp(28px,3.6vw,48px);line-height:1.08;letter-spacing:.06em;margin:20px 0 0;max-width:22ch;text-transform:uppercase;text-wrap:balance;color:var(--gold)}
+  .hero p{font-size:15.5px;line-height:1.6;color:var(--txt2);max-width:60ch;margin:20px 0 0}
+  .stats{display:flex;gap:48px;margin-top:34px;flex-wrap:wrap}
+  .stat .v{font-family:var(--mono);font-size:32px;font-weight:500;line-height:1;margin-top:8px;color:var(--txt)}
+  .stat .v .dim{color:var(--txt4)}
+  .cta{display:inline-flex;align-items:center;gap:14px;margin-top:34px;padding:13px 24px;background:transparent;color:var(--gold);border:2px solid var(--gold);border-radius:0;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;transition:all .15s}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+
+  .cards{padding:34px 68px 88px;display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:14px}
+  .card{padding:24px 24px 22px;border:2px solid var(--line);border-radius:0;background:var(--card);transition:all .16s;display:flex;flex-direction:column;justify-content:space-between;min-height:180px;width:100%}
+  .card:hover{border-color:var(--gold)}
+  .card.full{background:rgba(30,132,101,.07);border-color:rgba(30,132,101,.4)}
+  .card .top{display:flex;justify-content:space-between;align-items:baseline}
+  .card .num{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--gold)}
+  .card .cnt{font-family:var(--mono);font-size:10.5px;color:var(--txt3)}
+  .card h3{font-weight:600;font-size:16.5px;line-height:1.25;letter-spacing:.03em;margin:16px 0 10px;text-wrap:pretty;color:var(--txt);text-transform:uppercase}
+  .card .sub{font-size:12.5px;line-height:1.5;color:var(--txt2);margin:-4px 0 12px}
+  .card .meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+  .tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:0;background:rgba(0,82,159,.08);color:var(--txt2);border:1px solid rgba(0,82,159,.16)}
+  .tag.when{background:rgba(0,82,159,.12);color:var(--gold);border-color:rgba(0,82,159,.3)}
+  .card .track{height:4px}
+
+  .phead{padding:48px 68px 34px;border-bottom:2px solid var(--line)}
+  .phead h2{font-weight:600;font-size:clamp(24px,3vw,40px);line-height:1.1;letter-spacing:.05em;margin:16px 0 0;max-width:26ch;text-transform:uppercase;text-wrap:balance;color:var(--gold)}
+  .phead .meta{display:flex;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+  .phead .pbar{display:flex;align-items:center;gap:18px;margin-top:24px;max-width:600px}
+  .phead .cnt{font-family:var(--mono);font-size:12px;color:var(--txt2);flex:none}
+
+  .section{padding:0 68px;max-width:1100px}
+  .subhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:44px 0 4px;padding-bottom:12px;border-bottom:2px solid var(--line)}
+  .subhead .num{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--gold);flex:none}
+  .subhead h3{font-weight:600;font-size:17px;letter-spacing:.05em;margin:0;text-transform:uppercase;flex:1;color:var(--txt)}
+  .subhead .cnt{font-family:var(--mono);font-size:11px;color:var(--txt3);flex:none}
+
+  .items{display:flex;flex-direction:column;gap:2px;padding:10px 0 6px}
+  .item{display:flex;align-items:flex-start;gap:15px;padding:12px 16px;border-radius:0;transition:background .13s;background:rgba(0,82,159,.035);width:100%}
+  .item:hover{background:rgba(0,82,159,.08)}
+  .item:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+  .item.done{background:transparent}
+  .item .box{font-family:var(--mono);flex:none;width:19px;height:19px;margin-top:2px;border-radius:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;transition:all .15s;border:1px solid var(--gold);color:transparent}
+  .item.done .box{background:var(--green);color:var(--bg);border-color:var(--green)}
+  .item .txt{flex:1;font-size:15px;line-height:1.5;transition:all .15s;color:var(--txt)}
+  .item.done .txt{color:var(--txt4);text-decoration:line-through;text-decoration-color:rgba(0,82,159,.3)}
+  .item .itag{flex:none;margin-top:3px}
+
+  .sysrules{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 0 0}
+  .srcard{border:2px solid var(--line);border-radius:0;background:var(--card);padding:18px 20px}
+  .srcard h4{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px;color:var(--txt3)}
+  .srcard.rules h4{color:var(--gold)}
+  .sysline{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(0,82,159,.14)}
+  .sysline:first-of-type{border-top:none;padding-top:0}
+  .sysline .sn{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--gold);flex:none;min-width:88px}
+  .sysline .sw{font-size:13px;line-height:1.45;color:var(--txt2)}
+  .ruleline{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(0,82,159,.14);font-size:13px;line-height:1.45;color:var(--txt)}
+  .ruleline:first-of-type{border-top:none;padding-top:0}
+  .ruleline::before{content:'◆';color:var(--gold);font-size:8px;flex:none;position:relative;top:-1px}
+  .draftflag{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border-radius:0;border:1px solid rgba(208,40,0,.5);background:rgba(208,40,0,.07);color:var(--red);flex:none;margin-left:auto}
+  .critflag{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border-radius:0;border:1px solid rgba(208,40,0,.5);background:rgba(208,40,0,.07);color:var(--red);flex:none;margin-top:3px}
+  .driline{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+  .donewhen{font-size:13px;color:var(--txt2);margin:14px 0 0;max-width:62ch;padding:12px 14px;border-left:3px solid var(--gold);background:rgba(0,82,159,.06)}
+  .donewhen b{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:4px}
+  .confirmflag{border-color:rgba(0,82,159,.3);background:rgba(0,82,159,.06);color:var(--txt2)}
+
+  .steps{counter-reset:step;display:flex;flex-direction:column;gap:0;padding:26px 0 4px;max-width:760px}
+  .step{display:flex;gap:18px;padding:16px 0;border-top:1px solid rgba(0,82,159,.14)}
+  .step:first-child{border-top:none}
+  .step .sn{counter-increment:step;flex:none;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--gold)}
+  .step .sn::before{content:counter(step,decimal-leading-zero)}
+  .step .sb{flex:1;padding-top:6px}
+  .step .st{font-size:15.5px;font-weight:600;line-height:1.4;color:var(--txt)}
+  .step .sd{font-size:13.5px;line-height:1.55;color:var(--txt2);margin-top:4px}
+
+  .pagenav{display:flex;gap:12px;padding:44px 68px 88px}
+  .btn-nav{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:13px 20px;border-radius:0;transition:all .15s;border:2px solid var(--line);color:var(--gold)}
+  .btn-nav:hover{border-color:var(--gold);background:var(--gold);color:var(--bg)}
+  .footpad{height:88px}
+
+  @media (max-width:900px){
+    .app{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:100dvh}
+    aside{border-right:none;border-bottom:1px solid var(--line);max-height:46vh}
+    .brand{padding:14px 20px 12px}
+    .brand h1{font-size:17px}
+    .artistbox,.progressbox{padding:10px 20px}
+    .navitem{padding:8px 20px}
+    .sidefoot{display:none}
+    .hero{padding:36px 22px 32px}
+    .phead{padding:28px 22px 24px}
+    .cards{padding:20px 22px 60px}
+    .section{padding:0 22px}
+    .sysrules{grid-template-columns:1fr}
+    .pagenav{padding:32px 22px 60px}
+    .stats{gap:28px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <button class="brand" id="brandBtn" aria-label="Back to start">
+      <div class="kicker">Jive ◆ Reintroduced</div>
+      <h1>New Artist<br>Onboarding</h1>
+    </button>
+
+    <div class="artistbox">
+      <div class="microlabel">Artist</div>
+      <div class="artistrow">
+        <select id="artistSel" aria-label="Select artist"></select>
+        <button class="btn-sm" id="addArtist">+ New</button>
+      </div>
+    </div>
+
+    <div class="progressbox">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+        <span class="microlabel">Progress</span>
+        <span id="sidePct" style="font-family:var(--mono);font-size:17px;font-weight:600;color:var(--gold)">0%</span>
+      </div>
+      <div class="track"><div class="fill" id="sideBar" style="width:0%"></div></div>
+      <div id="sideCount" style="font-family:var(--mono);font-size:10.5px;color:var(--txt3);margin-top:8px"></div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" id="tab-roadmap" onclick="setMode('roadmap')">Roadmap</button>
+      <button class="tab" id="tab-dept" onclick="setMode('dept')">Departments</button>
+      <button class="tab" id="tab-process" onclick="setMode('process')">Processes</button>
+      <button class="tab" id="tab-setup" onclick="setMode('setup')">Label setup</button>
+    </div>
+
+    <nav id="navList" aria-label="Sections"></nav>
+
+    <div class="sidefoot">
+      <button class="btn-sm" id="hideBtn">Hide done</button>
+      <button class="btn-sm" id="critBtn">Critical only</button>
+      <button class="btn-sm" id="resetBtn">Reset</button>
+    </div>
+  </aside>
+
+  <main id="main"></main>
+</div>
+
+<script>
+'use strict';
+
+/* ================= DATA — edit freely. Owners & timing are label-editable defaults. ================= */
+const OWNERS = ['Business Affairs','Mary','A&R','Marketing','Digital','Publicity','Finance','Full Team'];
+
+const PHASES = [
+{ title:'Deal & Business Affairs', owner:'Business Affairs', when:'Week 1', items:[
+  {t:'Confirm fully executed recording agreement', crit:true},
+  'Confirm effective date, term, options and delivery commitments',
+  'Review recording fund, marketing budget and payment schedule',
+  'Collect artist and loan-out company legal names',
+  {t:'Collect W-9/W-8, banking and payment information', crit:true},
+  'Confirm publishing, producer, featured artist and sample obligations',
+  'Confirm manager, attorney, business manager and agent contacts',
+  {t:'Create artist vendor profile in Sony/RCA systems', crit:true},
+  {t:'Establish approval process and authorized representatives', crit:true},
+  'Share final agreement summary with the internal core team' ]},
+{ title:'Artist & Team Information', owner:'Mary', when:'Week 1', items:[
+  {t:'Complete artist information sheet', crit:true},
+  'Confirm artist name, pronunciation, hometown and biography',
+  'Collect management and day-to-day contact details',
+  'Collect attorney, business manager, booking agent and publicist details',
+  'Confirm preferred communication channels and meeting cadence',
+  'Document artist goals, priorities and non-negotiables',
+  'Review any sensitivities, personal boundaries or cultural considerations',
+  'Confirm emergency contacts and touring contacts, when applicable' ]},
+{ title:'Internal Team Assignment', owner:'Mary', when:'Week 1', items:[
+  {t:'Assign executive lead', crit:true},
+  'Assign A&R lead',
+  'Assign marketing lead',
+  'Assign digital marketing lead',
+  {t:'Assign project manager or label manager', crit:true},
+  'Assign publicity, commerce, radio and sync leads',
+  'Identify creative, production and business-affairs contacts',
+  'Create internal artist email group and contact sheet',
+  'Schedule internal kickoff meeting',
+  'Establish decision-makers, responsibilities and escalation process',
+  {t:'Assign the artist\u2019s single point of contact for day-to-day questions', crit:true} ]},
+{ title:'Artist Kickoff', owner:'Full Team', when:'Week 1', items:[
+  {t:'Schedule artist-and-management onboarding meeting', crit:true},
+  'Introduce the Jive team and explain each department’s role',
+  'Review Jive’s mission, values and artist-partnership approach',
+  'Discuss short-term and long-term career goals',
+  'Review current music, release plans and creative direction',
+  'Align on communication expectations and response times',
+  'Review approval timelines and feedback process',
+  'Confirm recurring artist-team meeting cadence',
+  'Document all next steps, owners and deadlines',
+  'Send the artist welcome packet \u2014 team contacts, brand guide, asset checklist' ]},
+{ title:'Music & A&R', owner:'A&R', when:'Week 2', items:[
+  'Collect all current demos, masters and works in progress',
+  'Create master recording and song tracker',
+  'Confirm recording status and remaining creative needs',
+  'Review proposed singles, features and project sequencing',
+  {t:'Confirm producer agreements and split sheets', crit:true},
+  'Confirm featured-artist agreements',
+  'Identify potential sample or interpolation clearances',
+  {t:'Confirm master ownership and delivery requirements', crit:true},
+  'Establish recording schedule and budget',
+  'Establish final delivery deadlines',
+  'Complete quality-control review of all masters',
+  'Collect instrumental, clean, explicit, a cappella and performance versions' ]},
+{ title:'Metadata & Rights', owner:'A&R', when:'Week 2', items:[
+  {t:'Assign or confirm ISRCs', crit:true},
+  'Confirm UPCs for planned products',
+  'Verify song titles, versions and featured-artist billing',
+  'Verify songwriter, producer and publisher information',
+  'Confirm explicit-content designations',
+  {t:'Confirm copyright lines and label copy', crit:true},
+  'Register recordings with applicable rights organizations',
+  'Confirm SoundExchange and neighboring-rights registrations',
+  'Confirm PRO affiliations for writers',
+  'Store completed split sheets and clearance documents',
+  'Establish metadata approval and correction process' ]},
+{ title:'Brand & Creative', owner:'Marketing', when:'Week 2', items:[
+  'Conduct artist brand and creative discovery session',
+  'Define positioning, audience and core narrative',
+  'Identify visual references and creative guardrails',
+  'Collect approved artist photos, logos and existing assets',
+  'Schedule new photography, artwork or content shoots',
+  'Confirm grooming, styling and creative-team needs',
+  'Develop artist biography in short, medium and long formats',
+  'Create approved press photo folder',
+  'Establish artwork and creative-approval process',
+  'Review merchandise and physical-product opportunities' ]},
+{ title:'Digital Accounts & Access', owner:'Digital', when:'Week 2', items:[
+  'Audit artist website and social accounts',
+  {t:'Confirm ownership and administrative access for all accounts', crit:true},
+  'Collect handles for Instagram, TikTok, YouTube, X, Facebook and Threads',
+  {t:'Secure accounts with two-factor authentication', crit:true},
+  'Confirm backup administrators and recovery information',
+  'Claim or update Spotify for Artists',
+  'Claim or update Apple Music for Artists',
+  'Claim or update Amazon Music for Artists',
+  'Claim or update YouTube Official Artist Channel',
+  'Claim or update TikTok Artist Account',
+  'Review existing audience, engagement and conversion data',
+  'Confirm access to presave, CRM, SMS and fan-engagement tools',
+  'Set up approved links, pixels and tracking conventions' ]},
+{ title:'Data & Audience', owner:'Digital', when:'Week 3', items:[
+  'Establish baseline streaming and social metrics',
+  'Identify top songs, markets and audience segments',
+  'Review historical campaign performance',
+  'Review audience demographics and behavioral insights',
+  'Identify core, casual and potential audiences',
+  'Audit mailing list, SMS list and first-party data',
+  'Confirm access to DSP, social and ticketing analytics',
+  'Create artist dashboard and reporting cadence',
+  'Establish campaign KPIs and definitions of success',
+  'Create a process for sharing performance updates with management' ]},
+{ title:'Marketing Strategy', owner:'Marketing', when:'Week 3', items:[
+  'Complete artist and market assessment',
+  'Define the artist’s career and release objectives',
+  'Develop positioning statement and campaign narrative',
+  'Identify priority audiences and markets',
+  'Confirm lead single and project timeline',
+  'Build integrated marketing plan',
+  'Establish marketing budget by workstream',
+  'Confirm content, paid-media and partnership strategies',
+  'Identify cultural moments and calendar opportunities',
+  'Develop community, influencer and creator strategy',
+  'Establish weekly campaign meeting and reporting schedule',
+  'Confirm approval deadlines for all campaign materials' ]},
+{ title:'Release Setup', owner:'Marketing', when:'Week 3', items:[
+  {t:'Confirm release date and internal setup deadlines', crit:true},
+  'Submit completed release setup form',
+  {t:'Deliver final audio and metadata', crit:true},
+  {t:'Deliver approved artwork', crit:true},
+  'Confirm territorial and platform restrictions',
+  'Set up presave and smart-link pages',
+  'Update artist profiles and DSP assets',
+  'Prepare DSP pitching materials',
+  'Deliver lyrics and credits to applicable platforms',
+  'Confirm Canvas, clips, visualizers and video assets',
+  'Confirm clean versions and radio edits',
+  'Complete final pre-release quality-control check' ]},
+{ title:'Content & Social', owner:'Digital', when:'Week 3', items:[
+  'Audit existing content and content performance',
+  'Define social voice and platform strategy',
+  'Build content pillars',
+  'Create a content calendar',
+  'Confirm artist filming availability',
+  'Capture short-form, long-form and behind-the-scenes content',
+  'Create release announcement assets',
+  'Develop teaser, launch and post-release content',
+  'Establish content-review and posting process',
+  'Confirm community-management responsibilities',
+  'Create crisis and sensitive-comment escalation plan',
+  'Establish archive for raw and finished content' ]},
+{ title:'Publicity, Radio, Commerce & Partnerships', owner:'Publicity', when:'Week 4', items:[
+  'Hold publicity strategy meeting',
+  'Confirm internal or external publicist',
+  'Create press bio, talking points and press kit',
+  'Identify media and interview priorities',
+  'Conduct media training, when necessary',
+  'Hold radio strategy meeting',
+  'Confirm target formats and servicing date',
+  'Build DSP and retail-commerce strategy',
+  'Identify brand, sync and partnership opportunities',
+  'Review touring, festival and live-performance calendar',
+  'Coordinate appearances across all departments' ]},
+{ title:'Finance & Budget Management', owner:'Finance', when:'Week 4', items:[
+  'Establish approved project and marketing budgets',
+  {t:'Confirm who can authorize expenses', crit:true},
+  'Create purchase-order and invoice process',
+  'Build artist-spend tracker',
+  'Establish monthly budget reporting',
+  'Review recording, video, content and travel costs',
+  'Confirm reimbursement requirements',
+  'Flag unapproved or out-of-scope spending',
+  'Schedule regular budget reviews with management',
+  'Track commitments, actuals and remaining funds' ]},
+{ title:'Asset Management', owner:'Marketing', when:'Week 4', items:[
+  'Create central artist folder',
+  'Organize contracts and business-affairs documents',
+  'Organize audio masters and alternate versions',
+  'Organize artwork and design files',
+  'Organize photos, video and raw content',
+  'Organize biographies, press materials and talking points',
+  'Organize campaign plans, timelines and reports',
+  'Establish naming conventions and version control',
+  'Confirm appropriate internal and external permissions',
+  'Maintain an updated approved-assets folder' ]},
+{ title:'First 30-Day Deliverables', owner:'Full Team', when:'Day 30', items:[
+  'Complete artist and team onboarding',
+  'Finalize internal team assignments',
+  'Complete catalog, digital and brand audits',
+  'Finalize artist positioning and initial strategy',
+  'Confirm first release or development milestone',
+  'Build preliminary release calendar',
+  'Approve initial budget',
+  'Resolve account access and ownership issues',
+  'Establish reporting and meeting cadence',
+  {t:'Distribute a 30-, 60- and 90-day action plan', crit:true},
+  {t:'Hold the 30-day review with artist and management', crit:true},
+  'Capture onboarding feedback and fold it back into this checklist',
+  'Schedule the 60- and 90-day check-ins' ]},
+{ title:'Core Onboarding Documents', owner:'Full Team', when:'Reference', items:[
+  {t:'Artist information sheet', o:'Mary'},
+  {t:'Internal contact and responsibility matrix', o:'Mary'},
+  {t:'Deal-summary sheet', o:'A&R'},
+  {t:'Music and master tracker', o:'A&R'},
+  {t:'Release calendar', o:'A&R / Marketing'},
+  {t:'Marketing brief', o:'Marketing'},
+  {t:'Budget tracker', o:'Marketing'},
+  {t:'Digital-account access sheet', o:'Marketing'},
+  {t:'Asset inventory', o:'Marketing'},
+  {t:'Artist goals and positioning document', o:'Marketing'},
+  {t:'30-, 60- and 90-day plan', o:'Marketing'},
+  {t:'Weekly updates report template', o:'Marketing'} ]}
+];
+
+/* Overarching tasks — each groups one or more phases (0-based indices).
+   dri = single accountable owner (industry-standard DRI). doneWhen = the stage-gate / exit criteria. */
+const MILESTONES = [
+{ title:'Close & paper the deal', when:'Week 1', phases:[0], dri:'Business Affairs',
+  sub:'Executed agreement, money mechanics, vendor profile, approval chain.',
+  doneWhen:'Agreement fully executed, vendor profile live in Console, approval chain and authorized reps named.' },
+{ title:'Build the team around the artist', when:'Week 1', phases:[1,2,3], dri:'Mary',
+  sub:'Who the artist is, who covers them internally, and the kickoff that connects the two.',
+  doneWhen:'Info sheet complete, every lead assigned, kickoff held, and the artist knows their single point of contact.' },
+{ title:'Deliver & clear the music', when:'Week 2', phases:[4,5], dri:'A&R',
+  sub:'Masters, splits, clearances, metadata and rights — clean and delivery-ready.',
+  doneWhen:'Every master tracked and NSI-cleared, splits signed, metadata QC’d and submitted.' },
+{ title:'Define the brand', when:'Week 2', phases:[6], dri:'Marketing',
+  sub:'Positioning, narrative, visuals, bios and the creative-approval path.',
+  doneWhen:'Positioning agreed with the artist, bios in three lengths, creative-approval path set.' },
+{ title:'Secure the digital footprint', when:'Weeks 2–3', phases:[7,8], dri:'Digital',
+  sub:'Account ownership, platform claims, baseline data and audience picture.',
+  doneWhen:'Label holds admin access with 2FA on every account; all platforms claimed; baseline metrics captured.' },
+{ title:'Set strategy & budget', when:'Weeks 3–4', phases:[9,13], dri:'Marketing',
+  sub:'The integrated plan and the money that funds it, with clear authorization.',
+  doneWhen:'Plan approved, budget authorized with named signers, weekly campaign cadence booked.' },
+{ title:'Set up the release', when:'Week 3', phases:[10,11], dri:'Marketing',
+  sub:'Release setup, assets, pitching materials and the content engine behind it.',
+  doneWhen:'Release set up end-to-end and QC’d against the 10-day audio/artwork floors.' },
+{ title:'Take it to market', when:'Week 4', phases:[12], dri:'Publicity',
+  sub:'Publicity, radio, commerce and partnership lanes coordinated.',
+  doneWhen:'Press kit ready, radio and commerce lanes confirmed, appearances coordinated across departments.' },
+{ title:'Organize the house', when:'Week 4', phases:[14,16], dri:'Marketing',
+  sub:'Asset library, naming conventions and the core onboarding documents.',
+  doneWhen:'One organized artist folder; all 12 core documents exist and are findable by anyone.' },
+{ title:'Close the first 30 days', when:'Day 30', phases:[15], dri:'Full Team',
+  sub:'The review that proves onboarding is done — and the 30/60/90 ahead.',
+  doneWhen:'30-day review held with artist + management, 30/60/90 plan distributed, onboarding feedback captured.' }
+];
+
+/* Sony systems + ground rules, keyed by phase number (1-based).
+   draft = Tee's delivery process (2026-07-28), pending Jive-team rollout. confirm = verify before circulating. */
+const SYSRULES = {
+  1: { systems:[
+        {n:'Console', w:'Vendor setup, POs and invoices. Artist vendor profile (W-9/W-8, banking) must exist here before anything can be paid.'} ],
+      rules:[
+        {t:'No PO, no spend — vendor must be fully set up in Console before any commitment is made.'} ]},
+  5: { systems:[
+        {n:'A&R Admin', w:'All rough audio routes here first, then to the Sample Team for NSI (No Sample Issues) review.'},
+        {n:'Sample Team', w:'NSI clearance on every master before delivery.'} ],
+      rules:[
+        {t:'No undisclosed samples and no generative-AI elements in submitted audio.', draft:true},
+        {t:'Final approved audio no later than 10 days before release — audio must be on Spotify 10 days out to hit the pitching deadline.', draft:true} ]},
+  6: { systems:[
+        {n:'RDX', w:'Sony repertoire data exchange — ISRCs, UPCs, label copy and metadata flow through here. Errors upstream propagate everywhere downstream.', confirm:true} ],
+      rules:[
+        {t:'Metadata locks with delivery — corrections after ingest are slow, so QC titles, splits and billing before submission.', confirm:true} ]},
+  7: { systems:[
+        {n:'BA Admin', w:'All artwork routes here for review before approval.'} ],
+      rules:[
+        {t:'Artwork requires signed design/photo agreements, licensed fonts, no generative AI.', draft:true},
+        {t:'Final approved artwork no later than 10 days before release.', draft:true} ]},
+  11: { systems:[
+        {n:'Sony Ci', w:'Video masters upload here as ProRes 422 HQ after BA Admin approval.'} ],
+      rules:[
+        {t:'Audio + artwork hard floor: 10 days before release (Spotify pitching deadline).', draft:true},
+        {t:'Final video goal: 1 week before street date.', draft:true} ]},
+  12: { systems:[
+        {n:'BA Admin', w:'Video content routes here for review before posting or delivery.'},
+        {n:'Sony Ci', w:'Finished video masters archive here (ProRes 422 HQ).'} ],
+      rules:[
+        {t:'No generative-AI elements in released content without clearance.', draft:true} ]},
+  14: { systems:[
+        {n:'Console', w:'All POs and invoices. Vendors email invoices directly to 2000.ap.invoicereceiving@sonymusic.com quoting the PO# — Console blocks duplicate invoice numbers.'},
+        {n:'Concur', w:'Travel & expense. T&E needs receipts plus pre-approval attached.'} ],
+      rules:[
+        {t:'PO description = Artist + Single/Album + date(s) of service. Due date = expected date of service.'},
+        {t:'Use BLANKET POs when a budget spans multiple components or vendors (shoots, tour support, retainers) — keeps costs in one place.'},
+        {t:'PRO-RATE each deliverable to its own category (artwork vs video, TV vs other) — lumping has artist-cap implications.'},
+        {t:'Attachments by type: tour support → approved budget · official video → VRA · reimbursement/T&E → receipts + pre-approval.'},
+        {t:'Family Name = the single; leave blank if album-level.'} ]}
+};
+
+/* Standing processes — the "how it works" reference. draft/confirm flags as above. */
+const PROCESSES = [
+{ title:'Audio delivery & sample clearance', draft:true, systems:['A&R Admin','Sample Team'],
+  sub:'From rough mix to delivery-ready master.',
+  steps:[
+    {t:'Send rough audio to A&R Admin', d:'Compliance check: no undisclosed samples, no generative-AI elements.'},
+    {t:'Sample Team runs NSI review', d:'No Sample Issues clearance on every master before it can be delivered.'},
+    {t:'Deliver final approved audio', d:'Hard floor: 10 days before release — audio must be on Spotify 10 days out to hit the pitching deadline.'} ]},
+{ title:'Artwork approval', draft:true, systems:['BA Admin'],
+  sub:'All artwork clears BA Admin before release.',
+  steps:[
+    {t:'Route artwork to BA Admin', d:'Requires signed design/photo agreements, licensed fonts, no generative AI.'},
+    {t:'BA Admin reviews and approves', d:'No artwork circulates externally before approval.'},
+    {t:'Deliver final approved artwork', d:'Hard floor: 10 days before release.'} ]},
+{ title:'Video delivery', draft:true, systems:['BA Admin','Sony Ci'],
+  sub:'From edit to archived master.',
+  steps:[
+    {t:'Route video to BA Admin for review', d:'Same compliance bar as artwork: agreements, licensing, no unapproved genAI.'},
+    {t:'Approval', d:'BA Admin sign-off before delivery or posting.'},
+    {t:'Upload master to Sony Ci', d:'ProRes 422 HQ. Goal: final video 1 week before street date (not always achievable — flag early if at risk).'} ]},
+{ title:'Metadata & rights pipeline', confirm:true, systems:['RDX'],
+  sub:'Metadata assembled and QC’d before RDX submission.',
+  steps:[
+    {t:'Assemble metadata', d:'ISRCs, UPCs, titles, versions, billing, splits, copyright lines, explicit designations.'},
+    {t:'QC before submission', d:'Corrections after ingest are slow — errors upstream propagate to every DSP downstream.'},
+    {t:'Submit via RDX', d:'Then confirm registrations: rights orgs, SoundExchange, PRO affiliations.'} ]},
+{ title:'Spend, POs & invoices', systems:['Console','Concur'],
+  sub:'The PO is raised at the spend decision, before an invoice exists.',
+  steps:[
+    {t:'Decision to spend → raise the PO in Console', d:'Description = Artist + Single/Album + date(s) of service. Due date = expected service date. Blanket PO when budget spans components/vendors; pro-rate deliverables to their own categories (artist-cap implications). Family Name = the single, blank if album-level.'},
+    {t:'Attach what the spend type requires', d:'Tour support / promo → approved budget · official video → VRA · reimbursement & T&E (Concur) → receipts + pre-approval.'},
+    {t:'Vendor invoices straight into Console', d:'Vendor emails invoice to 2000.ap.invoicereceiving@sonymusic.com quoting the PO#. Console blocks duplicate invoice numbers.'},
+    {t:'Goods receipt → payment released', d:'Support reviews (not re-keys) the invoice, goods-receipts it, finance releases payment.'} ]},
+{ title:'Core onboarding documents', systems:[],
+  sub:'The 12 standing documents every new artist gets. Checkable under Organize the house.',
+  steps:[
+    {t:'Mary owns', d:'Artist information sheet · internal contact and responsibility matrix.'},
+    {t:'A&R owns', d:'Deal-summary sheet · music and master tracker · release calendar (with Marketing).'},
+    {t:'Marketing owns', d:'Marketing brief · budget tracker · digital-account access sheet · asset inventory · goals & positioning doc · 30/60/90 plan · weekly updates template.'} ]},
+{ title:'Release request & calendar lock', confirm:true, systems:['Release calendar','RDX'],
+  sub:'Workflow for adding a release to the label calendar.',
+  steps:[
+    {t:'Submit the release request', d:'Artist, format, target date, campaign lead — through one intake path.'},
+    {t:'Build the timeline back from street date', d:'Audio + artwork 10-day floors, video 1 week out, pitch deadlines — the same floors this board tracks.'},
+    {t:'Confirm delivery deadlines with Release Planning', d:'Deadlines agreed with Release Planning before the calendar is set.'},
+    {t:'Approve and lock on the label calendar', d:'After lock, date changes go through escalation.'},
+    {t:'Lock configuration in RDX', d:'Metadata frozen at lock; late changes go through the metadata pipeline.'} ]},
+{ title:'Vendor onboarding', confirm:true, systems:['InfoSec','Procurement','Console'],
+  sub:'Steps completed before a first PO can be raised.',
+  steps:[
+    {t:'Intake', d:'Who the vendor is, what they do, expected spend, which artist/campaign.'},
+    {t:'InfoSec review', d:'Required before contracts for any tool touching fan data, socials or Sony systems.'},
+    {t:'Procurement & legal terms', d:'Rate agreements and terms cleared centrally.'},
+    {t:'Vendor profile in Console', d:'W-9, banking, remit details — the profile that makes POs and payment possible.'},
+    {t:'Approved for engagement', d:'Work can start. Renewals re-check InfoSec and terms annually.'} ]},
+{ title:'Weekly business review', confirm:true, systems:['Release calendar','Spend tracker'],
+  sub:'Standing weekly review of releases, campaigns, budgets and risks.',
+  steps:[
+    {t:'Releases — next 8 weeks', d:'What ships and what is at risk against the delivery floors.'},
+    {t:'Campaign status by artist', d:'Status, blockers, asks — one line each.'},
+    {t:'Budget: approved vs committed vs actual', d:'By artist and campaign, straight from the spend tracker.'},
+    {t:'Risks & escalations', d:'Anything needing RCA or Sony help is raised here.'},
+    {t:'Actions with owners and dates', d:'Each action gets an owner and a date.'} ]}
+];
+
+/* One-time label infrastructure — LABEL-LEVEL (shared across artists, not per-artist).
+   Default move: adopt the RCA system. Build only where Jive genuinely differs. */
+const SETUP = [
+{ title:'Roster & source of truth',
+  adopt:'RCA maintains the master artist table and roster map; Jive plugs in as a view.',
+  items:[
+    'Add Jive artists to the RCA master roster with a Jive label flag',
+    'Name per-artist coverage: campaign lead, digital, publicity, ops support',
+    'Track contract and option dates with Business Affairs in one place' ]},
+{ title:'Release & campaign tracking',
+  adopt:'Jive takes a lane in RCA’s release calendar, with one campaign record per release.',
+  items:[
+    'Stand up the Jive release calendar as a lane in the RCA calendar',
+    'Define the release-request workflow: who submits, who approves, escalation path',
+    'Open a campaign record per release: objectives, budget, owners, priority markets' ]},
+{ title:'Money & vendors',
+  adopt:'All spend runs through Console; the Campaign Ops spend tracker sits on top.',
+  items:[
+    'Route all Jive spend through the Console PO process from day one',
+    'Adopt the spend tracker for approved vs committed vs actual by artist',
+    'Set the vendor onboarding path: intake → InfoSec → procurement → Console profile',
+    'Set a monthly budget review against the approved ceiling' ]},
+{ title:'Files & assets',
+  adopt:'One SharePoint structure, set at launch.',
+  items:[
+    'Build the SharePoint tree: Artists / [Artist] / Audio · Artwork · Video · Photos · Contracts — plus Campaigns and Templates',
+    'Agree naming conventions and access permissions',
+    'Archive masters and video to Sony Ci' ]},
+{ title:'Cadence & knowledge',
+  adopt:'Standing cadence and documentation.',
+  items:[
+    'Stand up the weekly business review: releases, status, blockers, asks',
+    'One intake path for creative and asset requests, routed to a named owner',
+    'Keep this board as the SOP hub — update it after every 30-day artist review' ]}
+];
+/* ==================================================================================================== */
+
+const KEY = 'jive_onboarding_v2';
+const itemText = it => typeof it === 'string' ? it : it.t;
+const itemOwner = it => typeof it === 'string' ? null : it.o;
+const itemCrit = it => typeof it === 'object' && !!it.crit;
+const pad = n => String(n).padStart(2,'0');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+let store = { artists:['New Artist'], current:'New Artist', states:{} };
+try {
+  const raw = localStorage.getItem(KEY);
+  if (raw) { const s = JSON.parse(raw); if (s && s.artists && s.artists.length) store = s; }
+} catch(e){}
+if (!store.setup) store.setup = {}; /* label-level, shared across artists */
+
+function st(){
+  const s = store.states[store.current] || (store.states[store.current] = {});
+  if (!s.done) s.done = {};
+  if (!s.mode) s.mode = 'roadmap';
+  if (s.sel === undefined) s.sel = null;
+  if (s.hideDone === undefined) s.hideDone = false;
+  if (s.critOnly === undefined) s.critOnly = false;
+  return s;
+}
+function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+
+const k = (p,i) => p+':'+i;
+const phaseDone = pi => PHASES[pi].items.reduce((a,_,i)=> a+(st().done[k(pi,i)]?1:0), 0);
+const totals = () => {
+  const total = PHASES.reduce((a,p)=>a+p.items.length,0);
+  const done = PHASES.reduce((a,p,pi)=>a+phaseDone(pi),0);
+  return { total, done, pct: total?Math.round(done/total*100):0 };
+};
+const msCounts = m => {
+  const total = m.phases.reduce((a,pi)=>a+PHASES[pi].items.length,0);
+  const done = m.phases.reduce((a,pi)=>a+phaseDone(pi),0);
+  return { total, done, full: total>0 && done===total };
+};
+/* dept = phases owned + core-doc items (phase 17, idx 16) assigned to that owner */
+const DOCS_PI = PHASES.length-1;
+const deptPhases = o => PHASES.map((p,i)=>i).filter(i => i!==DOCS_PI && PHASES[i].owner===o);
+const deptDocs   = o => PHASES[DOCS_PI].items.map((it,i)=>i).filter(i => String(itemOwner(PHASES[DOCS_PI].items[i])||'').includes(o));
+const deptCounts = o => {
+  let total=0, done=0;
+  deptPhases(o).forEach(pi=>{ total+=PHASES[pi].items.length; done+=phaseDone(pi); });
+  deptDocs(o).forEach(i=>{ total+=1; done+=st().done[k(DOCS_PI,i)]?1:0; });
+  return { total, done, full: total>0 && done===total };
+};
+
+function setMode(m){ const s=st(); s.mode=m; s.sel=null; persist(); render(); scrollTop(); }
+const sk = (si,i) => 's'+si+':'+i;
+const setupSecDone = si => SETUP[si].items.reduce((a,_,i)=> a+(store.setup[sk(si,i)]?1:0), 0);
+const setupTotals = () => {
+  const total = SETUP.reduce((a,s)=>a+s.items.length,0);
+  const done = SETUP.reduce((a,s,si)=>a+setupSecDone(si),0);
+  return { total, done, pct: total?Math.round(done/total*100):0 };
+};
+function toggleSetup(si,i){ store.setup[sk(si,i)]=!store.setup[sk(si,i)]; persist(); render(); }
+function toggleAllSetup(si){
+  const all = setupSecDone(si)===SETUP[si].items.length;
+  SETUP[si].items.forEach((_,i)=>{ store.setup[sk(si,i)]=!all; });
+  persist(); render();
+}
+function scrollToSetup(si){ const el=document.getElementById('setupsec'+si); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+function setSel(i){ st().sel=i; persist(); render(); scrollTop(); }
+function scrollTop(){ document.getElementById('main').scrollTop=0; }
+function toggleItem(pi,i){ st().done[k(pi,i)]=!st().done[k(pi,i)]; persist(); render(); }
+function toggleAllPhase(pi){
+  const all = phaseDone(pi)===PHASES[pi].items.length;
+  PHASES[pi].items.forEach((_,i)=>{ st().done[k(pi,i)]=!all; });
+  persist(); render();
+}
+
+/* ---------- shared fragments ---------- */
+const flag = x => x.draft ? '<span class="draftflag">Draft process</span>' : (x.confirm ? '<span class="draftflag confirmflag">Confirm</span>' : '');
+
+function sysRulesHTML(num){
+  const sr = SYSRULES[num];
+  if (!sr) return '';
+  const sys = (sr.systems||[]).map(sy=>'<div class="sysline"><span class="sn">'+esc(sy.n)+'</span><span class="sw">'+esc(sy.w)+'</span>'+flag(sy)+'</div>').join('');
+  const rules = (sr.rules||[]).map(r=>'<div class="ruleline"><span style="flex:1">'+esc(r.t)+'</span>'+flag(r)+'</div>').join('');
+  return '<div class="sysrules">'
+    + (sys ? '<div class="srcard"><h4>Sony systems you\'ll need</h4>'+sys+'</div>' : '')
+    + (rules ? '<div class="srcard rules"><h4>Ground rules</h4>'+rules+'</div>' : '')
+    + '</div>';
+}
+
+function itemRow(pi,i,showOwner){
+  const it = PHASES[pi].items[i], isDone = !!st().done[k(pi,i)];
+  if (isDone && st().hideDone) return '';
+  if (st().critOnly && !itemCrit(it)) return '';
+  const o = showOwner ? itemOwner(it) : null;
+  return '<button class="item'+(isDone?' done':'')+'" role="checkbox" aria-checked="'+isDone+'" onclick="toggleItem('+pi+','+i+')">'
+    + '<span class="box">'+(isDone?'✓':'')+'</span>'
+    + '<span class="txt">'+esc(itemText(it))+'</span>'
+    + (itemCrit(it)?'<span class="critflag">Critical</span>':'')
+    + (o?'<span class="tag itag">'+esc(o)+'</span>':'')
+    + '</button>';
+}
+
+function phaseSection(pi, opts){
+  const p = PHASES[pi], d = phaseDone(pi), all = d===p.items.length;
+  const idxs = (opts && opts.only) ? opts.only : p.items.map((_,i)=>i);
+  const rows = idxs.map(i=>itemRow(pi,i,pi===DOCS_PI)).join('');
+  return '<div class="subhead">'
+    + '<span class="num">Phase '+pad(pi+1)+'</span><h3>'+esc(p.title)+'</h3>'
+    + '<span class="tag when">'+esc(p.when)+'</span><span class="tag">'+esc(p.owner)+'</span>'
+    + '<span class="cnt">'+d+'/'+p.items.length+'</span>'
+    + '<button class="btn-sm" onclick="toggleAllPhase('+pi+')">'+(all?'Clear all':'Mark all')+'</button>'
+    + '</div>'
+    + sysRulesHTML(pi+1)
+    + '<div class="items">'+(rows.trim()===''?'<div class="ruleline" style="border:none;color:var(--txt3)">'+(st().critOnly?'No critical-path items in this phase.':'All done here.')+'</div>':rows)+'</div>';
+}
+
+/* ---------- views ---------- */
+function heroHTML(title, sub, kicker){
+  const T = totals();
+  return '<div class="hero"><div class="kicker">'+kicker+' ◆ '+esc(store.current)+'</div>'
+    + '<h2>'+title+'</h2><p>'+sub+'</p>'
+    + '<div class="stats">'
+    + '<div class="stat"><div class="microlabel">Complete</div><div class="v" style="color:var(--gold)">'+T.pct+'%</div></div>'
+    + '<div class="stat"><div class="microlabel">Items</div><div class="v">'+T.done+'<span class="dim">/'+T.total+'</span></div></div>'
+    + '</div></div>';
+}
+
+function roadmapHome(){
+  const firstOpen = MILESTONES.findIndex(m=>!msCounts(m).full);
+  const target = firstOpen<0?0:firstOpen;
+  const cards = MILESTONES.map((m,i)=>{
+    const c = msCounts(m);
+    return '<button class="card'+(c.full?' full':'')+'" onclick="setSel('+i+')">'
+      + '<div><div class="top"><span class="num">Task '+pad(i+1)+'</span><span class="cnt">'+(c.full?'Complete':c.done+'/'+c.total)+'</span></div>'
+      + '<h3>'+esc(m.title)+'</h3><div class="sub">'+esc(m.sub)+'</div>'
+      + '<div class="meta"><span class="tag when">'+esc(m.when)+'</span>'
+      + (m.dri?'<span class="tag driline">'+esc(m.dri)+'</span>':'')
+      + m.phases.map(pi=>'<span class="tag">'+esc(PHASES[pi].title)+'</span>').join('')
+      + '</div></div>'
+      + '<div class="track"><div class="fill" style="width:'+(c.total?c.done/c.total*100:0)+'%;background:'+(c.full?'var(--green)':'var(--gold)')+'"></div></div></button>';
+  }).join('');
+  let hero = heroHTML('New Artist Onboarding Checklist',
+    'Ten tasks covering signature through the first 30 days. Each contains its detailed phases. Departments filters by team; Processes lists the standing flows.',
+    'Roadmap ◆ '+MILESTONES.length+' overarching tasks');
+  hero = hero.replace('</div></div>', '</div><button class="cta" onclick="setSel('+target+')">'
+    + (totals().done===0?'Start task 01':(firstOpen<0?'Review from the top':'Resume task '+pad(target+1)))+' →</button></div>');
+  return hero + '<div class="cards">'+cards+'</div>';
+}
+
+function roadmapDetail(i){
+  const m = MILESTONES[i], c = msCounts(m);
+  return '<div class="phead"><div class="kicker">Overarching task '+pad(i+1)+' of '+MILESTONES.length+'</div>'
+    + '<h2>'+esc(m.title)+'</h2>'
+    + '<div class="meta"><span class="tag when">'+esc(m.when)+'</span>'
+    + (m.dri?'<span class="tag driline">Accountable: '+esc(m.dri)+'</span>':'')
+    + '<span class="tag">'+c.done+'/'+c.total+' items</span></div>'
+    + '<div class="pbar"><div class="track" style="flex:1"><div class="fill" style="width:'+(c.total?c.done/c.total*100:0)+'%;background:'+(c.full?'var(--green)':'var(--gold)')+'"></div></div>'
+    + '<span class="cnt">'+esc(m.sub)+'</span></div>'
+    + (m.doneWhen?'<div class="donewhen"><b>Done when</b>'+esc(m.doneWhen)+'</div>':'')
+    + '</div>'
+    + '<div class="section">'+m.phases.map(pi=>phaseSection(pi)).join('')+'</div>'
+    + '<div class="pagenav">'
+    + '<button class="btn-nav" onclick="'+(i>0?'setSel('+(i-1)+')':'setSel(null)')+'">← '+(i>0?'Task '+pad(i):'All tasks')+'</button>'
+    + '<button class="btn-nav" onclick="'+(i<MILESTONES.length-1?'setSel('+(i+1)+')':'setSel(null)')+'">'+(i<MILESTONES.length-1?'Task '+pad(i+2):'All tasks')+' →</button>'
+    + '</div>';
+}
+
+function deptHome(){
+  const cards = OWNERS.map((o,i)=>{
+    const c = deptCounts(o), np = deptPhases(o).length, nd = deptDocs(o).length;
+    return '<button class="card'+(c.full?' full':'')+'" onclick="setSel('+i+')">'
+      + '<div><div class="top"><span class="num">'+esc(o)+'</span><span class="cnt">'+(c.total? (c.full?'Complete':c.done+'/'+c.total) : '—')+'</span></div>'
+      + '<h3>'+esc(o)+'</h3>'
+      + '<div class="sub">'+np+' phase'+(np===1?'':'s')+(nd?' + '+nd+' core document'+(nd===1?'':'s'):'')+'</div>'
+      + '<div class="meta">'+deptPhases(o).map(pi=>'<span class="tag">'+esc(PHASES[pi].title)+'</span>').join('')+'</div></div>'
+      + '<div class="track"><div class="fill" style="width:'+(c.total?c.done/c.total*100:0)+'%;background:'+(c.full?'var(--green)':'var(--gold)')+'"></div></div></button>';
+  }).join('');
+  return heroHTML('Who owns what','Each department’s phases and core documents. Owners are label-editable defaults; confirm them with the team.','Departments ◆ '+OWNERS.length+' lanes')
+    + '<div class="cards">'+cards+'</div>';
+}
+
+function deptDetail(i){
+  const o = OWNERS[i], c = deptCounts(o);
+  const docIdx = deptDocs(o);
+  return '<div class="phead"><div class="kicker">Department lane</div>'
+    + '<h2>'+esc(o)+'</h2>'
+    + '<div class="meta"><span class="tag">'+c.done+'/'+c.total+' items</span></div>'
+    + '<div class="pbar"><div class="track" style="flex:1"><div class="fill" style="width:'+(c.total?c.done/c.total*100:0)+'%;background:'+(c.full?'var(--green)':'var(--gold)')+'"></div></div></div></div>'
+    + '<div class="section">'
+    + deptPhases(o).map(pi=>phaseSection(pi)).join('')
+    + (docIdx.length ? phaseSection(DOCS_PI,{only:docIdx}) : '')
+    + (c.total===0 ? '<p style="color:var(--txt3);padding:44px 0">No phases are assigned to this lane yet — assign owners in the data block at the top of the file.</p>' : '')
+    + '</div><div class="footpad"></div>';
+}
+
+function processHome(){
+  const cards = PROCESSES.map((p,i)=>
+    '<button class="card" onclick="setSel('+i+')">'
+    + '<div><div class="top"><span class="num">Process '+pad(i+1)+'</span>'+flag(p)+'</div>'
+    + '<h3>'+esc(p.title)+'</h3><div class="sub">'+esc(p.sub)+'</div>'
+    + '<div class="meta">'+p.systems.map(s=>'<span class="tag when">'+esc(s)+'</span>').join('')+'</div></div>'
+    + '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3)">'+p.steps.length+' steps</div></button>'
+  ).join('');
+  return heroHTML('Standing processes','Delivery flows, compliance gates and the spend pipeline. Reference only — not checkable items.','Processes ◆ '+PROCESSES.length+' standing flows')
+    + '<div class="cards">'+cards+'</div>';
+}
+
+function processDetail(i){
+  const p = PROCESSES[i];
+  return '<div class="phead"><div class="kicker">Standing process '+pad(i+1)+' of '+PROCESSES.length+'</div>'
+    + '<h2>'+esc(p.title)+'</h2>'
+    + '<div class="meta">'+p.systems.map(s=>'<span class="tag when">'+esc(s)+'</span>').join('')+flag(p)+'</div>'
+    + '<p style="font-size:15px;color:var(--txt2);margin:18px 0 0;max-width:58ch">'+esc(p.sub)+'</p></div>'
+    + '<div class="section"><div class="steps">'
+    + p.steps.map(s=>'<div class="step"><div class="sn"></div><div class="sb"><div class="st">'+esc(s.t)+'</div><div class="sd">'+esc(s.d)+'</div></div></div>').join('')
+    + '</div></div>'
+    + '<div class="pagenav">'
+    + '<button class="btn-nav" onclick="'+(i>0?'setSel('+(i-1)+')':'setSel(null)')+'">← '+(i>0?'Previous':'All processes')+'</button>'
+    + '<button class="btn-nav" onclick="'+(i<PROCESSES.length-1?'setSel('+(i+1)+')':'setSel(null)')+'">'+(i<PROCESSES.length-1?'Next':'All processes')+' →</button>'
+    + '</div>';
+}
+
+function setupHome(){
+  const T = setupTotals();
+  const secs = SETUP.map((sec,si)=>{
+    const d = setupSecDone(si), all = d===sec.items.length;
+    const rows = sec.items.map((t,i)=>{
+      const isDone = !!store.setup[sk(si,i)];
+      return '<button class="item'+(isDone?' done':'')+'" role="checkbox" aria-checked="'+isDone+'" onclick="toggleSetup('+si+','+i+')">'
+        + '<span class="box">'+(isDone?'✓':'')+'</span>'
+        + '<span class="txt">'+esc(t)+'</span></button>';
+    }).join('');
+    return '<div id="setupsec'+si+'"><div class="subhead">'
+      + '<span class="num">Setup '+pad(si+1)+'</span><h3>'+esc(sec.title)+'</h3>'
+      + '<span class="cnt">'+d+'/'+sec.items.length+'</span>'
+      + '<button class="btn-sm" onclick="toggleAllSetup('+si+')">'+(all?'Clear all':'Mark all')+'</button>'
+      + '</div>'
+      + '<div class="donewhen"><b>Operating principle</b>'+esc(sec.adopt)+'</div>'
+      + '<div class="items">'+rows+'</div></div>';
+  }).join('');
+  return '<div class="hero"><div class="kicker">Label setup ◆ One-time ◆ Label-level</div>'
+    + '<h2>Label<br>infrastructure</h2>'
+    + '<p>One-time setup for the label, checked once rather than per artist. Default is to adopt the existing RCA system with a Jive lane; build separately only where Jive differs.</p>'
+    + '<div class="stats">'
+    + '<div class="stat"><div class="microlabel">Complete</div><div class="v" style="color:var(--gold)">'+T.pct+'%</div></div>'
+    + '<div class="stat"><div class="microlabel">Items</div><div class="v">'+T.done+'<span class="dim">/'+T.total+'</span></div></div>'
+    + '</div></div>'
+    + '<div class="section">'+secs+'</div><div class="footpad"></div>';
+}
+
+/* ---------- render ---------- */
+function render(){
+  const s = st(), T = totals();
+  document.getElementById('sidePct').textContent = T.pct+'%';
+  document.getElementById('sideBar').style.width = T.pct+'%';
+  document.getElementById('sideCount').textContent = T.done+' / '+T.total+' items complete';
+
+  const sel = document.getElementById('artistSel');
+  sel.innerHTML = store.artists.map(a=>'<option'+(a===store.current?' selected':'')+'>'+esc(a)+'</option>').join('');
+
+  ['roadmap','dept','process','setup'].forEach(m=>document.getElementById('tab-'+m).classList.toggle('on', s.mode===m));
+
+  const hideBtn = document.getElementById('hideBtn');
+  hideBtn.textContent = s.hideDone ? 'Show done' : 'Hide done';
+  hideBtn.classList.toggle('on', s.hideDone);
+  document.getElementById('critBtn').classList.toggle('on', s.critOnly);
+
+  let navHTML='';
+  if (s.mode==='roadmap') navHTML = MILESTONES.map((m,i)=>{
+    const c = msCounts(m);
+    return '<button class="navitem'+(s.sel===i?' active':'')+(c.full?' full':'')+'" onclick="setSel('+i+')">'
+      + '<span class="num">'+pad(i+1)+'</span><span class="t">'+esc(m.title)+'</span>'
+      + '<span class="c">'+(c.full?'✓':c.done+'/'+c.total)+'</span></button>';
+  }).join('');
+  if (s.mode==='dept') navHTML = OWNERS.map((o,i)=>{
+    const c = deptCounts(o);
+    return '<button class="navitem'+(s.sel===i?' active':'')+(c.full&&c.total?' full':'')+'" onclick="setSel('+i+')">'
+      + '<span class="num" style="width:14px">◆</span><span class="t">'+esc(o)+'</span>'
+      + '<span class="c">'+(c.total?(c.full?'✓':c.done+'/'+c.total):'—')+'</span></button>';
+  }).join('');
+  if (s.mode==='process') navHTML = PROCESSES.map((p,i)=>
+    '<button class="navitem'+(s.sel===i?' active':'')+'" onclick="setSel('+i+')">'
+    + '<span class="num">'+pad(i+1)+'</span><span class="t">'+esc(p.title)+'</span></button>').join('');
+  if (s.mode==='setup') navHTML = SETUP.map((sec,i)=>{
+    const d = setupSecDone(i), full = d===sec.items.length;
+    return '<button class="navitem'+(full?' full':'')+'" onclick="scrollToSetup('+i+')">'
+      + '<span class="num">'+pad(i+1)+'</span><span class="t">'+esc(sec.title)+'</span>'
+      + '<span class="c">'+(full?'✓':d+'/'+sec.items.length)+'</span></button>';
+  }).join('');
+  document.getElementById('navList').innerHTML = navHTML;
+
+  let main='';
+  if (s.mode==='roadmap') main = s.sel==null ? roadmapHome() : roadmapDetail(s.sel);
+  if (s.mode==='dept')    main = s.sel==null ? deptHome()    : deptDetail(s.sel);
+  if (s.mode==='process') main = s.sel==null ? processHome() : processDetail(s.sel);
+  if (s.mode==='setup')   main = setupHome();
+  document.getElementById('main').innerHTML = main;
+}
+
+/* ---------- chrome wiring ---------- */
+document.getElementById('brandBtn').addEventListener('click', ()=>{ st().sel=null; persist(); render(); scrollTop(); });
+document.getElementById('hideBtn').addEventListener('click', ()=>{ st().hideDone=!st().hideDone; persist(); render(); });
+document.getElementById('critBtn').addEventListener('click', ()=>{ st().critOnly=!st().critOnly; persist(); render(); });
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if (confirm('Clear all progress for '+store.current+'?')) { st().done={}; persist(); render(); }
+});
+document.getElementById('artistSel').addEventListener('change', e=>{ store.current=e.target.value; persist(); render(); });
+document.getElementById('addArtist').addEventListener('click', ()=>{
+  const name = (prompt('Artist name:')||'').trim();
+  if (!name) return;
+  if (!store.artists.includes(name)) store.artists.push(name);
+  store.current=name; persist(); render();
+});
+
+render();
+</script>
+</body>
+</html>
