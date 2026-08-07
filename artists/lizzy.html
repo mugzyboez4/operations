@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lizzy McAlpine — Artist Page · Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:Inter,system-ui,sans-serif; background:#F5F2EB; color:#0F0E0E; -webkit-font-smoothing:antialiased; }
+  a { color:#FF4A23; text-decoration:none; }
+  a:hover { color:#0F0E0E; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 32px; }
+  .kicker { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:#FF4A23; }
+
+  /* ===== header ===== */
+  .hdr { padding:48px 0 30px; border-bottom:1px solid #ECEAE3; }
+  .hdr-row { display:flex; align-items:flex-start; gap:22px; }
+  .avatar { width:76px; height:76px; background:#0F0E0E; color:#CDF851; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:700; letter-spacing:-1px; flex-shrink:0; }
+  .hdr h1 { font-size:40px; line-height:1.05; font-weight:600; letter-spacing:-1.3px; margin:6px 0 14px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { font-size:11px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; padding:5px 11px; background:#fff; border:1px solid #ECEAE3; color:#3E3F41; }
+  .chip.pri { background:#FF4A23; border-color:#FF4A23; color:#fff; }
+  .hdr-links { margin-left:auto; flex-shrink:0; text-align:right; }
+  .hdr-links .lbl { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:#8A8781; margin-bottom:10px; }
+  .hdr-links a { display:inline-block; font-size:12px; font-weight:500; color:#0F0E0E; border:1px solid #ECEAE3; background:#fff; padding:7px 12px; margin:0 0 6px 6px; }
+  .hdr-links a:hover { border-color:#0F0E0E; }
+
+  /* ===== anchor nav ===== */
+  .subnav { position:sticky; top:0; z-index:10; background:#F5F2EB; border-bottom:1px solid #ECEAE3; }
+  .subnav .in { max-width:1180px; margin:0 auto; padding:0 32px; display:flex; gap:4px; overflow-x:auto; }
+  .subnav a { font-size:13px; font-weight:500; color:#3E3F41; padding:13px 12px; white-space:nowrap; }
+  .subnav a:hover { color:#0F0E0E; }
+  .subnav a.on { color:#0F0E0E; font-weight:600; box-shadow:inset 0 -2px 0 #CDF851; }
+
+  /* ===== sections ===== */
+  .sec { padding:36px 0 8px; }
+  .sec-head { display:flex; align-items:baseline; justify-content:space-between; gap:18px; margin-bottom:16px; }
+  .sec h2 { font-size:21px; font-weight:600; letter-spacing:-.5px; }
+  .sec .meta-r { font-size:12px; color:#8A8781; white-space:nowrap; }
+
+  /* ===== KPI row ===== */
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:30px 0 6px; }
+  .kpi { background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#3E3F41); padding:18px 20px; }
+  .kpi .v { font-size:28px; font-weight:700; letter-spacing:-1px; line-height:1; display:flex; align-items:center; gap:8px; }
+  .kpi .tag { font-size:9px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; background:#FF4A23; color:#fff; padding:2px 7px; }
+  .kpi .b { display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+  .kpi .l { font-size:11px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; color:#8A8781; }
+  .kpi .d { font-size:12px; font-weight:600; color:#FF4A23; }
+  .kpi .d.q { color:#8A8781; }
+
+  /* ===== two-column ===== */
+  .cols { display:grid; grid-template-columns:1fr 360px; gap:32px; align-items:start; }
+
+  /* ===== cards & lists ===== */
+  .panel { background:#fff; border:1px solid #ECEAE3; }
+  .panel.acc { border-top:4px solid #FF4A23; }
+  .latest { padding:24px 26px; }
+  .latest .top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+  .latest p { font-size:21px; font-weight:600; letter-spacing:-.5px; line-height:1.35; max-width:52ch; }
+  .latest p em { font-style:normal; color:#FF4A23; }
+  .pill { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; padding:3px 9px; white-space:nowrap; }
+  .pill.flame { background:#FFF0EC; color:#FF4A23; border:1px solid #FF4A23; }
+  .pill.gold { background:#FBF4DC; color:#8B6900; border:1px solid #E8C547; }
+  .pill.teal { background:#E4F4F3; color:#2A8581; border:1px solid #5BC0BE; }
+  .pill.ink { background:#0F0E0E; color:#CDF851; }
+  .pill.ok { background:#EAF6EA; color:#166534; border:1px solid #9BC99B; }
+  .ts { font-size:11px; color:#8A8781; }
+
+  .rows .row { display:flex; gap:14px; align-items:flex-start; padding:14px 18px; border-bottom:1px solid #ECEAE3; border-left:3px solid transparent; }
+  .rows .row:last-child { border-bottom:none; }
+  .rows .row.gold { border-left-color:#E8C547; }
+  .rows .row.teal { border-left-color:#5BC0BE; }
+  .rows .t { font-size:13.5px; font-weight:600; }
+  .rows .s { font-size:12px; color:#8A8781; margin-top:3px; }
+
+  /* ===== activity feed ===== */
+  .feed-head { padding:13px 18px; border-bottom:1px solid #ECEAE3; display:flex; justify-content:space-between; align-items:center; }
+  .feed-head .lbl { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:#8A8781; }
+  .feed-head .new { font-size:11px; font-weight:600; color:#FF4A23; margin-right:10px; }
+  .post-btn { font-family:inherit; font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; background:#0F0E0E; color:#F5F2EB; border:none; cursor:pointer; padding:7px 12px; }
+  .post-btn:hover { background:#FF4A23; }
+  .composer { display:none; padding:14px 18px; border-bottom:1px solid #ECEAE3; background:#FAF8F3; }
+  .composer.on { display:block; }
+  .composer textarea { width:100%; font-family:inherit; font-size:13px; padding:10px 12px; border:1px solid #ECEAE3; background:#fff; resize:vertical; min-height:56px; outline:none; }
+  .composer textarea:focus { border-color:#0F0E0E; }
+  .composer .c-row { display:flex; gap:8px; margin-top:8px; align-items:center; }
+  .composer select { font-family:inherit; font-size:12px; padding:7px 10px; border:1px solid #ECEAE3; background:#fff; outline:none; }
+  .composer .send { font-family:inherit; font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; background:#FF4A23; color:#fff; border:none; cursor:pointer; padding:8px 14px; margin-left:auto; }
+  .feed { max-height:620px; overflow-y:auto; }
+  .feed::-webkit-scrollbar { width:6px; }
+  .feed::-webkit-scrollbar-thumb { background:#ECEAE3; }
+  .fi { padding:14px 18px; border-bottom:1px solid #ECEAE3; }
+  .fi .fh { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:7px; }
+  .fi .stage { font-size:10px; letter-spacing:.8px; padding:2px 8px; border:1px solid #ECEAE3; color:#8A8781; }
+  .fi p { font-size:13px; line-height:1.5; }
+  .fi .meta { font-size:11px; color:#8A8781; margin-top:6px; }
+  .fi.old { opacity:.65; }
+  .caught { display:flex; align-items:center; gap:10px; padding:11px 18px; background:#FAF8F3; border-bottom:1px solid #ECEAE3; }
+  .caught .ck { width:16px; height:16px; background:#166534; color:#fff; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+  .caught span:last-child { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#166534; }
+
+  /* ===== team ===== */
+  .team .row { display:flex; justify-content:space-between; gap:12px; padding:10px 18px; border-bottom:1px solid #ECEAE3; }
+  .team .row:last-child { border-bottom:none; }
+  .team .role { font-size:12px; color:#8A8781; }
+  .team .who { font-size:13px; font-weight:600; text-align:right; }
+
+  /* ===== tables ===== */
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #ECEAE3; }
+  th { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#8A8781; text-align:left; padding:11px 18px; border-bottom:1px solid #ECEAE3; background:#FAF8F3; }
+  td { font-size:13.5px; padding:13px 18px; border-bottom:1px solid #ECEAE3; vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  td .s { font-size:12px; color:#8A8781; margin-top:2px; }
+  .g-name { font-weight:600; }
+
+  /* ===== releases / assets groups ===== */
+  .grp { margin-bottom:18px; }
+  .grp-h { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .grp-h .t { font-size:13px; font-weight:600; letter-spacing:.4px; text-transform:uppercase; }
+  .grp-h .m { font-size:12px; color:#8A8781; }
+
+  /* ===== timeline ===== */
+  .tl-key { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:14px; font-size:12px; color:#3E3F41; }
+  .tl-key .k { display:flex; align-items:center; gap:6px; }
+  .dot { width:9px; height:9px; flex-shrink:0; }
+  .tl .row { display:flex; gap:16px; align-items:center; padding:12px 18px; border-bottom:1px solid #ECEAE3; }
+  .tl .row:last-child { border-bottom:none; }
+  .tl .dt { font-size:12.5px; font-weight:600; width:64px; flex-shrink:0; color:#3E3F41; }
+  .tl .ev { font-size:13.5px; font-weight:500; flex:1; }
+  .tl .st { font-size:11px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:#8A8781; }
+  .tl .st.ok { color:#166534; }
+
+  .foot { border-top:1px solid #ECEAE3; margin-top:56px; }
+  .foot .in { max-width:1180px; margin:0 auto; padding:22px 32px; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#8A8781; }
+
+  @media (max-width:900px){
+    .wrap { padding:0 18px; }
+    .subnav .in { padding:0 18px; }
+    .hdr h1 { font-size:30px; }
+    .hdr-row { flex-wrap:wrap; }
+    .hdr-links { margin-left:0; text-align:left; }
+    .kpis { grid-template-columns:repeat(2,1fr); }
+    .cols { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hdr">
+    <div class="kicker" style="margin-bottom:16px;">Roster · Artist Page</div>
+    <div class="hdr-row">
+      <div class="avatar">LM</div>
+      <div>
+        <h1>Lizzy McAlpine</h1>
+        <div class="chips">
+          <span class="chip pri">Group 2 — Scaling</span>
+          <span class="chip">5–10M weekly streams</span>
+          <span class="chip">Phase 03 — Announce</span>
+          <span class="chip">Campaign — "Angel"</span>
+        </div>
+      </div>
+      <div class="hdr-links">
+        <div class="lbl">Links</div>
+        <div>
+          <a href="#" target="_blank" rel="noopener">Spotify ↗</a><a href="#" target="_blank" rel="noopener">YouTube ↗</a><br>
+          <a href="#" target="_blank" rel="noopener">Instagram ↗</a><a href="#" target="_blank" rel="noopener">TikTok ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="subnav"><div class="in">
+  <a href="#overview" class="on">Overview</a>
+  <a href="#activity">Activity</a>
+  <a href="#team">Team</a>
+  <a href="#releases">Releases</a>
+  <a href="#campaigns">Campaigns</a>
+  <a href="#assets">Assets</a>
+  <a href="#timeline">Timeline</a>
+</div></nav>
+
+<div class="wrap">
+
+  <!-- KPIs -->
+  <div class="kpis" id="overview">
+    <div class="kpi" style="--ac:#3E3F41;"><div class="v">6.8M</div><div class="b"><span class="l">Streams · 7d</span><span class="d">↑ 22%</span></div></div>
+    <div class="kpi" style="--ac:#FF4A23;"><div class="v">18.9K <span class="tag">Trending</span></div><div class="b"><span class="l">TikTok creates · 7d</span><span class="d">↑ 180%</span></div></div>
+    <div class="kpi" style="--ac:#5BC0BE;"><div class="v">274</div><div class="b"><span class="l">Playlist adds · 7d</span><span class="d">↑ 12%</span></div></div>
+    <div class="kpi" style="--ac:#E8C547;"><div class="v">156K</div><div class="b"><span class="l">Shazams · total</span><span class="d q">↑ 5%</span></div></div>
+  </div>
+
+  <div class="cols">
+    <div>
+
+      <!-- LATEST -->
+      <div class="sec" style="padding-top:30px;">
+        <div class="sec-head"><h2>Latest</h2></div>
+        <div class="panel acc latest">
+          <div class="top"><span class="pill flame">Date Change</span><span class="ts">Today · 9:12 AM</span></div>
+          <p>"Angel" album announce + pre-order locked for <em>7.20.26</em> — lead single "The Light in the Painting" and official video follow 7.24.26.</p>
+        </div>
+      </div>
+
+      <!-- OUTSTANDING -->
+      <div class="sec">
+        <div class="sec-head"><h2>Outstanding</h2><span class="meta-r">5 open items</span></div>
+        <div class="panel rows">
+          <div class="row gold"><span class="pill gold">Pending</span><div><div class="t">Spotify — NMF Features (7.24)</div><div class="s">Partner · awaiting Label · assets in progress</div></div></div>
+          <div class="row gold"><span class="pill gold">Pending</span><div><div class="t">Apple — NMD 7.23 w/ live Zane feature</div><div class="s">Partner · awaiting Mgmt confirm</div></div></div>
+          <div class="row gold"><span class="pill gold">Pending</span><div><div class="t">Amazon — Playback in LA (7.14)</div><div class="s">Partner · awaiting Mgmt confirm</div></div></div>
+          <div class="row gold"><span class="pill gold">Pending</span><div><div class="t">Spotify — Fan Event</div><div class="s">Partner · awaiting Label</div></div></div>
+          <div class="row teal"><span class="pill teal">Target</span><div><div class="t">Spotify — Countdown-To piece</div><div class="s">Partner · pitch stage</div></div></div>
+        </div>
+      </div>
+
+      <!-- RELEASES -->
+      <div class="sec" id="releases">
+        <div class="sec-head"><h2>Releases</h2><span class="meta-r">By content type</span></div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Single</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">The Light in the Painting</div><div class="s">7.24.26</div></div><a href="#" target="_blank" rel="noopener">Listen ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Ugly Things</div><div class="s">8.21.26</div></div><a href="#" target="_blank" rel="noopener">Listen ↗</a></div>
+          </div>
+        </div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Album / Pre-Order</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Angel (Pre-Order)</div><div class="s">7.20.26</div></div><a href="#" target="_blank" rel="noopener">Listen ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">"Over Country" (Focus Track)</div><div class="s">9.18.26</div></div></div>
+          </div>
+        </div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Physical</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Older &amp; Wiser — Deluxe Vinyl</div></div><span class="pill ok">Live</span></div>
+          </div>
+        </div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Video</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Older — Official Video</div></div><span class="pill ok">Live</span></div>
+            <div class="row"><div style="flex:1;"><div class="t">Cherry Lane — Full Length Video</div></div><span class="pill ok">Live</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMPAIGNS -->
+      <div class="sec" id="campaigns">
+        <div class="sec-head"><h2>Campaigns</h2></div>
+        <table>
+          <thead><tr><th>Campaign</th><th>Stage</th><th>Gate</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td class="g-name">Angel Album Rollout</td><td><span class="pill flame">In Build</span></td><td><span class="pill gold">Pending</span></td><td>Campaign Lead</td></tr>
+            <tr><td class="g-name">Older Deluxe Sustain</td><td><span class="pill teal">Open for Input</span></td><td><span class="pill ok">Cleared</span></td><td>Artist Audience</td></tr>
+            <tr><td class="g-name">UK Promo</td><td><span class="pill" style="border:1px solid #ECEAE3;color:#8A8781;">Scoping</span></td><td><span class="ts">—</span></td><td>Promo Lead</td></tr>
+            <tr><td class="g-name">Fall Underplay Run</td><td><span class="pill" style="border:1px solid #ECEAE3;color:#8A8781;">Scoping</span></td><td><span class="ts">—</span></td><td>Tour Marketing</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ASSETS -->
+      <div class="sec" id="assets">
+        <div class="sec-head"><h2>Assets</h2><span class="meta-r">By spend category · rows link to Air</span></div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Video</span><span class="m">38.5% of spend</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Older Music Video — Cutdowns</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Cherry Lane — Full Length Video</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Older — Official Video</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+          </div>
+        </div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Digital Marketing</span><span class="m">12.4% of spend</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Older — Website Activation</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Older Deluxe Vinyl — Social Post</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+          </div>
+        </div>
+        <div class="grp">
+          <div class="grp-h"><span class="t">Artwork &amp; Packaging</span><span class="m">9.3% of spend</span></div>
+          <div class="panel rows">
+            <div class="row"><div style="flex:1;"><div class="t">Angel — Album Artwork</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Angel — Product Shots</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">The Light in the Painting — Artwork</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Ugly Things — Artwork</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">Older &amp; Wiser — Deluxe Vinyl</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+            <div class="row"><div style="flex:1;"><div class="t">House of the Rising Sun — Artwork</div></div><span class="pill ok">Live</span><a href="#" target="_blank" rel="noopener">Open Air ↗</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div class="sec" id="timeline">
+        <div class="sec-head"><h2>Timeline</h2><span class="meta-r">Next 90 days</span></div>
+        <div class="tl-key">
+          <span class="k"><span class="dot" style="background:#3E3F41;"></span>Tour Date</span>
+          <span class="k"><span class="dot" style="background:#FF4A23;"></span>Track Release</span>
+          <span class="k"><span class="dot" style="background:#CDF851;"></span>Album Pre-Order</span>
+          <span class="k"><span class="dot" style="background:#5BC0BE;"></span>Project Release</span>
+          <span class="k"><span class="dot" style="background:#E8C547;"></span>Promo</span>
+        </div>
+        <div class="panel tl">
+          <div class="row"><span class="dt">7.16.26</span><span class="dot" style="background:#E8C547;"></span><span class="ev">Partner Playbacks</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">7.17.26</span><span class="dot" style="background:#3E3F41;"></span><span class="ev">Hollywood Bowl — Los Angeles, CA</span><span class="st ok">Confirmed</span></div>
+          <div class="row"><span class="dt">7.20.26</span><span class="dot" style="background:#CDF851;"></span><span class="ev">"Angel" Announce / Pre-Order + Single</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">7.24.26</span><span class="dot" style="background:#FF4A23;"></span><span class="ev">"Light in the Painting" w/ Official Video</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">7.25.26</span><span class="dot" style="background:#3E3F41;"></span><span class="ev">Newport Folk Festival — Newport, RI</span><span class="st ok">Confirmed</span></div>
+          <div class="row"><span class="dt">8.21.26</span><span class="dot" style="background:#FF4A23;"></span><span class="ev">"Ugly Things" w/ Official Video</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">8.31.26</span><span class="dot" style="background:#E8C547;"></span><span class="ev">UK Promo</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">9.05.26</span><span class="dot" style="background:#3E3F41;"></span><span class="ev">London Underplay — Earth Theatre</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">9.09.26</span><span class="dot" style="background:#3E3F41;"></span><span class="ev">NYC Underplay — Music Hall of Williamsburg</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">9.16.26</span><span class="dot" style="background:#3E3F41;"></span><span class="ev">LA Underplay — Sid the Cat Auditorium</span><span class="st">Planning</span></div>
+          <div class="row"><span class="dt">9.18.26</span><span class="dot" style="background:#5BC0BE;"></span><span class="ev">Album Release — "Over Country" Focus Track</span><span class="st">Planning</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <!-- ACTIVITY -->
+      <div class="sec" id="activity" style="padding-top:30px;">
+        <div class="sec-head"><h2>Activity</h2></div>
+        <div class="panel">
+          <div class="feed-head">
+            <span class="lbl">Updates</span>
+            <div style="display:flex;align-items:center;">
+              <span class="new" id="new-count">4 new</span>
+              <button class="post-btn" id="post-toggle">+ Post Update</button>
+            </div>
+          </div>
+          <div class="composer" id="composer">
+            <textarea id="c-text" placeholder="What changed?"></textarea>
+            <div class="c-row">
+              <select id="c-type"><option>Update</option><option>Date Change</option><option>Asset</option><option>Notes</option></select>
+              <button class="send" id="c-send">Post</button>
+            </div>
+          </div>
+          <div class="feed" id="feed">
+            <div class="fi"><div class="fh"><span class="pill teal">Update</span><span class="stage">RELEASE</span></div><p>Tonight — <strong>Hollywood Bowl, LA</strong> show confirmed.</p><div class="meta">Today 10:05 AM · Tour Marketing</div></div>
+            <div class="fi"><div class="fh"><span class="pill flame">Date Change</span><span class="stage">PLAN → PRE-RELEASE</span></div><p>"Angel" announce + pre-order locked for <strong>7.20.26</strong>.</p><div class="meta">Today 9:12 AM · Campaign Lead</div></div>
+            <div class="fi"><div class="fh"><span class="pill ink">Asset</span><span class="stage">PLAN → PRE-RELEASE</span></div><p><strong>Angel</strong> album artwork delivered — live in Air.</p><div class="meta">Yesterday 4:40 PM · Design Lead</div></div>
+            <div class="fi"><div class="fh"><span class="pill teal">Update</span></div><p>Partner playbacks confirmed — Spotify &amp; Apple, LA (7.14).</p><div class="meta">Yesterday 11:20 AM · Commercial Partnerships</div></div>
+            <div class="caught"><span class="ck">✓</span><span>You're all caught up</span></div>
+            <div class="fi old"><div class="fh"><span class="pill gold">Notes</span></div><p>Artist update recap sent to all — campaign status + Angel timing.</p><div class="meta">5.27.26 · Campaign Ops</div></div>
+            <div class="fi old"><div class="fh"><span class="pill ink">Asset</span></div><p>"The Light in the Painting" artwork live.</p><div class="meta">5.14.26 · Design</div></div>
+            <div class="fi old"><div class="fh"><span class="pill gold">Notes</span></div><p>Artist update recap sent to all.</p><div class="meta">4.27.26 · Campaign Ops</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEAM -->
+      <div class="sec" id="team">
+        <div class="sec-head"><h2>Team</h2><span class="meta-r">Full working team</span></div>
+        <div class="panel team">
+          <div class="row"><span class="role">Campaign Lead</span><span class="who">Aaron Stern</span></div>
+          <div class="row"><span class="role">Campaign Ops</span><span class="who">Meg Hourihan</span></div>
+          <div class="row"><span class="role">A&amp;R</span><span class="who">Dan Chertoff</span></div>
+          <div class="row"><span class="role">Artist Audience</span><span class="who">Alexis Gorlick</span></div>
+          <div class="row"><span class="role">Creative Manager</span><span class="who">Alexander Rea</span></div>
+          <div class="row"><span class="role">Design Lead</span><span class="who">Lara Turner</span></div>
+          <div class="row"><span class="role">Promo Lead</span><span class="who">Keith Rothschild</span></div>
+          <div class="row"><span class="role">Publicity</span><span class="who">Jamie Abzug · Nicole Garcia</span></div>
+          <div class="row"><span class="role">International</span><span class="who">Naoise Ryan</span></div>
+          <div class="row"><span class="role">Tour Marketing</span><span class="who">Lindsay Masterson</span></div>
+          <div class="row"><span class="role">Commercial Partnerships</span><span class="who">Katrin Weber</span></div>
+          <div class="row"><span class="role">BA Admin</span><span class="who">Rosa Moore</span></div>
+          <div class="row"><span class="role">Business Affairs</span><span class="who">Heidi Herman</span></div>
+          <div class="row"><span class="role">Manager</span><span class="who">External</span></div>
+          <div class="row"><span class="role">Agent</span><span class="who">External</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="foot"><div class="in"><span>Campaign Ops · RCA Records</span><span>Sample data · Internal only</span></div></div>
+
+<script>
+(function(){
+  /* anchor nav highlight */
+  var links=document.querySelectorAll('.subnav a');
+  var ids=['overview','activity','team','releases','campaigns','assets','timeline'];
+  var secs=ids.map(function(i){return document.getElementById(i);});
+  function onScroll(){
+    var y=window.scrollY+90, cur=0;
+    secs.forEach(function(s,i){ if(s && s.getBoundingClientRect().top+window.scrollY<=y) cur=i; });
+    links.forEach(function(a,i){ a.classList.toggle('on', i===cur); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  links.forEach(function(a){ a.addEventListener('click', function(e){
+    e.preventDefault();
+    var t=document.getElementById(a.getAttribute('href').slice(1));
+    if(t) window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-60, behavior:'smooth'});
+  });});
+
+  /* demo composer */
+  var tog=document.getElementById('post-toggle'), comp=document.getElementById('composer');
+  tog.addEventListener('click', function(){ comp.classList.toggle('on'); if(comp.classList.contains('on')) document.getElementById('c-text').focus(); });
+  document.getElementById('c-send').addEventListener('click', function(){
+    var txt=document.getElementById('c-text').value.trim(); if(!txt) return;
+    var type=document.getElementById('c-type').value;
+    var cls={'Update':'teal','Date Change':'flame','Asset':'ink','Notes':'gold'}[type]||'teal';
+    var el=document.createElement('div'); el.className='fi';
+    var now=new Date(); var hh=now.getHours()%12||12, mm=('0'+now.getMinutes()).slice(-2), ap=now.getHours()>=12?'PM':'AM';
+    el.innerHTML='<div class="fh"><span class="pill '+cls+'">'+type+'</span></div><p></p><div class="meta">Today '+hh+':'+mm+' '+ap+' · You</div>';
+    el.querySelector('p').textContent=txt;
+    var feed=document.getElementById('feed'); feed.insertBefore(el, feed.firstChild);
+    var nc=document.getElementById('new-count'); nc.textContent=(parseInt(nc.textContent)+1)+' new';
+    document.getElementById('c-text').value=''; comp.classList.remove('on');
+  });
+})();
+</script>
+
+</body>
+</html>
