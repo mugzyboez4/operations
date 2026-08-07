@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where the Numbers Come From — Deadline Tracker · RCA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F2EB; --card:#FFFFFF; --ops:#EFEBE0;
+    --text:#0F0E0E; --muted:#8A8781; --line:#ECEAE3;
+    --chartreuse:#CDF851; --flame:#FF4A23; --ok:#2F7D32;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 42px}
+
+  .topbar{border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 42px}
+  .topbar .brand{font-weight:600;letter-spacing:-.3px;font-size:16px}
+  .topbar .brand span{color:var(--flame)}
+  .topbar .tag{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+  .hero{border-bottom:1px solid var(--line);padding:48px 0 36px}
+  .hero .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:16px}
+  .hero h1{font-weight:600;letter-spacing:-1.2px;line-height:1.1;font-size:clamp(30px,4.5vw,40px)}
+  .hero h1 em{font-style:normal;color:var(--flame)}
+  .hero .lede{margin-top:16px;max-width:620px;font-size:16px;color:var(--muted)}
+  .hero .lede b{color:var(--text)}
+  .back{margin-top:14px;font-size:13px;font-weight:700}
+  .back a{color:var(--flame);text-decoration:none;border-bottom:2px solid var(--flame)}
+
+  section.block{padding:38px 0;border-bottom:1px solid var(--line)}
+  section.block:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .sec-num{font-size:12px;font-weight:700;color:var(--flame);letter-spacing:.14em}
+  .sec-title{font-size:clamp(20px,3vw,26px);font-weight:600;letter-spacing:-.7px}
+  .sec-sub{font-size:13.5px;color:var(--muted);margin-bottom:20px;max-width:620px}
+  .sec-sub b{color:var(--text)}
+
+  .twocard{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:6px}
+  .kcard{background:var(--card);border:1px solid var(--line);padding:20px 22px}
+  .kcard.conf{border-top:4px solid var(--ok)}
+  .kcard.target{border-top:4px solid var(--flame)}
+  .kcard .kt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+  .kcard.conf .kt{color:var(--ok)}
+  .kcard.target .kt{color:var(--flame)}
+  .kcard p{font-size:13.5px;color:var(--muted)}
+  .kcard p b{color:var(--text)}
+  .badge{display:inline-block;background:var(--ok);color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;vertical-align:middle}
+
+  .srow{display:grid;grid-template-columns:190px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .srow:last-child{border-bottom:none}
+  .srow .n{font-size:14px;font-weight:700}
+  .srow .n .w{display:block;font-size:12.5px;font-weight:700;color:var(--flame);margin-top:2px}
+  .srow.conf .n .w{color:var(--ok)}
+  .srow .why{font-size:14px;color:var(--muted)}
+  .srow .why b{color:var(--text)}
+
+  .noteflag{background:#FFF3D6;border:1px solid var(--line);border-left:4px solid var(--flame);padding:14px 18px;margin-top:24px}
+  .noteflag .t{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame);margin-bottom:4px}
+  .noteflag p{font-size:13px;font-weight:600}
+
+  footer{padding:30px 0 44px;text-align:center}
+  footer .fmark{font-size:24px;font-weight:600;letter-spacing:-.6px}
+  footer .fline{color:var(--muted);font-size:13px;margin-top:8px}
+  footer .ftag{color:var(--flame);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:5px}
+
+  @media(max-width:720px){
+    .wrap{padding:0 22px}.topbar{padding:14px 22px}
+    .twocard{grid-template-columns:1fr}
+    .srow{grid-template-columns:1fr;gap:4px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">RCA <span>·</span> Records</div>
+  <div class="tag">Deadline Tracker · Sources</div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">The guide behind the tracker</div>
+    <h1>Where the numbers <em>come from</em></h1>
+    <p class="lede">Every deadline on the tracker is one of two things: a <b>confirmed floor</b> from our own delivery process, or a <b>planning target</b> built on standard industry lead times.</p>
+    <p class="back"><a href="deadline-tracker.html">← Back to the tracker</a></p>
+  </div>
+</header>
+
+<!-- TWO KINDS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Two kinds of numbers</h2></div>
+    <div class="twocard">
+      <div class="kcard conf">
+        <div class="kt">Confirmed floors <span class="badge">Confirmed</span></div>
+        <p>The absolute-latest dates, set internally with <b>Release Planning</b> (Jive delivery process, July 2026). Miss these and the release physically can't go right. Marked green on the tracker.</p>
+      </div>
+      <div class="kcard target">
+        <div class="kt">Planning targets</div>
+        <p>Deliberately conservative dates built from <b>standard industry lead times</b> — pressing-plant queues, distribution processing, clearance turnarounds. Earlier is always safe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIRMED -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">The confirmed floors</h2></div>
+    <p class="sec-sub">Three dates are hard. Everything else on the tracker exists to protect them.</p>
+
+    <div class="srow conf">
+      <div class="n">Final audio<span class="w">10 days out</span></div>
+      <div class="why">Audio must be live at the DSPs <b>before the playlist-pitching window closes</b> — Spotify editorial requires the track delivered ahead of release (about a week minimum; we hold 10 days). It also needs NSI (no-sample-issues) clearance before delivery.</div>
+    </div>
+    <div class="srow conf">
+      <div class="n">Final cover art<span class="w">10 days out</span></div>
+      <div class="why">Art ships to the DSPs with the audio — no final art, no delivery. Same 10-day floor.</div>
+    </div>
+    <div class="srow conf">
+      <div class="n">Music video<span class="w">1 wk out</span></div>
+      <div class="why">The goal for the ProRes master to hit Sony Ci. Acknowledged as not always achievable — but inside a week, premiere placements start falling off.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TARGETS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The planning targets</h2></div>
+    <p class="sec-sub">Where each earlier date comes from, working backward from the floors.</p>
+
+    <div class="srow">
+      <div class="n">Vinyl kickoff<span class="w">16 wks out</span></div>
+      <div class="why">Pressing plants quote <b>2–4 months</b> from lacquer to finished goods, and that's with major-label priority. Four months covers lacquers, test pressings, packaging, and freight to the warehouse.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Tracklist locked<span class="w">12 wks out</span></div>
+      <div class="why">Everything downstream — clearances, credits, packaging art, metadata — starts from the tracklist. Lock it late and every other deadline compresses.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Sample clearances<span class="w">10 wks out</span></div>
+      <div class="why">Clearance negotiations routinely run <b>6–8 weeks</b>, and an uncleared sample stops a release cold. Flagging at tracklist-lock leaves room for the slow ones.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Mixes approved<span class="w">8 wks out</span></div>
+      <div class="why">Leaves time for mastering, clean/explicit versions, and the NSI review before the 10-day audio floor.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Credits + splits<span class="w">5 wks out</span></div>
+      <div class="why">Distribution needs <b>2–4 weeks</b> to process and deliver a release to every platform. Credits and splits gate that submission.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Metadata + features<span class="w">4 wks out</span></div>
+      <div class="why">Same distribution window — plus featured-artist approvals, which can't be rushed once the release is queued.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Photos + bio<span class="w">16 wks out</span></div>
+      <div class="why">First thing every partner asks for — press, DSPs, and packaging all pull from the same shoot. Doing it once, early, feeds everything.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MECHANICS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">How the dates are calculated</h2></div>
+    <p class="sec-sub">Two rules run under the hood.</p>
+
+    <div class="srow">
+      <div class="n">2-day cushion</div>
+      <div class="why">Every calculated date lands <b>2 days ahead</b> of the true floor. If something slips a day, it slips into the cushion — not into the release.</div>
+    </div>
+    <div class="srow">
+      <div class="n">Weekend + holiday flags</div>
+      <div class="why">If a deadline falls on a weekend or a US holiday, the tracker flags it — nobody's at the plant or the DSP to receive it, so the real deadline is the working day before.</div>
+    </div>
+
+    <div class="noteflag">
+      <div class="t">Working draft</div>
+      <p>The delivery process behind the confirmed floors is still rolling out with the Jive team. Numbers may firm up as more owners confirm their lanes — this page updates when they do.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fmark">RCA</div>
+    <div class="fline">Questions on a number? Ask Campaign Ops — that's what we're here for.</div>
+    <div class="ftag">RCA Records · Campaign Operations</div>
+  </div>
+</footer>
+
+</body>
+</html>

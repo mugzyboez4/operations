@@ -22,12 +22,14 @@
   .topbar .brand span{color:var(--flame)}
   .topbar .tag{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 
-  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);padding:48px 0 36px}
-  .hero .kicker{position:relative;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:16px}
-  .hero h1{position:relative;font-weight:600;letter-spacing:-1.4px;line-height:1.08;font-size:clamp(34px,5vw,44px)}
+  .hero{border-bottom:1px solid var(--line);padding:48px 0 36px}
+  .hero .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:16px}
+  .hero h1{font-weight:600;letter-spacing:-1.4px;line-height:1.08;font-size:clamp(34px,5vw,44px)}
   .hero h1 em{font-style:normal;color:var(--flame)}
-  .hero .lede{position:relative;margin-top:16px;max-width:640px;font-size:16px;color:var(--muted)}
+  .hero .lede{margin-top:16px;max-width:640px;font-size:16px;color:var(--muted)}
   .hero .lede b{color:var(--text);font-weight:700}
+  .hero .srclink{margin-top:14px;font-size:13px;font-weight:700}
+  .hero .srclink a{color:var(--flame);text-decoration:none;border-bottom:2px solid var(--flame)}
 
   /* date entry */
   .dateblock{border-bottom:1px solid var(--line);padding:26px 0}
@@ -38,74 +40,50 @@
   .datebox .hint b{color:var(--text)}
   .keyline{margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
+  /* runway strip */
+  .runway{display:flex;align-items:stretch;gap:0;background:var(--ops);border:1px solid var(--line);margin-top:22px;overflow-x:auto}
+  .rw-stop{flex:1;min-width:120px;padding:12px 14px;border-right:1px solid var(--line)}
+  .rw-stop .t{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--flame)}
+  .rw-stop .m{font-size:12.5px;font-weight:700;margin-top:3px;line-height:1.3}
+  .rw-stop .dt{font-size:11px;font-weight:700;color:var(--muted);margin-top:3px}
+  .rw-stop .dt:empty{display:none}
+  .rw-stop.rel{background:var(--chartreuse);border-right:none}
+  .rw-stop.rel .t{color:var(--text)}
+
   section.block{padding:40px 0;border-bottom:1px solid var(--line)}
   section.block:last-of-type{border-bottom:none}
   .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
   .sec-num{font-size:12px;font-weight:700;color:var(--flame);letter-spacing:.14em}
   .sec-title{font-size:clamp(22px,3vw,28px);font-weight:600;letter-spacing:-.8px}
-  .sec-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
-  .sec-sub .hl{background:var(--chartreuse);color:var(--text);font-weight:700;padding:1px 7px}
+  .sec-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .sec-sub b{color:var(--text)}
 
-  /* timeline — handoff-map idiom */
-  .tl-axis{display:flex;align-items:center;gap:14px;background:var(--ops);border:1px solid var(--line);padding:11px 16px;margin-bottom:20px}
-  .tl-axis .cap{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;white-space:nowrap}
-  .tl-axis .cap.l{color:var(--flame)}
-  .tl-axis .cap.r{color:var(--text);background:var(--chartreuse);padding:5px 10px}
-  .tl-axis .bar{flex:1;height:3px;background:linear-gradient(90deg,var(--chartreuse),var(--flame))}
-
-  .tl-lane{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);break-inside:avoid}
-  .tl-lane:last-child{border-bottom:none}
-  .tl-name{flex:0 0 96px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--flame);padding-top:9px}
-  .tl-track{flex:1;display:flex;align-items:stretch;flex-wrap:wrap;gap:7px}
-  .tl-stop{background:var(--card);border:1px solid var(--line);padding:8px 11px;min-width:82px;display:flex;flex-direction:column;justify-content:center}
-  .tl-stop .m{font-size:11px;font-weight:700;line-height:1.25;color:var(--text)}
-  .tl-stop .w{font-size:12px;font-weight:700;color:var(--flame);margin-top:3px}
-  .tl-stop .dt{font-size:10.5px;font-weight:700;color:var(--text);margin-top:3px}
-  .tl-stop .dt:empty{display:none}
-  .tl-stop.up{background:var(--chartreuse);border-color:var(--chartreuse)}
-  .tl-stop.up .w{color:var(--text)}
-  .tl-arw{display:flex;align-items:center;color:var(--flame);font-weight:700;font-size:14px}
-  .tl-rel{background:var(--chartreuse);color:var(--text);padding:8px 13px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.03em;display:flex;flex-direction:column;justify-content:center;text-align:center;border:1px solid var(--text)}
-  .tl-rel .dt{font-size:10px;font-weight:700;color:var(--text);margin-top:2px;letter-spacing:0}
-  .tl-rel .dt:empty{display:none}
-
-  /* deliverable list — item + due */
-  .cat{margin-bottom:22px}
-  .cat:last-child{margin-bottom:0}
-  .cat-label{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px}
-  .cat-label::before{content:"";width:9px;height:9px;background:var(--flame)}
-  .row2{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
-  .row2 .item{font-size:15px;font-weight:700}
-  .row2 .when{display:flex;flex-direction:column;align-items:flex-end}
-  .row2 .when .wk{font-size:14px;font-weight:700;color:var(--flame);white-space:nowrap}
-  .row2 .when.upfront .wk{color:var(--text);background:var(--chartreuse);padding:2px 9px}
-  .row2 .when .dt{font-size:12px;font-weight:700;color:var(--text);margin-top:3px;white-space:nowrap}
-  .row2 .when .dt:empty{display:none}
-
-  .tl-stop.conf{border-color:var(--ok)}
-  .tl-stop .ck{color:var(--ok);font-weight:700}
+  /* release grid */
+  .grid-head{display:grid;grid-template-columns:1fr 110px 150px;gap:16px;padding:7px 0;border-bottom:2px solid var(--text);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .grid-head .r{text-align:right}
+  .row3{display:grid;grid-template-columns:1fr 110px 150px;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+  .row3 .item{font-size:15px;font-weight:700}
+  .row3 .item .sub{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:1px}
+  .row3 .tmin{font-size:13.5px;font-weight:700;color:var(--flame);text-align:right;white-space:nowrap}
+  .row3.conf .tmin{color:var(--ok)}
+  .row3 .when{text-align:right}
+  .row3 .dt{font-size:12.5px;font-weight:700;white-space:nowrap}
+  .row3 .dt:empty::before{content:"—";color:var(--line)}
   .badge{display:inline-block;background:var(--ok);color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-left:7px;vertical-align:middle}
-  .row2 .when.conf .wk{color:var(--ok)}
+  .subhead{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:22px 0 2px;display:inline-flex;align-items:center;gap:9px}
+  .subhead::before{content:"";width:9px;height:9px;background:var(--flame)}
+
+  .hflag{display:inline-block;margin-left:7px;background:#FFE08A;color:#7A5B00;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
 
   footer{padding:30px 0 44px;text-align:center}
   footer .fmark{font-size:24px;font-weight:600;letter-spacing:-.6px}
   footer .fline{color:var(--muted);font-size:13px;margin-top:8px}
   footer .ftag{color:var(--flame);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:5px}
 
-  .draftflag{background:#FFF3D6;border-top:3px solid var(--flame);border-bottom:1px solid var(--line)}
-  .draftflag .wrap{display:flex;gap:11px;align-items:center;padding-top:11px;padding-bottom:11px;flex-wrap:wrap}
-  .draftflag .tagd{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
-  .draftflag .txt{font-size:12.5px;font-weight:600;color:var(--text)}
-  .bufferflag{background:#EAF6C4;border-bottom:1px solid var(--line)}
-  .bufferflag .wrap{display:flex;gap:11px;align-items:center;padding:11px 42px;flex-wrap:wrap;max-width:none}
-  .bufferflag .tagd{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
-  .bufferflag .txt{font-size:12.5px;font-weight:600;color:var(--text)}
-  .bufferflag .txt b{font-weight:700}
-  .hflag{display:inline-block;margin-left:7px;background:#FFE08A;color:#7A5B00;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
-
   @media(max-width:820px){
     .wrap{padding:0 22px}.topbar{padding:14px 22px}
-    .tl-name{flex-basis:100%}
+    .grid-head{grid-template-columns:1fr 90px 120px}
+    .row3{grid-template-columns:1fr 90px 120px}
   }
   @media print{
     body{background:#F5F2EB;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -122,12 +100,12 @@
   <div class="tag">Deadline Tracker</div>
 </div>
 
-
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">Counted back from your release date</div>
+    <div class="kicker">Counted back from release day</div>
     <h1>Deadline <em>Tracker</em></h1>
-    <p class="lede">Everything you turn in — <b>music, creative, credits, and physical</b> — with the latest safe date for each.</p>
+    <p class="lede">Pick your release date. Every deadline fills in — <b>what's due, and the latest safe day to turn it in.</b></p>
+    <p class="srclink"><a href="deadline-sources.html">Where these numbers come from →</a></p>
   </div>
 </header>
 
@@ -137,164 +115,94 @@
     <div class="datebox">
       <span class="lab">Your target release date</span>
       <input type="date" id="rel">
-      <span class="hint">Pick a date — deadlines fill in <b>2 days early</b>.</span>
+      <span class="hint">Dates land <b>2 days early</b> on purpose — a built-in cushion.</span>
     </div>
-    <div class="keyline"><span class="hflag">&#9873; Weekend</span> <span>= that deadline lands on a Saturday, Sunday, or holiday when no one's working — move it up so nothing gets stuck.</span></div>
+    <div class="keyline"><span class="hflag">&#9873; Weekend</span> <span>= that date falls on a weekend or holiday. Move it up so nothing sits.</span></div>
+
+    <div class="runway">
+      <div class="rw-stop" data-wk="16"><div class="t">16 wks</div><div class="m">Creative + vinyl kickoff</div><div class="dt"></div></div>
+      <div class="rw-stop" data-wk="12"><div class="t">12 wks</div><div class="m">Tracklist locked</div><div class="dt"></div></div>
+      <div class="rw-stop" data-wk="8"><div class="t">8 wks</div><div class="m">Mixes approved</div><div class="dt"></div></div>
+      <div class="rw-stop" data-wk="5"><div class="t">5 wks</div><div class="m">Credits + splits in</div><div class="dt"></div></div>
+      <div class="rw-stop" data-days="10"><div class="t">10 days</div><div class="m">Final audio + art</div><div class="dt"></div></div>
+      <div class="rw-stop rel" data-wk="0"><div class="t">Day 0</div><div class="m">Release</div><div class="dt"></div></div>
+    </div>
   </div>
 </div>
 
-<!-- TIMELINE -->
+<!-- MUSIC -->
 <section class="block">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">The Timeline</h2></div>
-    <p class="sec-sub">Read left to right. <span class="hl">Highlighted</span> = start these early.</p>
-
-    <div class="tl-axis">
-      <span class="cap l">← Earlier · more runway</span>
-      <span class="bar"></span>
-      <span class="cap r">Release day</span>
-    </div>
-
-    <div class="tl-lane">
-      <div class="tl-name">Music</div>
-      <div class="tl-track">
-        <div class="tl-stop" data-wk="12"><div class="m">Tracklist locked</div><div class="w">12 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="10"><div class="m">Samples cleared</div><div class="w">10 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="8"><div class="m">Mixes approved</div><div class="w">8 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop conf" data-days="10"><div class="m">Final audio</div><div class="w">10 days <span class="ck">&#10003;</span></div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-rel" data-wk="0">Release<div class="dt"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-lane">
-      <div class="tl-name">Creative</div>
-      <div class="tl-track">
-        <div class="tl-stop up" data-wk="16"><div class="m">Photos + bio</div><div class="w">16 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="10"><div class="m">Art direction</div><div class="w">10 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="8"><div class="m">Video concept</div><div class="w">8 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop conf" data-days="10"><div class="m">Final cover art</div><div class="w">10 days <span class="ck">&#10003;</span></div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop conf" data-days="7"><div class="m">Video delivered</div><div class="w">1 wk <span class="ck">&#10003;</span></div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-rel" data-wk="0">Release<div class="dt"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-lane">
-      <div class="tl-name">Credits</div>
-      <div class="tl-track">
-        <div class="tl-stop" data-wk="5"><div class="m">Credits + splits</div><div class="w">5 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="4"><div class="m">Metadata + features</div><div class="w">4 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-rel" data-wk="0">Release<div class="dt"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-lane">
-      <div class="tl-name">Vinyl</div>
-      <div class="tl-track">
-        <div class="tl-stop up" data-wk="16"><div class="m">Color locked</div><div class="w">16 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop up" data-wk="15"><div class="m">Lacquers cut</div><div class="w">15 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="13"><div class="m">Label + pack art</div><div class="w">13 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="12"><div class="m">Test pressing</div><div class="w">12 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="11"><div class="m">Signed artwork</div><div class="w">11 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="5"><div class="m">At warehouse</div><div class="w">5 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-rel" data-wk="0">Street<div class="dt"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-lane">
-      <div class="tl-name">CD / DVD</div>
-      <div class="tl-track">
-        <div class="tl-stop" data-wk="10"><div class="m">DVD / Blu-ray</div><div class="w">10 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="9"><div class="m">Disc proof OK</div><div class="w">9 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="8"><div class="m">CD master + art</div><div class="w">8 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="7"><div class="m">Signed artwork</div><div class="w">7 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-stop" data-wk="5"><div class="m">At warehouse</div><div class="w">5 wks</div><div class="dt"></div></div>
-        <div class="tl-arw">→</div>
-        <div class="tl-rel" data-wk="0">Street<div class="dt"></div></div>
-      </div>
-    </div>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Music</h2></div>
+    <p class="sec-sub">Locking the record itself.</p>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3"><div class="item">Final tracklist locked</div><div class="tmin" >12 wks out</div><div class="when" data-wk="12"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Final mixes approved</div><div class="tmin">8 wks out</div><div class="when" data-wk="8"><span class="dt"></span></div></div>
   </div>
 </section>
 
-<!-- CHECKLIST -->
+<!-- CREATIVE -->
 <section class="block">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">The Checklist</h2></div>
-    <p class="sec-sub">Weeks counted back from release day. Earlier is always safe.</p>
-
-    <div class="cat">
-      <div class="cat-label">Music</div>
-      <div class="row2"><div class="item">Final tracklist locked</div><div class="when" data-wk="12"><span class="wk">12 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Sample clearances (if any)</div><div class="when" data-wk="10"><span class="wk">10 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Final mixes approved</div><div class="when" data-wk="8"><span class="wk">8 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Final approved audio (NSI-cleared)<span class="badge">Confirmed</span></div><div class="when conf" data-days="10"><span class="wk">10 days out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Clean / explicit versions</div><div class="when conf" data-days="10"><span class="wk">10 days out</span><span class="dt"></span></div></div>
-    </div>
-
-    <div class="cat">
-      <div class="cat-label">Creative</div>
-      <div class="row2"><div class="item">Promo photos + bio</div><div class="when upfront" data-wk="16"><span class="wk">Upfront · 16 wks</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Cover art direction agreed</div><div class="when" data-wk="10"><span class="wk">10 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Music video concept locked</div><div class="when" data-wk="8"><span class="wk">8 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Final cover art (print/DSP-ready)<span class="badge">Confirmed</span></div><div class="when conf" data-days="10"><span class="wk">10 days out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Music video delivered<span class="badge">Confirmed</span></div><div class="when conf" data-days="7"><span class="wk">1 wk out</span><span class="dt"></span></div></div>
-    </div>
-
-    <div class="cat">
-      <div class="cat-label">Credits &amp; Metadata</div>
-      <div class="row2"><div class="item">Songwriter &amp; producer credits</div><div class="when" data-wk="5"><span class="wk">5 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Publishing splits confirmed</div><div class="when" data-wk="5"><span class="wk">5 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Track metadata &amp; features</div><div class="when" data-wk="4"><span class="wk">4 wks out</span><span class="dt"></span></div></div>
-    </div>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Creative</h2></div>
+    <p class="sec-sub">Photos, artwork, and video — start these <b>earliest</b>.</p>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3"><div class="item">Promo photos + bio</div><div class="tmin">16 wks out</div><div class="when" data-wk="16"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Cover art direction agreed</div><div class="tmin">10 wks out</div><div class="when" data-wk="10"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Music video concept locked</div><div class="tmin">8 wks out</div><div class="when" data-wk="8"><span class="dt"></span></div></div>
   </div>
 </section>
 
-<!-- PHYSICAL -->
+<!-- CLEARANCES -->
 <section class="block">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Physical Manufacturing</h2></div>
-    <p class="sec-sub">Only if pressing vinyl or CDs. Counts back from street date. Vinyl starts ~4 months out.</p>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Clearances &amp; Credits</h2></div>
+    <p class="sec-sub">The paperwork that can hold a release hostage. Early is everything.</p>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3"><div class="item">Sample clearances <span class="sub">If the record uses samples — flag them the day the tracklist locks</span></div><div class="tmin">10 wks out</div><div class="when" data-wk="10"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Songwriter + producer credits</div><div class="tmin">5 wks out</div><div class="when" data-wk="5"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Publishing splits confirmed</div><div class="tmin">5 wks out</div><div class="when" data-wk="5"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Track metadata + featured artists</div><div class="tmin">4 wks out</div><div class="when" data-wk="4"><span class="dt"></span></div></div>
+  </div>
+</section>
 
-    <div class="cat">
-      <div class="cat-label">Vinyl</div>
-      <div class="row2"><div class="item">Vinyl color choice locked</div><div class="when upfront" data-wk="16"><span class="wk">16 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Lacquers cut &amp; delivered to vendor</div><div class="when upfront" data-wk="15"><span class="wk">15 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Label + component art files</div><div class="when" data-wk="13"><span class="wk">13 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Test pressing approved</div><div class="when" data-wk="12"><span class="wk">12 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Signed artwork components due</div><div class="when" data-wk="11"><span class="wk">11 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Finished goods at distribution center</div><div class="when" data-wk="5"><span class="wk">5 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">First account shipment</div><div class="when" data-wk="4"><span class="wk">4 wks out</span><span class="dt"></span></div></div>
-    </div>
+<!-- DSP DELIVERY -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">DSP Delivery</h2></div>
+    <p class="sec-sub">The hard floors. Audio and art must be <b>on the DSPs 10 days out</b> to make the playlist-pitching window.</p>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3 conf"><div class="item">Final approved audio (NSI-cleared)<span class="badge">Confirmed</span></div><div class="tmin">10 days out</div><div class="when" data-days="10"><span class="dt"></span></div></div>
+    <div class="row3 conf"><div class="item">Clean / explicit versions</div><div class="tmin">10 days out</div><div class="when" data-days="10"><span class="dt"></span></div></div>
+    <div class="row3 conf"><div class="item">Final cover art (DSP + print ready)<span class="badge">Confirmed</span></div><div class="tmin">10 days out</div><div class="when" data-days="10"><span class="dt"></span></div></div>
+    <div class="row3 conf"><div class="item">Music video delivered <span class="sub">ProRes master to Sony Ci</span><span class="badge">Confirmed</span></div><div class="tmin">1 wk out</div><div class="when" data-days="7"><span class="dt"></span></div></div>
+  </div>
+</section>
 
-    <div class="cat">
-      <div class="cat-label">CD / DVD / Blu-Ray</div>
-      <div class="row2"><div class="item">DVD / Blu-Ray media due</div><div class="when" data-wk="10"><span class="wk">10 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Board / digipak + check disc approval</div><div class="when" data-wk="9"><span class="wk">9 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">CD media + jewel case art due</div><div class="when" data-wk="8"><span class="wk">8 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Signed artwork components due</div><div class="when" data-wk="7"><span class="wk">7 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">Finished goods at distribution center</div><div class="when" data-wk="5"><span class="wk">5 wks out</span><span class="dt"></span></div></div>
-      <div class="row2"><div class="item">First account shipment</div><div class="when" data-wk="4"><span class="wk">4 wks out</span><span class="dt"></span></div></div>
-    </div>
+<!-- PHYSICAL PACKAGING -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Physical Packaging</h2></div>
+    <p class="sec-sub">Only if pressing vinyl or CDs. Vinyl starts <b>~4 months out</b> — plants don't rush.</p>
+
+    <div class="subhead">Vinyl</div>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3"><div class="item">Vinyl color locked</div><div class="tmin">16 wks out</div><div class="when" data-wk="16"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Lacquers cut + at vendor</div><div class="tmin">15 wks out</div><div class="when" data-wk="15"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Label + packaging art files</div><div class="tmin">13 wks out</div><div class="when" data-wk="13"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Test pressing approved</div><div class="tmin">12 wks out</div><div class="when" data-wk="12"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Signed artwork components in</div><div class="tmin">11 wks out</div><div class="when" data-wk="11"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Finished goods at warehouse</div><div class="tmin">5 wks out</div><div class="when" data-wk="5"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">First account shipment</div><div class="tmin">4 wks out</div><div class="when" data-wk="4"><span class="dt"></span></div></div>
+
+    <div class="subhead">CD / DVD / Blu-Ray</div>
+    <div class="grid-head"><span>Deliverable</span><span class="r">Due</span><span class="r">Date</span></div>
+    <div class="row3"><div class="item">DVD / Blu-Ray media in</div><div class="tmin">10 wks out</div><div class="when" data-wk="10"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Digipak + check disc approved</div><div class="tmin">9 wks out</div><div class="when" data-wk="9"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">CD media + case art in</div><div class="tmin">8 wks out</div><div class="when" data-wk="8"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Signed artwork components in</div><div class="tmin">7 wks out</div><div class="when" data-wk="7"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">Finished goods at warehouse</div><div class="tmin">5 wks out</div><div class="when" data-wk="5"><span class="dt"></span></div></div>
+    <div class="row3"><div class="item">First account shipment</div><div class="tmin">4 wks out</div><div class="when" data-wk="4"><span class="dt"></span></div></div>
   </div>
 </section>
 
@@ -351,12 +259,13 @@
         var days = n.getAttribute('data-days');
         var off = days ? parseInt(days,10) : parseInt(n.getAttribute('data-wk'),10)*7;
         var d = new Date(rel);
-        d.setDate(d.getDate() - off - BUFFER);
+        var buf = (off===0) ? 0 : BUFFER;
+        d.setDate(d.getDate() - off - buf);
         var dt = n.querySelector('.dt');
         if(!dt) return;
         dt.textContent = fmt(d);
         var fl = flagFor(d);
-        if(fl){ var s=document.createElement('span'); s.className='hflag'; s.textContent='⚑ '+fl; dt.appendChild(s); }
+        if(fl && off!==0){ var s=document.createElement('span'); s.className='hflag'; s.textContent='⚑ '+fl; dt.appendChild(s); }
       });
     }
     input.addEventListener('input', recalc);
