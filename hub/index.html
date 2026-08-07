@@ -50,22 +50,6 @@
   .hint { font-size:12px; color:#8A8781; margin-top:22px; }
   .hint a { font-weight:500; cursor:pointer; }
 
-  /* ===== ask bar ===== */
-  .ask { position:relative; max-width:640px; margin-top:26px; }
-  .ask input { width:100%; font-family:inherit; font-size:15px; padding:15px 18px 15px 44px; background:#fff; border:1px solid #ECEAE3; color:#0F0E0E; outline:none; }
-  .ask input:focus { border-color:#0F0E0E; }
-  .ask input::placeholder { color:#8A8781; }
-  .ask .mag { position:absolute; left:16px; top:16px; width:16px; height:16px; color:#8A8781; pointer-events:none; }
-  .ask-res { position:absolute; top:100%; left:0; right:0; z-index:15; background:#fff; border:1px solid #0F0E0E; border-top:none; display:none; }
-  .ask-res.on { display:block; }
-  .ask-res .r { display:block; width:100%; text-align:left; font-family:inherit; background:none; border:none; border-bottom:1px solid #ECEAE3; padding:13px 18px; cursor:pointer; }
-  .ask-res .r:last-child { border-bottom:none; }
-  .ask-res .r:hover, .ask-res .r.sel { background:#FAF8F3; }
-  .ask-res .rt { font-size:14px; font-weight:600; color:#0F0E0E; display:flex; justify-content:space-between; gap:12px; }
-  .ask-res .rt .go { color:#FF4A23; font-weight:500; font-size:13px; }
-  .ask-res .ra { font-size:12.5px; color:#3E3F41; margin-top:3px; line-height:1.5; }
-  .ask-res .none { padding:14px 18px; font-size:13px; color:#8A8781; }
-
   /* ===== sections ===== */
   .sec { padding:52px 0 72px; }
   .sec + .sec { padding-top:0; }
@@ -137,11 +121,6 @@
       <div class="hero">
         <div class="kicker">RCA Records · Sony Music</div>
         <h1>Campaign Ops</h1>
-        <div class="ask">
-          <svg class="mag" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
-          <input id="ask-in" type="text" autocomplete="off" placeholder="Ask anything — &quot;where do I request budget?&quot; · &quot;who runs creative?&quot;">
-          <div class="ask-res" id="ask-res"></div>
-        </div>
         <div class="hint">Drag cards to rearrange · hover and hit × to remove · <a id="reset-layout">reset layout</a></div>
       </div>
 
@@ -226,85 +205,6 @@
   tlinks.forEach(function(n){ n.addEventListener('click',function(){ show(n.getAttribute('data-src')||null); }); });
   document.querySelectorAll('.tile, .card').forEach(function(c){
     c.addEventListener('click',function(e){ if(e.target.classList.contains('cut'))return; show(c.getAttribute('data-src')); });
-  });
-
-  /* ===== ask bar ===== */
-  var IDX=[
-    {t:"Budget Approvals",a:"Submit a spend request — the form-in / tracker-out flow that feeds the PO process.",k:"budget request spend money approve po purchase order invoice pay cost finance submit",src:"/budget-approvals.html"},
-    {t:"Budget Sign-off Demo",a:"Role-switchable demo of the budget sign-off flow — lead proposes, ceiling check, Finance/Tarek/Niki sign-off.",k:"budget signoff sign off approval demo ceiling",src:"/budget/demo.html"},
-    {t:"Budget Tracker",a:"Spent vs ceiling roll-up per budget group.",k:"budget tracker spent ceiling spend tracking group",src:"/budget/tracker.html"},
-    {t:"Campaign Index",a:"Every active campaign, indexed and searchable.",k:"campaign campaigns active index search find status",src:"/campaigns.html"},
-    {t:"Deadline Tracker",a:"Delivery floors and street-date deadlines — audio, artwork, and video due dates across the roster.",k:"deadline deadlines due date street delivery audio artwork video jive floors late when",src:"/deadline-tracker.html"},
-    {t:"Dept Workflows",a:"How each department works — routing, inputs, timelines, and the org chart.",k:"workflow workflows department process routing handoff how works",src:"/dept-workflows.html"},
-    {t:"Teams",a:"The full org chart — every department, who leads it, and who covers what.",k:"team teams org chart who person people leads department head structure",src:"/department-org-chart.html"},
-    {t:"Pitch Deck System",a:"Why-RCA boilerplate, the module library, and the A&R deck-for-a-deck process.",k:"pitch deck decks presentation why rca modules boilerplate partner",src:"/pitchdecks/"},
-    {t:"Artist Page",a:"Per-artist view — status, activity, team, releases, campaigns, assets, timeline. Sample data.",k:"artist page dashboard lizzy roster view profile",src:"/artists/lizzy.html"},
-    {t:"Creative Guide",a:"Creative team, intake, and step-by-step processes — how to brief and route creative work.",k:"creative guide design brief intake request asset artwork niki onboarding",src:"/creative-onboarding.html"},
-    {t:"Release Planning Guide",a:"How a release gets scheduled, cleared, manufactured, and delivered — digital and physical.",k:"release planning setup manufacture clearance clearances physical vinyl digital schedule terenia",src:"/release-planning.html"},
-    {t:"The Board",a:"Shared idea board — post ideas, corrections, and requests, named or anonymous.",k:"board ideas idea suggest request feedback post",src:"/ideas.html"},
-    {t:"Sandbox",a:"Working prototypes in progress.",k:"sandbox prototype prototypes experiments",src:"/sandbox.html"},
-    {t:"Creators Board",a:"Creator and influencer coverage — who to ask per lane.",k:"creators creator influencer influencers tiktok lanes coverage",src:"/creators.html"},
-    {t:"AD Tagging",a:"Audience Dev tagging board.",k:"ad tagging audience dev tags",src:"/ad-tagging.html"},
-    {t:"Pitches by Artist",a:"Licensing pitches, by artist — synced daily from DISCO.",k:"pitches pitch licensing sync disco playlist",src:"/pitches.html"},
-    {t:"Active Projects",a:"The weekly Active Projects meeting page.",k:"active projects weekly meeting recap agenda",src:"/active-projects.html"},
-    {t:"D2C Grid",a:"Direct-to-consumer release grid.",k:"d2c direct consumer store merch grid",src:"/d2c-grid.html"},
-    {t:"Phase Gates",a:"Reference — the phase gates and cross-department items per phase.",k:"phase gates gate reference stages",src:"/reference/phase-gates.html"},
-    {t:"Creative Lanes",a:"Reference — creative lanes and how assignments route.",k:"creative lanes lane reference assignment",src:"/reference/creative-lanes.html"},
-    {t:"Working Docs Folder",a:"Agendas, recaps, trackers, and working files — the Ops SharePoint.",k:"working docs documents files sharepoint folder agenda recap tracker onedrive",src:"https://sonymusicentertainment.sharepoint.com/sites/USARCARecords-Ops/Working%20Docs/Forms/AllItems.aspx",ext:true},
-    {t:"Who runs Creative?",a:"Niki — SVP, Creative. Full team on the Teams chart.",k:"who runs creative niki svp design head",src:"/department-org-chart.html"},
-    {t:"Who runs Campaign Leads?",a:"Tarek Al-Hamdouni — Department Head. Leads listed on the Teams chart.",k:"who runs campaign leads tarek lead head",src:"/department-org-chart.html"},
-    {t:"Who runs Audience Dev?",a:"Murdoc Hardy — Department Head. Lanes per person on the Teams chart.",k:"who runs audience dev development murdoc head",src:"/department-org-chart.html"},
-    {t:"Who runs Release Planning?",a:"Terenia Collymore — Department Head.",k:"who runs release planning terenia head",src:"/department-org-chart.html"},
-    {t:"Who is Campaign Ops?",a:"Meg Hourihan (Department Head), Gerard Rice (NY), Christian Salhany (LA).",k:"who campaign ops meg gerard christian operations contact",src:"/department-org-chart.html"},
-    {t:"Who is Support?",a:"Ryan Edelman and Latrice Muckle — release execution, mapped to Campaign Leads on the Teams chart.",k:"who support ryan latrice release execution",src:"/department-org-chart.html"}
-  ];
-  var askIn=document.getElementById('ask-in'), askRes=document.getElementById('ask-res'), askSel=0, askHits=[];
-  function askScore(q,e){
-    var toks=q.toLowerCase().split(/\s+/).filter(function(w){return w.length>1 && ['the','a','an','do','i','to','for','of','is','my','we','me','how','can','where','what','in','on'].indexOf(w)<0;});
-    if(!toks.length) return 0;
-    var kw=(' '+e.k+' '), tl=e.t.toLowerCase(), al=e.a.toLowerCase(), sc=0, hit=0;
-    toks.forEach(function(w){
-      var h=0;
-      if(kw.indexOf(' '+w+' ')>-1) h=3; else if(kw.indexOf(w)>-1) h=2;
-      if(tl.indexOf(w)>-1) h=Math.max(h,2);
-      if(al.indexOf(w)>-1) h=Math.max(h,1);
-      if(h){ sc+=h; hit++; }
-    });
-    return hit? sc : 0;
-  }
-  function askRender(){
-    var q=askIn.value.trim();
-    if(q.length<2){ askRes.classList.remove('on'); askRes.innerHTML=''; return; }
-    askHits=IDX.map(function(e){ return {e:e,s:askScore(q,e)}; }).filter(function(x){return x.s>0;})
-      .sort(function(a,b){return b.s-a.s;}).slice(0,4).map(function(x){return x.e;});
-    askSel=0;
-    if(!askHits.length){ askRes.innerHTML='<div class="none">No match — try the Teams chart, or post it on The Board.</div>'; askRes.classList.add('on'); return; }
-    askRes.innerHTML=askHits.map(function(e,i){
-      return '<button class="r'+(i===0?' sel':'')+'" data-i="'+i+'"><span class="rt">'+e.t+'<span class="go">'+(e.ext?'Open ↗':'Open →')+'</span></span><span class="ra">'+e.a+'</span></button>';
-    }).join('');
-    askRes.classList.add('on');
-    Array.prototype.forEach.call(askRes.querySelectorAll('.r'),function(b){
-      b.addEventListener('click',function(){ askGo(askHits[parseInt(b.getAttribute('data-i'),10)]); });
-    });
-  }
-  function askGo(e){
-    if(!e) return;
-    if(e.ext){ window.open(e.src,'_blank'); } else { show(e.src); }
-    askRes.classList.remove('on'); askIn.value=''; askIn.blur();
-  }
-  askIn.addEventListener('input',askRender);
-  askIn.addEventListener('keydown',function(ev){
-    var rows=askRes.querySelectorAll('.r');
-    if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){
-      ev.preventDefault(); if(!rows.length) return;
-      askSel=(askSel+(ev.key==='ArrowDown'?1:rows.length-1))%rows.length;
-      Array.prototype.forEach.call(rows,function(r,i){ r.classList.toggle('sel',i===askSel); });
-    } else if(ev.key==='Enter'){ if(askHits.length) askGo(askHits[askSel]); }
-    else if(ev.key==='Escape'){ askRes.classList.remove('on'); askIn.blur(); }
-  });
-  document.addEventListener('click',function(ev){ if(!ev.target.closest('.ask')) askRes.classList.remove('on'); });
-  document.addEventListener('keydown',function(ev){
-    if(ev.key==='/' && document.activeElement!==askIn && !ev.target.closest('input,textarea') && home.classList.contains('on')){ ev.preventDefault(); askIn.focus(); }
   });
 
   /* drag-to-rearrange (per browser) */
