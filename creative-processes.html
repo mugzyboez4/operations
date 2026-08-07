@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Processes — Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --card:#FFFFFF; --sunken:#FAFAF5;
+    --ink:#111111; --muted:#6B6A62; --line:#E8E6DF;
+    --flame:#FF4A23; --lime:#CDF851; --teal:#5BC0BE; --gold:#E8C547; --slate:#3E3F41;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .page{max-width:1160px;margin:0 auto;padding:36px 32px 80px;}
+
+  /* ── Brand row + nav ── */
+  .brand-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px;}
+  .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:-.01em;}
+  .brand-mark{width:26px;height:26px;background:var(--ink);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;}
+  .nav{display:flex;gap:26px;flex-wrap:wrap;align-items:center;}
+  .nav-link{appearance:none;background:none;border:none;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer;padding:6px 2px 8px;border-bottom:3px solid transparent;text-decoration:none;}
+  .nav-link:hover{color:var(--flame);}
+  .nav-link.on{font-weight:700;border-bottom-color:var(--lime);}
+  .nav-back{font-size:13.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 2px 8px;}
+  .nav-back:hover{color:var(--flame);}
+  .nav-sep{width:1px;height:18px;background:var(--line);}
+
+  /* ── Page header ── */
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--flame);margin-bottom:14px;}
+  h1{font-size:52px;font-weight:800;letter-spacing:-.025em;line-height:1.02;}
+  .intro{font-size:16px;line-height:1.65;color:#333;margin-top:18px;max-width:62ch;}
+  .intro b{font-weight:700;color:var(--ink);}
+  .rule{height:1px;background:var(--line);margin:36px 0 32px;}
+
+  /* ── Panels ── */
+  .panel{display:none;}
+  .panel.on{display:block;}
+  .panel-sub{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:62ch;}
+
+  /* ── Owner legend ── */
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 26px;align-items:center;}
+  .legend-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-right:4px;}
+  .chip{appearance:none;font-family:inherit;font-size:11px;font-weight:600;padding:6px 12px;background:var(--card);border:1px solid var(--line);color:var(--ink);cursor:pointer;transition:all .12s;}
+  .chip:hover{border-color:var(--ink);}
+  .chip.on{background:var(--ink);color:var(--lime);border-color:var(--ink);}
+  .chip-hint{font-size:11px;color:var(--muted);}
+
+  /* ── Phase group cards ── */
+  .phase-card{background:var(--card);border:1px solid var(--line);border-top-width:3px;margin-bottom:18px;}
+  .phase-card.c1{border-top-color:var(--slate);}
+  .phase-card.c2{border-top-color:var(--teal);}
+  .phase-card.c3{border-top-color:var(--gold);}
+  .phase-card.c4{border-top-color:var(--lime);}
+  .phase-card.c5{border-top-color:var(--flame);}
+  .phase-label{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:14px 22px 0;}
+
+  .step{display:flex;gap:18px;padding:16px 22px 18px;transition:opacity .15s;}
+  .step + .step{border-top:1px solid var(--line);}
+  .step.dim{opacity:.25;}
+  .step.hit{box-shadow:inset 4px 0 0 var(--flame);}
+  .num{font-size:22px;font-weight:900;letter-spacing:-.02em;min-width:34px;line-height:1.2;}
+  .step-body{flex:1;}
+  .step-lead{font-size:13.5px;font-weight:700;line-height:1.5;}
+  .step-gloss{font-size:13px;color:var(--muted);line-height:1.55;margin-top:3px;max-width:62ch;}
+  .owners{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .owner{font-size:10px;font-weight:600;letter-spacing:.04em;padding:3px 8px;background:var(--sunken);border:1px solid var(--line);color:var(--muted);text-transform:uppercase;}
+
+  .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6;max-width:70ch;}
+
+  @media(max-width:700px){
+    .page{padding:24px 18px 56px;}
+    h1{font-size:34px;}
+    .brand-row{margin-bottom:28px;}
+    .nav{gap:16px;}
+    .step{gap:12px;padding:14px 16px 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="brand-row">
+    <div class="brand"><span class="brand-mark">CO</span> Campaign Ops</div>
+    <nav class="nav">
+      <a class="nav-back" href="/dept-workflows">&larr; Dept Workflows</a>
+      <span class="nav-sep"></span>
+      <button class="nav-link on" data-panel="p1">High-Level Workflow</button>
+      <button class="nav-link" data-panel="p2">Music Video Shoot</button>
+      <button class="nav-link" data-panel="p3">Art / Photo Shoot</button>
+    </nav>
+  </div>
+
+  <div class="kicker">Creative × Campaign Ops · Working Draft</div>
+  <h1>Creative Processes</h1>
+  <p class="intro">How a creative campaign moves from <b>first conversation</b> to <b>final delivery</b> — the high-level workflow, plus the step-by-step for music video and art/photo shoots. These zoom into the Creative lane of the <a href="/dept-workflows" style="color:var(--flame);font-weight:600;">larger departmental handoff</a>. Drafted from the Creative team's process notes; edit freely.</p>
+
+  <div class="rule"></div>
+
+  <!-- ════ PANEL 1: HIGH-LEVEL ════ -->
+  <section class="panel on" id="p1">
+    <p class="panel-sub">The shape of every campaign, before it branches into a specific shoot. Select one or more teams below to see every step they touch.</p>
+    <div class="legend" data-legend="p1"></div>
+
+    <div class="phase-card c1">
+      <div class="phase-label">Kickoff &amp; vision</div>
+      <div class="step" data-owners="creative,ar,cl">
+        <div class="num">1</div>
+        <div class="step-body">
+          <div class="step-lead">Creative connects with A&amp;R and the Campaign Lead</div>
+          <div class="step-gloss">Understand rollout and release plans, and receive the music.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">A&amp;R</span><span class="owner">Campaign Lead</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="creative,artist,cl">
+        <div class="num">2</div>
+        <div class="step-body">
+          <div class="step-lead">Artist meets with the Creative team + Campaign Lead</div>
+          <div class="step-gloss">Discuss the overall vision for the campaign.</div>
+          <div class="owners"><span class="owner">Artist</span><span class="owner">Creative Team</span><span class="owner">Campaign Lead</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="creative,artist">
+        <div class="num">3</div>
+        <div class="step-body">
+          <div class="step-lead">Creative direction takes shape</div>
+          <div class="step-gloss">Depending on whether the artist has a creative director or needs in-house CD, the Creative team plans next steps — often with mood-board back and forth.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Artist</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c2">
+      <div class="phase-label">Budget &amp; planning</div>
+      <div class="step" data-owners="creative,cl">
+        <div class="num">4</div>
+        <div class="step-body">
+          <div class="step-lead">Budget meeting</div>
+          <div class="step-gloss">Plan the budget available for the content needed.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Campaign Lead</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="design,cm,svp">
+        <div class="num">5</div>
+        <div class="step-body">
+          <div class="step-lead">Design Lead + Creative Manager + SVP Creative align</div>
+          <div class="step-gloss">Plan next steps for photoshoot, video, or content — or all three.</div>
+          <div class="owners"><span class="owner">Design Lead</span><span class="owner">Creative Manager</span><span class="owner">SVP Creative</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c3">
+      <div class="phase-label">Deliverables alignment</div>
+      <div class="step" data-owners="creative,cl,commerce,media">
+        <div class="num">6</div>
+        <div class="step-body">
+          <div class="step-lead">Shoot deliverables list drafted and circulated</div>
+          <div class="step-gloss">Creative assembles the list, then runs it past the Campaign Lead, Commerce, and Media teams.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Campaign Lead</span><span class="owner">Commerce</span><span class="owner">Media</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="creative,auddev">
+        <div class="num">7</div>
+        <div class="step-body">
+          <div class="step-lead">Short-form needs locked with Audience Development</div>
+          <div class="step-gloss">Creative + Audience Development discuss short-form deliverable needs.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Audience Dev</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ PANEL 2: MUSIC VIDEO ════ -->
+  <section class="panel" id="p2">
+    <p class="panel-sub">From creative vision to delivered video. The Creative Manager runs the production end to end; the Campaign Lead holds the budget. Select one or more teams to see every step they touch.</p>
+    <div class="legend" data-legend="p2"></div>
+
+    <div class="phase-card c1">
+      <div class="phase-label">Kickoff</div>
+      <div class="step" data-owners="creative,artist,cl">
+        <div class="num">1</div>
+        <div class="step-body">
+          <div class="step-lead">Vision, rollout, and budget conversation</div>
+          <div class="step-gloss">Creative team meets with the artist and Campaign Lead to discuss the creative vision, rollout plans, and budget for the video.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Artist</span><span class="owner">Campaign Lead</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c2">
+      <div class="phase-label">Greenlight</div>
+      <div class="step" data-owners="cl,cm">
+        <div class="num">2</div>
+        <div class="step-body">
+          <div class="step-lead">Budget confirmed, ticket opened, treatments sourced</div>
+          <div class="step-gloss">Campaign Lead confirms the overall budget; the Creative Manager creates an Airtable ticket and begins sourcing director treatments.</div>
+          <div class="owners"><span class="owner">Campaign Lead</span><span class="owner">Creative Manager</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">3</div>
+        <div class="step-body">
+          <div class="step-lead">Treatment reviews and director selection</div>
+          <div class="step-gloss">Creative Manager manages treatment reviews with the artist team, leads creative calls with the selected director, and finalizes the production plan.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist Team</span><span class="owner">Director</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c3">
+      <div class="phase-label">Pre-production</div>
+      <div class="step" data-owners="cm">
+        <div class="num">4</div>
+        <div class="step-body">
+          <div class="step-lead">Paperwork and production payment</div>
+          <div class="step-gloss">Once the treatment is approved, the Creative Manager coordinates approvals, contracts, insurance, purchase orders, and the initial production payment.</div>
+          <div class="owners"><span class="owner">Creative Manager</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">5</div>
+        <div class="step-body">
+          <div class="step-lead">Logistics and call sheet</div>
+          <div class="step-gloss">Leading up to the shoot, the Creative Manager oversees production logistics, coordinates communication between the artist and production team, and distributes the call sheet.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist Team</span><span class="owner">Production</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c4">
+      <div class="phase-label">Shoot</div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">6</div>
+        <div class="step-body">
+          <div class="step-lead">Shoot day</div>
+          <div class="step-gloss">The music video shoot takes place, with Creative Manager support on set as needed.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist</span><span class="owner">Production</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c5">
+      <div class="phase-label">Post &amp; delivery</div>
+      <div class="step" data-owners="cm,artist,finance">
+        <div class="num">7</div>
+        <div class="step-body">
+          <div class="step-lead">Post-production through final payment</div>
+          <div class="step-gloss">Creative Manager oversees post, manages rough and final edit reviews with the artist and BA, gathers release forms, and ensures the final video meets delivery specs before Finance processes the final payment.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist + BA</span><span class="owner">Finance</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ PANEL 3: ART / PHOTO ════ -->
+  <section class="panel" id="p3">
+    <p class="panel-sub">From photography needs to final approved assets. Mirrors the video process — same owners, photographic deliverables. Select one or more teams to see every step they touch.</p>
+    <div class="legend" data-legend="p3"></div>
+
+    <div class="phase-card c1">
+      <div class="phase-label">Kickoff</div>
+      <div class="step" data-owners="creative,artist,cl">
+        <div class="num">1</div>
+        <div class="step-body">
+          <div class="step-lead">Vision, photography needs, and budget conversation</div>
+          <div class="step-gloss">Creative team meets with the artist and Campaign Lead to discuss the creative vision, photography needs, and budget for the shoot.</div>
+          <div class="owners"><span class="owner">Creative Team</span><span class="owner">Artist</span><span class="owner">Campaign Lead</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c2">
+      <div class="phase-label">Greenlight</div>
+      <div class="step" data-owners="cl,cm">
+        <div class="num">2</div>
+        <div class="step-body">
+          <div class="step-lead">Budget confirmed, ticket opened, photographers sourced</div>
+          <div class="step-gloss">Campaign Lead confirms the overall budget; the Creative Manager creates an Airtable ticket and sources photographer options with mood boards or treatments.</div>
+          <div class="owners"><span class="owner">Campaign Lead</span><span class="owner">Creative Manager</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">3</div>
+        <div class="step-body">
+          <div class="step-lead">Photographer selection and creative direction</div>
+          <div class="step-gloss">Creative Manager manages photographer selection, leads creative calls with the artist, and aligns on the final creative direction.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist</span><span class="owner">Photographer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c3">
+      <div class="phase-label">Pre-production</div>
+      <div class="step" data-owners="cm">
+        <div class="num">4</div>
+        <div class="step-body">
+          <div class="step-lead">Paperwork and production payment</div>
+          <div class="step-gloss">Once approved, the Creative Manager coordinates contracts, insurance, purchase orders, and the initial production payment.</div>
+          <div class="owners"><span class="owner">Creative Manager</span></div>
+        </div>
+      </div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">5</div>
+        <div class="step-body">
+          <div class="step-lead">Logistics, specs, and call sheet</div>
+          <div class="step-gloss">Leading up to the shoot, the Creative Manager oversees logistics, shares art specs and press guidelines, coordinates communication between the artist and photographer, and distributes the call sheet.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist Team</span><span class="owner">Photographer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c4">
+      <div class="phase-label">Shoot</div>
+      <div class="step" data-owners="cm,artist">
+        <div class="num">6</div>
+        <div class="step-body">
+          <div class="step-lead">Shoot day</div>
+          <div class="step-gloss">The photoshoot takes place, with Creative Manager support on set as needed.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist</span><span class="owner">Photographer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card c5">
+      <div class="phase-label">Post &amp; delivery</div>
+      <div class="step" data-owners="cm,artist,finance">
+        <div class="num">7</div>
+        <div class="step-body">
+          <div class="step-lead">Selects, approvals, and final delivery</div>
+          <div class="step-gloss">Creative Manager routes selects, oversees art and press photo approvals, gathers release forms, ensures final assets meet specifications, and coordinates final delivery before Finance processes the remaining payment.</div>
+          <div class="owners"><span class="owner">Creative Manager</span><span class="owner">Artist + BA</span><span class="owner">Finance</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Working draft assembled by Campaign Ops from the Creative team's process notes (July 2026). These pages sit alongside the Creative roles chart and will fold into the label-wide org &amp; process map. Something off or missing? Flag it and we'll update.</p>
+</div>
+
+<script>
+(function(){
+  // Tabs
+  var tabs = document.querySelectorAll('.nav-link');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('on'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+      t.classList.add('on');
+      document.getElementById(t.dataset.panel).classList.add('on');
+    });
+  });
+
+  // Owner filter chips — multi-select, built per panel from that panel's steps
+  var NAMES = {creative:'Creative Team', cm:'Creative Manager', cl:'Campaign Lead', ar:'A&R',
+               artist:'Artist / Artist Team', design:'Design Lead', svp:'SVP Creative',
+               commerce:'Commerce', media:'Media', auddev:'Audience Dev', finance:'Finance'};
+
+  document.querySelectorAll('.legend').forEach(function(leg){
+    var panel = document.getElementById(leg.dataset.legend);
+    var keys = [];
+    panel.querySelectorAll('.step').forEach(function(s){
+      s.dataset.owners.split(',').forEach(function(k){
+        if(NAMES[k] && keys.indexOf(k)===-1) keys.push(k);
+      });
+    });
+    var label = document.createElement('span');
+    label.className = 'legend-label'; label.textContent = 'Filter by team';
+    leg.appendChild(label);
+    keys.forEach(function(k){
+      var b = document.createElement('button');
+      b.className = 'chip'; b.textContent = NAMES[k]; b.dataset.key = k;
+      b.addEventListener('click', function(){
+        b.classList.toggle('on');
+        var active = [];
+        leg.querySelectorAll('.chip.on').forEach(function(c){ active.push(c.dataset.key); });
+        panel.querySelectorAll('.step').forEach(function(s){
+          s.classList.remove('dim','hit');
+          if(!active.length) return;
+          var mine = s.dataset.owners.split(',');
+          var match = active.some(function(a){ return mine.indexOf(a) > -1; });
+          s.classList.add(match ? 'hit' : 'dim');
+        });
+      });
+      leg.appendChild(b);
+    });
+    var hint = document.createElement('span');
+    hint.className = 'chip-hint'; hint.textContent = 'select one or more · click again to clear';
+    leg.appendChild(hint);
+  });
+})();
+</script>
+</body>
+</html>
