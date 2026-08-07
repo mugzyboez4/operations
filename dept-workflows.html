@@ -157,16 +157,14 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 .deptstrip .grp{display:flex;gap:8px;align-items:center}
 .deptstrip .grp b{color:var(--flame);font-weight:700}
 .deptstrip .grp .sep{color:var(--rule)}
-</style></head>
+</style><link rel="stylesheet" href="/shell.css">
+<script defer src="/shell.js"></script>
+</head>
 <body>
-<div class="deptstrip">
-  <a href="/">← Home</a>
-  <div class="grp"><b>Departments</b><span class="sep">&middot;</span><a href="/creative-processes">Creative Processes</a></div>
-</div>
 <div class="wrap">
   <div class="masthead">
     <div><div class="eyebrow">RCA Campaign Operations</div><div class="title">Departments</div></div>
-    <div class="meta">RCA Records &middot; Campaign Operations<br><b>July 2026</b></div>
+    <div class="meta">RCA Records &middot; Campaign Operations<br><b>July 2026</b><br><a href="/creative-processes" style="color:var(--flame);font-weight:700;text-decoration:none;">Creative Processes &rarr;</a></div>
   </div>
 
   <div class="toggle">
@@ -527,5 +525,11 @@ document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
   b.classList.add('on');curF=b.dataset.f;applySw();
 }));
 document.getElementById('sw-search').addEventListener('input',applySw);
+</script>
+<script>
+(function(){var M={audience:'auddev'};
+document.querySelectorAll('[data-dept]').forEach(function(el){
+  var v=el.getAttribute('data-dept').split(/[ ,]+/).map(function(x){return M[x]||x;}).join(' ');
+  el.setAttribute('data-co-dept',v);});})();
 </script>
 </body></html>
