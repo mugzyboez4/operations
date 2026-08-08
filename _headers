@@ -26,3 +26,9 @@
 # Hub: allow all site pages to load inside the /hub/ shell iframe + SharePoint
 /*
   Content-Security-Policy: frame-ancestors *
+
+/pilot/*
+  Content-Security-Policy: frame-ancestors *
+
+/pilot
+  Content-Security-Policy: frame-ancestors *

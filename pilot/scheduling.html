@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduling — Mockup · Campaign Ops</title>
+<style>
+:root{
+  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
+  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
+  --border:#ECEAE3; --rule:#D8D4CC;
+  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
+  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
+  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
+
+.hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.hdr h1{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;}
+.hdr-row{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.hdr-row .lead{flex:1;min-width:280px;font-size:14px;line-height:1.6;color:var(--fg-2);max-width:56ch;margin-top:12px;}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:2px;}
+.btn{background:var(--ink);color:var(--lime);border:1px solid var(--ink);padding:10px 18px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.search{border:1px solid var(--border);background:var(--card);padding:8px 14px;font-size:11px;color:var(--fog);min-width:180px;font-family:var(--font-mono);letter-spacing:.5px;}
+
+/* layout: queue + form */
+.cols{display:flex;gap:24px;align-items:flex-start;padding-top:8px;}
+.qcol{flex:1.4;min-width:0;}
+.fcol{flex:1;min-width:320px;position:sticky;top:16px;}
+
+.sec{padding:24px 0 4px;}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:12px;}
+.sec-head .d{font-size:18px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;}
+.sec-head .ct{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);text-transform:uppercase;}
+.sec-head.hot .d{color:var(--flame);}
+
+.req{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--slate);padding:12px 16px;margin-bottom:6px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
+.req .who{font-size:12.5px;font-weight:700;flex-shrink:0;}
+.req .what{font-size:12.5px;color:var(--fg-2);flex:1;min-width:140px;}
+.req .meta{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);}
+.chip.date{color:var(--ink);border-color:var(--rule);}
+.chip.plan{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
+.chip.conf{background:#DCFCE7;border-color:var(--clear);color:#166534;}
+.chip.grps{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+.chip.cf{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+.req.r-plan{border-left-color:var(--gold);}
+.req.r-conf{border-left-color:var(--clear);}
+.req.r-grps{border-left-color:var(--ink);}
+
+/* form card */
+.form{background:var(--card);border:1px solid var(--ink);padding:22px 24px;}
+.form .fl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:4px;}
+.form h2{font-size:18px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;margin-bottom:6px;}
+.form .sub{font-size:12px;line-height:1.55;color:var(--fg-2);margin-bottom:18px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field.full{grid-column:1/-1;}
+.field label{font-family:var(--font-mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+.field label i{font-style:normal;color:var(--flame);}
+.field .in{border:1px solid var(--border);background:var(--card-2);padding:9px 12px;font-size:12px;color:var(--fog);}
+.field .in.st{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+.field .hint{font-size:10.5px;line-height:1.5;color:var(--fog);}
+.form .fbtn{margin-top:16px;background:var(--ink);color:var(--lime);padding:11px 20px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+
+.note{margin-top:44px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:20px 24px;}
+.note .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;}
+.note .row{display:flex;gap:10px;font-size:13px;line-height:1.55;margin-bottom:8px;}
+.note .row:last-child{margin-bottom:0;}
+.note .row i{font-style:normal;color:var(--flame);font-weight:700;}
+.foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+@media (max-width:900px){.cols{flex-direction:column;}.fcol{position:static;min-width:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="eyebrow">RCA US Pilot · Campaign Ops Mockup</div>
+    <div class="hdr-row">
+      <div style="flex:1;min-width:280px;">
+        <h1>Scheduling</h1>
+        <p class="lead">Proposed release dates, before they hit GRPS. This is the one place in the pilot that uses Planning / Confirmed language — a request here is a commitment in motion, kept off the artist event calendar until it's real.</p>
+      </div>
+      <div class="controls">
+        <div class="search">⌕ SEARCH ARTIST / TITLE</div>
+        <div class="btn">+ New Request</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+
+    <div class="qcol">
+      <div class="sec" style="padding-top:16px;">
+        <div class="sec-head hot"><span class="d">Planning</span><span class="ct">5 Requests · Awaiting Confirmation</span></div>
+        <div class="req r-plan"><span class="who">Sarah Lola</span><span class="what">Single #2</span><span class="meta"><span class="chip date">Proposed Sep 8</span><span class="chip">Single</span><span class="chip cf">● Confidential</span><span class="chip plan">Planning</span></span></div>
+        <div class="req r-plan"><span class="who">NOAH NOAH</span><span class="what">Debut Single</span><span class="meta"><span class="chip date">Proposed Aug 28</span><span class="chip">Single</span><span class="chip plan">Planning</span></span></div>
+        <div class="req r-plan"><span class="who">Lizzy McAlpine</span><span class="what">Album — Fall Window</span><span class="meta"><span class="chip date">Proposed Oct 16</span><span class="chip">Album</span><span class="chip plan">Planning</span></span></div>
+        <div class="req r-plan"><span class="who">Presley Regier</span><span class="what">Debut Single</span><span class="meta"><span class="chip date">Proposed Aug 28</span><span class="chip">Single</span><span class="chip plan">Planning</span></span></div>
+        <div class="req r-plan"><span class="who">Flo Milli</span><span class="what">Single — Q4 Setup</span><span class="meta"><span class="chip date">Proposed Nov 6</span><span class="chip">Single</span><span class="chip plan">Planning</span></span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><span class="d">Confirmed</span><span class="ct">3 Requests · Awaiting GRPS Entry</span></div>
+        <div class="req r-conf"><span class="who">Lancey Foux</span><span class="what">The Time of Our Lives — Album</span><span class="meta"><span class="chip date">Aug 28</span><span class="chip">Album</span><span class="chip conf">Confirmed</span></span></div>
+        <div class="req r-conf"><span class="who">Eem Triplin</span><span class="what">Potion — Single</span><span class="meta"><span class="chip date">Aug 31</span><span class="chip">Single</span><span class="chip conf">Confirmed</span></span></div>
+        <div class="req r-conf"><span class="who">Wolf Alice</span><span class="what">D2C Exclusive — Physical</span><span class="meta"><span class="chip date">Oct 2</span><span class="chip">Physical</span><span class="chip conf">Confirmed</span></span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><span class="d">Moved To GRPS</span><span class="ct">Last 30 Days · 4 Shown</span></div>
+        <div class="req r-grps"><span class="who">Lancey Foux</span><span class="what">All The Time — Focus Track</span><span class="meta"><span class="chip date">Aug 11</span><span class="chip grps">In GRPS</span></span></div>
+        <div class="req r-grps"><span class="who">Becky G</span><span class="what">Chula — Single</span><span class="meta"><span class="chip date">Aug 14</span><span class="chip grps">In GRPS</span></span></div>
+        <div class="req r-grps"><span class="who">Eem Triplin</span><span class="what">Funny Games — Focus Track</span><span class="meta"><span class="chip date">Aug 17</span><span class="chip grps">In GRPS</span></span></div>
+        <div class="req r-grps"><span class="who">Davido</span><span class="what">B4 B4 — Official Video</span><span class="meta"><span class="chip date">Aug 9</span><span class="chip grps">In GRPS</span></span></div>
+      </div>
+    </div>
+
+    <div class="fcol">
+      <div class="form">
+        <div class="fl">New Request</div>
+        <h2>Scheduling Request</h2>
+        <p class="sub">Requesting a date is a commitment in motion — this form starts the Planning → Confirmed → GRPS pipeline. Just noting a date for visibility? Add it on the artist's Upcoming list instead.</p>
+        <div class="fgrid">
+          <div class="field"><label>Artist <i>*</i></label><div class="in">Select artist…</div></div>
+          <div class="field"><label>Title <i>*</i></label><div class="in">Working title</div></div>
+          <div class="field full"><label>Configuration</label><div class="in">Single · EP · Album · Physical…</div></div>
+          <div class="field"><label>Primary Genre <i>*</i></label><div class="in">Select…</div></div>
+          <div class="field"><label>Secondary Genre</label><div class="in">Select…</div></div>
+          <div class="field"><label>Proposed Release Date/Time <i>*</i></label><div class="in">mm/dd/yyyy</div></div>
+          <div class="field"><label>Status</label><div class="in st">Planning</div></div>
+          <div class="field full"><label>Release Time Notes</label><div class="in">Only if a specific time is needed</div><div class="hint">Local midnight is the default.</div></div>
+        </div>
+        <div class="fbtn">Create Request</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <div class="lbl">Build Notes — Scheduling</div>
+    <div class="row"><i>·</i><span><b>Source:</b> the pilot's Executive section as-is — Scheduling Request Form + Scheduling Requests table. Same fields, same GRPS handoff; no new data.</span></div>
+    <div class="row"><i>·</i><span><b>Shape:</b> the queue is grouped by pipeline stage — Planning (needs a decision) pinned first, then Confirmed (awaiting GRPS entry), then a rolling Moved-to-GRPS log so requesters can see their ask landed.</span></div>
+    <div class="row"><i>·</i><span><b>This page owns Planning / Confirmed.</b> The form copy points visibility-only notes to the Upcoming list instead — this is the wording split we're requesting, expressed in the design.</span></div>
+    <div class="row"><i>·</i><span><b>Confidential requests</b> render only for permitted users, same rule as Releases and Upcoming.</span></div>
+  </div>
+
+  <div class="foot">Sample data illustrative · Companion mockups: Artist Page · Releases · Projects · Upcoming · Assets · Campaign Ops</div>
+
+</div>
+</body>
+</html>

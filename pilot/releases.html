@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Releases — Mockup · Campaign Ops</title>
+<style>
+:root{
+  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
+  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
+  --border:#ECEAE3; --rule:#D8D4CC;
+  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
+  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
+  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
+
+/* ---------- header ---------- */
+.hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.hdr h1{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;}
+.hdr-row{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.hdr-row .lead{flex:1;min-width:280px;font-size:14px;line-height:1.6;color:var(--fg-2);max-width:56ch;margin-top:12px;}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:2px;}
+.toggle{display:flex;border:1px solid var(--ink);}
+.toggle span{padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.toggle .on{background:var(--ink);color:var(--lime);}
+.toggle .off{color:var(--fog);}
+.search{border:1px solid var(--border);background:var(--card);padding:8px 14px;font-size:11px;color:var(--fog);min-width:180px;font-family:var(--font-mono);letter-spacing:.5px;}
+
+/* ---------- week nav ---------- */
+.wknav{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border);display:flex;gap:4px;padding:10px 0;overflow-x:auto;}
+.wknav a{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:6px 12px;border:1px solid transparent;white-space:nowrap;}
+.wknav a:hover{color:var(--ink);border-color:var(--border);}
+.wknav a.now{color:var(--flame);border-color:var(--flame);font-weight:500;}
+
+/* ---------- legend ---------- */
+.legend{display:flex;gap:6px;flex-wrap:wrap;padding:14px 0 4px;}
+.lg{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--card);padding:4px 9px;font-family:var(--font-mono);font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);}
+.lg i{font-style:normal;font-size:10px;line-height:1;}
+
+/* ---------- week section ---------- */
+.wk{padding:36px 0 8px;scroll-margin-top:52px;}
+.wk-head{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:2px;}
+.wk-head .d{font-size:24px;font-weight:900;letter-spacing:-1px;text-transform:uppercase;}
+.wk-head .n{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);}
+.wk-head .ct{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);text-transform:uppercase;}
+.wk-head.now .d{color:var(--flame);}
+.wk-head .now-pill{background:var(--flame);color:#fff;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;}
+
+/* ---------- category row ---------- */
+.cat{display:flex;gap:0;border-bottom:1px solid var(--border);}
+.cat-label{width:118px;flex-shrink:0;padding:16px 12px 16px 0;display:flex;flex-direction:column;gap:4px;}
+.cat-label b{font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;line-height:1.3;}
+.cat-label span{font-family:var(--font-mono);font-size:9px;color:var(--fog);letter-spacing:.5px;}
+.tiles{flex:1;display:flex;flex-wrap:wrap;gap:8px;padding:14px 0;min-width:0;}
+.tile{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--slate);padding:10px 14px;min-width:180px;max-width:265px;flex:1 1 200px;}
+.tile b{display:block;font-size:12px;font-weight:700;letter-spacing:-.2px;}
+.tile .t{display:block;font-size:12px;color:var(--fg-2);line-height:1.4;margin-top:1px;}
+.tile .meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
+.chip{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);}
+.chip.date{color:var(--ink);border-color:var(--rule);}
+.chip.terr{background:var(--tint-teal);border-color:var(--teal);color:#2A8581;}
+.chip.foc{background:var(--tint-flame);border-color:var(--flame);color:var(--flame);}
+.chip.del{background:#DCFCE7;border-color:var(--clear);color:#166534;}
+.chip.conf{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+.chip.more{background:var(--ink);border-color:var(--ink);color:var(--bg);cursor:pointer;}
+/* category accent colors */
+.c-track .cat-label b{color:#2A8581;} .c-track .tile{border-left-color:var(--teal);}
+.c-album .cat-label b{color:var(--flame);} .c-album .tile{border-left-color:var(--flame);}
+.c-phys .cat-label b{color:#8B6900;} .c-phys .tile{border-left-color:var(--gold);}
+.c-video .cat-label b{color:var(--ink);} .c-video .tile{border-left-color:var(--ink);}
+.c-alt .cat-label b{color:#5C7A1A;} .c-alt .tile{border-left-color:#B8E83D;}
+.c-anc .cat-label b{color:var(--fog);} .c-anc .tile{border-left-color:var(--slate);}
+/* quiet-week line */
+.quiet{padding:12px 0 16px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+.quiet b{color:var(--fog);font-weight:500;}
+
+/* build note */
+.note{margin-top:44px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:20px 24px;}
+.note .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;}
+.note .row{display:flex;gap:10px;font-size:13px;line-height:1.55;margin-bottom:8px;}
+.note .row:last-child{margin-bottom:0;}
+.note .row i{font-style:normal;color:var(--flame);font-weight:700;}
+.foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="eyebrow">RCA US Pilot · Campaign Ops Mockup</div>
+    <div class="hdr-row">
+      <div style="flex:1;min-width:280px;">
+        <h1>Releases</h1>
+        <p class="lead">Week by week, sliced by content type — everything shipping, at a glance. Click any release to open its record: products, campaigns, creative projects.</p>
+      </div>
+      <div class="controls">
+        <div class="toggle"><span class="on">My Artists</span><span class="off">All</span></div>
+        <div class="search">⌕ SEARCH ARTIST / TITLE</div>
+      </div>
+    </div>
+    <div class="legend">
+      <span class="lg"><i>★</i> Focus Track</span>
+      <span class="lg"><i>◐</i> International</span>
+      <span class="lg"><i>⚡</i> Instant Grat</span>
+      <span class="lg"><i>◎</i> Atmos / 360</span>
+      <span class="lg"><i>E</i> Explicit</span>
+      <span class="lg"><i>✓</i> Delivered</span>
+      <span class="lg"><i>●</i> Confidential</span>
+      <span class="lg"><i>◇</i> Pre-Order</span>
+      <span class="lg"><i>⊞</i> Incl. Merch</span>
+    </div>
+  </div>
+
+  <!-- WEEK NAV -->
+  <div class="wknav">
+    <a href="#wk32" class="now">WK 32 · Aug 14</a>
+    <a href="#wk33">WK 33 · Aug 21</a>
+    <a href="#wk34">WK 34 · Aug 28</a>
+    <a href="#wk35">WK 35 · Sep 4</a>
+    <a href="#">WK 36 · Sep 11</a>
+    <a href="#">WK 37 · Sep 18</a>
+    <a href="#">WK 38 · Sep 25</a>
+  </div>
+
+  <!-- ============ WEEK 32 ============ -->
+  <div class="wk" id="wk32">
+    <div class="wk-head now">
+      <span class="d">Aug 14</span><span class="n">2026 · Week 32</span>
+      <span class="now-pill">This Week</span>
+      <span class="ct">31 releases · 5 artists w/ multiples</span>
+    </div>
+
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>5</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Lancey Foux</b><span class="t">ALL THE TIME</span><div class="meta"><span class="chip date">Tue 11 Aug</span><span class="chip foc">★ Focus</span></div></div>
+        <div class="tile"><b>Isaia Huron</b><span class="t">fade</span><div class="meta"><span class="chip date">Wed 12 Aug</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">CHULA</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Sleepy Hallow feat. Kyle Richh</b><span class="t">Just Fine</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>JACOTÉNE</b><span class="t">Aeroplanes</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip terr">SME UK</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>3</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Isaia Huron</b><span class="t">Mr. Lovebomb (Deluxe)</span><div class="meta"><span class="chip date">Wed 12 Aug</span><span class="chip del">✓ Delivered</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip">◎ Atmos</span></div></div>
+        <div class="tile"><b>Flo Milli</b><span class="t">Too Bo$$y</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-phys">
+      <div class="cat-label"><b>Physical</b><span>5</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA — Vinyl Longplay · D2C</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip">⊞ Merch</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA — CD · Walmart</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA — Wide (×2 configs)</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Audrey Hobert</b><span class="t">Who's the Clown? — Vinyl · D2C 1-Yr Anniversary · Neon Green Splatter</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-video">
+      <div class="cat-label"><b>Official Video</b><span>3</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Davido</b><span class="t">B4 B4 (Official Video)</span><div class="meta"><span class="chip date">Sun 9 Aug · 12:00 EDT</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>Flo Milli</b><span class="t">Too Bo$$y (Official Video)</span><div class="meta"><span class="chip date">Fri 14 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Sleepy Hallow feat. Kyle Richh</b><span class="t">Just Fine (Official Video)</span><div class="meta"><span class="chip date">Fri 14 Aug · 00:00</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-alt">
+      <div class="cat-label"><b>Alt Mixes</b><span>4</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA — Multi Track</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Flo Milli</b><span class="t">Too Bo$$y — Single + Multi Track</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Isaia Huron</b><span class="t">Mr. Lovebomb (Deluxe) — Multi Track</span><div class="meta"><span class="chip date">Wed 12 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-anc">
+      <div class="cat-label"><b>Ancillary</b><span>34</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Becky G</b><span class="t">16 lyric videos + 2 live performances — BARAJA BENDITA rollout</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip more">+ 18 items</span></div></div>
+        <div class="tile"><b>Isaia Huron</b><span class="t">7 lyric videos — Mr. Lovebomb (Deluxe)</span><div class="meta"><span class="chip date">Wed 12 Aug</span><span class="chip more">+ 7 items</span></div></div>
+        <div class="tile"><b>Tate McRae</b><span class="t">6 live videos — Lollapalooza Chicago 2026</span><div class="meta"><span class="chip date">Tue 11 Aug · 12:00</span><span class="chip more">+ 6 items</span></div></div>
+        <div class="tile"><b>Cat Burns</b><span class="t">3 live videos — Live from Brixton</span><div class="meta"><span class="chip date">Aug 10–13</span><span class="chip terr">SME UK</span></div></div>
+      </div>
+    </div>
+
+    <div class="quiet">Nothing this week · <b>Pre-Order — Teaser / Clip — Side Artist</b></div>
+  </div>
+
+  <!-- ============ WEEK 33 ============ -->
+  <div class="wk" id="wk33">
+    <div class="wk-head">
+      <span class="d">Aug 21</span><span class="n">2026 · Week 33</span>
+      <span class="ct">21 releases</span>
+    </div>
+
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>8</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games</span><div class="meta"><span class="chip date">Mon 17 Aug</span><span class="chip foc">★ Focus</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Ari Abdul</b><span class="t">Seductive</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Lancey Foux</b><span class="t">CHANGE YOUR MIND</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>aroomfullofmirrors</b><span class="t">World's Gone Crazy</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Sydney Ross Mitchell</b><span class="t">No Better Than A Man</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>ThfGbaby</b><span class="t">Loyalty</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games</span><div class="meta"><span class="chip date">Mon 17 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-phys">
+      <div class="cat-label"><b>Physical</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Wolf Alice</b><span class="t">The Clearing (B Sides) — D2C Exclusive</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip terr">SME UK</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-video">
+      <div class="cat-label"><b>Official Video</b><span>6</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Davido feat. Leon Thomas</b><span class="t">Tell Everybody (Official Video)</span><div class="meta"><span class="chip date">Mon 17 Aug · 12:00</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games (Official Video)</span><div class="meta"><span class="chip date">Mon 17 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6 (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Ari Abdul</b><span class="t">Seductive (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>aroomfullofmirrors</b><span class="t">World's Gone Crazy (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>ThfGbaby</b><span class="t">Loyalty (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-alt">
+      <div class="cat-label"><b>Alt Mixes</b><span>3</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Ari Abdul</b><span class="t">Seductive — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6 — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-anc">
+      <div class="cat-label"><b>Ancillary</b><span>7</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Cat Burns</b><span class="t">4 live videos — Live from Brixton</span><div class="meta"><span class="chip date">Aug 16–19</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">GLITCH (Official Live Performance)</span><div class="meta"><span class="chip date">Thu 20 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall (Visualizer)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Sydney Ross Mitchell</b><span class="t">No Better Than A Man (Video)</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="quiet">Nothing this week · <b>Pre-Order — Teaser / Clip — Side Artist</b></div>
+  </div>
+
+  <!-- ============ WEEK 34 ============ -->
+  <div class="wk" id="wk34">
+    <div class="wk-head">
+      <span class="d">Aug 28</span><span class="n">2026 · Week 34</span>
+      <span class="ct">13 releases</span>
+    </div>
+
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Purple Aura</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">All I Ever Wanted</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Lancey Foux</b><span class="t">THE TIME OF OUR LIVES</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip foc">★ Focus</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-video">
+      <div class="cat-label"><b>Official Video</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Lancey Foux</b><span class="t">NAKED ON A YACHT</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-alt">
+      <div class="cat-label"><b>Alt Mixes</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Purple Aura — Single Track</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">All I Ever Wanted — Single Track</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-anc">
+      <div class="cat-label"><b>Ancillary</b><span>7</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Cat Burns</b><span class="t">4 live videos — Live from Brixton</span><div class="meta"><span class="chip date">Aug 23–26</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">EPA (Official Live Performance)</span><div class="meta"><span class="chip date">Thu 27 Aug · 00:00</span></div></div>
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Purple Aura (Visualizer)</span><div class="meta"><span class="chip date">Fri 28 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">All I Ever Wanted (Audio)</span><div class="meta"><span class="chip date">Fri 28 Aug · 00:00</span></div></div>
+      </div>
+    </div>
+
+    <div class="quiet">Nothing this week · <b>Physical — Pre-Order — Teaser / Clip — Side Artist</b></div>
+  </div>
+
+  <!-- ============ WEEK 35 ============ -->
+  <div class="wk" id="wk35">
+    <div class="wk-head">
+      <span class="d">Sep 4</span><span class="n">2026 · Week 35</span>
+      <span class="ct">10 releases</span>
+    </div>
+
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Eem Triplin</b><span class="t">Potion</span><div class="meta"><span class="chip date">Mon 31 Aug</span></div></div>
+        <div class="tile"><b>Sarah Lola</b><span class="t">Single #2</span><div class="meta"><span class="chip date">Fri 4 Sep</span><span class="chip conf">● Confidential</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-phys">
+      <div class="cat-label"><b>Physical</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Foo Fighters</b><span class="t">Your Favorite Toy — Blood Records Vinyl</span><div class="meta"><span class="chip date">Fri 4 Sep</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-video">
+      <div class="cat-label"><b>Official Video</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Eem Triplin</b><span class="t">Potion (Official Video)</span><div class="meta"><span class="chip date">Mon 31 Aug · 00:00</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-anc">
+      <div class="cat-label"><b>Ancillary</b><span>6</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Cat Burns</b><span class="t">4 live videos — Live from Brixton</span><div class="meta"><span class="chip date">Aug 30 – Sep 2</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">MAL TIEMPO (Official Live Performance)</span><div class="meta"><span class="chip date">Thu 3 Sep · 00:00</span></div></div>
+        <div class="tile"><b>Sarah Lola</b><span class="t">Single #2 (Audio)</span><div class="meta"><span class="chip date">Fri 4 Sep · 00:00</span></div></div>
+      </div>
+    </div>
+
+    <div class="quiet">Nothing this week · <b>Album — Pre-Order — Alt Mixes — Teaser / Clip — Side Artist</b></div>
+  </div>
+
+  <!-- BUILD NOTE -->
+  <div class="note">
+    <div class="lbl">Build notes — how this maps to the pilot</div>
+    <div class="row"><i>→</i><span><strong>Same data, new shape:</strong> this is the pilot's Releases table (grouped by Release Week) re-rendered in the Release Runway model — weeks as sections, sliced by content type. Nothing here needs new data.</span></div>
+    <div class="row"><i>→</i><span><strong>Slices:</strong> the Releases.Type formula (off CONFIG_NAME from Products) drives the rows — extending it to physical / video / ancillary is the same formula change already proposed on the artist page.</span></div>
+    <div class="row"><i>→</i><span><strong>Rollups:</strong> big ancillary batches (lyric-video runs, live sessions) collapse to one tile per artist with a count — click expands the full list. Empty categories collapse to one quiet line.</span></div>
+    <div class="row"><i>→</i><span><strong>Indicators:</strong> the Runway legend (Focus, International, Instant Grat, Atmos, Delivered, Confidential…) carries over as chips — sourced from the same product flags. Confidential releases render for permitted users only, matching Releases.Status = Confidential.</span></div>
+    <div class="row"><i>→</i><span><strong>My Artists</strong> scoping uses the same Directory assignment the pilot already has.</span></div>
+  </div>
+
+  <div class="foot">Sample data from the live Release Runway board, w/c Aug 14 – Sep 4 2026 · indicators illustrative · Campaign Ops</div>
+
+</div>
+</body>
+</html>

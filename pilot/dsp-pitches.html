@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSP Pitches — Mockup · Campaign Ops</title>
+<style>
+:root{
+  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
+  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
+  --border:#ECEAE3; --rule:#D8D4CC;
+  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
+  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
+  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
+
+.hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.hdr h1{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;}
+.hdr-row{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.hdr-row .lead{flex:1;min-width:280px;font-size:14px;line-height:1.6;color:var(--fg-2);max-width:56ch;margin-top:12px;}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:2px;}
+.toggle{display:flex;border:1px solid var(--ink);}
+.toggle span{padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.toggle .on{background:var(--ink);color:var(--lime);}
+.toggle .off{color:var(--fog);}
+.search{border:1px solid var(--border);background:var(--card);padding:8px 14px;font-size:11px;color:var(--fog);min-width:180px;font-family:var(--font-mono);letter-spacing:.5px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;padding:14px 0 4px;}
+.fl{border:1px solid var(--border);background:var(--card);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);cursor:pointer;}
+.fl.on{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+
+.cols{display:flex;gap:24px;align-items:flex-start;padding-top:8px;}
+.qcol{flex:1.25;min-width:0;}
+.dcol{flex:1;min-width:340px;position:sticky;top:16px;}
+
+.sec{padding:24px 0 4px;}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:12px;}
+.sec-head .d{font-size:18px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;}
+.sec-head .ct{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);text-transform:uppercase;}
+.sec-head.now .d{color:var(--flame);}
+.sec-head .now-pill{background:var(--flame);color:#fff;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;}
+
+.rel{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--slate);padding:12px 16px;margin-bottom:6px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;cursor:pointer;}
+.rel:hover{border-color:var(--ink);}
+.rel.sel{border-color:var(--ink);border-left-color:var(--flame);}
+.rel .who{font-size:12.5px;font-weight:700;flex-shrink:0;}
+.rel .what{font-size:12.5px;color:var(--fg-2);flex:1;min-width:120px;}
+.rel .meta{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);}
+.chip.date{color:var(--ink);border-color:var(--rule);}
+.chip.miss{background:var(--tint-flame);border-color:var(--flame);color:var(--flame);}
+.chip.draft{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
+.chip.sub{background:#DCFCE7;border-color:var(--clear);color:#166534;}
+.rel.p-miss{border-left-color:var(--flame);}
+.rel.p-draft{border-left-color:var(--gold);}
+.rel.p-sub{border-left-color:var(--clear);}
+
+/* detail / editor card */
+.ed{background:var(--card);border:1px solid var(--ink);padding:22px 24px;}
+.ed .fl2{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:4px;}
+.ed h2{font-size:18px;font-weight:900;letter-spacing:-.5px;margin-bottom:2px;}
+.ed .sub{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin-bottom:16px;}
+.ed .frow{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.ed label{font-family:var(--font-mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+.ed .in{border:1px solid var(--border);background:var(--card-2);padding:9px 12px;font-size:12px;color:var(--fog);}
+.ed .in.ok{color:var(--ink);}
+.ed .ta{border:1px solid var(--flame);background:var(--tint-flame);padding:12px;font-size:12.5px;line-height:1.6;color:var(--fg-2);min-height:120px;}
+.ed .hint{font-size:10.5px;line-height:1.5;color:var(--fog);}
+.ed .btns{display:flex;gap:8px;margin-top:14px;}
+.ed .b1{flex:1;background:var(--ink);color:var(--lime);padding:11px 16px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.ed .b2{border:1px solid var(--ink);padding:11px 16px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+
+.note{margin-top:44px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:20px 24px;}
+.note .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;}
+.note .row{display:flex;gap:10px;font-size:13px;line-height:1.55;margin-bottom:8px;}
+.note .row:last-child{margin-bottom:0;}
+.note .row i{font-style:normal;color:var(--flame);font-weight:700;}
+.foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+@media (max-width:900px){.cols{flex-direction:column;}.dcol{position:static;min-width:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="eyebrow">RCA US Pilot · Campaign Ops Mockup</div>
+    <div class="hdr-row">
+      <div style="flex:1;min-width:280px;">
+        <h1>DSP Pitches</h1>
+        <p class="lead">Every upcoming release that needs pitch copy, grouped by street week — with what's missing pinned first, because a release without a pitch is the thing this page exists to catch.</p>
+      </div>
+      <div class="controls">
+        <div class="toggle"><span class="on">Future</span><span class="off">All</span></div>
+        <div class="search">⌕ SEARCH ARTIST / TITLE</div>
+      </div>
+    </div>
+    <div class="filters">
+      <span class="fl on">Everything</span><span class="fl">Pitch Missing</span><span class="fl">Drafted</span><span class="fl">Submitted</span><span class="fl">My Artists</span>
+    </div>
+  </div>
+
+  <div class="cols">
+
+    <div class="qcol">
+      <div class="sec" style="padding-top:16px;">
+        <div class="sec-head now"><span class="d">Week 32 · Aug 14</span><span class="now-pill">This Week</span><span class="ct">6 Releases · 2 Missing Pitch</span></div>
+        <div class="rel p-miss sel"><span class="who">Whitney Houston</span><span class="what">Greatest Love of All</span><span class="meta"><span class="chip date">Aug 10</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-miss"><span class="who">Lancey Foux</span><span class="what">ALL THE TIME</span><span class="meta"><span class="chip date">Aug 11</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-draft"><span class="who">Tate McRae</span><span class="what">ANYTHING BUT LOVE</span><span class="meta"><span class="chip date">Aug 11</span><span class="chip">Single</span><span class="chip draft">Drafted</span></span></div>
+        <div class="rel p-sub"><span class="who">Tate McRae</span><span class="what">cut my hair</span><span class="meta"><span class="chip date">Aug 11</span><span class="chip">Single</span><span class="chip sub">Submitted</span></span></div>
+        <div class="rel p-sub"><span class="who">Tate McRae</span><span class="what">TIT FOR TAT</span><span class="meta"><span class="chip date">Aug 11</span><span class="chip">Single</span><span class="chip sub">Submitted</span></span></div>
+        <div class="rel p-sub"><span class="who">Becky G</span><span class="what">CHULA</span><span class="meta"><span class="chip date">Aug 14</span><span class="chip">Single</span><span class="chip sub">Submitted</span></span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><span class="d">Week 33 · Aug 21</span><span class="ct">4 Releases · 3 Missing Pitch</span></div>
+        <div class="rel p-miss"><span class="who">Eem Triplin</span><span class="what">Funny Games</span><span class="meta"><span class="chip date">Aug 17</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-miss"><span class="who">Lizzy McAlpine</span><span class="what">Track 6</span><span class="meta"><span class="chip date">Aug 21</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-miss"><span class="who">Ari Abdul</span><span class="what">Single #2</span><span class="meta"><span class="chip date">Aug 21</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-draft"><span class="who">Hailey Picardi</span><span class="what">Single</span><span class="meta"><span class="chip date">Aug 21</span><span class="chip">Single</span><span class="chip draft">Drafted</span></span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><span class="d">Week 34 · Aug 28</span><span class="ct">3 Releases · 1 Missing Pitch</span></div>
+        <div class="rel p-draft"><span class="who">Lancey Foux</span><span class="what">THE TIME OF OUR LIVES</span><span class="meta"><span class="chip date">Aug 28</span><span class="chip">Album</span><span class="chip draft">Drafted</span></span></div>
+        <div class="rel p-miss"><span class="who">NOAH NOAH</span><span class="what">Debut Single</span><span class="meta"><span class="chip date">Aug 28</span><span class="chip">Single</span><span class="chip miss">Pitch Missing</span></span></div>
+        <div class="rel p-sub"><span class="who">Presley Regier</span><span class="what">Debut Single</span><span class="meta"><span class="chip date">Aug 28</span><span class="chip">Single</span><span class="chip sub">Submitted</span></span></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="ed">
+        <div class="fl2">Selected Release</div>
+        <h2>Whitney Houston — Greatest Love of All</h2>
+        <div class="sub">Release Aug 10 2026 · Single · Week 32</div>
+        <div class="frow"><label>Spotify URI</label><div class="in">Paste URI…</div></div>
+        <div class="frow"><label>Apple ID</label><div class="in">Paste ID…</div></div>
+        <div class="frow">
+          <label>Pitch</label>
+          <div class="ta">Write the DSP pitch here — the one paragraph editorial teams see. This release streets in 3 days and has no pitch yet, which is why it's pinned at the top of the queue.</div>
+          <div class="hint">Empty pitch = "Pitch Missing" in the queue. Saving a draft moves it to Drafted; Submit locks it and flags it Submitted.</div>
+        </div>
+        <div class="btns"><div class="b1">Submit Pitch</div><div class="b2">Save Draft</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <div class="lbl">Build Notes — DSP Pitches</div>
+    <div class="row"><i>·</i><span><b>Source:</b> the pilot's Streaming: DSP Pitches view as-is — Name · Release Date · Release Week grouping · Spotify URI · Apple ID · Pitch, with the existing Future / All toggle. No new tables.</span></div>
+    <div class="row"><i>·</i><span><b>Pitch status is a formula,</b> not a new workflow: empty Pitch field = Missing, filled = Drafted, submitted flag = Submitted. Missing pitches sort to the top of each week so the gap is impossible to miss.</span></div>
+    <div class="row"><i>·</i><span><b>Editor pane:</b> click a release, write the pitch in place — same record, same fields the current detail pane shows, just side-by-side with the queue instead of replacing it.</span></div>
+    <div class="row"><i>·</i><span><b>My Artists filter</b> uses the same Directory user assignment as everywhere else in the pilot.</span></div>
+  </div>
+
+  <div class="foot">Sample data from the live pilot DSP Pitches view, Weeks 32–34 · Companion mockups: Artist Page · Releases · Projects · Upcoming · Assets · Scheduling · Campaign Ops</div>
+
+</div>
+</body>
+</html>

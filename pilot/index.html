@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>RCA US Pilot — Mockup Suite · Campaign Ops</title>
+<link rel="icon" href="../tempoicon.png">
+<style>
+:root{--bg:#F5F2EB;--card:#FFFFFF;--card-2:#FAFAF5;--ink:#0F0E0E;--fg-2:#2A2A2A;--fog:#888888;--border:#ECEAE3;--rule:#D8D4CC;--lime:#CDF851;--flame:#FF4A23;--font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,Helvetica,Arial,sans-serif;--font-mono:'DM Mono','SF Mono',Menlo,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+.page{max-width:880px;margin:0 auto;padding:56px 28px 80px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--fog);margin-bottom:14px}
+h1{font-size:38px;font-weight:900;letter-spacing:-.02em;border:3px solid var(--ink);display:inline-block;padding:8px 18px;margin-bottom:18px}
+.lead{font-size:15px;line-height:1.6;color:var(--fg-2);max-width:62ch;margin-bottom:8px}
+.lead b{font-weight:700}
+.hint{font-size:12px;color:var(--fog);max-width:62ch;line-height:1.5;margin-bottom:36px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+a.tile{display:block;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--ink);padding:18px 20px;text-decoration:none;color:var(--ink);transition:background .12s}
+a.tile:hover{background:var(--lime)}
+a.tile.hot{border-left-color:var(--flame)}
+.t-name{font-size:16px;font-weight:800;letter-spacing:-.01em;margin-bottom:5px}
+.t-desc{font-size:12.5px;line-height:1.5;color:var(--fg-2)}
+.t-tag{display:inline-block;font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--lime);padding:3px 7px;margin-bottom:9px}
+.sub{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);margin:34px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--ink)}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--font-mono);font-size:10.5px;color:var(--fog);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">RCA US Pilot &middot; Campaign Ops &middot; Mockup Suite</div>
+  <h1>Pilot Mockups</h1>
+  <p class="lead">Visual proposals for the RCA US Pilot Airtable base &mdash; one page per tab, each built on <b>existing pilot fields</b> with build notes at the bottom mapping every element back to the schema.</p>
+  <p class="hint">Sample data throughout (Steve Lacy artist page; live-view records elsewhere). Best viewed on desktop. Nothing here is connected to the live base.</p>
+
+  <div class="sub">The Anchor</div>
+  <div class="grid">
+    <a class="tile hot" href="artist.html"><span class="t-tag">Artist Page</span><div class="t-name">Artist Page</div><div class="t-desc">The full proposal: Latest hero, What&rsquo;s Changing feed, collapsed sections, releases by type, Campaigns naming.</div></a>
+    <a class="tile" href="artist-build-template.html"><span class="t-tag">Companion</span><div class="t-name">Artist Page — Build Template</div><div class="t-desc">Styling stripped out; the fields and logic behind every section, keyed to exact pilot field names.</div></a>
+  </div>
+
+  <div class="sub">The Rest of the Tabs</div>
+  <div class="grid">
+    <a class="tile" href="releases.html"><span class="t-tag">Releases</span><div class="t-name">Releases</div><div class="t-desc">Release-week grids sliced by content type, modeled on Release Runway.</div></a>
+    <a class="tile" href="projects.html"><span class="t-tag">Projects &rarr; Campaigns</span><div class="t-name">Projects</div><div class="t-desc">Status groups with In Review pinned; auto-created creative tickets flagged.</div></a>
+    <a class="tile" href="upcoming.html"><span class="t-tag">Timeline &rarr; Upcoming</span><div class="t-name">Upcoming</div><div class="t-desc">Month-grouped agenda list with a today marker &mdash; visibility, not a calendar grid.</div></a>
+    <a class="tile" href="assets.html"><span class="t-tag">Assets</span><div class="t-name">Assets</div><div class="t-desc">This week / last week grid of finished assets, deep-linking to final files.</div></a>
+    <a class="tile" href="scheduling.html"><span class="t-tag">Executive</span><div class="t-name">Scheduling</div><div class="t-desc">Planning &rarr; Confirmed &rarr; GRPS pipeline with the intake form alongside; owns the scheduling language.</div></a>
+    <a class="tile" href="dsp-pitches.html"><span class="t-tag">Streaming</span><div class="t-name">DSP Pitches</div><div class="t-desc">Street-week queue that pins missing pitches, with the pitch editor beside the list.</div></a>
+  </div>
+
+  <div class="foot">Campaign Ops &middot; RCA Records &middot; Mockups accompany the PDE send-back package &middot; Aug 2026</div>
+</div>
+</body>
+</html>

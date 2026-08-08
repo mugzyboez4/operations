@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upcoming — Mockup · Campaign Ops</title>
+<style>
+:root{
+  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
+  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
+  --border:#ECEAE3; --rule:#D8D4CC;
+  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
+  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
+  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
+
+.hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.hdr h1{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;}
+.hdr-row{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.hdr-row .lead{flex:1;min-width:280px;font-size:14px;line-height:1.6;color:var(--fg-2);max-width:56ch;margin-top:12px;}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:2px;}
+.toggle{display:flex;border:1px solid var(--ink);}
+.toggle span{padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.toggle .on{background:var(--ink);color:var(--lime);}
+.toggle .off{color:var(--fog);}
+.search{border:1px solid var(--border);background:var(--card);padding:8px 14px;font-size:11px;color:var(--fog);min-width:180px;font-family:var(--font-mono);letter-spacing:.5px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;padding:14px 0 4px;}
+.fl{border:1px solid var(--border);background:var(--card);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);cursor:pointer;}
+.fl.on{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+
+/* month nav */
+.monav{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border);display:flex;gap:4px;padding:10px 0;overflow-x:auto;}
+.monav a{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);text-decoration:none;padding:6px 12px;border:1px solid transparent;white-space:nowrap;}
+.monav a:hover{color:var(--ink);border-color:var(--border);}
+.monav a.now{color:var(--flame);border-color:var(--flame);font-weight:500;}
+
+.sec{padding:32px 0 8px;scroll-margin-top:52px;}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:12px;}
+.sec-head .d{font-size:24px;font-weight:900;letter-spacing:-1px;text-transform:uppercase;}
+.sec-head .ct{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);text-transform:uppercase;}
+.sec-head.now .d{color:var(--flame);}
+.sec-head .now-pill{background:var(--flame);color:#fff;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;}
+
+.uprow{display:flex;gap:16px;align-items:baseline;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--ink);padding:11px 16px;margin-bottom:6px;}
+.uprow.past{opacity:.45;}
+.uprow .dt{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);width:82px;flex-shrink:0;}
+.uprow .tag{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);flex-shrink:0;}
+.uprow .tag.rel{background:var(--tint-flame);border-color:var(--flame);color:var(--flame);}
+.uprow .tag.live{background:var(--tint-teal);border-color:var(--teal);color:#2A8581;}
+.uprow .tag.promo{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
+.uprow .tag.note{background:var(--tint-lime);border-color:#B8E83D;color:#5C7A1A;}
+.uprow .who{font-size:12px;font-weight:700;flex-shrink:0;}
+.uprow .what{font-size:12px;color:var(--fg-2);flex:1;min-width:0;}
+.uprow.r-rel{border-left-color:var(--flame);}
+.uprow.r-live{border-left-color:var(--teal);}
+.uprow.r-promo{border-left-color:var(--gold);}
+.uprow.r-note{border-left-color:#B8E83D;}
+.today{display:flex;align-items:center;gap:12px;margin:10px 0;}
+.today .ln{flex:1;height:0;border-top:2px dashed var(--flame);}
+.today b{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--flame);}
+
+.note{margin-top:44px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:20px 24px;}
+.note .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;}
+.note .row{display:flex;gap:10px;font-size:13px;line-height:1.55;margin-bottom:8px;}
+.note .row:last-child{margin-bottom:0;}
+.note .row i{font-style:normal;color:var(--flame);font-weight:700;}
+.foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="eyebrow">RCA US Pilot · Campaign Ops Mockup</div>
+    <div class="hdr-row">
+      <div style="flex:1;min-width:280px;">
+        <h1>Upcoming</h1>
+        <p class="lead">Everything on the horizon as a simple forward-chronological list grouped by month — releases, live dates, promo moments, team notes. A read-only view of what's coming, not a scheduling tool.</p>
+      </div>
+      <div class="controls">
+        <div class="toggle"><span class="on">My Artists</span><span class="off">All</span></div>
+        <div class="search">⌕ SEARCH ARTIST / EVENT</div>
+      </div>
+    </div>
+    <div class="filters">
+      <span class="fl on">Everything</span><span class="fl">Releases</span><span class="fl">Live</span><span class="fl">Promo</span><span class="fl">Team Notes</span>
+    </div>
+  </div>
+
+  <div class="monav">
+    <a href="#aug" class="now">August</a>
+    <a href="#sep">September</a>
+    <a href="#oct">October</a>
+    <a href="#">November</a>
+  </div>
+
+  <div class="sec" id="aug">
+    <div class="sec-head now"><span class="d">August</span><span class="now-pill">This Month</span><span class="ct">16 Items</span></div>
+    <div class="uprow past r-rel"><span class="dt">Tue Aug 5</span><span class="tag rel">Release</span><span class="who">Mr. Lovebomb</span><span class="what">Deluxe — delivered and live</span></div>
+    <div class="today"><b>Today · Fri Aug 7</b><span class="ln"></span></div>
+    <div class="uprow r-promo"><span class="dt">Fri Aug 8</span><span class="tag promo">Promo</span><span class="who">Becky G</span><span class="what">Video shoot — Chula follow-up</span></div>
+    <div class="uprow r-rel"><span class="dt">Sat Aug 9</span><span class="tag rel">Release</span><span class="who">Davido</span><span class="what">B4 B4 official video · 12:00 · SME UK</span></div>
+    <div class="uprow r-rel"><span class="dt">Mon Aug 11</span><span class="tag rel">Release</span><span class="who">Lancey Foux</span><span class="what">All The Time — focus track</span></div>
+    <div class="uprow r-note"><span class="dt">Tue Aug 12</span><span class="tag note">Team Note</span><span class="who">Lancey Foux</span><span class="what">Album artwork review — final round before street date</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Aug 14</span><span class="tag rel">Release</span><span class="who">Multiple</span><span class="what">Week 32 street date — 31 releases (see Releases page)</span></div>
+    <div class="uprow r-live"><span class="dt">Sat Aug 16</span><span class="tag live">Live</span><span class="who">Tate McRae</span><span class="what">Lollapalooza aftershow — content capture planned</span></div>
+    <div class="uprow r-rel"><span class="dt">Sun Aug 17</span><span class="tag rel">Release</span><span class="who">Eem Triplin</span><span class="what">Funny Games — focus track</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Aug 21</span><span class="tag rel">Release</span><span class="who">Multiple</span><span class="what">Week 33 street date — incl. Eem Triplin album, Lizzy McAlpine Track 6</span></div>
+    <div class="uprow r-promo"><span class="dt">Fri Aug 22</span><span class="tag promo">Promo</span><span class="who">Cat Burns</span><span class="what">Brixton promo clip capture</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Aug 28</span><span class="tag rel">Release</span><span class="who">Lancey Foux</span><span class="what">The Time of Our Lives — focus album, Week 34</span></div>
+    <div class="uprow r-rel"><span class="dt">Sun Aug 31</span><span class="tag rel">Release</span><span class="who">Eem Triplin</span><span class="what">Potion — single</span></div>
+  </div>
+
+  <div class="sec" id="sep">
+    <div class="sec-head"><span class="d">September</span><span class="ct">9 Items</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Sep 4</span><span class="tag rel">Release</span><span class="who">Eem Triplin</span><span class="what">Potion official video · Week 35</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Sep 4</span><span class="tag rel">Release</span><span class="who">Foo Fighters</span><span class="what">Blood Records vinyl — physical, Week 35</span></div>
+    <div class="uprow r-note"><span class="dt">Mon Sep 8</span><span class="tag note">Team Note</span><span class="who">Sarah Lola</span><span class="what">Single #2 — confidential, date TBC</span></div>
+    <div class="uprow r-live"><span class="dt">Fri Sep 12</span><span class="tag live">Live</span><span class="who">Cat Burns</span><span class="what">Brixton Academy — live capture</span></div>
+    <div class="uprow r-promo"><span class="dt">Tue Sep 16</span><span class="tag promo">Promo</span><span class="who">Lizzy McAlpine</span><span class="what">Album pre-order push begins</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Sep 18</span><span class="tag rel">Release</span><span class="who">Multiple</span><span class="what">Week 37 street date</span></div>
+    <div class="uprow r-live"><span class="dt">Sat Sep 20</span><span class="tag live">Live</span><span class="who">Flo Milli</span><span class="what">Festival slot — socials handoff</span></div>
+    <div class="uprow r-note"><span class="dt">Mon Sep 22</span><span class="tag note">Team Note</span><span class="who">NOAH NOAH</span><span class="what">Debut campaign kickoff meeting</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Sep 25</span><span class="tag rel">Release</span><span class="who">Multiple</span><span class="what">Week 38 street date</span></div>
+  </div>
+
+  <div class="sec" id="oct">
+    <div class="sec-head"><span class="d">October</span><span class="ct">3 Items So Far</span></div>
+    <div class="uprow r-rel"><span class="dt">Thu Oct 2</span><span class="tag rel">Release</span><span class="who">Wolf Alice</span><span class="what">D2C exclusive — physical</span></div>
+    <div class="uprow r-promo"><span class="dt">Fri Oct 10</span><span class="tag promo">Promo</span><span class="who">Tate McRae</span><span class="what">Tour announce — asset package due prior</span></div>
+    <div class="uprow r-live"><span class="dt">Fri Oct 24</span><span class="tag live">Live</span><span class="who">Becky G</span><span class="what">Award show performance — hold</span></div>
+  </div>
+
+  <div class="note">
+    <div class="lbl">Build Notes — Upcoming</div>
+    <div class="row"><i>·</i><span><b>Source:</b> Artist Events + Releases, merged forward-chronologically and grouped by month. Agenda list, deliberately no calendar grid.</span></div>
+    <div class="row"><i>·</i><span><b>Each row:</b> Date · Type tag · Artist · one-line description. Filter chips narrow by type; the Today marker keeps the current week anchored.</span></div>
+    <div class="row"><i>·</i><span><b>Visibility, not scheduling:</b> adding an item here is a note to the team — it should use different language from formally requesting a release date (the wording fix we're already asking for). Team Notes have no status at all.</span></div>
+    <div class="row"><i>·</i><span><b>Confidential items</b> render only for permitted users, same rule as the Releases page.</span></div>
+  </div>
+
+  <div class="foot">Sample data illustrative · Companion mockups: Artist Page · Releases · Projects · Assets · Campaign Ops</div>
+
+</div>
+</body>
+</html>

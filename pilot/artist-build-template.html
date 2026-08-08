@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artist Page — Build Template · Campaign Ops</title>
+<style>
+/* ============================================================
+   Campaign Ops — Colors & Type
+   The locked design system for RCA Records' Campaign Operations.
+   Two themes ship side by side: light (cream paper, default
+   for public-facing & marketing pages) and dark (neon control-
+   room, used on the brand mark and a few hero surfaces).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Mono:wght@400;500&family=Pinyon+Script&family=Style+Script&display=swap');
+
+/* ============================================================
+   Brand fonts (self-hosted)
+   - Suisse Intl  — primary sans, replaces Inter
+   - ITC Compacta — display condensed, replaces Archivo Black
+   ============================================================ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+  /* ---- Light theme (default) — "cream paper" -------------- */
+  --bg:        #F5F2EB;   /* page background, sand */
+  --card:      #FFFFFF;   /* card surface */
+  --card-2:    #FAFAF5;   /* sunken / inner panel */
+
+  --ink:       #0F0E0E;   /* primary text, near-black */
+  --fg-2:      #2A2A2A;   /* secondary text */
+  --fog:       #888888;   /* muted body / metadata */
+  --slate:     #CCCCCC;   /* very muted / disabled */
+  --border:    #ECEAE3;   /* hairline */
+  --rule:      #D8D4CC;   /* heavier rule (used in dotted patterns) */
+
+  /* ---- Brand palette — used on top of either theme -------- */
+  --lime:      #CDF851;   /* chartreuse — brand mark, success edge */
+  --flame:     #FF4A23;   /* tomato — Active / Now / Alert / current phase */
+  --teal:      #5BC0BE;   /* turquoise — pilot, secondary accent */
+  --gold:      #E8C547;   /* mustard — in-progress, mid-stage */
+  --clear:     #4ADE80;   /* green — gate cleared (only on tracker) */
+
+  /* ---- Phase chromatics — one hue per phase --------------- */
+  --phase-01:  #3E3F41;   /* PREP — slate */
+  --phase-02:  #5BC0BE;   /* PLAN — teal */
+  --phase-03:  #E8C547;   /* ANNOUNCE — gold */
+  --phase-04:  #CDF851;   /* RELEASE — lime */
+  --phase-05:  #FF4A23;   /* REVIEW — flame */
+
+  /* ---- Soft tint backgrounds for state surfaces ---------- */
+  --tint-flame: #FFF5F2;
+  --tint-teal:  #F0FDFC;
+  --tint-gold:  #FFF8E1;
+  --tint-lime:  #F0FAD0;
+  --tint-public:#FFEEE8;
+
+  /* ---- Type ---------------------------------------------- */
+  --font-sans:    -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, sans-serif;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-mono:    'DM Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  /* Hairline scale (8 + label) */
+  --fs-label:    9px;      /* tiny labels, nav links */
+  --fs-eyebrow:  11px;     /* eyebrows, badges */
+  --fs-meta:    10px;
+  --fs-body:    13px;
+  --fs-body-lg: 15px;
+  --fs-lead:    16px;
+  --fs-h3:      20px;
+  --fs-h2:      36px;
+  --fs-h1:      48px;
+  --fs-display: 56px;
+
+  /* Layout */
+  --max-w: 1180px;
+  --pad-x: 32px;
+
+  /* Spacing scale */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 48px;
+  --s-9: 64px;
+
+  /* Corners — Campaign Ops is hard-edged. Radii are reserved
+     for image plates and the rounded-square logo plinth.    */
+  --r-0: 0; /* @kind radius */
+  --r-1: 4px;
+  --r-2: 6px;
+  --r-img: 16px;
+
+  /* Shadows — used sparingly. */
+  --shadow-soft: 0 4px 12px rgba(0,0,0,.06);
+  --shadow-pop:  0 -8px 24px rgba(0,0,0,.06);
+  --ring-flame:  0 0 0 4px rgba(255,74,35,.08);
+  --ring-teal:   0 0 0 4px rgba(91,192,190,.08);
+
+  /* ---- RCA Public brand --------------------------------- */
+  /* Distinct from Campaign Ops. Used on label-side artwork. */
+  --rca-ink:    #0A0A0A;
+  --rca-paper:  #FCFBF7;
+  --rca-red:    #E11600;
+  --rca-stone:  #C6C0B6;
+  --rca-bone:   #EFEAE0;
+
+  /* The RCA deck specifies Romie (serif) + Romie Italic (flourish). Romie is
+     licensed and not bundled, so these render free stand-ins loaded above:
+     Bodoni Moda (closest high-contrast didone to Romie's upright) and Pinyon
+     Script (the FYC swash). Put 'Romie' back in front + add an @font-face if
+     the licensed font is ever added to fonts/. */
+  --font-serif-display: 'Bodoni Moda', 'Playfair Display', 'Didot', serif;  /* subheads, artist names */
+  --font-bold-sans:     'Archivo Black', sans-serif;
+  --font-script:        'Pinyon Script', 'Style Script', cursive;           /* the FYC swash */
+}
+
+/* ---- Dark variant (control-room) ---------------------- */
+[data-theme="dark"], .theme-dark {
+  --bg:     #0F0E0E;
+  --card:   #181818;
+  --card-2: #222222;
+  --ink:    #FCFDF8;
+  --fg-2:   #B0A9BE;
+  --fog:    #847D96;
+  --slate:  #3E3F41;
+  --border: #2A2A2A;
+  --rule:   #2A2A2A;
+  --tint-flame: #2A1410;
+  --tint-teal:  #082624;
+  --tint-gold:  #2A2410;
+  --tint-lime:  #1F2410;
+  --tint-public:#2A1410;
+}
+
+/* ============================================================
+   Semantic type primitives
+   ============================================================ */
+
+.cops-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-nav-link {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 1px;
+  color: var(--fog);
+}
+
+.cops-display {
+  font-family: var(--font-sans);
+  font-size: var(--fs-display);
+  font-weight: 900;
+  letter-spacing: -2.5px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.cops-lead {
+  font-family: var(--font-sans);
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.cops-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cops-body-sm {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.cops-sub {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--fog);
+  line-height: 1.55;
+}
+
+/* Use a phase chromatic on any heading */
+.tint-phase-01 { color: var(--phase-01); }
+.tint-phase-02 { color: var(--phase-02); }
+.tint-phase-03 { color: var(--phase-03); }
+.tint-phase-04 { color: var(--phase-04); }
+.tint-phase-05 { color: var(--phase-05); }
+.tint-flame    { color: var(--flame);    }
+.tint-teal     { color: var(--teal);     }
+.tint-lime     { color: var(--lime);     }
+.tint-gold     { color: var(--gold);     }
+.tint-fog      { color: var(--fog);      }
+
+/* Common page reset usable on demo pages */
+.cops-reset *,
+.cops-reset *::before,
+.cops-reset *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cops-reset body,
+body.cops-reset {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Campaign Ops UI Kit styles. Pulls tokens from colors_and_type.css. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+body { padding-bottom: 110px; }
+
+.cops-page { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); }
+
+/* ====================== NAV ====================== */
+.cops-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px var(--pad-x);
+  display: flex; align-items: center; gap: 24px;
+}
+.cops-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.cops-logo img { width: 32px; height: 32px; border-radius: 6px; display: block; }
+.cops-logo span { font-size: 13px; font-weight: 900; letter-spacing: -.5px; text-transform: uppercase; }
+.cops-logo em { font-style: normal; color: var(--lime); background: var(--ink); padding: 2px 5px; }
+.cops-nav-links { display: flex; gap: 4px; flex: 1; margin-left: 16px; }
+.cops-nav-link {
+  font-size: var(--fs-label); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--fog); padding: 6px 12px; text-decoration: none;
+  border: 1px solid transparent; transition: all .15s linear;
+}
+.cops-nav-link:hover { color: var(--ink); border-color: var(--border); }
+.cops-nav-link.is-active { color: var(--flame); border-color: var(--flame); font-weight: 600; }
+.cops-nav-end .cops-mono { font-size: var(--fs-label); }
+
+/* ====================== HERO ====================== */
+.cops-hero { padding: 64px 0 48px; border-bottom: 2px solid var(--ink); }
+.cops-eyebrow {
+  font-family: var(--font-sans); font-size: var(--fs-eyebrow);
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--fog);
+  margin-bottom: 16px;
+}
+.cops-display { font-family: var(--font-sans); font-size: var(--fs-display); font-weight: 900; letter-spacing: -2.5px; line-height: .95; text-transform: uppercase; }
+.cops-h1 { font-size: var(--fs-h1); font-weight: 900; letter-spacing: -2px; line-height: .95; text-transform: uppercase; }
+.cops-h2 { font-size: var(--fs-h2); font-weight: 900; letter-spacing: -1.5px; line-height: 1; text-transform: uppercase; margin-bottom: 28px; }
+.cops-h3 { font-size: var(--fs-h3); font-weight: 900; letter-spacing: -.5px; }
+.cops-lead { font-size: var(--fs-lead); line-height: 1.65; color: var(--ink); }
+.cops-body { font-size: var(--fs-body); line-height: 1.55; color: var(--ink); }
+.cops-body-sm { font-size: 11px; line-height: 1.5; color: var(--ink); }
+.cops-mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--fog); text-transform: uppercase; }
+.tint-flame { color: var(--flame); }
+.tint-teal { color: var(--teal); }
+.tint-lime { color: var(--lime); }
+
+.cops-hero-actions { display: flex; gap: 12px; margin-top: 32px; }
+.cops-btn {
+  font-family: var(--font-sans); font-size: 11px; font-weight: 700; padding: 12px 22px;
+  border: none; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: all .15s linear;
+}
+.cops-btn-primary { background: var(--ink); color: var(--bg); }
+.cops-btn-primary:hover { background: var(--flame); color: #fff; }
+.cops-btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); padding: 11px 21px; }
+.cops-btn-ghost:hover { border-color: var(--ink); }
+.cops-hero-meta { display: flex; gap: 12px; margin-top: 36px; font-size: var(--fs-body); color: var(--fog); flex-wrap: wrap; }
+.cops-hero-meta strong { color: var(--ink); font-weight: 700; }
+
+/* ====================== SECTIONS ====================== */
+.cops-section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+
+/* ====================== PHASE STRIP ====================== */
+.cops-threshold { display: flex; }
+.cops-threshold-cell {
+  flex: 1; padding: 8px; text-align: center;
+  font-size: var(--fs-label); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--fog); background: var(--card-2); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+}
+.cops-threshold-cell:last-child { border-right: 1px solid var(--border); }
+.cops-threshold-cell.is-public { background: var(--tint-public); color: var(--flame); }
+
+.cops-phase-row { display: flex; }
+.cops-phase-cell {
+  flex: 1; min-height: 180px; padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border); border-right: none; border-top: 6px solid;
+}
+.cops-phase-cell:last-child { border-right: 1px solid var(--border); }
+.cops-phase-cell.now { box-shadow: inset 0 0 0 1px var(--flame); }
+.cops-phase-num { font-size: 42px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.cops-phase-name { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: -.4px; margin-top: 4px; }
+.cops-phase-body { font-size: 12px; line-height: 1.5; color: var(--fg-2); margin-top: 12px; }
+.cops-phase-foot {
+  border-top: 1px dashed var(--border); margin-top: 14px; padding-top: 10px;
+  font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px;
+}
+
+/* ====================== STATS ====================== */
+.cops-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+.cops-stat { background: var(--card); border: 1px solid var(--border); padding: 16px 20px; text-align: center; }
+.cops-stat-n { font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+.cops-stat-n span { color: var(--fog); font-weight: 500; font-size: 18px; }
+.cops-stat-l { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); margin-top: 6px; }
+
+/* ====================== PREREQS ====================== */
+.cops-prereqs { background: var(--card); border: 1px solid var(--border); }
+.cops-prereqs-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cops-prereq {
+  width: 100%; padding: 14px 18px; border: none; background: var(--card);
+  border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 14px;
+  cursor: pointer; text-align: left; transition: background .15s linear;
+}
+.cops-prereq:hover { background: var(--card-2); }
+.cops-check {
+  width: 22px; height: 22px; border: 2px solid var(--slate); flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 13px;
+}
+.cops-check.is-on { background: var(--clear); border-color: var(--clear); color: #fff; }
+.cops-prereq.is-on .cops-prereq-t { text-decoration: line-through; color: var(--fog); }
+.cops-prereq-t { font-size: 13px; font-weight: 500; line-height: 1.4; }
+.cops-prereq-o { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--fog); margin-top: 4px; }
+.cops-prereq-foot { padding: 14px 18px; background: var(--card-2); display: flex; gap: 14px; align-items: flex-start; }
+.cops-prereq-foot .cops-mono { white-space: nowrap; padding-top: 2px; color: var(--flame); }
+
+/* ====================== TABLE ====================== */
+.cops-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); }
+.cops-table th, .cops-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 12px; }
+.cops-table th { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); padding: 12px 18px; background: var(--card-2); }
+.cops-table tr:hover td { background: var(--card-2); }
+.cops-table tr:last-child td { border-bottom: none; }
+
+.cops-stage { display: inline-block; padding: 3px 9px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.cops-stage.is-scoping { background: var(--bg); color: var(--fog); border: 1px solid var(--border); }
+.cops-stage.is-build { background: var(--tint-gold); color: #8B6900; border: 1px solid var(--gold); }
+.cops-stage.is-input { background: var(--tint-teal); color: #2A8581; border: 1px solid var(--teal); }
+.cops-stage.is-locked { background: var(--ink); color: var(--lime); }
+.cops-stage.is-shipped { background: var(--tint-lime); color: #5C7A1A; border: 1px solid #B8E83D; }
+
+.cops-gate-pill { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; padding: 3px 10px; color: var(--fog); background: var(--bg); font-weight: 700; }
+.cops-gate-pill.is-cleared { color: #166534; background: #DCFCE7; }
+
+/* ====================== PILOT CARD ====================== */
+.cops-pilot { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--teal); }
+.cops-pilot-head { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cops-pilot-name { font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
+.cops-pilot-gate { background: var(--gold); color: var(--ink); padding: 6px 12px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.cops-pilot-body { padding: 18px 22px; }
+.cops-pilot-foot { padding: 14px 22px; background: var(--card-2); border-top: 1px dashed var(--border); display: flex; gap: 14px; align-items: flex-start; }
+.cops-pilot-foot .cops-mono { color: var(--teal); white-space: nowrap; padding-top: 2px; }
+
+/* ====================== PRINCIPLES ====================== */
+.cops-principles { padding: 56px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.cops-principle { background: var(--card); border-left: 3px solid var(--lime); padding: 18px 22px; }
+.cops-principle .cops-mono { color: var(--lime); display: block; margin-bottom: 10px; }
+.cops-principle p { font-size: 14px; line-height: 1.5; color: var(--fg-2); }
+.cops-principle strong { color: var(--ink); font-weight: 700; }
+
+/* ====================== LIZZY BAR ====================== */
+.cops-lizzy {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  background: var(--card); border-top: 3px solid var(--teal);
+  padding: 14px 32px; display: flex; align-items: center; gap: 20px;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.06);
+}
+.cops-lizzy-info { min-width: 160px; }
+.cops-lizzy-name { font-size: 14px; font-weight: 900; letter-spacing: -.4px; }
+.cops-lizzy-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-top: 2px; }
+.cops-lizzy-gates { display: flex; flex: 1; gap: 6px; }
+.cops-lizzy-g { flex: 1; padding: 8px 10px; background: var(--card-2); border: 1px solid var(--border); }
+.cops-lizzy-gn { font-size: 10px; font-weight: 900; letter-spacing: .4px; color: var(--slate); text-transform: uppercase; }
+.cops-lizzy-gq { font-size: 10px; color: var(--fog); margin-top: 3px; }
+.cops-lizzy-g.done { background: #F0FFF4; border-color: var(--lime); }
+.cops-lizzy-g.done .cops-lizzy-gn, .cops-lizzy-g.done .cops-lizzy-gq { color: #5A7A00; }
+.cops-lizzy-g.work { background: var(--tint-gold); border-color: var(--gold); }
+.cops-lizzy-g.work .cops-lizzy-gn, .cops-lizzy-g.work .cops-lizzy-gq { color: #8B6900; }
+.cops-lizzy-pct { text-align: center; padding-left: 16px; border-left: 1px solid var(--border); }
+.cops-lizzy-pn { font-size: 20px; font-weight: 900; letter-spacing: -1px; }
+.cops-lizzy-pl { font-size: 8px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--fog); }
+
+/* ====================== FOOTER ====================== */
+.cops-footer { padding: 56px 0 24px; border-top: 2px solid var(--ink); }
+.cops-footer-row { display: flex; align-items: center; gap: 18px; }
+.cops-footer-row img { width: 48px; height: 48px; border-radius: 8px; }
+.cops-footer-name { font-size: 16px; font-weight: 900; letter-spacing: -.5px; text-transform: uppercase; }
+.cops-footer-name span { color: var(--lime); background: var(--ink); padding: 2px 6px; }
+.cops-footer-end { margin-left: auto; }
+
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  a{color:var(--flame);text-decoration:none;}
+  a:hover{color:var(--ink);}
+
+</style>
+</head>
+<body>
+<div style="background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;min-height:100vh;padding:0 0 56px;">
+
+  <div style="max-width:980px;margin:0 auto;padding:0 32px;">
+
+    <!-- DOC HEADER -->
+    <div style="padding:40px 0 24px;border-bottom:2px solid var(--ink);">
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;">Build Template · Campaign Ops</div>
+      <h1 style="font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;">Artist Page</h1>
+      <p style="font-size:15px;line-height:1.65;color:var(--ink);max-width:64ch;margin-top:14px;text-wrap:pretty;">Structural template for the Airtable build. Each block lists the fields it maps to, using the actual field names from the RCA US Pilot base (verified against PDE's full schema doc). Plain names exist in the pilot today; <strong>NEW</strong> flags an addition. Visual reference is the full mockup.</p>
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+        <span style="background:var(--card);border:1px solid var(--border);color:var(--fog);padding:4px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">7 sections + feed</span>
+        <span style="background:var(--card);border:1px solid var(--border);color:var(--fog);padding:4px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">1 record = 1 artist</span>
+        <span style="background:var(--card);border:1px solid var(--border);color:var(--fog);padding:4px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">No business-unit fields</span>
+      </div>
+    </div>
+
+    <!-- 01 HEADER -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Artist Header</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Always visible</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:20px 22px;display:flex;gap:20px;align-items:flex-start;">
+        <div style="width:64px;height:64px;background:var(--card-2);border:1px dashed var(--rule);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);text-align:center;line-height:1.4;">ARTIST<br>IMAGE</div>
+        <div style="flex:1;">
+          <div style="height:26px;background:var(--card-2);border:1px dashed var(--rule);width:52%;display:flex;align-items:center;padding:0 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">ARTIST NAME</div>
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+            <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">GROUP / TIER</span>
+            <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">PHASE</span>
+            <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">ACTIVE CAMPAIGN</span>
+          </div>
+        </div>
+        <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:5px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">SOCIAL / DSP LINKS</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Source:</strong> Artists → ARTIST_NAME · Image · Bio</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Badges:</strong> CAREER_STATUS + ROSTER_STATUS exist today · Roster Group (5 groups) + Phase are NEW single-selects on Artists</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Active Campaign:</strong> the artist's open Project (Status not Completed)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Links:</strong> SPOTIFY_URI + Spotify ID already on Artists — only extra socials (Instagram / TikTok / YouTube) are NEW</span></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 336px;gap:28px;align-items:start;">
+      <div style="min-width:0;">
+    <!-- 02 LATEST -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Latest</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Hero · most prominent</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-top:6px solid var(--flame);padding:22px 24px;">
+        <div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:16px;">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">TYPE TAG</span>
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">TIMESTAMP</span>
+        </div>
+        <div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);margin-bottom:8px;display:flex;align-items:center;padding:0 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">HEADLINE — ONE LINE, LARGE</div>
+        <div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);width:72%;"></div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Logic:</strong> newest record across Artist Updates · Artist Events · Releases · Projects — sorted desc, limit 1</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>UPDATE</strong> = Artist Updates (Subject) &nbsp;·&nbsp; <strong>NOTES</strong> = Artist Updates Message / Attachments</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>DATE CHANGE</strong> = a change to Releases.Release Date (Last Modified is on the table)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>ASSET</strong> = a Project hitting Status = Completed with Final Asset URL populated</span></div>
+      </div>
+    </div>
+
+    <!-- 04 RELEASE -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Release — Out Now / Next</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Always visible</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;">
+        <div style="padding:16px 18px;border-right:1px solid var(--border);">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">OUT NOW</span>
+          <div style="height:16px;background:var(--card-2);border:1px dashed var(--rule);margin-top:10px;"></div>
+          <div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);width:60%;margin-top:6px;"></div>
+        </div>
+        <div style="padding:16px 18px;border-right:1px solid var(--border);">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">NEXT</span>
+          <div style="height:16px;background:var(--card-2);border:1px dashed var(--rule);margin-top:10px;"></div>
+          <div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);width:60%;margin-top:6px;"></div>
+        </div>
+        <div style="padding:16px 18px;">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">UPCOMING</span>
+          <div style="height:16px;background:var(--card-2);border:1px dashed var(--rule);margin-top:10px;"></div>
+          <div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);width:60%;margin-top:6px;"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Fields:</strong> Releases → Title · Release Date · Release Week (drives the Next / Upcoming split)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Type:</strong> formula off CONFIG_NAME (from Products) — Single / Album / EP / Bundle today; physical / video slices just extend the formula (the configs already exist on Products)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Listening link:</strong> Releases.Spotify URI / Apple ID — already on the table (DSP Pitches is a view of Releases, not a separate table)</span></div>
+      </div>
+    </div>
+
+    <!-- 05 OUTSTANDING -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Outstanding</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Open items only</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);border-left:3px solid var(--gold);display:flex;gap:14px;align-items:center;">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 9px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">STATUS</span>
+          <div style="flex:1;height:14px;background:var(--card-2);border:1px dashed var(--rule);"></div>
+        </div>
+        <div style="padding:14px 18px;border-left:3px solid var(--gold);display:flex;gap:14px;align-items:center;">
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 9px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">STATUS</span>
+          <div style="flex:1;height:14px;background:var(--card-2);border:1px dashed var(--rule);"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Logic:</strong> Projects where Status is not Completed or Archived — i.e. Planning · To Do · In Progress · Out for Approval</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Fields:</strong> Projects → Title · Project Type · Status · Marketing or Creative (formula off Project Type → Department) · Assignee (→ Contacts) · Due Date</span></div>
+      </div>
+    </div>
+
+    <!-- 06 TRENDING -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Trending Data</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">4 metric cards</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <div style="background:var(--card);border:1px solid var(--border);padding:16px 18px;"><div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);"></div><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);margin-top:8px;"></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid var(--flame);padding:16px 18px;"><div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);"></div><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);margin-top:8px;"></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:16px 18px;"><div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);"></div><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);margin-top:8px;"></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:16px 18px;"><div style="height:22px;background:var(--card-2);border:1px dashed var(--rule);"></div><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);margin-top:8px;"></div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Exists today:</strong> Spotify Followers + Spotify Popularity on Artists — two of the four cards</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>NEW:</strong> the other two — a small table (Metric Name · Value · Δ vs. prior period · Trending flag → flame top border) or another feed off the live internal-systems sync</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span>Ties directly to the sync-cadence question</span></div>
+      </div>
+    </div>
+
+    <!-- 07 ASSET HIGHLIGHTS -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Asset Highlights</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Links out to Air</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <div style="background:var(--card);border:1px solid var(--border);"><div style="height:80px;background:var(--card-2);border-bottom:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;color:var(--fog);">THUMB</div><div style="padding:10px 12px;"><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);"></div></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);"><div style="height:80px;background:var(--card-2);border-bottom:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;color:var(--fog);">THUMB</div><div style="padding:10px 12px;"><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);"></div></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);"><div style="height:80px;background:var(--card-2);border-bottom:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;color:var(--fog);">THUMB</div><div style="padding:10px 12px;"><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);"></div></div></div>
+        <div style="background:var(--card);border:1px solid var(--border);"><div style="height:80px;background:var(--card-2);border-bottom:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;color:var(--fog);">THUMB</div><div style="padding:10px 12px;"><div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);"></div></div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Logic:</strong> the pilot's existing Assets rule — Projects where Status = Completed and Final Asset URL is not empty · 4 most recent</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Click:</strong> whole card links out via Final Asset URL (Air or wherever the file lives) — no intermediate page</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Fields:</strong> Projects → Artist / Release (formula) · Project Type · Title · Final Asset URL</span></div>
+      </div>
+    </div>
+
+    <!-- 08 DETAIL SECTIONS -->
+    <div style="padding:32px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">Detail Sections</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Collapsed · user-reorderable</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:var(--card);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+          <span style="color:var(--fog);font-size:14px;letter-spacing:-2px;">⋮⋮</span>
+          <span style="font-size:14px;font-weight:900;letter-spacing:-.4px;text-transform:uppercase;flex:1;">Team / Roster</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">Role → named person</span>
+          <span style="font-size:16px;color:var(--fog);">+</span>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+          <span style="color:var(--fog);font-size:14px;letter-spacing:-2px;">⋮⋮</span>
+          <span style="font-size:14px;font-weight:900;letter-spacing:-.4px;text-transform:uppercase;flex:1;">Releases</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">Grouped by content type</span>
+          <span style="font-size:16px;color:var(--fog);">+</span>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+          <span style="color:var(--fog);font-size:14px;letter-spacing:-2px;">⋮⋮</span>
+          <span style="font-size:14px;font-weight:900;letter-spacing:-.4px;text-transform:uppercase;flex:1;">Campaigns</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">Renamed from "Projects"</span>
+          <span style="font-size:16px;color:var(--fog);">+</span>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+          <span style="color:var(--fog);font-size:14px;letter-spacing:-2px;">⋮⋮</span>
+          <span style="font-size:14px;font-weight:900;letter-spacing:-.4px;text-transform:uppercase;flex:1;">Assets</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">Grouped by spend category · rows link to Air</span>
+          <span style="font-size:16px;color:var(--fog);">+</span>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+          <span style="color:var(--fog);font-size:14px;letter-spacing:-2px;">⋮⋮</span>
+          <span style="font-size:14px;font-weight:900;letter-spacing:-.4px;text-transform:uppercase;flex:1;">Upcoming</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">Agenda list · grouped by month · no calendar grid</span>
+          <span style="font-size:16px;color:var(--fog);">+</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Behavior:</strong> all five collapsed on load · drag handle reorders · order persists per user</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Team / Roster:</strong> the Roles table (Artist ↔ Contact, Role Type → Department) + the per-artist team columns already on Artists (PRODUCT_MANAGER · MARKETING_COORDINATOR · AR_ADMIN · …) — role → named person</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Releases:</strong> Releases grouped by Type</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Campaigns:</strong> Projects, renamed — Title · Project Type · Status · Budget · Assignee · Due Date</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Assets:</strong> the Assets rule grouped by Project Type</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Upcoming:</strong> Artist Events as a forward-chron agenda list grouped by month — Date · Type tag · Title, one line per event, no calendar grid (Type from the pilot's 31 options)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span>Creating an Upcoming entry is a visibility note, <strong>not</strong> a scheduling action — scheduling stays in its own workflow</span></div>
+      </div>
+    </div>
+
+    <!-- BUILD NOTES -->
+    <div style="padding:36px 0 0;">
+      <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:22px 24px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:14px;">Build notes</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.55;">
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span>Two columns: sections stack in the main column, the feed is sticky and spans the full page height. Header through Outstanding, plus the feed, are above the fold and load first; Trending, Assets and Detail Sections can lazy-load.</span></div>
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span>Only visual assets link out to Air. Updates, notes and outstanding items stay in Airtable.</span></div>
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span>No business-unit or internal-accounting fields anywhere on the page.</span></div>
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span>Corners are square throughout — 0px radius, no rounded cards. Cream <span style="font-family:var(--font-mono);">#F5F2EB</span> background, Inter, hairline borders.</span></div>
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span>Type tags are small, uppercase and color-coded by type — consistent across Latest, the feed and Assets.</span></div>
+          <div style="display:flex;gap:10px;"><span style="color:var(--flame);font-weight:700;">→</span><span><strong>Net-new vs. the pilot today:</strong> Roster Group + Phase on Artists · extra social links (SPOTIFY_URI / Spotify ID already exist) · physical / video slices in the Releases.Type formula · "Show in feed" flag · Trending Data beyond the Spotify Followers / Popularity already on Artists. Everything else maps to fields already in the RCA US Pilot base — mostly a reorder of the existing artist record page.</span></div>
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+      <div style="position:sticky;top:24px;padding-top:32px;">
+
+      <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <span style="font-size:15px;font-weight:900;letter-spacing:-.3px;text-transform:uppercase;flex:1;">What's Changing</span>
+        <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fog);">Full-height side feed</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);">
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">UPDATES</span>
+          <span style="border:1px dashed var(--rule);background:var(--card-2);padding:4px 9px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--fog);">+ POST UPDATE</span>
+        </div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;gap:6px;margin-bottom:8px;"><span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">TYPE</span><span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">PHASE TRANSITION</span></div>
+          <div style="height:14px;background:var(--card-2);border:1px dashed var(--rule);"></div>
+          <div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);width:45%;margin-top:6px;"></div>
+        </div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;gap:6px;margin-bottom:8px;"><span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">TYPE</span></div>
+          <div style="height:14px;background:var(--card-2);border:1px dashed var(--rule);"></div>
+          <div style="height:10px;background:var(--card-2);border:1px dashed var(--rule);width:45%;margin-top:6px;"></div>
+        </div>
+        <div style="padding:10px 16px;background:var(--card-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+          <span style="width:14px;height:14px;background:var(--clear);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;">✓</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#166534;">You're all caught up</span>
+        </div>
+        <div style="padding:14px 16px;opacity:.6;">
+          <div style="display:flex;gap:6px;margin-bottom:8px;"><span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">TYPE</span></div>
+          <div style="height:14px;background:var(--card-2);border:1px dashed var(--rule);"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;font-size:13px;line-height:1.5;color:var(--ink);">
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Logic:</strong> reverse-chron · only items flagged "Show in feed" (NEW checkbox)</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Caught-up marker:</strong> sits at the reader's last-seen timestamp; everything below it renders dimmed</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Sources:</strong> Artist Updates (Subject · Message · Attachments · Status) · Artist Events · Project status changes (revision history already tracks these) · Phase Transition from the NEW Phase field</span></div>
+        <div style="display:flex;gap:9px;"><span style="color:var(--fog);">·</span><span><strong>Meta:</strong> Timestamp = Created · Author Role = Created By → their Contacts record (Department · Title)</span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

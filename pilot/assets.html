@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assets — Mockup · Campaign Ops</title>
+<style>
+:root{
+  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
+  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
+  --border:#ECEAE3; --rule:#D8D4CC;
+  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
+  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
+  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
+
+.hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fog);margin-bottom:10px;}
+.hdr h1{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;text-transform:uppercase;}
+.hdr-row{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.hdr-row .lead{flex:1;min-width:280px;font-size:14px;line-height:1.6;color:var(--fg-2);max-width:56ch;margin-top:12px;}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:2px;}
+.toggle{display:flex;border:1px solid var(--ink);}
+.toggle span{padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.toggle .on{background:var(--ink);color:var(--lime);}
+.toggle .off{color:var(--fog);}
+.search{border:1px solid var(--border);background:var(--card);padding:8px 14px;font-size:11px;color:var(--fog);min-width:180px;font-family:var(--font-mono);letter-spacing:.5px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;padding:14px 0 4px;}
+.fl{border:1px solid var(--border);background:var(--card);padding:4px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);cursor:pointer;}
+.fl.on{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+
+.sec{padding:32px 0 8px;}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:12px;}
+.sec-head .d{font-size:20px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;}
+.sec-head .ct{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);text-transform:uppercase;}
+.sec-head.hot .d{color:var(--flame);}
+
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+.acard{background:var(--card);border:1px solid var(--border);cursor:pointer;}
+.acard:hover{border-color:var(--ink);}
+.athumb{aspect-ratio:16/10;border-bottom:1px solid var(--border);background:repeating-linear-gradient(45deg,var(--card-2),var(--card-2) 8px,var(--card) 8px,var(--card) 16px);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);position:relative;}
+.athumb .tt{position:absolute;top:8px;left:8px;font-family:var(--font-mono);font-size:8px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;background:var(--ink);color:var(--lime);}
+.athumb.v-art{background:linear-gradient(135deg,var(--tint-gold),var(--card-2));}
+.athumb.v-canvas{background:linear-gradient(135deg,var(--tint-teal),var(--card-2));}
+.athumb.v-clip{background:linear-gradient(135deg,var(--tint-flame),var(--card-2));}
+.athumb.v-skin{background:linear-gradient(135deg,var(--tint-lime),var(--card-2));}
+.acard .ab{padding:9px 12px 11px;}
+.acard b{display:block;font-size:11.5px;font-weight:700;letter-spacing:-.2px;}
+.acard span{display:block;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);margin-top:4px;}
+
+.note{margin-top:44px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--flame);padding:20px 24px;}
+.note .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:12px;}
+.note .row{display:flex;gap:10px;font-size:13px;line-height:1.55;margin-bottom:8px;}
+.note .row:last-child{margin-bottom:0;}
+.note .row i{font-style:normal;color:var(--flame);font-weight:700;}
+.foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="eyebrow">RCA US Pilot · Campaign Ops Mockup</div>
+    <div class="hdr-row">
+      <div style="flex:1;min-width:280px;">
+        <h1>Assets</h1>
+        <p class="lead">Finished creative, browsable by type and recency. Every card links straight out to the final file — no intermediate record page to click through.</p>
+      </div>
+      <div class="controls">
+        <div class="toggle"><span class="on">My Artists</span><span class="off">All</span></div>
+        <div class="search">⌕ SEARCH ASSET / ARTIST</div>
+      </div>
+    </div>
+    <div class="filters">
+      <span class="fl on">All Types</span><span class="fl">Artwork</span><span class="fl">Spotify Canvas</span><span class="fl">Visualizer</span><span class="fl">Social Skins</span><span class="fl">Clips</span><span class="fl">Video</span><span class="fl">One Sheet</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head hot"><span class="d">This Week</span><span class="ct">12 Assets</span></div>
+    <div class="agrid">
+      <div class="acard"><div class="athumb v-art"><span class="tt">Artwork</span></div><div class="ab"><b>Mr. Lovebomb — Deluxe</b><span>Artwork · Aug 5 · Final File ↗</span></div></div>
+      <div class="acard"><div class="athumb v-canvas"><span class="tt">Canvas</span></div><div class="ab"><b>Becky G — Chula</b><span>Spotify Canvas · Aug 4 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Clips</span></div><div class="ab"><b>Isaia Huron — Fade</b><span>Standard Clips ×4 · Aug 4 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Visualizer</span></div><div class="ab"><b>Sleepy Hallow — Just Fine</b><span>Visualizer · Aug 3 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-skin"><span class="tt">Skins</span></div><div class="ab"><b>JACOTÉNE — Aeroplanes</b><span>Social Skins · Aug 2 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-art"><span class="tt">Artwork</span></div><div class="ab"><b>Lancey Foux — All The Time</b><span>Single Artwork · Aug 2 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-canvas"><span class="tt">Canvas</span></div><div class="ab"><b>Lancey Foux — All The Time</b><span>Spotify Canvas · Aug 2 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Video</span></div><div class="ab"><b>Davido — B4 B4</b><span>Official Video Master · Aug 1 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-skin"><span class="tt">Skins</span></div><div class="ab"><b>Sleepy Hallow — Just Fine</b><span>Social Skins · Aug 1 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Clips</span></div><div class="ab"><b>Becky G — Chula</b><span>Standard Clips ×6 · Jul 31 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-art"><span class="tt">Artwork</span></div><div class="ab"><b>Eem Triplin — Funny Games</b><span>Single Artwork · Jul 31 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-canvas"><span class="tt">Canvas</span></div><div class="ab"><b>Flo Milli — Official Cutdown</b><span>Visualizer · Jul 30 ↗</span></div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="d">Last Week</span><span class="ct">9 Assets</span></div>
+    <div class="agrid">
+      <div class="acard"><div class="athumb v-art"><span class="tt">Artwork</span></div><div class="ab"><b>Lizzy McAlpine — Track 6</b><span>Single Artwork · Jul 28 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-skin"><span class="tt">Skins</span></div><div class="ab"><b>Tate McRae — Lolla</b><span>Social Skins · Jul 27 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Clips</span></div><div class="ab"><b>Tate McRae — Lolla</b><span>Standard Clips ×6 · Jul 27 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-canvas"><span class="tt">Canvas</span></div><div class="ab"><b>Ari Abdul — Single #1</b><span>Spotify Canvas · Jul 25 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-art"><span class="tt">One Sheet</span></div><div class="ab"><b>Wolf Alice — D2C</b><span>One Sheet · Jul 24 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-clip"><span class="tt">Video</span></div><div class="ab"><b>Cat Burns — Brixton Teaser</b><span>Teaser Clip · Jul 24 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-art"><span class="tt">Artwork</span></div><div class="ab"><b>Hailey Picardi — Single</b><span>Single Artwork · Jul 23 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-skin"><span class="tt">Skins</span></div><div class="ab"><b>Eem Triplin — Funny Games</b><span>Social Skins · Jul 22 ↗</span></div></div>
+      <div class="acard"><div class="athumb v-canvas"><span class="tt">Canvas</span></div><div class="ab"><b>JACOTÉNE — Aeroplanes</b><span>Spotify Canvas · Jul 22 ↗</span></div></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="lbl">Build Notes — Assets</div>
+    <div class="row"><i>·</i><span><b>Source:</b> Projects where Status = Completed and Final Asset URL is set — the pilot's existing rule, unchanged. No new fields.</span></div>
+    <div class="row"><i>·</i><span><b>Click behavior:</b> card links straight out via Final Asset URL. Type filter chips reuse Project Type; recency groups are This Week / Last Week / Earlier.</span></div>
+    <div class="row"><i>·</i><span><b>Thumbnails:</b> pulled from the project's attachment where one exists; tinted placeholders here stand in for real previews.</span></div>
+    <div class="row"><i>·</i><span><b>My Artists scoping</b> uses the same Directory user assignment as everywhere else in the pilot.</span></div>
+  </div>
+
+  <div class="foot">Sample data illustrative · Companion mockups: Artist Page · Releases · Projects · Upcoming · Campaign Ops</div>
+
+</div>
+</body>
+</html>
