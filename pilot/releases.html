@@ -86,6 +86,11 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .note .row:last-child{margin-bottom:0;}
 .note .row i{font-style:normal;color:var(--flame);font-weight:700;}
 .foot{margin-top:28px;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
+.toggle span{cursor:pointer}
+input.search{cursor:text;color:var(--ink,#1A1A1A)}
+input.search::placeholder{color:var(--fog)}
+input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
+.hidden-f{display:none!important}
 </style>
 </head>
 <body>
@@ -100,8 +105,8 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
         <p class="lead">Week by week, sliced by content type — everything shipping, at a glance. Click any release to open its record: products, campaigns, creative projects.</p>
       </div>
       <div class="controls">
-        <div class="toggle"><span class="on">My Artists</span><span class="off">All</span></div>
-        <div class="search">⌕ SEARCH ARTIST / TITLE</div>
+        <div class="toggle" id="scopeToggle"><span class="off" data-scope="my">My Artists</span><span class="on" data-scope="all">All</span></div>
+        <input class="search" id="relSearch" type="text" placeholder="⌕ SEARCH ARTIST / TITLE">
       </div>
     </div>
     <div class="legend">
@@ -370,5 +375,54 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
   <div class="foot">Sample data from the live Release Runway board, w/c Aug 14 – Sep 4 2026 · indicators illustrative · Campaign Ops</div>
 
 </div>
+<script>
+(function(){
+  var MY=["Becky G","Flo Milli","Tate McRae","Isaia Huron"];
+  var input=document.getElementById('relSearch');
+  var tog=document.getElementById('scopeToggle');
+  if(!input||!tog)return;
+  var scope='all';
+  tog.addEventListener('click',function(e){
+    var s=e.target.closest('span');if(!s)return;
+    scope=s.getAttribute('data-scope');
+    var sp=tog.querySelectorAll('span');
+    for(var i=0;i<sp.length;i++){sp[i].className=sp[i].getAttribute('data-scope')===scope?'on':'off';}
+    apply();
+  });
+  input.addEventListener('input',apply);
+  function apply(){
+    var q=input.value.trim().toLowerCase();
+    var active=!!q||scope==='my';
+    var wks=document.querySelectorAll('.wk');
+    for(var w=0;w<wks.length;w++){
+      var wk=wks[w],wkVis=0;
+      var cats=wk.querySelectorAll('.cat');
+      for(var c=0;c<cats.length;c++){
+        var cat=cats[c],vis=0;
+        var tiles=cat.querySelectorAll('.tile');
+        for(var t=0;t<tiles.length;t++){
+          var tile=tiles[t];
+          var ab=tile.querySelector('b'),tt=tile.querySelector('.t');
+          var artist=ab?ab.textContent:'',title=tt?tt.textContent:'';
+          var ok=true;
+          if(scope==='my'){ok=false;for(var m=0;m<MY.length;m++){if(artist.toLowerCase().indexOf(MY[m].toLowerCase())>-1){ok=true;break;}}}
+          if(ok&&q){ok=(artist+' '+title).toLowerCase().indexOf(q)>-1;}
+          tile.classList.toggle('hidden-f',!ok);
+          if(ok)vis++;
+        }
+        var lbl=cat.querySelector('.cat-label span');
+        if(lbl){if(!lbl.getAttribute('data-orig'))lbl.setAttribute('data-orig',lbl.textContent);lbl.textContent=active?vis:lbl.getAttribute('data-orig');}
+        cat.classList.toggle('hidden-f',active&&vis===0);
+        wkVis+=vis;
+      }
+      var quiets=wk.querySelectorAll('.quiet');
+      for(var qi=0;qi<quiets.length;qi++){quiets[qi].classList.toggle('hidden-f',active);}
+      var ct=wk.querySelector('.ct');
+      if(ct){if(!ct.getAttribute('data-orig'))ct.setAttribute('data-orig',ct.textContent);ct.textContent=active?(wkVis+' matching'):ct.getAttribute('data-orig');}
+      wk.classList.toggle('hidden-f',active&&wkVis===0);
+    }
+  }
+})();
+</script>
 </body>
 </html>
