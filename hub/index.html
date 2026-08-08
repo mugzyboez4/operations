@@ -107,7 +107,8 @@
     <button class="tlink" data-src="/pitchdecks/">Pitch Decks</button>
     <button class="tlink" data-src="/pilot/tool.html">Airtable Pilot</button>
   </nav>
-  <label style="margin-left:auto;display:flex;align-items:center;gap:8px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9B9A94;">View as
+  <button id="copyLink" title="Copy a direct link to this page" style="margin-left:auto;background:none;border:1px solid #333;color:#9B9A94;padding:6px 12px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:0;">Copy link</button>
+  <label style="display:flex;align-items:center;gap:8px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9B9A94;">View as
     <select id="coDeptSel" style="background:#1A1A1A;color:#FCFDF8;border:1px solid #333;padding:5px 8px;font:600 11px 'Inter',sans-serif;border-radius:0;outline:none;cursor:pointer;">
       <option value="">All departments</option><option value="leads">Campaign Leads</option><option value="creative">Creative</option><option value="auddev">Audience Dev</option><option value="support">Support</option><option value="ops">Campaign Ops</option><option value="release">Release Planning</option>
     </select>
@@ -214,6 +215,30 @@
     });
   }
   tlinks.forEach(function(n){ n.addEventListener('click',function(){ show(n.getAttribute('data-src')||null); }); });
+
+  /* copy direct link to whatever page is showing */
+  var copyBtn=document.getElementById('copyLink');
+  copyBtn.addEventListener('click',function(){
+    var url='https://operations.mugzyboez.co/hub/';
+    if(frame.classList.contains('on')){
+      try{ url=frame.contentWindow.location.href; }catch(e){ url=frame.src; }
+    }
+    function done(ok){
+      copyBtn.textContent= ok ? 'Copied \u2713' : 'Copy failed';
+      copyBtn.style.color= ok ? '#CDF851' : '#D0342C';
+      setTimeout(function(){ copyBtn.textContent='Copy link'; copyBtn.style.color='#9B9A94'; },1800);
+    }
+    function fallback(){
+      var ta=document.createElement('textarea');
+      ta.value=url; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); done(ok);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){ done(true); },fallback);
+    } else { fallback(); }
+  });
   document.querySelectorAll('.tile, .card').forEach(function(c){
     c.addEventListener('click',function(e){ if(e.target.classList.contains('cut'))return; show(c.getAttribute('data-src')); });
   });
