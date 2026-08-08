@@ -19,7 +19,7 @@
     if(document.querySelector('.co-shell')) return;
     var here=location.pathname.replace(/\.html$/,'');
     var links=[["/","Home"],["/budget-approvals","Budget Approvals"],["/dept-workflows","Workflows"],
-      ["/deadline-tracker","Deadlines"],["/pitchdecks/","Pitch Decks"],["/pilot/","Airtable Pilot"]];
+      ["/deadline-tracker","Deadlines"],["/pitchdecks/","Pitch Decks"],["/pilot/tool.html","Airtable Pilot"]];
     var nav=links.map(function(l){
       var on=(here===l[0]||here===l[0].replace(/\/$/,'')||(l[0]!=="/"&&here.indexOf(l[0].replace(/\/$/,''))===0))?' on':'';
       return '<a class="co-link'+on+'" href="'+l[0]+'">'+l[1]+'</a>';}).join('');
