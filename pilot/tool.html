@@ -33,6 +33,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,Helv
 .sfoot a{font-size:11.5px;color:#8a8f9a;text-decoration:none}
 .sfoot a:hover{color:#166ee1}
 .sfoot .mk{font-size:10.5px;color:#b0b4bd;line-height:1.5;margin-top:6px}
+
+/* ── tour ── */
+.tourb{background:#fff;color:#166ee1;font-size:13px;font-weight:600;border:1px solid #c9dcf8;border-radius:6px;padding:6px 12px;cursor:pointer;font-family:inherit}
+.tourb:hover{background:#e8f0fe}
+.tcard{position:absolute;right:24px;bottom:24px;width:350px;max-width:calc(100% - 48px);background:#fff;border:1px solid #e5e6ea;border-radius:10px;box-shadow:0 12px 40px rgba(15,14,14,.18);padding:18px 18px 14px;z-index:50;font-size:13px;line-height:1.55;color:#3b3e46;display:none}
+.tcard.on{display:block}
+.tcard h3{font-size:14px;font-weight:700;color:#1d1f25;margin-bottom:6px;padding-right:22px}
+.tcard .tx{margin-bottom:12px}
+.tcard .row{display:flex;align-items:center;gap:10px}
+.tcard .n{background:#166ee1;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;font-family:inherit}
+.tcard .n:hover{background:#1257b8}
+.tcard .bk{background:none;border:none;color:#8a8f9a;font-size:12.5px;cursor:pointer;font-family:inherit;padding:0}
+.tcard .ct{margin-left:auto;font-size:11px;color:#b0b4bd}
+.tcard .x{position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;line-height:1;color:#b0b4bd;cursor:pointer;font-family:inherit}
 /* ── main ────────────────────────────── */
 .main{flex:1;min-width:0;position:relative;background:#fff}
 .main iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -53,6 +67,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,Helv
     <div class="av" style="background:#FF4A23">G</div>
     <div class="av" style="background:#166ee1">C</div>
   </div>
+  <button class="tourb" id="tourb">Take the tour</button>
   <button class="share">Share</button>
 </div>
 
@@ -90,6 +105,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,Helv
   <div class="main">
     <iframe id="frame" title="page" src="about:blank"></iframe>
     <div class="load" id="load">Loading…</div>
+    <div class="tcard" id="tcard">
+      <button class="x" id="tx_close" aria-label="Close tour">×</button>
+      <h3 id="tt"></h3>
+      <div class="tx" id="ttx"></div>
+      <div class="row">
+        <button class="n" id="tnext">Next →</button>
+        <button class="bk" id="tback">Back</button>
+        <span class="ct" id="tct"></span>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -109,6 +135,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,Helv
   tabs.forEach(function(n){n.addEventListener('click',function(){show(n.getAttribute('data-page'));});});
   window.addEventListener('hashchange',function(){show(location.hash.replace('#',''),false);});
   show(location.hash.replace('#','')||'artist',false);
+})();
+</script>
+
+<script>
+(function(){
+  var steps=[
+    {tab:'artist',title:'Welcome — the pilot, our way',text:'Same base, same tabs — every page re-imagined by Campaign Ops. All sample data (a mock Steve Lacy campaign), not connected to the live base. This tour clicks through each tab for you.'},
+    {tab:'artist',title:'Artist Page — the anchor',text:'The top layer answers “what do I need to know right now”: a Latest hero, a What’s-Changing feed with a caught-up marker, and the newest release pinned. Everything else is collapsed below — click into Team, Releases, Campaigns, Assets — and sections drag into any order.'},
+    {tab:'releases',title:'Releases — week slices, not a 1,400-row table',text:'Same records, grouped by release week, cut into content-type slices (track / album / physical / video) with at-a-glance indicators for focus tracks, delivery status, and confidential titles. Modeled on Release Runway.'},
+    {tab:'projects',title:'Campaigns (renamed from Projects)',text:'Grouped by status, with auto-created creative tickets flagged — so the queue stays useful instead of burying Creative in tickets nobody asked for.'},
+    {tab:'upcoming',title:'Upcoming — an agenda, not a calendar grid',text:'Timeline becomes a simple month-grouped list (date · type · title), scoped to My Artists.'},
+    {tab:'assets',title:'Assets — straight to the file',text:'A grid that deep-links to the final asset record. No separate hunting, no dead ends.'},
+    {tab:'scheduling',title:'Scheduling — the pipeline plus the form',text:'Planning → Confirmed → GRPS in one view, with the intake form alongside. It also shows the split we’re proposing: scheduling keeps the Planning/Confirmed language; timeline notes don’t.'},
+    {tab:'dsp-pitches',title:'DSP Pitches — misses float to the top',text:'A by-street-week queue that pins missing pitches first, with the pitch editor right beside the list.'},
+    {tab:'artist-build-template',title:'Build notes everywhere',text:'This template strips the styling and maps every section to existing field names — and every page you just saw ends with its own build notes. Scroll to the bottom of any of them. That’s the tour — poke around.'}
+  ];
+  var card=document.getElementById('tcard'),tt=document.getElementById('tt'),ttx=document.getElementById('ttx'),
+      ct=document.getElementById('tct'),bNext=document.getElementById('tnext'),bBack=document.getElementById('tback'),
+      bX=document.getElementById('tx_close'),bOpen=document.getElementById('tourb'),i=0;
+  function goTab(slug){var t=document.querySelector('.tab[data-page="'+slug+'"]');if(t&&!t.classList.contains('on'))t.click();}
+  function render(){var s=steps[i];if(s.tab)goTab(s.tab);tt.textContent=s.title;ttx.textContent=s.text;
+    ct.textContent=(i+1)+' of '+steps.length;bBack.style.visibility=i?'visible':'hidden';
+    bNext.textContent=(i===steps.length-1)?'Done':'Next →';}
+  function start(){i=0;card.classList.add('on');render();}
+  function stop(){card.classList.remove('on');try{localStorage.setItem('coPilotTourDone','1');}catch(e){}}
+  bNext.addEventListener('click',function(){if(i<steps.length-1){i++;render();}else{stop();}});
+  bBack.addEventListener('click',function(){if(i>0){i--;render();}});
+  bX.addEventListener('click',stop);
+  bOpen.addEventListener('click',start);
+  var seen=false;try{seen=!!localStorage.getItem('coPilotTourDone');}catch(e){}
+  if(!seen){setTimeout(start,900);}
 })();
 </script>
 </body>
