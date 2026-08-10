@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emma — Onboarding: Access &amp; Day One</title>
+<style>
+  :root{
+    --ink:#0F0E0E; --card:#FFFFFF; --bg:#F5F2EB; --chartreuse:#CDF851; --flame:#FF4A23;
+    --line:#DDD8CC; --muted:#6B675E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px 72px;}
+
+  /* Header band */
+  header{background:var(--ink);color:#FCFDF8;padding:44px 28px 40px;}
+  .hwrap{max-width:820px;margin:0 auto;}
+  .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--chartreuse);font-weight:700;margin-bottom:10px;}
+  h1{font-size:32px;font-weight:800;letter-spacing:-.01em;line-height:1.15;}
+  .sub{margin-top:10px;font-size:14px;color:#B8B5AD;max-width:62ch;}
+  .sub strong{color:#FCFDF8;font-weight:600;}
+
+  /* Sections */
+  section{margin-top:44px;}
+  .slabel{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:20px;}
+  .snum{font-size:12px;font-weight:800;letter-spacing:.1em;}
+  .stitle{font-size:18px;font-weight:800;letter-spacing:-.01em;}
+  .snote{font-size:13px;color:var(--muted);max-width:62ch;margin-bottom:18px;}
+
+  /* Email cards */
+  .email{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:16px;}
+  .email h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;}
+  .email h3 .tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--chartreuse);padding:3px 8px;}
+  .meta{font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.7;}
+  .meta b{color:var(--ink);font-weight:700;display:inline-block;min-width:64px;}
+  .body{border-top:1px solid var(--line);padding-top:12px;font-size:14px;max-width:62ch;white-space:pre-line;}
+  .why{margin-top:12px;font-size:12px;color:var(--muted);font-style:italic;}
+
+  /* Checklists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:640px){.cols{grid-template-columns:1fr;}}
+  .card{background:var(--card);border:1px solid var(--line);padding:18px 20px;}
+  .card h4{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .card h4 span{color:var(--flame);}
+  ul.check{list-style:none;}
+  ul.check li{position:relative;padding:4px 0 4px 26px;font-size:14px;}
+  ul.check li::before{content:"";position:absolute;left:0;top:8px;width:13px;height:13px;border:2px solid var(--ink);}
+
+  ol.plain{margin-left:20px;max-width:62ch;}
+  ol.plain li{padding:4px 0;font-size:14px;}
+
+  .callout{background:var(--ink);color:#FCFDF8;padding:18px 22px;margin-top:24px;font-size:14px;max-width:none;}
+  .callout b{color:var(--chartreuse);}
+  footer{margin-top:48px;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="kicker">Campaign Operations · Onboarding</div>
+    <h1>Emma — Access &amp; Day One</h1>
+    <p class="sub">Start date <strong>Monday, August 10, 2026</strong>. Rebuilt from Vedika's onboarding trail — six access requests ready to send, plus everything the emails didn't cover. Fill in Emma's last name and email before sending.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 01 ACCESS EMAILS -->
+  <section>
+    <div class="slabel"><span class="snum">01</span><span class="stitle">Access requests — ready to send</span></div>
+    <p class="snote">Each of these mirrors a request that worked during Vedika's onboarding. Fastest path throughout: <strong>mirror Ryan Edelman's access.</strong></p>
+
+    <div class="email">
+      <h3>Airtable <span class="tag">Service Desk</span></h3>
+      <div class="meta">
+        <div><b>To</b> Service.Desk@sonymusic.com</div>
+        <div><b>Cc</b> Gerard, Christian, Emma</div>
+        <div><b>Subject</b> Airtable Access</div>
+      </div>
+      <div class="body">Hey team -
+
+Can we please get Emma [Last Name] access to Airtable?
+
+Her access should mirror Ryan Edelman and Latrice Muckle.
+
+Thanks,
+Meg</div>
+      <p class="why">Precedent: access request submitted for Vedika via Service Desk.</p>
+    </div>
+
+    <div class="email">
+      <h3>Fansifter <span class="tag">CRM Support</span></h3>
+      <div class="meta">
+        <div><b>To</b> crm.support@sonymusic.com</div>
+        <div><b>Cc</b> Christian, Emma</div>
+        <div><b>Subject</b> New User Access Request - Fansifter</div>
+      </div>
+      <div class="body">Hey team -
+
+We have a new hire starting on the Campaign Operations team, Emma [Last Name].
+
+Can she please be set up with the same Fansifter access as the rest of the Campaign Ops team?
+
+Please let me know if you need any approvals or additional information.
+
+Thanks!
+Meg</div>
+      <p class="why">Precedent: Vedika's Fansifter account was created through CRM Support.</p>
+    </div>
+
+    <div class="email">
+      <h3>SMF <span class="tag">CRM Support</span></h3>
+      <div class="meta">
+        <div><b>To</b> crm.support@sonymusic.com</div>
+        <div><b>Cc</b> Christian, Emma</div>
+        <div><b>Subject</b> SMF Access Request</div>
+      </div>
+      <div class="body">Hey team -
+
+Can we also please get Emma [Last Name] access to SMF?
+
+Please mirror the access level granted to the Campaign Operations team.
+
+Thanks!
+Meg</div>
+      <p class="why">Precedent: SMF was requested during Vedika's onboarding — can ride the same thread as Fansifter.</p>
+    </div>
+
+    <div class="email">
+      <h3>Console <span class="tag">Console Support</span></h3>
+      <div class="meta">
+        <div><b>To</b> Console.SupportUS@sonymusic.com; ConsoleRMB.Approval@sonymusic.com</div>
+        <div><b>Cc</b> Emma</div>
+        <div><b>Subject</b> Console Onboarding Request</div>
+      </div>
+      <div class="body">Hello,
+
+We're onboarding a new Campaign Operations team member, Emma [Last Name], and would like to get her set up with Console.
+
+Please let us know what forms or approvals are needed. Her access can mirror Ryan Edelman.
+
+Thank you!
+Meg</div>
+      <p class="why">Precedent: Vedika requested Console as part of onboarding — expect a forms/approval step back from Console Support.</p>
+    </div>
+
+    <div class="email">
+      <h3>Release Runway <span class="tag">Console Support</span></h3>
+      <div class="meta">
+        <div><b>To</b> Console.SupportUS@sonymusic.com; ConsoleRMB.Approval@sonymusic.com</div>
+        <div><b>Cc</b> Emma</div>
+        <div><b>Subject</b> Release Runway Onboarding Request</div>
+      </div>
+      <div class="body">Hello,
+
+We're onboarding a new Campaign Operations team member, Emma [Last Name], and would like to get her set up with Release Runway.
+
+Please let us know if any additional forms or approvals are required.
+
+Thank you!
+Meg</div>
+      <p class="why">Precedent: requested alongside Console for Vedika — send both at once (or combine into one email).</p>
+    </div>
+
+    <div class="email">
+      <h3>Linkfire <span class="tag">External</span></h3>
+      <div class="meta">
+        <div><b>To</b> sony@linkfire.com</div>
+        <div><b>Cc</b> Emma</div>
+        <div><b>Subject</b> RCA Linkfire Access</div>
+      </div>
+      <div class="body">Hi,
+
+Hope you're well.
+
+We have a new Campaign Operations team member, Emma [Last Name], and would like her added to the RCA Linkfire account.
+
+Please let us know what additional information you need.
+
+Thanks!
+Meg</div>
+      <p class="why">Precedent: Vedika's Linkfire setup went directly through Linkfire support. Confirm analytics permissions once the seat exists.</p>
+    </div>
+  </section>
+
+  <!-- 02 BEYOND THE EMAILS -->
+  <section>
+    <div class="slabel"><span class="snum">02</span><span class="stitle">Beyond the emails</span></div>
+    <p class="snote">Not in Vedika's email trail, but part of how the team actually works day to day.</p>
+    <div class="cols">
+      <div class="card">
+        <h4><span>Day 1</span> — internal setup</h4>
+        <ul class="check">
+          <li>Microsoft Copilot license</li>
+          <li>RCA Campaign Ops Teams channels</li>
+          <li>RCA SharePoint sites (incl. Ops)</li>
+          <li>Release Planning SharePoint</li>
+          <li>Campaign Ops distribution lists</li>
+          <li>OneNote / shared notebooks</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span>Week 1</span> — core tools</h4>
+        <ul class="check">
+          <li>DISCO</li>
+          <li>Promo Admin / Promo Portal</li>
+          <li>PreAmp</li>
+          <li>Concur</li>
+          <li>Sony Directory / org charts</li>
+          <li>Box folders (if teams still use)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span>Campaign Ops</span> — specific</h4>
+        <ul class="check">
+          <li>RCA artist roster Airtable views</li>
+          <li>Snowflake (if she'll be reporting)</li>
+          <li>Audience Development dashboards</li>
+          <li>DSP reporting tools</li>
+          <li>Linkfire analytics permissions</li>
+          <li>Fansifter perms mirrored from Ryan / Latrice</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span>Meetings</span> — add immediately</h4>
+        <ul class="check">
+          <li>Active Projects</li>
+          <li>Campaign Ops Sync</li>
+          <li>RCA Marketing meetings</li>
+          <li>Scheduling Request meeting</li>
+          <li>Release Planning meetings</li>
+          <li>Standing RCA Ops meetings</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 MINIMUM VIABLE PACKAGE -->
+  <section>
+    <div class="slabel"><span class="snum">03</span><span class="stitle">Minimum viable package</span></div>
+    <ol class="plain">
+      <li>Airtable — mirror Ryan Edelman + Latrice Muckle</li>
+      <li>Fansifter — team-standard access via CRM Support</li>
+      <li>SMF — team-standard access via CRM Support</li>
+      <li>Console — mirror Ryan Edelman; forms may follow</li>
+      <li>Release Runway — with Console request</li>
+      <li>Linkfire — seat on the RCA account</li>
+      <li>Teams / SharePoint groups + distribution lists</li>
+      <li>DISCO · PreAmp · Concur</li>
+    </ol>
+    <div class="callout"><b>Fastest path:</b> nearly every request in Vedika's onboarding mirrored Ryan Edelman's access. Say "mirror Ryan Edelman" in every ticket and most of this resolves itself.</div>
+  </section>
+
+  <footer>Campaign Operations · RCA Records · updated 8.10.26</footer>
+</div>
+</body>
+</html>
