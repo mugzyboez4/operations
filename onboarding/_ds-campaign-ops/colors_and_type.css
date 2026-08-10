@@ -1,0 +1,285 @@
+/* ============================================================
+   Campaign Ops — Colors & Type
+   The locked design system for RCA Records' Campaign Operations.
+   Two themes ship side by side: light (cream paper, default
+   for public-facing & marketing pages) and dark (neon control-
+   room, used on the brand mark and a few hero surfaces).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Mono:wght@400;500&family=Pinyon+Script&family=Style+Script&display=swap');
+
+/* ============================================================
+   Brand fonts (self-hosted)
+   - Suisse Intl  — primary sans, replaces Inter
+   - ITC Compacta — display condensed, replaces Archivo Black
+   ============================================================ */
+
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-UltraLight.otf') format('opentype'); font-weight: 200; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-UltraLightItalic.otf') format('opentype'); font-weight: 200; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Thin.otf') format('opentype'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-ThinItalic.otf') format('opentype'); font-weight: 300; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Light.otf') format('opentype'); font-weight: 350; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-LightItalic.otf') format('opentype'); font-weight: 350; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-RegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Book.otf') format('opentype'); font-weight: 450; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-BookItalic.otf') format('opentype'); font-weight: 450; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-MediumItalic.otf') format('opentype'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-SemiBoldItalic.otf') format('opentype'); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-BoldItalic.otf') format('opentype'); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; src: url('fonts/SuisseIntl-BlackItalic.otf') format('opentype'); font-weight: 900; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'ITC Compacta'; src: url('fonts/ITC_-_CompactaPro-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'ITC Compacta'; src: url('fonts/ITC_-_Compacta_Com_Black.ttf') format('truetype'); font-weight: 900; font-style: normal; font-display: swap; }
+
+:root {
+  /* ---- Light theme (default) — "cream paper" -------------- */
+  --bg:        #F5F2EB;   /* page background, sand */
+  --card:      #FFFFFF;   /* card surface */
+  --card-2:    #FAFAF5;   /* sunken / inner panel */
+
+  --ink:       #0F0E0E;   /* primary text, near-black */
+  --fg-2:      #2A2A2A;   /* secondary text */
+  --fog:       #888888;   /* muted body / metadata */
+  --slate:     #CCCCCC;   /* very muted / disabled */
+  --border:    #ECEAE3;   /* hairline */
+  --rule:      #D8D4CC;   /* heavier rule (used in dotted patterns) */
+
+  /* ---- Brand palette — used on top of either theme -------- */
+  --lime:      #CDF851;   /* chartreuse — brand mark, success edge */
+  --flame:     #FF4A23;   /* tomato — Active / Now / Alert / current phase */
+  --teal:      #5BC0BE;   /* turquoise — pilot, secondary accent */
+  --gold:      #E8C547;   /* mustard — in-progress, mid-stage */
+  --clear:     #4ADE80;   /* green — gate cleared (only on tracker) */
+
+  /* ---- Phase chromatics — one hue per phase --------------- */
+  --phase-01:  #3E3F41;   /* PREP — slate */
+  --phase-02:  #5BC0BE;   /* PLAN — teal */
+  --phase-03:  #E8C547;   /* ANNOUNCE — gold */
+  --phase-04:  #CDF851;   /* RELEASE — lime */
+  --phase-05:  #FF4A23;   /* REVIEW — flame */
+
+  /* ---- Soft tint backgrounds for state surfaces ---------- */
+  --tint-flame: #FFF5F2;
+  --tint-teal:  #F0FDFC;
+  --tint-gold:  #FFF8E1;
+  --tint-lime:  #F0FAD0;
+  --tint-public:#FFEEE8;
+
+  /* ---- Type ---------------------------------------------- */
+  --font-sans:    'Suisse Intl', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, sans-serif;
+  --font-display: 'ITC Compacta', 'Suisse Intl', 'Archivo Black', sans-serif;
+  --font-mono:    'DM Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  /* Hairline scale (8 + label) */
+  --fs-label:    9px;      /* tiny labels, nav links */
+  --fs-eyebrow:  11px;     /* eyebrows, badges */
+  --fs-meta:    10px;
+  --fs-body:    13px;
+  --fs-body-lg: 15px;
+  --fs-lead:    16px;
+  --fs-h3:      20px;
+  --fs-h2:      36px;
+  --fs-h1:      48px;
+  --fs-display: 56px;
+
+  /* Layout */
+  --max-w: 1180px;
+  --pad-x: 32px;
+
+  /* Spacing scale */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 48px;
+  --s-9: 64px;
+
+  /* Corners — Campaign Ops is hard-edged. Radii are reserved
+     for image plates and the rounded-square logo plinth.    */
+  --r-0: 0; /* @kind radius */
+  --r-1: 4px;
+  --r-2: 6px;
+  --r-img: 16px;
+
+  /* Shadows — used sparingly. */
+  --shadow-soft: 0 4px 12px rgba(0,0,0,.06);
+  --shadow-pop:  0 -8px 24px rgba(0,0,0,.06);
+  --ring-flame:  0 0 0 4px rgba(255,74,35,.08);
+  --ring-teal:   0 0 0 4px rgba(91,192,190,.08);
+
+  /* ---- RCA Public brand --------------------------------- */
+  /* Distinct from Campaign Ops. Used on label-side artwork. */
+  --rca-ink:    #0A0A0A;
+  --rca-paper:  #FCFBF7;
+  --rca-red:    #E11600;
+  --rca-stone:  #C6C0B6;
+  --rca-bone:   #EFEAE0;
+
+  /* The RCA deck specifies Romie (serif) + Romie Italic (flourish). Romie is
+     licensed and not bundled, so these render free stand-ins loaded above:
+     Bodoni Moda (closest high-contrast didone to Romie's upright) and Pinyon
+     Script (the FYC swash). Put 'Romie' back in front + add an @font-face if
+     the licensed font is ever added to fonts/. */
+  --font-serif-display: 'Bodoni Moda', 'Playfair Display', 'Didot', serif;  /* subheads, artist names */
+  --font-bold-sans:     'ITC Compacta', 'Archivo Black', 'Suisse Intl', sans-serif;
+  --font-script:        'Pinyon Script', 'Style Script', cursive;           /* the FYC swash */
+}
+
+/* ---- Dark variant (control-room) ---------------------- */
+[data-theme="dark"], .theme-dark {
+  --bg:     #0F0E0E;
+  --card:   #181818;
+  --card-2: #222222;
+  --ink:    #FCFDF8;
+  --fg-2:   #B0A9BE;
+  --fog:    #847D96;
+  --slate:  #3E3F41;
+  --border: #2A2A2A;
+  --rule:   #2A2A2A;
+  --tint-flame: #2A1410;
+  --tint-teal:  #082624;
+  --tint-gold:  #2A2410;
+  --tint-lime:  #1F2410;
+  --tint-public:#2A1410;
+}
+
+/* ============================================================
+   Semantic type primitives
+   ============================================================ */
+
+.cops-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-nav-link {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.cops-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 1px;
+  color: var(--fog);
+}
+
+.cops-display {
+  font-family: var(--font-sans);
+  font-size: var(--fs-display);
+  font-weight: 900;
+  letter-spacing: -2.5px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.cops-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.cops-lead {
+  font-family: var(--font-sans);
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.cops-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cops-body-sm {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.cops-sub {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--fog);
+  line-height: 1.55;
+}
+
+/* Use a phase chromatic on any heading */
+.tint-phase-01 { color: var(--phase-01); }
+.tint-phase-02 { color: var(--phase-02); }
+.tint-phase-03 { color: var(--phase-03); }
+.tint-phase-04 { color: var(--phase-04); }
+.tint-phase-05 { color: var(--phase-05); }
+.tint-flame    { color: var(--flame);    }
+.tint-teal     { color: var(--teal);     }
+.tint-lime     { color: var(--lime);     }
+.tint-gold     { color: var(--gold);     }
+.tint-fog      { color: var(--fog);      }
+
+/* Common page reset usable on demo pages */
+.cops-reset *,
+.cops-reset *::before,
+.cops-reset *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cops-reset body,
+body.cops-reset {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}

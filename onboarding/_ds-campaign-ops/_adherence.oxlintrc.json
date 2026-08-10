@@ -1,0 +1,210 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "ui_kits/campaign-ops/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Suisse Intl|ITC Compacta|Bodoni Moda|DM Mono|Pinyon Script|Style Script))/i]",
+        "message": "Font not provided by the design system. Available: Suisse Intl, ITC Compacta, Bodoni Moda, DM Mono, Pinyon Script, Style Script."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Nav'] > JSXAttribute > JSXIdentifier[name!=/^(?:active|onNav|key|ref|className|style|children)$/]",
+        "message": "<Nav> doesn't accept that prop. Declared props: active, onNav."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='LizzyBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:cleared|key|ref|className|style|children)$/]",
+        "message": "<LizzyBar> doesn't accept that prop. Declared props: cleared."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Nav": {
+        "replaces": []
+      },
+      "LizzyBar": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--bg",
+      "--border",
+      "--card",
+      "--card-2",
+      "--clear",
+      "--fg-2",
+      "--flame",
+      "--fog",
+      "--font-bold-sans",
+      "--font-display",
+      "--font-mono",
+      "--font-sans",
+      "--font-script",
+      "--font-serif-display",
+      "--fs-body",
+      "--fs-body-lg",
+      "--fs-display",
+      "--fs-eyebrow",
+      "--fs-h1",
+      "--fs-h2",
+      "--fs-h3",
+      "--fs-label",
+      "--fs-lead",
+      "--fs-meta",
+      "--gold",
+      "--ink",
+      "--lime",
+      "--max-w",
+      "--pad-x",
+      "--phase-01",
+      "--phase-02",
+      "--phase-03",
+      "--phase-04",
+      "--phase-05",
+      "--r-0",
+      "--r-1",
+      "--r-2",
+      "--r-img",
+      "--rca-bone",
+      "--rca-ink",
+      "--rca-paper",
+      "--rca-red",
+      "--rca-stone",
+      "--ring-flame",
+      "--ring-teal",
+      "--rule",
+      "--s-1",
+      "--s-2",
+      "--s-3",
+      "--s-4",
+      "--s-5",
+      "--s-6",
+      "--s-7",
+      "--s-8",
+      "--s-9",
+      "--shadow-pop",
+      "--shadow-soft",
+      "--slate",
+      "--teal",
+      "--tint-flame",
+      "--tint-gold",
+      "--tint-lime",
+      "--tint-public",
+      "--tint-teal"
+    ],
+    "tokenKinds": {
+      "--bg": "color",
+      "--card": "color",
+      "--card-2": "color",
+      "--ink": "color",
+      "--fg-2": "color",
+      "--fog": "color",
+      "--slate": "color",
+      "--border": "color",
+      "--rule": "color",
+      "--lime": "color",
+      "--flame": "color",
+      "--teal": "color",
+      "--gold": "color",
+      "--clear": "color",
+      "--phase-01": "color",
+      "--phase-02": "color",
+      "--phase-03": "color",
+      "--phase-04": "color",
+      "--phase-05": "color",
+      "--tint-flame": "color",
+      "--tint-teal": "color",
+      "--tint-gold": "color",
+      "--tint-lime": "color",
+      "--tint-public": "color",
+      "--font-sans": "font",
+      "--font-display": "font",
+      "--font-mono": "font",
+      "--fs-label": "spacing",
+      "--fs-eyebrow": "spacing",
+      "--fs-meta": "spacing",
+      "--fs-body": "spacing",
+      "--fs-body-lg": "spacing",
+      "--fs-lead": "spacing",
+      "--fs-h3": "spacing",
+      "--fs-h2": "spacing",
+      "--fs-h1": "spacing",
+      "--fs-display": "spacing",
+      "--max-w": "spacing",
+      "--pad-x": "spacing",
+      "--s-1": "spacing",
+      "--s-2": "spacing",
+      "--s-3": "spacing",
+      "--s-4": "spacing",
+      "--s-5": "spacing",
+      "--s-6": "spacing",
+      "--s-7": "spacing",
+      "--s-8": "spacing",
+      "--s-9": "spacing",
+      "--r-0": "radius",
+      "--r-1": "spacing",
+      "--r-2": "spacing",
+      "--r-img": "spacing",
+      "--shadow-soft": "shadow",
+      "--shadow-pop": "shadow",
+      "--ring-flame": "shadow",
+      "--ring-teal": "shadow",
+      "--rca-ink": "color",
+      "--rca-paper": "color",
+      "--rca-red": "color",
+      "--rca-stone": "color",
+      "--rca-bone": "color",
+      "--font-serif-display": "font",
+      "--font-bold-sans": "font",
+      "--font-script": "font"
+    },
+    "fontFamilies": [
+      "Bodoni Moda",
+      "DM Mono",
+      "ITC Compacta",
+      "Pinyon Script",
+      "Style Script",
+      "Suisse Intl"
+    ]
+  }
+}

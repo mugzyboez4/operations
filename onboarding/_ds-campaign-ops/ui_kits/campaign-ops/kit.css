@@ -1,0 +1,180 @@
+/* Campaign Ops UI Kit styles. Pulls tokens from colors_and_type.css. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+body { padding-bottom: 110px; }
+
+.cops-page { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); }
+
+/* ====================== NAV ====================== */
+.cops-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px var(--pad-x);
+  display: flex; align-items: center; gap: 24px;
+}
+.cops-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.cops-logo img { width: 32px; height: 32px; border-radius: 6px; display: block; }
+.cops-logo span { font-size: 13px; font-weight: 900; letter-spacing: -.5px; text-transform: uppercase; }
+.cops-logo em { font-style: normal; color: var(--lime); background: var(--ink); padding: 2px 5px; }
+.cops-nav-links { display: flex; gap: 4px; flex: 1; margin-left: 16px; }
+.cops-nav-link {
+  font-size: var(--fs-label); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--fog); padding: 6px 12px; text-decoration: none;
+  border: 1px solid transparent; transition: all .15s linear;
+}
+.cops-nav-link:hover { color: var(--ink); border-color: var(--border); }
+.cops-nav-link.is-active { color: var(--flame); border-color: var(--flame); font-weight: 600; }
+.cops-nav-end .cops-mono { font-size: var(--fs-label); }
+
+/* ====================== HERO ====================== */
+.cops-hero { padding: 64px 0 48px; border-bottom: 2px solid var(--ink); }
+.cops-eyebrow {
+  font-family: var(--font-sans); font-size: var(--fs-eyebrow);
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--fog);
+  margin-bottom: 16px;
+}
+.cops-display { font-family: var(--font-sans); font-size: var(--fs-display); font-weight: 900; letter-spacing: -2.5px; line-height: .95; text-transform: uppercase; }
+.cops-h1 { font-size: var(--fs-h1); font-weight: 900; letter-spacing: -2px; line-height: .95; text-transform: uppercase; }
+.cops-h2 { font-size: var(--fs-h2); font-weight: 900; letter-spacing: -1.5px; line-height: 1; text-transform: uppercase; margin-bottom: 28px; }
+.cops-h3 { font-size: var(--fs-h3); font-weight: 900; letter-spacing: -.5px; }
+.cops-lead { font-size: var(--fs-lead); line-height: 1.65; color: var(--ink); }
+.cops-body { font-size: var(--fs-body); line-height: 1.55; color: var(--ink); }
+.cops-body-sm { font-size: 11px; line-height: 1.5; color: var(--ink); }
+.cops-mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--fog); text-transform: uppercase; }
+.tint-flame { color: var(--flame); }
+.tint-teal { color: var(--teal); }
+.tint-lime { color: var(--lime); }
+
+.cops-hero-actions { display: flex; gap: 12px; margin-top: 32px; }
+.cops-btn {
+  font-family: var(--font-sans); font-size: 11px; font-weight: 700; padding: 12px 22px;
+  border: none; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: all .15s linear;
+}
+.cops-btn-primary { background: var(--ink); color: var(--bg); }
+.cops-btn-primary:hover { background: var(--flame); color: #fff; }
+.cops-btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); padding: 11px 21px; }
+.cops-btn-ghost:hover { border-color: var(--ink); }
+.cops-hero-meta { display: flex; gap: 12px; margin-top: 36px; font-size: var(--fs-body); color: var(--fog); flex-wrap: wrap; }
+.cops-hero-meta strong { color: var(--ink); font-weight: 700; }
+
+/* ====================== SECTIONS ====================== */
+.cops-section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+
+/* ====================== PHASE STRIP ====================== */
+.cops-threshold { display: flex; }
+.cops-threshold-cell {
+  flex: 1; padding: 8px; text-align: center;
+  font-size: var(--fs-label); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--fog); background: var(--card-2); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+}
+.cops-threshold-cell:last-child { border-right: 1px solid var(--border); }
+.cops-threshold-cell.is-public { background: var(--tint-public); color: var(--flame); }
+
+.cops-phase-row { display: flex; }
+.cops-phase-cell {
+  flex: 1; min-height: 180px; padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border); border-right: none; border-top: 6px solid;
+}
+.cops-phase-cell:last-child { border-right: 1px solid var(--border); }
+.cops-phase-cell.now { box-shadow: inset 0 0 0 1px var(--flame); }
+.cops-phase-num { font-size: 42px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.cops-phase-name { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: -.4px; margin-top: 4px; }
+.cops-phase-body { font-size: 12px; line-height: 1.5; color: var(--fg-2); margin-top: 12px; }
+.cops-phase-foot {
+  border-top: 1px dashed var(--border); margin-top: 14px; padding-top: 10px;
+  font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px;
+}
+
+/* ====================== STATS ====================== */
+.cops-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+.cops-stat { background: var(--card); border: 1px solid var(--border); padding: 16px 20px; text-align: center; }
+.cops-stat-n { font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+.cops-stat-n span { color: var(--fog); font-weight: 500; font-size: 18px; }
+.cops-stat-l { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); margin-top: 6px; }
+
+/* ====================== PREREQS ====================== */
+.cops-prereqs { background: var(--card); border: 1px solid var(--border); }
+.cops-prereqs-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cops-prereq {
+  width: 100%; padding: 14px 18px; border: none; background: var(--card);
+  border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 14px;
+  cursor: pointer; text-align: left; transition: background .15s linear;
+}
+.cops-prereq:hover { background: var(--card-2); }
+.cops-check {
+  width: 22px; height: 22px; border: 2px solid var(--slate); flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 13px;
+}
+.cops-check.is-on { background: var(--clear); border-color: var(--clear); color: #fff; }
+.cops-prereq.is-on .cops-prereq-t { text-decoration: line-through; color: var(--fog); }
+.cops-prereq-t { font-size: 13px; font-weight: 500; line-height: 1.4; }
+.cops-prereq-o { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--fog); margin-top: 4px; }
+.cops-prereq-foot { padding: 14px 18px; background: var(--card-2); display: flex; gap: 14px; align-items: flex-start; }
+.cops-prereq-foot .cops-mono { white-space: nowrap; padding-top: 2px; color: var(--flame); }
+
+/* ====================== TABLE ====================== */
+.cops-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); }
+.cops-table th, .cops-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 12px; }
+.cops-table th { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fog); padding: 12px 18px; background: var(--card-2); }
+.cops-table tr:hover td { background: var(--card-2); }
+.cops-table tr:last-child td { border-bottom: none; }
+
+.cops-stage { display: inline-block; padding: 3px 9px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.cops-stage.is-scoping { background: var(--bg); color: var(--fog); border: 1px solid var(--border); }
+.cops-stage.is-build { background: var(--tint-gold); color: #8B6900; border: 1px solid var(--gold); }
+.cops-stage.is-input { background: var(--tint-teal); color: #2A8581; border: 1px solid var(--teal); }
+.cops-stage.is-locked { background: var(--ink); color: var(--lime); }
+.cops-stage.is-shipped { background: var(--tint-lime); color: #5C7A1A; border: 1px solid #B8E83D; }
+
+.cops-gate-pill { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; padding: 3px 10px; color: var(--fog); background: var(--bg); font-weight: 700; }
+.cops-gate-pill.is-cleared { color: #166534; background: #DCFCE7; }
+
+/* ====================== PILOT CARD ====================== */
+.cops-pilot { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--teal); }
+.cops-pilot-head { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cops-pilot-name { font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
+.cops-pilot-gate { background: var(--gold); color: var(--ink); padding: 6px 12px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.cops-pilot-body { padding: 18px 22px; }
+.cops-pilot-foot { padding: 14px 22px; background: var(--card-2); border-top: 1px dashed var(--border); display: flex; gap: 14px; align-items: flex-start; }
+.cops-pilot-foot .cops-mono { color: var(--teal); white-space: nowrap; padding-top: 2px; }
+
+/* ====================== PRINCIPLES ====================== */
+.cops-principles { padding: 56px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.cops-principle { background: var(--card); border-left: 3px solid var(--lime); padding: 18px 22px; }
+.cops-principle .cops-mono { color: var(--lime); display: block; margin-bottom: 10px; }
+.cops-principle p { font-size: 14px; line-height: 1.5; color: var(--fg-2); }
+.cops-principle strong { color: var(--ink); font-weight: 700; }
+
+/* ====================== LIZZY BAR ====================== */
+.cops-lizzy {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  background: var(--card); border-top: 3px solid var(--teal);
+  padding: 14px 32px; display: flex; align-items: center; gap: 20px;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.06);
+}
+.cops-lizzy-info { min-width: 160px; }
+.cops-lizzy-name { font-size: 14px; font-weight: 900; letter-spacing: -.4px; }
+.cops-lizzy-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-top: 2px; }
+.cops-lizzy-gates { display: flex; flex: 1; gap: 6px; }
+.cops-lizzy-g { flex: 1; padding: 8px 10px; background: var(--card-2); border: 1px solid var(--border); }
+.cops-lizzy-gn { font-size: 10px; font-weight: 900; letter-spacing: .4px; color: var(--slate); text-transform: uppercase; }
+.cops-lizzy-gq { font-size: 10px; color: var(--fog); margin-top: 3px; }
+.cops-lizzy-g.done { background: #F0FFF4; border-color: var(--lime); }
+.cops-lizzy-g.done .cops-lizzy-gn, .cops-lizzy-g.done .cops-lizzy-gq { color: #5A7A00; }
+.cops-lizzy-g.work { background: var(--tint-gold); border-color: var(--gold); }
+.cops-lizzy-g.work .cops-lizzy-gn, .cops-lizzy-g.work .cops-lizzy-gq { color: #8B6900; }
+.cops-lizzy-pct { text-align: center; padding-left: 16px; border-left: 1px solid var(--border); }
+.cops-lizzy-pn { font-size: 20px; font-weight: 900; letter-spacing: -1px; }
+.cops-lizzy-pl { font-size: 8px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--fog); }
+
+/* ====================== FOOTER ====================== */
+.cops-footer { padding: 56px 0 24px; border-top: 2px solid var(--ink); }
+.cops-footer-row { display: flex; align-items: center; gap: 18px; }
+.cops-footer-row img { width: 48px; height: 48px; border-radius: 8px; }
+.cops-footer-name { font-size: 16px; font-weight: 900; letter-spacing: -.5px; text-transform: uppercase; }
+.cops-footer-name span { color: var(--lime); background: var(--ink); padding: 2px 6px; }
+.cops-footer-end { margin-left: auto; }
