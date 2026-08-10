@@ -67,6 +67,8 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .chip.foc{background:var(--tint-flame);border-color:var(--flame);color:var(--flame);}
 .chip.del{background:#DCFCE7;border-color:var(--clear);color:#166534;}
 .chip.conf{background:var(--ink);border-color:var(--ink);color:var(--lime);}
+.chip.wip{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
+.chip.tbs{background:var(--ink);border-color:var(--ink);color:var(--lime);}
 .chip.more{background:var(--ink);border-color:var(--ink);color:var(--bg);cursor:pointer;}
 /* category accent colors */
 .c-track .cat-label b{color:#2A8581;} .c-track .tile{border-left-color:var(--teal);}
@@ -107,6 +109,7 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       <div class="controls">
         <div class="toggle" id="scopeToggle"><span class="off" data-scope="my">My Artists</span><span class="on" data-scope="all">All</span></div>
         <input class="search" id="relSearch" type="text" placeholder="⌕ SEARCH ARTIST / TITLE">
+        <div class="toggle" id="sortToggle"><span class="on" data-sort="soon">Soonest First</span><span class="off" data-sort="far">Furthest First</span></div>
       </div>
     </div>
     <div class="legend">
@@ -116,6 +119,8 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       <span class="lg"><i>◎</i> Atmos / 360</span>
       <span class="lg"><i>E</i> Explicit</span>
       <span class="lg"><i>✓</i> Delivered</span>
+      <span class="lg"><i>✓</i> Ready — all clearances complete</span>
+      <span class="lg"><i>◔</i> In Progress</span>
       <span class="lg"><i>●</i> Confidential</span>
       <span class="lg"><i>◇</i> Pre-Order</span>
       <span class="lg"><i>⊞</i> Incl. Merch</span>
@@ -124,17 +129,23 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
 
   <!-- WEEK NAV -->
   <div class="wknav">
-    <a href="#wk32" class="now">WK 32 · Aug 14</a>
-    <a href="#wk33">WK 33 · Aug 21</a>
-    <a href="#wk34">WK 34 · Aug 28</a>
-    <a href="#wk35">WK 35 · Sep 4</a>
-    <a href="#">WK 36 · Sep 11</a>
-    <a href="#">WK 37 · Sep 18</a>
-    <a href="#">WK 38 · Sep 25</a>
+    <a href="#wk32" class="now">Aug 14</a>
+    <a href="#wk33">Aug 21</a>
+    <a href="#wk34">Aug 28</a>
+    <a href="#wk35">Sep 4</a>
+    <a href="#wk37">Sep 18</a>
+    <a href="#wk38">Sep 25</a>
+    <a href="#wk40">Oct 2</a>
+    <a href="#wk42">Oct 16</a>
+    <a href="#wk43">Oct 23</a>
+    <a href="#wk44">Oct 30</a>
+    <a href="#wk46">Nov 13</a>
+    <a href="#wk2701">Jan 15</a>
+    <a href="#further">Further Out</a>
   </div>
 
   <!-- ============ WEEK 32 ============ -->
-  <div class="wk" id="wk32">
+  <div class="wk" id="wk32" data-ts="20260814">
     <div class="wk-head now">
       <span class="d">Aug 14</span><span class="n">2026 · Week 32</span>
       <span class="now-pill">This Week</span>
@@ -148,7 +159,7 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
         <div class="tile"><b>Isaia Huron</b><span class="t">fade</span><div class="meta"><span class="chip date">Wed 12 Aug</span></div></div>
         <div class="tile"><b>Becky G</b><span class="t">CHULA</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
         <div class="tile"><b>Sleepy Hallow feat. Kyle Richh</b><span class="t">Just Fine</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
-        <div class="tile"><b>JACOTÉNE</b><span class="t">Aeroplanes</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip terr">SME UK</span></div></div>
+        <div class="tile"><b>JACOTÉNE</b><span class="t">Aeroplanes</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip terr">SME UK</span><span class="chip del">✓ Ready</span></div></div>
       </div>
     </div>
 
@@ -156,8 +167,8 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       <div class="cat-label"><b>Album · EP</b><span>3</span></div>
       <div class="tiles">
         <div class="tile"><b>Isaia Huron</b><span class="t">Mr. Lovebomb (Deluxe)</span><div class="meta"><span class="chip date">Wed 12 Aug</span><span class="chip del">✓ Delivered</span></div></div>
-        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip">◎ Atmos</span></div></div>
-        <div class="tile"><b>Flo Milli</b><span class="t">Too Bo$$y</span><div class="meta"><span class="chip date">Fri 14 Aug</span></div></div>
+        <div class="tile"><b>Becky G</b><span class="t">BARAJA BENDITA</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip">◎ Atmos</span><span class="chip del">✓ Ready</span></div></div>
+        <div class="tile"><b>Flo Milli</b><span class="t">Too Bo$$y</span><div class="meta"><span class="chip date">Fri 14 Aug</span><span class="chip wip">◔ Art In Progress</span></div></div>
       </div>
     </div>
 
@@ -203,30 +214,30 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
   </div>
 
   <!-- ============ WEEK 33 ============ -->
-  <div class="wk" id="wk33">
+  <div class="wk" id="wk33" data-ts="20260821">
     <div class="wk-head">
       <span class="d">Aug 21</span><span class="n">2026 · Week 33</span>
-      <span class="ct">21 releases</span>
+      <span class="ct">22 releases</span>
     </div>
 
     <div class="cat c-track">
       <div class="cat-label"><b>Track</b><span>8</span></div>
       <div class="tiles">
         <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games</span><div class="meta"><span class="chip date">Mon 17 Aug</span><span class="chip foc">★ Focus</span></div></div>
-        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>Ari Abdul</b><span class="t">Seductive</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Ugly things</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip del">✓ Ready</span></div></div>
+        <div class="tile"><b>Ari Abdul</b><span class="t">Seductive</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip del">✓ Ready</span></div></div>
         <div class="tile"><b>Lancey Foux</b><span class="t">CHANGE YOUR MIND</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>aroomfullofmirrors</b><span class="t">World's Gone Crazy</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>Sydney Ross Mitchell</b><span class="t">No Better Than A Man</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>ThfGbaby</b><span class="t">Loyalty</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip wip">◔ Mixing</span></div></div>
+        <div class="tile"><b>aroomfullofmirrors</b><span class="t">World's Gone Crazy</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip wip">◔ Audio Review</span></div></div>
+        <div class="tile"><b>Sydney Ross Mitchell</b><span class="t">No Better Than A Man</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip wip">◔ Masters Due</span></div></div>
+        <div class="tile"><b>THFGbaby</b><span class="t">Loyalty</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip wip">◔ In Progress</span></div></div>
       </div>
     </div>
 
     <div class="cat c-album">
       <div class="cat-label"><b>Album · EP</b><span>1</span></div>
       <div class="tiles">
-        <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games</span><div class="meta"><span class="chip date">Mon 17 Aug</span></div></div>
+        <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games</span><div class="meta"><span class="chip date">Mon 17 Aug</span><span class="chip wip">◔ Art In Progress</span></div></div>
       </div>
     </div>
 
@@ -237,15 +248,22 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       </div>
     </div>
 
+    <div class="cat c-phys">
+      <div class="cat-label"><b>Pre-Order</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Ari Abdul</b><span class="t">The Void — Album Pre-Order ◇</span><div class="meta"><span class="chip date">Fri 21 Aug</span><span class="chip del">✓ Confirmed</span></div></div>
+      </div>
+    </div>
+
     <div class="cat c-video">
       <div class="cat-label"><b>Official Video</b><span>6</span></div>
       <div class="tiles">
         <div class="tile"><b>Davido feat. Leon Thomas</b><span class="t">Tell Everybody (Official Video)</span><div class="meta"><span class="chip date">Mon 17 Aug · 12:00</span><span class="chip terr">SME UK</span></div></div>
         <div class="tile"><b>Eem Triplin</b><span class="t">Funny Games (Official Video)</span><div class="meta"><span class="chip date">Mon 17 Aug · 00:00</span></div></div>
-        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6 (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Ugly things (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
         <div class="tile"><b>Ari Abdul</b><span class="t">Seductive (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
         <div class="tile"><b>aroomfullofmirrors</b><span class="t">World's Gone Crazy (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
-        <div class="tile"><b>ThfGbaby</b><span class="t">Loyalty (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
+        <div class="tile"><b>THFGbaby</b><span class="t">Loyalty (Official Video)</span><div class="meta"><span class="chip date">Fri 21 Aug · 00:00</span></div></div>
       </div>
     </div>
 
@@ -254,7 +272,7 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       <div class="tiles">
         <div class="tile"><b>Ari Abdul</b><span class="t">Seductive — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
         <div class="tile"><b>Hailey Picardi</b><span class="t">writing on the wall — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
-        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Track 6 — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Ugly things — Single Track</span><div class="meta"><span class="chip date">Fri 21 Aug</span></div></div>
       </div>
     </div>
 
@@ -268,28 +286,30 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       </div>
     </div>
 
-    <div class="quiet">Nothing this week · <b>Pre-Order — Teaser / Clip — Side Artist</b></div>
+    <div class="quiet">Nothing this week · <b>Teaser / Clip — Side Artist</b></div>
   </div>
 
   <!-- ============ WEEK 34 ============ -->
-  <div class="wk" id="wk34">
+  <div class="wk" id="wk34" data-ts="20260828">
     <div class="wk-head">
       <span class="d">Aug 28</span><span class="n">2026 · Week 34</span>
-      <span class="ct">13 releases</span>
+      <span class="ct">15 releases</span>
     </div>
 
     <div class="cat c-track">
-      <div class="cat-label"><b>Track</b><span>2</span></div>
+      <div class="cat-label"><b>Track</b><span>4</span></div>
       <div class="tiles">
-        <div class="tile"><b>NOAH NOAH</b><span class="t">Purple Aura</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
-        <div class="tile"><b>Presley Regier</b><span class="t">All I Ever Wanted</span><div class="meta"><span class="chip date">Fri 28 Aug</span></div></div>
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Purple Aura</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip wip">◔ Mastering 8/10</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">All I Ever Wanted</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip wip">◔ Awaiting Audio</span></div></div>
+        <div class="tile"><b>Ethan Garner</b><span class="t">Classic Southern Man</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip">RECORDS</span><span class="chip wip">◔ In Progress</span></div></div>
+        <div class="tile"><b>Faust</b><span class="t">Fahrenheit</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip">JIVE · NSI</span><span class="chip wip">◔ In Progress</span></div></div>
       </div>
     </div>
 
     <div class="cat c-album">
       <div class="cat-label"><b>Album · EP</b><span>1</span></div>
       <div class="tiles">
-        <div class="tile"><b>Lancey Foux</b><span class="t">THE TIME OF OUR LIVES</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip foc">★ Focus</span></div></div>
+        <div class="tile"><b>Lancey Foux</b><span class="t">THE TIME OF OUR LIVES</span><div class="meta"><span class="chip date">Fri 28 Aug</span><span class="chip foc">★ Focus</span><span class="chip del">✓ Ready</span></div></div>
       </div>
     </div>
 
@@ -322,17 +342,24 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
   </div>
 
   <!-- ============ WEEK 35 ============ -->
-  <div class="wk" id="wk35">
+  <div class="wk" id="wk35" data-ts="20260904">
     <div class="wk-head">
       <span class="d">Sep 4</span><span class="n">2026 · Week 35</span>
-      <span class="ct">10 releases</span>
+      <span class="ct">11 releases</span>
     </div>
 
     <div class="cat c-track">
       <div class="cat-label"><b>Track</b><span>2</span></div>
       <div class="tiles">
-        <div class="tile"><b>Eem Triplin</b><span class="t">Potion</span><div class="meta"><span class="chip date">Mon 31 Aug</span></div></div>
-        <div class="tile"><b>Sarah Lola</b><span class="t">Single #2</span><div class="meta"><span class="chip date">Fri 4 Sep</span><span class="chip conf">● Confidential</span></div></div>
+        <div class="tile"><b>Eem Triplin</b><span class="t">Potion</span><div class="meta"><span class="chip date">Mon 31 Aug</span><span class="chip wip">◔ In Progress</span></div></div>
+        <div class="tile"><b>Sarah Lola</b><span class="t">Single #2</span><div class="meta"><span class="chip date">Fri 4 Sep</span><span class="chip conf">● Confidential</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Ethan Garner</b><span class="t">The Georgia Kid</span><div class="meta"><span class="chip date">Fri 4 Sep</span><span class="chip">RECORDS</span><span class="chip wip">◔ Art In Progress</span></div></div>
       </div>
     </div>
 
@@ -359,12 +386,131 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       </div>
     </div>
 
-    <div class="quiet">Nothing this week · <b>Album — Pre-Order — Alt Mixes — Teaser / Clip — Side Artist</b></div>
+    <div class="quiet">Nothing this week · <b>Pre-Order — Alt Mixes — Teaser / Clip — Side Artist</b></div>
+  </div>
+
+
+  <!-- ============ FUTURE WEEKS (Release Grid) ============ -->
+  <div class="wk" id="wk37" data-ts="20260918">
+    <div class="wk-head"><span class="d">Sep 18</span><span class="n">2026 · Week 37</span><span class="ct">2 releases</span></div>
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Lizzy McAlpine</b><span class="t">Angel</span><div class="meta"><span class="chip date">Fri 18 Sep</span><span class="chip del">✓ Ready</span></div></div>
+        <div class="tile"><b>Jourden</b><span class="t">A Tree Grows In Brooklyn</span><div class="meta"><span class="chip date">Thu 17 Sep</span><span class="chip wip">◔ 3 Tracks To Mix</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk38" data-ts="20260925">
+    <div class="wk-head"><span class="d">Sep 25</span><span class="n">2026 · Week 38</span><span class="ct">3 releases</span></div>
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Take Your Shoes Off</span><div class="meta"><span class="chip date">Fri 25 Sep</span><span class="chip wip">◔ No Audio Yet</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">Heaven</span><div class="meta"><span class="chip date">Fri 25 Sep</span><span class="chip">⚡ Instant Grat</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+    <div class="cat c-phys">
+      <div class="cat-label"><b>Pre-Order</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Presley Regier</b><span class="t">EP — TBD ◇ Pre-Order</span><div class="meta"><span class="chip date">Fri 25 Sep</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk40" data-ts="20261002">
+    <div class="wk-head"><span class="d">Oct 2</span><span class="n">2026 · Week 40</span><span class="ct">2 releases</span></div>
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Victoria Monét</b><span class="t">Frequency Of Love</span><div class="meta"><span class="chip date">Fri 2 Oct</span><span class="chip wip">◔ Audio In Progress · Art ✓</span></div></div>
+      </div>
+    </div>
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Sarah Lola</b><span class="t">Single #3 — TBD</span><div class="meta"><span class="chip date">Fri 2 Oct</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk42" data-ts="20261016">
+    <div class="wk-head"><span class="d">Oct 16</span><span class="n">2026 · Week 42</span><span class="ct">1 release</span></div>
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Presley Regier</b><span class="t">My Vice Is Misery</span><div class="meta"><span class="chip date">Fri 16 Oct</span><span class="chip">⚡ Instant Grat</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk43" data-ts="20261023">
+    <div class="wk-head"><span class="d">Oct 23</span><span class="n">2026 · Week 43</span><span class="ct">3 releases</span></div>
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>LISA</b><span class="t">Album — TBD</span><div class="meta"><span class="chip date">Fri 23 Oct</span><span class="chip wip">◔ Clearance Pending · 1 Track</span></div></div>
+        <div class="tile"><b>Sarah Lola</b><span class="t">love before loss</span><div class="meta"><span class="chip date">Fri 23 Oct</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>NOAH NOAH</b><span class="t">Single #3 — TBD</span><div class="meta"><span class="chip date">Fri 23 Oct</span><span class="chip wip">◔ No Audio Yet</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk44" data-ts="20261030">
+    <div class="wk-head"><span class="d">Oct 30</span><span class="n">2026 · Week 44</span><span class="ct">2 releases</span></div>
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>2</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Chloe Qisha</b><span class="t">Fantasize</span><div class="meta"><span class="chip date">Fri 30 Oct</span><span class="chip terr">SME UK</span><span class="chip wip">◔ In Progress</span></div></div>
+        <div class="tile"><b>Presley Regier</b><span class="t">EP — TBD</span><div class="meta"><span class="chip date">Fri 30 Oct</span><span class="chip wip">◔ In Progress</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk46" data-ts="20261113">
+    <div class="wk-head"><span class="d">Nov 13</span><span class="n">2026 · Week 46</span><span class="ct">1 release</span></div>
+    <div class="cat c-album">
+      <div class="cat-label"><b>Album · EP</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>Ari Abdul</b><span class="t">The Void</span><div class="meta"><span class="chip date">Fri 13 Nov</span><span class="chip del">✓ Confirmed</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="wk2701" data-ts="20270115">
+    <div class="wk-head"><span class="d">Jan 15</span><span class="n">2027 · Week 2</span><span class="ct">1 release</span></div>
+    <div class="cat c-track">
+      <div class="cat-label"><b>Track</b><span>1</span></div>
+      <div class="tiles">
+        <div class="tile"><b>NOAH NOAH feat. Absolutely</b><span class="t">DNA</span><div class="meta"><span class="chip date">Fri 15 Jan</span><span class="chip">NSI</span><span class="chip wip">◔ Side-Artist Rights Pending</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" id="further" data-ts="20991231">
+    <div class="wk-head"><span class="d">Further Out</span><span class="n">Dated Loosely · TBD</span><span class="ct">5 items</span></div>
+    <div class="cat c-anc">
+      <div class="cat-label"><b>TBD</b><span>5</span></div>
+      <div class="tiles">
+        <div class="tile"><b>H.E.R.</b><span class="t">Album — TBD</span><div class="meta"><span class="chip date">Q4 2026</span></div></div>
+        <div class="tile"><b>Tate McRae</b><span class="t">Album — TBD</span><div class="meta"><span class="chip date">Q4 2026</span></div></div>
+        <div class="tile"><b>Various Artists</b><span class="t">Children Of Blood And Bone OST</span><div class="meta"><span class="chip date">Q4 2026</span><span class="chip wip">◔ Audio Routing</span></div></div>
+        <div class="tile"><b>Various Artists</b><span class="t">Narnia: The Magician's Nephew OST</span><div class="meta"><span class="chip date">Feb 12 2027</span></div></div>
+        <div class="tile"><b>Frost Children</b><span class="t">Frost Fest Mixtape</span><div class="meta"><span class="chip tbs">Moved To TBS</span><span class="chip">Soundcloud First</span></div></div>
+      </div>
+    </div>
   </div>
 
   <!-- BUILD NOTE -->
   <div class="note">
     <div class="lbl">Build notes — how this maps to the pilot</div>
+    <div class="row"><i>→</i><span><strong>Data:</strong> real records — Release Grid + Scheduling tracker as of Aug 10, weeks Aug 14 through Jan 2027 plus a Further Out shelf. Status chips (✓ Ready / ◔ In Progress) come straight from the grid's clearance · audio · artwork columns.</span></div>
     <div class="row"><i>→</i><span><strong>Same data, new shape:</strong> this is the pilot's Releases table (grouped by Release Week) re-rendered in the Release Runway model — weeks as sections, sliced by content type. Nothing here needs new data.</span></div>
     <div class="row"><i>→</i><span><strong>Slices:</strong> the Releases.Type formula (off CONFIG_NAME from Products) drives the rows — extending it to physical / video / ancillary is the same formula change already proposed on the artist page.</span></div>
     <div class="row"><i>→</i><span><strong>Rollups:</strong> big ancillary batches (lyric-video runs, live sessions) collapse to one tile per artist with a count — click expands the full list. Empty categories collapse to one quiet line.</span></div>
@@ -372,7 +518,7 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
     <div class="row"><i>→</i><span><strong>My Artists</strong> scoping uses the same Directory assignment the pilot already has.</span></div>
   </div>
 
-  <div class="foot">Sample data from the live Release Runway board, w/c Aug 14 – Sep 4 2026 · indicators illustrative · Campaign Ops</div>
+  <div class="foot">Data as of Aug 10 · Release Grid + Scheduling tracker · Aug 14 2026 → Further Out · Campaign Ops</div>
 
 </div>
 <script>
@@ -422,6 +568,22 @@ input.search:focus{outline:1px solid var(--ink,#1A1A1A)}
       wk.classList.toggle('hidden-f',active&&wkVis===0);
     }
   }
+})();
+</script>
+<script>
+(function(){
+  var tog=document.getElementById('sortToggle');if(!tog)return;
+  tog.addEventListener('click',function(e){
+    var sp=e.target.closest('span');if(!sp)return;
+    var mode=sp.getAttribute('data-sort');
+    var all=tog.querySelectorAll('span');
+    for(var i=0;i<all.length;i++){all[i].className=all[i].getAttribute('data-sort')===mode?'on':'off';}
+    var wks=Array.prototype.slice.call(document.querySelectorAll('.wk'));
+    wks.sort(function(a,b){var x=+a.getAttribute('data-ts'),y=+b.getAttribute('data-ts');return mode==='far'?y-x:x-y;});
+    var anchor=document.querySelector('.note');
+    for(var j=0;j<wks.length;j++){anchor.parentNode.insertBefore(wks[j],anchor);}
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 })();
 </script>
 </body>
