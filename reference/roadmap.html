@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleck Check-in · Roadmap Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
+--chartreuse:#CDF851;--chartreuse-dark:#8FA82A;--flame:#B33113;--amber:#E8B538}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 32px 96px}
+.band{background:var(--ink);color:#FCFDF8;margin-bottom:56px}
+.band-in{max-width:1000px;margin:0 auto;padding:56px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chartreuse);font-weight:600;margin-bottom:18px}
+h1{font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
+.sub{margin-top:20px;font-size:17px;color:#B9B6AE;max-width:62ch;line-height:1.65}
+.meta{margin-top:28px;padding-top:20px;border-top:1px solid #33312E;display:flex;gap:36px;flex-wrap:wrap;font-size:13px;color:#8D8A83}
+.meta b{color:#FCFDF8;font-weight:600}
+section{margin-bottom:56px}
+.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+h2{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.lede{color:var(--muted);max-width:62ch;margin-bottom:28px;line-height:1.65}
+ol.asks{list-style:none;counter-reset:a}
+.ask{counter-increment:a;background:var(--paper);border:1px solid var(--line);padding:26px 28px 26px 74px;position:relative;margin-bottom:12px}
+.ask::before{content:counter(a);position:absolute;left:0;top:0;width:52px;height:100%;background:var(--ink);color:var(--chartreuse);
+font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center}
+.ask-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:9px}
+.ask-title{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.ask-tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--flame);font-weight:600}
+.ask p{color:#3A3733;max-width:62ch;font-size:15px}
+.ask-need{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.lbl{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
+.lanes{background:var(--paper);border:1px solid var(--line);padding:26px 28px}
+.lane{margin-bottom:18px} .lane:last-child{margin-bottom:0}
+.lane-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.lane-name{font-size:14px;font-weight:500} .lane-count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:7px;background:#E8E6DC} .fill{height:100%;background:var(--chartreuse-dark)}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);font-size:14px}
+th{text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;
+padding:13px 14px;border-bottom:1px solid var(--line)}
+td{padding:13px 14px;border-bottom:1px solid #EAE8DE} tr:last-child td{border-bottom:none}
+.id{font-weight:600;white-space:nowrap} .num{font-variant-numeric:tabular-nums;font-weight:600}
+.muted{color:var(--muted)}
+.pill{font-size:11px;padding:3px 9px;font-weight:600;white-space:nowrap}
+.pill-yes{background:var(--chartreuse);color:#33401A} .pill-partial{background:#F7E9C4;color:#6B5514}
+.pill-no{background:#F4D5CC;color:var(--flame)}
+ul.stack{list-style:none}
+ul.stack li{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--flame);padding:20px 24px;margin-bottom:10px}
+ul.stack p{color:#3A3733;max-width:62ch;font-size:15px;margin-top:5px}
+.park-t,.flag-t{font-weight:600;font-size:16px}
+.callout{background:var(--ink);color:#FCFDF8;padding:32px 34px;margin-bottom:56px}
+.callout .slabel{color:var(--chartreuse)}
+.callout p{max-width:62ch;color:#D6D3CB;line-height:1.65}
+.callout strong{color:#FCFDF8;font-weight:600}
+details{background:var(--paper);border:1px solid var(--line);padding:22px 26px}
+summary{cursor:pointer;font-weight:600;font-size:15px}
+.app-lane{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 10px}
+.app-list{list-style:none}
+.app-list li{padding:7px 0 7px 22px;border-bottom:1px solid #EFEDE3;position:relative;font-size:14px}
+.app-list li::before{content:'';position:absolute;left:0;top:14px;width:9px;height:9px;border:1.5px solid var(--line)}
+.app-list li.done{color:var(--muted);text-decoration:line-through}
+.app-list li.done::before{background:var(--chartreuse-dark);border-color:var(--chartreuse-dark)}
+.owner{margin-left:9px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#EAE8DE;color:#55524B;padding:2px 7px;font-weight:600}
+@media(max-width:680px){h1{font-size:31px} .wrap,.band-in{padding-left:20px;padding-right:20px} .ask{padding-left:64px}}
+</style></head><body>
+<div class="band"><div class="band-in">
+  <div class="eyebrow">Campaign Ops · Bi-weekly Check-in</div>
+  <h1>Roadmap review: what needs a decision</h1>
+  <p class="sub">Phase 1 Priorities read against the RCAI idea register. The two boards share one substrate, and it is stuck in the same place — which turns most of this from a build conversation into an access conversation.</p>
+  <div class="meta"><span><b>45</b> Phase 1 items across 7 lanes</span><span><b>17</b> RCAI ideas</span><span><b>5</b> asks on the table</span><span>13 August 2026</span></div>
+</div></div>
+<div class="wrap">
+
+<div class="callout">
+  <div class="slabel">The frame</div>
+  <p>The most useful thing to say out loud: <strong>one lane unlocks almost everything.</strong> The Airtable lane is the substrate for RCAI ID&nbsp;1 and ID&nbsp;3, and those two between them gate 13 of the 17 ideas on the register. ID&nbsp;1 alone is Low difficulty, needs no new access, costs about 4 hrs/wk to build — and gates 10 ideas worth roughly 42 hrs/wk. That is the whole story. Not percent complete.</p>
+</div>
+
+<section>
+  <div class="slabel">Bring these</div>
+  <h2>Five asks, none of them builds</h2>
+  <p class="lede">Every one of these is a decision or an access grant. None can be resolved by Campaign Ops working harder, which is precisely why they belong in this meeting rather than on a task board.</p>
+  <ol class="asks">
+  <li class="ask">
+    <div class="ask-head"><span class="ask-title">Production Airtable access</span><span class="ask-tag">Brian Lynch · IT</span></div>
+    <p>The only owned item on the board, and the one everything sits on. Eight of the nine items in the Airtable lane wait on it, and that lane is the substrate for both of the RCAI ideas with the biggest fan-out.</p>
+    <p class="ask-need"><span class="lbl">What you need from him</span>An exec nudge to IT. This has been sitting at the same place long enough that another ask from Ops won&#x27;t move it.</p>
+  </li>
+  <li class="ask">
+    <div class="ask-head"><span class="ask-title">Agency reporting as a Sony-level term</span><span class="ask-tag">Commercial, not technical</span></div>
+    <p>No current agency agreement requires a weekly export. Ten agencies, none of them ours. The build is short once exports arrive — the blocker is that nobody has made reporting a term of the relationship.</p>
+    <p class="ask-need"><span class="lbl">What you need from him</span>A decision to take this up at Sony level. It gates three ideas and roughly 15 hrs/wk, and it appears nowhere on the Phase 1 board.</p>
+  </li>
+  <li class="ask">
+    <div class="ask-head"><span class="ask-title">The artist key</span><span class="ask-tag">Decision, not a build</span></div>
+    <p>Track level joins on ISRC today. Artist level does not — consumption arrives against DSP identifiers while GRPS holds the artist record. Four ideas wait on this.</p>
+    <p class="ask-need"><span class="lbl">What you need from him</span>A named authoritative identifier. Worth checking the PDE pilot schema first — it already carries ROSTER_ARTIST_ID alongside Spotify ID, which may answer half of this.</p>
+  </li>
+  <li class="ask">
+    <div class="ask-head"><span class="ask-title">Budget-group ceilings</span><span class="ask-tag">Ian owes the numbers; you need John&#x27;s buy-in</span></div>
+    <p>The five roster groups are locked as the budget tiering, but the per-group not-to-exceed figures are still with Ian. Without a number, budget reviews stay subjective and get rubber-stamped after the fact.</p>
+    <p class="ask-need"><span class="lbl">What you need from him</span>Air cover for the ceiling as a concept, so the number has somewhere to land when Ian delivers it. The Budget lane is 0/6 and this is the reason.</p>
+  </li>
+  <li class="ask">
+    <div class="ask-head"><span class="ask-title">Handoff Map validation</span><span class="ask-tag">Tarek + Creative leadership</span></div>
+    <p>Both validations are unstarted and together they gate all six items in the Mapping lane. This is the most turf-sensitive thing on the board.</p>
+    <p class="ask-need"><span class="lbl">What you need from him</span>Cover for the conversation, not a decision on the map itself. Framed as a map of who to ask, not who is responsible.</p>
+  </li></ol>
+</section>
+
+<section>
+  <div class="slabel">Where it stands</div>
+  <h2>Lane by lane</h2>
+  <p class="lede">Three items complete out of forty-five. Read the shape rather than the number — the board undersells what has shipped, and the flags at the bottom of this page explain why.</p>
+  <div class="lanes">
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">02 · Airtable</span><span class="lane-count">1/9</span></div>
+    <div class="bar"><div class="fill" style="width:11%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">03 · Mapping → AD Roster → Creative</span><span class="lane-count">0/6</span></div>
+    <div class="bar"><div class="fill" style="width:0%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">04 · Campaign Phases</span><span class="lane-count">2/7</span></div>
+    <div class="bar"><div class="fill" style="width:29%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">05 · Budget</span><span class="lane-count">0/6</span></div>
+    <div class="bar"><div class="fill" style="width:0%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">06 · Scheduling Requests</span><span class="lane-count">0/6</span></div>
+    <div class="bar"><div class="fill" style="width:0%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">07 · A&amp;R Admin · A&amp;R Ops Gaps</span><span class="lane-count">0/5</span></div>
+    <div class="bar"><div class="fill" style="width:0%"></div></div>
+  </div>
+  <div class="lane">
+    <div class="lane-top"><span class="lane-name">08 · Monthly Cadence</span><span class="lane-count">0/6</span></div>
+    <div class="bar"><div class="fill" style="width:0%"></div></div>
+  </div></div>
+</section>
+
+<section>
+  <div class="slabel">Cross-reference</div>
+  <h2>What the RCAI register actually waits on</h2>
+  <p class="lede">Fan-out counted transitively: how many of the 17 ideas become reachable once each item lands, and the weekly hours those ideas claim to return. The sequencing argument sits in the top row.</p>
+  <table><thead><tr><th></th><th>Idea</th><th>Gates</th><th>Hrs/wk</th><th>Access</th><th>Difficulty</th></tr></thead>
+  <tbody>
+  <tr><td class="id">ID 1</td><td>Campaign record</td><td class="num">10</td><td class="num">42</td>
+  <td><span class="pill pill-yes">Yes</span></td><td class="muted">Low</td></tr>
+  <tr><td class="id">ID 3</td><td>Artist record / artist page</td><td class="num">6</td><td class="num">28</td>
+  <td><span class="pill pill-partial">Partial</span></td><td class="muted">Medium</td></tr>
+  <tr><td class="id">ID 5</td><td>Campaign-to-track link</td><td class="num">4</td><td class="num">14</td>
+  <td><span class="pill pill-no">No</span></td><td class="muted">High</td></tr>
+  <tr><td class="id">ID 4</td><td>Agency &amp; creator campaign intake</td><td class="num">3</td><td class="num">15</td>
+  <td><span class="pill pill-no">No</span></td><td class="muted">High</td></tr>
+  <tr><td class="id">ID 11</td><td>Performance insights &amp; anomaly watch</td><td class="num">2</td><td class="num">7</td>
+  <td><span class="pill pill-partial">Partial</span></td><td class="muted">High</td></tr></tbody></table>
+  <p class="lede" style="margin-top:20px">Two things worth naming in the room. Phase&nbsp;1's Airtable lane and RCAI ID&nbsp;3 are the same foundational work under two different names on two different boards — if they keep separate owners they will drift apart. And ID&nbsp;16, deck generation, sits last in the RCAI sequence while the pitch-deck system is already a live commitment out of the 8/4 meeting. The register's sequence and the organisation's expectation disagree.</p>
+</section>
+
+<section>
+  <div class="slabel">Take off the list</div>
+  <h2>Park these</h2>
+  <p class="lede">Both are defensible on their own terms and neither survives the question of what three things get owned ruthlessly.</p>
+  <ul class="stack"><li><span class="park-t">08 · Monthly Cadence</span><p>Six items about a meeting to review work that is itself at 7%. There is nothing to convene a monthly review around yet. Park it until at least one lane is shippable, then it writes itself.</p></li><li><span class="park-t">RCAI ID 17 — Trend &amp; UGC detection</span><p>Requires procuring licensed social listening. No dependents, no hours estimate, and scraping is correctly off the table. This is a procurement line, not a build — it doesn&#x27;t belong in a build sequence.</p></li></ul>
+</section>
+
+<section>
+  <div class="slabel">Before this goes in front of anyone</div>
+  <h2>The board needs a status pass</h2>
+  <p class="lede">These are data-quality problems, not delivery problems, and they are the difference between a board that reads as stalled and one that reads as blocked on access.</p>
+  <ul class="stack"><li><span class="flag-t">43 of 45 items have no owner</span><p>The single cheapest fix before anyone sees this. Unowned items read as unstarted regardless of reality.</p></li><li><span class="flag-t">3 of 45 done reads as 7%</span><p>It isn&#x27;t true. The budget sign-off suite is live on /budget/, the pitch-deck system is live on the hub, and neither appears here. The board undersells you.</p></li><li><span class="flag-t">Nothing on the board says “was working, now broken”</span><p>The Airtable proxy layer is down site-wide — phase-1 returns 500 on a missing token, priorities returns a 403 from Airtable. Items written as “live via /api/… proxy” are not live right now. Blocked is the closest available status.</p></li><li><span class="flag-t">Two dates have passed</span><p>“Scott July 1 — Production Meeting ownership transition” is six weeks overdue, and “Tarek arrival — roles defined” reads stale given he has been in the room since March. Both need a status pass, not a guess.</p></li><li><span class="flag-t">The RCAI summary sheet is off by one row</span><p>It says 16 ideas, Tier 3 = 2, blocked = 4. The register actually holds 17, Tier 3 = 3, blocked = 5 — ID 17 was added after the summary was written. Fix before presenting.</p></li></ul>
+</section>
+
+<section>
+  <div class="slabel">Reference</div>
+  <details><summary>All 45 Phase 1 items</summary><h4 class="app-lane">02 · Airtable</h4><ul class="app-list"><li class="">Sandbox base structure validated against production schema</li><li class="">Artists table populated with all active roster (production data, not stubs)</li><li class="done">Phase Gate Items table connected to TEMPO</li><li class="">D2C Planner Airtable link live via /api/records proxy</li><li class="">AD Roster Airtable link live via /api/ad-tagging-records proxy</li><li class="">Production base access provisioned<span class="owner">Brian Lynch · IT</span></li><li class="">RDX field mapping documented for when production access lands</li><li class="">Standing views created per table (Meg / Gerard / Jordan)</li><li class="">Phase 1 Priorities table connected to TEMPO (this one)</li></ul><h4 class="app-lane">03 · Mapping → AD Roster → Creative</h4><ul class="app-list"><li class="">Handoff Map validated with Tarek</li><li class="">Handoff Map validated with Creative leadership</li><li class="">AD Roster live in Airtable with genre + lifestyle tags per specialist</li><li class="">Genre × Lifestyle tag audit complete for every active artist</li><li class="">Coverage gap analysis run (artists with no AD match)</li><li class="">Re-tagging completed for mismatched / unmatched artists</li></ul><h4 class="app-lane">04 · Campaign Phases</h4><ul class="app-list"><li class="done">184 Phase Gate Items loaded to Airtable</li><li class="done">Phase rename (Announce → Pre-Release) propagated</li><li class="">5-phase framework piloted on 1 active campaign</li><li class="">Phase column live in Wednesday AP meeting view</li><li class="">Per-artist phase tracking workflow defined and documented</li><li class="">Phase transition criteria signed off by Jordan</li><li class="">Phase Risk field methodology agreed with Jordan</li></ul><h4 class="app-lane">05 · Budget</h4><ul class="app-list"><li class="">Two-track framework documented (Planning + Approval)</li><li class="">Biz Plan Revenue × MMP% template built</li><li class="">Manual approval breakdown documented (where it fails today)</li><li class="">Airtable approval routing prototyped</li><li class="">Validated with Finance</li><li class="">Validated with Karen Lamberton<span class="owner">BA</span></li></ul><h4 class="app-lane">06 · Scheduling Requests</h4><ul class="app-list"><li class="">Plan → Pre-Release gate criteria documented</li><li class="">Scheduling request intake form built (Airtable form)</li><li class="">Initiator confirmed (A&amp;R Admin? Marketing?)</li><li class="">Required fields locked</li><li class="">Routing to Release Planning defined</li><li class="">Tested on 2 active campaigns</li></ul><h4 class="app-lane">07 · A&amp;R Admin · A&amp;R Ops Gaps</h4><ul class="app-list"><li class="">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</li><li class="">Gap 2: Promo portal security audit complete, gaps surfaced to IT</li><li class="">Gap 3: Disco enterprise pipeline test results documented</li><li class="">Gap 4: Scott July 1 — Production Meeting ownership transition plan written</li><li class="">All 4 gaps resolved or assigned owner + timeline</li></ul><h4 class="app-lane">08 · Monthly Cadence</h4><ul class="app-list"><li class="">Monthly cadence proposal drafted (who attends, what&#x27;s reviewed, format)</li><li class="">Validated with Jordan</li><li class="">Validated with Tarek</li><li class="">First monthly meeting scheduled</li><li class="">Recap format defined</li><li class="">Distribution list confirmed</li></ul></details>
+</section>
+
+</div></body></html>
