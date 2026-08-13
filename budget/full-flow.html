@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget → PO → Vendor — Full Walkthrough</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
+    --chartreuse:#CDF851; --flame:#FF4A23;
+    --green:#1F9D55; --yellow:#E8B923; --grey-fill:#DAD7D0; --teal:#4FB8B0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:28px;min-height:100vh}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
+  .wrap{max-width:1200px;margin:0 auto}
+
+  /* header */
+  header.top{padding-bottom:20px;border-bottom:2px solid var(--ink);margin-bottom:24px}
+  header.top h1{font-size:34px;font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-top:8px}
+  header.top .sub{margin-top:10px;color:var(--muted);font-size:14px;max-width:66ch;line-height:1.55}
+
+  /* strategy strip */
+  .strategy{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px}
+  @media(max-width:900px){.strategy{grid-template-columns:1fr}}
+  .scard{background:var(--card);border:1.5px solid var(--line);border-top:4px solid var(--flame);border-radius:10px;padding:16px 18px}
+  .scard:nth-child(2){border-top-color:var(--teal)}
+  .scard:nth-child(3){border-top-color:var(--yellow)}
+  .scard .sn{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .scard h3{font-size:15.5px;font-weight:800;letter-spacing:-.01em;margin:6px 0 6px}
+  .scard p{font-size:12.5px;color:var(--muted);line-height:1.55}
+
+  /* rail */
+  .rail{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:22px}
+  .rcell{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;text-align:left}
+  .rcell.phase-po{background:#FBFAF6}
+  .rcell.done{border-color:#CBE7D3;background:#F5FAF2}
+  .rcell.active{border-color:var(--flame);border-width:2px}
+  .rcell.back{border-color:var(--flame);background:#FDECE7}
+  .rcell .rn{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:4px}
+  .rcell.done .rn{color:var(--green)}
+  .rcell.active .rn{color:var(--flame)}
+  .rcell .rw{font-size:12px;font-weight:800;margin-top:5px;line-height:1.15}
+  .rcell .rr{font-size:10px;color:var(--muted);margin-top:1px}
+  @media(max-width:1050px){.rail{grid-template-columns:repeat(4,1fr)}}
+
+  /* layout */
+  .shell{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+  @media(max-width:900px){.shell{grid-template-columns:1fr}}
+
+  /* queue */
+  .queue h2{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .qcard{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px;cursor:pointer;transition:border-color .12s,transform .12s;position:relative}
+  .qcard:hover{transform:translateY(-1px)}
+  .qcard.sel{border-color:var(--ink);border-width:2px}
+  .qcard .verdict-dot{position:absolute;top:16px;right:15px;width:11px;height:11px;border-radius:50%}
+  .qcard .name{font-size:16px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  .qcard .meta{font-size:12px;color:var(--muted);margin-top:3px}
+  .qcard .row{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
+  .qcard .amt{font-size:17px;font-weight:800}
+  .qcard .grp{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F3F1EB;color:var(--muted)}
+  .status-pill.done{background:rgba(31,157,85,.14);color:var(--green)}
+  .status-pill.sent{background:rgba(255,74,35,.12);color:var(--flame)}
+  .status-pill.po{background:rgba(79,184,176,.16);color:#2b7e78}
+
+  /* record card */
+  .record{background:var(--card);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+  .rec-head{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1.5px solid var(--line)}
+  .rec-head .lbl{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .rec-head .lbl .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+  .rec-head .rt{font-size:12px;color:var(--muted)}
+  .rec-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .rec-left{padding:24px 22px;border-right:1.5px solid var(--line)}
+  .rec-right{padding:24px 22px}
+  @media(max-width:900px){.rec-body{grid-template-columns:1fr}.rec-left{border-right:0;border-bottom:1.5px solid var(--line)}}
+  .rec-left h3{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .rec-left .byline{color:var(--muted);font-size:13px;margin-top:7px}
+  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAF9F6}
+  .sec-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px}
+
+  /* gauge */
+  .gauge-wrap{position:relative;margin-top:4px}
+  .gauge{position:relative;height:34px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
+  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .thisb{height:100%}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .ceiling-mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);z-index:3}
+  .ceiling-lbl{position:absolute;top:40px;transform:translateX(-50%);font-size:11px;font-weight:700;white-space:nowrap}
+  .legend{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  .note-box{margin-top:26px;background:#EAF7F5;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
+  .note-box.warn{background:#FFF7E0}
+  .note-box.bad{background:#FDECE7}
+  .note-box .u{font-weight:800}
+
+  .li{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .li .cat{font-size:14px;font-weight:700}
+  .li .desc{font-size:12px;color:var(--muted);margin-top:2px}
+  .li .val{font-size:15px;font-weight:800;white-space:nowrap;padding-left:14px}
+  .li-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px}
+  .li-total .cat{font-size:16px;font-weight:900}
+  .li-total .val{font-size:18px;font-weight:900}
+  .cap-note{background:#F4FBDD;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
+
+  .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+  .stage{border:1.5px solid var(--line);border-radius:9px;padding:11px 11px 13px}
+  .stage.active{border-color:var(--flame);border-width:2px}
+  .stage.done{background:#F5FAF2;border-color:#CBE7D3}
+  .stage .st{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+  .stage.done .st{color:var(--green)}
+  .stage.active .st{color:var(--flame)}
+  .stage.wait .st{color:var(--muted)}
+  .stage .who{font-size:14px;font-weight:800;margin-top:7px;line-height:1.1}
+  .stage .role{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .actions{display:flex;gap:12px;margin-top:24px}
+  .btn{font-family:inherit;font-size:14px;font-weight:800;letter-spacing:.01em;padding:15px 22px;border-radius:9px;border:1.5px solid var(--ink);cursor:pointer;flex:1;transition:transform .1s,opacity .1s}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--flame);border-color:var(--flame);color:#fff}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .btn.dark{background:var(--ink);color:#fff}
+  .btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}
+  .btn[disabled]{opacity:.35;cursor:not-allowed}
+
+  /* PO execution panel */
+  .po-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:rgba(79,184,176,.16);color:#2b7e78;margin-top:14px}
+  .po-field{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .po-field .k{color:var(--muted)}
+  .po-field .v{font-weight:700}
+  .po-field .v.pending{color:var(--muted);font-weight:600;font-style:italic}
+  .po-steps{display:flex;gap:4px;margin-top:6px}
+  .po-step{flex:1;height:9px;border-radius:4px;background:var(--grey-fill)}
+  .po-step.on{background:var(--teal)}
+  .po-steplbls{display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--muted)}
+  .po-steplbls b{color:var(--ink)}
+  .auto-note{background:#EAF7F5;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:16px;color:#2b6a65}
+  .rollup{background:var(--ink);color:#fff;border-radius:10px;padding:16px 18px;margin-top:18px}
+  .rollup .rt{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--chartreuse)}
+  .rollup h4{font-size:17px;font-weight:800;margin-top:6px}
+  .rollup p{font-size:12.5px;color:#C9C6BE;margin-top:6px;line-height:1.5}
+
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:14px 22px;border-radius:11px;font-size:14px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:50;display:flex;align-items:center;gap:10px}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast .tk{width:9px;height:9px;border-radius:50%;background:var(--chartreuse)}
+  .footer{max-width:1200px;margin:26px auto 0;color:var(--muted);font-size:11.5px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">Campaign Ops · Working Demo</div>
+    <h1>Budget → PO → Vendor</h1>
+    <div class="sub">One record, followed end to end — from a lead setting a budget inside a group ceiling, through Fleck's final sign-off, into the PO that actually pays a vendor. Everything below the sign-off line already exists in Console; this walks the whole chain in one place, with sample data.</div>
+  </header>
+
+  <div class="strategy">
+    <div class="scard">
+      <div class="sn">Why groups, not gut checks</div>
+      <h3>Ceilings, set once</h3>
+      <p>Every artist sits in a roster group — G1 Flagship down to G5 Emerging — each with a ceiling set with Ian from RCA historical actuals. Same yardstick, whoever's asking.</p>
+    </div>
+    <div class="scard">
+      <div class="sn">Why the gauge, not a debate</div>
+      <h3>The verdict is computed</h3>
+      <p>Spent + this request vs. ceiling — green with room, yellow inside the last 10%, red over. Fleck sees the same math every time, not a feeling.</p>
+    </div>
+    <div class="scard">
+      <div class="sn">Why blanket + pro-rate</div>
+      <h3>Nothing gets lumped</h3>
+      <p>Budgets spanning multiple vendors or deliverables pro-rate into their own PO line each — one Blanket PO, fully broken out, instead of five untracked ones.</p>
+    </div>
+  </div>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="shell">
+    <aside class="queue">
+      <h2>Sample records · <span id="qcount">3</span></h2>
+      <div id="queueList"></div>
+    </aside>
+    <main id="stage"></main>
+  </div>
+
+  <div class="footer">
+    Prototype · RCA Campaign Ops · directional data. Sign-off ceilings set with Ian from RCA historical actuals; PO stage follows Sony finance's Console requirements (blanket + pro-rate, drop-box invoicing, goods-receipt review).
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="tk"></span><span id="toastMsg"></span></div>
+
+<script>
+// ---------- DATA ----------
+const CEILINGS = {
+  G1:{tier:'Flagship', streams:'10M+',      ceiling:2000000},
+  G2:{tier:'Scaling',  streams:'5–10M',     ceiling:1500000},
+  G3:{tier:'Building', streams:'1–5M',      ceiling:715000},
+  G4:{tier:'Foundation',streams:'100K–1M',  ceiling:242000},
+  G5:{tier:'Emerging', streams:'under 100K',ceiling:137000},
+};
+
+const BUDGETS = [
+  {
+    id:'BUD-0431', verdict:'yes', name:'Chloe Qisha', project:'“Fantasize” EP',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 14', group:'G4',
+    budget:150000, spent:60000,
+    lines:[
+      {cat:'Digital Marketing', desc:'In-house paid social + DSP', val:80000, vendor:'In-house trafficked'},
+      {cat:'Video', desc:'Performance video package', val:45000, vendor:'Field Day Studio'},
+      {cat:'Radio Promotion', desc:'Indie promo — light add', val:25000, vendor:'Indie Promo Partners'},
+    ],
+    headline:'Looks normal', verdictText:'Comfortably under ceiling and a typical size for the group. Nothing unusual.',
+    note:'This budget lands well under the Group 4 ceiling — a routine Foundation-tier spend.',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$32K of headroom still in Group 4.'},
+      {t:'ok', title:'Typical size', d:'Group 4 EPs usually run $130–170K.'},
+    ],
+    poType:'Blanket', poNumber:'', invoiceNumber:''
+  },
+  {
+    id:'BUD-0428', verdict:'flag', name:'Isabel LaRosa', project:'Single — Fall release',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 15', group:'G3',
+    budget:250000, spent:410000,
+    lines:[
+      {cat:'Video', desc:'Prettybird — video finishing', val:140000, vendor:'Prettybird'},
+      {cat:'Digital Marketing', desc:'In-house paid social + DSP', val:70000, vendor:'In-house trafficked'},
+      {cat:'Radio Promotion', desc:'Indie promo — add campaign', val:40000, vendor:'Indie Promo Partners'},
+    ],
+    headline:'Mostly normal — one flag', verdictText:'Within ceiling and about average in size. One category is running hot — the lead explained it.',
+    note:'This budget lands <span class="u">$55K under</span> the Group 3 ceiling — within the not-to-exceed. Lead’s note: “Radio add + video finishing — front-loaded spend, expect Q4 to run under.”',
+    checks:[
+      {t:'ok', title:'Under the ceiling', d:'$55K of headroom left in Group 3.'},
+      {t:'warn', title:'Radio ~2× the usual', d:'$40K vs. ~$20K. Lead: “Add campaign — front-loaded, Q4 runs under.”'},
+    ],
+    poType:'Blanket', poNumber:'', invoiceNumber:''
+  },
+  {
+    id:'BUD-0435', verdict:'no', name:'Sarah Lola', project:'“New Boy” single',
+    lead:'Set by Nat (Campaign Lead)', set:'Jul 18', group:'G5',
+    budget:240000, spent:45000,
+    lines:[
+      {cat:'Video', desc:'Full video treatment', val:120000, vendor:'Field Day Studio'},
+      {cat:'Digital Marketing', desc:'Paid social + DSP push', val:80000, vendor:'In-house trafficked'},
+      {cat:'Radio Promotion', desc:'Add campaign', val:40000, vendor:'Indie Promo Partners'},
+    ],
+    headline:'Over ceiling — take a look', verdictText:'This ask is bigger than the entire Group 5 ceiling — an Emerging artist on a Building-tier budget.',
+    note:'This budget runs <span class="u">$148K over</span> the Group 5 ceiling. The budget alone exceeds the whole Group 5 cap.',
+    checks:[
+      {t:'bad', title:'$148K over the ceiling', d:'Budget alone exceeds the whole Group 5 cap.'},
+      {t:'warn', title:'Size fits Group 3, not 5', d:'If she’s breaking out, re-group her first.'},
+    ],
+    poType:'Blanket', poNumber:'', invoiceNumber:''
+  },
+];
+BUDGETS.forEach(b=>b.stageIdx=0); // -1 sent back · 0..6 pending that stage · 7 fully paid/rolled up
+
+// unified rail: index 0 is always-done "Budget set"; STAGES[0..6] map to stageIdx 0..6; stageIdx 7 = done
+const STAGES=[
+  {who:'Niki + Tarek', role:'Portfolio review', phase:'budget'},
+  {who:'Finance',      role:'Sign-off',          phase:'budget'},
+  {who:'Fleck',        role:'Final sign-off',     phase:'budget'},
+  {who:'Support',      role:'Spend request → PO#',phase:'po'},
+  {who:'Console',      role:'Vendor notified · automated', phase:'po'},
+  {who:'Support',      role:'Invoice received',   phase:'po'},
+  {who:'Finance',      role:'A/P released',       phase:'po'},
+];
+const fmt=n=>'$'+n.toLocaleString('en-US');
+const fmtK=n=>{const k=Math.round(n/1000);return '$'+(k>=1000?(k/1000).toFixed(k%1000?1:0)+'M':k+'K');};
+
+let selId=BUDGETS[0].id;
+
+// ---------- QUEUE ----------
+function verdictColor(v){return v==='yes'?'var(--green)':v==='flag'?'var(--yellow)':'var(--flame)';}
+function statusLabel(b){
+  if(b.stageIdx===7) return {cls:'done', txt:'Paid ✓'};
+  if(b.stageIdx===-1) return {cls:'sent', txt:'Sent back'};
+  if(b.stageIdx>=3) return {cls:'po', txt:'PO · '+STAGES[b.stageIdx].who};
+  return {cls:'', txt:'Awaiting '+STAGES[b.stageIdx].who};
+}
+function renderQueue(){
+  document.getElementById('qcount').textContent=BUDGETS.length;
+  document.getElementById('queueList').innerHTML=BUDGETS.map(b=>{
+    const c=CEILINGS[b.group];
+    const s=statusLabel(b);
+    return `<div class="qcard ${b.id===selId?'sel':''}" onclick="select('${b.id}')">
+      <span class="verdict-dot" style="background:${verdictColor(b.verdict)}"></span>
+      <div class="name">${b.name}</div>
+      <div class="meta">${b.project} · ${b.id}</div>
+      <div class="row"><span class="amt">${fmt(b.budget)}</span><span class="grp">${b.group} · ${c.tier}</span></div>
+      <div class="row" style="margin-top:9px"><span class="status-pill ${s.cls}">${s.txt}</span></div>
+    </div>`;
+  }).join('');
+}
+function select(id){selId=id;render();}
+
+// ---------- RAIL ----------
+function renderRail(b){
+  const cells=[{who:'Lead',role:'Budget set · '+b.set,phase:'budget',idx:-2}]
+    .concat(STAGES.map((s,i)=>({who:s.who,role:s.role,phase:s.phase,idx:i})));
+  document.getElementById('rail').innerHTML=cells.map(c=>{
+    let cls='';
+    if(c.idx===-2) cls='done';
+    else if(b.stageIdx===-1) cls = c.idx===0 ? 'back' : (c.idx<0?'done':'');
+    else if(b.stageIdx>c.idx) cls='done';
+    else if(b.stageIdx===c.idx) cls='active';
+    const rn = cls==='done' ? '✓ Done' : cls==='active' ? '● Now' : cls==='back' ? '↩ Back' : '○ Next';
+    return `<div class="rcell ${c.phase==='po'?'phase-po':''} ${cls}">
+      <div class="rn">${rn}</div>
+      <div class="rw">${c.who}</div>
+      <div class="rr">${c.role}</div>
+    </div>`;
+  }).join('');
+}
+
+// ---------- GAUGE (budget phase) ----------
+function gaugeHTML(b){
+  const c=CEILINGS[b.group].ceiling;
+  const spent=b.spent, budg=b.budget, committed=spent+budg;
+  const over=Math.max(0,committed-c);
+  const scaleMax=Math.max(c,committed)*1.06;
+  const pct=n=>(n/scaleMax*100);
+  const thisColor=b.verdict==='yes'?'var(--green)':b.verdict==='flag'?'var(--yellow)':'var(--flame)';
+  const underPortion=over>0?Math.max(0,c-spent):budg;
+  let bar=`<div class="spent" style="width:${pct(spent)}%"></div>`;
+  if(over>0){
+    bar+=`<div class="thisb" style="width:${pct(underPortion)}%;background:${thisColor}"></div>`;
+    bar+=`<div class="over" style="width:${pct(over)}%"></div>`;
+  }else{
+    bar+=`<div class="thisb" style="width:${pct(budg)}%;background:${thisColor}"></div>`;
+  }
+  const cpos=pct(c);
+  const headroom=c-committed;
+  return `<div class="gauge-wrap">
+    <div class="gauge">${bar}<div class="ceiling-mark" style="left:${cpos}%"></div></div>
+    <div class="ceiling-lbl" style="left:${cpos}%">Ceiling ${fmtK(c)}</div>
+    <div class="legend">
+      <span><i class="sw" style="background:#C9C6BE"></i>Spent this cycle · ${fmtK(spent)}</span>
+      <span><i class="sw" style="background:${thisColor}"></i>This budget · ${fmtK(budg)}</span>
+      ${over>0
+        ? `<span><i class="sw" style="background:var(--flame)"></i>Over ceiling · ${fmtK(over)}</span>`
+        : `<span><i class="sw" style="border:1.4px solid var(--ink);background:transparent"></i>Headroom · ${fmtK(headroom)}</span>`}
+    </div>
+  </div>`;
+}
+
+// ---------- BUDGET-PHASE CARD ----------
+function renderBudgetCard(b){
+  const c=CEILINGS[b.group];
+  const total=b.lines.reduce((s,l)=>s+l.val,0);
+  const chain=[{who:'Campaign Lead',role:'Budget set · '+b.set,done:true}]
+    .concat(STAGES.slice(0,3).map((s,i)=>({who:s.who,role:s.role,done:b.stageIdx>i,active:b.stageIdx===i})));
+  const noteClass=b.verdict==='yes'?'':b.verdict==='flag'?'warn':'bad';
+  const sentBack=b.stageIdx===-1;
+  const stageName=b.stageIdx>=0&&b.stageIdx<3?STAGES[b.stageIdx].who:'—';
+
+  let headStatus=`<span class="status-pill">Awaiting ${stageName}</span>`;
+  if(sentBack)headStatus=`<span class="status-pill sent">Sent back</span>`;
+
+  return `<div class="record">
+    <div class="rec-head">
+      <div class="lbl"><span class="dot"></span>Campaign Marketing Budget</div>
+      <div class="rt">${b.id} · set ${b.set} &nbsp; ${headStatus}</div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-left">
+        <h3>${b.name}</h3>
+        <div class="byline">${b.project} · ${b.lead}</div>
+        <div class="grp-chip">${b.group} · ${c.tier} · ${c.streams} weekly streams</div>
+        <div class="sec-lbl">This budget against the ${b.group} ceiling</div>
+        ${gaugeHTML(b)}
+        <div class="note-box ${noteClass}">${b.note}</div>
+      </div>
+      <div class="rec-right">
+        <div class="sec-lbl" style="margin-top:0">Line items · the spending envelope</div>
+        ${b.lines.map(l=>`<div class="li"><div><div class="cat">${l.cat}</div><div class="desc">${l.desc} · ${l.vendor}</div></div><div class="val">${fmt(l.val)}</div></div>`).join('')}
+        <div class="li-total"><div class="cat">Total budget</div><div class="val">${fmt(total)}</div></div>
+        <div class="cap-note">↓ These lines become the PO envelope. Every PO line traces back to one of these.</div>
+        <div class="sec-lbl">Sign-off chain</div>
+        <div class="chain">
+          ${chain.map(s=>{
+            const cls=s.done?'done':s.active?'active':'wait';
+            const st=s.done?'✓ Set':s.active?'● Your call':'○ Waiting';
+            return `<div class="stage ${cls}"><div class="st">${st}</div><div class="who">${s.who}</div><div class="role">${s.role}</div></div>`;
+          }).join('')}
+        </div>
+        ${renderBudgetActions(b)}
+      </div>
+    </div>
+  </div>`;
+}
+function renderBudgetActions(b){
+  if(b.stageIdx===-1)return `<div class="actions"><button class="btn ghost" onclick="reopen('${b.id}')">Reopen for review</button></div>`;
+  const next=b.stageIdx<2?'send to '+STAGES[b.stageIdx+1].who:'auto-draft the spend request';
+  const hardNo=b.verdict==='no';
+  return `<div class="actions">
+    <button class="btn ${hardNo?'ghost':'primary'}" onclick="approve('${b.id}')">${b.stageIdx===2?'Fleck approves — release & '+next:'Approve & '+next}</button>
+    <button class="btn ${hardNo?'dark':'ghost'}" onclick="sendBack('${b.id}')">Send back with a note</button>
+  </div>`;
+}
+
+// ---------- PO-PHASE CARD ----------
+function poStepIndex(b){ return b.stageIdx - 3; } // 0..3 across the 4 PO stages, 4 = paid
+function renderPOCard(b){
+  const c=CEILINGS[b.group];
+  const total=b.lines.reduce((s,l)=>s+l.val,0);
+  const vendors=[...new Set(b.lines.map(l=>l.vendor))].join(' · ');
+  const stepIdx = b.stageIdx>=7 ? 4 : poStepIndex(b);
+  const stepLabels=['Spend request','PO issued','Vendor notified','Invoice in','A/P released'];
+  const steps=stepLabels.map((_,i)=>`<div class="po-step ${i<=stepIdx?'on':''}"></div>`).join('');
+
+  let auto='';
+  if(b.stageIdx===4) auto=`<div class="auto-note">Console's "Email vendor" button just fired automatically — no manual PO email needed once the PO# exists. Amount can be hidden from the vendor view.</div>`;
+  if(b.stageIdx===5) auto=`<div class="auto-note">Vendor invoices straight to Console's drop-box (2000.ap.invoicereceiving@sonymusic.com), quoting the PO#. Support reviews and goods-receipts — not re-keys.</div>`;
+
+  let rollup='';
+  if(b.stageIdx===7){
+    const before=c.ceiling - (b.spent);
+    const after=before-total;
+    rollup=`<div class="rollup">
+      <div class="rt">Rolled up</div>
+      <h4>${fmt(total)} is now a paid, live number in ${b.group}</h4>
+      <p>Category + phase were captured at the spend-request decision, so this actual rolls straight into the ${b.group} ceiling — no re-entry. Headroom moves from ${fmtK(before)} to ${fmtK(after)}.</p>
+    </div>`;
+  }
+
+  return `<div class="record">
+    <div class="rec-head">
+      <div class="lbl"><span class="dot" style="background:var(--teal)"></span>Spend Request → PO</div>
+      <div class="rt">${b.id} · ${b.poType} PO ${b.poNumber?('· '+b.poNumber):''}</div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-left">
+        <h3>${b.name}</h3>
+        <div class="byline">${b.project} · ${b.lead}</div>
+        <div class="grp-chip">${b.group} · ${c.tier}</div>
+        <span class="po-badge">${b.poType} PO · pro-rated ${b.lines.length} lines</span>
+        <div class="sec-lbl">Spend request → PO progress</div>
+        <div class="po-steps">${steps}</div>
+        <div class="po-steplbls">${stepLabels.map((l,i)=>`<span>${i<=stepIdx?'<b>'+l+'</b>':l}</span>`).join('')}</div>
+        ${auto}
+        ${rollup}
+      </div>
+      <div class="rec-right">
+        <div class="sec-lbl" style="margin-top:0">PO fields</div>
+        <div class="po-field"><span class="k">Vendor(s)</span><span class="v">${vendors}</span></div>
+        <div class="po-field"><span class="k">Category</span><span class="v">${b.lines[0].cat} + ${b.lines.length-1} more</span></div>
+        <div class="po-field"><span class="k">PO type</span><span class="v">${b.poType} — ${b.lines.length} pro-rated lines</span></div>
+        <div class="po-field"><span class="k">Amount</span><span class="v">${fmt(total)}</span></div>
+        <div class="po-field"><span class="k">PO #</span><span class="v ${b.poNumber?'':'pending'}">${b.poNumber||'— assigned by Support'}</span></div>
+        <div class="po-field"><span class="k">Invoice #</span><span class="v ${b.invoiceNumber?'':'pending'}">${b.invoiceNumber||'— pending vendor invoice'}</span></div>
+        <div class="sec-lbl">This PO's lines</div>
+        ${b.lines.map(l=>`<div class="li"><div><div class="cat">${l.cat}</div><div class="desc">${l.desc} · ${l.vendor}</div></div><div class="val">${fmt(l.val)}</div></div>`).join('')}
+        ${renderPOActions(b)}
+      </div>
+    </div>
+  </div>`;
+}
+function renderPOActions(b){
+  if(b.stageIdx===7) return `<div class="actions"><button class="btn dark" disabled>Paid — rolled into ${b.group} ✓</button></div>`;
+  if(b.stageIdx===3) return `<div class="actions"><button class="btn teal" onclick="issuePO('${b.id}')">Support: cut PO# → send to Console</button></div>`;
+  if(b.stageIdx===4) return `<div class="actions"><button class="btn teal" onclick="advancePO('${b.id}')">Console: confirm vendor notified</button></div>`;
+  if(b.stageIdx===5) return `<div class="actions"><button class="btn teal" onclick="receiveInvoice('${b.id}')">Support: mark invoice received</button></div>`;
+  if(b.stageIdx===6) return `<div class="actions"><button class="btn primary" onclick="releasePayment('${b.id}')">Finance: release payment (A/P)</button></div>`;
+  return '';
+}
+
+// ---------- ACTIONS ----------
+function approve(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  if(b.stageIdx<0)b.stageIdx=0;
+  const doneStage=STAGES[b.stageIdx].who;
+  b.stageIdx++;
+  if(b.stageIdx===3){
+    toast(`${b.name} — Fleck released it. Spend request auto-drafted from the approved lines.`);
+  }else{
+    toast(`Approved by ${doneStage} → sent to ${STAGES[b.stageIdx].who}.`);
+  }
+  render();
+}
+function sendBack(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=-1;
+  toast(`${b.name} — sent back to the lead with a note.`);
+  render();
+}
+function reopen(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=0;
+  toast(`${b.name} — reopened for portfolio review.`);
+  render();
+}
+function issuePO(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  const initials=b.name.split(' ').map(w=>w[0]).join('').toUpperCase();
+  b.poNumber='US-'+initials+'-'+(800+Math.floor(Math.random()*190));
+  b.stageIdx=4;
+  toast(`PO# ${b.poNumber} issued — Console auto-emails the vendor next.`);
+  render();
+}
+function advancePO(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=5;
+  toast(`${b.name} — vendor notified. Waiting on the invoice.`);
+  render();
+}
+function receiveInvoice(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.invoiceNumber='INV-'+(40000+Math.floor(Math.random()*9000));
+  b.stageIdx=6;
+  toast(`Invoice ${b.invoiceNumber} received — goods-receipted, sent to Finance.`);
+  render();
+}
+function releasePayment(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=7;
+  toast(`${b.name} — payment released. Rolled into ${b.group}.`);
+  render();
+}
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),3400);
+}
+
+// ---------- RENDER ----------
+function render(){
+  renderQueue();
+  const b=BUDGETS.find(x=>x.id===selId);
+  renderRail(b);
+  document.getElementById('stage').innerHTML = b.stageIdx>=3 ? renderPOCard(b) : renderBudgetCard(b);
+}
+render();
+</script>
+</body>
+</html>

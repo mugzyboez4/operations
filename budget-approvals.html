@@ -79,6 +79,11 @@ td .a{font-weight:600;color:var(--ink)}
 .demo-card h3{font-size:16px;font-weight:600;letter-spacing:-.3px;margin:0 0 6px}
 .demo-card p{font-size:13px;color:var(--sec);line-height:1.5}
 .demo-card .go{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--flame)}
+.demo-card.feat{grid-column:1/-1;border-top-color:var(--lime);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--ink);color:#FCFDF8}
+.demo-card.feat h3{color:#FCFDF8;font-size:19px}
+.demo-card.feat p{color:#C8C6BC;max-width:56ch}
+.demo-card.feat .go{color:var(--lime)}
+.demo-card.feat .tagnew{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink);background:var(--lime);padding:3px 8px;margin-bottom:8px}
 .rule-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame);padding:24px}
 .rule-card.g{border-top-color:var(--lime)}
 .rule-card h3{font-size:17px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
@@ -190,9 +195,13 @@ td .a{font-weight:600;color:var(--ink)}
   </div>
 
   <div class="kicker" style="margin-top:44px">Working Demos</div>
-  <h2>The sign-off side, before any of this happens</h2>
-  <p class="lede">Before a spend request exists, the marketing budget behind it gets approved &mdash; proposed by the lead, checked against the group ceiling, signed off by Finance, Tarek, and Niki. These working demos walk that whole flow with sample data.</p>
+  <h2>From budget ceiling to paid vendor</h2>
+  <p class="lede">Proposed by the lead, checked against the group ceiling, signed off by Finance, Tarek, Niki, and Fleck &mdash; then a spend request, a PO, and a paid vendor. These working demos walk the flow with sample data.</p>
   <div class="demos">
+    <a class="demo-card feat" href="/budget/full-flow.html" target="_blank" rel="noopener">
+      <div><span class="tagnew">New &mdash; top to bottom</span><h3>Budget &rarr; PO &rarr; Vendor &mdash; full walkthrough</h3><p>One record, start to finish: ceiling check, sign-off chain, Fleck's release, the auto-drafted spend request, PO issuance, Console's vendor notice, invoice, and the roll-up back into the group ceiling &mdash; with the strategy behind each step laid out alongside it.</p></div>
+      <span class="go">Open demo &rarr;</span>
+    </a>
     <a class="demo-card" href="/budget/demo.html" target="_blank" rel="noopener"><h3>Budget approval &mdash; full demo</h3><p>The combined desktop view. Switch between Submitter, Finance, Tarek, and Niki to see each role's queue, questions, and sign-off &mdash; sample data, nothing live.</p><span class="go">Open demo &rarr;</span></a>
     <a class="demo-card t" href="/budget/fleck.html" target="_blank" rel="noopener"><h3>Fleck sign-off &mdash; phone</h3><p>Final sign-off from a phone — one screen with the decision and its context.</p><span class="go">Open demo &rarr;</span></a>
     <a class="demo-card g" href="/budget/tracker.html" target="_blank" rel="noopener"><h3>Budget tracker</h3><p>Prototype of the roll-up: spent against ceiling by artist and group, so gaps in either direction are easy to spot and ask about.</p><span class="go">Open demo &rarr;</span></a>
