@@ -25,7 +25,15 @@
   header.top .sub{margin-top:10px;color:var(--muted);font-size:14px;max-width:66ch;line-height:1.55}
 
   /* strategy strip */
-  .strategy{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px}
+  .strategy-wrap{margin-bottom:22px}
+  .strategy-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:10px 2px;user-select:none}
+  .strategy-head .st{display:flex;align-items:center;gap:8px}
+  .strategy-head h2{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .strategy-head .chev{font-size:11px;color:var(--muted);transition:transform .18s ease;display:inline-block}
+  .strategy-head.open .chev{transform:rotate(90deg)}
+  .strategy-head:hover h2{color:var(--ink)}
+  .strategy{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .22s ease,opacity .18s ease,margin .22s ease}
+  .strategy.open{max-height:600px;opacity:1;margin-top:4px;margin-bottom:8px}
   @media(max-width:900px){.strategy{grid-template-columns:1fr}}
   .scard{background:var(--card);border:1.5px solid var(--line);border-top:4px solid var(--flame);border-radius:10px;padding:16px 18px}
   .scard:nth-child(2){border-top-color:var(--teal)}
@@ -128,6 +136,8 @@
   .btn.dark{background:var(--ink);color:#fff}
   .btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}
   .btn[disabled]{opacity:.35;cursor:not-allowed}
+  .btn.back{flex:0 0 auto;background:#fff;color:var(--muted);border-color:var(--line);padding:15px 18px}
+  .btn.back:hover:not([disabled]){color:var(--ink);border-color:var(--ink)}
 
   /* PO execution panel */
   .po-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:rgba(79,184,176,.16);color:#2b7e78;margin-top:14px}
@@ -160,21 +170,27 @@
     <div class="sub">One record, followed end to end — from a lead setting a budget inside a group ceiling, through Fleck's final sign-off, into the PO that actually pays a vendor. Everything below the sign-off line already exists in Console; this walks the whole chain in one place, with sample data.</div>
   </header>
 
-  <div class="strategy">
-    <div class="scard">
-      <div class="sn">Why groups, not gut checks</div>
-      <h3>Ceilings, set once</h3>
-      <p>Every artist sits in a roster group — G1 Flagship down to G5 Emerging — each with a ceiling set with Ian from RCA historical actuals. Same yardstick, whoever's asking.</p>
+  <div class="strategy-wrap">
+    <div class="strategy-head open" id="stratHead" onclick="toggleStrategy()">
+      <div class="st"><span class="chev">▸</span><h2>Strategy behind the numbers</h2></div>
+      <div class="st"><span class="chev-lbl" id="stratLbl" style="font-size:11px;color:var(--muted);font-weight:600">Hide</span></div>
     </div>
-    <div class="scard">
-      <div class="sn">Why the gauge, not a debate</div>
-      <h3>The verdict is computed</h3>
-      <p>Spent + this request vs. ceiling — green with room, yellow inside the last 10%, red over. Fleck sees the same math every time, not a feeling.</p>
-    </div>
-    <div class="scard">
-      <div class="sn">Why blanket + pro-rate</div>
-      <h3>Nothing gets lumped</h3>
-      <p>Budgets spanning multiple vendors or deliverables pro-rate into their own PO line each — one Blanket PO, fully broken out, instead of five untracked ones.</p>
+    <div class="strategy open" id="strategyBody">
+      <div class="scard">
+        <div class="sn">Why groups, not gut checks</div>
+        <h3>Ceilings, set once</h3>
+        <p>Every artist sits in a roster group — G1 Flagship down to G5 Emerging — each with a ceiling set with Ian from RCA historical actuals. Same yardstick, whoever's asking.</p>
+      </div>
+      <div class="scard">
+        <div class="sn">Why the gauge, not a debate</div>
+        <h3>The verdict is computed</h3>
+        <p>Spent + this request vs. ceiling — green with room, yellow inside the last 10%, red over. Fleck sees the same math every time, not a feeling.</p>
+      </div>
+      <div class="scard">
+        <div class="sn">Why blanket + pro-rate</div>
+        <h3>Nothing gets lumped</h3>
+        <p>Budgets spanning multiple vendors or deliverables pro-rate into their own PO line each — one Blanket PO, fully broken out, instead of five untracked ones.</p>
+      </div>
     </div>
   </div>
 
@@ -399,6 +415,7 @@ function renderBudgetActions(b){
   const next=b.stageIdx<2?'send to '+STAGES[b.stageIdx+1].who:'auto-draft the spend request';
   const hardNo=b.verdict==='no';
   return `<div class="actions">
+    <button class="btn back" onclick="back('${b.id}')" ${b.stageIdx<=0?'disabled':''} title="Back a step">← Back</button>
     <button class="btn ${hardNo?'ghost':'primary'}" onclick="approve('${b.id}')">${b.stageIdx===2?'Fleck approves — release & '+next:'Approve & '+next}</button>
     <button class="btn ${hardNo?'dark':'ghost'}" onclick="sendBack('${b.id}')">Send back with a note</button>
   </div>`;
@@ -462,11 +479,12 @@ function renderPOCard(b){
   </div>`;
 }
 function renderPOActions(b){
-  if(b.stageIdx===7) return `<div class="actions"><button class="btn dark" disabled>Paid — rolled into ${b.group} ✓</button></div>`;
-  if(b.stageIdx===3) return `<div class="actions"><button class="btn teal" onclick="issuePO('${b.id}')">Support: cut PO# → send to Console</button></div>`;
-  if(b.stageIdx===4) return `<div class="actions"><button class="btn teal" onclick="advancePO('${b.id}')">Console: confirm vendor notified</button></div>`;
-  if(b.stageIdx===5) return `<div class="actions"><button class="btn teal" onclick="receiveInvoice('${b.id}')">Support: mark invoice received</button></div>`;
-  if(b.stageIdx===6) return `<div class="actions"><button class="btn primary" onclick="releasePayment('${b.id}')">Finance: release payment (A/P)</button></div>`;
+  const backBtn=`<button class="btn back" onclick="back('${b.id}')" title="Back a step">← Back</button>`;
+  if(b.stageIdx===7) return `<div class="actions">${backBtn}<button class="btn dark" disabled>Paid — rolled into ${b.group} ✓</button></div>`;
+  if(b.stageIdx===3) return `<div class="actions">${backBtn}<button class="btn teal" onclick="issuePO('${b.id}')">Support: cut PO# → send to Console</button></div>`;
+  if(b.stageIdx===4) return `<div class="actions">${backBtn}<button class="btn teal" onclick="advancePO('${b.id}')">Console: confirm vendor notified</button></div>`;
+  if(b.stageIdx===5) return `<div class="actions">${backBtn}<button class="btn teal" onclick="receiveInvoice('${b.id}')">Support: mark invoice received</button></div>`;
+  if(b.stageIdx===6) return `<div class="actions">${backBtn}<button class="btn primary" onclick="releasePayment('${b.id}')">Finance: release payment (A/P)</button></div>`;
   return '';
 }
 
@@ -494,6 +512,25 @@ function reopen(id){
   b.stageIdx=0;
   toast(`${b.name} — reopened for portfolio review.`);
   render();
+}
+function back(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  if(b.stageIdx<=0)return; // nothing before the lead setting the budget
+  const from=b.stageIdx;
+  b.stageIdx--;
+  if(from===4)b.poNumber=''; // undo PO issuance
+  if(from===6)b.invoiceNumber=''; // undo invoice receipt
+  const label=b.stageIdx<STAGES.length?STAGES[b.stageIdx].who+' — '+STAGES[b.stageIdx].role:'—';
+  toast(`${b.name} — stepped back to ${label}.`);
+  render();
+}
+function toggleStrategy(){
+  const body=document.getElementById('strategyBody');
+  const head=document.getElementById('stratHead');
+  const lbl=document.getElementById('stratLbl');
+  const open=body.classList.toggle('open');
+  head.classList.toggle('open',open);
+  lbl.textContent=open?'Hide':'Show';
 }
 function issuePO(id){
   const b=BUDGETS.find(x=>x.id===id);
