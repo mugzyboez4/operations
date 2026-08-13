@@ -1,184 +1,479 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fleck Check-in · Roadmap Review</title>
+<title>Roadmap Review · Campaign Ops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
---chartreuse:#CDF851;--chartreuse-dark:#8FA82A;--flame:#B33113;--amber:#E8B538}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1000px;margin:0 auto;padding:0 32px 96px}
-.band{background:var(--ink);color:#FCFDF8;margin-bottom:56px}
-.band-in{max-width:1000px;margin:0 auto;padding:56px 32px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chartreuse);font-weight:600;margin-bottom:18px}
-h1{font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
-.sub{margin-top:20px;font-size:17px;color:#B9B6AE;max-width:62ch;line-height:1.65}
-.meta{margin-top:28px;padding-top:20px;border-top:1px solid #33312E;display:flex;gap:36px;flex-wrap:wrap;font-size:13px;color:#8D8A83}
-.meta b{color:#FCFDF8;font-weight:600}
-section{margin-bottom:56px}
+--chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px 110px}
+.band{background:var(--ink);color:#FCFDF8}
+.band-in{max-width:1120px;margin:0 auto;padding:52px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+h1{font-size:46px;line-height:1.07;font-weight:700;letter-spacing:-.025em;max-width:20ch}
+.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:64ch}
+nav.tabs{background:var(--ink);border-top:1px solid #33312E;position:sticky;top:0;z-index:60}
+.tabs-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:2px;overflow-x:auto}
+.tab{background:none;border:0;color:#8D8A83;font:600 14px Inter,sans-serif;padding:16px 20px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent}
+.tab:hover{color:#FCFDF8}
+.tab.on{color:var(--ink);background:var(--chart);border-bottom-color:var(--chart)}
+.panel{display:none;padding-top:52px}.panel.on{display:block}
+h2{font-size:29px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
 .slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
-h2{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
-.lede{color:var(--muted);max-width:62ch;margin-bottom:28px;line-height:1.65}
-ol.asks{list-style:none;counter-reset:a}
-.ask{counter-increment:a;background:var(--paper);border:1px solid var(--line);padding:26px 28px 26px 74px;position:relative;margin-bottom:12px}
-.ask::before{content:counter(a);position:absolute;left:0;top:0;width:52px;height:100%;background:var(--ink);color:var(--chartreuse);
-font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center}
-.ask-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:9px}
-.ask-title{font-size:19px;font-weight:600;letter-spacing:-.01em}
-.ask-tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--flame);font-weight:600}
-.ask p{color:#3A3733;max-width:62ch;font-size:15px}
-.ask-need{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
-.lbl{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
-.lanes{background:var(--paper);border:1px solid var(--line);padding:26px 28px}
-.lane{margin-bottom:18px} .lane:last-child{margin-bottom:0}
-.lane-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
-.lane-name{font-size:14px;font-weight:500} .lane-count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.bar{height:7px;background:#E8E6DC} .fill{height:100%;background:var(--chartreuse-dark)}
-table{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);font-size:14px}
-th{text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;
-padding:13px 14px;border-bottom:1px solid var(--line)}
-td{padding:13px 14px;border-bottom:1px solid #EAE8DE} tr:last-child td{border-bottom:none}
-.id{font-weight:600;white-space:nowrap} .num{font-variant-numeric:tabular-nums;font-weight:600}
-.muted{color:var(--muted)}
-.pill{font-size:11px;padding:3px 9px;font-weight:600;white-space:nowrap}
-.pill-yes{background:var(--chartreuse);color:#33401A} .pill-partial{background:#F7E9C4;color:#6B5514}
-.pill-no{background:#F4D5CC;color:var(--flame)}
-ul.stack{list-style:none}
-ul.stack li{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--flame);padding:20px 24px;margin-bottom:10px}
-ul.stack p{color:#3A3733;max-width:62ch;font-size:15px;margin-top:5px}
-.park-t,.flag-t{font-weight:600;font-size:16px}
-.callout{background:var(--ink);color:#FCFDF8;padding:32px 34px;margin-bottom:56px}
-.callout .slabel{color:var(--chartreuse)}
-.callout p{max-width:62ch;color:#D6D3CB;line-height:1.65}
-.callout strong{color:#FCFDF8;font-weight:600}
-details{background:var(--paper);border:1px solid var(--line);padding:22px 26px}
-summary{cursor:pointer;font-weight:600;font-size:15px}
-.app-lane{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 10px}
-.app-list{list-style:none}
-.app-list li{padding:7px 0 7px 22px;border-bottom:1px solid #EFEDE3;position:relative;font-size:14px}
-.app-list li::before{content:'';position:absolute;left:0;top:14px;width:9px;height:9px;border:1.5px solid var(--line)}
-.app-list li.done{color:var(--muted);text-decoration:line-through}
-.app-list li.done::before{background:var(--chartreuse-dark);border-color:var(--chartreuse-dark)}
-.owner{margin-left:9px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#EAE8DE;color:#55524B;padding:2px 7px;font-weight:600}
-@media(max-width:680px){h1{font-size:31px} .wrap,.band-in{padding-left:20px;padding-right:20px} .ask{padding-left:64px}}
+.lede{color:var(--muted);max-width:64ch;margin-bottom:30px}
+section{margin-bottom:52px}
+/* SIM */
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:26px}
+@media(max-width:860px){.sim{grid-template-columns:1fr}}
+.gates{background:var(--paper);border:1px solid var(--line);padding:8px}
+.gate{display:flex;gap:16px;align-items:flex-start;padding:18px;cursor:pointer;border-bottom:1px solid #EFEDE3}
+.gate:last-child{border-bottom:0}
+.gate:hover{background:#FAF9F3}
+.sw{flex:0 0 52px;height:30px;background:#DAD7CD;position:relative;transition:background .18s;margin-top:2px}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;background:#FFF;transition:transform .18s}
+.gate.on .sw{background:var(--chart-d)}
+.gate.on .sw::after{transform:translateX(22px)}
+.gate-t{font-weight:600;font-size:16px;display:block;margin-bottom:3px}
+.gate-d{font-size:14px;color:var(--muted);line-height:1.5}
+.readout{background:var(--ink);color:#FCFDF8;padding:30px 32px;display:flex;flex-direction:column;justify-content:center}
+.ro-row{display:flex;gap:34px;margin-bottom:22px}
+.ro b{display:block;font-size:52px;line-height:1;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ro span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8D8A83;font-weight:600}
+.ro.up b{color:var(--chart)}
+.stackbar{display:flex;height:32px;margin-bottom:10px}
+.seg{transition:width .35s ease;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink)}
+.seg-r{background:var(--chart)}.seg-p{background:var(--amber)}.seg-b{background:#4A4744;color:#B9B6AE}
+.key{display:flex;gap:20px;font-size:12px;color:#8D8A83}
+.key i{width:11px;height:11px;display:inline-block;margin-right:6px;vertical-align:-1px;font-style:normal}
+.reset{margin-top:18px;background:none;border:1px solid #4A4744;color:#B9B6AE;padding:9px 16px;font:600 12px Inter,sans-serif;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;align-self:flex-start}
+.reset:hover{border-color:var(--chart);color:var(--chart)}
+/* IDEA GRID */
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px}
+.card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line);padding:16px 18px;cursor:pointer;transition:.14s;position:relative}
+.card:hover{border-color:var(--ink)}
+.card.r{border-left-color:var(--chart-d)}.card.p{border-left-color:var(--amber)}.card.b{border-left-color:#B0ADA4;opacity:.62}
+.card.sel{outline:3px solid var(--ink);outline-offset:-1px}
+.card.up{outline:3px solid var(--flame);outline-offset:-1px}
+.card.dn{background:#FBFAF4;border-color:var(--chart-d)}
+.cid{font-size:11px;font-weight:700;letter-spacing:.09em;color:var(--muted)}
+.cname{font-size:15px;font-weight:600;margin:5px 0 9px;line-height:1.35}
+.cmeta{display:flex;gap:9px;align-items:center;font-size:11px;color:var(--muted);flex-wrap:wrap}
+.chip{padding:2px 8px;font-weight:600;font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+.chip-r{background:var(--chart);color:#33401A}.chip-p{background:#F7E9C4;color:#6B5514}.chip-b{background:#E4E1D8;color:#55524B}
+.dlink{display:inline-block;margin-top:9px;font-size:11px;font-weight:600;color:var(--flame);text-decoration:none;border-bottom:1px solid rgba(179,49,19,.35)}
+.dlink:hover{border-bottom-color:var(--flame)}
+.expl{background:var(--paper);border:1px solid var(--line);padding:22px 26px;margin-bottom:18px;min-height:96px}
+.expl h3{font-size:19px;margin-bottom:8px}
+.expl .row{margin-top:12px;font-size:14px}
+.expl .row b{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+.tagx{display:inline-block;background:#EEECE2;padding:3px 9px;margin:0 5px 5px 0;font-size:12px;font-weight:500}
+.tagx.up{background:#F4D5CC;color:var(--flame)}.tagx.dn{background:var(--chart);color:#33401A}
+/* TABLE */
+.ctrl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.ctrl input[type=search],.ctrl select{font:400 14px Inter,sans-serif;padding:10px 13px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.ctrl input[type=search]{min-width:230px}
+.btn{font:600 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:11px 17px;border:1px solid var(--ink);background:var(--ink);color:var(--chart);cursor:pointer}
+.btn.alt{background:none;color:var(--ink)}
+.btn:hover{opacity:.86}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+.lanehead{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 8px;display:flex;justify-content:space-between}
+.row{display:grid;grid-template-columns:118px 1fr 190px;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:10px 14px;margin-bottom:5px}
+@media(max-width:760px){.row{grid-template-columns:1fr}}
+.row.done .itxt{text-decoration:line-through;color:var(--muted)}
+.st{font:600 11px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:7px 9px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.st[data-v="Done"]{background:var(--chart);border-color:var(--chart-d)}
+.st[data-v="Blocked"]{background:#F4D5CC;border-color:var(--flame);color:var(--flame)}
+.st[data-v="In Progress"]{background:#F7E9C4;border-color:var(--amber)}
+.itxt{font-size:15px}
+.own{font:400 13px Inter,sans-serif;padding:8px 10px;border:1px solid var(--line);background:var(--bg);width:100%}
+.own.set{background:var(--paper);border-color:var(--ink);font-weight:500}
+.dl2{font-size:11px;font-weight:600;color:var(--flame);text-decoration:none;margin-left:8px;white-space:nowrap}
+.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:30px;font-size:15px;line-height:1.65;max-width:74ch}
+.note b{color:var(--chart);font-weight:600}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.dcard{background:var(--paper);border:1px solid var(--line);padding:17px 19px;text-decoration:none;color:var(--ink);display:block;transition:.14s}
+.dcard:hover{border-color:var(--ink);background:#FAF9F3}
+.dcard b{display:block;font-size:15px;margin-bottom:4px}
+.dcard span{font-size:13px;color:var(--muted)}
 </style></head><body>
+<style>
+.lanes{display:flex;flex-direction:column;gap:3px}
+.lb{display:grid;grid-template-columns:290px 1fr 56px;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:13px 17px}
+.lb-t{font-size:14px;font-weight:600}
+.lb-bar{height:12px;background:#E4E1D8;position:relative}
+.lb-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--chart-d)}
+.lb-n{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:760px){.lb{grid-template-columns:1fr}}
+.asks{list-style:none;counter-reset:a}
+.asks li{counter-increment:a;background:var(--paper);border:1px solid var(--line);padding:22px 26px 22px 76px;position:relative;margin-bottom:8px}
+.asks li::before{content:counter(a);position:absolute;left:0;top:0;bottom:0;width:56px;background:var(--ink);color:var(--chart);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700}
+.asks h3{font-size:19px;font-weight:600;margin-bottom:6px}
+.asks p{font-size:15px;color:var(--muted);line-height:1.62;max-width:70ch}
+.asks .who{display:inline-block;margin-top:11px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:#EEECE2;padding:4px 10px}
+.flag{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--flame);padding:15px 20px;margin-bottom:6px;font-size:15px;line-height:1.55;max-width:82ch}
+.flag b{font-weight:600}
+.hint{font-size:13px;color:var(--muted);margin-bottom:14px}
+.expl .row{display:block;background:none;border:0;padding:0;margin:14px 0 0}
+</style>
+
 <div class="band"><div class="band-in">
-  <div class="eyebrow">Campaign Ops · Bi-weekly Check-in</div>
-  <h1>Roadmap review: what needs a decision</h1>
-  <p class="sub">Phase 1 Priorities read against the RCAI idea register. The two boards share one substrate, and it is stuck in the same place — which turns most of this from a build conversation into an access conversation.</p>
-  <div class="meta"><span><b>45</b> Phase 1 items across 7 lanes</span><span><b>17</b> RCAI ideas</span><span><b>5</b> asks on the table</span><span>13 August 2026</span></div>
+<div class="eyebrow">Campaign Ops · Bi-weekly check-in · 13 August 2026</div>
+<h1>Roadmap review</h1>
+<div class="sub">Forty-five Phase&nbsp;1 items and seventeen RCAI ideas, sorted by what
+actually needs a decision from you today. Toggle the gates and watch the pipeline move.</div>
 </div></div>
+
+<nav class="tabs"><div class="tabs-in">
+<button class="tab on" data-p="asks">The asks</button>
+<button class="tab" data-p="sim">Unblock simulator</button>
+<button class="tab" data-p="dep">Dependencies</button>
+<button class="tab" data-p="list">The 45</button>
+<button class="tab" data-p="demo">What&rsquo;s already built</button>
+</div></nav>
+
 <div class="wrap">
 
-<div class="callout">
-  <div class="slabel">The frame</div>
-  <p>The most useful thing to say out loud: <strong>one lane unlocks almost everything.</strong> The Airtable lane is the substrate for RCAI ID&nbsp;1 and ID&nbsp;3, and those two between them gate 13 of the 17 ideas on the register. ID&nbsp;1 alone is Low difficulty, needs no new access, costs about 4 hrs/wk to build — and gates 10 ideas worth roughly 42 hrs/wk. That is the whole story. Not percent complete.</p>
+<div class="panel on" id="p-asks">
+
+<div class="note">Three of forty-five items read as done, and that number is a lie the board
+tells about itself. The budget sign-off suite is live. The pitch-deck system is live. The
+campaigns, pitches and priorities boards are live. None of it is on this board.
+<br><br>The real shape: <b>one lane unlocks nearly everything</b> — the campaign record and
+the artist record together gate thirteen of the seventeen RCAI ideas — and
+<b>all five asks below are decisions or access grants, not builds</b>. Nothing on this page
+is a request for engineering time.</div>
+<section><div class="slabel">What I need from you</div>
+<h2>Five asks. None of them are builds.</h2>
+
+<ol class="asks">
+<li><h3>Production Airtable access</h3>
+<p>The Artists table is stubs. Lane 02 is nine items and one of them is a permission
+grant that sits outside this room — everything downstream of the campaign record and the
+artist record waits behind it. Thirteen of the seventeen RCAI ideas trace back here.</p>
+<span class="who">Brian Lynch · IT — needs a push</span></li>
+
+<li><h3>Agency reporting written into the relationship</h3>
+<p>A weekly export from the ten creator agencies, made a term at Sony level rather than a
+favour asked campaign by campaign. This is a commercial decision, not a build. It gates
+agency intake, the weekly campaign rollup, and the management update — nineteen hours a week.</p>
+<span class="who">Commercial · Sony-level term</span></li>
+
+<li><h3>The artist key</h3>
+<p>One authoritative identifier joining GRPS and Snowflake at artist level. Track level
+already joins on ISRC; artist level has no agreed key, so performance insight, spike
+response, deck generation and spend attribution all stall. Sixteen hours a week.</p>
+<span class="who">Data · needs an owner named</span></li>
+
+<li><h3>Budget-group ceilings</h3>
+<p>The five roster groups are locked and the tool is built. What is missing is a
+not-to-exceed number per group. Ian has the tool and owes the figures; the numbers only
+hold if you back them when a lead pushes.</p>
+<span class="who">Ian owes numbers · your buy-in holds the line</span></li>
+
+<li><h3>Handoff Map validation</h3>
+<p>Lane 03 is six items and none have moved, because the map needs a read from Tarek and
+from Creative leadership before it means anything. A twenty-minute review unlocks the lane.</p>
+<span class="who">Tarek + Creative leadership</span></li>
+</ol></section>
+
+<section><div class="slabel">Where the board actually stands</div>
+<h2>Lane completion</h2>
+<p class="lede">Lane 02 is the one that matters. Everything else is downstream of it.</p>
+<div class="lanes"><div class="lb"><div class="lb-t">02 · Airtable</div><div class="lb-bar"><i style="width:11%"></i></div><div class="lb-n">1/9</div></div><div class="lb"><div class="lb-t">03 · Mapping → AD Roster → Creative</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">04 · Campaign Phases</div><div class="lb-bar"><i style="width:29%"></i></div><div class="lb-n">2/7</div></div><div class="lb"><div class="lb-t">05 · Budget</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">06 · Scheduling Requests</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">07 · A&amp;R Admin · A&amp;R Ops Gaps</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/5</div></div><div class="lb"><div class="lb-t">08 · Monthly Cadence</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div></div></section>
+
+<section><div class="slabel">Worth a why</div>
+<h2>Flags</h2>
+
+<div class="flag"><b>A&amp;R Ops Gap 4 is six weeks past its date.</b> The board still reads
+&ldquo;Scott, July 1.&rdquo; Either it moves to a real date or it comes off the board.</div>
+<div class="flag"><b>A&amp;R Ops Gap 1 is waiting on an arrival that already happened.</b>
+It is gated on Tarek arriving; he has been here since March. This one is just unblocked.</div>
+<div class="flag"><b>Forty-three of forty-five items have no owner.</b> Not a process failure
+so much as a board that was built as a checklist. The Owner column on the next tab is
+editable — assign live and export.</div>
+<div class="flag"><b>The RCAI summary sheet is stale by one row.</b> It says sixteen ideas
+and two blocked; there are seventeen and five. Idea 17 landed after the summary was written.</div></section>
+
+<section><div class="slabel">Recommendation</div>
+<h2>Cut or park</h2>
+
+<p class="lede">Nothing here is wrong. These are items that cannot move until one of the
+five asks lands, and holding them open makes the board read worse than the work is.</p>
+<div class="flag"><b>Lane 06 · Scheduling Requests (6 items)</b> — the intake demo exists and
+works. The remaining items are adoption, not build. Park until the monthly cadence is running.</div>
+<div class="flag"><b>Lane 08 · Monthly Cadence (6 items)</b> — depends on lanes 02 and 04
+producing data worth reviewing. Sequence it after, not alongside.</div>
+<div class="flag"><b>RCAI ideas 5, 13, 17</b> — blocked on the artist key and on licensed
+social listening. Keep them registered, stop counting them as pipeline.</div></section>
 </div>
 
+<div class="panel" id="p-sim">
 <section>
-  <div class="slabel">Bring these</div>
-  <h2>Five asks, none of them builds</h2>
-  <p class="lede">Every one of these is a decision or an access grant. None can be resolved by Campaign Ops working harder, which is precisely why they belong in this meeting rather than on a task board.</p>
-  <ol class="asks">
-  <li class="ask">
-    <div class="ask-head"><span class="ask-title">Production Airtable access</span><span class="ask-tag">Brian Lynch · IT</span></div>
-    <p>The only owned item on the board, and the one everything sits on. Eight of the nine items in the Airtable lane wait on it, and that lane is the substrate for both of the RCAI ideas with the biggest fan-out.</p>
-    <p class="ask-need"><span class="lbl">What you need from him</span>An exec nudge to IT. This has been sitting at the same place long enough that another ask from Ops won&#x27;t move it.</p>
-  </li>
-  <li class="ask">
-    <div class="ask-head"><span class="ask-title">Agency reporting as a Sony-level term</span><span class="ask-tag">Commercial, not technical</span></div>
-    <p>No current agency agreement requires a weekly export. Ten agencies, none of them ours. The build is short once exports arrive — the blocker is that nobody has made reporting a term of the relationship.</p>
-    <p class="ask-need"><span class="lbl">What you need from him</span>A decision to take this up at Sony level. It gates three ideas and roughly 15 hrs/wk, and it appears nowhere on the Phase 1 board.</p>
-  </li>
-  <li class="ask">
-    <div class="ask-head"><span class="ask-title">The artist key</span><span class="ask-tag">Decision, not a build</span></div>
-    <p>Track level joins on ISRC today. Artist level does not — consumption arrives against DSP identifiers while GRPS holds the artist record. Four ideas wait on this.</p>
-    <p class="ask-need"><span class="lbl">What you need from him</span>A named authoritative identifier. Worth checking the PDE pilot schema first — it already carries ROSTER_ARTIST_ID alongside Spotify ID, which may answer half of this.</p>
-  </li>
-  <li class="ask">
-    <div class="ask-head"><span class="ask-title">Budget-group ceilings</span><span class="ask-tag">Ian owes the numbers; you need John&#x27;s buy-in</span></div>
-    <p>The five roster groups are locked as the budget tiering, but the per-group not-to-exceed figures are still with Ian. Without a number, budget reviews stay subjective and get rubber-stamped after the fact.</p>
-    <p class="ask-need"><span class="lbl">What you need from him</span>Air cover for the ceiling as a concept, so the number has somewhere to land when Ian delivers it. The Budget lane is 0/6 and this is the reason.</p>
-  </li>
-  <li class="ask">
-    <div class="ask-head"><span class="ask-title">Handoff Map validation</span><span class="ask-tag">Tarek + Creative leadership</span></div>
-    <p>Both validations are unstarted and together they gate all six items in the Mapping lane. This is the most turf-sensitive thing on the board.</p>
-    <p class="ask-need"><span class="lbl">What you need from him</span>Cover for the conversation, not a decision on the map itself. Framed as a map of who to ask, not who is responsible.</p>
-  </li></ol>
+<div class="slabel">Interactive</div>
+<h2>What each decision unlocks</h2>
+<p class="lede">Four things stand between us and the RCAI pipeline. Flip them on and off &mdash;
+the counts and the cards below move live. Everything currently reads at the real state: all four off.</p>
+<div class="sim">
+<div class="gates" id="gates"></div>
+<div class="readout">
+<div class="ro-row">
+<div class="ro up"><b id="ro-n">8</b><span>ideas reachable</span></div>
+<div class="ro up"><b id="ro-h">25</b><span>hrs / week returned</span></div>
+<div class="ro"><b id="ro-b">9</b><span>still blocked</span></div>
+</div>
+<div class="stackbar"><div class="seg seg-r" id="sg-r"></div><div class="seg seg-p" id="sg-p"></div><div class="seg seg-b" id="sg-b"></div></div>
+<div class="key"><span><i style="background:var(--chart)"></i>Ready</span>
+<span><i style="background:var(--amber)"></i>Degraded</span>
+<span><i style="background:#4A4744"></i>Blocked</span></div>
+<button class="reset" id="allon">Turn everything on</button>
+</div>
+</div>
+<div class="igrid" id="grid-sim"></div>
 </section>
+</div>
 
+<div class="panel" id="p-dep">
 <section>
-  <div class="slabel">Where it stands</div>
-  <h2>Lane by lane</h2>
-  <p class="lede">Three items complete out of forty-five. Read the shape rather than the number — the board undersells what has shipped, and the flags at the bottom of this page explain why.</p>
-  <div class="lanes">
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">02 · Airtable</span><span class="lane-count">1/9</span></div>
-    <div class="bar"><div class="fill" style="width:11%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">03 · Mapping → AD Roster → Creative</span><span class="lane-count">0/6</span></div>
-    <div class="bar"><div class="fill" style="width:0%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">04 · Campaign Phases</span><span class="lane-count">2/7</span></div>
-    <div class="bar"><div class="fill" style="width:29%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">05 · Budget</span><span class="lane-count">0/6</span></div>
-    <div class="bar"><div class="fill" style="width:0%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">06 · Scheduling Requests</span><span class="lane-count">0/6</span></div>
-    <div class="bar"><div class="fill" style="width:0%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">07 · A&amp;R Admin · A&amp;R Ops Gaps</span><span class="lane-count">0/5</span></div>
-    <div class="bar"><div class="fill" style="width:0%"></div></div>
-  </div>
-  <div class="lane">
-    <div class="lane-top"><span class="lane-name">08 · Monthly Cadence</span><span class="lane-count">0/6</span></div>
-    <div class="bar"><div class="fill" style="width:0%"></div></div>
-  </div></div>
+<div class="slabel">Interactive</div>
+<h2>Why sequencing matters</h2>
+<p class="lede">Click any idea. Red is what has to exist first; green is what it unlocks.
+Click the campaign record and the artist record to see the argument in one move.</p>
+<div class="expl" id="expl"><h3>Pick an idea</h3><p style="color:var(--muted);font-size:15px">
+Its dependencies and everything downstream of it will highlight below.</p></div>
+<div class="igrid" id="grid-dep"></div>
 </section>
+</div>
 
+<div class="panel" id="p-list">
 <section>
-  <div class="slabel">Cross-reference</div>
-  <h2>What the RCAI register actually waits on</h2>
-  <p class="lede">Fan-out counted transitively: how many of the 17 ideas become reachable once each item lands, and the weekly hours those ideas claim to return. The sequencing argument sits in the top row.</p>
-  <table><thead><tr><th></th><th>Idea</th><th>Gates</th><th>Hrs/wk</th><th>Access</th><th>Difficulty</th></tr></thead>
-  <tbody>
-  <tr><td class="id">ID 1</td><td>Campaign record</td><td class="num">10</td><td class="num">42</td>
-  <td><span class="pill pill-yes">Yes</span></td><td class="muted">Low</td></tr>
-  <tr><td class="id">ID 3</td><td>Artist record / artist page</td><td class="num">6</td><td class="num">28</td>
-  <td><span class="pill pill-partial">Partial</span></td><td class="muted">Medium</td></tr>
-  <tr><td class="id">ID 5</td><td>Campaign-to-track link</td><td class="num">4</td><td class="num">14</td>
-  <td><span class="pill pill-no">No</span></td><td class="muted">High</td></tr>
-  <tr><td class="id">ID 4</td><td>Agency &amp; creator campaign intake</td><td class="num">3</td><td class="num">15</td>
-  <td><span class="pill pill-no">No</span></td><td class="muted">High</td></tr>
-  <tr><td class="id">ID 11</td><td>Performance insights &amp; anomaly watch</td><td class="num">2</td><td class="num">7</td>
-  <td><span class="pill pill-partial">Partial</span></td><td class="muted">High</td></tr></tbody></table>
-  <p class="lede" style="margin-top:20px">Two things worth naming in the room. Phase&nbsp;1's Airtable lane and RCAI ID&nbsp;3 are the same foundational work under two different names on two different boards — if they keep separate owners they will drift apart. And ID&nbsp;16, deck generation, sits last in the RCAI sequence while the pitch-deck system is already a live commitment out of the 8/4 meeting. The register's sequence and the organisation's expectation disagree.</p>
+<div class="slabel">Live · edits save in this browser</div>
+<h2>All forty-five items</h2>
+<p class="lede">Click a status to cycle it. Type an owner. Export the CSV at the end of the
+meeting and the board gets updated from it &mdash; no second pass of notes.</p>
+<div class="ctrl">
+<input type="search" id="q" placeholder="Search items&hellip;">
+<select id="fl"></select>
+<select id="fs">
+<option value="">All statuses</option><option>To Do</option><option>In Progress</option>
+<option>Done</option><option>Blocked</option></select>
+<button class="btn" id="exp">Export CSV</button>
+<button class="btn alt" id="clr">Reset edits</button>
+<span class="count" id="cnt"></span>
+</div>
+<div id="rows"></div>
+<datalist id="owners"><option value="Meg Hourihan"><option value="Gerard Rice"><option value="Christian"><option value="Emma"><option value="Jordan Blaugrund"><option value="Tarek Al-Hamdouni"><option value="Brian Lynch · IT"><option value="Ian"><option value="Terenia Collymore"><option value="Ryan Edelman"><option value="Karen Lamberton"><option value="Finance"></datalist>
 </section>
+</div>
 
+<div class="panel" id="p-demo">
 <section>
-  <div class="slabel">Take off the list</div>
-  <h2>Park these</h2>
-  <p class="lede">Both are defensible on their own terms and neither survives the question of what three things get owned ruthlessly.</p>
-  <ul class="stack"><li><span class="park-t">08 · Monthly Cadence</span><p>Six items about a meeting to review work that is itself at 7%. There is nothing to convene a monthly review around yet. Park it until at least one lane is shippable, then it writes itself.</p></li><li><span class="park-t">RCAI ID 17 — Trend &amp; UGC detection</span><p>Requires procuring licensed social listening. No dependents, no hours estimate, and scraping is correctly off the table. This is a procurement line, not a build — it doesn&#x27;t belong in a build sequence.</p></li></ul>
+<div class="slabel">Receipts</div>
+<h2>Already live, already working</h2>
+<p class="lede">Every one of these opens. This is the answer to &ldquo;three of forty-five&rdquo; &mdash;
+the board never tracked the things that shipped.</p>
+<div class="demo-grid"><a class="dcard" href="/reference/phase-gates.html" target="_blank"><b>Phase gates</b><span>Phase Gate Items table connected to TEMPO</span></a><a class="dcard" href="/d2c-grid.html" target="_blank"><b>D2C grid</b><span>D2C Planner Airtable link live via /api/records proxy</span></a><a class="dcard" href="/ad-tagging.html" target="_blank"><b>AD tagging</b><span>AD Roster Airtable link live via /api/ad-tagging-records proxy</span></a><a class="dcard" href="/reference/phase-1.html" target="_blank"><b>Phase 1 (broken)</b><span>Phase 1 Priorities table connected to TEMPO (this one)</span></a><a class="dcard" href="/archive/reference/handoff-map-snapshot-2026-05-21.html" target="_blank"><b>Handoff map</b><span>Handoff Map validated with Tarek</span></a><a class="dcard" href="/reference/creative-lanes.html" target="_blank"><b>Creative lanes</b><span>Handoff Map validated with Creative leadership</span></a><a class="dcard" href="/reference/lanes.html" target="_blank"><b>Lanes</b><span>5-phase framework piloted on 1 active campaign</span></a><a class="dcard" href="/active-projects.html" target="_blank"><b>Active projects</b><span>Phase column live in Wednesday AP meeting view</span></a><a class="dcard" href="/budget/full-flow.html" target="_blank"><b>Full flow</b><span>Two-track framework documented (Planning + Approval)</span></a><a class="dcard" href="/reference/budget.html" target="_blank"><b>Budget ref</b><span>Biz Plan Revenue × MMP% template built</span></a><a class="dcard" href="/budget-approvals.html" target="_blank"><b>Approvals</b><span>Manual approval breakdown documented (where it fails today)</span></a><a class="dcard" href="/budget/demo.html" target="_blank"><b>Role demo</b><span>Airtable approval routing prototyped</span></a><a class="dcard" href="/budget/tracker.html" target="_blank"><b>Spend tracker</b><span>Validated with Finance</span></a><a class="dcard" href="/pilot/scheduling.html" target="_blank"><b>Scheduling</b><span>Scheduling request intake form built (Airtable form)</span></a><a class="dcard" href="/release-planning.html" target="_blank"><b>Release planning</b><span>Routing to Release Planning defined</span></a><a class="dcard" href="/reference/ar-ops-gaps.html" target="_blank"><b>A&amp;R gaps</b><span>Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</span></a><a class="dcard" href="/pitches.html" target="_blank"><b>DISCO pitches</b><span>Gap 3: Disco enterprise pipeline test results documented</span></a><a class="dcard" href="/campaigns.html" target="_blank"><b>Campaigns board</b><span>Campaign record</span></a><a class="dcard" href="/pilot/artist.html" target="_blank"><b>Artist page</b><span>Artist record / artist page</span></a><a class="dcard" href="/deadline-tracker.html" target="_blank"><b>Deadline tracker</b><span>Metadata QC before delivery</span></a><a class="dcard" href="/pilot/dsp-pitches.html" target="_blank"><b>DSP pitches</b><span>DSP pitch drafts</span></a><a class="dcard" href="/pitchdecks/index.html" target="_blank"><b>Pitch decks</b><span>Deck &amp; one-sheet generation</span></a></div>
 </section>
+</div>
 
-<section>
-  <div class="slabel">Before this goes in front of anyone</div>
-  <h2>The board needs a status pass</h2>
-  <p class="lede">These are data-quality problems, not delivery problems, and they are the difference between a board that reads as stalled and one that reads as blocked on access.</p>
-  <ul class="stack"><li><span class="flag-t">43 of 45 items have no owner</span><p>The single cheapest fix before anyone sees this. Unowned items read as unstarted regardless of reality.</p></li><li><span class="flag-t">3 of 45 done reads as 7%</span><p>It isn&#x27;t true. The budget sign-off suite is live on /budget/, the pitch-deck system is live on the hub, and neither appears here. The board undersells you.</p></li><li><span class="flag-t">Nothing on the board says “was working, now broken”</span><p>The Airtable proxy layer is down site-wide — phase-1 returns 500 on a missing token, priorities returns a 403 from Airtable. Items written as “live via /api/… proxy” are not live right now. Blocked is the closest available status.</p></li><li><span class="flag-t">Two dates have passed</span><p>“Scott July 1 — Production Meeting ownership transition” is six weeks overdue, and “Tarek arrival — roles defined” reads stale given he has been in the room since March. Both need a status pass, not a guess.</p></li><li><span class="flag-t">The RCAI summary sheet is off by one row</span><p>It says 16 ideas, Tier 3 = 2, blocked = 4. The register actually holds 17, Tier 3 = 3, blocked = 5 — ID 17 was added after the summary was written. Fix before presenting.</p></li></ul>
-</section>
+</div>
 
-<section>
-  <div class="slabel">Reference</div>
-  <details><summary>All 45 Phase 1 items</summary><h4 class="app-lane">02 · Airtable</h4><ul class="app-list"><li class="">Sandbox base structure validated against production schema</li><li class="">Artists table populated with all active roster (production data, not stubs)</li><li class="done">Phase Gate Items table connected to TEMPO</li><li class="">D2C Planner Airtable link live via /api/records proxy</li><li class="">AD Roster Airtable link live via /api/ad-tagging-records proxy</li><li class="">Production base access provisioned<span class="owner">Brian Lynch · IT</span></li><li class="">RDX field mapping documented for when production access lands</li><li class="">Standing views created per table (Meg / Gerard / Jordan)</li><li class="">Phase 1 Priorities table connected to TEMPO (this one)</li></ul><h4 class="app-lane">03 · Mapping → AD Roster → Creative</h4><ul class="app-list"><li class="">Handoff Map validated with Tarek</li><li class="">Handoff Map validated with Creative leadership</li><li class="">AD Roster live in Airtable with genre + lifestyle tags per specialist</li><li class="">Genre × Lifestyle tag audit complete for every active artist</li><li class="">Coverage gap analysis run (artists with no AD match)</li><li class="">Re-tagging completed for mismatched / unmatched artists</li></ul><h4 class="app-lane">04 · Campaign Phases</h4><ul class="app-list"><li class="done">184 Phase Gate Items loaded to Airtable</li><li class="done">Phase rename (Announce → Pre-Release) propagated</li><li class="">5-phase framework piloted on 1 active campaign</li><li class="">Phase column live in Wednesday AP meeting view</li><li class="">Per-artist phase tracking workflow defined and documented</li><li class="">Phase transition criteria signed off by Jordan</li><li class="">Phase Risk field methodology agreed with Jordan</li></ul><h4 class="app-lane">05 · Budget</h4><ul class="app-list"><li class="">Two-track framework documented (Planning + Approval)</li><li class="">Biz Plan Revenue × MMP% template built</li><li class="">Manual approval breakdown documented (where it fails today)</li><li class="">Airtable approval routing prototyped</li><li class="">Validated with Finance</li><li class="">Validated with Karen Lamberton<span class="owner">BA</span></li></ul><h4 class="app-lane">06 · Scheduling Requests</h4><ul class="app-list"><li class="">Plan → Pre-Release gate criteria documented</li><li class="">Scheduling request intake form built (Airtable form)</li><li class="">Initiator confirmed (A&amp;R Admin? Marketing?)</li><li class="">Required fields locked</li><li class="">Routing to Release Planning defined</li><li class="">Tested on 2 active campaigns</li></ul><h4 class="app-lane">07 · A&amp;R Admin · A&amp;R Ops Gaps</h4><ul class="app-list"><li class="">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</li><li class="">Gap 2: Promo portal security audit complete, gaps surfaced to IT</li><li class="">Gap 3: Disco enterprise pipeline test results documented</li><li class="">Gap 4: Scott July 1 — Production Meeting ownership transition plan written</li><li class="">All 4 gaps resolved or assigned owner + timeline</li></ul><h4 class="app-lane">08 · Monthly Cadence</h4><ul class="app-list"><li class="">Monthly cadence proposal drafted (who attends, what&#x27;s reviewed, format)</li><li class="">Validated with Jordan</li><li class="">Validated with Tarek</li><li class="">First monthly meeting scheduled</li><li class="">Recap format defined</li><li class="">Distribution list confirmed</li></ul></details>
-</section>
+<script>
+const DATA = {"items": [{"lane": "02 \u00b7 Airtable", "item": "Sandbox base structure validated against production schema", "status": "To Do", "owner": "", "order": 1, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Artists table populated with all active roster (production data, not stubs)", "status": "To Do", "owner": "", "order": 2, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Phase Gate Items table connected to TEMPO", "status": "Done", "owner": "", "order": 3, "demo": "/reference/phase-gates.html", "demoLabel": "Phase gates"}, {"lane": "02 \u00b7 Airtable", "item": "D2C Planner Airtable link live via /api/records proxy", "status": "To Do", "owner": "", "order": 4, "demo": "/d2c-grid.html", "demoLabel": "D2C grid"}, {"lane": "02 \u00b7 Airtable", "item": "AD Roster Airtable link live via /api/ad-tagging-records proxy", "status": "To Do", "owner": "", "order": 5, "demo": "/ad-tagging.html", "demoLabel": "AD tagging"}, {"lane": "02 \u00b7 Airtable", "item": "Production base access provisioned", "status": "To Do", "owner": "Brian Lynch \u00b7 IT", "order": 6, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "RDX field mapping documented for when production access lands", "status": "To Do", "owner": "", "order": 7, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Standing views created per table (Meg / Gerard / Jordan)", "status": "To Do", "owner": "", "order": 8, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Phase 1 Priorities table connected to TEMPO (this one)", "status": "To Do", "owner": "", "order": 45, "demo": "/reference/phase-1.html", "demoLabel": "Phase 1 (broken)"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Handoff Map validated with Tarek", "status": "To Do", "owner": "", "order": 9, "demo": "/archive/reference/handoff-map-snapshot-2026-05-21.html", "demoLabel": "Handoff map"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Handoff Map validated with Creative leadership", "status": "To Do", "owner": "", "order": 10, "demo": "/reference/creative-lanes.html", "demoLabel": "Creative lanes"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "AD Roster live in Airtable with genre + lifestyle tags per specialist", "status": "To Do", "owner": "", "order": 11, "demo": "/ad-tagging.html", "demoLabel": "AD tagging"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Genre \u00d7 Lifestyle tag audit complete for every active artist", "status": "To Do", "owner": "", "order": 12, "demo": null, "demoLabel": null}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Coverage gap analysis run (artists with no AD match)", "status": "To Do", "owner": "", "order": 13, "demo": null, "demoLabel": null}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Re-tagging completed for mismatched / unmatched artists", "status": "To Do", "owner": "", "order": 14, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "184 Phase Gate Items loaded to Airtable", "status": "Done", "owner": "", "order": 15, "demo": "/reference/phase-gates.html", "demoLabel": "Phase gates"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase rename (Announce \u2192 Pre-Release) propagated", "status": "Done", "owner": "", "order": 16, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "5-phase framework piloted on 1 active campaign", "status": "To Do", "owner": "", "order": 17, "demo": "/reference/lanes.html", "demoLabel": "Lanes"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase column live in Wednesday AP meeting view", "status": "To Do", "owner": "", "order": 18, "demo": "/active-projects.html", "demoLabel": "Active projects"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Per-artist phase tracking workflow defined and documented", "status": "To Do", "owner": "", "order": 19, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase transition criteria signed off by Jordan", "status": "To Do", "owner": "", "order": 20, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase Risk field methodology agreed with Jordan", "status": "To Do", "owner": "", "order": 44, "demo": null, "demoLabel": null}, {"lane": "05 \u00b7 Budget", "item": "Two-track framework documented (Planning + Approval)", "status": "To Do", "owner": "", "order": 21, "demo": "/budget/full-flow.html", "demoLabel": "Full flow"}, {"lane": "05 \u00b7 Budget", "item": "Biz Plan Revenue \u00d7 MMP% template built", "status": "To Do", "owner": "", "order": 22, "demo": "/reference/budget.html", "demoLabel": "Budget ref"}, {"lane": "05 \u00b7 Budget", "item": "Manual approval breakdown documented (where it fails today)", "status": "To Do", "owner": "", "order": 23, "demo": "/budget-approvals.html", "demoLabel": "Approvals"}, {"lane": "05 \u00b7 Budget", "item": "Airtable approval routing prototyped", "status": "To Do", "owner": "", "order": 24, "demo": "/budget/demo.html", "demoLabel": "Role demo"}, {"lane": "05 \u00b7 Budget", "item": "Validated with Finance", "status": "To Do", "owner": "", "order": 25, "demo": "/budget/tracker.html", "demoLabel": "Spend tracker"}, {"lane": "05 \u00b7 Budget", "item": "Validated with Karen Lamberton", "status": "To Do", "owner": "BA", "order": 26, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Plan \u2192 Pre-Release gate criteria documented", "status": "To Do", "owner": "", "order": 27, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Scheduling request intake form built (Airtable form)", "status": "To Do", "owner": "", "order": 28, "demo": "/pilot/scheduling.html", "demoLabel": "Scheduling"}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Initiator confirmed (A&R Admin? Marketing?)", "status": "To Do", "owner": "", "order": 29, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Required fields locked", "status": "To Do", "owner": "", "order": 30, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Routing to Release Planning defined", "status": "To Do", "owner": "", "order": 31, "demo": "/release-planning.html", "demoLabel": "Release planning"}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Tested on 2 active campaigns", "status": "To Do", "owner": "", "order": 32, "demo": null, "demoLabel": null}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 1: Tarek arrival \u2014 roles defined, Campaign Ops handoff documented", "status": "To Do", "owner": "", "order": 33, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 2: Promo portal security audit complete, gaps surfaced to IT", "status": "To Do", "owner": "", "order": 34, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 3: Disco enterprise pipeline test results documented", "status": "To Do", "owner": "", "order": 35, "demo": "/pitches.html", "demoLabel": "DISCO pitches"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 4: Scott July 1 \u2014 Production Meeting ownership transition plan written", "status": "To Do", "owner": "", "order": 36, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "All 4 gaps resolved or assigned owner + timeline", "status": "To Do", "owner": "", "order": 37, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Monthly cadence proposal drafted (who attends, what's reviewed, format)", "status": "To Do", "owner": "", "order": 38, "demo": "/active-projects.html", "demoLabel": "Active projects"}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Validated with Jordan", "status": "To Do", "owner": "", "order": 39, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Validated with Tarek", "status": "To Do", "owner": "", "order": 40, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "First monthly meeting scheduled", "status": "To Do", "owner": "", "order": 41, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Recap format defined", "status": "To Do", "owner": "", "order": 42, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Distribution list confirmed", "status": "To Do", "owner": "", "order": 43, "demo": null, "demoLabel": null}], "ideas": [{"id": 1, "name": "Campaign record", "deps": [], "gates": [], "degraded": null, "hrs": 4, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/campaigns.html", "demoLabel": "Campaigns board"}, {"id": 2, "name": "Campaign index conflict & gap detection", "deps": [1], "gates": [], "degraded": null, "hrs": 0, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/campaigns.html", "demoLabel": "Campaigns board"}, {"id": 3, "name": "Artist record / artist page", "deps": [], "gates": [], "degraded": "prod", "hrs": 6, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": "/pilot/artist.html", "demoLabel": "Artist page"}, {"id": 4, "name": "Agency & creator campaign intake", "deps": [1], "gates": ["agency"], "degraded": null, "hrs": 7, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null}, {"id": 5, "name": "Campaign-to-track link", "deps": [1], "gates": ["key"], "degraded": null, "hrs": 5, "diff": "High", "tier": "3 \u2014 Blocked", "demo": null, "demoLabel": null}, {"id": 6, "name": "Metadata QC before delivery", "deps": [], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/deadline-tracker.html", "demoLabel": "Deadline tracker"}, {"id": 7, "name": "Platform copy variants", "deps": [], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": null, "demoLabel": null}, {"id": 8, "name": "DSP pitch drafts", "deps": [3], "gates": [], "degraded": null, "hrs": 3, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/pilot/dsp-pitches.html", "demoLabel": "DSP pitches"}, {"id": 9, "name": "Weekly internal update", "deps": [3], "gates": [], "degraded": null, "hrs": 4, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/active-projects.html", "demoLabel": "Active projects"}, {"id": 10, "name": "Weekly campaign rollup", "deps": [3, 4], "gates": [], "degraded": null, "hrs": 7, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null}, {"id": 11, "name": "Performance insights & anomaly watch", "deps": [5], "gates": [], "degraded": null, "hrs": 4, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null}, {"id": 12, "name": "Spike response", "deps": [11], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": null, "demoLabel": null}, {"id": 13, "name": "Was it worth it", "deps": [4, 5], "gates": [], "degraded": null, "hrs": 3, "diff": "High", "tier": "3 \u2014 Blocked", "demo": "/budget/tracker.html", "demoLabel": "Spend tracker"}, {"id": 14, "name": "Management & artist update", "deps": [9, 10], "gates": [], "degraded": null, "hrs": 5, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null}, {"id": 15, "name": "Ask RCA", "deps": [1, 3], "gates": [], "degraded": null, "hrs": 4, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null}, {"id": 16, "name": "Deck & one-sheet generation", "deps": [3, 11], "gates": [], "degraded": null, "hrs": 5, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": "/pitchdecks/index.html", "demoLabel": "Pitch decks"}, {"id": 17, "name": "Trend & UGC detection brief", "deps": [], "gates": ["social"], "degraded": null, "hrs": 0, "diff": "High", "tier": "3 \u2014 Blocked", "demo": null, "demoLabel": null}], "gates": [["prod", "Production Airtable access", "Brian Lynch \u00b7 IT \u2014 the Artists table is stubs until this lands, and six ideas sit on that record."], ["agency", "Agency reporting agreement", "A weekly export written into the agency relationship at Sony level. Commercial decision, not a build."], ["key", "The artist key", "One authoritative identifier joining GRPS and Snowflake at artist level. Track level already joins on ISRC."], ["social", "Licensed social listening", "Procurement. Scraping is not on the table."]], "owners": ["Meg Hourihan", "Gerard Rice", "Christian", "Emma", "Jordan Blaugrund", "Tarek Al-Hamdouni", "Brian Lynch \u00b7 IT", "Ian", "Terenia Collymore", "Ryan Edelman", "Karen Lamberton", "Finance"]};
+const IDEAS = DATA.ideas, ITEMS = DATA.items, GATES = DATA.gates;
+const byId = {}; IDEAS.forEach(i => byId[i.id] = i);
+const G = {}; GATES.forEach(g => G[g[0]] = false);
 
-</div></body></html>
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById('p-' + t.dataset.p).classList.add('on');
+  window.scrollTo(0, 0);
+});
+
+/* ---------- simulator ---------- */
+const gEl = document.getElementById('gates');
+GATES.forEach(g => {
+  const d = document.createElement('div');
+  d.className = 'gate'; d.dataset.g = g[0];
+  d.innerHTML = '<div class="sw"></div><div><span class="gate-t">' + g[1] +
+    '</span><span class="gate-d">' + g[2] + '</span></div>';
+  d.onclick = () => { G[g[0]] = !G[g[0]]; d.classList.toggle('on', G[g[0]]); render(); };
+  gEl.appendChild(d);
+});
+
+function compute() {
+  const st = {};
+  function ev(id) {
+    if (st[id]) return st[id];
+    const it = byId[id];
+    for (const g of it.gates) if (!G[g]) return st[id] = 'b';
+    let s = 'r';
+    for (const d of it.deps) {
+      const ds = ev(d);
+      if (ds === 'b') return st[id] = 'b';
+      if (ds === 'p') s = 'p';
+    }
+    if (it.degraded && !G[it.degraded]) s = 'p';
+    return st[id] = s;
+  }
+  IDEAS.forEach(i => ev(i.id));
+  return st;
+}
+
+const LBL = { r: 'Ready', p: 'Degraded', b: 'Blocked' };
+
+function card(i, st, cls) {
+  const s = st[i.id];
+  return '<div class="card ' + s + (cls || '') + '" data-i="' + i.id + '">' +
+    '<div class="cid">RCAI ' + String(i.id).padStart(2, '0') + '</div>' +
+    '<div class="cname">' + i.name + '</div>' +
+    '<div class="cmeta"><span class="chip chip-' + s + '">' + LBL[s] + '</span>' +
+    (i.hrs ? '<span>' + i.hrs + ' hrs/wk</span>' : '') +
+    '<span>' + i.diff + '</span></div>' +
+    (i.demo ? '<a class="dlink" href="' + i.demo + '" target="_blank" onclick="event.stopPropagation()">' + i.demoLabel + ' &rarr;</a>' : '') +
+    '</div>';
+}
+
+function render() {
+  const st = compute();
+  let n = 0, h = 0, b = 0, cr = 0, cp = 0;
+  IDEAS.forEach(i => {
+    if (st[i.id] === 'b') { b++; } else { n++; h += i.hrs; }
+    if (st[i.id] === 'r') cr++; if (st[i.id] === 'p') cp++;
+  });
+  document.getElementById('ro-n').textContent = n;
+  document.getElementById('ro-h').textContent = h;
+  document.getElementById('ro-b').textContent = b;
+  const T = IDEAS.length;
+  const set = (id, v, c) => {
+    const el = document.getElementById(id);
+    el.style.width = (v / T * 100) + '%';
+    el.textContent = v >= 2 ? v : '';
+  };
+  set('sg-r', cr); set('sg-p', cp); set('sg-b', b);
+  document.getElementById('grid-sim').innerHTML = IDEAS.map(i => card(i, st)).join('');
+  drawDep(st);
+}
+
+document.getElementById('allon').onclick = () => {
+  const any = Object.values(G).some(v => !v);
+  GATES.forEach(g => G[g[0]] = any);
+  document.querySelectorAll('.gate').forEach(d => d.classList.toggle('on', any));
+  document.getElementById('allon').textContent = any ? 'Back to reality' : 'Turn everything on';
+  render();
+};
+
+/* ---------- dependency explorer ---------- */
+let sel = null;
+function up(id, acc) { byId[id].deps.forEach(d => { if (!acc.has(d)) { acc.add(d); up(d, acc); } }); return acc; }
+function down(id, acc) {
+  IDEAS.forEach(i => { if (i.deps.includes(id) && !acc.has(i.id)) { acc.add(i.id); down(i.id, acc); } });
+  return acc;
+}
+function drawDep(st) {
+  const U = sel ? up(sel, new Set()) : new Set();
+  const Dn = sel ? down(sel, new Set()) : new Set();
+  document.getElementById('grid-dep').innerHTML = IDEAS.map(i =>
+    card(i, st, i.id === sel ? ' sel' : U.has(i.id) ? ' up' : Dn.has(i.id) ? ' dn' : '')).join('');
+  if (sel) {
+    const it = byId[sel];
+    let hrs = 0; Dn.forEach(d => hrs += byId[d].hrs);
+    const tag = (s, c) => [...s].map(x => '<span class="tagx ' + c + '">' + byId[x].name + '</span>').join('') || '<span style="color:var(--muted);font-size:13px">None</span>';
+    document.getElementById('expl').innerHTML =
+      '<h3>' + it.name + '</h3>' +
+      '<div style="font-size:14px;color:var(--muted)">' + it.tier + ' &middot; ' + it.diff +
+      ' difficulty &middot; ' + it.hrs + ' hrs/wk' +
+      (it.gates.length ? ' &middot; gated on ' + it.gates.map(g => GATES.find(x => x[0] === g)[1]).join(', ') : '') + '</div>' +
+      '<div class="row"><b>Has to exist first (' + U.size + ')</b>' + tag(U, 'up') + '</div>' +
+      '<div class="row"><b>Unlocks downstream (' + Dn.size + ' &middot; ' + hrs + ' hrs/wk)</b>' + tag(Dn, 'dn') + '</div>';
+  }
+}
+document.addEventListener('click', ev => {
+  const c = ev.target.closest('#grid-dep .card');
+  if (!c) return;
+  const id = +c.dataset.i;
+  sel = (sel === id) ? null : id;
+  if (!sel) document.getElementById('expl').innerHTML =
+    '<h3>Pick an idea</h3><p style="color:var(--muted);font-size:15px">Its dependencies and everything downstream of it will highlight below.</p>';
+  drawDep(compute());
+});
+
+/* ---------- the 45 ---------- */
+const KEY = 'roadmap-edits-v2';
+let E = JSON.parse(localStorage.getItem(KEY) || '{}');
+const CYCLE = ['To Do', 'In Progress', 'Done', 'Blocked'];
+const save = () => localStorage.setItem(KEY, JSON.stringify(E));
+const get = it => E[it.item] || { status: it.status, owner: it.owner };
+
+const flSel = document.getElementById('fl');
+flSel.innerHTML = '<option value="">All lanes</option>' +
+  [...new Set(ITEMS.map(i => i.lane))].map(l => '<option>' + l + '</option>').join('');
+
+function drawList() {
+  const q = document.getElementById('q').value.toLowerCase();
+  const fl = flSel.value, fs = document.getElementById('fs').value;
+  const vis = ITEMS.filter(i => {
+    const s = get(i).status;
+    return (!q || i.item.toLowerCase().includes(q)) && (!fl || i.lane === fl) && (!fs || s === fs);
+  });
+  let out = '', last = null;
+  vis.forEach(i => {
+    if (i.lane !== last) {
+      last = i.lane;
+      const all = ITEMS.filter(x => x.lane === i.lane);
+      const dn = all.filter(x => get(x).status === 'Done').length;
+      out += '<div class="lanehead"><span>' + i.lane + '</span><span>' + dn + ' / ' + all.length + ' done</span></div>';
+    }
+    const g = get(i);
+    out += '<div class="row' + (g.status === 'Done' ? ' done' : '') + '" data-k="' + encodeURIComponent(i.item) + '">' +
+      '<button class="st" data-v="' + g.status + '">' + g.status + '</button>' +
+      '<div class="itxt">' + i.item +
+      (i.demo ? '<a class="dl2" href="' + i.demo + '" target="_blank">' + i.demoLabel + ' &rarr;</a>' : '') + '</div>' +
+      '<input class="own' + (g.owner ? ' set' : '') + '" list="owners" placeholder="Unassigned" value="' + (g.owner || '').replace(/"/g, '&quot;') + '">' +
+      '</div>';
+  });
+  document.getElementById('rows').innerHTML = out;
+  const done = ITEMS.filter(i => get(i).status === 'Done').length;
+  const own = ITEMS.filter(i => get(i).owner).length;
+  document.getElementById('cnt').innerHTML =
+    vis.length + ' shown &middot; ' + done + ' done &middot; ' + own + ' owned';
+}
+['q', 'fl', 'fs'].forEach(id => document.getElementById(id).oninput = drawList);
+
+document.getElementById('rows').addEventListener('click', ev => {
+  const b = ev.target.closest('.st'); if (!b) return;
+  const k = decodeURIComponent(b.closest('.row').dataset.k);
+  const cur = E[k] || { status: b.dataset.v, owner: '' };
+  cur.status = CYCLE[(CYCLE.indexOf(cur.status) + 1) % CYCLE.length];
+  E[k] = cur; save(); drawList();
+});
+document.getElementById('rows').addEventListener('change', ev => {
+  if (!ev.target.classList.contains('own')) return;
+  const k = decodeURIComponent(ev.target.closest('.row').dataset.k);
+  const it = ITEMS.find(i => i.item === k);
+  const cur = E[k] || { status: it.status, owner: '' };
+  cur.owner = ev.target.value; E[k] = cur; save(); drawList();
+});
+document.getElementById('clr').onclick = () => {
+  if (confirm('Clear all edits made in this browser?')) { E = {}; save(); drawList(); }
+};
+document.getElementById('exp').onclick = () => {
+  const q = s => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
+  const csv = ['Lane,Item,Status,Owner,Changed'].concat(ITEMS.map(i => {
+    const g = get(i);
+    const ch = (g.status !== i.status || g.owner !== i.owner) ? 'yes' : '';
+    return [i.lane, i.item, g.status, g.owner, ch].map(q).join(',');
+  })).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'phase-1-priorities-' + new Date().toISOString().slice(0, 10) + '.csv';
+  a.click();
+};
+
+render(); drawList();
+</script>
+</body></html>
