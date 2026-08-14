@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Now / Next / Later &mdash; the map &middot; Campaign Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#726E64;--line:#DBD7CB;
+--chart:#CDF851;--flame:#B33113;--amber:#8A6708}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.band{background:var(--ink);color:#FCFDF8}
+.band-in{max-width:1080px;margin:0 auto;padding:46px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:14px}
+h1{font-size:36px;line-height:1.08;font-weight:600;letter-spacing:-.028em;max-width:20ch}
+.sub{margin-top:15px;font-size:16.5px;line-height:1.55;color:#B4B1A9;max-width:64ch}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 120px}
+
+.bar{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:2px solid var(--ink);
+padding:16px 0 14px;margin-bottom:26px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tally{display:flex;gap:8px;flex-wrap:wrap}
+.ct{border:1px solid var(--line);background:var(--paper);padding:7px 13px;min-width:88px}
+.ct .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.ct .v{font-size:21px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.ct.now{border-left:3px solid var(--flame)}
+.ct.next{border-left:3px solid var(--amber)}
+.ct.later{border-left:3px solid var(--line)}
+.ct.park{border-left:3px solid var(--muted)}
+.acts{margin-left:auto;display:flex;gap:8px;align-items:center}
+.go{font:600 12px Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;padding:11px 17px;
+border:1px solid var(--ink);background:var(--ink);color:var(--chart);cursor:pointer}
+.go.alt{background:none;color:var(--ink)}
+.go:hover{opacity:.85}
+.saved{font-size:12px;color:var(--muted);margin-right:4px}
+
+.hint{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--chart);
+padding:15px 20px;margin-bottom:28px;font-size:14.5px;line-height:1.6;max-width:88ch}
+.hint b{font-weight:600}
+
+.lane{margin-bottom:34px}
+.lh{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:2px}
+.lh h3{font-size:17px;font-weight:600;letter-spacing:-.015em}
+.ln{font-size:12px;color:var(--muted);white-space:nowrap;letter-spacing:.04em}
+
+.r{display:flex;align-items:flex-start;gap:18px;padding:13px 0;border-bottom:1px solid var(--line)}
+.r:last-child{border-bottom:0}
+.rt{flex:1;min-width:0;font-size:15.5px;line-height:1.45}
+.rc{flex:0 0 auto;display:flex;gap:0}
+.b{font:600 10.5px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;
+border:1px solid var(--line);border-right:0;background:var(--paper);color:var(--muted);cursor:pointer}
+.b:last-child{border-right:1px solid var(--line)}
+.b:hover{color:var(--ink)}
+.b.on{background:var(--ink);color:#FCFDF8;border-color:var(--ink)}
+.b[data-b="now"].on{background:var(--flame);border-color:var(--flame);color:#fff}
+.b[data-b="next"].on{background:#F4E3B4;border-color:#E3CE94;color:var(--amber)}
+.b[data-b="later"].on{background:#E7E4D8;border-color:#D2CEC0;color:var(--ink)}
+.b[data-b="park"].on{background:var(--muted);border-color:var(--muted);color:#fff}
+.why{font-size:13px;color:var(--muted);line-height:1.45;margin-top:4px;max-width:66ch}
+.demo{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+background:var(--chart);color:#33401A;padding:2px 7px;margin-left:9px;position:relative;top:-1px}
+.own{color:var(--muted);font-size:14px}.own::before{content:' \00b7 '}
+.r.done{color:var(--muted)}
+.shipped{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+background:#E7E4D8;color:var(--muted);padding:2px 7px;margin-right:9px;position:relative;top:-1px}
+.fixed{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+border:1px dashed var(--line);padding:7px 11px}
+
+dialog{border:2px solid var(--ink);background:var(--paper);padding:0;max-width:760px;width:92vw}
+dialog::backdrop{background:rgba(15,14,14,.55)}
+.dh{background:var(--ink);color:#FCFDF8;padding:18px 24px;font-size:15px;font-weight:600}
+.db{padding:20px 24px 24px}
+textarea{width:100%;height:300px;font:400 12px/1.5 ui-monospace,Menlo,monospace;border:1px solid var(--line);
+padding:12px;background:#FAFAF6;color:var(--ink);resize:vertical}
+.dnote{font-size:13.5px;line-height:1.55;color:var(--muted);margin-bottom:12px;max-width:74ch}
+.drow{display:flex;gap:8px;margin-top:14px}
+@media(max-width:820px){.r{flex-direction:column;gap:10px}h1{font-size:27px}
+.wrap,.band-in{padding-left:20px;padding-right:20px}}
+</style></head><body>
+
+<div class="band"><div class="band-in">
+<div class="eyebrow">Campaign Operations &middot; Phase 1 &middot; 14 August 2026</div>
+<h1>The map &mdash; decide what is Now</h1>
+<div class="sub">All 45 Phase 1 items, in their lanes, with a proposed bucket already set so you are
+editing rather than starting from blank. Every proposal is a guess and every one is yours to
+overrule. When the counts look right, hit Export and hand the result back to me &mdash; that becomes
+the roadmap.</div>
+</div></div>
+
+<div class="wrap">
+
+<div class="bar">
+  <div class="tally">
+    <div class="ct now"><div class="k">Now</div><div class="v" id="c-now">0</div></div>
+    <div class="ct next"><div class="k">Next</div><div class="v" id="c-next">0</div></div>
+    <div class="ct later"><div class="k">Later</div><div class="v" id="c-later">0</div></div>
+    <div class="ct park"><div class="k">Park</div><div class="v" id="c-park">0</div></div>
+    <div class="ct"><div class="k">Shipped</div><div class="v" id="c-done">0</div></div>
+  </div>
+  <div class="acts">
+    <span class="saved" id="saved"></span>
+    <button class="go alt" id="reset">Reset to proposal</button>
+    <button class="go" id="export">Export</button>
+  </div>
+</div>
+
+<div class="hint"><b>How to read this.</b> <b>Now</b> should be small &mdash; if more than about eight
+things are Now, nothing is. <b>Next</b> is agreed and queued but not started. <b>Later</b> is real work
+with no date on it yet. <b>Park</b> is the one people skip and shouldn't: it means <i>not this phase</i>,
+said out loud, which is how a 45-item list stops looking like 45 things nobody is doing. Grey text
+under an item is my reasoning for the proposed bucket, not a fact. The chartreuse tag means something
+already exists that this item could link to.</div>
+
+<section class="lane"><div class="lh"><h3>02 · Airtable</h3><span class="ln" data-lane="02 · Airtable"></span></div><div class="r" data-n="0"><div class="rt">Sandbox base structure validated against production schema<div class="why">Needs production access first to be worth doing.</div></div><div class="rc"><button class="b" data-n="0" data-b="now">Now</button><button class="b on" data-n="0" data-b="next">Next</button><button class="b" data-n="0" data-b="later">Later</button><button class="b" data-n="0" data-b="park">Park</button></div></div><div class="r" data-n="1"><div class="rt">Artists table populated with all active roster (production data, not stubs)</div><div class="rc"><button class="b" data-n="1" data-b="now">Now</button><button class="b on" data-n="1" data-b="next">Next</button><button class="b" data-n="1" data-b="later">Later</button><button class="b" data-n="1" data-b="park">Park</button></div></div><div class="r done" data-n="2"><div class="rt"><span class="shipped">shipped</span>Phase Gate Items table connected to TEMPO<span class=demo>Phase gates on TEMPO</span></div><div class="rc"><span class="fixed">Done</span></div></div><div class="r" data-n="3"><div class="rt">D2C Planner Airtable link live via /api/records proxy<span class="demo" title="/campaigns">Campaigns board</span><div class="why">Proxy exists; wiring is not urgent.</div></div><div class="rc"><button class="b" data-n="3" data-b="now">Now</button><button class="b" data-n="3" data-b="next">Next</button><button class="b on" data-n="3" data-b="later">Later</button><button class="b" data-n="3" data-b="park">Park</button></div></div><div class="r" data-n="4"><div class="rt">AD Roster Airtable link live via /api/ad-tagging-records proxy</div><div class="rc"><button class="b" data-n="4" data-b="now">Now</button><button class="b" data-n="4" data-b="next">Next</button><button class="b on" data-n="4" data-b="later">Later</button><button class="b" data-n="4" data-b="park">Park</button></div></div><div class="r" data-n="5"><div class="rt">Production base access provisioned<span class="own">Brian Lynch · IT</span><div class="why">Everything in 02 waits behind this. It is the one true blocker.</div></div><div class="rc"><button class="b on" data-n="5" data-b="now">Now</button><button class="b" data-n="5" data-b="next">Next</button><button class="b" data-n="5" data-b="later">Later</button><button class="b" data-n="5" data-b="park">Park</button></div></div><div class="r" data-n="6"><div class="rt">RDX field mapping documented for when production access lands<div class="why">Explicitly a when-that-lands task.</div></div><div class="rc"><button class="b" data-n="6" data-b="now">Now</button><button class="b" data-n="6" data-b="next">Next</button><button class="b on" data-n="6" data-b="later">Later</button><button class="b" data-n="6" data-b="park">Park</button></div></div><div class="r" data-n="7"><div class="rt">Standing views created per table (Meg / Gerard / Jordan)<div class="why">Cheap, high visibility, no dependency.</div></div><div class="rc"><button class="b" data-n="7" data-b="now">Now</button><button class="b on" data-n="7" data-b="next">Next</button><button class="b" data-n="7" data-b="later">Later</button><button class="b" data-n="7" data-b="park">Park</button></div></div><div class="r" data-n="8"><div class="rt">Phase 1 Priorities table connected to TEMPO<span class="demo" title="/reference/roadmap.html">This roadmap</span><div class="why">Already standing up — this is the roadmap page itself.</div></div><div class="rc"><button class="b on" data-n="8" data-b="now">Now</button><button class="b" data-n="8" data-b="next">Next</button><button class="b" data-n="8" data-b="later">Later</button><button class="b" data-n="8" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>03 · Mapping → AD Roster → Creative</h3><span class="ln" data-lane="03 · Mapping → AD Roster → Creative"></span></div><div class="r" data-n="9"><div class="rt">Handoff Map validated with Tarek<div class="why">A conversation, not a build. Unblocks the rest of the lane.</div></div><div class="rc"><button class="b on" data-n="9" data-b="now">Now</button><button class="b" data-n="9" data-b="next">Next</button><button class="b" data-n="9" data-b="later">Later</button><button class="b" data-n="9" data-b="park">Park</button></div></div><div class="r" data-n="10"><div class="rt">Handoff Map validated with Creative leadership<div class="why">Follows Tarek.</div></div><div class="rc"><button class="b" data-n="10" data-b="now">Now</button><button class="b on" data-n="10" data-b="next">Next</button><button class="b" data-n="10" data-b="later">Later</button><button class="b" data-n="10" data-b="park">Park</button></div></div><div class="r" data-n="11"><div class="rt">AD Roster live in Airtable with genre + lifestyle tags per specialist</div><div class="rc"><button class="b" data-n="11" data-b="now">Now</button><button class="b on" data-n="11" data-b="next">Next</button><button class="b" data-n="11" data-b="later">Later</button><button class="b" data-n="11" data-b="park">Park</button></div></div><div class="r" data-n="12"><div class="rt">Genre × Lifestyle tag audit complete for every active artist<div class="why">Large, and depends on the tagged roster.</div></div><div class="rc"><button class="b" data-n="12" data-b="now">Now</button><button class="b" data-n="12" data-b="next">Next</button><button class="b on" data-n="12" data-b="later">Later</button><button class="b" data-n="12" data-b="park">Park</button></div></div><div class="r" data-n="13"><div class="rt">Coverage gap analysis run (artists with no AD match)<div class="why">Needs the roster live first.</div></div><div class="rc"><button class="b" data-n="13" data-b="now">Now</button><button class="b" data-n="13" data-b="next">Next</button><button class="b on" data-n="13" data-b="later">Later</button><button class="b" data-n="13" data-b="park">Park</button></div></div><div class="r" data-n="14"><div class="rt">Re-tagging completed for mismatched / unmatched artists<div class="why">Downstream of the audit.</div></div><div class="rc"><button class="b" data-n="14" data-b="now">Now</button><button class="b" data-n="14" data-b="next">Next</button><button class="b on" data-n="14" data-b="later">Later</button><button class="b" data-n="14" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>04 · Campaign Phases</h3><span class="ln" data-lane="04 · Campaign Phases"></span></div><div class="r done" data-n="15"><div class="rt"><span class="shipped">shipped</span>184 Phase Gate Items loaded to Airtable</div><div class="rc"><span class="fixed">Done</span></div></div><div class="r done" data-n="16"><div class="rt"><span class="shipped">shipped</span>Phase rename (Announce → Pre-Release) propagated</div><div class="rc"><span class="fixed">Done</span></div></div><div class="r" data-n="17"><div class="rt">5-phase framework piloted on 1 active campaign<div class="why">The proof the model works. Nothing else in 04 counts without it.</div></div><div class="rc"><button class="b on" data-n="17" data-b="now">Now</button><button class="b" data-n="17" data-b="next">Next</button><button class="b" data-n="17" data-b="later">Later</button><button class="b" data-n="17" data-b="park">Park</button></div></div><div class="r" data-n="18"><div class="rt">Phase column live in Wednesday AP meeting view<div class="why">Small, and makes the phases visible weekly.</div></div><div class="rc"><button class="b" data-n="18" data-b="now">Now</button><button class="b on" data-n="18" data-b="next">Next</button><button class="b" data-n="18" data-b="later">Later</button><button class="b" data-n="18" data-b="park">Park</button></div></div><div class="r" data-n="19"><div class="rt">Per-artist phase tracking workflow defined and documented</div><div class="rc"><button class="b" data-n="19" data-b="now">Now</button><button class="b" data-n="19" data-b="next">Next</button><button class="b on" data-n="19" data-b="later">Later</button><button class="b" data-n="19" data-b="park">Park</button></div></div><div class="r" data-n="20"><div class="rt">Phase transition criteria signed off by Jordan</div><div class="rc"><button class="b" data-n="20" data-b="now">Now</button><button class="b on" data-n="20" data-b="next">Next</button><button class="b" data-n="20" data-b="later">Later</button><button class="b" data-n="20" data-b="park">Park</button></div></div><div class="r" data-n="21"><div class="rt">Phase Risk field methodology agreed with Jordan<div class="why">Worth parking until the pilot says what risk means.</div></div><div class="rc"><button class="b" data-n="21" data-b="now">Now</button><button class="b" data-n="21" data-b="next">Next</button><button class="b on" data-n="21" data-b="later">Later</button><button class="b" data-n="21" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>05 · Budget</h3><span class="ln" data-lane="05 · Budget"></span></div><div class="r" data-n="22"><div class="rt">Two-track framework documented (Planning + Approval)<span class="demo" title="/budget/fleck.html">Budget approvals</span><div class="why">The framing everything else in 05 hangs off.</div></div><div class="rc"><button class="b on" data-n="22" data-b="now">Now</button><button class="b" data-n="22" data-b="next">Next</button><button class="b" data-n="22" data-b="later">Later</button><button class="b" data-n="22" data-b="park">Park</button></div></div><div class="r" data-n="23"><div class="rt">Biz Plan Revenue × MMP% template built</div><div class="rc"><button class="b" data-n="23" data-b="now">Now</button><button class="b on" data-n="23" data-b="next">Next</button><button class="b" data-n="23" data-b="later">Later</button><button class="b" data-n="23" data-b="park">Park</button></div></div><div class="r" data-n="24"><div class="rt">Manual approval breakdown documented (where it fails today)<span class="demo" title="/budget/demo.html">Budget sign-off demo</span><div class="why">Pure observation — no dependency, and it is the argument.</div></div><div class="rc"><button class="b on" data-n="24" data-b="now">Now</button><button class="b" data-n="24" data-b="next">Next</button><button class="b" data-n="24" data-b="later">Later</button><button class="b" data-n="24" data-b="park">Park</button></div></div><div class="r" data-n="25"><div class="rt">Airtable approval routing prototyped<span class="demo" title="/budget/tracker.html">Budget tracker demo</span><div class="why">Build after the manual path is agreed.</div></div><div class="rc"><button class="b" data-n="25" data-b="now">Now</button><button class="b" data-n="25" data-b="next">Next</button><button class="b on" data-n="25" data-b="later">Later</button><button class="b" data-n="25" data-b="park">Park</button></div></div><div class="r" data-n="26"><div class="rt">Validated with Finance</div><div class="rc"><button class="b" data-n="26" data-b="now">Now</button><button class="b on" data-n="26" data-b="next">Next</button><button class="b" data-n="26" data-b="later">Later</button><button class="b" data-n="26" data-b="park">Park</button></div></div><div class="r" data-n="27"><div class="rt">Validated with Karen Lamberton<span class="own">BA</span></div><div class="rc"><button class="b" data-n="27" data-b="now">Now</button><button class="b on" data-n="27" data-b="next">Next</button><button class="b" data-n="27" data-b="later">Later</button><button class="b" data-n="27" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>06 · Scheduling Requests</h3><span class="ln" data-lane="06 · Scheduling Requests"></span></div><div class="r" data-n="28"><div class="rt">Plan → Pre-Release gate criteria documented</div><div class="rc"><button class="b" data-n="28" data-b="now">Now</button><button class="b on" data-n="28" data-b="next">Next</button><button class="b" data-n="28" data-b="later">Later</button><button class="b" data-n="28" data-b="park">Park</button></div></div><div class="r" data-n="29"><div class="rt">Scheduling request intake form built (Airtable form)<span class="demo" title="">Scheduling intake — Ops Demo base</span><div class="why">The demo already exists in the Ops Demo base.</div></div><div class="rc"><button class="b on" data-n="29" data-b="now">Now</button><button class="b" data-n="29" data-b="next">Next</button><button class="b" data-n="29" data-b="later">Later</button><button class="b" data-n="29" data-b="park">Park</button></div></div><div class="r" data-n="30"><div class="rt">Initiator confirmed (A&amp;R Admin? Marketing?)<div class="why">An open question in the item text. Answer it and the lane moves.</div></div><div class="rc"><button class="b on" data-n="30" data-b="now">Now</button><button class="b" data-n="30" data-b="next">Next</button><button class="b" data-n="30" data-b="later">Later</button><button class="b" data-n="30" data-b="park">Park</button></div></div><div class="r" data-n="31"><div class="rt">Required fields locked<div class="why">Same sitting as the initiator question.</div></div><div class="rc"><button class="b on" data-n="31" data-b="now">Now</button><button class="b" data-n="31" data-b="next">Next</button><button class="b" data-n="31" data-b="later">Later</button><button class="b" data-n="31" data-b="park">Park</button></div></div><div class="r" data-n="32"><div class="rt">Routing to Release Planning defined<div class="why">Needs Terenia.</div></div><div class="rc"><button class="b" data-n="32" data-b="now">Now</button><button class="b on" data-n="32" data-b="next">Next</button><button class="b" data-n="32" data-b="later">Later</button><button class="b" data-n="32" data-b="park">Park</button></div></div><div class="r" data-n="33"><div class="rt">Tested on 2 active campaigns<div class="why">The last step, by definition.</div></div><div class="rc"><button class="b" data-n="33" data-b="now">Now</button><button class="b" data-n="33" data-b="next">Next</button><button class="b on" data-n="33" data-b="later">Later</button><button class="b" data-n="33" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>07 · A&amp;R Admin · A&amp;R Ops Gaps</h3><span class="ln" data-lane="07 · A&amp;R Admin · A&amp;R Ops Gaps"></span></div><div class="r" data-n="34"><div class="rt">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</div><div class="rc"><button class="b" data-n="34" data-b="now">Now</button><button class="b on" data-n="34" data-b="next">Next</button><button class="b" data-n="34" data-b="later">Later</button><button class="b" data-n="34" data-b="park">Park</button></div></div><div class="r" data-n="35"><div class="rt">Gap 2: Promo portal security audit complete, gaps surfaced to IT<div class="why">Sits with the wider infosec case.</div></div><div class="rc"><button class="b" data-n="35" data-b="now">Now</button><button class="b" data-n="35" data-b="next">Next</button><button class="b on" data-n="35" data-b="later">Later</button><button class="b" data-n="35" data-b="park">Park</button></div></div><div class="r" data-n="36"><div class="rt">Gap 3: Disco enterprise pipeline test results documented</div><div class="rc"><button class="b" data-n="36" data-b="now">Now</button><button class="b" data-n="36" data-b="next">Next</button><button class="b on" data-n="36" data-b="later">Later</button><button class="b" data-n="36" data-b="park">Park</button></div></div><div class="r" data-n="37"><div class="rt">Gap 4: Scott July 1 — Production Meeting ownership transition plan written<div class="why">Dated July 1 and now six weeks past. Either live or it should be parked.</div></div><div class="rc"><button class="b on" data-n="37" data-b="now">Now</button><button class="b" data-n="37" data-b="next">Next</button><button class="b" data-n="37" data-b="later">Later</button><button class="b" data-n="37" data-b="park">Park</button></div></div><div class="r" data-n="38"><div class="rt">All 4 gaps resolved or assigned owner + timeline<div class="why">The lane&#x27;s actual finish line.</div></div><div class="rc"><button class="b" data-n="38" data-b="now">Now</button><button class="b on" data-n="38" data-b="next">Next</button><button class="b" data-n="38" data-b="later">Later</button><button class="b" data-n="38" data-b="park">Park</button></div></div></section><section class="lane"><div class="lh"><h3>08 · Monthly Cadence</h3><span class="ln" data-lane="08 · Monthly Cadence"></span></div><div class="r" data-n="39"><div class="rt">Monthly cadence proposal drafted (who attends, what&#x27;s reviewed, format)<div class="why">One document, and it is the thing that makes the rest stay true.</div></div><div class="rc"><button class="b on" data-n="39" data-b="now">Now</button><button class="b" data-n="39" data-b="next">Next</button><button class="b" data-n="39" data-b="later">Later</button><button class="b" data-n="39" data-b="park">Park</button></div></div><div class="r" data-n="40"><div class="rt">Validated with Jordan</div><div class="rc"><button class="b" data-n="40" data-b="now">Now</button><button class="b on" data-n="40" data-b="next">Next</button><button class="b" data-n="40" data-b="later">Later</button><button class="b" data-n="40" data-b="park">Park</button></div></div><div class="r" data-n="41"><div class="rt">Validated with Tarek</div><div class="rc"><button class="b" data-n="41" data-b="now">Now</button><button class="b on" data-n="41" data-b="next">Next</button><button class="b" data-n="41" data-b="later">Later</button><button class="b" data-n="41" data-b="park">Park</button></div></div><div class="r" data-n="42"><div class="rt">First monthly meeting scheduled</div><div class="rc"><button class="b" data-n="42" data-b="now">Now</button><button class="b" data-n="42" data-b="next">Next</button><button class="b on" data-n="42" data-b="later">Later</button><button class="b" data-n="42" data-b="park">Park</button></div></div><div class="r" data-n="43"><div class="rt">Recap format defined<div class="why">Format already exists in practice — write it down.</div></div><div class="rc"><button class="b" data-n="43" data-b="now">Now</button><button class="b on" data-n="43" data-b="next">Next</button><button class="b" data-n="43" data-b="later">Later</button><button class="b" data-n="43" data-b="park">Park</button></div></div><div class="r" data-n="44"><div class="rt">Distribution list confirmed</div><div class="rc"><button class="b" data-n="44" data-b="now">Now</button><button class="b" data-n="44" data-b="next">Next</button><button class="b on" data-n="44" data-b="later">Later</button><button class="b" data-n="44" data-b="park">Park</button></div></div></section>
+
+</div>
+
+<dialog id="dlg"><div class="dh">Hand this back to me</div><div class="db">
+<div class="dnote">Copy this and paste it into our chat. I will build the Now / Next / Later roadmap
+from it, with the cards clickable through to the demos where they exist.</div>
+<textarea id="out" readonly></textarea>
+<div class="drow"><button class="go" id="copy">Copy to clipboard</button>
+<button class="go alt" id="dl">Download .json</button>
+<button class="go alt" id="close">Close</button></div>
+</div></dialog>
+
+<script>
+const ROWS = [{"i": "Sandbox base structure validated against production schema", "lane": "02 \u00b7 Airtable", "b": "next", "why": "Needs production access first to be worth doing.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Artists table populated with all active roster (production data, not stubs)", "lane": "02 \u00b7 Airtable", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Phase Gate Items table connected to TEMPO", "lane": "02 \u00b7 Airtable", "b": "done", "why": "", "dl": "Phase gates on TEMPO", "du": "", "status": "Done", "owner": ""}, {"i": "D2C Planner Airtable link live via /api/records proxy", "lane": "02 \u00b7 Airtable", "b": "later", "why": "Proxy exists; wiring is not urgent.", "dl": "Campaigns board", "du": "/campaigns", "status": "To Do", "owner": ""}, {"i": "AD Roster Airtable link live via /api/ad-tagging-records proxy", "lane": "02 \u00b7 Airtable", "b": "later", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Production base access provisioned", "lane": "02 \u00b7 Airtable", "b": "now", "why": "Everything in 02 waits behind this. It is the one true blocker.", "dl": "", "du": "", "status": "To Do", "owner": "Brian Lynch \u00b7 IT"}, {"i": "RDX field mapping documented for when production access lands", "lane": "02 \u00b7 Airtable", "b": "later", "why": "Explicitly a when-that-lands task.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Standing views created per table (Meg / Gerard / Jordan)", "lane": "02 \u00b7 Airtable", "b": "next", "why": "Cheap, high visibility, no dependency.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Phase 1 Priorities table connected to TEMPO", "lane": "02 \u00b7 Airtable", "b": "now", "why": "Already standing up \u2014 this is the roadmap page itself.", "dl": "This roadmap", "du": "/reference/roadmap.html", "status": "To Do", "owner": ""}, {"i": "Handoff Map validated with Tarek", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "now", "why": "A conversation, not a build. Unblocks the rest of the lane.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Handoff Map validated with Creative leadership", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "next", "why": "Follows Tarek.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "AD Roster live in Airtable with genre + lifestyle tags per specialist", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Genre \u00d7 Lifestyle tag audit complete for every active artist", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "later", "why": "Large, and depends on the tagged roster.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Coverage gap analysis run (artists with no AD match)", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "later", "why": "Needs the roster live first.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Re-tagging completed for mismatched / unmatched artists", "lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "b": "later", "why": "Downstream of the audit.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "184 Phase Gate Items loaded to Airtable", "lane": "04 \u00b7 Campaign Phases", "b": "done", "why": "", "dl": "", "du": "", "status": "Done", "owner": ""}, {"i": "Phase rename (Announce \u2192 Pre-Release) propagated", "lane": "04 \u00b7 Campaign Phases", "b": "done", "why": "", "dl": "", "du": "", "status": "Done", "owner": ""}, {"i": "5-phase framework piloted on 1 active campaign", "lane": "04 \u00b7 Campaign Phases", "b": "now", "why": "The proof the model works. Nothing else in 04 counts without it.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Phase column live in Wednesday AP meeting view", "lane": "04 \u00b7 Campaign Phases", "b": "next", "why": "Small, and makes the phases visible weekly.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Per-artist phase tracking workflow defined and documented", "lane": "04 \u00b7 Campaign Phases", "b": "later", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Phase transition criteria signed off by Jordan", "lane": "04 \u00b7 Campaign Phases", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Phase Risk field methodology agreed with Jordan", "lane": "04 \u00b7 Campaign Phases", "b": "later", "why": "Worth parking until the pilot says what risk means.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Two-track framework documented (Planning + Approval)", "lane": "05 \u00b7 Budget", "b": "now", "why": "The framing everything else in 05 hangs off.", "dl": "Budget approvals", "du": "/budget/fleck.html", "status": "To Do", "owner": ""}, {"i": "Biz Plan Revenue \u00d7 MMP% template built", "lane": "05 \u00b7 Budget", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Manual approval breakdown documented (where it fails today)", "lane": "05 \u00b7 Budget", "b": "now", "why": "Pure observation \u2014 no dependency, and it is the argument.", "dl": "Budget sign-off demo", "du": "/budget/demo.html", "status": "To Do", "owner": ""}, {"i": "Airtable approval routing prototyped", "lane": "05 \u00b7 Budget", "b": "later", "why": "Build after the manual path is agreed.", "dl": "Budget tracker demo", "du": "/budget/tracker.html", "status": "To Do", "owner": ""}, {"i": "Validated with Finance", "lane": "05 \u00b7 Budget", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Validated with Karen Lamberton", "lane": "05 \u00b7 Budget", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": "BA"}, {"i": "Plan \u2192 Pre-Release gate criteria documented", "lane": "06 \u00b7 Scheduling Requests", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Scheduling request intake form built (Airtable form)", "lane": "06 \u00b7 Scheduling Requests", "b": "now", "why": "The demo already exists in the Ops Demo base.", "dl": "Scheduling intake \u2014 Ops Demo base", "du": "", "status": "To Do", "owner": ""}, {"i": "Initiator confirmed (A&R Admin? Marketing?)", "lane": "06 \u00b7 Scheduling Requests", "b": "now", "why": "An open question in the item text. Answer it and the lane moves.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Required fields locked", "lane": "06 \u00b7 Scheduling Requests", "b": "now", "why": "Same sitting as the initiator question.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Routing to Release Planning defined", "lane": "06 \u00b7 Scheduling Requests", "b": "next", "why": "Needs Terenia.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Tested on 2 active campaigns", "lane": "06 \u00b7 Scheduling Requests", "b": "later", "why": "The last step, by definition.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Gap 1: Tarek arrival \u2014 roles defined, Campaign Ops handoff documented", "lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Gap 2: Promo portal security audit complete, gaps surfaced to IT", "lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "b": "later", "why": "Sits with the wider infosec case.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Gap 3: Disco enterprise pipeline test results documented", "lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "b": "later", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Gap 4: Scott July 1 \u2014 Production Meeting ownership transition plan written", "lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "b": "now", "why": "Dated July 1 and now six weeks past. Either live or it should be parked.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "All 4 gaps resolved or assigned owner + timeline", "lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "b": "next", "why": "The lane's actual finish line.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Monthly cadence proposal drafted (who attends, what's reviewed, format)", "lane": "08 \u00b7 Monthly Cadence", "b": "now", "why": "One document, and it is the thing that makes the rest stay true.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Validated with Jordan", "lane": "08 \u00b7 Monthly Cadence", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Validated with Tarek", "lane": "08 \u00b7 Monthly Cadence", "b": "next", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "First monthly meeting scheduled", "lane": "08 \u00b7 Monthly Cadence", "b": "later", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Recap format defined", "lane": "08 \u00b7 Monthly Cadence", "b": "next", "why": "Format already exists in practice \u2014 write it down.", "dl": "", "du": "", "status": "To Do", "owner": ""}, {"i": "Distribution list confirmed", "lane": "08 \u00b7 Monthly Cadence", "b": "later", "why": "", "dl": "", "du": "", "status": "To Do", "owner": ""}];
+const KEY = 'campaignops.phase1.map.v1';
+const state = ROWS.map(r => r.b);
+
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.length === ROWS.length) { s.forEach((v,i)=>state[i]=v); mark('restored'); }
+  } catch (err) {}
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); mark('saved'); } catch (err) {}
+}
+function mark(t) {
+  const el = document.getElementById('saved');
+  el.textContent = t + ' \u00b7 ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+function paint() {
+  document.querySelectorAll('.b').forEach(b => {
+    b.classList.toggle('on', state[+b.dataset.n] === b.dataset.b);
+  });
+  const c = {now:0,next:0,later:0,park:0,done:0};
+  state.forEach(v => c[v] = (c[v]||0) + 1);
+  ['now','next','later','park','done'].forEach(k =>
+    document.getElementById('c-'+k).textContent = c[k] || 0);
+  document.querySelectorAll('.ln').forEach(el => {
+    const ln = el.dataset.lane;
+    const idx = ROWS.map((r,i)=>[r,i]).filter(([r]) => r.lane === ln).map(([,i])=>i);
+    const n = idx.filter(i => state[i] === 'now').length;
+    const d = idx.filter(i => state[i] === 'done').length;
+    el.textContent = n + ' now \u00b7 ' + d + ' shipped \u00b7 ' + idx.length + ' total';
+  });
+}
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('.b');
+  if (!b) return;
+  state[+b.dataset.n] = b.dataset.b;
+  paint(); save();
+});
+document.getElementById('reset').onclick = () => {
+  ROWS.forEach((r,i) => state[i] = r.b);
+  paint(); save(); mark('reset to proposal');
+};
+function payload() {
+  return JSON.stringify({
+    as_of: new Date().toISOString().slice(0,10),
+    decided_by: 'Meg',
+    buckets: ROWS.map((r,i) => ({
+      lane: r.lane, item: r.i, bucket: state[i],
+      status: r.status, owner: r.owner || null,
+      demo: r.dl ? {label: r.dl, url: r.du || null} : null
+    }))
+  }, null, 2);
+}
+document.getElementById('export').onclick = () => {
+  document.getElementById('out').value = payload();
+  document.getElementById('dlg').showModal();
+};
+document.getElementById('close').onclick = () => document.getElementById('dlg').close();
+document.getElementById('copy').onclick = async () => {
+  const ta = document.getElementById('out');
+  try { await navigator.clipboard.writeText(ta.value); }
+  catch (err) { ta.select(); document.execCommand('copy'); }
+  document.getElementById('copy').textContent = 'Copied';
+  setTimeout(() => document.getElementById('copy').textContent = 'Copy to clipboard', 1600);
+};
+document.getElementById('dl').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([payload()], {type:'application/json'}));
+  a.download = 'phase1-map.json';
+  a.click();
+};
+load(); paint();
+</script></body></html>
