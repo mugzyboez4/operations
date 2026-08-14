@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap format · five versions and a standard · Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
+--chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.band{background:var(--ink);color:#FCFDF8}
+.band-in{max-width:1000px;margin:0 auto;padding:52px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+h1{font-size:42px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
+.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:64ch}
+.wrap{max-width:1000px;margin:0 auto;padding:48px 32px 110px}
+section{margin-bottom:56px}
+h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+.lede{color:var(--muted);max-width:66ch;margin-bottom:26px}
+.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:76ch}
+.note b{color:var(--chart);font-weight:600}
+
+/* timeline of versions */
+.vers{border-left:2px solid var(--line);margin-left:8px}
+.v{position:relative;padding:0 0 30px 30px}
+.v::before{content:'';position:absolute;left:-9px;top:6px;width:16px;height:16px;background:var(--bg);border:2px solid var(--ink)}
+.v.keep::before{background:var(--chart-d);border-color:var(--chart-d)}
+.v.dead::before{background:var(--bg);border-color:var(--line)}
+.vd{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.vn{font-size:20px;font-weight:700;margin:3px 0 2px}
+.vf{font-size:13px;color:var(--muted);margin-bottom:10px}
+.vbody{background:var(--paper);border:1px solid var(--line);padding:18px 22px}
+.vbody.k{border-left:4px solid var(--chart-d)}
+.vbody.d{border-left:4px solid var(--line)}
+.vrow{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid #EFEDE3;font-size:15px;line-height:1.55}
+.vrow:last-child{border-bottom:0}
+.vrow b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:3px}
+.shape{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#F0EEE4;padding:2px 7px;border:1px solid var(--line);display:inline-block;margin:2px 3px 2px 0}
+
+/* verdict chips */
+.tw{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 9px;vertical-align:middle}
+.tw.keep{background:var(--chart);color:var(--ink)}
+.tw.gone{background:#E4E1D7;color:var(--muted)}
+.tw.else{background:var(--amber);color:var(--ink)}
+
+/* the standard */
+.std{background:var(--paper);border:1px solid var(--line);padding:0;margin-bottom:8px}
+.stdh{background:var(--ink);color:#FCFDF8;padding:14px 24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.stdh span{color:var(--chart)}
+.stdb{padding:22px 26px}
+.f{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid #EFEDE3}
+.f:last-child{border-bottom:0}
+.fn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;font-weight:600}
+.fd{font-size:15px;color:var(--muted);line-height:1.55}
+.fd em{color:var(--ink);font-style:normal;font-weight:500}
+.rule{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--flame);padding:15px 20px;margin-bottom:6px;font-size:15px;line-height:1.55;max-width:82ch}
+.rule b{font-weight:600}
+.q{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--amber);padding:16px 22px;margin-bottom:8px;font-size:15px;line-height:1.6;max-width:82ch}
+.q b{font-weight:600;display:block;margin-bottom:4px}
+@media(max-width:720px){h1{font-size:32px}.vrow,.f{grid-template-columns:1fr}}
+</style></head><body>
+
+<div class="band"><div class="band-in">
+<div class="eyebrow">Campaign Ops &middot; 13 August 2026</div>
+<h1>Five roadmaps in five months</h1>
+<div class="sub">Every version that has existed, what each one locked, and what survived. Then
+the format worth standardising on &mdash; which is mostly the one we already have.</div>
+</div></div>
+
+<div class="wrap">
+
+<section>
+<div class="note">There is <b>no early-July roadmap</b>. Not in the Ops folder, not in the repo.
+What was live in July was the 21 May Phase&nbsp;1 checklist reading straight from Airtable, and
+nothing was ever frozen &mdash; so there is no July state to go back to. That is the actual
+problem, and it is a snapshot problem more than a format problem.</div>
+
+<p class="lede">The good news, once you line them up: the underlying facts have barely changed.
+Every version has been carrying <em>the same four things</em> under different clothes. The churn
+has been in presentation, not in structure.</p>
+</section>
+
+<section>
+<div class="slabel">The lineage</div>
+<h2>What each version was</h2>
+
+<div class="vers">
+
+<div class="v dead">
+<div class="vd">30 March 2026</div>
+<div class="vn">Priority Pipeline <span class="tw gone">retired</span></div>
+<div class="vf">pipeline.html &middot; 20 items across 4 tiers</div>
+<div class="vbody d">
+<div class="vrow"><b>Grouped by</b><div>Time horizon &mdash; Now / In Progress / Building / Later</div></div>
+<div class="vrow"><b>Per item</b><div>Title, owner, timing, then an expandable <em>What</em> and <em>Status</em> written as prose</div></div>
+<div class="vrow"><b>Strength</b><div>Genuinely readable cold. Someone outside Ops could open it and understand the work.</div></div>
+<div class="vrow"><b>Why it died</b><div>Every item needed two paragraphs hand-written. Unmaintainable past about twenty items, and the time-horizon buckets went stale within a fortnight.</div></div>
+</div></div>
+
+<div class="v dead">
+<div class="vd">7 April 2026</div>
+<div class="vn">Ongoing Priorities <span class="tw gone">retired</span></div>
+<div class="vf">priorities.html &middot; Meg &times; Gerard running tracker</div>
+<div class="vbody d">
+<div class="vrow"><b>Grouped by</b><div>Nothing &mdash; one flat list, filtered by status</div></div>
+<div class="vrow"><b>Per item</b><div><span class="shape">status</span><span class="shape">owner</span><span class="shape">updated</span> &mdash; status cycles Active &rarr; Waiting &rarr; Escalated &rarr; Resolved</div></div>
+<div class="vrow"><b>Strength</b><div>The first version with a real data shape. Exported to Markdown, CSV and JSON &mdash; the instinct that the data matters more than the page.</div></div>
+<div class="vrow"><b>Why it died</b><div>Flat. No lanes meant no way to see which part of the operation was stuck, only which person was.</div></div>
+</div></div>
+
+<div class="v else">
+<div class="vd">7&ndash;8 May 2026</div>
+<div class="vn">Stage-Gate &amp; The Road <span class="tw else">not a roadmap</span></div>
+<div class="vf">index.html &middot; four phases, four gates, zones NOW / GROUNDWORK / PROVE / SCALE</div>
+<div class="vbody d">
+<div class="vrow"><b>Grouped by</b><div>Campaign lifecycle phase, with a gate question between each</div></div>
+<div class="vrow"><b>Per item</b><div>No items. Phases and closing conditions &mdash; &ldquo;Can we execute? Closes when release date locked, plan approved, timeline built, budget approved.&rdquo;</div></div>
+<div class="vrow"><b>Strength</b><div>The best explanation of the operating model anyone has written. It still holds up.</div></div>
+<div class="vrow"><b>The mistake</b><div>It was filed as a roadmap. It is a <em>framework</em> &mdash; it describes how campaigns move, not what Campaign Ops is building. It cannot hold work items, so work items kept getting bolted on and then rebuilt. Four rebuilds happened inside one week (V2, V3, V3.3, V3.4) chasing this.</div></div>
+</div></div>
+
+<div class="v keep">
+<div class="vd">21 May 2026</div>
+<div class="vn">Phase 1 Priorities <span class="tw keep">the spine</span></div>
+<div class="vf">reference/phase-1.html &middot; seven numbered lanes, 02&ndash;08</div>
+<div class="vbody k">
+<div class="vrow"><b>Grouped by</b><div>Operational lane &mdash; 02 Airtable &middot; 03 Mapping &rarr; AD Roster &rarr; Creative &middot; 04 Campaign Phases &middot; 05 Budget &middot; 06 Scheduling Requests &middot; 07 A&amp;R Admin &middot; 08 Monthly Cadence</div></div>
+<div class="vrow"><b>Per item</b><div>One line of plain text, a DONE badge, occasionally an owner</div></div>
+<div class="vrow"><b>Strength</b><div>The lanes were right. They have not changed once in three months, through every rebuild since. That is unusual and worth protecting.</div></div>
+<div class="vrow"><b>What was missing</b><div>Owner was optional and mostly blank. Status was binary &mdash; done or not &mdash; so nothing could be shown as in progress or blocked.</div></div>
+</div></div>
+
+<div class="v keep">
+<div class="vd">13 August 2026</div>
+<div class="vn">Roadmap review &rarr; check-in <span class="tw keep">current</span></div>
+<div class="vf">reference/roadmap.html &middot; same seven lanes, 45 items, 17 ideas</div>
+<div class="vbody k">
+<div class="vrow"><b>Grouped by</b><div>The same seven lanes, unchanged from 21 May</div></div>
+<div class="vrow"><b>Per item</b><div><span class="shape">lane</span><span class="shape">item</span><span class="shape">status</span><span class="shape">owner</span><span class="shape">order</span> plus optional <span class="shape">demo</span></div></div>
+<div class="vrow"><b>Added</b><div>Four-state status, owner on every row, a stable sort, and a link from an item to the thing it produced</div></div>
+<div class="vrow"><b>Verdict</b><div>This is the format. It is the 21 May spine with the 7 April data discipline put back on top of it.</div></div>
+</div></div>
+
+</div>
+</section>
+
+<section>
+<div class="slabel">The proposal</div>
+<h2>Lock the row, not the page</h2>
+<p class="lede">Every version above was carrying the same four facts. The rebuilds happened
+because each new page invented its own way of storing them, so nothing could be carried
+forward. Fix that once and the presentation can change as often as it needs to.</p>
+
+<div class="std">
+<div class="stdh">The standard row &mdash; <span>every roadmap view renders from this</span></div>
+<div class="stdb">
+<div class="f"><div class="fn">lane</div><div class="fd">One of the seven. <em>Adding a lane is a decision, not a side effect</em> &mdash; if work does not fit, that is worth noticing rather than routing around.</div></div>
+<div class="f"><div class="fn">item</div><div class="fd">One line, plain language, says what it does. <em>No object-nouns</em> &mdash; the same rule that fixed the seventeen idea titles.</div></div>
+<div class="f"><div class="fn">status</div><div class="fd">To Do &middot; In Progress &middot; Done &middot; Blocked. <em>Four states, no more</em>. Blocked is the one that earns its place &mdash; it is the only way a roadmap tells you something you did not already know.</div></div>
+<div class="f"><div class="fn">owner</div><div class="fd">A named person, never a team. <em>Blank is a valid answer</em> and should look like one, because an unowned item is a real finding.</div></div>
+<div class="f"><div class="fn">order</div><div class="fd">Position within the lane. Boring, and the reason two views of the same data never disagree.</div></div>
+<div class="f"><div class="fn">demo <span style="font-weight:400;color:var(--muted)">optional</span></div><div class="fd">Link to the thing the item produced. <em>This is what makes it a record of work rather than a list of intentions</em>.</div></div>
+</div>
+</div>
+
+<div class="rule"><b>Airtable stays the source.</b> The page is a rendering, never the record.
+Any view that cannot be regenerated from the base is a one-off, and one-offs get archived after
+the meeting rather than becoming the seventh format.</div>
+
+<div class="rule"><b>Stage-Gate stops being called a roadmap.</b> It is the operating model and
+it should live as its own reference page. Filing it as a roadmap is traceable to four rebuilds
+in one week.</div>
+
+<div class="rule"><b>Freeze a copy before every Fleck check-in.</b>
+<span class="shape">reference/snapshots/roadmap-YYYY-MM-DD.html</span> Thirty seconds, and next
+time the question is &ldquo;what did July look like&rdquo; there is an answer.</div>
+</section>
+
+<section>
+<div class="slabel">Two things worth arguing with</div>
+<h2>Before this gets locked</h2>
+
+<div class="q"><b>Seven lanes may already be six.</b>
+Lane 07 is A&amp;R Admin and A&amp;R Ops Gaps bolted together, and lane 03 carries three things in
+its name. That is usually a sign the lane was drawn around who was in the room rather than
+around the work. Worth a look before freezing them &mdash; freezing the wrong seven is worse than
+not freezing.</div>
+
+<div class="q"><b>&ldquo;Blocked&rdquo; is a political word.</b>
+Four-state status means the roadmap will visibly say a department is blocking something. That
+is the whole value, and it is also exactly the turf-anxiety trigger. Suggest the blocked state
+names <em>what</em> is missing rather than <em>who</em> owes it &mdash; &ldquo;waiting on production
+access&rdquo; rather than &ldquo;waiting on IT&rdquo;.</div>
+</section>
+
+</div>
+</body></html>

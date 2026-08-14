@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ongoing Priorities — Campaign Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0F0E0E;--surface:#141414;--card:#181818;--card-hover:#1E1E1E;--border:#2A2A2A;--white:#FCFDF8;--text:#B0A9BE;--dim:#847D96;--muted:#3E3F41;--green:#CDF851;--flame:#FF4A23;--teal:#5BC0BE;--purple:#7F77DD;--blue:#5B9BD5;--gold:#E8C547;--resolved-bg:#111211}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+  /* NAV — matches TEMPO site */
+  nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:44px;position:sticky;top:0;z-index:9999}
+  nav .logo{text-decoration:none;margin-right:24px;display:flex;align-items:center;gap:6px}
+  nav .logo .l1{font-size:11px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:var(--green)}
+  nav .logo .l2{font-size:10px;font-weight:500;color:var(--muted)}
+  nav .logo .l3{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+  nav .nav-links{display:flex;align-items:center;gap:2px}
+  nav .nav-links a{font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;padding:6px 10px;border-bottom:2px solid transparent;transition:color .15s}
+  nav .nav-links a:hover{color:var(--white)}
+  nav .nav-links .active-label{font-size:11px;font-weight:700;color:var(--green);padding:6px 10px;border-bottom:2px solid var(--green)}
+  .sndd{position:relative;display:inline-block}
+  .sndd-b{font-size:11px;font-weight:500;color:var(--dim);cursor:pointer;padding:6px 10px;border-bottom:2px solid transparent;display:inline-block}
+  .sndd-b:hover{color:var(--white)}
+  .sndd-b.active{font-weight:700;color:var(--green);border-bottom:2px solid var(--green)}
+  .sndd-m{display:none;position:absolute;top:100%;left:0;background:var(--card);border:1px solid var(--border);min-width:220px;z-index:10000;padding:4px 0}
+  .sndd:hover .sndd-m{display:block}
+  .sndd-m a{display:block;font-size:11px;color:var(--text);text-decoration:none;padding:6px 12px}
+  .sndd-m a:hover{background:var(--border);color:var(--white)}
+  .sndd-m .sep{border-top:1px solid var(--border);margin:4px 0}
+  .sndd-m .sep-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px 2px}
+
+  /* HEADER */
+  .header{padding:28px 40px 8px;max-width:960px;margin:0 auto}
+  .header .label{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .header h1{font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:6px}
+  .header .sub{font-size:13px;color:var(--text);max-width:600px;line-height:1.6}
+
+  /* TOOLBAR */
+  .toolbar{max-width:960px;margin:0 auto;padding:16px 40px 12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .toolbar .spacer{flex:1}
+  .btn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;background:var(--card);color:var(--text);border:1px solid var(--border);cursor:pointer;transition:all .15s}
+  .btn:hover{border-color:var(--green);color:var(--green)}
+  .btn.primary{background:var(--green);color:var(--bg);border-color:var(--green)}
+  .btn.primary:hover{background:#b8e048}
+
+  /* FILTER PILLS */
+  .filters{max-width:960px;margin:0 auto;padding:0 40px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .filter-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px}
+  .pill{font-family:'DM Mono',monospace;font-size:10px;padding:4px 12px;background:transparent;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:all .15s}
+  .pill:hover{border-color:var(--text);color:var(--text)}
+  .pill.active{border-color:var(--green);color:var(--green);background:rgba(205,248,81,.06)}
+  .pill .count{margin-left:4px;opacity:.5}
+
+  /* STATS BAR */
+  .stats{max-width:960px;margin:0 auto;padding:0 40px 20px;display:flex;gap:24px}
+  .stat{display:flex;align-items:baseline;gap:6px}
+  .stat-num{font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:var(--white)}
+  .stat-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+  .stat-num.green{color:var(--green)}
+  .stat-num.flame{color:var(--flame)}
+  .stat-num.teal{color:var(--teal)}
+  .stat-num.gold{color:var(--gold)}
+
+  /* MEETING DATE GROUP */
+  .content{max-width:960px;margin:0 auto;padding:0 40px 60px}
+  .meeting-group{margin-bottom:32px}
+  .meeting-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--green);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+  .meeting-date .date-line{flex:1;height:1px;background:var(--border)}
+
+  /* PRIORITY CARD */
+  .priority{background:var(--card);border:1px solid var(--border);padding:16px 20px;margin-bottom:6px;transition:all .2s;position:relative;overflow:hidden}
+  .priority:hover{background:var(--card-hover);border-color:#363636}
+  .priority.resolved{opacity:.45;background:var(--resolved-bg)}
+  .priority.resolved .pri-title{text-decoration:line-through;text-decoration-color:var(--muted)}
+  .priority .status-edge{position:absolute;left:0;top:0;bottom:0;width:3px}
+  .priority .status-edge.active{background:var(--green)}
+  .priority .status-edge.waiting{background:var(--gold)}
+  .priority .status-edge.escalated{background:var(--flame)}
+  .priority .status-edge.resolved{background:var(--muted)}
+
+  .pri-top{display:flex;align-items:flex-start;gap:12px}
+  .pri-check{width:18px;height:18px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:2px;transition:all .15s}
+  .pri-check:hover{border-color:var(--green)}
+  .pri-check.checked{border-color:var(--green);background:var(--green)}
+  .pri-check.checked::after{content:'✓';color:var(--bg);font-size:11px;font-weight:700}
+  .pri-body{flex:1;min-width:0}
+  .pri-title{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:4px}
+  .pri-detail{font-size:12.5px;color:var(--text);line-height:1.55;margin-bottom:8px}
+  .pri-bullets{list-style:none;padding:0;margin:0}
+  .pri-bullets li{position:relative;padding-left:14px;margin-bottom:3px;font-size:12.5px;color:var(--text);line-height:1.5}
+  .pri-bullets li::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;background:var(--muted)}
+  .pri-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border)}
+  .tag.owner-meg{color:var(--teal);border-color:rgba(91,192,190,.3)}
+  .tag.owner-gerard{color:var(--purple);border-color:rgba(127,119,221,.3)}
+  .tag.owner-both{color:var(--green);border-color:rgba(205,248,81,.25)}
+  .tag.status-active{color:var(--green);border-color:rgba(205,248,81,.25)}
+  .tag.status-waiting{color:var(--gold);border-color:rgba(232,197,71,.25)}
+  .tag.status-escalated{color:var(--flame);border-color:rgba(255,74,35,.25)}
+  .tag.status-resolved{color:var(--muted);border-color:var(--border)}
+  .tag.cat{color:var(--dim);border-color:var(--border)}
+  .status-cycle{cursor:pointer;user-select:none}
+  .status-cycle:hover{opacity:.8}
+
+  /* FOOTER */
+  .footer{max-width:960px;margin:0 auto;padding:20px 40px 40px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;border-top:1px solid var(--border)}
+
+  /* EXPORT MODAL */
+  .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:5000;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--card);border:1px solid var(--border);padding:24px;width:560px;max-width:92vw;max-height:80vh;display:flex;flex-direction:column}
+  .modal h3{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:16px}
+  .modal-tabs{display:flex;gap:2px;margin-bottom:12px}
+  .modal-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;background:transparent;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:all .15s}
+  .modal-tab:hover{color:var(--white)}
+  .modal-tab.active{color:var(--green);border-color:var(--green);background:rgba(205,248,81,.06)}
+  .modal-export{flex:1;overflow:auto;background:var(--bg);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-word;min-height:200px}
+  .modal-actions{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+
+  /* RESPONSIVE */
+  @media(max-width:640px){
+    .header,.toolbar,.filters,.stats,.content,.footer{padding-left:20px;padding-right:20px}
+    .header h1{font-size:1.4rem}
+    .stats{gap:16px;flex-wrap:wrap}
+    nav{padding:0 12px}
+    .priority{padding:12px 16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV — TEMPO standard -->
+<nav>
+  <a class="logo" href="index.html">
+    <span class="l1">TEMPO</span>
+    <span class="l2">·</span>
+    <span class="l3">Campaign Ops</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">The Mission</a>
+    <a href="orbit.html">The Cycle</a>
+    <a href="visibility.html">Visibility</a>
+    <span class="active-label">Priorities</span>
+    <div class="sndd"><span class="sndd-b">Library ▾</span><div class="sndd-m">
+      <div class="sep-label">Pipeline</div>
+      <a href="lanes.html">Lane Definition</a>
+      <a href="vcf.html">Value vs. Complexity</a>
+      <div class="sep"></div>
+      <div class="sep-label">Reference</div>
+      <a href="reference/framework-reference.html">Framework Reference</a>
+      <a href="reference/operational-plan.html">How It Runs</a>
+      <div class="sep"></div>
+      <div class="sep-label">Tools</div>
+      <a href="insights/index.html">Insights</a>
+      <a href="reference/airtable-grid.html">Airtable Grid</a>
+      <div class="sep"></div>
+      <a href="archive/index.html" style="color:#3E3F41;font-size:10px;">Archive</a>
+    </div></div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="label">Meg × Gerard</div>
+  <h1>ONGOING PRIORITIES</h1>
+  <div class="sub">Running tracker across sync meetings. Click the checkbox to resolve. Click a status tag to cycle it. Exports to Markdown, JSON, or CSV for use anywhere.</div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="spacer"></div>
+  <button class="btn" onclick="openExport()">Export ↗</button>
+  <button class="btn" onclick="saveSnapshot()">Save JSON</button>
+  <button class="btn" onclick="document.getElementById('loadInput').click()">Load JSON</button>
+  <input type="file" id="loadInput" accept=".json" style="display:none" onchange="loadSnapshot(event)">
+</div>
+
+<!-- FILTER PILLS -->
+<div class="filters">
+  <span class="filter-label">Show:</span>
+  <button class="pill active" data-filter="all" onclick="setFilter('all')">All <span class="count" id="countAll"></span></button>
+  <button class="pill" data-filter="active" onclick="setFilter('active')">Active <span class="count" id="countActive"></span></button>
+  <button class="pill" data-filter="waiting" onclick="setFilter('waiting')">Waiting <span class="count" id="countWaiting"></span></button>
+  <button class="pill" data-filter="escalated" onclick="setFilter('escalated')">Escalated <span class="count" id="countEscalated"></span></button>
+  <button class="pill" data-filter="resolved" onclick="setFilter('resolved')">Resolved <span class="count" id="countResolved"></span></button>
+</div>
+
+<!-- STATS -->
+<div class="stats" id="statsBar">
+  <div class="stat"><span class="stat-num green" id="statActive">0</span><span class="stat-label">Active</span></div>
+  <div class="stat"><span class="stat-num gold" id="statWaiting">0</span><span class="stat-label">Waiting</span></div>
+  <div class="stat"><span class="stat-num flame" id="statEscalated">0</span><span class="stat-label">Escalated</span></div>
+  <div class="stat"><span class="stat-num" style="color:var(--muted)" id="statResolved">0</span><span class="stat-label">Resolved</span></div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="content"></div>
+
+<!-- FOOTER -->
+<div class="footer">Campaign Operations · Ongoing Priorities · Updated <span id="footerDate"></span></div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal">
+    <h3>Export Priorities</h3>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchExportTab('md')">Markdown</button>
+      <button class="modal-tab" onclick="switchExportTab('csv')">CSV</button>
+      <button class="modal-tab" onclick="switchExportTab('json')">JSON</button>
+    </div>
+    <div class="modal-export" id="exportContent"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeExport()">Close</button>
+      <button class="btn" onclick="copyExport()">Copy</button>
+      <button class="btn primary" onclick="downloadExport()">Download</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────
+const PRIORITIES = [
+  {
+    id: "p002",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Christian hire — Manager title, onboarding",
+    detail: "• Jordan finalizing in ~2 days\n• Coming in as Manager — boots on the ground\n• Wants to learn, organize, compile, talk to people\n• Good fit for the support gap",
+    owner: "meg",
+    status: "waiting",
+    category: "team"
+  },
+  {
+    id: "p003",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Big picture meeting with Jordan",
+    detail: "• Meg scheduling this week\n• Separate from tactical weeds — clarity on overall direction\n• Agenda: lane discrepancies, creative involvement, what we're doing it all for\n• Jordan agreed it's needed",
+    owner: "meg",
+    status: "active",
+    category: "strategy"
+  },
+  {
+    id: "p004",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Campaign Leads vs. Audience Dev — lane definition discrepancies",
+    detail: "• Updated board pushed to TEMPO with color-coded flags (new, moved, Tarek, Shawnee)\n• JD discrepancies: JV missing 3 responsibilities, Tarek missing trigger assets + paid ads\n• Plan: screenshot to Jordan as agenda item\n• Frame as tactical fix request — we're the translation layer",
+    owner: "both",
+    status: "active",
+    category: "structure"
+  },
+  {
+    id: "p005",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Roster assignment standardization",
+    detail: "• Multiple conflicting rosters (Tarek PDF, Val's version, BA's version)\n• Josh Green getting pushback from Daniela/BA\n• Lives on Frequency but no single home\n• Depts maintain their own → send to Ops instead of distributing externally\n• Shani/Carlos trading assignments without telling anyone",
+    owner: "both",
+    status: "active",
+    category: "process"
+  },
+  {
+    id: "p006",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Support infrastructure — no senior person, workload unclear",
+    detail: "• Tons of work moved to Support post lane-definition, no one managing it\n• Ryan may own it (and may want to) — need to confirm\n• Scheduling requests are clunky: Airtable → email → Friday workability → ready to order\n• Scott refuses to change process; Tirania has same notes\n• Need to map what's actually in Support's lane",
+    owner: "both",
+    status: "active",
+    category: "structure"
+  },
+  {
+    id: "p007",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Sony GitHub Enterprise + Snowflake/Streamlit access",
+    detail: "• Gerard discovered via Kingsley — dedicated server space for Streamlit + Snowflake\n• Exactly what PDE uses and what Alec said doesn't exist\n• Potential migration path from mugzyboez GitHub\n• Core principle: tool-agnostic, everything built as a movable package",
+    owner: "gerard",
+    status: "active",
+    category: "infrastructure"
+  },
+  {
+    id: "p008",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Claude Team workspace setup",
+    detail: "• Meg set up using mugzyboez.co domain (workaround outside Sony)\n• Gerard getting login info\n• Enables plain-English doc editing async",
+    owner: "meg",
+    status: "active",
+    category: "infrastructure"
+  },
+  {
+    id: "p009",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Visibility into campaign lead meetings — CC request",
+    detail: "• Jordan's directive: Ops should be across everything for their CLs\n• Karen mentioned two meetings Meg wasn't aware of\n• Both sending emails to CLs requesting CC on all artist meetings\n• Don't need to attend — just need awareness\n• Gerard copying Meg's email template",
+    owner: "both",
+    status: "active",
+    category: "process"
+  },
+  {
+    id: "p010",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "D2C + contractual obligations as operational data",
+    detail: "• D2C presentation today — contracts now include store/merch hosting rights\n• Contractual obligations have departmental impact nobody surfaces\n• Approval rights → sync free reign; buyback → skip physical viability report\n• Build: checklist where contract flags auto-adjust workflows\n• Users see the output, not the restriction",
+    owner: "both",
+    status: "active",
+    category: "strategy"
+  },
+  {
+    id: "p011",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "International × merch gap — meeting with Nish",
+    detail: "• Angelina flagged: can't suggest buying vinyl where artists have big followings/tours\n• Disconnect between international team and merch\n• Meg setting up meeting with Nish + possibly Joey",
+    owner: "meg",
+    status: "active",
+    category: "process"
+  },
+  {
+    id: "p012",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Active Projects meeting prep — morning update cadence",
+    detail: "• Aaron + Gina both updating Airtable action items (first adopters)\n• Comments going in wrong field — don't correct yet, preserve enthusiasm\n• Plan: check pending items, reach out to CLs, morning update to Jordan/Tarek\n• Need to figure out how to surface changes in the meeting\n• Aversion to screens in the room — baby steps",
+    owner: "both",
+    status: "active",
+    category: "process"
+  },
+  {
+    id: "p013",
+    date: "2026-04-07",
+    meeting: "Meg × G Catch-Up",
+    title: "Action item standardization + Claude categorization",
+    detail: "• Jordan's test: 'does someone do something differently tomorrow?'\n• Some items don't fit that but still matter\n• Need structured types without changing how people input\n• Ethos: don't change their output, make it into a process\n• Meg shares Claude-categorized items, Gerard refines in new workspace\n• Pre-meeting export with questionable items highlighted",
+    owner: "both",
+    status: "active",
+    category: "process"
+  }
+];
+
+// ─── STATE ──────────────────────────────────────────────────────
+let items = [];
+let currentFilter = 'all';
+let currentExportTab = 'md';
+
+function loadItems() {
+  const stored = localStorage.getItem('tempo-priorities');
+  if (stored) {
+    try { items = JSON.parse(stored); return; } catch(e) {}
+  }
+  items = PRIORITIES.map(p => ({...p}));
+}
+
+function persist() {
+  localStorage.setItem('tempo-priorities', JSON.stringify(items));
+}
+
+// ─── RENDER ─────────────────────────────────────────────────────
+function render() {
+  updateStats();
+  updateFilterCounts();
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+
+  let filtered = items;
+  if (currentFilter !== 'all') {
+    filtered = items.filter(i => i.status === currentFilter);
+  }
+
+  // Group by date
+  const groups = {};
+  filtered.forEach(item => {
+    if (!groups[item.date]) groups[item.date] = [];
+    groups[item.date].push(item);
+  });
+
+  // Sort dates newest first
+  const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+
+  if (sortedDates.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-family:DM Mono,monospace;font-size:12px;letter-spacing:1px;text-transform:uppercase;">No items match this filter</div>';
+    return;
+  }
+
+  sortedDates.forEach(date => {
+    const group = document.createElement('div');
+    group.className = 'meeting-group';
+
+    const d = new Date(date + 'T12:00:00');
+    const dateStr = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const meetingName = groups[date][0].meeting || '';
+
+    group.innerHTML = `<div class="meeting-date">${dateStr}${meetingName ? ' · ' + meetingName : ''}<span class="date-line"></span></div>`;
+
+    groups[date].forEach(item => {
+      group.appendChild(makeCard(item));
+    });
+
+    container.appendChild(group);
+  });
+
+  document.getElementById('footerDate').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function formatDetail(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length > 1 || lines[0]?.trim().startsWith('•')) {
+    return '<ul class="pri-bullets">' + lines.map(l => '<li>' + l.replace(/^•\s*/, '') + '</li>').join('') + '</ul>';
+  }
+  return text;
+}
+
+function makeCard(item) {
+  const el = document.createElement('div');
+  el.className = 'priority' + (item.status === 'resolved' ? ' resolved' : '');
+  el.dataset.id = item.id;
+
+  const ownerLabel = item.owner === 'both' ? 'Meg + Gerard' : item.owner === 'meg' ? 'Meg' : 'Gerard';
+  const ownerClass = item.owner === 'both' ? 'owner-both' : item.owner === 'meg' ? 'owner-meg' : 'owner-gerard';
+  const statusClass = 'status-' + item.status;
+
+  el.innerHTML = `
+    <div class="status-edge ${item.status}"></div>
+    <div class="pri-top">
+      <div class="pri-check ${item.status === 'resolved' ? 'checked' : ''}" onclick="toggleResolved('${item.id}')"></div>
+      <div class="pri-body">
+        <div class="pri-title">${item.title}</div>
+        <div class="pri-detail">${formatDetail(item.detail)}</div>
+        <div class="pri-meta">
+          <span class="tag ${ownerClass}">${ownerLabel}</span>
+          <span class="tag ${statusClass} status-cycle" onclick="cycleStatus('${item.id}')" title="Click to cycle status">${item.status}</span>
+          <span class="tag cat">${item.category}</span>
+        </div>
+      </div>
+    </div>
+  `;
+  return el;
+}
+
+function updateStats() {
+  document.getElementById('statActive').textContent = items.filter(i => i.status === 'active').length;
+  document.getElementById('statWaiting').textContent = items.filter(i => i.status === 'waiting').length;
+  document.getElementById('statEscalated').textContent = items.filter(i => i.status === 'escalated').length;
+  document.getElementById('statResolved').textContent = items.filter(i => i.status === 'resolved').length;
+}
+
+function updateFilterCounts() {
+  document.getElementById('countAll').textContent = items.length;
+  document.getElementById('countActive').textContent = items.filter(i => i.status === 'active').length;
+  document.getElementById('countWaiting').textContent = items.filter(i => i.status === 'waiting').length;
+  document.getElementById('countEscalated').textContent = items.filter(i => i.status === 'escalated').length;
+  document.getElementById('countResolved').textContent = items.filter(i => i.status === 'resolved').length;
+}
+
+// ─── INTERACTIONS ───────────────────────────────────────────────
+function toggleResolved(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.status = item.status === 'resolved' ? 'active' : 'resolved';
+  persist();
+  render();
+}
+
+function cycleStatus(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  const cycle = ['active', 'waiting', 'escalated', 'resolved'];
+  const idx = cycle.indexOf(item.status);
+  item.status = cycle[(idx + 1) % cycle.length];
+  persist();
+  render();
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.filter === f));
+  render();
+}
+
+// ─── EXPORT ─────────────────────────────────────────────────────
+function openExport() {
+  document.getElementById('exportModal').classList.add('open');
+  switchExportTab(currentExportTab);
+}
+
+function closeExport() {
+  document.getElementById('exportModal').classList.remove('open');
+}
+
+function switchExportTab(tab) {
+  currentExportTab = tab;
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase().includes(tab)));
+  const el = document.getElementById('exportContent');
+
+  if (tab === 'md') {
+    el.textContent = generateMarkdown();
+  } else if (tab === 'csv') {
+    el.textContent = generateCSV();
+  } else {
+    el.textContent = JSON.stringify(items, null, 2);
+  }
+}
+
+function generateMarkdown() {
+  const now = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  let md = `# Ongoing Priorities — Meg × Gerard\n_Exported ${now}_\n\n`;
+
+  // Group by status
+  const statusOrder = ['active', 'waiting', 'escalated', 'resolved'];
+  const statusEmoji = { active: '🟢', waiting: '🟡', escalated: '🔴', resolved: '✅' };
+
+  statusOrder.forEach(status => {
+    const group = items.filter(i => i.status === status);
+    if (group.length === 0) return;
+    md += `## ${statusEmoji[status]} ${status.charAt(0).toUpperCase() + status.slice(1)} (${group.length})\n\n`;
+    group.forEach(item => {
+      const owner = item.owner === 'both' ? 'Meg + Gerard' : item.owner === 'meg' ? 'Meg' : 'Gerard';
+      md += `### ${item.title}\n`;
+      md += `- **Owner:** ${owner} · **Category:** ${item.category} · **Source:** ${item.meeting} (${item.date})\n`;
+      const bullets = item.detail.split('\n').filter(l => l.trim());
+      bullets.forEach(b => {
+        md += `- ${b.replace(/^•\s*/, '')}\n`;
+      });
+      md += '\n';
+    });
+  });
+
+  return md;
+}
+
+function generateCSV() {
+  let csv = 'ID,Date,Meeting,Title,Detail,Owner,Status,Category\n';
+  items.forEach(item => {
+    csv += `"${item.id}","${item.date}","${item.meeting}","${item.title.replace(/"/g,'""')}","${item.detail.replace(/"/g,'""')}","${item.owner}","${item.status}","${item.category}"\n`;
+  });
+  return csv;
+}
+
+function copyExport() {
+  const text = document.getElementById('exportContent').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.modal-actions .btn:nth-child(2)');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
+  });
+}
+
+function downloadExport() {
+  const text = document.getElementById('exportContent').textContent;
+  const ext = currentExportTab === 'md' ? 'md' : currentExportTab === 'csv' ? 'csv' : 'json';
+  const mime = currentExportTab === 'csv' ? 'text/csv' : currentExportTab === 'json' ? 'application/json' : 'text/markdown';
+  const blob = new Blob([text], { type: mime });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `priorities-${new Date().toISOString().slice(0,10)}.${ext}`;
+  a.click();
+}
+
+// ─── SAVE / LOAD SNAPSHOTS ──────────────────────────────────────
+function saveSnapshot() {
+  const data = JSON.stringify(items, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `priorities-snapshot-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function loadSnapshot(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = function(ev) {
+    try {
+      const loaded = JSON.parse(ev.target.result);
+      if (Array.isArray(loaded)) {
+        items = loaded;
+        persist();
+        render();
+      }
+    } catch(err) { alert('Invalid file'); }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+}
+
+// ─── INIT ───────────────────────────────────────────────────────
+document.getElementById('exportModal').addEventListener('click', function(e) { if (e.target === this) closeExport(); });
+loadItems();
+render();
+</script>
+</body>
+</html>

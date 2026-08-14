@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 1 Priorities · Campaign Operations</title>
+<link rel="icon" type="image/png" href="/tempoicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F4EC;
+    --paper: #FFFFFF;
+    --ink: #0F0E0E;
+    --muted: #6B6776;
+    --line: #C8C5BB;
+    --chartreuse: #8FA82A;
+    --chartreuse-fill: #CDF851;
+    --flame: #B33113;
+    --fog: #B0A9BE;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* TOP NAV */
+  .topnav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 32px;
+    border-bottom: 1px solid #ECEAE3;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .topnav a.logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topnav a.logo img { width: 32px; height: 32px; border-radius: 6px; }
+  .topnav a.logo span { background: var(--chartreuse-fill); padding: 2px 6px; }
+  .topnav a.link {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 10px;
+  }
+  .topnav a.active {
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 22px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .eye {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  h1 .accent { color: var(--chartreuse); }
+  .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .ctrl-btn {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .ctrl-btn:hover { color: var(--ink); border-color: var(--ink); }
+  .ctrl-btn.danger:hover { color: var(--flame); border-color: var(--flame); }
+
+  /* PROGRESS SUMMARY */
+  .summary {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 22px 26px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .summary-num {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .summary-num .of {
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .summary-meta {
+    flex: 1;
+    min-width: 200px;
+  }
+  .summary-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .summary-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .progress-bar {
+    flex: 0 0 100%;
+    height: 6px;
+    background: var(--line);
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--chartreuse-fill);
+    transition: width 0.3s ease;
+  }
+
+  /* SECTIONS */
+  section.priority {
+    margin-bottom: 36px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  section.priority:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .priority-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+  .priority-num {
+    flex: 0 0 42px;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .priority-title {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    flex: 1;
+  }
+  .priority-count {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* CHECKLIST */
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+    padding-left: 60px;
+  }
+  ul.checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+  }
+  ul.checklist li:first-child { border-top: none; }
+  ul.checklist li.done .item-text {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .checkbox {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    margin-top: 2px;
+    position: relative;
+    transition: all 0.15s;
+  }
+  li.done .checkbox {
+    background: var(--ink);
+  }
+  li.done .checkbox::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    width: 6px;
+    height: 11px;
+    border: solid var(--chartreuse-fill);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .item-text {
+    font-size: 14px;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.5;
+  }
+  .item-text .item-owner {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-left: 8px;
+    padding: 2px 6px;
+    border: 1px solid var(--line);
+    vertical-align: middle;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @media print {
+    .topnav, .controls { display: none; }
+    body { background: white; }
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 32px 20px 60px; }
+    h1 { font-size: 32px; }
+    ul.checklist { padding-left: 0; }
+    .priority-head { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="/" class="logo"><img src="/logo_neon.png" alt="">Campaign <span>Ops</span></a>
+  <a href="/reference/phase-gates.html" class="link">Phase Gates</a>
+  <a href="/reference/budget.html" class="link">Budget</a>
+  <a href="/reference/ar-ops-gaps.html" class="link">A&amp;R Ops Gaps</a>
+  <a href="/reference/handoff-map.html" class="link">Handoff Map</a>
+  <a href="/reference/lanes.html" class="link">Lanes</a>
+  <a href="/reference/phase-1.html" class="link active">Phase 1</a>
+</div>
+
+<div class="container">
+
+<header>
+  <div>
+    <div class="eye">Campaign Ops · Working Sprint</div>
+    <h1>PHASE <span class="accent">1</span> PRIORITIES</h1>
+  </div>
+  <div class="controls">
+    <button class="ctrl-btn" id="print-btn">Print</button>
+    <button class="ctrl-btn danger" id="reset-btn">Reset Checks</button>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="summary-num"><span id="done-count">0</span><span class="of"> / <span id="total-count">0</span></span></div>
+  <div class="summary-meta">
+    <div class="summary-label">Sprint Progress</div>
+    <div class="summary-text" id="summary-text">Initializing…</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<section class="priority" data-section="airtable">
+  <div class="priority-head">
+    <span class="priority-num">02</span>
+    <h2 class="priority-title">Airtable</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Sandbox base structure validated against production schema</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Artists table populated with all active roster (production data, not stubs)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Phase Gate Items table connected to TEMPO <span class="item-owner">DONE</span></div></li>
+    <li><div class="checkbox"></div><div class="item-text">D2C Planner Airtable link live via /api/records proxy</div></li>
+    <li><div class="checkbox"></div><div class="item-text">AD Roster Airtable link live via /api/ad-tagging-records proxy</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Production base access provisioned <span class="item-owner">Brian Lynch · IT</span></div></li>
+    <li><div class="checkbox"></div><div class="item-text">RDX field mapping documented for when production access lands</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Standing views created per table (Meg / Gerard / Jordan)</div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="mapping">
+  <div class="priority-head">
+    <span class="priority-num">03</span>
+    <h2 class="priority-title">Mapping → AD Roster → Creative</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Handoff Map validated with Tarek</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Handoff Map validated with Creative leadership</div></li>
+    <li><div class="checkbox"></div><div class="item-text">AD Roster live in Airtable with genre + lifestyle tags per specialist</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Genre × Lifestyle tag audit complete for every active artist</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Coverage gap analysis run (artists with no AD match)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Re-tagging completed for mismatched / unmatched artists</div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="phases">
+  <div class="priority-head">
+    <span class="priority-num">04</span>
+    <h2 class="priority-title">Campaign Phases</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">184 Phase Gate Items loaded to Airtable <span class="item-owner">DONE</span></div></li>
+    <li><div class="checkbox"></div><div class="item-text">Phase rename (Announce → Pre-Release) propagated <span class="item-owner">DONE</span></div></li>
+    <li><div class="checkbox"></div><div class="item-text">5-phase framework piloted on 1 active campaign</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Phase column live in Wednesday AP meeting view</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Per-artist phase tracking workflow defined and documented</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Phase transition criteria signed off by Jordan</div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="budget">
+  <div class="priority-head">
+    <span class="priority-num">05</span>
+    <h2 class="priority-title">Budget</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Two-track framework documented (Planning + Approval)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Biz Plan Revenue × MMP% template built</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Manual approval breakdown documented (where it fails today)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Airtable approval routing prototyped</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Validated with Finance</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Validated with Karen Lamberton <span class="item-owner">BA</span></div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="scheduling">
+  <div class="priority-head">
+    <span class="priority-num">06</span>
+    <h2 class="priority-title">Scheduling Requests</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Plan → Pre-Release gate criteria documented</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Scheduling request intake form built (Airtable form)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Initiator confirmed (A&amp;R Admin? Marketing?)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Required fields locked</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Routing to Release Planning defined</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Tested on 2 active campaigns</div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="ar-ops">
+  <div class="priority-head">
+    <span class="priority-num">07</span>
+    <h2 class="priority-title">A&amp;R Admin · A&amp;R Ops Gaps</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Gap 2: Promo portal security audit complete, gaps surfaced to IT</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Gap 3: Disco enterprise pipeline test results documented</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Gap 4: Scott July 1 — Production Meeting ownership transition plan written</div></li>
+    <li><div class="checkbox"></div><div class="item-text">All 4 gaps resolved or assigned owner + timeline</div></li>
+  </ul>
+</section>
+
+<section class="priority" data-section="cadence">
+  <div class="priority-head">
+    <span class="priority-num">08</span>
+    <h2 class="priority-title">Monthly Cadence</h2>
+    <span class="priority-count" data-count></span>
+  </div>
+  <ul class="checklist">
+    <li><div class="checkbox"></div><div class="item-text">Monthly cadence proposal drafted (who attends, what's reviewed, format)</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Validated with Jordan</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Validated with Tarek</div></li>
+    <li><div class="checkbox"></div><div class="item-text">First monthly meeting scheduled</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Recap format defined</div></li>
+    <li><div class="checkbox"></div><div class="item-text">Distribution list confirmed</div></li>
+  </ul>
+</section>
+
+<footer>
+  <span>Campaign Operations · RCA Records</span>
+  <span>Phase 1 · Working Sprint</span>
+</footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'phase1_priorities_v1';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+function idFor(li) {
+  // Build a stable ID from section + item text
+  const section = li.closest('section.priority').dataset.section;
+  const text = li.querySelector('.item-text').textContent.trim().substring(0, 80);
+  return `${section}::${text}`;
+}
+
+function refreshUI() {
+  const state = loadState();
+  let totalDone = 0;
+  let totalAll = 0;
+
+  document.querySelectorAll('section.priority').forEach(section => {
+    const items = section.querySelectorAll('li');
+    let sectionDone = 0;
+    items.forEach(li => {
+      const id = idFor(li);
+      const isDone = !!state[id];
+      li.classList.toggle('done', isDone);
+      if (isDone) sectionDone++;
+    });
+    const countEl = section.querySelector('[data-count]');
+    if (countEl) countEl.textContent = `${sectionDone} / ${items.length}`;
+    totalDone += sectionDone;
+    totalAll += items.length;
+  });
+
+  document.getElementById('done-count').textContent = totalDone;
+  document.getElementById('total-count').textContent = totalAll;
+  const pct = totalAll === 0 ? 0 : Math.round((totalDone / totalAll) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  let txt;
+  if (totalDone === 0) txt = 'No items complete yet — let\u2019s go.';
+  else if (totalDone === totalAll) txt = 'All Phase 1 priorities complete. Time for Phase 2.';
+  else if (pct < 25) txt = 'Early days. Stack the easy wins first.';
+  else if (pct < 50) txt = 'Picking up momentum.';
+  else if (pct < 75) txt = 'Past the midpoint.';
+  else txt = 'Final stretch.';
+  document.getElementById('summary-text').textContent = txt;
+}
+
+document.querySelectorAll('ul.checklist li').forEach(li => {
+  li.addEventListener('click', () => {
+    const state = loadState();
+    const id = idFor(li);
+    if (state[id]) delete state[id]; else state[id] = true;
+    saveState(state);
+    refreshUI();
+  });
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (confirm('Reset all checks on this page? This only clears your browser — anyone else viewing has their own state.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    refreshUI();
+  }
+});
+
+document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+// Initialize: pre-mark DONE items
+const initialState = loadState();
+let touched = false;
+document.querySelectorAll('ul.checklist li').forEach(li => {
+  const ownerText = li.querySelector('.item-owner');
+  if (ownerText && ownerText.textContent.trim() === 'DONE') {
+    const id = idFor(li);
+    if (!initialState[id]) {
+      initialState[id] = true;
+      touched = true;
+    }
+  }
+});
+if (touched) saveState(initialState);
+
+refreshUI();
+</script>
+
+</body>
+</html>
