@@ -2,145 +2,81 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Phase 1 Roadmap · Campaign Operations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
---chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
+:root{--bg:#F5F4EC;--ink:#0F0E0E;--muted:#726E64;--line:#DBD7CB;
+--chart:#CDF851;--flame:#B33113;--amber:#8A6708}
 body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+
 .band{background:var(--ink);color:#FCFDF8}
-.band-in{max-width:1080px;margin:0 auto;padding:48px 32px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:14px}
-h1{font-size:40px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
-.sub{margin-top:16px;font-size:17px;color:#B9B6AE;max-width:62ch}
-.tally{display:flex;gap:34px;margin-top:26px;flex-wrap:wrap}
-.tally div{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#8C8981;font-weight:600}
-.tally b{display:block;font-size:30px;letter-spacing:-.02em;color:#FCFDF8;margin-bottom:2px}
-.comp{display:inline-block;margin-top:26px;font-size:12px;font-weight:600;letter-spacing:.08em;
-text-transform:uppercase;color:var(--chart);text-decoration:none;border-bottom:2px solid var(--chart);padding-bottom:3px}
-.comp:hover{opacity:.8}
-.wrap{max-width:1080px;margin:0 auto;padding:34px 32px 110px}
-section{margin-bottom:46px}
-h2{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
-.lede{color:var(--muted);max-width:66ch;margin-bottom:22px;font-size:16px}
+.band-in{max-width:760px;margin:0 auto;padding:56px 30px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+h1{font-size:40px;line-height:1.06;font-weight:600;letter-spacing:-.028em}
+.sub{margin-top:16px;font-size:17px;line-height:1.55;color:#B4B1A9;max-width:56ch}
+.comp{display:inline-block;margin-top:24px;font-size:13px;font-weight:500;color:var(--chart);
+text-decoration:none;border-bottom:1px solid rgba(205,248,81,.45);padding-bottom:2px}
 
-.chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:9px}
-.cl{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:6px}
-.chip{font:600 12px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;
-padding:9px 13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
-.chip i{font-style:normal;color:var(--muted);margin-left:5px;font-variant-numeric:tabular-nums}
-.chip.on{background:var(--ink);color:#FCFDF8;border-color:var(--ink)}
-.chip.on i{color:var(--chart)}
-.chip:hover{border-color:var(--ink)}
-.o-row{margin-bottom:20px}
+.wrap{max-width:760px;margin:0 auto;padding:44px 30px 100px}
 
-.lane{margin-bottom:9px;background:var(--paper);border:1px solid var(--line)}
-.lh{display:grid;grid-template-columns:1fr 190px 52px;gap:18px;align-items:center;
-padding:15px 20px;border-bottom:1px solid #EFEDE3;background:#FBFAF4}
-.lh h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
-.bar{height:10px;background:#E6E3D9;position:relative}
-.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--chart-d)}
-.ln{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
-.row{display:grid;grid-template-columns:16px 1fr 122px 150px;gap:14px;align-items:baseline;
-padding:13px 20px;border-bottom:1px solid #F3F1E8;font-size:15px}
-.row:last-child{border-bottom:0}
-.row.hide{display:none}
-.pip{width:9px;height:9px;margin-top:6px;border:1px solid var(--ink);align-self:center}
-.pip.done{background:var(--chart-d);border-color:var(--chart-d)}
-.pip.wip{background:var(--amber);border-color:var(--amber)}
-.pip.blocked{background:var(--flame);border-color:var(--flame)}
-.pip.todo{background:none}
-.it{line-height:1.5}
-.lk{display:inline-block;margin-left:10px;font-size:12px;font-weight:600;letter-spacing:.05em;
-text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--chart);text-decoration:none;white-space:nowrap}
-.st{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.st.done{color:#5C7016}
-.st.wip{color:#96700C}
-.st.blocked{color:var(--flame)}
-.ow{font-size:13px;color:var(--muted)}
-.lane.hide{display:none}
+.lane{margin-bottom:38px}
+.lh{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+padding-bottom:9px;border-bottom:2px solid var(--ink);margin-bottom:2px}
+.lh h3{font-size:18px;font-weight:600;letter-spacing:-.015em}
+.ln{font-size:13px;color:var(--muted);white-space:nowrap}
 
-.delta{background:var(--paper);border:1px solid var(--line)}
-.dl{display:grid;grid-template-columns:190px 1fr 240px;gap:16px;align-items:baseline;
-padding:13px 20px;border-bottom:1px solid #F3F1E8;font-size:15px}
-.dl:last-child{border-bottom:0}
-.dl.none{display:block;color:var(--muted);font-size:15px}
-.dt{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;text-align:center}
-.dt.move{background:var(--chart);color:#33401A}
-.dt.add{background:#EEECE2;color:var(--ink)}
-.dt.drop{background:var(--paper);border:1px solid var(--line);color:var(--muted)}
-.dn{font-size:12px;color:var(--muted);text-align:right}
+ul{list-style:none}
+li{padding:13px 0 13px 0;border-bottom:1px solid var(--line);font-size:16.5px;line-height:1.5}
+li:last-child{border-bottom:0}
+li.done{color:var(--muted)}
 
-.foot{background:var(--ink);color:#D6D3CB;padding:30px 34px;font-size:15px;line-height:1.66;max-width:none}
-.foot b{color:var(--chart);font-weight:600}
-.foot p{max-width:74ch}
-.foot p+p{margin-top:14px}
-@media(max-width:840px){h1{font-size:30px}.wrap{padding:26px 18px 80px}
-.lh,.row,.dl{grid-template-columns:1fr}.bar{display:none}}
+.tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+text-transform:uppercase;padding:3px 8px;margin-right:10px;position:relative;top:-1px}
+.tag.done{background:var(--chart);color:#33401A}
+.tag.wip{background:#F4E3B4;color:var(--amber)}
+.tag.blocked{background:var(--flame);color:#fff}
+.tag.add{background:#E7E4D8;color:var(--ink)}
+.tag.drop{background:none;border:1px solid var(--line);color:var(--muted);padding:2px 7px}
+.quiet{color:var(--muted)}
+
+.who{color:var(--muted);font-size:15px}
+.who::before{content:' · '}
+li.done .who{color:var(--muted)}
+.lk{margin-left:10px;font-size:14px;color:var(--ink);text-decoration:none;
+border-bottom:2px solid var(--chart);white-space:nowrap}
+
+h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:7px}
+.moved{margin-top:56px}
+.moved ul{margin-top:14px}
+.moved li{font-size:16px}
+.moved .tag{min-width:0}
+
+.foot{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+font-size:14.5px;line-height:1.62;color:var(--muted);max-width:60ch}
+.foot b{color:var(--ink);font-weight:600}
+@media(max-width:640px){h1{font-size:29px}.band-in{padding:40px 20px}.wrap{padding:32px 20px 70px}}
 </style></head><body>
 
 <div class="band"><div class="band-in">
 <div class="eyebrow">Campaign Operations &middot; as of 2026-08-13</div>
 <h1>Phase 1 Roadmap</h1>
 <div class="sub">The seven lanes Campaign Ops is working through, and everything currently sitting in them. Frozen on the date above.</div>
-<div class="tally">
-<div><b>7</b>lanes</div>
-<div><b>45</b>items</div>
-<div><b>3</b>done</div>
-</div>
 <a class="comp" href="/reference/check-in-2026-08-13.html">Fleck check-in · 14 August 2026 &rarr;</a>
 </div></div>
 
 <div class="wrap">
 
-<section>
-<div class="chips"><span class="cl">Status</span>
-<button class="chip on" data-s="">All</button><button class="chip blocked" data-s="Blocked">Blocked <i>0</i></button><button class="chip wip" data-s="In Progress">In Progress <i>0</i></button><button class="chip todo" data-s="To Do">To Do <i>42</i></button><button class="chip done" data-s="Done">Done <i>3</i></button></div>
-<div class="chips o-row"><span class="cl">Owner</span><button class="chip o on" data-o="">Everyone</button><button class="chip o" data-o="BA">BA</button><button class="chip o" data-o="Brian Lynch · IT">Brian Lynch · IT</button></div>
-<div class="lane" data-lane="02 · Airtable"><div class="lh"><h3>02 · Airtable</h3><div class="bar"><i style="width:11%"></i></div><span class="ln">1/9</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Sandbox base structure validated against production schema</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Artists table populated with all active roster (production data, not stubs)</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="Done" data-o=""><span class="pip done" title="Done"></span><span class="it">Phase Gate Items table connected to TEMPO<a class="lk" href="/reference/phase-gates.html" target="_blank" rel="noopener">Phase gates &rarr;</a></span><span class="st done">Done</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">D2C Planner Airtable link live via /api/records proxy<a class="lk" href="/d2c-grid.html" target="_blank" rel="noopener">D2C grid &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">AD Roster Airtable link live via /api/ad-tagging-records proxy<a class="lk" href="/ad-tagging.html" target="_blank" rel="noopener">AD tagging &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o="Brian Lynch · IT"><span class="pip todo" title="To Do"></span><span class="it">Production base access provisioned</span><span class="st todo">To Do</span><span class="ow">Brian Lynch · IT</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">RDX field mapping documented for when production access lands</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Standing views created per table (Meg / Gerard / Jordan)</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Phase 1 Priorities table connected to TEMPO (this one)<a class="lk" href="/reference/phase-1.html" target="_blank" rel="noopener">Phase 1 (broken) &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div><div class="lane" data-lane="03 · Mapping → AD Roster → Creative"><div class="lh"><h3>03 · Mapping → AD Roster → Creative</h3><div class="bar"><i style="width:0%"></i></div><span class="ln">0/6</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Handoff Map validated with Tarek<a class="lk" href="/archive/reference/handoff-map-snapshot-2026-05-21.html" target="_blank" rel="noopener">Handoff map &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Handoff Map validated with Creative leadership<a class="lk" href="/reference/creative-lanes.html" target="_blank" rel="noopener">Creative lanes &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">AD Roster live in Airtable with genre + lifestyle tags per specialist<a class="lk" href="/ad-tagging.html" target="_blank" rel="noopener">AD tagging &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Genre × Lifestyle tag audit complete for every active artist</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Coverage gap analysis run (artists with no AD match)</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Re-tagging completed for mismatched / unmatched artists</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div><div class="lane" data-lane="04 · Campaign Phases"><div class="lh"><h3>04 · Campaign Phases</h3><div class="bar"><i style="width:29%"></i></div><span class="ln">2/7</span></div><div class="rows"><div class="row" data-s="Done" data-o=""><span class="pip done" title="Done"></span><span class="it">184 Phase Gate Items loaded to Airtable<a class="lk" href="/reference/phase-gates.html" target="_blank" rel="noopener">Phase gates &rarr;</a></span><span class="st done">Done</span><span class="ow">&mdash;</span></div><div class="row" data-s="Done" data-o=""><span class="pip done" title="Done"></span><span class="it">Phase rename (Announce → Pre-Release) propagated</span><span class="st done">Done</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">5-phase framework piloted on 1 active campaign<a class="lk" href="/reference/lanes.html" target="_blank" rel="noopener">Lanes &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Phase column live in Wednesday AP meeting view<a class="lk" href="/active-projects.html" target="_blank" rel="noopener">Active projects &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Per-artist phase tracking workflow defined and documented</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Phase transition criteria signed off by Jordan</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Phase Risk field methodology agreed with Jordan</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div><div class="lane" data-lane="05 · Budget"><div class="lh"><h3>05 · Budget</h3><div class="bar"><i style="width:0%"></i></div><span class="ln">0/6</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Two-track framework documented (Planning + Approval)<a class="lk" href="/budget/full-flow.html" target="_blank" rel="noopener">Full flow &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Biz Plan Revenue × MMP% template built<a class="lk" href="/reference/budget.html" target="_blank" rel="noopener">Budget ref &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Manual approval breakdown documented (where it fails today)<a class="lk" href="/budget-approvals.html" target="_blank" rel="noopener">Approvals &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Airtable approval routing prototyped<a class="lk" href="/budget/demo.html" target="_blank" rel="noopener">Role demo &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Validated with Finance<a class="lk" href="/budget/tracker.html" target="_blank" rel="noopener">Spend tracker &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o="BA"><span class="pip todo" title="To Do"></span><span class="it">Validated with Karen Lamberton</span><span class="st todo">To Do</span><span class="ow">BA</span></div></div></div><div class="lane" data-lane="06 · Scheduling Requests"><div class="lh"><h3>06 · Scheduling Requests</h3><div class="bar"><i style="width:0%"></i></div><span class="ln">0/6</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Plan → Pre-Release gate criteria documented</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Scheduling request intake form built (Airtable form)<a class="lk" href="/pilot/scheduling.html" target="_blank" rel="noopener">Scheduling &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Initiator confirmed (A&amp;R Admin? Marketing?)</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Required fields locked</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Routing to Release Planning defined<a class="lk" href="/release-planning.html" target="_blank" rel="noopener">Release planning &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Tested on 2 active campaigns</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div><div class="lane" data-lane="07 · A&amp;R Admin · A&amp;R Ops Gaps"><div class="lh"><h3>07 · A&amp;R Admin · A&amp;R Ops Gaps</h3><div class="bar"><i style="width:0%"></i></div><span class="ln">0/5</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Gap 2: Promo portal security audit complete, gaps surfaced to IT<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Gap 3: Disco enterprise pipeline test results documented<a class="lk" href="/pitches.html" target="_blank" rel="noopener">DISCO pitches &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Gap 4: Scott July 1 — Production Meeting ownership transition plan written<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">All 4 gaps resolved or assigned owner + timeline<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div><div class="lane" data-lane="08 · Monthly Cadence"><div class="lh"><h3>08 · Monthly Cadence</h3><div class="bar"><i style="width:0%"></i></div><span class="ln">0/6</span></div><div class="rows"><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Monthly cadence proposal drafted (who attends, what&#x27;s reviewed, format)<a class="lk" href="/active-projects.html" target="_blank" rel="noopener">Active projects &rarr;</a></span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Validated with Jordan</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Validated with Tarek</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">First monthly meeting scheduled</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Recap format defined</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div><div class="row" data-s="To Do" data-o=""><span class="pip todo" title="To Do"></span><span class="it">Distribution list confirmed</span><span class="st todo">To Do</span><span class="ow">&mdash;</span></div></div></div>
-</section>
+<div class="lane"><div class="lh"><h3>02 · Airtable</h3><span class="ln">1 of 9</span></div><ul><li class="todo">Sandbox base structure validated against production schema</li><li class="todo">Artists table populated with all active roster (production data, not stubs)</li><li class="done"><span class="tag done">Done</span>Phase Gate Items table connected to TEMPO<a class="lk" href="/reference/phase-gates.html" target="_blank" rel="noopener">Phase gates &rarr;</a></li><li class="todo">D2C Planner Airtable link live via /api/records proxy<a class="lk" href="/d2c-grid.html" target="_blank" rel="noopener">D2C grid &rarr;</a></li><li class="todo">AD Roster Airtable link live via /api/ad-tagging-records proxy<a class="lk" href="/ad-tagging.html" target="_blank" rel="noopener">AD tagging &rarr;</a></li><li class="todo">Production base access provisioned<span class="who">Brian Lynch · IT</span></li><li class="todo">RDX field mapping documented for when production access lands</li><li class="todo">Standing views created per table (Meg / Gerard / Jordan)</li><li class="todo">Phase 1 Priorities table connected to TEMPO<a class="lk" href="/reference/roadmap.html" target="_blank" rel="noopener">this page &rarr;</a></li></ul></div><div class="lane"><div class="lh"><h3>03 · Mapping → AD Roster → Creative</h3><span class="ln">0 of 6</span></div><ul><li class="todo">Handoff Map validated with Tarek<a class="lk" href="/archive/reference/handoff-map-snapshot-2026-05-21.html" target="_blank" rel="noopener">Handoff map &rarr;</a></li><li class="todo">Handoff Map validated with Creative leadership<a class="lk" href="/reference/creative-lanes.html" target="_blank" rel="noopener">Creative lanes &rarr;</a></li><li class="todo">AD Roster live in Airtable with genre + lifestyle tags per specialist<a class="lk" href="/ad-tagging.html" target="_blank" rel="noopener">AD tagging &rarr;</a></li><li class="todo">Genre × Lifestyle tag audit complete for every active artist</li><li class="todo">Coverage gap analysis run (artists with no AD match)</li><li class="todo">Re-tagging completed for mismatched / unmatched artists</li></ul></div><div class="lane"><div class="lh"><h3>04 · Campaign Phases</h3><span class="ln">2 of 7</span></div><ul><li class="done"><span class="tag done">Done</span>184 Phase Gate Items loaded to Airtable<a class="lk" href="/reference/phase-gates.html" target="_blank" rel="noopener">Phase gates &rarr;</a></li><li class="done"><span class="tag done">Done</span>Phase rename (Announce → Pre-Release) propagated</li><li class="todo">5-phase framework piloted on 1 active campaign<a class="lk" href="/reference/lanes.html" target="_blank" rel="noopener">Lanes &rarr;</a></li><li class="todo">Phase column live in Wednesday AP meeting view<a class="lk" href="/active-projects.html" target="_blank" rel="noopener">Active projects &rarr;</a></li><li class="todo">Per-artist phase tracking workflow defined and documented</li><li class="todo">Phase transition criteria signed off by Jordan</li><li class="todo">Phase Risk field methodology agreed with Jordan</li></ul></div><div class="lane"><div class="lh"><h3>05 · Budget</h3><span class="ln">0 of 6</span></div><ul><li class="todo">Two-track framework documented (Planning + Approval)<a class="lk" href="/budget/full-flow.html" target="_blank" rel="noopener">Full flow &rarr;</a></li><li class="todo">Biz Plan Revenue × MMP% template built<a class="lk" href="/reference/budget.html" target="_blank" rel="noopener">Budget ref &rarr;</a></li><li class="todo">Manual approval breakdown documented (where it fails today)<a class="lk" href="/budget-approvals.html" target="_blank" rel="noopener">Approvals &rarr;</a></li><li class="todo">Airtable approval routing prototyped<a class="lk" href="/budget/demo.html" target="_blank" rel="noopener">Role demo &rarr;</a></li><li class="todo">Validated with Finance<a class="lk" href="/budget/tracker.html" target="_blank" rel="noopener">Spend tracker &rarr;</a></li><li class="todo">Validated with Karen Lamberton<span class="who">BA</span></li></ul></div><div class="lane"><div class="lh"><h3>06 · Scheduling Requests</h3><span class="ln">0 of 6</span></div><ul><li class="todo">Plan → Pre-Release gate criteria documented</li><li class="todo">Scheduling request intake form built (Airtable form)<a class="lk" href="/pilot/scheduling.html" target="_blank" rel="noopener">Scheduling &rarr;</a></li><li class="todo">Initiator confirmed (A&amp;R Admin? Marketing?)</li><li class="todo">Required fields locked</li><li class="todo">Routing to Release Planning defined<a class="lk" href="/release-planning.html" target="_blank" rel="noopener">Release planning &rarr;</a></li><li class="todo">Tested on 2 active campaigns</li></ul></div><div class="lane"><div class="lh"><h3>07 · A&amp;R Admin · A&amp;R Ops Gaps</h3><span class="ln">0 of 5</span></div><ul><li class="todo">Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></li><li class="todo">Gap 2: Promo portal security audit complete, gaps surfaced to IT<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></li><li class="todo">Gap 3: Disco enterprise pipeline test results documented<a class="lk" href="/pitches.html" target="_blank" rel="noopener">DISCO pitches &rarr;</a></li><li class="todo">Gap 4: Scott July 1 — Production Meeting ownership transition plan written<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></li><li class="todo">All 4 gaps resolved or assigned owner + timeline<a class="lk" href="/reference/ar-ops-gaps.html" target="_blank" rel="noopener">A&amp;R gaps &rarr;</a></li></ul></div><div class="lane"><div class="lh"><h3>08 · Monthly Cadence</h3><span class="ln">0 of 6</span></div><ul><li class="todo">Monthly cadence proposal drafted (who attends, what&#x27;s reviewed, format)<a class="lk" href="/active-projects.html" target="_blank" rel="noopener">Active projects &rarr;</a></li><li class="todo">Validated with Jordan</li><li class="todo">Validated with Tarek</li><li class="todo">First monthly meeting scheduled</li><li class="todo">Recap format defined</li><li class="todo">Distribution list confirmed</li></ul></div>
 
 
 
-<section>
 <div class="foot">
-<p><b>What this is.</b> The Phase&nbsp;1 lanes and everything currently sitting in them.
-One line per item, one status, one owner. It is a picture of the work, not a list of who
-owes what &mdash; a blank owner means nobody has picked it up yet, which is a normal answer.</p>
-<p><b>Where the numbers come from.</b> Airtable · Phase 1 Priorities. This page carries its own rows, frozen at
-the date above, so it renders the same in a meeting as it did when it was built.</p>
-<p><b>What it is not.</b> Not a schedule, not a commitment, and not a record of performance.
-Anything with a date attached lives with the team that owns the date.</p>
-</div>
-</section>
-
+<b>3 of 45 done.</b> Unmarked items are still to do &mdash; that is the normal state and
+is not a flag. A name means someone has picked it up; no name means nobody has yet.
+Rows come from Airtable · Phase 1 Priorities and are frozen at the date above, so this page reads the same in a
+meeting as it did when it was built.
 </div>
 
-<script>
-(function(){
-  var S='', O='';
-  function apply(){
-    document.querySelectorAll('.row').forEach(function(r){
-      var ok=(!S||r.dataset.s===S)&&(!O||r.dataset.o===O);
-      r.classList.toggle('hide',!ok);
-    });
-    document.querySelectorAll('.lane').forEach(function(l){
-      l.classList.toggle('hide',!l.querySelector('.row:not(.hide)'));
-    });
-  }
-  document.querySelectorAll('.chip[data-s]').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('.chip[data-s]').forEach(function(x){x.classList.remove('on');});
-      b.classList.add('on'); S=b.dataset.s; apply();
-    };
-  });
-  document.querySelectorAll('.chip[data-o]').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('.chip[data-o]').forEach(function(x){x.classList.remove('on');});
-      b.classList.add('on'); O=b.dataset.o; apply();
-    };
-  });
-})();
-</script>
+</div>
 </body></html>

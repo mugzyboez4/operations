@@ -83,12 +83,12 @@
   },
   {
    "lane": "02 · Airtable",
-   "item": "Phase 1 Priorities table connected to TEMPO (this one)",
+   "item": "Phase 1 Priorities table connected to TEMPO",
    "status": "To Do",
    "owner": "",
    "order": 45,
-   "link": "/reference/phase-1.html",
-   "linkLabel": "Phase 1 (broken)"
+   "link": "/reference/roadmap.html",
+   "linkLabel": "this page"
   },
   {
    "lane": "03 · Mapping → AD Roster → Creative",
