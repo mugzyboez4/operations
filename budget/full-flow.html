@@ -205,7 +205,7 @@
   </div>
 
   <div class="footer">
-    Prototype · RCA Campaign Ops · directional data. Sign-off ceilings set with Ian from RCA historical actuals; PO stage follows Sony finance's Console requirements (blanket + pro-rate, drop-box invoicing, goods-receipt review). FY turnover runs automatically each April — carryover adjustments land without a separate sign-off.
+    Prototype · RCA Campaign Ops · directional data. Sign-off ceilings set with Ian from RCA historical actuals; PO stage follows Sony finance's Console requirements (blanket + pro-rate, drop-box invoicing, goods-receipt review). Each April, Finance sets the new per-campaign group &amp; ceiling first — the lead builds within it, then it routes through the same approval chain below.
   </div>
 </div>
 
@@ -220,7 +220,7 @@ const CEILINGS = {
   G4:{tier:'Foundation',streams:'100K–1M',  ceiling:242000},
   G5:{tier:'Emerging', streams:'under 100K',ceiling:137000},
 };
-// quiet, non-judgmental notes from Ian's ceiling review — shown at FY turnover only, never as a verdict
+// quiet, non-judgmental notes from Ian's ceiling review — shown when Finance sets the new FY group/ceiling, never as a verdict
 const TENSION = {
   G1: 'Ian flagged this ceiling as unrealistic against actual spend — CB $3.5M, SZA $17M, Tate $7.25M and Doja $4.6M all ran well past $2M.',
   G5: 'Ian flagged this ceiling as too low — $63K already went to Baby J with very little music out yet.',
@@ -279,9 +279,9 @@ const BUDGETS = [
     poType:'Blanket', poNumber:'', invoiceNumber:''
   },
 ];
-BUDGETS.forEach(b=>b.stageIdx=0); // -1 sent back · 0..7 pending that stage · 8 = rolled into new FY
+BUDGETS.forEach(b=>{b.stageIdx=0; b.sentBack=false; b.newCeiling=CEILINGS[b.group].ceiling;});
+// stageIdx: -2 Finance sets FY group & ceiling · -1 Lead builds within confines · 0..6 STAGES · 7 = paid, rolled into life-to-date
 
-// unified rail: index 0 is always-done "Budget set"; STAGES[0..7] map to stageIdx 0..7; stageIdx 8 = done
 const STAGES=[
   {who:'Niki + Tarek', role:'Portfolio review', phase:'budget'},
   {who:'Finance',      role:'Sign-off',          phase:'budget'},
@@ -290,7 +290,6 @@ const STAGES=[
   {who:'Console',      role:'Vendor notified · automated', phase:'po'},
   {who:'Support',      role:'Invoice received',   phase:'po'},
   {who:'Finance',      role:'A/P released',       phase:'po'},
-  {who:'Finance',      role:'FY Turnover · ceiling reset · automated', phase:'po'},
 ];
 const fmt=n=>'$'+n.toLocaleString('en-US');
 const fmtK=n=>{const k=Math.round(n/1000);return '$'+(k>=1000?(k/1000).toFixed(k%1000?1:0)+'M':k+'K');};
@@ -300,8 +299,10 @@ let selId=BUDGETS[0].id;
 // ---------- QUEUE ----------
 function verdictColor(v){return v==='yes'?'var(--green)':v==='flag'?'var(--yellow)':'var(--flame)';}
 function statusLabel(b){
-  if(b.stageIdx>=8) return {cls:'done', txt:'FY27 ✓'};
-  if(b.stageIdx===-1) return {cls:'sent', txt:'Sent back'};
+  if(b.stageIdx>=7) return {cls:'done', txt:'Paid ✓'};
+  if(b.sentBack) return {cls:'sent', txt:'Sent back'};
+  if(b.stageIdx===-2) return {cls:'', txt:'Awaiting Finance'};
+  if(b.stageIdx===-1) return {cls:'', txt:'Lead building'};
   if(b.stageIdx>=3) return {cls:'po', txt:'PO · '+STAGES[b.stageIdx].who};
   return {cls:'', txt:'Awaiting '+STAGES[b.stageIdx].who};
 }
@@ -323,12 +324,13 @@ function select(id){selId=id;render();}
 
 // ---------- RAIL ----------
 function renderRail(b){
-  const cells=[{who:'Lead',role:'Budget set · '+b.set,phase:'budget',idx:-2}]
-    .concat(STAGES.map((s,i)=>({who:s.who,role:s.role,phase:s.phase,idx:i})));
+  const cells=[
+    {who:'Finance',role:'New FY group & ceiling set',phase:'budget',idx:-2},
+    {who:'Lead',role:'Budget built · '+b.set,phase:'budget',idx:-1},
+  ].concat(STAGES.map((s,i)=>({who:s.who,role:s.role,phase:s.phase,idx:i})));
   document.getElementById('rail').innerHTML=cells.map(c=>{
     let cls='';
-    if(c.idx===-2) cls='done';
-    else if(b.stageIdx===-1) cls = c.idx===0 ? 'back' : (c.idx<0?'done':'');
+    if(b.sentBack) cls = c.idx===0 ? 'back' : (c.idx<0?'done':'');
     else if(b.stageIdx>c.idx) cls='done';
     else if(b.stageIdx===c.idx) cls='active';
     const rn = cls==='done' ? '✓ Done' : cls==='active' ? '● Now' : cls==='back' ? '↩ Back' : '○ Next';
@@ -371,6 +373,75 @@ function gaugeHTML(b){
   </div>`;
 }
 
+// ---------- FINANCE: SET FY GROUP & CEILING ----------
+function renderFinanceCard(b){
+  const c=CEILINGS[b.group];
+  const overAmt=Math.max(0,b.spent-c.ceiling);
+  const newCeiling=c.ceiling-overAmt;
+  b.newCeiling=newCeiling;
+  const tension=TENSION[b.group];
+  return `<div class="record">
+    <div class="rec-head">
+      <div class="lbl"><span class="dot" style="background:var(--teal)"></span>New Fiscal Year · Group &amp; Ceiling</div>
+      <div class="rt">${b.id} · FY27 setup</div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-left">
+        <h3>${b.name}</h3>
+        <div class="byline">${b.project}</div>
+        <div class="grp-chip">${b.group} · ${c.tier} · ${c.streams} weekly streams</div>
+        <div class="sec-lbl">FY26 actual vs. the ${b.group} ceiling</div>
+        <div class="note-box">FY26 spend: ${fmt(b.spent)} against a ${fmtK(c.ceiling)} ceiling.${overAmt>0
+          ? ` Closed ${fmtK(overAmt)} over — that carries forward as a reduction. FY27 opens at ${fmtK(newCeiling)}.`
+          : ` Closed under — no carryover adjustment. FY27 opens flat at ${fmtK(c.ceiling)}.`}</div>
+        ${tension?`<div class="note-box warn" style="opacity:.85">${tension}</div>`:''}
+      </div>
+      <div class="rec-right">
+        <div class="sec-lbl" style="margin-top:0">What the lead will see</div>
+        <div class="po-field"><span class="k">Group</span><span class="v">${b.group} · ${c.tier}</span></div>
+        <div class="po-field"><span class="k">FY27 ceiling</span><span class="v">${fmtK(newCeiling)}</span></div>
+        <div class="cap-note">Once confirmed, this becomes the not-to-exceed the lead builds within.</div>
+        <div class="actions">
+          <button class="btn primary" onclick="setGroup('${b.id}')">Finance: confirm group &amp; ceiling → send to lead</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ---------- LEAD: BUILD WITHIN CONFINES ----------
+function renderLeadBuildCard(b){
+  const c=CEILINGS[b.group];
+  const ceiling=b.newCeiling||c.ceiling;
+  const total=b.lines.reduce((s,l)=>s+l.val,0);
+  const tension=TENSION[b.group];
+  return `<div class="record">
+    <div class="rec-head">
+      <div class="lbl"><span class="dot"></span>Building Within Confines</div>
+      <div class="rt">${b.id} · confines sent by Finance</div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-left">
+        <h3>${b.name}</h3>
+        <div class="byline">${b.project} · ${b.lead}</div>
+        <div class="grp-chip">${b.group} · ${c.tier} · ceiling ${fmtK(ceiling)}</div>
+        <div class="sec-lbl">Draft budget against the ${b.group} ceiling</div>
+        ${gaugeHTML(b)}
+        ${tension?`<div class="note-box warn" style="opacity:.7">${tension}</div>`:''}
+      </div>
+      <div class="rec-right">
+        <div class="sec-lbl" style="margin-top:0">Line items · the spending envelope</div>
+        ${b.lines.map(l=>`<div class="li"><div><div class="cat">${l.cat}</div><div class="desc">${l.desc} · ${l.vendor}</div></div><div class="val">${fmt(l.val)}</div></div>`).join('')}
+        <div class="li-total"><div class="cat">Total budget</div><div class="val">${fmt(total)}</div></div>
+        <div class="actions">
+          <button class="btn back" onclick="back('${b.id}')" title="Back a step">← Back</button>
+          <button class="btn primary" onclick="submitBudget('${b.id}')">Lead: submit for review → Niki + Tarek</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
 // ---------- BUDGET-PHASE CARD ----------
 function renderBudgetCard(b){
   const c=CEILINGS[b.group];
@@ -378,7 +449,7 @@ function renderBudgetCard(b){
   const chain=[{who:'Campaign Lead',role:'Budget set · '+b.set,done:true}]
     .concat(STAGES.slice(0,3).map((s,i)=>({who:s.who,role:s.role,done:b.stageIdx>i,active:b.stageIdx===i})));
   const noteClass=b.verdict==='yes'?'':b.verdict==='flag'?'warn':'bad';
-  const sentBack=b.stageIdx===-1;
+  const sentBack=b.sentBack;
   const stageName=b.stageIdx>=0&&b.stageIdx<3?STAGES[b.stageIdx].who:'—';
 
   let headStatus=`<span class="status-pill">Awaiting ${stageName}</span>`;
@@ -417,11 +488,11 @@ function renderBudgetCard(b){
   </div>`;
 }
 function renderBudgetActions(b){
-  if(b.stageIdx===-1)return `<div class="actions"><button class="btn ghost" onclick="reopen('${b.id}')">Reopen for review</button></div>`;
+  if(b.sentBack)return `<div class="actions"><button class="btn ghost" onclick="reopen('${b.id}')">Reopen for review</button></div>`;
   const next=b.stageIdx<2?'send to '+STAGES[b.stageIdx+1].who:'auto-draft the spend request';
   const hardNo=b.verdict==='no';
   return `<div class="actions">
-    <button class="btn back" onclick="back('${b.id}')" ${b.stageIdx<=0?'disabled':''} title="Back a step">← Back</button>
+    <button class="btn back" onclick="back('${b.id}')" title="Back a step">← Back</button>
     <button class="btn ${hardNo?'ghost':'primary'}" onclick="approve('${b.id}')">${b.stageIdx===2?'Fleck approves — release & '+next:'Approve & '+next}</button>
     <button class="btn ${hardNo?'dark':'ghost'}" onclick="sendBack('${b.id}')">Send back with a note</button>
   </div>`;
@@ -433,30 +504,14 @@ function renderPOCard(b){
   const c=CEILINGS[b.group];
   const total=b.lines.reduce((s,l)=>s+l.val,0);
   const vendors=[...new Set(b.lines.map(l=>l.vendor))].join(' · ');
-  const stepIdx = b.stageIdx>=8 ? 5 : (b.stageIdx===7 ? 4 : poStepIndex(b));
-  const stepLabels=['Spend request','PO issued','Vendor notified','Invoice in','A/P released','FY Turnover'];
+  const stepIdx = b.stageIdx>=7 ? 4 : poStepIndex(b);
+  const stepLabels=['Spend request','PO issued','Vendor notified','Invoice in','A/P released'];
   const steps=stepLabels.map((_,i)=>`<div class="po-step ${i<=stepIdx?'on':''}"></div>`).join('');
 
   let auto='';
   if(b.stageIdx===4) auto=`<div class="auto-note">Console's "Email vendor" button just fired automatically — no manual PO email needed once the PO# exists. Amount can be hidden from the vendor view.</div>`;
   if(b.stageIdx===5) auto=`<div class="auto-note">Vendor invoices straight to Console's drop-box (2000.ap.invoicereceiving@sonymusic.com), quoting the PO#. Support reviews and goods-receipts — not re-keys.</div>`;
-  if(b.stageIdx===7) auto=`<div class="auto-note">Fiscal year turnover runs automatically every April — this actual rolls into ${b.group}'s life-to-date and any gap to the ceiling carries into the new year below. No separate sign-off; Finance reviews the roll-up after the fact, not before.</div>`;
-
-  let rollup='';
-  if(b.stageIdx===8){
-    const committed=b.spent+total;
-    const overAmt=Math.max(0,committed-c.ceiling);
-    const newCeiling=c.ceiling-overAmt;
-    const tension=TENSION[b.group];
-    rollup=`<div class="rollup">
-      <div class="rt">FY27 · rolled up</div>
-      <h4>${fmt(total)} is now life-to-date in ${b.group}</h4>
-      <p>${overAmt>0
-        ? `Group closed ${fmtK(overAmt)} over the FY26 ceiling — that carries forward as a reduction. FY27 opens at ${fmtK(newCeiling)}, down from ${fmtK(c.ceiling)}.`
-        : `Group closed under the FY26 ceiling — no carryover adjustment. FY27 opens flat at ${fmtK(c.ceiling)}.`}</p>
-      ${tension?`<p style="margin-top:8px;opacity:.7">${tension}</p>`:''}
-    </div>`;
-  }
+  if(b.stageIdx>=7) auto=`<div class="auto-note">Paid. This actual rolls into ${b.group}'s life-to-date automatically — Finance sees it when setting next year's ceiling, no separate sign-off needed now.</div>`;
 
   return `<div class="record">
     <div class="rec-head">
@@ -473,7 +528,6 @@ function renderPOCard(b){
         <div class="po-steps">${steps}</div>
         <div class="po-steplbls">${stepLabels.map((l,i)=>`<span>${i<=stepIdx?'<b>'+l+'</b>':l}</span>`).join('')}</div>
         ${auto}
-        ${rollup}
       </div>
       <div class="rec-right">
         <div class="sec-lbl" style="margin-top:0">PO fields</div>
@@ -492,12 +546,11 @@ function renderPOCard(b){
 }
 function renderPOActions(b){
   const backBtn=`<button class="btn back" onclick="back('${b.id}')" title="Back a step">← Back</button>`;
-  if(b.stageIdx>=8) return `<div class="actions">${backBtn}<button class="btn dark" disabled>FY27 — rolled into ${b.group} ✓</button></div>`;
+  if(b.stageIdx>=7) return `<div class="actions">${backBtn}<button class="btn dark" disabled>Paid — rolled into ${b.group} ✓</button></div>`;
   if(b.stageIdx===3) return `<div class="actions">${backBtn}<button class="btn teal" onclick="issuePO('${b.id}')">Support: cut PO# → send to Console</button></div>`;
   if(b.stageIdx===4) return `<div class="actions">${backBtn}<button class="btn teal" onclick="advancePO('${b.id}')">Console: confirm vendor notified</button></div>`;
   if(b.stageIdx===5) return `<div class="actions">${backBtn}<button class="btn teal" onclick="receiveInvoice('${b.id}')">Support: mark invoice received</button></div>`;
   if(b.stageIdx===6) return `<div class="actions">${backBtn}<button class="btn primary" onclick="releasePayment('${b.id}')">Finance: release payment (A/P)</button></div>`;
-  if(b.stageIdx===7) return `<div class="actions">${backBtn}<button class="btn teal" onclick="turnoverFY('${b.id}')">Run FY turnover — new year opens</button></div>`;
   return '';
 }
 
@@ -516,25 +569,43 @@ function approve(id){
 }
 function sendBack(id){
   const b=BUDGETS.find(x=>x.id===id);
-  b.stageIdx=-1;
+  b.sentBack=true;
   toast(`${b.name} — sent back to the lead with a note.`);
   render();
 }
 function reopen(id){
   const b=BUDGETS.find(x=>x.id===id);
+  b.sentBack=false;
   b.stageIdx=0;
   toast(`${b.name} — reopened for portfolio review.`);
   render();
 }
+function stageLabel(idx){
+  if(idx===-2)return 'Finance — new FY group & ceiling';
+  if(idx===-1)return 'Lead — building within confines';
+  return STAGES[idx].who+' — '+STAGES[idx].role;
+}
+function setGroup(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=-1;
+  toast(`${b.name} — ${b.group} confirmed at ${fmtK(b.newCeiling)}. Sent to the lead to build within.`);
+  render();
+}
+function submitBudget(id){
+  const b=BUDGETS.find(x=>x.id===id);
+  b.stageIdx=0;
+  toast(`${b.name} — budget submitted for portfolio review.`);
+  render();
+}
 function back(id){
   const b=BUDGETS.find(x=>x.id===id);
-  if(b.stageIdx<=0)return; // nothing before the lead setting the budget
+  if(b.sentBack)return; // use "Reopen for review" instead
+  if(b.stageIdx<=-2)return; // Finance's group-set is the floor
   const from=b.stageIdx;
   b.stageIdx--;
   if(from===4)b.poNumber=''; // undo PO issuance
   if(from===6)b.invoiceNumber=''; // undo invoice receipt
-  const label=b.stageIdx<STAGES.length?STAGES[b.stageIdx].who+' — '+STAGES[b.stageIdx].role:'—';
-  toast(`${b.name} — stepped back to ${label}.`);
+  toast(`${b.name} — stepped back to ${stageLabel(b.stageIdx)}.`);
   render();
 }
 function toggleStrategy(){
@@ -569,13 +640,7 @@ function receiveInvoice(id){
 function releasePayment(id){
   const b=BUDGETS.find(x=>x.id===id);
   b.stageIdx=7;
-  toast(`${b.name} — payment released. Waiting on FY turnover.`);
-  render();
-}
-function turnoverFY(id){
-  const b=BUDGETS.find(x=>x.id===id);
-  b.stageIdx=8;
-  toast(`${b.name} — FY27 opened. Rolled into ${b.group}'s life-to-date automatically.`);
+  toast(`${b.name} — payment released. Rolls into ${b.group}'s life-to-date automatically.`);
   render();
 }
 let toastT;
@@ -591,7 +656,12 @@ function render(){
   renderQueue();
   const b=BUDGETS.find(x=>x.id===selId);
   renderRail(b);
-  document.getElementById('stage').innerHTML = b.stageIdx>=3 ? renderPOCard(b) : renderBudgetCard(b);
+  let html;
+  if(b.stageIdx===-2) html=renderFinanceCard(b);
+  else if(b.stageIdx===-1) html=renderLeadBuildCard(b);
+  else if(b.stageIdx>=3) html=renderPOCard(b);
+  else html=renderBudgetCard(b);
+  document.getElementById('stage').innerHTML = html;
 }
 render();
 </script>
