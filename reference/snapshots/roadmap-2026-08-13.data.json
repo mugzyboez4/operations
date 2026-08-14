@@ -1,0 +1,388 @@
+{
+ "as_of": "2026-08-13",
+ "title": "Phase 1 Roadmap",
+ "subtitle": "The seven lanes Campaign Ops is working through, and everything currently sitting in them. Frozen on the date above.",
+ "source": "Airtable · Phase 1 Priorities",
+ "lanes": [
+  "02 · Airtable",
+  "03 · Mapping → AD Roster → Creative",
+  "04 · Campaign Phases",
+  "05 · Budget",
+  "06 · Scheduling Requests",
+  "07 · A&R Admin · A&R Ops Gaps",
+  "08 · Monthly Cadence"
+ ],
+ "statuses": [
+  "To Do",
+  "In Progress",
+  "Blocked",
+  "Done"
+ ],
+ "items": [
+  {
+   "lane": "02 · Airtable",
+   "item": "Sandbox base structure validated against production schema",
+   "status": "To Do",
+   "owner": "",
+   "order": 1
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "Artists table populated with all active roster (production data, not stubs)",
+   "status": "To Do",
+   "owner": "",
+   "order": 2
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "Phase Gate Items table connected to TEMPO",
+   "status": "Done",
+   "owner": "",
+   "order": 3,
+   "link": "/reference/phase-gates.html",
+   "linkLabel": "Phase gates"
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "D2C Planner Airtable link live via /api/records proxy",
+   "status": "To Do",
+   "owner": "",
+   "order": 4,
+   "link": "/d2c-grid.html",
+   "linkLabel": "D2C grid"
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "AD Roster Airtable link live via /api/ad-tagging-records proxy",
+   "status": "To Do",
+   "owner": "",
+   "order": 5,
+   "link": "/ad-tagging.html",
+   "linkLabel": "AD tagging"
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "Production base access provisioned",
+   "status": "To Do",
+   "owner": "Brian Lynch · IT",
+   "order": 6
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "RDX field mapping documented for when production access lands",
+   "status": "To Do",
+   "owner": "",
+   "order": 7
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "Standing views created per table (Meg / Gerard / Jordan)",
+   "status": "To Do",
+   "owner": "",
+   "order": 8
+  },
+  {
+   "lane": "02 · Airtable",
+   "item": "Phase 1 Priorities table connected to TEMPO (this one)",
+   "status": "To Do",
+   "owner": "",
+   "order": 45,
+   "link": "/reference/phase-1.html",
+   "linkLabel": "Phase 1 (broken)"
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "Handoff Map validated with Tarek",
+   "status": "To Do",
+   "owner": "",
+   "order": 9,
+   "link": "/archive/reference/handoff-map-snapshot-2026-05-21.html",
+   "linkLabel": "Handoff map"
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "Handoff Map validated with Creative leadership",
+   "status": "To Do",
+   "owner": "",
+   "order": 10,
+   "link": "/reference/creative-lanes.html",
+   "linkLabel": "Creative lanes"
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "AD Roster live in Airtable with genre + lifestyle tags per specialist",
+   "status": "To Do",
+   "owner": "",
+   "order": 11,
+   "link": "/ad-tagging.html",
+   "linkLabel": "AD tagging"
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "Genre × Lifestyle tag audit complete for every active artist",
+   "status": "To Do",
+   "owner": "",
+   "order": 12
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "Coverage gap analysis run (artists with no AD match)",
+   "status": "To Do",
+   "owner": "",
+   "order": 13
+  },
+  {
+   "lane": "03 · Mapping → AD Roster → Creative",
+   "item": "Re-tagging completed for mismatched / unmatched artists",
+   "status": "To Do",
+   "owner": "",
+   "order": 14
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "184 Phase Gate Items loaded to Airtable",
+   "status": "Done",
+   "owner": "",
+   "order": 15,
+   "link": "/reference/phase-gates.html",
+   "linkLabel": "Phase gates"
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "Phase rename (Announce → Pre-Release) propagated",
+   "status": "Done",
+   "owner": "",
+   "order": 16
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "5-phase framework piloted on 1 active campaign",
+   "status": "To Do",
+   "owner": "",
+   "order": 17,
+   "link": "/reference/lanes.html",
+   "linkLabel": "Lanes"
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "Phase column live in Wednesday AP meeting view",
+   "status": "To Do",
+   "owner": "",
+   "order": 18,
+   "link": "/active-projects.html",
+   "linkLabel": "Active projects"
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "Per-artist phase tracking workflow defined and documented",
+   "status": "To Do",
+   "owner": "",
+   "order": 19
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "Phase transition criteria signed off by Jordan",
+   "status": "To Do",
+   "owner": "",
+   "order": 20
+  },
+  {
+   "lane": "04 · Campaign Phases",
+   "item": "Phase Risk field methodology agreed with Jordan",
+   "status": "To Do",
+   "owner": "",
+   "order": 44
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Two-track framework documented (Planning + Approval)",
+   "status": "To Do",
+   "owner": "",
+   "order": 21,
+   "link": "/budget/full-flow.html",
+   "linkLabel": "Full flow"
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Biz Plan Revenue × MMP% template built",
+   "status": "To Do",
+   "owner": "",
+   "order": 22,
+   "link": "/reference/budget.html",
+   "linkLabel": "Budget ref"
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Manual approval breakdown documented (where it fails today)",
+   "status": "To Do",
+   "owner": "",
+   "order": 23,
+   "link": "/budget-approvals.html",
+   "linkLabel": "Approvals"
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Airtable approval routing prototyped",
+   "status": "To Do",
+   "owner": "",
+   "order": 24,
+   "link": "/budget/demo.html",
+   "linkLabel": "Role demo"
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Validated with Finance",
+   "status": "To Do",
+   "owner": "",
+   "order": 25,
+   "link": "/budget/tracker.html",
+   "linkLabel": "Spend tracker"
+  },
+  {
+   "lane": "05 · Budget",
+   "item": "Validated with Karen Lamberton",
+   "status": "To Do",
+   "owner": "BA",
+   "order": 26
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Plan → Pre-Release gate criteria documented",
+   "status": "To Do",
+   "owner": "",
+   "order": 27
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Scheduling request intake form built (Airtable form)",
+   "status": "To Do",
+   "owner": "",
+   "order": 28,
+   "link": "/pilot/scheduling.html",
+   "linkLabel": "Scheduling"
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Initiator confirmed (A&R Admin? Marketing?)",
+   "status": "To Do",
+   "owner": "",
+   "order": 29
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Required fields locked",
+   "status": "To Do",
+   "owner": "",
+   "order": 30
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Routing to Release Planning defined",
+   "status": "To Do",
+   "owner": "",
+   "order": 31,
+   "link": "/release-planning.html",
+   "linkLabel": "Release planning"
+  },
+  {
+   "lane": "06 · Scheduling Requests",
+   "item": "Tested on 2 active campaigns",
+   "status": "To Do",
+   "owner": "",
+   "order": 32
+  },
+  {
+   "lane": "07 · A&R Admin · A&R Ops Gaps",
+   "item": "Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented",
+   "status": "To Do",
+   "owner": "",
+   "order": 33,
+   "link": "/reference/ar-ops-gaps.html",
+   "linkLabel": "A&R gaps"
+  },
+  {
+   "lane": "07 · A&R Admin · A&R Ops Gaps",
+   "item": "Gap 2: Promo portal security audit complete, gaps surfaced to IT",
+   "status": "To Do",
+   "owner": "",
+   "order": 34,
+   "link": "/reference/ar-ops-gaps.html",
+   "linkLabel": "A&R gaps"
+  },
+  {
+   "lane": "07 · A&R Admin · A&R Ops Gaps",
+   "item": "Gap 3: Disco enterprise pipeline test results documented",
+   "status": "To Do",
+   "owner": "",
+   "order": 35,
+   "link": "/pitches.html",
+   "linkLabel": "DISCO pitches"
+  },
+  {
+   "lane": "07 · A&R Admin · A&R Ops Gaps",
+   "item": "Gap 4: Scott July 1 — Production Meeting ownership transition plan written",
+   "status": "To Do",
+   "owner": "",
+   "order": 36,
+   "link": "/reference/ar-ops-gaps.html",
+   "linkLabel": "A&R gaps"
+  },
+  {
+   "lane": "07 · A&R Admin · A&R Ops Gaps",
+   "item": "All 4 gaps resolved or assigned owner + timeline",
+   "status": "To Do",
+   "owner": "",
+   "order": 37,
+   "link": "/reference/ar-ops-gaps.html",
+   "linkLabel": "A&R gaps"
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "Monthly cadence proposal drafted (who attends, what's reviewed, format)",
+   "status": "To Do",
+   "owner": "",
+   "order": 38,
+   "link": "/active-projects.html",
+   "linkLabel": "Active projects"
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "Validated with Jordan",
+   "status": "To Do",
+   "owner": "",
+   "order": 39
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "Validated with Tarek",
+   "status": "To Do",
+   "owner": "",
+   "order": 40
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "First monthly meeting scheduled",
+   "status": "To Do",
+   "owner": "",
+   "order": 41
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "Recap format defined",
+   "status": "To Do",
+   "owner": "",
+   "order": 42
+  },
+  {
+   "lane": "08 · Monthly Cadence",
+   "item": "Distribution list confirmed",
+   "status": "To Do",
+   "owner": "",
+   "order": 43
+  }
+ ],
+ "companion": {
+  "url": "/reference/check-in-2026-08-13.html",
+  "label": "Fleck check-in · 14 August 2026"
+ }
+}

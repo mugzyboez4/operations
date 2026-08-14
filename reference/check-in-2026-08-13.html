@@ -1,0 +1,727 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleck Check-in · 14 Aug 2026 · Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
+--chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px 110px}
+.band{background:var(--ink);color:#FCFDF8}
+.band-in{max-width:1120px;margin:0 auto;padding:52px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+h1{font-size:46px;line-height:1.07;font-weight:700;letter-spacing:-.025em;max-width:20ch}
+.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:64ch}
+nav.tabs{background:var(--ink);border-top:1px solid #33312E;position:sticky;top:0;z-index:60}
+.tabs-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:2px;overflow-x:auto}
+.tab{background:none;border:0;color:#8D8A83;font:600 14px Inter,sans-serif;padding:16px 20px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent}
+.tab:hover{color:#FCFDF8}
+.tab.on{color:var(--ink);background:var(--chart);border-bottom-color:var(--chart)}
+.panel{display:none;padding-top:52px}.panel.on{display:block}
+h2{font-size:29px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+.lede{color:var(--muted);max-width:64ch;margin-bottom:30px}
+section{margin-bottom:52px}
+/* SIM */
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:26px}
+@media(max-width:860px){.sim{grid-template-columns:1fr}}
+.gates{background:var(--paper);border:1px solid var(--line);padding:8px}
+.gate{display:flex;gap:16px;align-items:flex-start;padding:18px;cursor:pointer;border-bottom:1px solid #EFEDE3}
+.gate:last-child{border-bottom:0}
+.gate:hover{background:#FAF9F3}
+.sw{flex:0 0 52px;height:30px;background:#DAD7CD;position:relative;transition:background .18s;margin-top:2px}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;background:#FFF;transition:transform .18s}
+.gate.on .sw{background:var(--chart-d)}
+.gate.on .sw::after{transform:translateX(22px)}
+.gate-t{font-weight:600;font-size:16px;display:block;margin-bottom:3px}
+.gate-d{font-size:14px;color:var(--muted);line-height:1.5}
+.readout{background:var(--ink);color:#FCFDF8;padding:30px 32px;display:flex;flex-direction:column;justify-content:center}
+.ro-row{display:flex;gap:34px;margin-bottom:22px}
+.ro b{display:block;font-size:52px;line-height:1;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ro span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8D8A83;font-weight:600}
+.ro.up b{color:var(--chart)}
+.stackbar{display:flex;height:32px;margin-bottom:10px}
+.seg{transition:width .35s ease;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink)}
+.seg-r{background:var(--chart)}.seg-p{background:var(--amber)}.seg-b{background:#4A4744;color:#B9B6AE}
+.key{display:flex;gap:20px;font-size:12px;color:#8D8A83}
+.key i{width:11px;height:11px;display:inline-block;margin-right:6px;vertical-align:-1px;font-style:normal}
+.reset{margin-top:18px;background:none;border:1px solid #4A4744;color:#B9B6AE;padding:9px 16px;font:600 12px Inter,sans-serif;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;align-self:flex-start}
+.reset:hover{border-color:var(--chart);color:var(--chart)}
+/* IDEA GRID */
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px}
+.card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line);padding:16px 18px;cursor:pointer;transition:.14s;position:relative}
+.card:hover{border-color:var(--ink)}
+.card.r{border-left-color:var(--chart-d)}.card.p{border-left-color:var(--amber)}.card.b{border-left-color:#B0ADA4;opacity:.62}
+.card.sel{outline:3px solid var(--ink);outline-offset:-1px}
+.card.up{outline:3px solid var(--flame);outline-offset:-1px}
+.card.dn{background:#FBFAF4;border-color:var(--chart-d)}
+.cid{font-size:11px;font-weight:700;letter-spacing:.09em;color:var(--muted)}
+.cname{font-size:15px;font-weight:600;margin:5px 0 9px;line-height:1.35}
+.cmeta{display:flex;gap:9px;align-items:center;font-size:11px;color:var(--muted);flex-wrap:wrap}
+.chip{padding:2px 8px;font-weight:600;font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+.chip-r{background:var(--chart);color:#33401A}.chip-p{background:#F7E9C4;color:#6B5514}.chip-b{background:#E4E1D8;color:#55524B}
+.dlink{display:inline-block;margin-top:9px;font-size:11px;font-weight:600;color:var(--flame);text-decoration:none;border-bottom:1px solid rgba(179,49,19,.35)}
+.dlink:hover{border-bottom-color:var(--flame)}
+.expl{background:var(--paper);border:1px solid var(--line);padding:22px 26px;margin-bottom:18px;min-height:96px}
+.expl h3{font-size:19px;margin-bottom:8px}
+.expl .row{margin-top:12px;font-size:14px}
+.expl .row b{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+.tagx{display:inline-block;background:#EEECE2;padding:3px 9px;margin:0 5px 5px 0;font-size:12px;font-weight:500}
+.tagx.up{background:#F4D5CC;color:var(--flame)}.tagx.dn{background:var(--chart);color:#33401A}
+/* TABLE */
+.ctrl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.ctrl input[type=search],.ctrl select{font:400 14px Inter,sans-serif;padding:10px 13px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.ctrl input[type=search]{min-width:230px}
+.btn{font:600 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:11px 17px;border:1px solid var(--ink);background:var(--ink);color:var(--chart);cursor:pointer}
+.btn.alt{background:none;color:var(--ink)}
+.btn:hover{opacity:.86}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+.lanehead{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 8px;display:flex;justify-content:space-between}
+.row{display:grid;grid-template-columns:118px 1fr 190px;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:10px 14px;margin-bottom:5px}
+@media(max-width:760px){.row{grid-template-columns:1fr}}
+.row.done .itxt{text-decoration:line-through;color:var(--muted)}
+.st{font:600 11px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:7px 9px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.st[data-v="Done"]{background:var(--chart);border-color:var(--chart-d)}
+.st[data-v="Blocked"]{background:#F4D5CC;border-color:var(--flame);color:var(--flame)}
+.st[data-v="In Progress"]{background:#F7E9C4;border-color:var(--amber)}
+.itxt{font-size:15px}
+.own{font:400 13px Inter,sans-serif;padding:8px 10px;border:1px solid var(--line);background:var(--bg);width:100%}
+.own.set{background:var(--paper);border-color:var(--ink);font-weight:500}
+.dl2{font-size:11px;font-weight:600;color:var(--flame);text-decoration:none;margin-left:8px;white-space:nowrap}
+.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:30px;font-size:15px;line-height:1.65;max-width:74ch}
+.note b{color:var(--chart);font-weight:600}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.dcard{background:var(--paper);border:1px solid var(--line);padding:17px 19px;text-decoration:none;color:var(--ink);display:block;transition:.14s}
+.dcard:hover{border-color:var(--ink);background:#FAF9F3}
+.dcard b{display:block;font-size:15px;margin-bottom:4px}
+.dcard span{font-size:13px;color:var(--muted)}
+</style></head><body>
+<style>
+.lanes{display:flex;flex-direction:column;gap:3px}
+.lb{display:grid;grid-template-columns:290px 1fr 56px;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:13px 17px}
+.lb-t{font-size:14px;font-weight:600}
+.lb-bar{height:12px;background:#E4E1D8;position:relative}
+.lb-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--chart-d)}
+.lb-n{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:760px){.lb{grid-template-columns:1fr}}
+.asks,.ag{list-style:none;counter-reset:a}
+.asks li,.ag li{counter-increment:a;background:var(--paper);border:1px solid var(--line);padding:22px 26px 22px 76px;position:relative;margin-bottom:8px}
+.asks li::before,.ag li::before{content:counter(a);position:absolute;left:0;top:0;bottom:0;width:56px;background:var(--ink);color:var(--chart);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700}
+.asks h3,.ag h3{font-size:19px;font-weight:600;margin-bottom:6px}
+.asks p,.ag p{font-size:15px;color:var(--muted);line-height:1.62;max-width:72ch}
+.asks .who,.ag .who,.ag .cap,.ag .show{display:inline-block;margin:11px 6px 0 0;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#EEECE2;padding:4px 10px}
+.ag .cap{background:none;border:1px solid var(--line);color:var(--muted)}
+.ag .show{background:var(--chart);color:#33401A}
+.ship{background:var(--ink);color:#D6D3CB;padding:24px 28px;margin-top:22px;font-size:15px;line-height:1.65;max-width:78ch;border-left:4px solid var(--flame)}
+.ship b{color:var(--chart);font-weight:600}
+.flag{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--flame);padding:15px 20px;margin-bottom:6px;font-size:15px;line-height:1.55;max-width:82ch}
+.flag b{font-weight:600}
+.expl .row{display:block;background:none;border:0;padding:0;margin:14px 0 0}
+/* systems table */
+.tbl{background:var(--paper);border:1px solid var(--line)}
+.th,.tr{display:grid;grid-template-columns:220px 220px 1fr;gap:18px;padding:14px 18px;align-items:start}
+.th{background:var(--ink);color:#B9B6AE;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:600}
+.tr{border-top:1px solid #EFEDE3}
+.tn{font-size:15px;font-weight:600}
+.tw{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:5px 9px;justify-self:start}
+.tw.new{background:var(--chart);color:#33401A}
+.tw.next{background:#F7E9C4;color:#6B5514}
+.tw.stay{background:#E4E1D8;color:#55524B}
+.tw.hold{background:#F4D5CC;color:var(--flame)}
+.tm{font-size:14px;color:var(--muted);line-height:1.55}
+@media(max-width:860px){.th{display:none}.tr{grid-template-columns:1fr;gap:8px}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+.col{background:var(--paper);border:1px solid var(--line);padding:20px 24px}
+.ch{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:12px}
+.pl{list-style:none}
+.pl li{font-size:15px;line-height:1.55;color:var(--muted);padding-left:18px;position:relative;margin-bottom:11px}
+.pl li::before{content:'';position:absolute;left:0;top:9px;width:7px;height:7px;background:var(--chart-d)}
+.tbl2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:860px){.tbl2{grid-template-columns:1fr}}
+.s2{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--ink);padding:20px 22px}
+.s2 b{display:block;font-size:15px;margin-bottom:8px}
+.s2 p{font-size:14px;color:var(--muted);line-height:1.6}
+.csub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 9px}
+.cold{font-size:11px;color:#9C998F;margin-top:8px;font-style:italic}
+</style>
+
+<div class="band"><div class="band-in">
+<div class="eyebrow">Campaign Ops &middot; Fleck check-in &middot; 14 August 2026</div>
+<h1>Where we are, what&rsquo;s staying where, and what finishes this month</h1>
+<div class="sub">Eight items. The Airtable pipeline is the one that needs the most air &mdash;
+most things are staying exactly where they are, and that is the right call.</div>
+</div></div>
+
+<nav class="tabs"><div class="tabs-in">
+<button class="tab on" data-p="ag">Agenda</button>
+<button class="tab" data-p="sys">Systems</button>
+<button class="tab" data-p="team">Team &amp; operations</button>
+<button class="tab" data-p="fut">Future initiatives</button>
+<button class="tab" data-p="dep">Sequencing</button>
+<button class="tab" data-p="list">The 45</button>
+<button class="tab" data-p="demo">Already built</button>
+</div></nav>
+
+<div class="wrap">
+
+<div class="panel on" id="p-ag">
+<section><div class="slabel">Tomorrow</div>
+<h2>Eight items, in order</h2>
+
+<ol class="ag">
+
+<li><h3>Needle drop on the AI list</h3>
+<p>Crawley has it. He found it complicated and said so &mdash; fair, the titles were doing
+none of the work and have been rewritten since. The question for Fleck is what happens next
+on their end: is there a formal discussion, and when. The creator-campaign tracker we&rsquo;ve been
+building with Audience Development is the piece to put in front of them first &mdash; biggest
+spend, biggest gap, and it&rsquo;s a gap across the whole company, not just RCA.</p>
+<span class="who">Lead &middot; Jordan</span><span class="cap">Capture: what their next step is, and by when</span></li>
+
+<li><h3>Airtable development pipeline</h3>
+<p>The main event. Where we actually are, what is staying where it is and why, what moves
+next, what is blocking us, and what the end of August looks like. Includes the two things
+that need to go up the chain: we still can&rsquo;t add records manually, and adding a person to the
+new environment costs $840 even when they already have a seat in the current one.</p>
+<span class="who">Lead &middot; Meg</span><span class="cap">Capture: does he back the interim plan &mdash; and does anything escalate to Jacob</span>
+<span class="show">Show: budget demo &rarr; artist page</span></li>
+
+<li><h3>Budget</h3>
+<p>Its own item, not a sub-point. Three things moving at once: the five roster groups as the
+basis for spend tiering, the new hires and support staff being retrained on POs, and a
+replacement for the Airtable approval flow &mdash; which does not work today and is worth fixing
+on its own even before it talks to Console.</p>
+<span class="who">Lead &middot; Meg</span><span class="cap">Capture: is he comfortable with the five-group framing before it goes wider</span></li>
+
+<li><h3>A&amp;R Ops &middot; Adonis</h3>
+<p>Depends what comes out of the Adonis conversation. If A&amp;R Ops comes up, it should come up
+here rather than getting improvised. If the outcome is additional heads, that is worth
+taking seriously rather than deflecting.</p>
+<span class="who">Lead &middot; Jordan</span><span class="cap">Capture: whether this lands with Campaign Ops, and what comes with it</span></li>
+
+<li><h3>Team &amp; operations</h3>
+<p>The material change since the last check-in is the support staff. Roster assignments have
+been re-looked at, which takes Meg out of the day-to-day with individual campaign leads.
+Separately, the campaign leads want more time in the planning and creative conversations &mdash;
+that came from Aaron directly and it is a workflow gap, not a grievance.</p>
+<span class="who">Lead &middot; Meg + Jordan</span><span class="cap">Capture: nothing to decide &mdash; this is the honest state of the team</span></li>
+
+<li><h3>Office hours</h3>
+<p>The time freed up by the roster change goes into regular sessions teaching people the
+things they keep asking about &mdash; Copilot first, then whatever the environment ends up being.
+One prerequisite: Copilot only reads your mail and Teams if you have Premium. Without it, it
+is just searching the internet.</p>
+<span class="who">Lead &middot; Meg</span><span class="cap">Capture: green light, plus who pays for Copilot Premium</span></li>
+
+<li><h3>Jive</h3>
+<p>Jordan&rsquo;s conversation with Dave. It doesn&rsquo;t change what Campaign Ops does either way &mdash;
+we need the confirmation so the head can move and we can stop holding it open.</p>
+<span class="who">Lead &middot; Jordan</span><span class="cap">Capture: approval to move</span></li>
+
+<li><h3>Decks &amp; the roadmap</h3>
+<p>Progress with Aaron on the deck system, with things to show. Then the roadmap itself,
+restructured into the three things it has always actually been: team and operations, systems,
+future initiatives. Live link, so it can be pulled up any time anyone asks &mdash; including at the
+label meeting.</p>
+<span class="who">Lead &middot; Meg</span><span class="cap">Capture: agree this is the standing view we bring to every room</span></li>
+
+</ol>
+
+<div class="ship"><b>One more thing, and it is the important one.</b> We are good at starting and
+bad at finishing, and Jordan is right about that. The physical-product deadline tracker is the
+closest thing to done. Dates get verified, the layout gets one simplicity pass, and it goes out
+to everybody this month with no caveats attached. That is the check in the box.</div>
+</section>
+</div>
+
+<div class="panel" id="p-sys">
+
+<div class="note">Last month we told Fleck we&rsquo;d just got access, there wasn&rsquo;t much in it yet,
+and by the end of the summer it would look and work better. A month on, the honest update is
+<b>better than expected on data, worse than expected on access</b> &mdash; and the shape of the
+end state has moved.
+<br><br>The one thing to reset: he is expecting a finished Airtable he logs into. The more
+likely answer is that <b>Airtable is the database, and the thing people log into is built on
+top of it</b>. We have always said that was possible. It is now the working assumption.</div>
+
+<section><div class="slabel">The honest map</div>
+<h2>What is staying where &mdash; and why</h2>
+<p class="lede">Most things are not moving. Scheduling is the one piece crossing over in the
+near term, and that is deliberate.</p>
+
+<div class="tbl">
+<div class="th"><span>What</span><span>Where it lives right now</span><span>Moves when</span></div>
+
+<div class="tr"><span class="tn">Releases &amp; release planning</span>
+<span class="tw new">New pilot &mdash; already there</span>
+<span class="tm">Done. All GRPS data and every release is in. Terenia and her team are testing
+it and the release meeting runs off it.</span></div>
+
+<div class="tr"><span class="tn">Scheduling requests</span>
+<span class="tw next">Old base &mdash; ready to move</span>
+<span class="tm">Next. The only thing waiting is Terenia&rsquo;s go-ahead. This is the one piece
+crossing over in the near term.</span></div>
+
+<div class="tr"><span class="tn">Timelines &amp; artist events</span>
+<span class="tw new">New pilot &mdash; being populated</span>
+<span class="tm">In flight. Terenia&rsquo;s team has an EOD-tomorrow deadline to bring the old base
+current so it can be pulled across clean.</span></div>
+
+<div class="tr"><span class="tn">Historical campaign data</span>
+<span class="tw hold">Old base &mdash; waiting on us</span>
+<span class="tm">Blocked. We cannot add records manually, so there is nowhere to put it. This is
+the number-one unblock.</span></div>
+
+<div class="tr"><span class="tn">Creative ticketing</span>
+<span class="tw stay">Old base &mdash; staying</span>
+<span class="tm">Not moving yet. The pilot can do it, but not at our scope, and the creative
+team is not the group to learn a new environment mid-flight.</span></div>
+
+<div class="tr"><span class="tn">Budget requests &amp; approvals</span>
+<span class="tw stay">Old base &mdash; staying</span>
+<span class="tm">Not moving. Separately: the current flow doesn&rsquo;t work, and replacing it is
+worth doing on its own merits.</span></div>
+
+<div class="tr"><span class="tn">Artist &amp; manager updates</span>
+<span class="tw stay">Old base &mdash; staying</span>
+<span class="tm">Follows the historical data. Same blocker.</span></div>
+</div>
+</section>
+
+<section><div class="slabel">People</div>
+<h2>Who has access, who doesn&rsquo;t</h2>
+
+<div class="two">
+<div class="col"><div class="ch">Has access and is using it</div>
+<ul class="pl">
+<li>Release planning &mdash; Terenia and her team. Tactical enough to know what it is good for
+and what it isn&rsquo;t.</li>
+<li>Campaign Ops &mdash; Meg and Gerard. Read only in practice, because we cannot write.</li>
+</ul></div>
+
+<div class="col"><div class="ch">Needs access, not being added yet</div>
+<ul class="pl">
+<li>Creative &mdash; whoever raises tickets. They will need it eventually. Adding them now, into
+an environment we can&rsquo;t write to, would go badly.</li>
+<li>Everyone else on the roster &mdash; deliberately parked until there is something worth
+onboarding them into.</li>
+</ul></div>
+</div>
+
+<div class="flag"><b>Worth knowing: we are not the laggards.</b> The read all month was that
+everyone else was already on the pilot and Campaign Ops was holding things up. That isn&rsquo;t what
+is happening. Mike Jang confirmed this week that Latin &ldquo;got access and logged in&rdquo; &mdash; and that is
+as far as anyone has got. Not being able to add records is apparently not unusual.</div>
+</section>
+
+<section><div class="slabel">What is actually stopping us</div>
+<h2>Three blockers, two of them escalations</h2>
+
+<ol class="asks">
+
+<li><h3>We cannot add records manually</h3>
+<p>Both of us have been trying for weeks. Nothing goes in. Until this is fixed there is no
+route for historical campaign data, no ongoing entry, and no honest way to onboard anyone
+else. A support ticket is in. The answer isn&rsquo;t with Mike Jang &mdash; it sits with Ziggy and Max.</p>
+<span class="who">Owner &middot; Ziggy / Max &mdash; email going today</span></li>
+
+<li><h3>$840 a seat, for people who already have a seat</h3>
+<p>Every person added to the new environment costs $840, and RCA is paying it, not PDE. If
+someone already has access to the current version, it isn&rsquo;t obvious why the new one is a fresh
+charge. That question needs an answer before any onboarding plan is real.</p>
+<span class="who">Owner &middot; same email &mdash; needs a straight answer</span></li>
+
+<li><h3>PDE&rsquo;s attention has moved</h3>
+<p>The pilot has visibly slowed while the effort went to the MCP work. That may be the right
+call for them. It still leaves our data unlanded, and our data has to land either way &mdash;
+Olivia checked this with Mike Jang and the answer was clear: the information still has to be in
+there to power the manual campaign side.</p>
+<span class="who">Owner &middot; escalation to Jacob if the first two don&rsquo;t move</span></li>
+
+</ol>
+</section>
+
+<section><div class="slabel">The plan</div>
+<h2>Interim, and what end of August looks like</h2>
+
+<p class="lede">We are not recommending moving everyone over. Not because it failed &mdash; because
+the access point is likely to change, and moving people twice is worse than moving them once.
+Here is what we do in the meantime.</p>
+
+<div class="tbl2">
+<div class="s2"><b>Now &rarr; end of August</b>
+<p>Scheduling moves as soon as Terenia says go. Old base stays authoritative for creative
+tickets, budget and updates. Historical campaign data gets staged, ready to load the day write
+access lands. Nobody new gets onboarded.</p></div>
+
+<div class="s2"><b>The ask that unlocks the month</b>
+<p>Write access. Everything above is sequencing; this one is binary. With it, the end-of-August
+story is &ldquo;our data is in and here is the plan for people.&rdquo; Without it, it is
+&ldquo;still waiting.&rdquo;</p></div>
+
+<div class="s2"><b>What the end state probably is</b>
+<p>Airtable as the database, fed by internal systems through the pilot, with a purpose-built
+front end on top that most people actually use. Mike Jang has floated two versions of exactly
+this &mdash; and has since named the tools: Softr and Lovable, both of which sit over Airtable.
+It means fewer seats, not more &mdash; which also answers the $840 problem.</p></div>
+</div>
+
+<div class="flag"><b>The reason none of this hurts us.</b> Budget, creative ticketing and
+scheduling were all designed platform-agnostic. That looked like extra work at the time. It
+means the environment can change underneath us and the builds still stand. We are dependent on
+having a system; we are not dependent on this one.</div>
+</section>
+</div>
+
+<div class="panel" id="p-team">
+<section><div class="slabel">Since the last check-in</div>
+<h2>Team &amp; operations</h2>
+
+<div class="note">The material change since the last check-in is the support staff. Everything
+else in this section follows from it.</div>
+
+<ol class="asks">
+
+<li><h3>Support staff are in the flow</h3>
+<p>Onboarding is underway and they are being trained on POs from the start, which is the
+cleanest version of the budget fix &mdash; the behaviour is correct before the habit forms rather
+than corrected after. Pairings are under review with Tarek.</p>
+<span class="who">In progress &middot; Meg</span></li>
+
+<li><h3>Roster assignments have been re-looked at</h3>
+<p>The practical effect is that Meg is no longer working day-to-day with individual campaign
+leads. That is deliberate and it frees the time that pays for the next item.</p>
+<span class="who">Done &middot; feeds office hours</span></li>
+
+<li><h3>Office hours</h3>
+<p>Regular sessions, open to anyone, teaching the things people keep asking about &mdash; Copilot
+first, then the environment as it settles, then whatever the room wants. It also solves a
+quieter problem: people feel more involved when they can see what is being built.
+Prerequisite: Copilot Premium, or it can&rsquo;t read anyone&rsquo;s mail or Teams.</p>
+<span class="who">Needs &middot; green light + Copilot Premium budget</span></li>
+
+<li><h3>Campaign leads want back into the planning</h3>
+<p>Straight from Aaron: what the leads are missing is the earlier, more creative part &mdash; the
+conversation about what a rollout could be, before it locks. Same note has come from
+International and from Crawley. It is a workflow gap, not a grievance, and it is fixable by
+putting a step back into the process rather than by anyone changing behaviour.</p>
+<span class="who">Open &middot; build it into the process</span></li>
+
+<li><h3>Growing pains, named as such</h3>
+<p>Several workflows are changing at once and the seams show. Worth saying out loud in the
+room rather than having it arrive as a complaint from three directions.</p>
+<span class="who">Context &middot; no decision needed</span></li>
+
+</ol>
+</section>
+</div>
+
+<div class="panel" id="p-fut">
+
+<div class="note">Seventeen ideas, renamed. The old titles were accurate and useless &mdash;
+&ldquo;campaign record&rdquo; means nothing to someone who wasn&rsquo;t in the room, and the
+description underneath was doing all the work. These say what the thing does.
+<br><br>The structure underneath hasn&rsquo;t changed: <b>two ideas gate almost everything</b>.
+The campaign list and the artist page sit under thirteen of the other fifteen. Sequencing is
+the whole argument, which is what the next tab is for.</div>
+
+<section>
+<div class="slabel">Interactive</div>
+<h2>What each decision unlocks</h2>
+<p class="lede">Four things stand between us and this pipeline. Flip them on and off &mdash; the
+counts and the cards move live. Everything opens at the real state: all four off.</p>
+<div class="sim">
+<div class="gates" id="gates"></div>
+<div class="readout">
+<div class="ro-row">
+<div class="ro up"><b id="ro-n">8</b><span>reachable</span></div>
+<div class="ro up"><b id="ro-h">25</b><span>hrs / week back</span></div>
+<div class="ro"><b id="ro-b">9</b><span>still blocked</span></div>
+</div>
+<div class="stackbar"><div class="seg seg-r" id="sg-r"></div><div class="seg seg-p" id="sg-p"></div><div class="seg seg-b" id="sg-b"></div></div>
+<div class="key"><span><i style="background:var(--chart)"></i>Ready</span>
+<span><i style="background:var(--amber)"></i>Degraded</span>
+<span><i style="background:#4A4744"></i>Blocked</span></div>
+<button class="reset" id="allon">Turn everything on</button>
+</div>
+</div>
+<div class="igrid" id="grid-sim"></div>
+</section>
+</div>
+
+<div class="panel" id="p-dep">
+<section>
+<div class="slabel">Interactive</div>
+<h2>Why sequencing is the whole argument</h2>
+<p class="lede">Click any idea. Red is what has to exist first; green is what it unlocks. Click
+the campaign list and the artist page to see it in one move.</p>
+<div class="expl" id="expl"><h3>Pick an idea</h3><p style="color:var(--muted);font-size:15px">
+Its dependencies and everything downstream of it will highlight below.</p></div>
+<div class="igrid" id="grid-dep"></div>
+</section>
+</div>
+
+<div class="panel" id="p-list">
+<section>
+<div class="slabel">Live &middot; edits save in this browser</div>
+<h2>All forty-five items</h2>
+<p class="lede">Click a status to cycle it. Type an owner. Export the CSV at the end and the
+board gets updated from it &mdash; no second pass of notes.</p>
+<div class="ctrl">
+<input type="search" id="q" placeholder="Search items&hellip;">
+<select id="fl"></select>
+<select id="fs">
+<option value="">All statuses</option><option>To Do</option><option>In Progress</option>
+<option>Done</option><option>Blocked</option></select>
+<button class="btn" id="exp">Export CSV</button>
+<button class="btn alt" id="clr">Reset edits</button>
+<span class="count" id="cnt"></span>
+</div>
+<div id="rows"></div>
+<datalist id="owners"><option value="Meg Hourihan"><option value="Gerard Rice"><option value="Christian"><option value="Emma"><option value="Jordan Blaugrund"><option value="Tarek Al-Hamdouni"><option value="Brian Lynch · IT"><option value="Ian"><option value="Terenia Collymore"><option value="Ryan Edelman"><option value="Karen Lamberton"><option value="Finance"></datalist>
+</section>
+
+<section><div class="slabel">Where the board stands</div>
+<h2>Lane completion</h2>
+<div class="lanes"><div class="lb"><div class="lb-t">02 · Airtable</div><div class="lb-bar"><i style="width:11%"></i></div><div class="lb-n">1/9</div></div><div class="lb"><div class="lb-t">03 · Mapping → AD Roster → Creative</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">04 · Campaign Phases</div><div class="lb-bar"><i style="width:29%"></i></div><div class="lb-n">2/7</div></div><div class="lb"><div class="lb-t">05 · Budget</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">06 · Scheduling Requests</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div><div class="lb"><div class="lb-t">07 · A&amp;R Admin · A&amp;R Ops Gaps</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/5</div></div><div class="lb"><div class="lb-t">08 · Monthly Cadence</div><div class="lb-bar"><i style="width:0%"></i></div><div class="lb-n">0/6</div></div></div></section>
+
+<section><div class="slabel">Worth a why</div>
+<h2>Flags</h2>
+
+<div class="flag"><b>A&amp;R Ops Gap 4 is six weeks past its date.</b> The board still reads
+&ldquo;Scott, July 1.&rdquo; Either it gets a real date or it comes off.</div>
+<div class="flag"><b>A&amp;R Ops Gap 1 is waiting on an arrival that already happened.</b>
+It is gated on Tarek arriving. He has been here since March. This one is just unblocked.</div>
+<div class="flag"><b>Forty-three of forty-five items have no owner.</b> Less a process failure
+than a board built as a checklist. The Owner column is editable &mdash; assign live, export at the
+end.</div>
+<div class="flag"><b>Three of forty-five reads as done, and that is a lie the board tells about
+itself.</b> The budget sign-off suite is live. The pitch-deck system is live. The campaigns,
+pitches and priorities boards are live. None of it was ever on this board.</div>
+</section>
+
+<section><div class="slabel">Recommendation</div>
+<h2>Cut or park</h2>
+
+<p class="lede">Nothing here is wrong. These are items that cannot move until an access grant or
+a commercial decision lands, and holding them open makes the board read worse than the work is.</p>
+<div class="flag"><b>Lane 06 &middot; Scheduling Requests (6 items)</b> &mdash; the intake demo exists and
+works. What remains is adoption, not build. Park it until the monthly cadence is running.</div>
+<div class="flag"><b>Lane 08 &middot; Monthly Cadence (6 items)</b> &mdash; depends on lanes 02 and 04
+producing something worth reviewing. Sequence it after, not alongside.</div>
+<div class="flag"><b>Ideas 5, 13 and 17</b> &mdash; blocked on the artist key and on licensed social
+listening. Keep them registered; stop counting them as pipeline.</div>
+</section>
+</div>
+
+<div class="panel" id="p-demo">
+<section>
+<div class="slabel">Receipts</div>
+<h2>Already live, already working</h2>
+<p class="lede">Every one of these opens. This is the answer to &ldquo;three of forty-five&rdquo;
+&mdash; the board never tracked the things that shipped.</p>
+<div class="demo-grid"><a class="dcard" href="/reference/phase-gates.html" target="_blank"><b>Phase gates</b><span>Phase Gate Items table connected to TEMPO</span></a><a class="dcard" href="/d2c-grid.html" target="_blank"><b>D2C grid</b><span>D2C Planner Airtable link live via /api/records proxy</span></a><a class="dcard" href="/ad-tagging.html" target="_blank"><b>AD tagging</b><span>AD Roster Airtable link live via /api/ad-tagging-records proxy</span></a><a class="dcard" href="/reference/phase-1.html" target="_blank"><b>Phase 1 (broken)</b><span>Phase 1 Priorities table connected to TEMPO (this one)</span></a><a class="dcard" href="/archive/reference/handoff-map-snapshot-2026-05-21.html" target="_blank"><b>Handoff map</b><span>Handoff Map validated with Tarek</span></a><a class="dcard" href="/reference/creative-lanes.html" target="_blank"><b>Creative lanes</b><span>Handoff Map validated with Creative leadership</span></a><a class="dcard" href="/reference/lanes.html" target="_blank"><b>Lanes</b><span>5-phase framework piloted on 1 active campaign</span></a><a class="dcard" href="/active-projects.html" target="_blank"><b>Active projects</b><span>Phase column live in Wednesday AP meeting view</span></a><a class="dcard" href="/budget/full-flow.html" target="_blank"><b>Full flow</b><span>Two-track framework documented (Planning + Approval)</span></a><a class="dcard" href="/reference/budget.html" target="_blank"><b>Budget ref</b><span>Biz Plan Revenue × MMP% template built</span></a><a class="dcard" href="/budget-approvals.html" target="_blank"><b>Approvals</b><span>Manual approval breakdown documented (where it fails today)</span></a><a class="dcard" href="/budget/demo.html" target="_blank"><b>Role demo</b><span>Airtable approval routing prototyped</span></a><a class="dcard" href="/budget/tracker.html" target="_blank"><b>Spend tracker</b><span>Validated with Finance</span></a><a class="dcard" href="/pilot/scheduling.html" target="_blank"><b>Scheduling</b><span>Scheduling request intake form built (Airtable form)</span></a><a class="dcard" href="/release-planning.html" target="_blank"><b>Release planning</b><span>Routing to Release Planning defined</span></a><a class="dcard" href="/reference/ar-ops-gaps.html" target="_blank"><b>A&amp;R gaps</b><span>Gap 1: Tarek arrival — roles defined, Campaign Ops handoff documented</span></a><a class="dcard" href="/pitches.html" target="_blank"><b>DISCO pitches</b><span>Gap 3: Disco enterprise pipeline test results documented</span></a><a class="dcard" href="/campaigns.html" target="_blank"><b>Campaigns board</b><span>Every creator campaign in one list</span></a><a class="dcard" href="/pilot/artist.html" target="_blank"><b>Artist page</b><span>One page per artist, everything on it</span></a><a class="dcard" href="/deadline-tracker.html" target="_blank"><b>Deadline tracker</b><span>Catch metadata errors before it ships</span></a><a class="dcard" href="/pilot/dsp-pitches.html" target="_blank"><b>DSP pitches</b><span>First-draft DSP pitches, written for you</span></a><a class="dcard" href="/pitchdecks/index.html" target="_blank"><b>Pitch decks</b><span>Decks and one-sheets built from the record</span></a></div>
+</section>
+</div>
+
+</div>
+
+<script>
+const DATA = {"items": [{"lane": "02 \u00b7 Airtable", "item": "Sandbox base structure validated against production schema", "status": "To Do", "owner": "", "order": 1, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Artists table populated with all active roster (production data, not stubs)", "status": "To Do", "owner": "", "order": 2, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Phase Gate Items table connected to TEMPO", "status": "Done", "owner": "", "order": 3, "demo": "/reference/phase-gates.html", "demoLabel": "Phase gates"}, {"lane": "02 \u00b7 Airtable", "item": "D2C Planner Airtable link live via /api/records proxy", "status": "To Do", "owner": "", "order": 4, "demo": "/d2c-grid.html", "demoLabel": "D2C grid"}, {"lane": "02 \u00b7 Airtable", "item": "AD Roster Airtable link live via /api/ad-tagging-records proxy", "status": "To Do", "owner": "", "order": 5, "demo": "/ad-tagging.html", "demoLabel": "AD tagging"}, {"lane": "02 \u00b7 Airtable", "item": "Production base access provisioned", "status": "To Do", "owner": "Brian Lynch \u00b7 IT", "order": 6, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "RDX field mapping documented for when production access lands", "status": "To Do", "owner": "", "order": 7, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Standing views created per table (Meg / Gerard / Jordan)", "status": "To Do", "owner": "", "order": 8, "demo": null, "demoLabel": null}, {"lane": "02 \u00b7 Airtable", "item": "Phase 1 Priorities table connected to TEMPO (this one)", "status": "To Do", "owner": "", "order": 45, "demo": "/reference/phase-1.html", "demoLabel": "Phase 1 (broken)"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Handoff Map validated with Tarek", "status": "To Do", "owner": "", "order": 9, "demo": "/archive/reference/handoff-map-snapshot-2026-05-21.html", "demoLabel": "Handoff map"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Handoff Map validated with Creative leadership", "status": "To Do", "owner": "", "order": 10, "demo": "/reference/creative-lanes.html", "demoLabel": "Creative lanes"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "AD Roster live in Airtable with genre + lifestyle tags per specialist", "status": "To Do", "owner": "", "order": 11, "demo": "/ad-tagging.html", "demoLabel": "AD tagging"}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Genre \u00d7 Lifestyle tag audit complete for every active artist", "status": "To Do", "owner": "", "order": 12, "demo": null, "demoLabel": null}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Coverage gap analysis run (artists with no AD match)", "status": "To Do", "owner": "", "order": 13, "demo": null, "demoLabel": null}, {"lane": "03 \u00b7 Mapping \u2192 AD Roster \u2192 Creative", "item": "Re-tagging completed for mismatched / unmatched artists", "status": "To Do", "owner": "", "order": 14, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "184 Phase Gate Items loaded to Airtable", "status": "Done", "owner": "", "order": 15, "demo": "/reference/phase-gates.html", "demoLabel": "Phase gates"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase rename (Announce \u2192 Pre-Release) propagated", "status": "Done", "owner": "", "order": 16, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "5-phase framework piloted on 1 active campaign", "status": "To Do", "owner": "", "order": 17, "demo": "/reference/lanes.html", "demoLabel": "Lanes"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase column live in Wednesday AP meeting view", "status": "To Do", "owner": "", "order": 18, "demo": "/active-projects.html", "demoLabel": "Active projects"}, {"lane": "04 \u00b7 Campaign Phases", "item": "Per-artist phase tracking workflow defined and documented", "status": "To Do", "owner": "", "order": 19, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase transition criteria signed off by Jordan", "status": "To Do", "owner": "", "order": 20, "demo": null, "demoLabel": null}, {"lane": "04 \u00b7 Campaign Phases", "item": "Phase Risk field methodology agreed with Jordan", "status": "To Do", "owner": "", "order": 44, "demo": null, "demoLabel": null}, {"lane": "05 \u00b7 Budget", "item": "Two-track framework documented (Planning + Approval)", "status": "To Do", "owner": "", "order": 21, "demo": "/budget/full-flow.html", "demoLabel": "Full flow"}, {"lane": "05 \u00b7 Budget", "item": "Biz Plan Revenue \u00d7 MMP% template built", "status": "To Do", "owner": "", "order": 22, "demo": "/reference/budget.html", "demoLabel": "Budget ref"}, {"lane": "05 \u00b7 Budget", "item": "Manual approval breakdown documented (where it fails today)", "status": "To Do", "owner": "", "order": 23, "demo": "/budget-approvals.html", "demoLabel": "Approvals"}, {"lane": "05 \u00b7 Budget", "item": "Airtable approval routing prototyped", "status": "To Do", "owner": "", "order": 24, "demo": "/budget/demo.html", "demoLabel": "Role demo"}, {"lane": "05 \u00b7 Budget", "item": "Validated with Finance", "status": "To Do", "owner": "", "order": 25, "demo": "/budget/tracker.html", "demoLabel": "Spend tracker"}, {"lane": "05 \u00b7 Budget", "item": "Validated with Karen Lamberton", "status": "To Do", "owner": "BA", "order": 26, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Plan \u2192 Pre-Release gate criteria documented", "status": "To Do", "owner": "", "order": 27, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Scheduling request intake form built (Airtable form)", "status": "To Do", "owner": "", "order": 28, "demo": "/pilot/scheduling.html", "demoLabel": "Scheduling"}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Initiator confirmed (A&R Admin? Marketing?)", "status": "To Do", "owner": "", "order": 29, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Required fields locked", "status": "To Do", "owner": "", "order": 30, "demo": null, "demoLabel": null}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Routing to Release Planning defined", "status": "To Do", "owner": "", "order": 31, "demo": "/release-planning.html", "demoLabel": "Release planning"}, {"lane": "06 \u00b7 Scheduling Requests", "item": "Tested on 2 active campaigns", "status": "To Do", "owner": "", "order": 32, "demo": null, "demoLabel": null}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 1: Tarek arrival \u2014 roles defined, Campaign Ops handoff documented", "status": "To Do", "owner": "", "order": 33, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 2: Promo portal security audit complete, gaps surfaced to IT", "status": "To Do", "owner": "", "order": 34, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 3: Disco enterprise pipeline test results documented", "status": "To Do", "owner": "", "order": 35, "demo": "/pitches.html", "demoLabel": "DISCO pitches"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "Gap 4: Scott July 1 \u2014 Production Meeting ownership transition plan written", "status": "To Do", "owner": "", "order": 36, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "07 \u00b7 A&R Admin \u00b7 A&R Ops Gaps", "item": "All 4 gaps resolved or assigned owner + timeline", "status": "To Do", "owner": "", "order": 37, "demo": "/reference/ar-ops-gaps.html", "demoLabel": "A&R gaps"}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Monthly cadence proposal drafted (who attends, what's reviewed, format)", "status": "To Do", "owner": "", "order": 38, "demo": "/active-projects.html", "demoLabel": "Active projects"}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Validated with Jordan", "status": "To Do", "owner": "", "order": 39, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Validated with Tarek", "status": "To Do", "owner": "", "order": 40, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "First monthly meeting scheduled", "status": "To Do", "owner": "", "order": 41, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Recap format defined", "status": "To Do", "owner": "", "order": 42, "demo": null, "demoLabel": null}, {"lane": "08 \u00b7 Monthly Cadence", "item": "Distribution list confirmed", "status": "To Do", "owner": "", "order": 43, "demo": null, "demoLabel": null}], "ideas": [{"id": 1, "name": "Every creator campaign in one list", "deps": [], "gates": [], "degraded": null, "hrs": 4, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/campaigns.html", "demoLabel": "Campaigns board", "old": "Campaign record", "sub": "One row per campaign \u2014 artist, track, agency, spend, dates. Today this is hand-merged from four separate tabs every time anyone asks."}, {"id": 2, "name": "Catches duplicate buys and missing spend", "deps": [1], "gates": [], "degraded": null, "hrs": 0, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/campaigns.html", "demoLabel": "Campaigns board", "old": "Campaign index conflict & gap detection", "sub": "Reads the campaign list and flags the same buy entered twice, budgets that don't match, and fields left blank. Nudges the lead who owns it."}, {"id": 3, "name": "One page per artist, everything on it", "deps": [], "gates": [], "degraded": "prod", "hrs": 6, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": "/pilot/artist.html", "demoLabel": "Artist page", "old": "Artist record / artist page", "sub": "Who's working on it, streaming and social, deal status, calendar, one-sheet, and which assets exist in which version \u2014 plus how the audience is changing, not just how many."}, {"id": 4, "name": "Weekly reporting from every agency, in one place", "deps": [1], "gates": ["agency"], "degraded": null, "hrs": 7, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null, "old": "Agency & creator campaign intake", "sub": "A standing weekly export from each creator agency and platform, normalised, matched to a campaign, with a visible list of what it couldn't match. Everything else on this page sits on top of it."}, {"id": 5, "name": "Tie each campaign to the song it ran against", "deps": [1], "gates": ["key"], "degraded": null, "hrs": 5, "diff": "High", "tier": "3 \u2014 Blocked", "demo": null, "demoLabel": null, "old": "Campaign-to-track link", "sub": "Joins GRPS to Snowflake so campaign activity can be set against streams. Tracks already join on ISRC; artist level has no agreed key yet."}, {"id": 6, "name": "Catch metadata errors before it ships", "deps": [], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/deadline-tracker.html", "demoLabel": "Deadline tracker", "old": "Metadata QC before delivery", "sub": "Checks release metadata for completeness and consistency ahead of delivery \u2014 the errors that get fixed expensively after the fact."}, {"id": 7, "name": "One blurb, resized for every platform", "deps": [], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": null, "demoLabel": null, "old": "Platform copy variants", "sub": "Takes the approved copy and produces the DSP, YouTube and social versions at the right length and register for each."}, {"id": 8, "name": "First-draft DSP pitches, written for you", "deps": [3], "gates": [], "degraded": null, "hrs": 3, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/pilot/dsp-pitches.html", "demoLabel": "DSP pitches", "old": "DSP pitch drafts", "sub": "Generates the editorial pitch from the artist record and the release info. You edit; you don't start from a blank box."}, {"id": 9, "name": "The weekly internal update, drafted", "deps": [3], "gates": [], "degraded": null, "hrs": 4, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": "/active-projects.html", "demoLabel": "Active projects", "old": "Weekly internal update", "sub": "Writes Audience Development's section of the internal weekly. Day after release it also scrubs for press, top-performing posts and verified social chatter."}, {"id": 10, "name": "Per-artist weekly recap, one format everywhere", "deps": [3, 4], "gates": [], "degraded": null, "hrs": 7, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null, "old": "Weekly campaign rollup", "sub": "Streaming, social and playlist movement in the standard recap shape \u2014 one shared definition across the labels instead of five."}, {"id": 11, "name": "Tells you what moved and why, unprompted", "deps": [5], "gates": [], "degraded": null, "hrs": 4, "diff": "High", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null, "old": "Performance insights & anomaly watch", "sub": "Watches streaming and social across the roster and surfaces meaningful moves without being asked \u2014 with the cause attached: creator post, playlist add, press, paid, sync."}, {"id": 12, "name": "Something's taking off \u2014 here are your options", "deps": [11], "gates": [], "degraded": null, "hrs": 2, "diff": "Low", "tier": "2 \u2014 Pilot now", "demo": null, "demoLabel": null, "old": "Spike response", "sub": "When a post breaks out, lays out what you can do and what each costs in time: paid behind it, a marquee slot, or nothing."}, {"id": 13, "name": "What we spent versus what we got", "deps": [4, 5], "gates": [], "degraded": null, "hrs": 3, "diff": "High", "tier": "3 \u2014 Blocked", "demo": "/budget/tracker.html", "demoLabel": "Spend tracker", "old": "Was it worth it", "sub": "Sets spend against views, streaming movement and creator engagement \u2014 by campaign and by agency."}, {"id": 14, "name": "The manager and artist update, drafted", "deps": [9, 10], "gates": [], "degraded": null, "hrs": 5, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null, "old": "Management & artist update", "sub": "The daily sales and weekly consumption + social updates that go out to managers and artists \u2014 written from the record, reviewed by a human before it sends."}, {"id": 15, "name": "Ask a plain question, get a sourced answer", "deps": [1, 3], "gates": [], "degraded": null, "hrs": 4, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": null, "demoLabel": null, "old": "Ask RCA", "sub": "\u201cWhat did we spend on Steve Lacy in Q2?\u201d \u2014 answered, with the record it came from shown next to it."}, {"id": 16, "name": "Decks and one-sheets built from the record", "deps": [3, 11], "gates": [], "degraded": null, "hrs": 5, "diff": "Medium", "tier": "1 \u2014 All labels", "demo": "/pitchdecks/index.html", "demoLabel": "Pitch decks", "old": "Deck & one-sheet generation", "sub": "Streams, chart history, certifications, socials, tour dates and release info assembled into the house template on demand \u2014 for a manager, a DSP, press, or an artist meeting."}, {"id": 17, "name": "Catalogue picking up online, early enough to act", "deps": [], "gates": ["social"], "degraded": null, "hrs": 0, "diff": "High", "tier": "3 \u2014 Blocked", "demo": null, "demoLabel": null, "old": "Trend & UGC detection brief", "sub": "Weekly digest of edits, covers and sounds gaining traction \u2014 while there's still time to do something about it."}], "gates": [["prod", "Production Airtable access", "Brian Lynch \u00b7 IT \u2014 the Artists table is stubs until this lands, and six ideas sit on that record."], ["agency", "Agency reporting agreement", "A weekly export written into the agency relationship at Sony level. Commercial decision, not a build."], ["key", "The artist key", "One authoritative identifier joining GRPS and Snowflake at artist level. Track level already joins on ISRC."], ["social", "Licensed social listening", "Procurement. Scraping is not on the table."]], "owners": ["Meg Hourihan", "Gerard Rice", "Christian", "Emma", "Jordan Blaugrund", "Tarek Al-Hamdouni", "Brian Lynch \u00b7 IT", "Ian", "Terenia Collymore", "Ryan Edelman", "Karen Lamberton", "Finance"]};
+const IDEAS = DATA.ideas, ITEMS = DATA.items, GATES = DATA.gates;
+const byId = {}; IDEAS.forEach(i => byId[i.id] = i);
+const G = {}; GATES.forEach(g => G[g[0]] = false);
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById('p-' + t.dataset.p).classList.add('on');
+  window.scrollTo(0, 0);
+});
+
+const gEl = document.getElementById('gates');
+GATES.forEach(g => {
+  const d = document.createElement('div');
+  d.className = 'gate'; d.dataset.g = g[0];
+  d.innerHTML = '<div class="sw"></div><div><span class="gate-t">' + g[1] +
+    '</span><span class="gate-d">' + g[2] + '</span></div>';
+  d.onclick = () => { G[g[0]] = !G[g[0]]; d.classList.toggle('on', G[g[0]]); render(); };
+  gEl.appendChild(d);
+});
+
+function compute() {
+  const st = {};
+  function ev(id) {
+    if (st[id]) return st[id];
+    const it = byId[id];
+    for (const g of it.gates) if (!G[g]) return st[id] = 'b';
+    let s = 'r';
+    for (const d of it.deps) {
+      const ds = ev(d);
+      if (ds === 'b') return st[id] = 'b';
+      if (ds === 'p') s = 'p';
+    }
+    if (it.degraded && !G[it.degraded]) s = 'p';
+    return st[id] = s;
+  }
+  IDEAS.forEach(i => ev(i.id));
+  return st;
+}
+
+const LBL = { r: 'Ready', p: 'Degraded', b: 'Blocked' };
+
+function card(i, st, cls) {
+  const s = st[i.id];
+  return '<div class="card ' + s + (cls || '') + '" data-i="' + i.id + '">' +
+    '<div class="cid">IDEA ' + String(i.id).padStart(2, '0') + '</div>' +
+    '<div class="cname">' + i.name + '</div>' +
+    '<p class="csub">' + i.sub + '</p>' +
+    '<div class="cmeta"><span class="chip chip-' + s + '">' + LBL[s] + '</span>' +
+    (i.hrs ? '<span>' + i.hrs + ' hrs/wk</span>' : '') +
+    '<span>' + i.diff + '</span></div>' +
+    (i.demo ? '<a class="dlink" href="' + i.demo + '" target="_blank" onclick="event.stopPropagation()">' + i.demoLabel + ' &rarr;</a>' : '') +
+    '<div class="cold">was: ' + i.old + '</div>' +
+    '</div>';
+}
+
+function render() {
+  const st = compute();
+  let n = 0, h = 0, b = 0, cr = 0, cp = 0;
+  IDEAS.forEach(i => {
+    if (st[i.id] === 'b') { b++; } else { n++; h += i.hrs; }
+    if (st[i.id] === 'r') cr++; if (st[i.id] === 'p') cp++;
+  });
+  document.getElementById('ro-n').textContent = n;
+  document.getElementById('ro-h').textContent = h;
+  document.getElementById('ro-b').textContent = b;
+  const T = IDEAS.length;
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    el.style.width = (v / T * 100) + '%';
+    el.textContent = v >= 2 ? v : '';
+  };
+  set('sg-r', cr); set('sg-p', cp); set('sg-b', b);
+  document.getElementById('grid-sim').innerHTML = IDEAS.map(i => card(i, st)).join('');
+  drawDep(st);
+}
+
+document.getElementById('allon').onclick = () => {
+  const any = Object.values(G).some(v => !v);
+  GATES.forEach(g => G[g[0]] = any);
+  document.querySelectorAll('.gate').forEach(d => d.classList.toggle('on', any));
+  document.getElementById('allon').textContent = any ? 'Back to reality' : 'Turn everything on';
+  render();
+};
+
+let sel = null;
+function up(id, acc) { byId[id].deps.forEach(d => { if (!acc.has(d)) { acc.add(d); up(d, acc); } }); return acc; }
+function down(id, acc) {
+  IDEAS.forEach(i => { if (i.deps.includes(id) && !acc.has(i.id)) { acc.add(i.id); down(i.id, acc); } });
+  return acc;
+}
+function drawDep(st) {
+  const U = sel ? up(sel, new Set()) : new Set();
+  const Dn = sel ? down(sel, new Set()) : new Set();
+  document.getElementById('grid-dep').innerHTML = IDEAS.map(i =>
+    card(i, st, i.id === sel ? ' sel' : U.has(i.id) ? ' up' : Dn.has(i.id) ? ' dn' : '')).join('');
+  if (sel) {
+    const it = byId[sel];
+    let hrs = 0; Dn.forEach(d => hrs += byId[d].hrs);
+    const tag = (s, c) => [...s].map(x => '<span class="tagx ' + c + '">' + byId[x].name + '</span>').join('') || '<span style="color:var(--muted);font-size:13px">None</span>';
+    document.getElementById('expl').innerHTML =
+      '<h3>' + it.name + '</h3>' +
+      '<div style="font-size:14px;color:var(--muted)">' + it.tier + ' &middot; ' + it.diff +
+      ' difficulty &middot; ' + it.hrs + ' hrs/wk' +
+      (it.gates.length ? ' &middot; gated on ' + it.gates.map(g => GATES.find(x => x[0] === g)[1]).join(', ') : '') + '</div>' +
+      '<div class="row"><b>Has to exist first (' + U.size + ')</b>' + tag(U, 'up') + '</div>' +
+      '<div class="row"><b>Unlocks downstream (' + Dn.size + ' &middot; ' + hrs + ' hrs/wk)</b>' + tag(Dn, 'dn') + '</div>';
+  }
+}
+document.addEventListener('click', ev => {
+  const c = ev.target.closest('#grid-dep .card');
+  if (!c) return;
+  const id = +c.dataset.i;
+  sel = (sel === id) ? null : id;
+  if (!sel) document.getElementById('expl').innerHTML =
+    '<h3>Pick an idea</h3><p style="color:var(--muted);font-size:15px">Its dependencies and everything downstream of it will highlight below.</p>';
+  drawDep(compute());
+});
+
+const KEY = 'roadmap-edits-v2';
+let E = JSON.parse(localStorage.getItem(KEY) || '{}');
+const CYCLE = ['To Do', 'In Progress', 'Done', 'Blocked'];
+const save = () => localStorage.setItem(KEY, JSON.stringify(E));
+const get = it => E[it.item] || { status: it.status, owner: it.owner };
+
+const flSel = document.getElementById('fl');
+flSel.innerHTML = '<option value="">All lanes</option>' +
+  [...new Set(ITEMS.map(i => i.lane))].map(l => '<option>' + l + '</option>').join('');
+
+function drawList() {
+  const q = document.getElementById('q').value.toLowerCase();
+  const fl = flSel.value, fs = document.getElementById('fs').value;
+  const vis = ITEMS.filter(i => {
+    const s = get(i).status;
+    return (!q || i.item.toLowerCase().includes(q)) && (!fl || i.lane === fl) && (!fs || s === fs);
+  });
+  let out = '', last = null;
+  vis.forEach(i => {
+    if (i.lane !== last) {
+      last = i.lane;
+      const all = ITEMS.filter(x => x.lane === i.lane);
+      const dn = all.filter(x => get(x).status === 'Done').length;
+      out += '<div class="lanehead"><span>' + i.lane + '</span><span>' + dn + ' / ' + all.length + ' done</span></div>';
+    }
+    const g = get(i);
+    out += '<div class="row' + (g.status === 'Done' ? ' done' : '') + '" data-k="' + encodeURIComponent(i.item) + '">' +
+      '<button class="st" data-v="' + g.status + '">' + g.status + '</button>' +
+      '<div class="itxt">' + i.item +
+      (i.demo ? '<a class="dl2" href="' + i.demo + '" target="_blank">' + i.demoLabel + ' &rarr;</a>' : '') + '</div>' +
+      '<input class="own' + (g.owner ? ' set' : '') + '" list="owners" placeholder="Unassigned" value="' + (g.owner || '').replace(/"/g, '&quot;') + '">' +
+      '</div>';
+  });
+  document.getElementById('rows').innerHTML = out;
+  const done = ITEMS.filter(i => get(i).status === 'Done').length;
+  const own = ITEMS.filter(i => get(i).owner).length;
+  document.getElementById('cnt').innerHTML =
+    vis.length + ' shown &middot; ' + done + ' done &middot; ' + own + ' owned';
+}
+['q', 'fl', 'fs'].forEach(id => document.getElementById(id).oninput = drawList);
+
+document.getElementById('rows').addEventListener('click', ev => {
+  const b = ev.target.closest('.st'); if (!b) return;
+  const k = decodeURIComponent(b.closest('.row').dataset.k);
+  const cur = E[k] || { status: b.dataset.v, owner: '' };
+  cur.status = CYCLE[(CYCLE.indexOf(cur.status) + 1) % CYCLE.length];
+  E[k] = cur; save(); drawList();
+});
+document.getElementById('rows').addEventListener('change', ev => {
+  if (!ev.target.classList.contains('own')) return;
+  const k = decodeURIComponent(ev.target.closest('.row').dataset.k);
+  const it = ITEMS.find(i => i.item === k);
+  const cur = E[k] || { status: it.status, owner: '' };
+  cur.owner = ev.target.value; E[k] = cur; save(); drawList();
+});
+document.getElementById('clr').onclick = () => {
+  if (confirm('Clear all edits made in this browser?')) { E = {}; save(); drawList(); }
+};
+document.getElementById('exp').onclick = () => {
+  const q = s => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
+  const csv = ['Lane,Item,Status,Owner,Changed'].concat(ITEMS.map(i => {
+    const g = get(i);
+    const ch = (g.status !== i.status || g.owner !== i.owner) ? 'yes' : '';
+    return [i.lane, i.item, g.status, g.owner, ch].map(q).join(',');
+  })).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'phase-1-priorities-' + new Date().toISOString().slice(0, 10) + '.csv';
+  a.click();
+};
+
+render(); drawList();
+</script>
+</body></html>
