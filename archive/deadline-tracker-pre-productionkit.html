@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Release Deadline Tracker — RCA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F2EB; --card:#FFFFFF; --ops:#EFEBE0;
+    --text:#0F0E0E; --muted:#8A8781; --line:#ECEAE3;
+    --chartreuse:#CDF851; --flame:#FF4A23; --ok:#2F7D32;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 42px}
+
+  .topbar{border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 42px}
+  .topbar .brand{font-weight:600;letter-spacing:-.3px;font-size:16px}
+  .topbar .brand span{color:var(--flame)}
+  .topbar .tag{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+  .hero{border-bottom:1px solid var(--line);padding:42px 0 30px}
+  .hero .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:14px}
+  .hero h1{font-weight:600;letter-spacing:-1.4px;line-height:1.08;font-size:clamp(32px,5vw,42px)}
+  .hero h1 em{font-style:normal}
+  .hero .lede{margin-top:14px;max-width:600px;font-size:16px;color:var(--muted)}
+  .hero .lede b{color:var(--text);font-weight:700}
+  .hero .srclink{margin-top:12px;font-size:13px;font-weight:700}
+  .hero .srclink a{color:var(--flame);text-decoration:none;border-bottom:2px solid var(--flame)}
+
+  /* setup card */
+  .setup{border-bottom:1px solid var(--line);padding:26px 0}
+  .setupcard{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame)}
+  .setuprow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 24px}
+  .setuprow + .setuprow{border-top:1px solid var(--line)}
+  .setuprow .step{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--flame);min-width:150px}
+  .chk{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg);padding:9px 14px;font-size:13.5px;font-weight:700;cursor:pointer;user-select:none}
+  .chk input{accent-color:var(--text);width:15px;height:15px;cursor:pointer}
+  .chk.on{background:var(--chartreuse);border-color:var(--text)}
+  .chk.fixed{background:var(--ops);cursor:default;color:var(--muted)}
+  .chk.fixed b{color:var(--text)}
+  .setuprow input[type=date]{background:var(--bg);border:1px solid var(--line);color:var(--text);color-scheme:light;font-family:inherit;font-size:16px;font-weight:700;padding:10px 14px}
+  .setuprow .hint{font-size:12.5px;color:var(--muted);font-weight:600}
+  .setuprow .hint b{color:var(--text)}
+
+  /* the list */
+  .list{padding:10px 0 30px}
+  .band{padding:28px 0 6px}
+  .band-head{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--text);padding-bottom:8px;margin-bottom:2px}
+  .band-t{font-size:17px;font-weight:700;letter-spacing:-.3px}
+  .band-s{font-size:12.5px;font-weight:600;color:var(--muted)}
+  .band.floors .band-head{border-bottom-color:var(--ok)}
+  .band.floors .band-t{color:var(--ok)}
+
+  .row{display:grid;grid-template-columns:96px 1fr 170px;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
+  .row .due{font-size:13px;font-weight:700;color:var(--flame);white-space:nowrap}
+  .row.conf .due{color:var(--ok)}
+  .row .what{font-size:15px;font-weight:700}
+  .row .what .sub{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:1px}
+  .row .dt{font-size:12.5px;font-weight:700;text-align:right;white-space:nowrap}
+  .row .dt:empty::before{content:"—";color:var(--line)}
+  .row.past{opacity:.45}
+
+  .tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--bg);padding:1px 6px;margin-left:8px;vertical-align:middle}
+  .badge{display:inline-block;background:var(--ok);color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-left:7px;vertical-align:middle}
+  .hflag{display:inline-block;margin-left:7px;background:#FFE08A;color:#7A5B00;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
+  .pflag{display:inline-block;margin-left:7px;background:var(--flame);color:#fff;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
+
+  .row.release{border-bottom:none;background:var(--chartreuse);margin-top:14px;padding:14px 18px;grid-template-columns:96px 1fr 170px}
+  .row.release .due{color:var(--text)}
+  .row.release .what{font-size:16px}
+
+  .keyline{font-size:12.5px;color:var(--muted);font-weight:600;padding:18px 0 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+  footer{padding:30px 0 44px;text-align:center;border-top:1px solid var(--line)}
+  footer .fmark{font-size:24px;font-weight:600;letter-spacing:-.6px}
+  footer .fline{color:var(--muted);font-size:13px;margin-top:8px}
+  footer .ftag{color:var(--flame);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:5px}
+
+  @media(max-width:720px){
+    .wrap{padding:0 22px}.topbar{padding:14px 22px}
+    .row{grid-template-columns:80px 1fr;gap:10px}
+    .row .dt{grid-column:2;text-align:left}
+    .setuprow .step{min-width:0;width:100%}
+  }
+  @media print{
+    body{background:#F5F2EB;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .band{padding:16px 0 4px;break-inside:avoid}
+    .hero{padding:26px 0 18px}
+    .setup{display:none}
+  }
+</style>
+<link rel="stylesheet" href="/shell.css">
+<script defer src="/shell.js"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">RCA <span>·</span> Records</div>
+  <div class="tag">Deadline Tracker</div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Counted back from release day</div>
+    <h1>Deadline <em>Tracker</em></h1>
+    <p class="lede">Everything a release needs, in <b>one list, in the order it's due</b>. Pick what you're making, set the date, work top to bottom.</p>
+    <p class="srclink"><a href="deadline-sources.html">Where these numbers come from →</a></p>
+  </div>
+</header>
+
+<!-- SETUP -->
+<div class="setup">
+  <div class="wrap">
+    <div class="setupcard">
+      <div class="setuprow">
+        <span class="step">1 · What are you making?</span>
+        <span class="chk fixed"><b>Digital music</b> · always on</span>
+        <label class="chk"><input type="checkbox" data-fmt-toggle="preorder"> Pre-order</label>
+        <label class="chk"><input type="checkbox" data-fmt-toggle="video"> Music video</label>
+        <label class="chk"><input type="checkbox" data-fmt-toggle="vinyl"> Vinyl</label>
+        <label class="chk"><input type="checkbox" data-fmt-toggle="cd"> CD</label>
+      </div>
+      <div class="setuprow">
+        <span class="step">2 · Release date</span>
+        <input type="date" id="rel">
+        <span class="hint">Dates land <b>2 days early</b> on purpose — a built-in cushion.</span>
+      </div>
+    </div>
+    <div class="keyline"><span class="badge">Confirmed</span><span>= hard floor from our delivery process.</span><span class="hflag">&#9873; Weekend</span><span>= falls on a weekend or holiday — move it up.</span></div>
+  </div>
+</div>
+
+<!-- THE LIST -->
+<div class="list">
+  <div class="wrap">
+
+    <section class="band" data-band>
+      <div class="band-head"><span class="band-t">16–13 weeks out</span><span class="band-s">Start here — the long-lead items</span></div>
+      <div class="row"><span class="due">16 wks</span><div class="what">Promo photos + bio<span class="tag">Creative</span></div><span class="dt" data-wk="16"></span></div>
+      <div class="row" data-fmt="vinyl"><span class="due">16 wks</span><div class="what">Vinyl color locked<span class="tag">Vinyl</span></div><span class="dt" data-wk="16"></span></div>
+      <div class="row" data-fmt="vinyl"><span class="due">15 wks</span><div class="what">Lacquers cut + at vendor<span class="tag">Vinyl</span></div><span class="dt" data-wk="15"></span></div>
+      <div class="row" data-fmt="vinyl"><span class="due">13 wks</span><div class="what">Label + packaging art files<span class="tag">Vinyl</span></div><span class="dt" data-wk="13"></span></div>
+    </section>
+
+    <section class="band" data-band>
+      <div class="band-head"><span class="band-t">12–9 weeks out</span><span class="band-s">Lock the record</span></div>
+      <div class="row" data-fmt="preorder"><span class="due">12 wks</span><div class="what">Final tracklist locked<span class="tag">Pre-order</span><span class="sub">The pre-order can't go live without it</span></div><span class="dt" data-wk="12"></span></div>
+      <div class="row" data-fmt="vinyl"><span class="due">12 wks</span><div class="what">Test pressing approved<span class="tag">Vinyl</span></div><span class="dt" data-wk="12"></span></div>
+      <div class="row" data-fmt="vinyl"><span class="due">11 wks</span><div class="what">Signed artwork components in<span class="tag">Vinyl</span></div><span class="dt" data-wk="11"></span></div>
+      <div class="row"><span class="due">10 wks</span><div class="what">Sample clearances flagged<span class="tag">Clearances</span><span class="sub">If the record uses samples — flag them as early as possible</span></div><span class="dt" data-wk="10"></span></div>
+      <div class="row"><span class="due">10 wks</span><div class="what">Cover art direction agreed<span class="tag">Creative</span></div><span class="dt" data-wk="10"></span></div>
+      <div class="row" data-fmt="cd"><span class="due">9 wks</span><div class="what">Digipak + check disc approved<span class="tag">CD</span></div><span class="dt" data-wk="9"></span></div>
+    </section>
+
+    <section class="band" data-band>
+      <div class="band-head"><span class="band-t">8–5 weeks out</span><span class="band-s">Finish the music, start the paperwork</span></div>
+      <div class="row"><span class="due">8 wks</span><div class="what">Final mixes approved<span class="tag">Music</span></div><span class="dt" data-wk="8"></span></div>
+      <div class="row" data-fmt="video"><span class="due">8 wks</span><div class="what">Music video concept locked<span class="tag">Video</span></div><span class="dt" data-wk="8"></span></div>
+      <div class="row" data-fmt="cd"><span class="due">8 wks</span><div class="what">CD media + case art in<span class="tag">CD</span></div><span class="dt" data-wk="8"></span></div>
+      <div class="row" data-fmt="cd"><span class="due">7 wks</span><div class="what">Signed artwork components in<span class="tag">CD</span></div><span class="dt" data-wk="7"></span></div>
+      <div class="row"><span class="due">5 wks</span><div class="what">Songwriter + producer credits<span class="tag">Clearances</span></div><span class="dt" data-wk="5"></span></div>
+      <div class="row"><span class="due">5 wks</span><div class="what">Publishing splits confirmed<span class="tag">Clearances</span></div><span class="dt" data-wk="5"></span></div>
+      <div class="row" data-fmt="vinyl cd"><span class="due">5 wks</span><div class="what">Finished goods at warehouse<span class="tag">Physical</span></div><span class="dt" data-wk="5"></span></div>
+    </section>
+
+    <section class="band" data-band>
+      <div class="band-head"><span class="band-t">4–2 weeks out</span><span class="band-s">The delivery window</span></div>
+      <div class="row"><span class="due">4 wks</span><div class="what">Track metadata + featured-artist approvals<span class="tag">Clearances</span></div><span class="dt" data-wk="4"></span></div>
+      <div class="row" data-fmt="vinyl cd"><span class="due">4 wks</span><div class="what">First account shipment<span class="tag">Physical</span></div><span class="dt" data-wk="4"></span></div>
+    </section>
+
+    <section class="band floors" data-band>
+      <div class="band-head"><span class="band-t">Final 10 days</span><span class="band-s">The hard floors — miss these and the release moves</span></div>
+      <div class="row conf"><span class="due">10 days</span><div class="what">Final approved audio, NSI-cleared<span class="tag">DSP</span><span class="badge">Confirmed</span><span class="sub">Must be on the DSPs 10 days out to make the playlist-pitching window</span></div><span class="dt" data-days="10"></span></div>
+      <div class="row conf"><span class="due">10 days</span><div class="what">Clean / explicit versions<span class="tag">DSP</span><span class="badge">Confirmed</span></div><span class="dt" data-days="10"></span></div>
+      <div class="row conf"><span class="due">10 days</span><div class="what">Final cover art, DSP + print ready<span class="tag">DSP</span><span class="badge">Confirmed</span></div><span class="dt" data-days="10"></span></div>
+      <div class="row conf" data-fmt="video"><span class="due">1 wk</span><div class="what">Music video delivered<span class="tag">Video</span><span class="badge">Confirmed</span><span class="sub">ProRes master to Sony Ci</span></div><span class="dt" data-days="7"></span></div>
+    </section>
+
+    <div class="row release"><span class="due">Day 0</span><div class="what">Release day</div><span class="dt" data-wk="0"></span></div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fmark">RCA</div>
+    <div class="fline">Turn it all in on time — we'll handle the rest.</div>
+    <div class="ftag">RCA Records · Campaign Operations</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var input = document.getElementById('rel');
+    var BUFFER = 2; // internal deadlines land 2 days ahead of the hard floor
+    function fmt(d){ return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
+    function key(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+    function nth(y,m,wd,n){
+      if(n>0){ var d=new Date(y,m,1); var add=(wd-d.getDay()+7)%7; return new Date(y,m,1+add+(n-1)*7); }
+      var last=new Date(y,m+1,0); var sub=(last.getDay()-wd+7)%7; return new Date(y,m+1,0-sub);
+    }
+    var holCache={};
+    function holidays(y){
+      if(holCache[y]) return holCache[y];
+      var h={};
+      function put(d,name){ h[key(d)]=name; }
+      put(new Date(y,0,1),"New Year's Day");
+      put(nth(y,0,1,3),"MLK Day");
+      put(nth(y,1,1,3),"Presidents' Day");
+      put(nth(y,4,1,-1),"Memorial Day");
+      put(new Date(y,5,19),"Juneteenth");
+      put(new Date(y,6,4),"Independence Day");
+      put(nth(y,8,1,1),"Labor Day");
+      put(nth(y,9,1,2),"Indigenous Peoples' / Columbus Day");
+      put(new Date(y,10,11),"Veterans Day");
+      put(nth(y,10,4,4),"Thanksgiving");
+      put(new Date(y,11,24),"Christmas Eve");
+      put(new Date(y,11,25),"Christmas Day");
+      put(new Date(y,11,31),"New Year's Eve");
+      holCache[y]=h; return h;
+    }
+    function flagFor(d){
+      var name=holidays(d.getFullYear())[key(d)];
+      var wd=d.getDay(), we=(wd===0||wd===6);
+      if(name) return we ? name+" · Weekend" : name;
+      return we ? "Weekend" : null;
+    }
+    function recalc(){
+      var v = input.value;
+      var nodes = document.querySelectorAll('.dt[data-wk],.dt[data-days]');
+      if(!v){ nodes.forEach(function(n){ n.textContent=''; n.closest('.row').classList.remove('past'); }); return; }
+      var rel = new Date(v + 'T00:00:00');
+      var today = new Date(); today.setHours(0,0,0,0);
+      nodes.forEach(function(n){
+        var days = n.getAttribute('data-days');
+        var off = days ? parseInt(days,10) : parseInt(n.getAttribute('data-wk'),10)*7;
+        var d = new Date(rel);
+        var buf = (off===0) ? 0 : BUFFER;
+        d.setDate(d.getDate() - off - buf);
+        n.textContent = fmt(d);
+        var row = n.closest('.row');
+        var past = off!==0 && d < today;
+        row.classList.toggle('past', past);
+        if(past){ var p=document.createElement('span'); p.className='pflag'; p.textContent='past'; n.appendChild(p); return; }
+        var fl = flagFor(d);
+        if(fl && off!==0){ var s=document.createElement('span'); s.className='hflag'; s.textContent='⚑ '+fl; n.appendChild(s); }
+      });
+    }
+    input.addEventListener('input', recalc);
+    input.addEventListener('change', recalc);
+
+    /* format picker */
+    var toggles = document.querySelectorAll('[data-fmt-toggle]');
+    function fmtState(){
+      var s={};
+      toggles.forEach(function(t){ s[t.getAttribute('data-fmt-toggle')] = t.checked; });
+      return s;
+    }
+    function applyFmts(){
+      var s = fmtState();
+      document.querySelectorAll('[data-fmt]').forEach(function(el){
+        var fmts = el.getAttribute('data-fmt').split(' ');
+        var show = fmts.some(function(f){ return s[f]; });
+        el.style.display = show ? '' : 'none';
+      });
+      /* hide bands with no visible rows */
+      document.querySelectorAll('[data-band]').forEach(function(b){
+        var any = false;
+        b.querySelectorAll('.row').forEach(function(r){ if(r.style.display !== 'none') any = true; });
+        b.style.display = any ? '' : 'none';
+      });
+      toggles.forEach(function(t){ t.closest('.chk').classList.toggle('on', t.checked); });
+      try{ localStorage.setItem('ddl-fmts', JSON.stringify(s)); }catch(e){}
+    }
+    toggles.forEach(function(t){ t.addEventListener('change', applyFmts); });
+    try{
+      var saved = JSON.parse(localStorage.getItem('ddl-fmts')||'null');
+      if(saved) toggles.forEach(function(t){ var k=t.getAttribute('data-fmt-toggle'); if(k in saved) t.checked = !!saved[k]; });
+      var sd = localStorage.getItem('ddl-date');
+      if(sd){ input.value = sd; }
+    }catch(e){}
+    input.addEventListener('change', function(){ try{ localStorage.setItem('ddl-date', input.value); }catch(e){} });
+    applyFmts();
+    recalc();
+  })();
+</script>
+
+</body>
+</html>

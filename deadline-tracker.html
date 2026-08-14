@@ -3,292 +3,444 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Release Deadline Tracker — RCA</title>
+<title>When are files due? — RCA Campaign Ops</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script defer src="/shell.js" data-no-strip></script>
 <style>
   :root{
-    --bg:#F5F2EB; --card:#FFFFFF; --ops:#EFEBE0;
-    --text:#0F0E0E; --muted:#8A8781; --line:#ECEAE3;
-    --chartreuse:#CDF851; --flame:#FF4A23; --ok:#2F7D32;
+    --bg:#0B0B0B; --card:#171717; --card2:#131313;
+    --ink:#FFFFFF; --muted:#8E8B85; --dim:#5E5B56;
+    --line:#2A2A2A; --red:#E8402E;
+    --disp:'Anton',Impact,'Haettenschweiler',sans-serif;
+    --ui:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:880px;margin:0 auto;padding:0 42px}
+  body{background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 34px}
 
-  .topbar{border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 42px}
-  .topbar .brand{font-weight:600;letter-spacing:-.3px;font-size:16px}
-  .topbar .brand span{color:var(--flame)}
-  .topbar .tag{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  /* header */
+  .top{display:flex;align-items:center;gap:34px;padding:26px 0 0}
+  .logo{font-family:var(--disp);font-size:26px;letter-spacing:.01em;text-transform:uppercase;
+        color:var(--ink);text-decoration:none;white-space:nowrap}
+  .logo span{color:var(--red)}
+  .tnav{display:flex;gap:26px;margin:0 auto}
+  .tnav a{font:600 12px/1 var(--ui);letter-spacing:.13em;text-transform:uppercase;
+          color:var(--muted);text-decoration:none;padding:6px 0}
+  .tnav a:hover,.tnav a.on{color:var(--ink)}
+  .pill-out{border:1px solid #4A4741;border-radius:999px;padding:11px 18px;
+            font:600 11px/1 var(--ui);letter-spacing:.13em;text-transform:uppercase;
+            color:var(--ink);text-decoration:none;background:transparent;cursor:pointer;white-space:nowrap}
+  .pill-out:hover{border-color:var(--ink)}
 
-  .hero{border-bottom:1px solid var(--line);padding:42px 0 30px}
-  .hero .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:14px}
-  .hero h1{font-weight:600;letter-spacing:-1.4px;line-height:1.08;font-size:clamp(32px,5vw,42px)}
-  .hero h1 em{font-style:normal}
-  .hero .lede{margin-top:14px;max-width:600px;font-size:16px;color:var(--muted)}
-  .hero .lede b{color:var(--text);font-weight:700}
-  .hero .srclink{margin-top:12px;font-size:13px;font-weight:700}
-  .hero .srclink a{color:var(--flame);text-decoration:none;border-bottom:2px solid var(--flame)}
+  h1{font-family:var(--disp);font-size:clamp(40px,7.4vw,80px);line-height:.95;
+     letter-spacing:.005em;text-transform:uppercase;margin:14px 0 34px}
 
-  /* setup card */
-  .setup{border-bottom:1px solid var(--line);padding:26px 0}
-  .setupcard{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame)}
-  .setuprow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 24px}
-  .setuprow + .setuprow{border-top:1px solid var(--line)}
-  .setuprow .step{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--flame);min-width:150px}
-  .chk{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg);padding:9px 14px;font-size:13.5px;font-weight:700;cursor:pointer;user-select:none}
-  .chk input{accent-color:var(--text);width:15px;height:15px;cursor:pointer}
-  .chk.on{background:var(--chartreuse);border-color:var(--text)}
-  .chk.fixed{background:var(--ops);cursor:default;color:var(--muted)}
-  .chk.fixed b{color:var(--text)}
-  .setuprow input[type=date]{background:var(--bg);border:1px solid var(--line);color:var(--text);color-scheme:light;font-family:inherit;font-size:16px;font-weight:700;padding:10px 14px}
-  .setuprow .hint{font-size:12.5px;color:var(--muted);font-weight:600}
-  .setuprow .hint b{color:var(--text)}
+  /* layout */
+  .cols{display:grid;grid-template-columns:340px 1fr;gap:44px;align-items:start;padding-bottom:20px}
 
-  /* the list */
-  .list{padding:10px 0 30px}
-  .band{padding:28px 0 6px}
-  .band-head{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--text);padding-bottom:8px;margin-bottom:2px}
-  .band-t{font-size:17px;font-weight:700;letter-spacing:-.3px}
-  .band-s{font-size:12.5px;font-weight:600;color:var(--muted)}
-  .band.floors .band-head{border-bottom-color:var(--ok)}
-  .band.floors .band-t{color:var(--ok)}
+  /* form */
+  .lab{font:600 11px/1 var(--ui);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+  .fld{margin-bottom:22px}
+  input[type=text],input[type=date]{
+    width:100%;background:var(--card);border:1px solid var(--line);border-radius:8px;
+    color:var(--ink);font:400 15px/1 var(--ui);padding:15px 14px;outline:none}
+  input:focus{border-color:#5A5751}
+  input::placeholder{color:var(--dim)}
+  input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.55;cursor:pointer}
 
-  .row{display:grid;grid-template-columns:96px 1fr 170px;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
-  .row .due{font-size:13px;font-weight:700;color:var(--flame);white-space:nowrap}
-  .row.conf .due{color:var(--ok)}
-  .row .what{font-size:15px;font-weight:700}
-  .row .what .sub{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:1px}
-  .row .dt{font-size:12.5px;font-weight:700;text-align:right;white-space:nowrap}
-  .row .dt:empty::before{content:"—";color:var(--line)}
-  .row.past{opacity:.45}
+  .fmts{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px}
+  .fmt{border:1px solid #4A4741;border-radius:999px;padding:10px 17px;background:transparent;
+       color:var(--muted);font:600 11px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
+  .fmt:hover{border-color:var(--ink);color:var(--ink)}
+  .fmt.on{background:var(--ink);border-color:var(--ink);color:#0B0B0B}
 
-  .tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--bg);padding:1px 6px;margin-left:8px;vertical-align:middle}
-  .badge{display:inline-block;background:var(--ok);color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;margin-left:7px;vertical-align:middle}
-  .hflag{display:inline-block;margin-left:7px;background:#FFE08A;color:#7A5B00;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
-  .pflag{display:inline-block;margin-left:7px;background:var(--flame);color:#fff;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;vertical-align:middle;white-space:nowrap}
+  .acts{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .btn-red{background:var(--red);border:1px solid var(--red);border-radius:999px;padding:12px 19px;
+           color:#fff;font:600 11px/1 var(--ui);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .btn-red:hover{background:#F1503E}
 
-  .row.release{border-bottom:none;background:var(--chartreuse);margin-top:14px;padding:14px 18px;grid-template-columns:96px 1fr 170px}
-  .row.release .due{color:var(--text)}
-  .row.release .what{font-size:16px}
+  /* milestone cards */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line)}
+  .mc{background:var(--card);padding:20px 22px 22px;border-left:3px solid transparent;min-height:172px}
+  .mc.hard{border-left-color:var(--red)}
+  .mc.rel{border-left-color:#4A4741}
+  .mc .mlab{font:600 11px/1 var(--ui);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .mc .mdate{font-family:var(--disp);font-size:34px;line-height:1;letter-spacing:.01em;text-transform:uppercase}
+  .mc .mdate .yr{color:var(--muted);margin-left:5px;font-size:25px}
+  .mc .msub{font:400 13px/1.45 var(--ui);color:var(--muted);margin-top:11px}
+  .mc .mtag{display:inline-block;margin-top:13px;border:1px solid #3C3934;border-radius:999px;
+            padding:6px 11px;font:600 10px/1 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+  .mc .mtag.warn{border-color:var(--red);color:var(--red)}
 
-  .keyline{font-size:12.5px;color:var(--muted);font-weight:600;padding:18px 0 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  /* timeline bar */
+  .tl{margin:34px 0 0;padding:0 6px}
+  .tl .track{position:relative;height:2px;background:#333;margin:38px 0}
+  .tl .dot{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#8E8B85;
+           transform:translate(-50%,-50%)}
+  .tl .dot.hard{background:var(--red)}
+  .tl .dot.rel{background:#fff}
+  .tl .cap{position:absolute;transform:translateX(-50%);text-align:center;white-space:nowrap}
+  .tl .cap.up{bottom:16px}.tl .cap.dn{top:16px}
+  .tl .cap b{display:block;font:600 10px/1.3 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+  .tl .cap i{display:block;font-family:var(--disp);font-style:normal;font-size:17px;text-transform:uppercase;margin-top:3px}
 
-  footer{padding:30px 0 44px;text-align:center;border-top:1px solid var(--line)}
-  footer .fmark{font-size:24px;font-weight:600;letter-spacing:-.6px}
-  footer .fline{color:var(--muted);font-size:13px;margin-top:8px}
-  footer .ftag{color:var(--flame);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:5px}
+  /* full schedule */
+  .sec{margin-top:52px}
+  .sechd{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:11px;margin-bottom:0}
+  .sechd h2{font-family:var(--disp);font-size:27px;line-height:1;text-transform:uppercase;letter-spacing:.01em}
+  .sechd .sd{font:400 13px/1 var(--ui);color:var(--muted)}
+  .row{display:grid;grid-template-columns:96px 1fr 132px 190px;gap:16px;align-items:baseline;
+       padding:15px 4px;border-bottom:1px solid #1C1C1C}
+  .row .wk{font:600 11px/1.3 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:var(--red)}
+  .row .what{font:500 15px/1.35 var(--ui)}
+  .row .what small{display:block;font:400 13px/1.4 var(--ui);color:var(--muted);margin-top:3px}
+  .row .who{font:600 10px/1 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+  .row .dt{font-family:var(--disp);font-size:17px;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
+  .row .dt .sm{font-family:var(--ui);font-size:12px;font-weight:400;color:var(--muted);letter-spacing:0;
+               text-transform:none;display:block;margin-top:2px}
+  .row.off{display:none}
+  .flag{display:inline-block;margin-left:7px;border:1px solid var(--red);border-radius:999px;
+        padding:3px 8px;font:600 9px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase;color:var(--red);vertical-align:2px}
+  .flag.past{border-color:#3C3934;color:var(--dim)}
 
-  @media(max-width:720px){
-    .wrap{padding:0 22px}.topbar{padding:14px 22px}
-    .row{grid-template-columns:80px 1fr;gap:10px}
-    .row .dt{grid-column:2;text-align:left}
-    .setuprow .step{min-width:0;width:100%}
+  .note{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 60px;
+        font:400 13px/1.6 var(--ui);color:var(--muted);max-width:70ch}
+  .note b{color:var(--ink);font-weight:600}
+
+  @media(max-width:1040px){
+    .cols{grid-template-columns:1fr;gap:30px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .tnav{display:none}
   }
-  @media print{
-    body{background:#F5F2EB;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .band{padding:16px 0 4px;break-inside:avoid}
-    .hero{padding:26px 0 18px}
-    .setup{display:none}
+  @media(max-width:720px){
+    .grid{grid-template-columns:1fr}
+    .row{grid-template-columns:70px 1fr;gap:8px}
+    .row .who{display:none}
+    .row .dt{grid-column:2}
   }
 </style>
-<link rel="stylesheet" href="/shell.css">
-<script defer src="/shell.js"></script>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">RCA <span>·</span> Records</div>
-  <div class="tag">Deadline Tracker</div>
-</div>
+<div class="wrap">
 
-<header class="hero">
-  <div class="wrap">
-    <div class="kicker">Counted back from release day</div>
-    <h1>Deadline <em>Tracker</em></h1>
-    <p class="lede">Everything a release needs, in <b>one list, in the order it's due</b>. Pick what you're making, set the date, work top to bottom.</p>
-    <p class="srclink"><a href="deadline-sources.html">Where these numbers come from →</a></p>
+  <div class="top">
+    <a class="logo" href="/">RCA <span>Campaign Ops</span></a>
+    <nav class="tnav">
+      <a href="/deadline-tracker.html" class="on">Deadlines</a>
+      <a href="/dept-workflows">Workflows</a>
+      <a href="/budget-approvals">Budget</a>
+    </nav>
+    <a class="pill-out" href="/deadline-sources.html">Where these come from &rarr;</a>
   </div>
-</header>
 
-<!-- SETUP -->
-<div class="setup">
-  <div class="wrap">
-    <div class="setupcard">
-      <div class="setuprow">
-        <span class="step">1 · What are you making?</span>
-        <span class="chk fixed"><b>Digital music</b> · always on</span>
-        <label class="chk"><input type="checkbox" data-fmt-toggle="preorder"> Pre-order</label>
-        <label class="chk"><input type="checkbox" data-fmt-toggle="video"> Music video</label>
-        <label class="chk"><input type="checkbox" data-fmt-toggle="vinyl"> Vinyl</label>
-        <label class="chk"><input type="checkbox" data-fmt-toggle="cd"> CD</label>
+  <h1>When are files due?</h1>
+
+  <div class="cols">
+
+    <div>
+      <div class="fld">
+        <div class="lab">Project / Album</div>
+        <input type="text" id="proj" placeholder="Artist &mdash; Title" autocomplete="off">
       </div>
-      <div class="setuprow">
-        <span class="step">2 · Release date</span>
+
+      <div class="fld">
+        <div class="lab">Projected release date</div>
         <input type="date" id="rel">
-        <span class="hint">Dates land <b>2 days early</b> on purpose — a built-in cushion.</span>
+      </div>
+
+      <div class="fld">
+        <div class="lab">Formats</div>
+        <div class="fmts" id="fmts">
+          <button class="fmt on" data-f="vinyl">Vinyl</button>
+          <button class="fmt on" data-f="cd">CD</button>
+          <button class="fmt on" data-f="video">Video</button>
+          <button class="fmt on" data-f="preorder">Pre-order</button>
+        </div>
+        <button class="fmt" id="digonly" style="margin-top:4px">Digital only</button>
+      </div>
+
+      <div class="acts">
+        <button class="btn-red" id="ics">Add to calendar (.ics)</button>
+        <button class="pill-out" id="copy">Copy summary</button>
       </div>
     </div>
-    <div class="keyline"><span class="badge">Confirmed</span><span>= hard floor from our delivery process.</span><span class="hflag">&#9873; Weekend</span><span>= falls on a weekend or holiday — move it up.</span></div>
+
+    <div>
+      <div class="grid" id="cards"></div>
+      <div class="tl"><div class="track" id="track"></div></div>
+    </div>
+
   </div>
+
+  <div id="schedule"></div>
+
+  <div class="note">
+    Internal dates sit <b>two days ahead</b> of the hard floor, so a weekend or a holiday
+    doesn't eat the margin. Dates landing on a weekend or a US holiday are flagged &mdash; move
+    them earlier, never later. The final-10-day rows are <b>confirmed floors</b>: miss one and
+    the release moves.
+    <br><br>
+    Turn it all in on time &mdash; we'll handle the rest.
+  </div>
+
 </div>
-
-<!-- THE LIST -->
-<div class="list">
-  <div class="wrap">
-
-    <section class="band" data-band>
-      <div class="band-head"><span class="band-t">16–13 weeks out</span><span class="band-s">Start here — the long-lead items</span></div>
-      <div class="row"><span class="due">16 wks</span><div class="what">Promo photos + bio<span class="tag">Creative</span></div><span class="dt" data-wk="16"></span></div>
-      <div class="row" data-fmt="vinyl"><span class="due">16 wks</span><div class="what">Vinyl color locked<span class="tag">Vinyl</span></div><span class="dt" data-wk="16"></span></div>
-      <div class="row" data-fmt="vinyl"><span class="due">15 wks</span><div class="what">Lacquers cut + at vendor<span class="tag">Vinyl</span></div><span class="dt" data-wk="15"></span></div>
-      <div class="row" data-fmt="vinyl"><span class="due">13 wks</span><div class="what">Label + packaging art files<span class="tag">Vinyl</span></div><span class="dt" data-wk="13"></span></div>
-    </section>
-
-    <section class="band" data-band>
-      <div class="band-head"><span class="band-t">12–9 weeks out</span><span class="band-s">Lock the record</span></div>
-      <div class="row" data-fmt="preorder"><span class="due">12 wks</span><div class="what">Final tracklist locked<span class="tag">Pre-order</span><span class="sub">The pre-order can't go live without it</span></div><span class="dt" data-wk="12"></span></div>
-      <div class="row" data-fmt="vinyl"><span class="due">12 wks</span><div class="what">Test pressing approved<span class="tag">Vinyl</span></div><span class="dt" data-wk="12"></span></div>
-      <div class="row" data-fmt="vinyl"><span class="due">11 wks</span><div class="what">Signed artwork components in<span class="tag">Vinyl</span></div><span class="dt" data-wk="11"></span></div>
-      <div class="row"><span class="due">10 wks</span><div class="what">Sample clearances flagged<span class="tag">Clearances</span><span class="sub">If the record uses samples — flag them as early as possible</span></div><span class="dt" data-wk="10"></span></div>
-      <div class="row"><span class="due">10 wks</span><div class="what">Cover art direction agreed<span class="tag">Creative</span></div><span class="dt" data-wk="10"></span></div>
-      <div class="row" data-fmt="cd"><span class="due">9 wks</span><div class="what">Digipak + check disc approved<span class="tag">CD</span></div><span class="dt" data-wk="9"></span></div>
-    </section>
-
-    <section class="band" data-band>
-      <div class="band-head"><span class="band-t">8–5 weeks out</span><span class="band-s">Finish the music, start the paperwork</span></div>
-      <div class="row"><span class="due">8 wks</span><div class="what">Final mixes approved<span class="tag">Music</span></div><span class="dt" data-wk="8"></span></div>
-      <div class="row" data-fmt="video"><span class="due">8 wks</span><div class="what">Music video concept locked<span class="tag">Video</span></div><span class="dt" data-wk="8"></span></div>
-      <div class="row" data-fmt="cd"><span class="due">8 wks</span><div class="what">CD media + case art in<span class="tag">CD</span></div><span class="dt" data-wk="8"></span></div>
-      <div class="row" data-fmt="cd"><span class="due">7 wks</span><div class="what">Signed artwork components in<span class="tag">CD</span></div><span class="dt" data-wk="7"></span></div>
-      <div class="row"><span class="due">5 wks</span><div class="what">Songwriter + producer credits<span class="tag">Clearances</span></div><span class="dt" data-wk="5"></span></div>
-      <div class="row"><span class="due">5 wks</span><div class="what">Publishing splits confirmed<span class="tag">Clearances</span></div><span class="dt" data-wk="5"></span></div>
-      <div class="row" data-fmt="vinyl cd"><span class="due">5 wks</span><div class="what">Finished goods at warehouse<span class="tag">Physical</span></div><span class="dt" data-wk="5"></span></div>
-    </section>
-
-    <section class="band" data-band>
-      <div class="band-head"><span class="band-t">4–2 weeks out</span><span class="band-s">The delivery window</span></div>
-      <div class="row"><span class="due">4 wks</span><div class="what">Track metadata + featured-artist approvals<span class="tag">Clearances</span></div><span class="dt" data-wk="4"></span></div>
-      <div class="row" data-fmt="vinyl cd"><span class="due">4 wks</span><div class="what">First account shipment<span class="tag">Physical</span></div><span class="dt" data-wk="4"></span></div>
-    </section>
-
-    <section class="band floors" data-band>
-      <div class="band-head"><span class="band-t">Final 10 days</span><span class="band-s">The hard floors — miss these and the release moves</span></div>
-      <div class="row conf"><span class="due">10 days</span><div class="what">Final approved audio, NSI-cleared<span class="tag">DSP</span><span class="badge">Confirmed</span><span class="sub">Must be on the DSPs 10 days out to make the playlist-pitching window</span></div><span class="dt" data-days="10"></span></div>
-      <div class="row conf"><span class="due">10 days</span><div class="what">Clean / explicit versions<span class="tag">DSP</span><span class="badge">Confirmed</span></div><span class="dt" data-days="10"></span></div>
-      <div class="row conf"><span class="due">10 days</span><div class="what">Final cover art, DSP + print ready<span class="tag">DSP</span><span class="badge">Confirmed</span></div><span class="dt" data-days="10"></span></div>
-      <div class="row conf" data-fmt="video"><span class="due">1 wk</span><div class="what">Music video delivered<span class="tag">Video</span><span class="badge">Confirmed</span><span class="sub">ProRes master to Sony Ci</span></div><span class="dt" data-days="7"></span></div>
-    </section>
-
-    <div class="row release"><span class="due">Day 0</span><div class="what">Release day</div><span class="dt" data-wk="0"></span></div>
-
-  </div>
-</div>
-
-<footer>
-  <div class="wrap">
-    <div class="fmark">RCA</div>
-    <div class="fline">Turn it all in on time — we'll handle the rest.</div>
-    <div class="ftag">RCA Records · Campaign Operations</div>
-  </div>
-</footer>
 
 <script>
-  (function(){
-    var input = document.getElementById('rel');
-    var BUFFER = 2; // internal deadlines land 2 days ahead of the hard floor
-    function fmt(d){ return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
-    function key(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
-    function nth(y,m,wd,n){
-      if(n>0){ var d=new Date(y,m,1); var add=(wd-d.getDay()+7)%7; return new Date(y,m,1+add+(n-1)*7); }
-      var last=new Date(y,m+1,0); var sub=(last.getDay()-wd+7)%7; return new Date(y,m+1,0-sub);
-    }
-    var holCache={};
-    function holidays(y){
-      if(holCache[y]) return holCache[y];
-      var h={};
-      function put(d,name){ h[key(d)]=name; }
-      put(new Date(y,0,1),"New Year's Day");
-      put(nth(y,0,1,3),"MLK Day");
-      put(nth(y,1,1,3),"Presidents' Day");
-      put(nth(y,4,1,-1),"Memorial Day");
-      put(new Date(y,5,19),"Juneteenth");
-      put(new Date(y,6,4),"Independence Day");
-      put(nth(y,8,1,1),"Labor Day");
-      put(nth(y,9,1,2),"Indigenous Peoples' / Columbus Day");
-      put(new Date(y,10,11),"Veterans Day");
-      put(nth(y,10,4,4),"Thanksgiving");
-      put(new Date(y,11,24),"Christmas Eve");
-      put(new Date(y,11,25),"Christmas Day");
-      put(new Date(y,11,31),"New Year's Eve");
-      holCache[y]=h; return h;
-    }
-    function flagFor(d){
-      var name=holidays(d.getFullYear())[key(d)];
-      var wd=d.getDay(), we=(wd===0||wd===6);
-      if(name) return we ? name+" · Weekend" : name;
-      return we ? "Weekend" : null;
-    }
-    function recalc(){
-      var v = input.value;
-      var nodes = document.querySelectorAll('.dt[data-wk],.dt[data-days]');
-      if(!v){ nodes.forEach(function(n){ n.textContent=''; n.closest('.row').classList.remove('past'); }); return; }
-      var rel = new Date(v + 'T00:00:00');
-      var today = new Date(); today.setHours(0,0,0,0);
-      nodes.forEach(function(n){
-        var days = n.getAttribute('data-days');
-        var off = days ? parseInt(days,10) : parseInt(n.getAttribute('data-wk'),10)*7;
-        var d = new Date(rel);
-        var buf = (off===0) ? 0 : BUFFER;
-        d.setDate(d.getDate() - off - buf);
-        n.textContent = fmt(d);
-        var row = n.closest('.row');
-        var past = off!==0 && d < today;
-        row.classList.toggle('past', past);
-        if(past){ var p=document.createElement('span'); p.className='pflag'; p.textContent='past'; n.appendChild(p); return; }
-        var fl = flagFor(d);
-        if(fl && off!==0){ var s=document.createElement('span'); s.className='hflag'; s.textContent='⚑ '+fl; n.appendChild(s); }
-      });
-    }
-    input.addEventListener('input', recalc);
-    input.addEventListener('change', recalc);
+(function(){
+  var BUFFER = 2;
 
-    /* format picker */
-    var toggles = document.querySelectorAll('[data-fmt-toggle]');
-    function fmtState(){
-      var s={};
-      toggles.forEach(function(t){ s[t.getAttribute('data-fmt-toggle')] = t.checked; });
-      return s;
+  var ROWS = [
+    {wk:16, f:null,          what:'Promo photos + bio',                     who:'Creative'},
+    {wk:16, f:'vinyl',       what:'Vinyl color locked',                     who:'Vinyl'},
+    {wk:15, f:'vinyl',       what:'Lacquers cut + at vendor',               who:'Vinyl'},
+    {wk:13, f:'vinyl',       what:'Label + packaging art files',            who:'Vinyl', card:'Vinyl files due'},
+    {wk:12, f:'preorder',    what:'Final tracklist locked',                 who:'Pre-order', sub:"The pre-order can't go live without it"},
+    {wk:12, f:'vinyl',       what:'Test pressing approved',                 who:'Vinyl'},
+    {wk:11, f:'vinyl',       what:'Signed artwork components in',           who:'Vinyl'},
+    {wk:10, f:null,          what:'Sample clearances flagged',              who:'Clearances', sub:'If the record uses samples — flag them as early as possible'},
+    {wk:10, f:null,          what:'Cover art direction agreed',             who:'Creative'},
+    {wk:9,  f:'cd',          what:'Digipak + check disc approved',          who:'CD'},
+    {wk:8,  f:null,          what:'Final mixes approved',                   who:'Music'},
+    {wk:8,  f:'video',       what:'Music video concept locked',             who:'Video'},
+    {wk:8,  f:'cd',          what:'CD media + case art in',                 who:'CD', card:'CD files due'},
+    {wk:7,  f:'cd',          what:'Signed artwork components in',           who:'CD'},
+    {wk:5,  f:null,          what:'Songwriter + producer credits',          who:'Clearances'},
+    {wk:5,  f:null,          what:'Publishing splits confirmed',            who:'Clearances'},
+    {wk:5,  f:'vinyl cd',    what:'Finished goods at warehouse',            who:'Physical'},
+    {wk:4,  f:null,          what:'Track metadata + featured-artist approvals', who:'Clearances'},
+    {wk:4,  f:'vinyl cd',    what:'First account shipment',                 who:'Physical'},
+    {d:10,  f:null, hard:1,  what:'Final approved audio, NSI-cleared',      who:'DSP', sub:'Must be on the DSPs 10 days out to make the playlist-pitching window', card:'Final audio due'},
+    {d:10,  f:null, hard:1,  what:'Clean / explicit versions',              who:'DSP'},
+    {d:10,  f:null, hard:1,  what:'Final cover art, DSP + print ready',     who:'DSP', card:'Cover art due'},
+    {d:7,   f:'video', hard:1, what:'Music video delivered',                who:'Video', sub:'ProRes master to Sony Ci'},
+    {d:0,   f:null, rel:1,   what:'Release day',                            who:'—', card:'Release day'}
+  ];
+
+  var SECS = [
+    {from:99, to:14, h:'16–14 weeks out', d:'Start the long-lead physical'},
+    {from:13, to:9,  h:'13–9 weeks out',  d:'Lock the record'},
+    {from:8,  to:5,  h:'8–5 weeks out',   d:'Finish the music, start the paperwork'},
+    {from:4,  to:1,  h:'4–2 weeks out',   d:'The delivery window'},
+    {from:0,  to:0,  h:'Final 10 days',        d:'The hard floors — miss these and the release moves'}
+  ];
+
+  var $ = function(s){return document.querySelector(s)};
+  var relI = $('#rel'), projI = $('#proj');
+
+  /* ---------- holidays ---------- */
+  function key(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+  function nth(y,m,wd,n){
+    if(n>0){var d=new Date(y,m,1);var add=(wd-d.getDay()+7)%7;return new Date(y,m,1+add+(n-1)*7)}
+    var last=new Date(y,m+1,0);var sub=(last.getDay()-wd+7)%7;return new Date(y,m+1,0-sub);
+  }
+  var holCache={};
+  function holidays(y){
+    if(holCache[y])return holCache[y];
+    var h={};
+    function put(d,n){h[key(d)]=n}
+    put(new Date(y,0,1),'New Year’s Day');
+    put(nth(y,0,1,3),'MLK Day');
+    put(nth(y,1,1,3),'Presidents’ Day');
+    put(nth(y,4,1,-1),'Memorial Day');
+    put(new Date(y,5,19),'Juneteenth');
+    put(new Date(y,6,4),'July 4');
+    put(nth(y,8,1,1),'Labor Day');
+    put(nth(y,10,4,4),'Thanksgiving');
+    put(new Date(y,11,25),'Christmas');
+    holCache[y]=h;return h;
+  }
+  function flagFor(d){
+    var n=holidays(d.getFullYear())[key(d)];
+    if(n)return n;
+    var wd=d.getDay();
+    if(wd===0)return 'Sunday';
+    if(wd===6)return 'Saturday';
+    return null;
+  }
+
+  /* ---------- formats ---------- */
+  var state={vinyl:true,cd:true,video:true,preorder:true};
+  try{var sv=JSON.parse(localStorage.getItem('ddl-fmts')||'null');if(sv)state=sv}catch(e){}
+
+  function paintFmts(){
+    document.querySelectorAll('#fmts .fmt').forEach(function(b){
+      b.classList.toggle('on',!!state[b.dataset.f]);
+    });
+    var none=!state.vinyl&&!state.cd&&!state.video&&!state.preorder;
+    $('#digonly').classList.toggle('on',none);
+  }
+  document.querySelectorAll('#fmts .fmt').forEach(function(b){
+    b.addEventListener('click',function(){state[b.dataset.f]=!state[b.dataset.f];save();render()});
+  });
+  $('#digonly').addEventListener('click',function(){
+    state={vinyl:false,cd:false,video:false,preorder:false};save();render();
+  });
+  function save(){
+    try{localStorage.setItem('ddl-fmts',JSON.stringify(state))}catch(e){}
+    try{localStorage.setItem('ddl-date',relI.value||'')}catch(e){}
+    try{localStorage.setItem('ddl-proj',projI.value||'')}catch(e){}
+  }
+
+  function shown(r){
+    if(!r.f)return true;
+    return r.f.split(' ').some(function(f){return state[f]});
+  }
+
+  /* ---------- dates ---------- */
+  function dateFor(r,rel){
+    var off = (r.d!==undefined) ? r.d : r.wk*7;
+    var d = new Date(rel);
+    d.setDate(d.getDate() - off - (off===0?0:BUFFER));
+    return d;
+  }
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function big(d){return MON[d.getMonth()].toUpperCase()+' '+d.getDate()}
+  function longD(d){return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}
+  function shortD(d){return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}
+  function daysOut(d){
+    var t=new Date();t.setHours(0,0,0,0);
+    return Math.round((d-t)/86400000);
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  /* ---------- render ---------- */
+  function render(){
+    paintFmts();
+    var v=relI.value;
+    var cards=$('#cards'), track=$('#track'), sch=$('#schedule');
+
+    if(!v){
+      cards.innerHTML='<div class="mc" style="grid-column:1/-1;min-height:0;padding:30px 22px">'+
+        '<div class="mlab">Waiting on a date</div>'+
+        '<div class="msub" style="margin-top:6px">Put a projected release date in and every deadline below fills in.</div></div>';
+      track.innerHTML='';sch.innerHTML='';return;
     }
-    function applyFmts(){
-      var s = fmtState();
-      document.querySelectorAll('[data-fmt]').forEach(function(el){
-        var fmts = el.getAttribute('data-fmt').split(' ');
-        var show = fmts.some(function(f){ return s[f]; });
-        el.style.display = show ? '' : 'none';
+    var rel=new Date(v+'T00:00:00');
+    if(isNaN(rel)){cards.innerHTML='';track.innerHTML='';sch.innerHTML='';return}
+
+    /* --- milestone cards --- */
+    var ch=[];
+    ROWS.forEach(function(r){
+      if(!r.card||!shown(r))return;
+      var d=dateFor(r,rel), out=daysOut(d);
+      var cls = r.rel?'rel':(r.hard?'hard':'');
+      var tag = r.rel
+        ? (out>=0? out+' days from today' : Math.abs(out)+' days ago')
+        : (out>=0? 'Due in '+out+' days' : 'Overdue by '+Math.abs(out)+' days');
+      var fl=flagFor(d);
+      ch.push('<div class="mc '+cls+'">'+
+        '<div class="mlab">'+esc(r.card)+'</div>'+
+        '<div class="mdate">'+big(d)+' <span class="yr">'+d.getFullYear()+'</span></div>'+
+        '<div class="msub">'+longD(d)+(r.rel?'':'<br>'+(r.d!==undefined? r.d+' days before release' : r.wk+' weeks before release'))+'</div>'+
+        '<span class="mtag'+((out<0||fl)?' warn':'')+'">'+(fl? fl+' — move earlier' : tag)+'</span>'+
+      '</div>');
+    });
+    cards.innerHTML=ch.join('');
+
+    /* --- timeline --- */
+    var pts=ROWS.filter(function(r){return r.card&&shown(r)}).map(function(r){
+      return {d:dateFor(r,rel),l:r.card,hard:r.hard,rel:r.rel};
+    });
+    if(pts.length>1){
+      var min=pts[0].d,max=pts[pts.length-1].d;
+      var span=(max-min)||1;
+      track.innerHTML=pts.map(function(p,i){
+        var pc=((p.d-min)/span)*100;
+        var side=(i%2===0)?'up':'dn';
+        return '<div class="dot'+(p.rel?' rel':(p.hard?' hard':''))+'" style="left:'+pc+'%"></div>'+
+               '<div class="cap '+side+'" style="left:'+pc+'%"><b>'+esc(p.l)+'</b><i>'+big(p.d)+'</i></div>';
+      }).join('');
+    } else track.innerHTML='';
+
+    /* --- full schedule --- */
+    var out=[];
+    SECS.forEach(function(s){
+      var rows=ROWS.filter(function(r){
+        if(!shown(r))return false;
+        if(s.from===0)return r.d!==undefined;
+        if(r.d!==undefined)return false;
+        return r.wk<=s.from&&r.wk>=s.to;
       });
-      /* hide bands with no visible rows */
-      document.querySelectorAll('[data-band]').forEach(function(b){
-        var any = false;
-        b.querySelectorAll('.row').forEach(function(r){ if(r.style.display !== 'none') any = true; });
-        b.style.display = any ? '' : 'none';
+      if(!rows.length)return;
+      out.push('<div class="sec"><div class="sechd"><h2>'+esc(s.h)+'</h2><div class="sd">'+esc(s.d)+'</div></div>');
+      rows.forEach(function(r){
+        var d=dateFor(r,rel),fl=flagFor(d),past=(!r.rel&&daysOut(d)<0);
+        var when = r.d!==undefined ? (r.d===0?'Day 0':r.d+' days') : r.wk+' wks';
+        out.push('<div class="row">'+
+          '<div class="wk">'+when+'</div>'+
+          '<div class="what">'+esc(r.what)+(r.sub?'<small>'+esc(r.sub)+'</small>':'')+'</div>'+
+          '<div class="who">'+esc(r.who)+'</div>'+
+          '<div class="dt">'+big(d)+
+            (fl&&!r.rel?'<span class="flag">'+esc(fl)+'</span>':'')+
+            (past?'<span class="flag past">past</span>':'')+
+            '<span class="sm">'+shortD(d)+'</span>'+
+          '</div>'+
+        '</div>');
       });
-      toggles.forEach(function(t){ t.closest('.chk').classList.toggle('on', t.checked); });
-      try{ localStorage.setItem('ddl-fmts', JSON.stringify(s)); }catch(e){}
-    }
-    toggles.forEach(function(t){ t.addEventListener('change', applyFmts); });
-    try{
-      var saved = JSON.parse(localStorage.getItem('ddl-fmts')||'null');
-      if(saved) toggles.forEach(function(t){ var k=t.getAttribute('data-fmt-toggle'); if(k in saved) t.checked = !!saved[k]; });
-      var sd = localStorage.getItem('ddl-date');
-      if(sd){ input.value = sd; }
-    }catch(e){}
-    input.addEventListener('change', function(){ try{ localStorage.setItem('ddl-date', input.value); }catch(e){} });
-    applyFmts();
-    recalc();
-  })();
+      out.push('</div>');
+    });
+    sch.innerHTML=out.join('');
+    save();
+  }
+
+  /* ---------- .ics ---------- */
+  function icsDate(d){
+    return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+  }
+  $('#ics').addEventListener('click',function(){
+    var v=relI.value; if(!v){alert('Add a projected release date first.');return}
+    var rel=new Date(v+'T00:00:00');
+    var title=(projI.value||'Release').trim();
+    var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//RCA Campaign Ops//Deadline Tracker//EN','CALSCALE:GREGORIAN'];
+    ROWS.forEach(function(r,i){
+      if(!shown(r))return;
+      var d=dateFor(r,rel),e=new Date(d);e.setDate(e.getDate()+1);
+      L.push('BEGIN:VEVENT',
+        'UID:rca-ddl-'+i+'-'+icsDate(d)+'@operations.mugzyboez.co',
+        'DTSTAMP:'+icsDate(new Date())+'T000000Z',
+        'DTSTART;VALUE=DATE:'+icsDate(d),
+        'DTEND;VALUE=DATE:'+icsDate(e),
+        'SUMMARY:'+title+' — '+r.what,
+        'DESCRIPTION:'+(r.who||'')+(r.sub?' — '+r.sub:'')+(r.hard?' (hard floor)':''),
+        'END:VEVENT');
+    });
+    L.push('END:VCALENDAR');
+    var blob=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=(title.replace(/[^\w\- ]+/g,'')||'release')+' deadlines.ics';
+    document.body.appendChild(a);a.click();a.remove();
+  });
+
+  /* ---------- copy ---------- */
+  $('#copy').addEventListener('click',function(){
+    var v=relI.value; if(!v){alert('Add a projected release date first.');return}
+    var rel=new Date(v+'T00:00:00');
+    var out=[(projI.value||'Release').trim(),'Street date: '+longD(rel),''];
+    ROWS.forEach(function(r){
+      if(!shown(r)||r.rel)return;
+      var d=dateFor(r,rel),fl=flagFor(d);
+      out.push(shortD(d)+'  —  '+r.what+' ('+r.who+')'+(fl?'  [lands on '+fl+' — move earlier]':''));
+    });
+    var t=out.join('\n');
+    navigator.clipboard.writeText(t).then(function(){
+      var b=$('#copy'),o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400);
+    },function(){alert(t)});
+  });
+
+  /* ---------- boot ---------- */
+  try{
+    var sd=localStorage.getItem('ddl-date'); if(sd)relI.value=sd;
+    var sp=localStorage.getItem('ddl-proj'); if(sp)projI.value=sp;
+  }catch(e){}
+  relI.addEventListener('input',render);
+  projI.addEventListener('input',save);
+  render();
+})();
 </script>
-
 </body>
 </html>
