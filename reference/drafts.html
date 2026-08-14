@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two drafts · Ziggy email + deadline tracker ship list</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
+--chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.band{background:var(--ink);color:#FCFDF8}
+.band-in{max-width:900px;margin:0 auto;padding:52px 32px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+h1{font-size:42px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
+.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:62ch}
+.wrap{max-width:900px;margin:0 auto;padding:52px 32px 110px}
+section{margin-bottom:52px}
+h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+.lede{color:var(--muted);max-width:64ch;margin-bottom:24px}
+.mail{background:var(--paper);border:1px solid var(--line);padding:0;margin-bottom:14px}
+.mh{border-bottom:1px solid #EFEDE3;padding:16px 26px;font-size:14px;color:var(--muted)}
+.mh b{color:var(--ink);font-weight:600;display:inline-block;min-width:52px}
+.mb{padding:26px 30px;font-size:16px;line-height:1.68;white-space:pre-wrap}
+.btn{font:600 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:11px 17px;border:1px solid var(--ink);background:var(--ink);color:var(--chart);cursor:pointer}
+.btn.alt{background:none;color:var(--ink)}
+.btn:hover{opacity:.86}
+.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:74ch}
+.note b{color:var(--chart);font-weight:600}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;background:var(--paper);border:1px solid var(--line);padding:20px 24px 20px 72px;position:relative;margin-bottom:7px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;bottom:0;width:52px;background:var(--ink);color:var(--chart);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700}
+.steps h3{font-size:18px;font-weight:600;margin-bottom:5px}
+.steps p{font-size:15px;color:var(--muted);line-height:1.6;max-width:66ch}
+.steps .who{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#EEECE2;padding:4px 10px}
+.chk{background:var(--paper);border:1px solid var(--line);padding:8px}
+.ck{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid #EFEDE3;cursor:pointer}
+.ck:last-child{border-bottom:0}
+.ck:hover{background:#FAF9F3}
+.bx{flex:0 0 20px;height:20px;border:2px solid var(--ink);margin-top:2px;position:relative}
+.ck.on .bx{background:var(--chart-d);border-color:var(--chart-d)}
+.ck.on .bx::after{content:'';position:absolute;left:5px;top:1px;width:5px;height:11px;border:solid #FFF;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.ck.on .ct{text-decoration:line-through;color:var(--muted)}
+.ct{font-size:15px}
+.ct span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.flag{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--flame);padding:15px 20px;margin-bottom:6px;font-size:15px;line-height:1.55;max-width:80ch}
+.flag b{font-weight:600}
+</style></head><body>
+
+<div class="band"><div class="band-in">
+<div class="eyebrow">Campaign Ops &middot; 13 August 2026</div>
+<h1>Two drafts</h1>
+<div class="sub">The note to Ziggy, and the list that gets the deadline tracker finished and
+out the door.</div>
+</div></div>
+
+<div class="wrap">
+
+<section>
+<div class="slabel">Draft one</div>
+<h2>The email to Ziggy</h2>
+<p class="lede">Written to get two straight answers rather than to register a complaint. Mike
+already pointed here, so it opens on that. Copy it, change what sounds like me and not like
+you, send it.</p>
+
+<div class="note">Two asks, both concrete: <b>write access</b>, and <b>why an existing user is a
+new $840</b>. Everything else in the note is there to make those two answerable.</div>
+
+<div class="mail">
+<div class="mh"><b>To</b> Ziggy &nbsp;&middot;&nbsp; <b>Cc</b> Max, Mike, Jordan</div>
+<div class="mh"><b>Re</b> RCA on the pilot &mdash; two things we&rsquo;re stuck on</div>
+<div class="mb" id="mailbody">Hi Ziggy,
+
+Hope your week is going well. Mike Jang and I were talking today and he pointed me your way on a couple of things, so here I am.
+
+Quick context: the pilot has actually gone well on the data side. All of our GRPS data and releases are in, Terenia and her release planning team are in and testing, and we&rsquo;re running our release meeting off it. That part is genuinely working.
+
+Where we&rsquo;re stuck is two things, and both of them are blocking us from going any further.
+
+1. We can&rsquo;t add records manually.
+Gerard and I have both been trying for a few weeks and nothing goes in. I&rsquo;ve got a support ticket open. I understand this isn&rsquo;t unusual right now, but it&rsquo;s the thing standing between us and everything else &mdash; we have historical campaign data ready to load, and ongoing entry that needs somewhere to go. Until we can write, we can&rsquo;t move any of it, and we can&rsquo;t honestly onboard anyone else into an environment they can&rsquo;t use. Is this a permissions setting on our end, or is it deliberate for now? Either answer is fine, I just need to know which one so I can plan around it.
+
+2. The per-seat cost for people who already have a seat.
+My understanding is that adding a person to the new environment is $840, and that RCA is carrying it rather than PDE. What I can&rsquo;t work out is why someone who already has access to the current environment counts as a new seat. If there&rsquo;s a reason, I&rsquo;d like to understand it so I can build a realistic plan. If there isn&rsquo;t, it changes the math on who we onboard and when, quite a lot.
+
+Related and worth flagging: I know the focus has shifted toward the MCP work. That makes sense to me, and I don&rsquo;t think it changes what we need &mdash; wherever the front end ends up, our information still has to be in the database underneath it. So the write-access question doesn&rsquo;t go away, it just gets more urgent.
+
+I&rsquo;m updating Fleck on all of this tomorrow, so anything you can tell me before then is genuinely useful, even if the answer is &ldquo;not yet, here&rsquo;s why.&rdquo; Happy to jump on a call if that&rsquo;s faster.
+
+Thanks &mdash;
+Meg
+
+xx</div>
+</div>
+<button class="btn" onclick="copyMail()">Copy email text</button>
+<span id="copied" style="font-size:13px;color:var(--muted);margin-left:12px"></span>
+
+<div class="flag" style="margin-top:20px"><b>Before you send:</b> decide whether Jordan is on
+the cc or gets it forwarded. On the cc it reads as escalation-adjacent, which may be exactly
+what you want &mdash; but that&rsquo;s a choice, not a default.</div>
+</section>
+
+<section>
+<div class="slabel">Draft two</div>
+<h2>Finishing the deadline tracker</h2>
+<p class="lede">This is the one thing that gets checked off. It is already close, which is
+exactly why it should be the one &mdash; the goal is a finished thing in people&rsquo;s hands, not a
+better thing still in progress.</p>
+
+<div class="note">The whole scope is <b>three passes and a send</b>. Anything that shows up
+along the way that isn&rsquo;t one of these three things goes on a v2 list and does not delay the
+ship.</div>
+
+<ol class="steps">
+<li><h3>Verify every date</h3>
+<p>The dates weren&rsquo;t right the first time we looked. Each deadline gets checked against the
+source it came from and the source gets named next to it, so the next person doesn&rsquo;t have to
+re-derive it. Where a date is a house rule rather than a hard vendor cutoff, say so.</p>
+<span class="who">Meg + Leo &middot; the brain is shared, the deliveries differ</span></li>
+
+<li><h3>One simplicity pass</h3>
+<p>Jordan&rsquo;s note on the first version was that it was good and needed tweaks. Read it as
+someone who has never seen it: can they find their date in under ten seconds without asking
+what a column means. Cut anything that fails that test.</p>
+<span class="who">Meg &middot; one pass, not four</span></li>
+
+<li><h3>Send it to everybody</h3>
+<p>Not a preview, not a &ldquo;let me know if this looks right.&rdquo; A finished thing with a
+line saying what it is, who it&rsquo;s for, and where it lives. Feedback is welcome and goes into
+v2 &mdash; it does not reopen v1.</p>
+<span class="who">Meg &middot; this month</span></li>
+</ol>
+
+<div class="slabel" style="margin-top:34px">Working checklist</div>
+<div class="chk" id="chk">
+<div class="ck"><div class="bx"></div><div class="ct">Pull the current tracker and list every deadline on it<span>Start from what exists, not from scratch</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Name the source for each date<span>Vendor cutoff, Jive floor, or house rule &mdash; label which</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Confirm the Jive floors with Tee<span>Audio + artwork 10 days, video one week pre-street</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Reconcile with Leo so both deliveries run off one set of dates<span>Same brain, different outputs &mdash; agree the brain first</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Cold-read test: can someone find their date in ten seconds<span>If not, cut a column</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Kill the DRAFT label<span>It stops being a draft or it doesn&rsquo;t ship</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Write the two-line send note<span>What it is, who it&rsquo;s for, where it lives</span></div></div>
+<div class="ck"><div class="bx"></div><div class="ct">Send &mdash; and tell Jordan it&rsquo;s done<span>The point of this one is the check in the box</span></div></div>
+</div>
+
+<div class="flag" style="margin-top:18px"><b>Guardrail.</b> Two people will ask for something
+this doesn&rsquo;t do. Both requests are probably good. Both go on the v2 list. The version of this
+that ships in August is the version that exists today plus correct dates.</div>
+</section>
+
+</div>
+
+<script>
+function copyMail(){
+  const t=document.getElementById('mailbody').innerText;
+  navigator.clipboard.writeText(t).then(()=>{
+    document.getElementById('copied').textContent='Copied.';
+    setTimeout(()=>document.getElementById('copied').textContent='',2200);
+  });
+}
+const K='dl-tracker-ship';
+let S=JSON.parse(localStorage.getItem(K)||'[]');
+const cks=[...document.querySelectorAll('#chk .ck')];
+cks.forEach((c,i)=>{
+  if(S.includes(i))c.classList.add('on');
+  c.onclick=()=>{
+    c.classList.toggle('on');
+    S=cks.map((x,j)=>x.classList.contains('on')?j:-1).filter(j=>j>=0);
+    localStorage.setItem(K,JSON.stringify(S));
+  };
+});
+</script>
+</body></html>
