@@ -132,6 +132,14 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
 .hm-node.is-dec{border-top-style:dashed;border-top-width:3px;}
 .hm-nt{font-size:12px;font-weight:600;line-height:1.2;margin-bottom:3px;}
 .hm-nd{font-size:9.5px;line-height:1.35;color:var(--fog);}
+.hm-lane-sub{min-height:84px;gap:2px;}
+.hm-lane-sub .dept-name{font-size:13.5px;line-height:1.15;}
+.hm-lane-sub .ops-eyebrow{font-size:8px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--fog);}
+.hm-band{min-height:84px;display:flex;gap:8px;align-items:center;padding:16px 10px 9px;border:1px dashed #B9B7B0;background:rgba(62,63,65,.035);position:relative;z-index:2;}
+.hm-span{position:absolute;top:-1px;left:-1px;background:var(--graphite);color:#FCFDF8;font-size:8px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;padding:2px 7px;}
+.hm-band .hm-node{flex:0 1 258px;}
+.hm-band-note{font-size:9.5px;line-height:1.4;color:var(--fog);flex:1 1 120px;min-width:96px;}
+.lg-band{width:20px;height:11px;border:1px dashed #B9B7B0;background:rgba(62,63,65,.035);}
 .hm-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;}
 .hm-gate{position:absolute;z-index:3;background:var(--flame);color:#fff;font-size:8.5px;font-weight:600;line-height:1.3;
   padding:4px 8px;max-width:172px;transform:translate(-50%,-50%);pointer-events:none;}
@@ -191,17 +199,20 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--fs);-webkit-fo
           <div class="hm-nt">QC & route</div><div class="hm-nd">Chris S checks · Sandra delivers</div></div></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-lane-label acc-teal"><span class="dept-name">Audience Dev</span><span class="hm-verb">Grow</span></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-cell"><div class="hm-node acc-teal" id="h5">
           <div class="hm-nt">Activate audience</div><div class="hm-nd">Paid, shortform, influencer, seeding</div></div></div><div class="hm-cell"></div><div class="hm-cell"><div class="hm-node acc-teal" id="h8">
           <div class="hm-nt">Report performance</div><div class="hm-nd">KPIs back to leadership</div></div></div><div class="hm-lane-label acc-gold"><span class="dept-name">Support</span><span class="hm-verb">Execute</span></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-cell"><div class="hm-node acc-gold" id="h5b">
-          <div class="hm-nt">Operational setup</div><div class="hm-nd">Pre-saves, shortlinks, claims</div></div></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-lane-label acc-graphite"><span class="dept-name">Campaign Ops</span><span class="hm-verb">Connect</span></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-cell"><div class="hm-node acc-graphite" id="h6">
+          <div class="hm-nt">Operational setup</div><div class="hm-nd">Pre-saves, shortlinks, claims</div></div></div><div class="hm-cell"></div><div class="hm-cell"></div><div class="hm-lane-label acc-graphite hm-lane-sub" style="grid-column:1;grid-row:6;"><span class="ops-eyebrow">Campaign Ops</span><span class="dept-name">A&amp;R / Creative</span><span class="hm-verb">Surface</span></div><div class="hm-band" style="grid-column:2 / 4;grid-row:6;"><span class="hm-span">Covers 01&ndash;02</span><div class="hm-node acc-graphite" id="ops-a">
+          <div class="hm-nt">Surface the delivery floor</div><div class="hm-nd">Flag the asset deadline when the date is set, not when it&rsquo;s missed</div></div><div class="hm-band-note">Stands with the people making the thing.</div></div><div class="hm-lane-label acc-graphite hm-lane-sub" style="grid-column:1;grid-row:7;"><span class="ops-eyebrow">Campaign Ops</span><span class="dept-name">Campaign Strategy</span><span class="hm-verb">Track</span></div><div class="hm-band" style="grid-column:3 / 5;grid-row:7;"><span class="hm-span">Covers 02&ndash;03</span><div class="hm-node acc-graphite" id="ops-b">
+          <div class="hm-nt">Carry asks both directions</div><div class="hm-nd">Most of what surfaces here is really an asset ask or a number ask</div></div><div class="hm-band-note">Light touch by design &mdash; this phase is largely self-sufficient.</div></div><div class="hm-lane-label acc-graphite hm-lane-sub" style="grid-column:1;grid-row:8;"><span class="ops-eyebrow">Campaign Ops</span><span class="dept-name">Distribution</span><span class="hm-verb">Confirm</span></div><div class="hm-band" style="grid-column:5 / 7;grid-row:8;"><span class="hm-span">Covers 04&ndash;05</span><div class="hm-node acc-graphite" id="h6">
           <div class="hm-nt">Confirm readiness</div><div class="hm-nd">Check prerequisites across teams</div></div><div class="hm-node acc-graphite" id="h7">
-          <div class="hm-nt">Schedule release</div><div class="hm-nd">Submit request, confirm to CLs</div></div></div><div class="hm-cell"></div>
+          <div class="hm-nt">Schedule release</div><div class="hm-nd">Submit request, confirm to CLs</div></div><div class="hm-band-note">Release planning, commerce, finance, A&amp;R admin.</div></div>
       <svg class="hm-svg" id="hm-svg" preserveAspectRatio="none"></svg>
     </div>
     <div class="hm-legend">
       <span><i class="lg-line"></i> Handoff</span>
       <span><i class="lg-dash"></i> Loop-back</span>
       <span><i class="lg-gate"></i> <b>Gate</b> — the phase-gate a pass must clear; number = items in the Phase Gate Checklists</span>
+      <span><i class="lg-band"></i> <b>Coverage</b> &mdash; where each Campaign Ops voice stands on the path</span>
     </div>
-    <div class="swim-note"><b>A record moves when its gate items are complete, not on a fixed date.</b> <b>Leads</b> trigger &rarr; <b>Creative</b> builds &amp; QCs &rarr; <b>Audience Dev</b> + <b>Support</b> activate in parallel &rarr; <b>Campaign Ops</b> confirms readiness &amp; schedules. Counts map to the building-wide Phase Gate Checklists (184 items, five gates); a failed QC loops back to revision.</div>
+    <div class="swim-note"><b>A record moves when its gate items are complete, not on a fixed date.</b> <b>Leads</b> trigger &rarr; <b>Creative</b> builds &amp; QCs &rarr; <b>Audience Dev</b> + <b>Support</b> activate in parallel &rarr; <b>Campaign Ops</b> confirms readiness &amp; schedules. Counts map to the building-wide Phase Gate Checklists (184 items, five gates); a failed QC loops back to revision. <b>Campaign Ops sits in three standing positions rather than one lane</b> &mdash; each voice embedded in one part of the path, comparing notes every two weeks so patterns that cross the seams get seen. Coverage overlaps at 02&ndash;03 on purpose; that seam is where most handoffs fail.</div>
   </section>
   <section class="view hidden" id="view-switch">
     <div class="sw-controls">
