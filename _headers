@@ -32,3 +32,10 @@
 
 /pilot
   Content-Security-Policy: frame-ancestors *
+
+# Office Resource Guide: embeddable in SharePoint
+/office-guide/*
+  Content-Security-Policy: frame-ancestors *
+
+/office-guide
+  Content-Security-Policy: frame-ancestors *
