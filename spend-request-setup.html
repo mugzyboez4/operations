@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spend Requests — setup · Campaign Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F2EB;--card:#FFFFFF;--line:#ECEAE3;--ink:#0F0E0E;--sec:#3E3F41;--muted:#8A8781;--flame:#FF4A23;--lime:#CDF851;--teal:#5BC0BE;--gold:#E8C547}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:14px;line-height:1.5}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 64px}
+.band{background:var(--ink);color:#F5F2EB;padding:28px 0;margin-bottom:24px}
+.band .wrap{padding-bottom:0}
+h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
+.sub{color:var(--flame);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--teal);padding:24px;margin-bottom:20px}
+.card.gold{border-top-color:var(--gold)}
+.card.lime{border-top-color:var(--lime)}
+h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:0 12px 8px 0;border-bottom:1px solid var(--line)}
+td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{white-space:nowrap;font-weight:600;width:1%}
+tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg);padding:1px 5px;border:1px solid var(--line)}
+ol{margin:0;padding-left:20px}
+li{margin-bottom:9px}
+p{margin:0 0 12px;max-width:62ch;color:var(--sec)}
+.n{color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="band"><div class="wrap">
+<h1>Spend Requests — setup</h1>
+<div class="sub">Campaign Ops · RCA Records</div>
+</div></div>
+
+<div class="wrap">
+
+<div class="card">
+<h2>Three files</h2>
+<table>
+<tr><td>Spend&nbsp;Requests.xlsx</td><td>The table every submission lands in. Tabs: Read me, Requests, Lists, Roster.</td></tr>
+<tr><td>spend-request.html</td><td>The form. Same look as budget-approvals.html on the ops site.</td></tr>
+<tr><td>This page</td><td>Flow and Teams steps.</td></tr>
+</table>
+</div>
+
+<div class="card gold">
+<h2>1 · Put the workbook in SharePoint</h2>
+<p>Upload <code>Spend Requests.xlsx</code> to <strong>USA RCA Records-Ops – Working Docs → 5 - Tools &amp; Builds</strong>. Open it once in Excel Online. Delete row 2 of <code>Requests</code> when real requests start landing.</p>
+<p class="n">Table name is <code>SpendRequests</code>. The flow points at that name — renaming it breaks the write.</p>
+</div>
+
+<div class="card gold">
+<h2>2 · Flow A — write a row</h2>
+<p>Power Automate → Create → Instant cloud flow → skip trigger → search <em>When an HTTP request is received</em>.</p>
+<table>
+<tr><td>Trigger</td><td>When an HTTP request is received. Schema below. <em>Who can trigger:</em> Anyone.</td></tr>
+<tr><td>Step 2</td><td>Excel Online (Business) → Add a row into a table. Location: SharePoint site. Document library: Documents. File: Spend Requests.xlsx. Table: SpendRequests.</td></tr>
+<tr><td>Step 3</td><td>Response. Status 200. Headers <code>Access-Control-Allow-Origin: *</code>. Body <code>{"ok":true}</code>.</td></tr>
+</table>
+<p style="margin-top:14px">Request ID: set the field to <code>concat('SR-', substring(utcNow(), 0, 19))</code>, or leave it blank and number by hand.</p>
+<p>Save, then copy the trigger's HTTP POST URL into <code>CONFIG.POST_URL</code> at the top of spend-request.html.</p>
+</div>
+
+<div class="card gold">
+<h2>Trigger schema</h2>
+<p class="n">Paste into "Use sample payload to generate schema".</p>
+<pre style="font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg);border:1px solid var(--line);padding:14px;overflow-x:auto;line-height:1.6">{
+  "Artist": "Teezo Touchdown",
+  "Budget Phase": "Single",
+  "Category": "Creative / Content",
+  "Service Description": "Casting-concept teaser shoot",
+  "Vendor": "Field Day Studio",
+  "Vendor Contact": "billing@fielddaystudio.com",
+  "PO Type": "Single",
+  "Amount": 18500,
+  "Start Date": "2026-08-10",
+  "Lead": "Natalie Ho",
+  "PO #": "",
+  "Status": "Submitted",
+  "Submitted": "2026-09-02T10:14:00.000Z"
+}</pre>
+</div>
+
+<div class="card gold">
+<h2>3 · Flow B — read the sheet back</h2>
+<p>Same trigger type, second flow. Step 2: Excel Online → <em>List rows present in a table</em>, same file and table. Step 3: Response, status 200, header <code>Access-Control-Allow-Origin: *</code>, body <code>@{body('List_rows_present_in_a_table')?['value']}</code>.</p>
+<p>Copy that flow's URL into <code>CONFIG.FEED_URL</code>. Until it's set, the table on the right reads from the browser only.</p>
+</div>
+
+<div class="card lime">
+<h2>4 · Host the form and add it to Teams</h2>
+<ol>
+<li>Push <code>spend-request.html</code> to the <code>mugzyboez4/operations</code> repo — same route as the ops site.</li>
+<li>Set <code>CONFIG.WORKBOOK_URL</code> to the SharePoint link so "Open the sheet" works.</li>
+<li>Teams → the channel → <strong>+</strong> → Website → paste the page URL → name it <em>Spend requests</em>.</li>
+<li>Second tab: Excel → point at the workbook, for anyone updating Status, PO # or Invoice #.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Field mapping</h2>
+<table>
+<tr><th>Workbook column</th><th>Where it comes from</th></tr>
+<tr><td>Request ID</td><td>Flow expression</td></tr>
+<tr><td>Submitted</td><td>Form, ISO timestamp</td></tr>
+<tr><td>Artist</td><td>Dropdown, from <code>CONFIG.ROSTER</code></td></tr>
+<tr><td>Budget Phase</td><td>Single · EP · Album · Catalog</td></tr>
+<tr><td>Category</td><td>Eight finance buckets</td></tr>
+<tr><td>Service Description</td><td>Free text. Blanket lines append to it.</td></tr>
+<tr><td>Vendor · Vendor Contact</td><td>Free text</td></tr>
+<tr><td>PO Type</td><td>Single · Blanket · pro-rated</td></tr>
+<tr><td>Amount</td><td>One figure, or the sum of the blanket lines</td></tr>
+<tr><td>Start Date</td><td>Date picker</td></tr>
+<tr><td>Lead</td><td>Auto from <code>CONFIG.ROSTER</code></td></tr>
+<tr><td>Status</td><td>Submitted on arrival, then edited in the sheet</td></tr>
+<tr><td>PO # · Invoice # · Notes</td><td>Support fills in the sheet</td></tr>
+</table>
+<p class="n" style="margin-top:14px">The artist list lives in two places: <code>CONFIG.ROSTER</code> in the HTML and the Roster tab in the workbook. Edit both.</p>
+</div>
+
+<div class="card">
+<h2>Carried from the ops page</h2>
+<p>Retainers and fan pages: month only in the description, e.g. "July 2026". Vendors invoice Console direct at <code>2000.ap.invoicereceiving@sonymusic.com</code>, quoting the PO&nbsp;#.</p>
+</div>
+
+</div>
+</body>
+</html>
