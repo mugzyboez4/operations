@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New spend request · Campaign Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F2EB;--card:#FFFFFF;--line:#ECEAE3;--ink:#0F0E0E;--sec:#3E3F41;--muted:#8A8781;--flame:#FF4A23;--lime:#CDF851;--teal:#5BC0BE;--gold:#E8C547}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding:32px 24px 64px;max-width:1200px;margin:0 auto}
+.kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:10px}
+h1{font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-1.2px;line-height:1.08}
+.sub{font-size:15px;color:var(--sec);max-width:62ch;margin-top:12px}
+.sub b{font-weight:600}
+header{padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:minmax(340px,460px) 1fr;gap:24px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--teal);padding:24px}
+.card h2{font-size:17px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
+.card .hint{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+label{display:block;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--sec);margin:14px 0 5px}
+label .opt{font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+input,select,textarea{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--line);padding:9px 10px;outline:none;border-radius:0}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+textarea{resize:vertical;min-height:54px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.6px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--sec);margin-left:8px;vertical-align:middle}
+.toggle{display:flex;border:1px solid var(--line);margin-top:4px}
+.toggle button{flex:1;font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 0;background:#fff;color:var(--sec);border:0;cursor:pointer}
+.toggle button.on{background:var(--ink);color:var(--bg)}
+#lines .li{display:grid;grid-template-columns:1fr 110px 28px;gap:8px;margin-top:8px}
+#lines .li button{border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;font-size:14px}
+.addline{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--flame);background:none;border:0;cursor:pointer;padding:0}
+.submit{margin-top:22px;width:100%;font-family:inherit;font-size:14px;font-weight:600;padding:12px 0;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
+.submit:hover{background:#000}
+.submit[disabled]{opacity:.5;cursor:default}
+.note{font-size:11.5px;color:var(--muted);margin-top:10px}
+.msg{margin-top:14px;font-size:13px;padding:10px 12px;border:1px solid var(--line);display:none}
+.msg.ok{display:block;background:#F7FCE9;border-color:var(--lime);color:var(--ink)}
+.msg.err{display:block;background:#FFF3F0;border-color:var(--flame);color:var(--ink)}
+.sheet-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--gold);padding:24px;overflow-x:auto}
+.sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:6px}
+.export{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--flame);background:none;border:1px solid var(--line);padding:6px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:14px;min-width:760px}
+th{font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--sec)}
+td.amt{font-weight:700;color:var(--ink);white-space:nowrap}
+td .a{font-weight:600;color:var(--ink)}
+.steps{display:flex;gap:3px}
+.step{width:14px;height:14px;border:1px solid var(--line);background:#fff}
+.step.done{background:var(--lime);border-color:var(--lime)}
+.stlbl{font-size:10.5px;color:var(--muted);margin-top:4px;white-space:nowrap}
+.empty{padding:28px 10px;color:var(--muted);font-size:13px}
+.ft{display:flex;justify-content:space-between;gap:16px;border-top:1px dashed var(--line);margin-top:18px;padding-top:12px;font-size:12px;color:var(--muted)}
+.ft a{color:var(--flame);text-decoration:none;font-weight:600}
+.setup{background:var(--ink);color:#FCFDF8;padding:18px 20px;margin-bottom:24px;font-size:13px;display:none}
+.setup.on{display:block}
+.setup b{color:var(--lime)}
+.setup code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#1A1A1A;padding:2px 6px}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CONFIG — paste the two Power Automate URLs here and nothing
+     else needs to change.
+     ============================================================ -->
+<script>
+var CONFIG = {
+  // Flow 1 — "When an HTTP request is received" → Add a row into a table
+  POST_URL: "",
+  // Flow 2 — "When an HTTP request is received" → List rows present in a table → Response
+  FEED_URL: "",
+  // Where the workbook lives, for the "Open the sheet" link
+  WORKBOOK_URL: "",
+  // Artist → Campaign Lead. Mirrors the Roster tab of the workbook.
+  ROSTER: {
+    "Teezo Touchdown": "Natalie Ho",
+    "Doja Cat": "",
+    "SZA": "",
+    "Tate McRae": "Molly Yorkes",
+    "The Strokes": "Aaron Stern",
+    "Victoria Monét": ""
+  }
+};
+</script>
+
+<div class="setup" id="setup">
+  <b>Not connected yet.</b> Open this file and set <code>CONFIG.POST_URL</code> to the Power Automate
+  HTTP POST URL, and <code>CONFIG.FEED_URL</code> to the read-back flow. Until then submissions stay
+  in this browser only.
+</div>
+
+<header>
+  <div class="kicker">Campaign Ops · RCA Records</div>
+  <h1>Spend requests</h1>
+  <p class="sub">A spend request is created the moment someone <b>decides</b> to pay a vendor — before any invoice exists. Each submission adds a row to the Spend Requests workbook, which feeds the PO process.</p>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>New spend request</h2>
+    <div class="hint">Fill what you know now. PO# and Invoice# come later from support.</div>
+    <form id="f">
+      <label>Artist</label>
+      <select id="artist" required><option value="">— select artist —</option></select>
+
+      <div class="two">
+        <div><label>Budget phase</label>
+          <select id="phase"><option>Single</option><option>EP</option><option>Album</option><option>Catalog</option></select></div>
+        <div><label>Category <span class="opt">(finance bucket)</span></label>
+          <select id="cat"><option>Marketing</option><option>Creative / Content</option><option>Video Production</option><option>Digital Advertising</option><option>Publicity / Press</option><option>Touring / Promo</option><option>Radio</option><option>Retainer / Fan Page</option></select></div>
+      </div>
+
+      <label>Service description</label>
+      <textarea id="svc" placeholder="Who / what / where / when — e.g. content capture, NYC, week of release" required></textarea>
+
+      <div class="two">
+        <div><label>Vendor</label><input id="vendor" placeholder="Vendor name" required></div>
+        <div><label>Vendor contact <span class="opt">(email)</span></label><input id="vcontact" type="email" placeholder="name@vendor.com"></div>
+      </div>
+
+      <label>PO type</label>
+      <div class="toggle"><button type="button" id="tSingle" class="on">Single</button><button type="button" id="tBlanket">Blanket · pro-rated</button></div>
+
+      <div id="singleAmt"><label>Amount</label><input id="amt" type="number" min="0" step="50" placeholder="0.00" required></div>
+      <div id="blanket" style="display:none">
+        <label>Line items <span class="opt">(each deliverable gets its own category line)</span></label>
+        <div id="lines"></div>
+        <button type="button" class="addline" id="addLine">+ Add line item</button>
+      </div>
+
+      <div class="two">
+        <div><label>Start date <span class="opt">(date service is agreed)</span></label><input id="start" type="date"></div>
+        <div><label>PO # <span class="opt">(support fills)</span></label><input id="po" placeholder="—"></div>
+      </div>
+
+      <label>Lead <span class="opt">(auto from roster map)</span><span class="chip" id="leadChip">—</span></label>
+
+      <button class="submit" type="submit" id="sub">Submit spend request →</button>
+      <div class="msg" id="msg"></div>
+      <div class="note">Retainers &amp; fan pages: use month only (e.g. "July 2026") in the description. Vendors invoice straight to Console: 2000.ap.invoicereceiving@sonymusic.com, quoting the PO#.</div>
+    </form>
+  </div>
+
+  <div class="sheet-card">
+    <div class="sheet-head">
+      <div><h2>The sheet <span class="chip" id="srcChip">local</span></h2>
+      <div class="hint">Submitted → Approved → PO issued → Vendor notified → Invoice in → Receipted. Status is set in the workbook.</div></div>
+      <a class="export" id="openbook" href="#" target="_blank" rel="noopener">Open the sheet →</a>
+    </div>
+    <table>
+      <thead><tr><th>Submitted</th><th>Artist</th><th>Phase</th><th>Category</th><th>Service</th><th>Vendor</th><th>Amount</th><th>Start</th><th>Status</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="ft"><span id="ftnote">Nothing submitted yet.</span><button class="export" id="refresh" style="border:0;padding:0">Refresh ↻</button></div>
+  </div>
+</div>
+
+<script>
+var STEPS = ["Submitted","Approved","PO issued","Vendor notified","Invoice in","Receipted"];
+var KEY = "sr_rows_v1";
+var live = !!CONFIG.POST_URL;
+
+function $(id){return document.getElementById(id)}
+function money(n){return "$" + Number(n||0).toLocaleString()}
+
+if (!live) $("setup").className = "setup on";
+$("srcChip").textContent = CONFIG.FEED_URL ? "live · workbook" : "local";
+if (CONFIG.WORKBOOK_URL) $("openbook").href = CONFIG.WORKBOOK_URL;
+else $("openbook").style.display = "none";
+
+// ---- artist dropdown from the roster map
+(function(){
+  var sel = $("artist");
+  Object.keys(CONFIG.ROSTER).forEach(function(a){
+    var o = document.createElement("option"); o.textContent = a; sel.appendChild(o);
+  });
+})();
+
+$("artist").onchange = function(){
+  var l = CONFIG.ROSTER[this.value];
+  $("leadChip").textContent = this.value ? (l || "not in roster map") : "—";
+};
+
+// ---- blanket / single toggle
+var blanket = false;
+function setToggle(b){
+  blanket = b;
+  $("tSingle").className = b ? "" : "on";
+  $("tBlanket").className = b ? "on" : "";
+  $("singleAmt").style.display = b ? "none" : "";
+  $("blanket").style.display = b ? "" : "none";
+  $("amt").required = !b;
+  if (b && !document.querySelector("#lines .li")) addLine();
+}
+function addLine(){
+  var d = document.createElement("div");
+  d.className = "li";
+  d.innerHTML = '<input placeholder="Deliverable — e.g. artwork" class="ld"><input type="number" min="0" placeholder="Amount" class="la"><button type="button">×</button>';
+  d.querySelector("button").onclick = function(){ d.remove() };
+  $("lines").appendChild(d);
+}
+$("tSingle").onclick = function(){ setToggle(false) };
+$("tBlanket").onclick = function(){ setToggle(true) };
+$("addLine").onclick = addLine;
+
+// ---- the sheet
+function localRows(){ try { return JSON.parse(localStorage.getItem(KEY)) || [] } catch(e){ return [] } }
+function saveLocal(r){ try { localStorage.setItem(KEY, JSON.stringify(r)) } catch(e){} }
+
+function render(rows, note){
+  var tb = $("rows"); tb.innerHTML = "";
+  if (!rows.length){
+    tb.innerHTML = '<tr><td colspan="9" class="empty">No requests yet — submit one on the left.</td></tr>';
+  } else {
+    rows.forEach(function(r){
+      var si = Math.max(0, STEPS.indexOf(r.Status || "Submitted"));
+      var steps = '<div class="steps">';
+      for (var s = 0; s < STEPS.length; s++) steps += '<span class="step' + (s <= si ? " done" : "") + '"></span>';
+      steps += '</div><div class="stlbl">' + STEPS[si] + '</div>';
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td>' + esc(shortDate(r.Submitted)) + '</td>' +
+        '<td><span class="a">' + esc(r.Artist) + '</span></td>' +
+        '<td>' + esc(r["Budget Phase"]) + '</td>' +
+        '<td>' + esc(r.Category) + '</td>' +
+        '<td>' + esc(r["Service Description"]) + '</td>' +
+        '<td>' + esc(r.Vendor) + '</td>' +
+        '<td class="amt">' + money(r.Amount) + '</td>' +
+        '<td>' + esc(r["Start Date"] || "—") + '</td>' +
+        '<td>' + steps + '</td>';
+      tb.appendChild(tr);
+    });
+  }
+  $("ftnote").textContent = note;
+}
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c] }) }
+function shortDate(s){
+  if (!s) return "—";
+  var m = String(s).match(/(\d{4})-(\d{2})-(\d{2})/);
+  return m ? (+m[2]) + "/" + (+m[3]) : String(s).slice(0, 10);
+}
+
+function refresh(){
+  if (!CONFIG.FEED_URL){
+    var r = localRows();
+    render(r, r.length ? r.length + " in this browser — not yet in the workbook." : "Nothing submitted yet.");
+    return;
+  }
+  $("ftnote").textContent = "Loading…";
+  fetch(CONFIG.FEED_URL)
+    .then(function(r){ return r.json() })
+    .then(function(d){
+      var rows = Array.isArray(d) ? d : (d.value || d.rows || []);
+      rows = rows.slice().reverse();
+      render(rows, rows.length + " request" + (rows.length === 1 ? "" : "s") + " · read from the workbook");
+    })
+    .catch(function(e){
+      var r = localRows();
+      render(r, "Couldn't reach the workbook. Showing this browser only.");
+    });
+}
+$("refresh").onclick = refresh;
+
+// ---- submit
+$("f").addEventListener("submit", function(e){
+  e.preventDefault();
+  var svc = $("svc").value, amt = 0, poType = blanket ? "Blanket · pro-rated" : "Single";
+  if (blanket){
+    var items = [].map.call(document.querySelectorAll("#lines .li"), function(li){
+      return { d: li.querySelector(".ld").value, a: +li.querySelector(".la").value || 0 };
+    }).filter(function(x){ return x.d || x.a });
+    amt = items.reduce(function(t, x){ return t + x.a }, 0);
+    if (items.length) svc += " · Blanket: " + items.map(function(x){ return x.d + " " + money(x.a) }).join(", ");
+  } else {
+    amt = +$("amt").value || 0;
+  }
+
+  var artist = $("artist").value;
+  var payload = {
+    "Artist": artist,
+    "Budget Phase": $("phase").value,
+    "Category": $("cat").value,
+    "Service Description": svc,
+    "Vendor": $("vendor").value,
+    "Vendor Contact": $("vcontact").value,
+    "PO Type": poType,
+    "Amount": amt,
+    "Start Date": $("start").value,
+    "Lead": CONFIG.ROSTER[artist] || "",
+    "PO #": $("po").value,
+    "Status": "Submitted",
+    "Submitted": new Date().toISOString()
+  };
+
+  var m = $("msg"), btn = $("sub");
+
+  if (!live){
+    var rows = localRows(); rows.push(payload); saveLocal(rows);
+    m.className = "msg ok";
+    m.textContent = "Saved in this browser. Set CONFIG.POST_URL to send it to the workbook.";
+    reset(); refresh(); return;
+  }
+
+  btn.disabled = true; btn.textContent = "Sending…";
+  m.className = "msg"; m.textContent = "";
+
+  fetch(CONFIG.POST_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    m.className = "msg ok";
+    m.textContent = "Added to the workbook. " + artist + " · " + money(amt) + ".";
+    reset();
+    setTimeout(refresh, 1200);
+  })
+  .catch(function(err){
+    var rows = localRows(); rows.push(payload); saveLocal(rows);
+    m.className = "msg err";
+    m.textContent = "Couldn't reach the flow (" + err.message + "). Held in this browser — hit submit again once it's back.";
+  })
+  .then(function(){ btn.disabled = false; btn.textContent = "Submit spend request →" });
+
+  function reset(){
+    $("f").reset(); setToggle(false);
+    $("lines").innerHTML = "";
+    $("leadChip").textContent = "—";
+  }
+});
+
+refresh();
+</script>
+</body>
+</html>
