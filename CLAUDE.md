@@ -22,21 +22,40 @@ There is no build system, no framework, no package manager. All files are hand-a
 
 ## Design System (LOCKED)
 
-All pages must match this locked design system exactly:
+All pages link `/tempo.css` and must match this locked design system exactly.
+Do not add a `:root` block to a page — tempo.css owns the tokens, and it also
+aliases every legacy name (`--chartreuse`, `--paper`, `--muted`, `--disp`, …)
+onto the canonical values.
 
-| Token | Value |
-|-------|-------|
-| Font | Inter only (weights 300–900, via Google Fonts) |
-| Accent | `#CDF851` (chartreuse) |
-| Alert | `#FF4A23` (flame) |
-| Background | `#0F0E0E` |
-| Cards | `#181818` |
-| Borders | `#2A2A2A` |
-| Body text | `#B0A9BE` |
-| Dim text | `#847D96` |
-| Muted | `#3E3F41` |
-| White | `#FCFDF8` |
-| Labels | 9px / 800 weight / 0.2em letter-spacing / uppercase |
+| Token | Value | Notes |
+|-------|-------|-------|
+| Font | Inter only (300–900, via Google Fonts) | `--font-sans`; `--font-mono` is the system mono stack |
+| Background | `#F5F2EB` | paper stock |
+| Cards | `#FFFFFF` / `#FAFAF5` | `--card` / `--card-2` |
+| Ink | `#0F0E0E` | `--ink` |
+| Secondary ink | `#2A2A2A` | `--fg-2` |
+| Muted | `#888888` | `--fog` |
+| Borders | `#ECEAE3` | `--border`; `--rule` `#D8D4CC` for heavier rules |
+| Accent | `#CDF851` (chartreuse) | **fill only** — never text on paper |
+| Accent as text | `#5F7E1C` | `--lime-ink` |
+| Alert | `#FF4A23` (flame) | links, eyebrows, active tab |
+| Teal / gold | `#5BC0BE` / `#E8C547` | text variants `--teal-ink` `#2C8A88`, `--gold-ink` `#9A7B12` |
+| Labels | 9px / 700 weight / 1.5px letter-spacing / uppercase | |
+
+Dark bands still exist (heroes, section badges, utility strip). Put `.om-dark`
+on any panel sitting on `--ink` so links and accents flip correctly.
+
+Accessibility note: `--fog` and `--flame` sit near 3:1 on paper, below WCAG AA
+for small text. They are kept as-authored to match the Digital Partner Guide;
+tempo.css documents the two-line swap that closes the gap.
+
+## Shared files
+
+- `tempo.css` — the design system. All tokens, chrome and components live here.
+- `shell.js` — injects the utility strip and nav on every page.
+- `shell.css` / `style.css` — deprecated shims that import tempo.css. Don't add rules.
+- `sidebar.js` — optional team-notes panel.
+- `tools/` — one-shot migration scripts and the Playwright QA pass (`node tools/qa.js`).
 
 ## Content Rules (LOCKED)
 
@@ -47,7 +66,10 @@ All pages must match this locked design system exactly:
 
 ## Navigation
 
-Every page includes a sticky top nav bar with the "RCA · Operations" brand mark and tabs linking to all major pages. The nav uses dropdown menus (class `sndd`) for grouped items like Meetings and Pipeline. When adding a new page, update the nav bar in all existing pages.
+Nav is injected by `shell.js` — a black utility strip plus a paper nav bar with the
+"Campaign Ops" brand mark. Add a new page by editing the `LINKS` array in
+`shell.js`; do not hand-author `<nav>` markup on new pages. Opt out on an
+embedded page with `<script src="/shell.js" data-no-strip></script>`.
 
 ## File Naming Convention
 
