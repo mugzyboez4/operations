@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#F5F2EB;
-    --card:#FFFFFF;
-    --text:#0F0E0E;
-    --muted:#8A8781;
-    --line:#ECEAE3;
-    --chartreuse:#CDF851;
-    --flame:#FF4A23;
-    --yellow:#F5C542;
-    --blue:#6FA8FF;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+
   .wrap{max-width:1200px;margin:0 auto;padding:0 48px}
 
   /* ---------- gate ---------- */
@@ -62,7 +51,7 @@
   .metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
   .metric .m-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
   .metric .m-val{font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1}
-  .metric .m-val.chart{color:var(--chartreuse)}
+  .metric .m-val.chart{color:var(--lime-ink)}
   .metric .m-sub{font-size:12.5px;color:var(--muted);margin-top:6px}
 
   section.block{padding:64px 0;border-bottom:1px solid var(--line)}
@@ -83,7 +72,7 @@
   .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
   .pill.live{color:#0F0E0E;background:var(--chartreuse)}
   .pill.planned{color:#0F0E0E;background:var(--yellow)}
-  .pill.paused{color:var(--text);background:#3a3a36}
+  .pill.paused{color:var(--text);background:#2A2A2A}
   .pill.wrapped{color:#0F0E0E;background:var(--blue)}
   .empty{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:34px;text-align:center;color:var(--muted);font-size:15px}
   .loading{color:var(--muted);font-size:15px;padding:20px 0}
@@ -94,9 +83,9 @@
   .dept:hover{border-color:var(--chartreuse);transform:translateY(-3px)}
   .dept h3{font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
   .dept .does{font-size:14px;color:var(--muted);margin-bottom:14px;min-height:40px}
-  .dept .ask-label{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--chartreuse);margin-bottom:5px}
+  .dept .ask-label{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-ink);margin-bottom:5px}
   .dept .ask{font-size:14px;color:var(--text)}
-  .dept.ops{border-color:var(--flame);background:#1d1614}
+  .dept.ops{border-color:var(--flame);background:#0F0E0E}
   .dept.ops h3{color:var(--flame)}
 
   .flow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -124,9 +113,9 @@
   .asset ul{list-style:none}
   .asset li{font-size:14px;color:var(--muted);padding:6px 0 6px 22px;position:relative;border-bottom:1px solid var(--line)}
   .asset li:last-child{border-bottom:none}
-  .asset li::before{content:"\2713";position:absolute;left:0;top:6px;color:var(--chartreuse);font-weight:700}
+  .asset li::before{content:"\2713";position:absolute;left:0;top:6px;color:var(--lime-ink);font-weight:700}
 
-  .qr{background:linear-gradient(160deg,#16160f 0%,#181818 100%);border:1px solid var(--chartreuse);border-radius:18px;padding:44px}
+  .qr{background:linear-gradient(160deg,#0F0E0E 0%,#FFFFFF 100%);border:1px solid var(--chartreuse);border-radius:18px;padding:44px}
   .qr .qr-title{font-size:28px;font-weight:700;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:6px}
   .qr .qr-sub{color:var(--muted);margin-bottom:30px}
   .qr-cols{display:grid;grid-template-columns:1fr 1fr;gap:38px}
@@ -156,6 +145,12 @@
 </style>
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
+<style>/* dark-ground accent */
+.dept.ops .ask-label{color:var(--lime)}
+.dept.ops .ask,.dept.ops .does{color:#FCFDF8}
+.shead .brand,.shead .brand b{color:#FCFDF8}
+.shead .brand i{color:#9B968D}
+</style>
 </head>
 <body>
 

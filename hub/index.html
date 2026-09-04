@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { height:100%; }
-  body { font-family:Inter,system-ui,sans-serif; background:#F5F2EB; color:#0F0E0E; -webkit-font-smoothing:antialiased; display:flex; flex-direction:column; overflow:hidden; }
+
+  html,body{height:100%}
+  body{display:flex; flex-direction:column; overflow:hidden}
   a { color:#FF4A23; text-decoration:none; }
 
   /* ===== top bar ===== */
@@ -22,7 +23,7 @@
   .brand span { font-size:14px; font-weight:600; letter-spacing:-.2px; color:#0F0E0E; }
   .brand em { font-style:normal; font-weight:600; }
   .top-nav { display:flex; gap:4px; margin-left:auto; overflow-x:auto; }
-  .tlink { font-family:inherit; font-size:13px; font-weight:500; color:#3E3F41; background:none; border:none; cursor:pointer; padding:8px 12px; white-space:nowrap; }
+  .tlink { font-family:inherit; font-size:13px; font-weight:500; color:#888888; background:none; border:none; cursor:pointer; padding:8px 12px; white-space:nowrap; }
   .tlink:hover { color:#0F0E0E; }
   .tlink.on { color:#0F0E0E; font-weight:600; box-shadow:inset 0 -2px 0 #CDF851; }
 
@@ -38,16 +39,16 @@
   .hero { padding:64px 0 48px; border-bottom:1px solid #ECEAE3; }
   .kicker { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:#FF4A23; margin-bottom:18px; }
   .hero h1 { font-size:44px; line-height:1.08; font-weight:600; letter-spacing:-1.4px; margin-bottom:20px; }
-  .hero p { font-size:16px; line-height:1.7; max-width:56ch; color:#3E3F41; margin-bottom:36px; }
+  .hero p { font-size:16px; line-height:1.7; max-width:56ch; color:#CCCCCC; margin-bottom:36px; }
   .tiles { display:flex; flex-wrap:wrap; gap:12px; }
   .tile { display:flex; flex-direction:column; gap:5px; padding:16px 24px; min-width:160px; border:1px solid #ECEAE3; background:#fff; color:#0F0E0E; cursor:pointer; font-family:inherit; text-align:left; }
   .tile:hover { border-color:#0F0E0E; }
   .tile.pri { background:#FF4A23; border-color:#FF4A23; color:#fff; }
   .tile.pri:hover { background:#0F0E0E; border-color:#0F0E0E; }
   .tile .t1 { font-size:14px; font-weight:600; }
-  .tile .t2 { font-size:12px; color:#8A8781; }
+  .tile .t2 { font-size:12px; color:#888888; }
   .tile.pri .t2 { color:rgba(255,255,255,.85); }
-  .hint { font-size:12px; color:#8A8781; margin-top:22px; }
+  .hint { font-size:12px; color:#888888; margin-top:22px; }
   .hint a { font-weight:500; cursor:pointer; }
 
   /* ===== sections ===== */
@@ -55,16 +56,16 @@
   .sec + .sec { padding-top:0; }
   .sec-head { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:26px; }
   .sec h2 { font-size:28px; line-height:1.15; font-weight:600; letter-spacing:-.8px; }
-  .sec .meta-r { font-size:13px; color:#8A8781; white-space:nowrap; padding-bottom:4px; }
+  .sec .meta-r { font-size:13px; color:#888888; white-space:nowrap; padding-bottom:4px; }
   .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .card { position:relative; display:flex; flex-direction:column; background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#3E3F41); padding:24px 24px 20px; min-height:180px; cursor:pointer; font-family:inherit; text-align:left; }
-  .card:hover { border-color:#0F0E0E; border-top-color:var(--ac,#3E3F41); }
+  .card { position:relative; display:flex; flex-direction:column; background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#CCCCCC); padding:24px 24px 20px; min-height:180px; cursor:pointer; font-family:inherit; text-align:left; }
+  .card:hover { border-color:#0F0E0E; border-top-color:var(--ac,#CCCCCC); }
   .card .hd { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
-  .card .num { font-size:13px; font-weight:600; color:#8A8781; }
+  .card .num { font-size:13px; font-weight:600; color:#888888; }
   .card h3 { font-size:17px; font-weight:600; letter-spacing:-.4px; }
-  .card p { font-size:13.5px; line-height:1.65; color:#3E3F41; margin-bottom:auto; }
+  .card p { font-size:13.5px; line-height:1.65; color:#888888; margin-bottom:auto; }
   .card .ft { border-top:1px dashed #ECEAE3; margin-top:18px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; }
-  .card .ft span { font-size:12px; color:#8A8781; }
+  .card .ft span { font-size:12px; color:#888888; }
   .card .ft .go { font-size:13px; color:#FF4A23; }
   .card .grip { position:absolute; top:8px; right:32px; color:#D8D4CC; font-size:11px; cursor:grab; display:none; }
   .card .cut { position:absolute; top:5px; right:10px; border:none; background:none; color:#D8D4CC; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; line-height:1; padding:2px; display:none; }
@@ -72,16 +73,15 @@
   .card .cut:hover { color:#FF4A23; }
   .card.dragging { opacity:.4; outline:2px dashed #CDF851; outline-offset:3px; }
 
-
   /* ===== contacts ===== */
   .contacts { border-top:1px solid #ECEAE3; }
   .contacts .in { max-width:1180px; margin:0 auto; padding:48px 32px; }
   .contacts .kicker { margin-bottom:26px; }
   .c-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
   .c-grid .nm { font-size:17px; font-weight:600; letter-spacing:-.3px; margin-bottom:5px; }
-  .c-grid .rl { font-size:13px; color:#8A8781; margin-bottom:12px; }
+  .c-grid .rl { font-size:13px; color:#888888; margin-bottom:12px; }
   .c-grid a { font-size:13px; font-weight:500; color:#FF4A23; }
-  .foot { margin-top:34px; padding-top:18px; border-top:1px solid #ECEAE3; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#8A8781; }
+  .foot { margin-top:34px; padding-top:18px; border-top:1px solid #ECEAE3; display:flex; justify-content:space-between; gap:20px; font-size:12px; color:#888888; }
 
   @media (max-width:760px){
     .top-in { padding:0 16px; gap:14px; }
@@ -107,9 +107,9 @@
     <button class="tlink" data-src="/pitchdecks/">Pitch Decks</button>
     <button class="tlink" data-src="/pilot/tool.html">Airtable Pilot</button>
   </nav>
-  <button id="copyLink" title="Copy a direct link to this page" style="margin-left:auto;background:none;border:1px solid #333;color:#9B9A94;padding:6px 12px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:0;">Copy link</button>
-  <label style="display:flex;align-items:center;gap:8px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9B9A94;">View as
-    <select id="coDeptSel" style="background:#1A1A1A;color:#FCFDF8;border:1px solid #333;padding:5px 8px;font:600 11px 'Inter',sans-serif;border-radius:0;outline:none;cursor:pointer;">
+  <button id="copyLink" title="Copy a direct link to this page" style="margin-left:auto;background:none;border:1px solid #333;color:#888888;padding:6px 12px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:0;">Copy link</button>
+  <label style="display:flex;align-items:center;gap:8px;font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#888888;">View as
+    <select id="coDeptSel" style="background:#FFFFFF;color:var(--ink);border:1px solid #333;padding:5px 8px;font:600 11px 'Inter',sans-serif;border-radius:0;outline:none;cursor:pointer;">
       <option value="">All departments</option><option value="leads">Campaign Leads</option><option value="creative">Creative</option><option value="auddev">Audience Dev</option><option value="support">Support</option><option value="ops">Campaign Ops</option><option value="release">Release Planning</option>
     </select>
   </label>
@@ -126,13 +126,13 @@
         <div class="hint">Drag cards to rearrange · hover and hit × to remove · <a id="reset-layout">reset layout</a></div>
       </div>
 
-      <div style="padding:20px 24px;border:1px solid #1A1A1A;background:#F5F2EB;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px;">
+      <div style="padding:20px 24px;border:1px solid #FFFFFF;background:#F5F2EB;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px;">
         <div>
-          <div style="font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#D0342C;margin-bottom:4px;">New</div>
-          <div style="font:600 15px 'Inter',sans-serif;color:#1A1A1A;">Campaign Ops Assistant</div>
+          <div style="font:600 10px 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#FF4A23;margin-bottom:4px;">New</div>
+          <div style="font:600 15px 'Inter',sans-serif;color:var(--ink);">Campaign Ops Assistant</div>
           <div style="font:400 13px 'Inter',sans-serif;color:#555;margin-top:2px;">Ask a question, draft an email, or send a Teams message.</div>
         </div>
-        <a href="https://teams.microsoft.com/l/app/?titleId=T_26a6ed11-7230-a95e-5fd8-fa9372468138" target="_blank" rel="noopener" style="flex-shrink:0;background:#1A1A1A;color:#FCFDF8;padding:10px 18px;font:600 13px 'Inter',sans-serif;text-decoration:none;">Open in Teams →</a>
+        <a href="https://teams.microsoft.com/l/app/?titleId=T_26a6ed11-7230-a95e-5fd8-fa9372468138" target="_blank" rel="noopener" style="flex-shrink:0;background:#FFFFFF;color:var(--ink);padding:10px 18px;font:600 13px 'Inter',sans-serif;text-decoration:none;">Open in Teams →</a>
       </div>
 
       <div class="sec" id="tools">
@@ -145,7 +145,7 @@
           <div class="card" style="--ac:#CDF851;" data-src="/pitchdecks/"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">01</span><h3>Pitch Deck System</h3></div><p>Why-RCA boilerplate, the module library, and the A&amp;R deck-for-a-deck process.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
           <div class="card" style="--ac:#5BC0BE;" data-src="/campaigns.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">02</span><h3>Campaign Index</h3></div><p>Every active campaign, indexed and searchable.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
           <div class="card" style="--ac:#E8C547;" data-src="/dept-workflows.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">03</span><h3>Dept Workflows</h3></div><p>How each department works — routing, inputs, and timelines.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
-          <div class="card" style="--ac:#3E3F41;" data-src="/deadline-tracker.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">04</span><h3>Deadline Tracker</h3></div><p>Delivery floors and street-date deadlines across the roster.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
+          <div class="card" style="--ac:#CCCCCC;" data-src="/deadline-tracker.html"><span class="grip">⠿</span><button class="cut">×</button><div class="hd"><span class="num">04</span><h3>Deadline Tracker</h3></div><p>Delivery floors and street-date deadlines across the roster.</p><div class="ft"><span>rcaops</span><span class="go">→</span></div></div>
         </div>
       </div>
 
@@ -182,7 +182,7 @@
 <div id="rca-gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:Inter,sans-serif;">
   <img src="../logo_neon.png" alt="" style="width:46px;height:46px;border-radius:10px;margin-bottom:18px;">
   <div style="font-size:22px;font-weight:600;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.3px;">Campaign Ops</div>
-  <div style="font-size:11px;color:#8A8781;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Team access only</div>
+  <div style="font-size:11px;color:#888888;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Team access only</div>
   <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:1px solid #ECEAE3;background:#fff;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#0F0E0E;color:#F5F2EB;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
   <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
@@ -225,8 +225,8 @@
     }
     function done(ok){
       copyBtn.textContent= ok ? 'Copied \u2713' : 'Copy failed';
-      copyBtn.style.color= ok ? '#CDF851' : '#D0342C';
-      setTimeout(function(){ copyBtn.textContent='Copy link'; copyBtn.style.color='#9B9A94'; },1800);
+      copyBtn.style.color= ok ? '#CDF851' : '#FF4A23';
+      setTimeout(function(){ copyBtn.textContent='Copy link'; copyBtn.style.color='#888888'; },1800);
     }
     function fallback(){
       var ta=document.createElement('textarea');

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pitch Deck System — Campaign Ops</title>
@@ -8,25 +9,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Inter',-apple-system,sans-serif; background:#F5F2EB; color:#0F0E0E; -webkit-font-smoothing:antialiased; }
+
   .wrap { max-width:1000px; margin:0 auto; padding:0 32px; }
   .head { padding:56px 0 40px; border-bottom:1px solid #ECEAE3; }
   .kicker { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:#FF4A23; margin-bottom:14px; }
   h1 { font-size:38px; font-weight:600; letter-spacing:-1.2px; line-height:1.08; margin-bottom:12px; }
-  .sub { font-size:15px; color:#3E3F41; max-width:62ch; line-height:1.65; }
+  .sub { font-size:15px; color:#888888; max-width:62ch; line-height:1.65; }
 
   .main { padding:40px 0 64px; }
   .cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
-  a.card { display:flex; flex-direction:column; background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#3E3F41); padding:24px 24px 20px; min-height:180px; text-decoration:none; color:#0F0E0E; }
-  a.card:hover { border-color:#0F0E0E; border-top-color:var(--ac,#3E3F41); }
-  .card .part { font-size:11px; font-weight:600; letter-spacing:1.4px; text-transform:uppercase; color:#8A8781; margin-bottom:10px; }
+  a.card { display:flex; flex-direction:column; background:#fff; border:1px solid #ECEAE3; border-top:4px solid var(--ac,#CCCCCC); padding:24px 24px 20px; min-height:180px; text-decoration:none; color:#0F0E0E; }
+  a.card:hover { border-color:#0F0E0E; border-top-color:var(--ac,#CCCCCC); }
+  .card .part { font-size:11px; font-weight:600; letter-spacing:1.4px; text-transform:uppercase; color:#888888; margin-bottom:10px; }
   .card h2 { font-size:17px; font-weight:600; letter-spacing:-.4px; margin-bottom:8px; }
-  .card p { font-size:13.5px; color:#3E3F41; line-height:1.65; margin-bottom:auto; }
+  .card p { font-size:13.5px; color:#888888; line-height:1.65; margin-bottom:auto; }
   .card .ft { border-top:1px dashed #ECEAE3; margin-top:18px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; }
-  .card .ft span { font-size:12px; color:#8A8781; }
+  .card .ft span { font-size:12px; color:#888888; }
   .card .ft .go { font-size:13px; color:#FF4A23; }
-  .meta { margin-top:30px; font-size:12.5px; color:#8A8781; max-width:62ch; line-height:1.6; }
+  .meta { margin-top:30px; font-size:12.5px; color:#888888; max-width:62ch; line-height:1.6; }
   @media (max-width:800px){ .wrap{padding:0 18px;} .head{padding:40px 0 30px;} h1{font-size:30px;letter-spacing:-1px;} .cards{grid-template-columns:1fr;} }
 </style>
 <link rel="stylesheet" href="/shell.css">

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A&R Ops Gaps · Fleck Wed</title>
@@ -8,30 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F5F4EC;
-    --paper: #FFFFFF;
-    --ink: #0F0E0E;
-    --muted: #6B6776;
-    --line: #C8C5BB;
-    --chartreuse: #8FA82A;
-    --chartreuse-fill: #CDF851;
-    --flame: #B33113;
-    --flame-fill: #FF4A23;
-    --gold: #B58E10;
-    --teal: #2D8A88;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.45;
-    padding: 48px 40px;
-    max-width: 1100px;
-    margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-  }
+
+  body{max-width: 1100px}
   header {
     border-bottom: 1px solid #ECEAE3;
     padding-bottom: 18px;
@@ -125,8 +104,8 @@
     color: var(--flame);
     border: 1px solid var(--flame);
   }
-  .gap.context .tag { color: var(--gold); border-color: var(--gold); }
-  .gap.ask .tag { color: var(--chartreuse); border-color: var(--chartreuse); }
+  .gap.context .tag { color:var(--gold-ink); border-color: var(--gold); }
+  .gap.ask .tag { color:var(--lime-ink); border-color: var(--chartreuse); }
 
   footer {
     margin-top: 36px;
@@ -140,7 +119,7 @@
   }
 
   @media (max-width: 800px) {
-    body { padding: 28px 18px; }
+
     h1 { font-size: 32px; }
     .grid { grid-template-columns: 1fr; }
   }

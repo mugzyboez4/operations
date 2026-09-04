@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Budget Approvals · Campaign Ops</title>
@@ -9,9 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F5F2EB;--card:#FFFFFF;--line:#ECEAE3;--ink:#0F0E0E;--sec:#3E3F41;--muted:#8A8781;--flame:#FF4A23;--lime:#CDF851;--teal:#5BC0BE;--gold:#E8C547}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding:40px 32px 72px;max-width:1200px;margin:0 auto}
+
+body{max-width:1200px}
 .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:10px}
 h1{font-size:clamp(32px,4.5vw,44px);font-weight:600;letter-spacing:-1.4px;line-height:1.08}
 .sub{font-size:15px;color:var(--sec);max-width:62ch;margin-top:12px}
@@ -81,8 +81,8 @@ td .a{font-weight:600;color:var(--ink)}
 .demo-card .go{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--flame)}
 .demo-card.feat{grid-column:1/-1;border-top-color:var(--lime);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--ink);color:#FCFDF8}
 .demo-card.feat h3{color:#FCFDF8;font-size:19px}
-.demo-card.feat p{color:#C8C6BC;max-width:56ch}
-.demo-card.feat .go{color:var(--lime)}
+.demo-card.feat p{color:#D8D4CC;max-width:56ch}
+.demo-card.feat .go{color:var(--lime-ink)}
 .demo-card.feat .tagnew{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink);background:var(--lime);padding:3px 8px;margin-bottom:8px}
 .rule-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--flame);padding:24px}
 .rule-card.g{border-top-color:var(--lime)}
@@ -96,6 +96,9 @@ td .a{font-weight:600;color:var(--ink)}
 </style>
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
+<style>/* dark-ground accent */
+.demo-card.feat .go{color:var(--lime)}
+</style>
 </head>
 <body>
 <header>

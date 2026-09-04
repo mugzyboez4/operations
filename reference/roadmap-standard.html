@@ -1,25 +1,24 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head>
+<link rel="stylesheet" href="/tempo.css"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Roadmap format · five versions and a standard · Campaign Ops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
---chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
-body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+
+body{font:400 17px/1.6 Inter,sans-serif}
 .band{background:var(--ink);color:#FCFDF8}
 .band-in{max-width:1000px;margin:0 auto;padding:52px 32px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-ink);font-weight:600;margin-bottom:16px}
 h1{font-size:42px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
-.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:64ch}
+.sub{margin-top:18px;font-size:18px;color:#888888;max-width:64ch}
 .wrap{max-width:1000px;margin:0 auto;padding:48px 32px 110px}
 section{margin-bottom:56px}
 h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
 .slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
 .lede{color:var(--muted);max-width:66ch;margin-bottom:26px}
-.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:76ch}
-.note b{color:var(--chart);font-weight:600}
+.note{background:var(--ink);color:#D8D4CC;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:76ch}
+.note b{color:var(--lime-ink);font-weight:600}
 
 /* timeline of versions */
 .vers{border-left:2px solid var(--line);margin-left:8px}
@@ -33,23 +32,23 @@ h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
 .vbody{background:var(--paper);border:1px solid var(--line);padding:18px 22px}
 .vbody.k{border-left:4px solid var(--chart-d)}
 .vbody.d{border-left:4px solid var(--line)}
-.vrow{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid #EFEDE3;font-size:15px;line-height:1.55}
+.vrow{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid #ECEAE3;font-size:15px;line-height:1.55}
 .vrow:last-child{border-bottom:0}
 .vrow b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:3px}
-.shape{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#F0EEE4;padding:2px 7px;border:1px solid var(--line);display:inline-block;margin:2px 3px 2px 0}
+.shape{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#ECEAE3;padding:2px 7px;border:1px solid var(--line);display:inline-block;margin:2px 3px 2px 0}
 
 /* verdict chips */
 .tw{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 9px;vertical-align:middle}
 .tw.keep{background:var(--chart);color:var(--ink)}
-.tw.gone{background:#E4E1D7;color:var(--muted)}
+.tw.gone{background:#ECEAE3;color:var(--muted)}
 .tw.else{background:var(--amber);color:var(--ink)}
 
 /* the standard */
 .std{background:var(--paper);border:1px solid var(--line);padding:0;margin-bottom:8px}
 .stdh{background:var(--ink);color:#FCFDF8;padding:14px 24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.stdh span{color:var(--chart)}
+.stdh span{color:var(--lime-ink)}
 .stdb{padding:22px 26px}
-.f{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid #EFEDE3}
+.f{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid #ECEAE3}
 .f:last-child{border-bottom:0}
 .fn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;font-weight:600}
 .fd{font-size:15px;color:var(--muted);line-height:1.55}
@@ -59,7 +58,10 @@ h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
 .q{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--amber);padding:16px 22px;margin-bottom:8px;font-size:15px;line-height:1.6;max-width:82ch}
 .q b{font-weight:600;display:block;margin-bottom:4px}
 @media(max-width:720px){h1{font-size:32px}.vrow,.f{grid-template-columns:1fr}}
-</style></head><body>
+</style><style>/* dark-ground accent */
+.band-in .eyebrow,.note b,.stdh span{color:var(--lime)}
+</style>
+</head><body>
 
 <div class="band"><div class="band-in">
 <div class="eyebrow">Campaign Ops &middot; 13 August 2026</div>

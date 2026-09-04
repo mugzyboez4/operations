@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>New spend request · Campaign Ops</title>
@@ -8,9 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F5F2EB;--card:#FFFFFF;--line:#ECEAE3;--ink:#0F0E0E;--sec:#3E3F41;--muted:#8A8781;--flame:#FF4A23;--lime:#CDF851;--teal:#5BC0BE;--gold:#E8C547}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding:32px 24px 64px;max-width:1200px;margin:0 auto}
+
+body{max-width:1200px}
 .kicker{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--flame);margin-bottom:10px}
 h1{font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-1.2px;line-height:1.08}
 .sub{font-size:15px;color:var(--sec);max-width:62ch;margin-top:12px}
@@ -39,8 +39,8 @@ textarea{resize:vertical;min-height:54px}
 .submit[disabled]{opacity:.5;cursor:default}
 .note{font-size:11.5px;color:var(--muted);margin-top:10px}
 .msg{margin-top:14px;font-size:13px;padding:10px 12px;border:1px solid var(--line);display:none}
-.msg.ok{display:block;background:#F7FCE9;border-color:var(--lime);color:var(--ink)}
-.msg.err{display:block;background:#FFF3F0;border-color:var(--flame);color:var(--ink)}
+.msg.ok{display:block;background:#FFF8E1;border-color:var(--lime);color:var(--ink)}
+.msg.err{display:block;background:#FFF5F2;border-color:var(--flame);color:var(--ink)}
 .sheet-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--gold);padding:24px;overflow-x:auto}
 .sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:6px}
 .export{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--flame);background:none;border:1px solid var(--line);padding:6px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
@@ -58,8 +58,11 @@ td .a{font-weight:600;color:var(--ink)}
 .ft a{color:var(--flame);text-decoration:none;font-weight:600}
 .setup{background:var(--ink);color:#FCFDF8;padding:18px 20px;margin-bottom:24px;font-size:13px;display:none}
 .setup.on{display:block}
-.setup b{color:var(--lime)}
-.setup code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#1A1A1A;padding:2px 6px}
+.setup b{color:var(--lime-ink)}
+.setup code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#FFFFFF;padding:2px 6px}
+</style>
+<style>/* dark-ground accent */
+.setup.on b{color:var(--lime)}
 </style>
 </head>
 <body>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Budget → PO → Vendor — Full Walkthrough</title>
@@ -8,14 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#F5F3EE; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
-    --chartreuse:#CDF851; --flame:#FF4A23;
-    --green:#1F9D55; --yellow:#E8B923; --grey-fill:#DAD7D0; --teal:#4FB8B0;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  body{padding:28px;min-height:100vh}
+
   .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
   .wrap{max-width:1200px;margin:0 auto}
 
@@ -45,10 +39,10 @@
   /* rail */
   .rail{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;margin-bottom:22px}
   .rcell{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;text-align:left}
-  .rcell.phase-po{background:#FBFAF6}
-  .rcell.done{border-color:#CBE7D3;background:#F5FAF2}
+  .rcell.phase-po{background:#FAFAF5}
+  .rcell.done{border-color:#ECEAE3;background:#FAFAF5}
   .rcell.active{border-color:var(--flame);border-width:2px}
-  .rcell.back{border-color:var(--flame);background:#FDECE7}
+  .rcell.back{border-color:var(--flame);background:#FFF5F2}
   .rcell .rn{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:4px}
   .rcell.done .rn{color:var(--green)}
   .rcell.active .rn{color:var(--flame)}
@@ -71,10 +65,10 @@
   .qcard .row{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
   .qcard .amt{font-size:17px;font-weight:800}
   .qcard .grp{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F3F1EB;color:var(--muted)}
+  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F5F2EB;color:var(--muted)}
   .status-pill.done{background:rgba(31,157,85,.14);color:var(--green)}
   .status-pill.sent{background:rgba(255,74,35,.12);color:var(--flame)}
-  .status-pill.po{background:rgba(79,184,176,.16);color:#2b7e78}
+  .status-pill.po{background:rgba(79,184,176,.16);color:#2C8A88}
 
   /* record card */
   .record{background:var(--card);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
@@ -88,24 +82,24 @@
   @media(max-width:900px){.rec-body{grid-template-columns:1fr}.rec-left{border-right:0;border-bottom:1.5px solid var(--line)}}
   .rec-left h3{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
   .rec-left .byline{color:var(--muted);font-size:13px;margin-top:7px}
-  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAF9F6}
+  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAFAF5}
   .sec-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px}
 
   /* gauge */
   .gauge-wrap{position:relative;margin-top:4px}
   .gauge{position:relative;height:34px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
-  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .spent{background:#CCCCCC;height:100%}
   .gauge .thisb{height:100%}
-  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#FF4A23 7px,#FF4A23 14px)}
   .ceiling-mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);z-index:3}
   .ceiling-lbl{position:absolute;top:40px;transform:translateX(-50%);font-size:11px;font-weight:700;white-space:nowrap}
   .legend{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
   .legend span{display:flex;align-items:center;gap:6px}
   .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
 
-  .note-box{margin-top:26px;background:#EAF7F5;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
-  .note-box.warn{background:#FFF7E0}
-  .note-box.bad{background:#FDECE7}
+  .note-box{margin-top:26px;background:#F0FDFC;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
+  .note-box.warn{background:#FFF8E1}
+  .note-box.bad{background:#FFF5F2}
   .note-box .u{font-weight:800}
 
   .li{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -115,12 +109,12 @@
   .li-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px}
   .li-total .cat{font-size:16px;font-weight:900}
   .li-total .val{font-size:18px;font-weight:900}
-  .cap-note{background:#F4FBDD;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
+  .cap-note{background:#FFF8E1;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
 
   .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
   .stage{border:1.5px solid var(--line);border-radius:9px;padding:11px 11px 13px}
   .stage.active{border-color:var(--flame);border-width:2px}
-  .stage.done{background:#F5FAF2;border-color:#CBE7D3}
+  .stage.done{background:#FAFAF5;border-color:#ECEAE3}
   .stage .st{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:5px}
   .stage.done .st{color:var(--green)}
   .stage.active .st{color:var(--flame)}
@@ -140,7 +134,7 @@
   .btn.back:hover:not([disabled]){color:var(--ink);border-color:var(--ink)}
 
   /* PO execution panel */
-  .po-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:rgba(79,184,176,.16);color:#2b7e78;margin-top:14px}
+  .po-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:rgba(79,184,176,.16);color:#2C8A88;margin-top:14px}
   .po-field{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
   .po-field .k{color:var(--muted)}
   .po-field .v{font-weight:700}
@@ -150,11 +144,11 @@
   .po-step.on{background:var(--teal)}
   .po-steplbls{display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--muted)}
   .po-steplbls b{color:var(--ink)}
-  .auto-note{background:#EAF7F5;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:16px;color:#2b6a65}
+  .auto-note{background:#F0FDFC;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:16px;color:#2C8A88}
   .rollup{background:var(--ink);color:#fff;border-radius:10px;padding:16px 18px;margin-top:18px}
-  .rollup .rt{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--chartreuse)}
+  .rollup .rt{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-ink)}
   .rollup h4{font-size:17px;font-weight:800;margin-top:6px}
-  .rollup p{font-size:12.5px;color:#C9C6BE;margin-top:6px;line-height:1.5}
+  .rollup p{font-size:12.5px;color:#888888;margin-top:6px;line-height:1.5}
 
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:14px 22px;border-radius:11px;font-size:14px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:50;display:flex;align-items:center;gap:10px}
   .toast.show{transform:translateX(-50%) translateY(0)}
@@ -364,7 +358,7 @@ function gaugeHTML(b){
     <div class="gauge">${bar}<div class="ceiling-mark" style="left:${cpos}%"></div></div>
     <div class="ceiling-lbl" style="left:${cpos}%">Ceiling ${fmtK(c)}</div>
     <div class="legend">
-      <span><i class="sw" style="background:#C9C6BE"></i>Spent this cycle · ${fmtK(spent)}</span>
+      <span><i class="sw" style="background:#CCCCCC"></i>Spent this cycle · ${fmtK(spent)}</span>
       <span><i class="sw" style="background:${thisColor}"></i>This budget · ${fmtK(budg)}</span>
       ${over>0
         ? `<span><i class="sw" style="background:var(--flame)"></i>Over ceiling · ${fmtK(over)}</span>`

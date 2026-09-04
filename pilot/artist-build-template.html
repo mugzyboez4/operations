@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Artist Page — Build Template · Campaign Ops</title>
@@ -13,149 +14,28 @@
    room, used on the brand mark and a few hero surfaces).
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Mono:wght@400;500&family=Pinyon+Script&family=Style+Script&display=swap');
-
 /* ============================================================
    Brand fonts (self-hosted)
    - Suisse Intl  — primary sans, replaces Inter
    - ITC Compacta — display condensed, replaces Archivo Black
    ============================================================ */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-:root {
-  /* ---- Light theme (default) — "cream paper" -------------- */
-  --bg:        #F5F2EB;   /* page background, sand */
-  --card:      #FFFFFF;   /* card surface */
-  --card-2:    #FAFAF5;   /* sunken / inner panel */
-
-  --ink:       #0F0E0E;   /* primary text, near-black */
-  --fg-2:      #2A2A2A;   /* secondary text */
-  --fog:       #888888;   /* muted body / metadata */
-  --slate:     #CCCCCC;   /* very muted / disabled */
-  --border:    #ECEAE3;   /* hairline */
-  --rule:      #D8D4CC;   /* heavier rule (used in dotted patterns) */
-
-  /* ---- Brand palette — used on top of either theme -------- */
-  --lime:      #CDF851;   /* chartreuse — brand mark, success edge */
-  --flame:     #FF4A23;   /* tomato — Active / Now / Alert / current phase */
-  --teal:      #5BC0BE;   /* turquoise — pilot, secondary accent */
-  --gold:      #E8C547;   /* mustard — in-progress, mid-stage */
-  --clear:     #4ADE80;   /* green — gate cleared (only on tracker) */
-
-  /* ---- Phase chromatics — one hue per phase --------------- */
-  --phase-01:  #3E3F41;   /* PREP — slate */
-  --phase-02:  #5BC0BE;   /* PLAN — teal */
-  --phase-03:  #E8C547;   /* ANNOUNCE — gold */
-  --phase-04:  #CDF851;   /* RELEASE — lime */
-  --phase-05:  #FF4A23;   /* REVIEW — flame */
-
-  /* ---- Soft tint backgrounds for state surfaces ---------- */
-  --tint-flame: #FFF5F2;
-  --tint-teal:  #F0FDFC;
-  --tint-gold:  #FFF8E1;
-  --tint-lime:  #F0FAD0;
-  --tint-public:#FFEEE8;
-
-  /* ---- Type ---------------------------------------------- */
-  --font-sans:    -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, sans-serif;
-  --font-display: 'Archivo Black', sans-serif;
-  --font-mono:    'DM Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
-
-  /* Hairline scale (8 + label) */
-  --fs-label:    9px;      /* tiny labels, nav links */
-  --fs-eyebrow:  11px;     /* eyebrows, badges */
-  --fs-meta:    10px;
-  --fs-body:    13px;
-  --fs-body-lg: 15px;
-  --fs-lead:    16px;
-  --fs-h3:      20px;
-  --fs-h2:      36px;
-  --fs-h1:      48px;
-  --fs-display: 56px;
-
-  /* Layout */
-  --max-w: 1180px;
-  --pad-x: 32px;
-
-  /* Spacing scale */
-  --s-1: 4px;
-  --s-2: 8px;
-  --s-3: 12px;
-  --s-4: 16px;
-  --s-5: 20px;
-  --s-6: 24px;
-  --s-7: 32px;
-  --s-8: 48px;
-  --s-9: 64px;
-
-  /* Corners — Campaign Ops is hard-edged. Radii are reserved
-     for image plates and the rounded-square logo plinth.    */
-  --r-0: 0; /* @kind radius */
-  --r-1: 4px;
-  --r-2: 6px;
-  --r-img: 16px;
-
-  /* Shadows — used sparingly. */
-  --shadow-soft: 0 4px 12px rgba(0,0,0,.06);
-  --shadow-pop:  0 -8px 24px rgba(0,0,0,.06);
-  --ring-flame:  0 0 0 4px rgba(255,74,35,.08);
-  --ring-teal:   0 0 0 4px rgba(91,192,190,.08);
-
-  /* ---- RCA Public brand --------------------------------- */
-  /* Distinct from Campaign Ops. Used on label-side artwork. */
-  --rca-ink:    #0A0A0A;
-  --rca-paper:  #FCFBF7;
-  --rca-red:    #E11600;
-  --rca-stone:  #C6C0B6;
-  --rca-bone:   #EFEAE0;
-
-  /* The RCA deck specifies Romie (serif) + Romie Italic (flourish). Romie is
-     licensed and not bundled, so these render free stand-ins loaded above:
-     Bodoni Moda (closest high-contrast didone to Romie's upright) and Pinyon
-     Script (the FYC swash). Put 'Romie' back in front + add an @font-face if
-     the licensed font is ever added to fonts/. */
-  --font-serif-display: 'Bodoni Moda', 'Playfair Display', 'Didot', serif;  /* subheads, artist names */
-  --font-bold-sans:     'Archivo Black', sans-serif;
-  --font-script:        'Pinyon Script', 'Style Script', cursive;           /* the FYC swash */
-}
-
 /* ---- Dark variant (control-room) ---------------------- */
 [data-theme="dark"], .theme-dark {
   --bg:     #0F0E0E;
-  --card:   #181818;
-  --card-2: #222222;
+  --card:   #FFFFFF;
+  --card-2: #FAFAF5;
   --ink:    #FCFDF8;
-  --fg-2:   #B0A9BE;
-  --fog:    #847D96;
-  --slate:  #3E3F41;
+  --fg-2:   #888888;
+  --fog:    #888888;
+  --slate:  #CCCCCC;
   --border: #2A2A2A;
   --rule:   #2A2A2A;
-  --tint-flame: #2A1410;
-  --tint-teal:  #082624;
-  --tint-gold:  #2A2410;
-  --tint-lime:  #1F2410;
-  --tint-public:#2A1410;
+  --tint-flame: #0F0E0E;
+  --tint-teal:  #2A2A2A;
+  --tint-gold:  #2A2A2A;
+  --tint-lime:  #2A2A2A;
+  --tint-public:#0F0E0E;
 }
 
 /* ============================================================
@@ -269,9 +149,9 @@
 .tint-phase-04 { color: var(--phase-04); }
 .tint-phase-05 { color: var(--phase-05); }
 .tint-flame    { color: var(--flame);    }
-.tint-teal     { color: var(--teal);     }
-.tint-lime     { color: var(--lime);     }
-.tint-gold     { color: var(--gold);     }
+.tint-teal     { color:var(--teal-ink);     }
+.tint-lime     { color:var(--lime-ink);     }
+.tint-gold     { color:var(--gold-ink);     }
 .tint-fog      { color: var(--fog);      }
 
 /* Common page reset usable on demo pages */
@@ -293,9 +173,7 @@ body.cops-reset {
 
 /* Campaign Ops UI Kit styles. Pulls tokens from colors_and_type.css. */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-body { padding-bottom: 110px; }
+body{padding-bottom: 110px}
 
 .cops-page { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); }
 
@@ -337,8 +215,8 @@ body { padding-bottom: 110px; }
 .cops-body-sm { font-size: 11px; line-height: 1.5; color: var(--ink); }
 .cops-mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--fog); text-transform: uppercase; }
 .tint-flame { color: var(--flame); }
-.tint-teal { color: var(--teal); }
-.tint-lime { color: var(--lime); }
+.tint-teal { color:var(--teal-ink); }
+.tint-lime { color:var(--lime-ink); }
 
 .cops-hero-actions { display: flex; gap: 12px; margin-top: 32px; }
 .cops-btn {
@@ -418,13 +296,13 @@ body { padding-bottom: 110px; }
 
 .cops-stage { display: inline-block; padding: 3px 9px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 .cops-stage.is-scoping { background: var(--bg); color: var(--fog); border: 1px solid var(--border); }
-.cops-stage.is-build { background: var(--tint-gold); color: #8B6900; border: 1px solid var(--gold); }
-.cops-stage.is-input { background: var(--tint-teal); color: #2A8581; border: 1px solid var(--teal); }
+.cops-stage.is-build { background: var(--tint-gold); color: #9A7B12; border: 1px solid var(--gold); }
+.cops-stage.is-input { background: var(--tint-teal); color: #2C8A88; border: 1px solid var(--teal); }
 .cops-stage.is-locked { background: var(--ink); color: var(--lime); }
-.cops-stage.is-shipped { background: var(--tint-lime); color: #5C7A1A; border: 1px solid #B8E83D; }
+.cops-stage.is-shipped { background: var(--tint-lime); color: #5F7E1C; border: 1px solid #CDF851; }
 
 .cops-gate-pill { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; padding: 3px 10px; color: var(--fog); background: var(--bg); font-weight: 700; }
-.cops-gate-pill.is-cleared { color: #166534; background: #DCFCE7; }
+.cops-gate-pill.is-cleared { color: #1F9D55; background: #F0FDFC; }
 
 /* ====================== PILOT CARD ====================== */
 .cops-pilot { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--teal); }
@@ -433,12 +311,12 @@ body { padding-bottom: 110px; }
 .cops-pilot-gate { background: var(--gold); color: var(--ink); padding: 6px 12px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 .cops-pilot-body { padding: 18px 22px; }
 .cops-pilot-foot { padding: 14px 22px; background: var(--card-2); border-top: 1px dashed var(--border); display: flex; gap: 14px; align-items: flex-start; }
-.cops-pilot-foot .cops-mono { color: var(--teal); white-space: nowrap; padding-top: 2px; }
+.cops-pilot-foot .cops-mono { color:var(--teal-ink); white-space: nowrap; padding-top: 2px; }
 
 /* ====================== PRINCIPLES ====================== */
 .cops-principles { padding: 56px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .cops-principle { background: var(--card); border-left: 3px solid var(--lime); padding: 18px 22px; }
-.cops-principle .cops-mono { color: var(--lime); display: block; margin-bottom: 10px; }
+.cops-principle .cops-mono { color:var(--lime-ink); display: block; margin-bottom: 10px; }
 .cops-principle p { font-size: 14px; line-height: 1.5; color: var(--fg-2); }
 .cops-principle strong { color: var(--ink); font-weight: 700; }
 
@@ -451,15 +329,15 @@ body { padding-bottom: 110px; }
 }
 .cops-lizzy-info { min-width: 160px; }
 .cops-lizzy-name { font-size: 14px; font-weight: 900; letter-spacing: -.4px; }
-.cops-lizzy-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-top: 2px; }
+.cops-lizzy-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color:var(--teal-ink); margin-top: 2px; }
 .cops-lizzy-gates { display: flex; flex: 1; gap: 6px; }
 .cops-lizzy-g { flex: 1; padding: 8px 10px; background: var(--card-2); border: 1px solid var(--border); }
-.cops-lizzy-gn { font-size: 10px; font-weight: 900; letter-spacing: .4px; color: var(--slate); text-transform: uppercase; }
+.cops-lizzy-gn { font-size: 10px; font-weight: 900; letter-spacing: .4px; color:var(--fog); text-transform: uppercase; }
 .cops-lizzy-gq { font-size: 10px; color: var(--fog); margin-top: 3px; }
-.cops-lizzy-g.done { background: #F0FFF4; border-color: var(--lime); }
-.cops-lizzy-g.done .cops-lizzy-gn, .cops-lizzy-g.done .cops-lizzy-gq { color: #5A7A00; }
+.cops-lizzy-g.done { background: #F0FDFC; border-color: var(--lime); }
+.cops-lizzy-g.done .cops-lizzy-gn, .cops-lizzy-g.done .cops-lizzy-gq { color: #5F7E1C; }
 .cops-lizzy-g.work { background: var(--tint-gold); border-color: var(--gold); }
-.cops-lizzy-g.work .cops-lizzy-gn, .cops-lizzy-g.work .cops-lizzy-gq { color: #8B6900; }
+.cops-lizzy-g.work .cops-lizzy-gn, .cops-lizzy-g.work .cops-lizzy-gq { color: #9A7B12; }
 .cops-lizzy-pct { text-align: center; padding-left: 16px; border-left: 1px solid var(--border); }
 .cops-lizzy-pn { font-size: 20px; font-weight: 900; letter-spacing: -1px; }
 .cops-lizzy-pl { font-size: 8px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--fog); }
@@ -471,9 +349,6 @@ body { padding-bottom: 110px; }
 .cops-footer-name { font-size: 16px; font-weight: 900; letter-spacing: -.5px; text-transform: uppercase; }
 .cops-footer-name span { color: var(--lime); background: var(--ink); padding: 2px 6px; }
 .cops-footer-end { margin-left: auto; }
-
-
-  *{margin:0;padding:0;box-sizing:border-box;}
   a{color:var(--flame);text-decoration:none;}
   a:hover{color:var(--ink);}
 
@@ -727,7 +602,7 @@ body { padding-bottom: 110px; }
         </div>
         <div style="padding:10px 16px;background:var(--card-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
           <span style="width:14px;height:14px;background:var(--clear);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;">✓</span>
-          <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#166534;">You're all caught up</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1F9D55;">You're all caught up</span>
         </div>
         <div style="padding:14px 16px;opacity:.6;">
           <div style="display:flex;gap:6px;margin-bottom:8px;"><span style="border:1px dashed var(--rule);background:var(--card-2);padding:3px 8px;font-family:var(--font-mono);font-size:8px;letter-spacing:1px;color:var(--fog);">TYPE</span></div>

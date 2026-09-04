@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roster Map — RCA Campaign Ops</title>
@@ -11,20 +12,15 @@
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
 <style>
-  :root{
-    --paper:#F5F2EA; --ink:#111; --muted:#6B6862; --faint:#9B9891;
-    --line:#D9D4C7; --chart:#CDF851; --flame:#E8432A; --card:#FFFFFF;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
 
   /* dark header band */
   .hero{background:var(--ink);color:#FCFDF8;padding:56px 0 48px}
-  .hero .kicker{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8B877F;margin-bottom:14px}
+  .hero .kicker{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#888888;margin-bottom:14px}
   .hero h1{font-size:46px;font-weight:800;letter-spacing:-1.4px;line-height:1.05}
   .hero .rule{width:120px;height:5px;background:var(--chart);margin:20px 0 18px}
-  .hero .meta{font-size:13px;color:#B0ACA4;max-width:62ch}
+  .hero .meta{font-size:13px;color:#CCCCCC;max-width:62ch}
 
   /* sections */
   .sec{padding:48px 0 8px}
@@ -40,7 +36,7 @@
   .blk{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ink);padding:18px 18px 16px}
   .blk .nm{font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:2px}
   .blk .sub{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
-  .blk .list{font-size:12.5px;line-height:1.75;color:#3E3C38}
+  .blk .list{font-size:12.5px;line-height:1.75;color:#2A2A2A}
   .blk .list .sh{color:var(--faint);font-size:11px}
   .blk.ops{border-top-color:var(--chart)}
   .blk.sup{border-top-color:var(--flame)}
@@ -49,7 +45,7 @@
   .also b{color:var(--ink);font-weight:700}
 
   .adnote{margin-top:18px;background:var(--ink);color:#FCFDF8;padding:12px 18px;font-size:12.5px}
-  .adnote b{color:var(--chart)}
+  .adnote b{color:var(--lime-ink)}
 
   .foot{margin-top:56px;border-top:1px solid var(--line);padding:20px 0 40px;display:flex;justify-content:space-between;font-size:11px;color:var(--faint)}
 
@@ -60,6 +56,9 @@
     .grid,.grid.c3,.grid.c2{grid-template-columns:1fr}
     .lbl{flex-wrap:wrap} .lbl .note{margin-left:0;width:100%}
   }
+</style>
+<style>/* dark-ground accent */
+.adnote b{color:var(--lime)}
 </style>
 </head>
 <body>

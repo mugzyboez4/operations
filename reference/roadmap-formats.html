@@ -1,18 +1,17 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head>
+<link rel="stylesheet" href="/tempo.css"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Roadmap formats &middot; Campaign Operations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#726E64;--line:#DBD7CB;
---chart:#CDF851;--flame:#B33113;--amber:#8A6708}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+
+body{font:400 16px/1.6 Inter,sans-serif}
 .band{background:var(--ink);color:#FCFDF8}
 .band-in{max-width:1200px;margin:0 auto;padding:48px 32px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:14px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-ink);font-weight:600;margin-bottom:14px}
 h1{font-size:38px;line-height:1.07;font-weight:600;letter-spacing:-.028em;max-width:20ch}
-.sub{margin-top:16px;font-size:17px;line-height:1.55;color:#B4B1A9;max-width:62ch}
+.sub{margin-top:16px;font-size:17px;line-height:1.55;color:#888888;max-width:62ch}
 .wrap{max-width:1200px;margin:0 auto;padding:0 32px 100px}
 .tabs{display:flex;gap:0;flex-wrap:wrap;position:sticky;top:0;z-index:30;background:var(--bg);
 padding:18px 0 0;border-bottom:2px solid var(--ink);margin-bottom:30px}
@@ -37,12 +36,12 @@ border-bottom:2px solid var(--ink);margin:18px 0 26px}
 .colh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
 padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:4px}
 .colh h4{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.colh.done{border-bottom-color:#8FA82A}.colh.wip{border-bottom-color:var(--amber)}
+.colh.done{border-bottom-color:#5F7E1C}.colh.wip{border-bottom-color:var(--amber)}
 .colh.blocked{border-bottom-color:var(--flame)}
 .colh .n{font-size:12px;color:var(--muted);font-weight:600}
 .cols{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:12px;min-height:34px}
-.card{border:1px solid var(--line);border-left:3px solid var(--line);padding:10px 12px;margin-bottom:8px;background:#FCFCFA}
-.card.done{border-left-color:#8FA82A;color:var(--muted)}
+.card{border:1px solid var(--line);border-left:3px solid var(--line);padding:10px 12px;margin-bottom:8px;background:#FFFFFF}
+.card.done{border-left-color:#5F7E1C;color:var(--muted)}
 .card.wip{border-left-color:var(--amber)}
 .card.blocked{border-left-color:var(--flame)}
 .cl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:5px}
@@ -56,10 +55,10 @@ padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:4px}
 .gh .gc{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:10px 14px}
 .gc{padding:12px 14px;border-right:1px solid var(--line);min-width:0}
 .gc:last-child{border-right:0}
-.lanecell{font-size:13.5px;line-height:1.35;background:#FAFAF6}
+.lanecell{font-size:13.5px;line-height:1.35;background:#FAFAF5}
 .lanecell b{font-weight:600}
-.pill.pd{border-left-color:#8FA82A;color:var(--muted);background:#F6F6F0}
-.pill{font-size:12.5px;line-height:1.35;background:#F1F0E8;border-left:2px solid var(--chart);padding:6px 9px;margin-bottom:6px}
+.pill.pd{border-left-color:#5F7E1C;color:var(--muted);background:#FAFAF5}
+.pill{font-size:12.5px;line-height:1.35;background:#F5F2EB;border-left:2px solid var(--chart);padding:6px 9px;margin-bottom:6px}
 .ocs{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .oc{border-top:2px solid var(--ink);padding-top:14px}
 .och{font-size:19px;font-weight:600;letter-spacing:-.018em;line-height:1.28;max-width:38ch}
@@ -71,8 +70,8 @@ li:last-child{border-bottom:0}
 ul.tight li{font-size:13.5px;padding:7px 0}
 .t{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
 padding:2px 7px;margin-right:9px;position:relative;top:-1px}
-.t.done{background:var(--chart);color:#33401A}
-.t.wip{background:#F4E3B4;color:var(--amber)}
+.t.done{background:var(--chart);color:#5F7E1C}
+.t.wip{background:#F0FAD0;color:var(--amber)}
 .t.blocked{background:var(--flame);color:#fff}
 .w{color:var(--muted);font-size:13px}.w::before{content:' \00b7 '}
 .narrow{max-width:730px}
@@ -86,7 +85,10 @@ border-bottom:2px solid var(--ink);margin-bottom:2px}
 @media(max-width:1000px){.cols4{grid-template-columns:1fr 1fr}.ocs{grid-template-columns:1fr}
 .meta{grid-template-columns:1fr}.m{border-right:0;border-bottom:1px solid var(--line)}
 .gr{grid-template-columns:1fr}h1{font-size:28px}}
-</style></head><body>
+</style><style>/* dark-ground accent */
+.band-in .eyebrow{color:var(--lime)}
+</style>
+</head><body>
 <div class="band"><div class="band-in">
 <div class="eyebrow">Campaign Operations &middot; 14 August 2026</div>
 <h1>Five roadmap formats, all showing your actual Phase 1</h1>

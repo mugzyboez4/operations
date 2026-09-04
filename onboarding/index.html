@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -9,17 +10,7 @@
 <x-dc>
 <helmet>
 <style>
-  :root {
-    --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
-    --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888;
-    --border:#ECEAE3; --rule:#D8D4CC;
-    --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
-    --phase-01:#3E3F41; --phase-02:#5BC0BE; --phase-03:#E8C547; --phase-04:#CDF851; --phase-05:#FF4A23;
-    --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
-    --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-    --font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  }
-  body { margin: 0; background: #F5F2EB; }
+
   a { color: #FF4A23; text-decoration: none; }
   a:hover { color: #0F0E0E; }
   summary { list-style: none; cursor: pointer; }
@@ -39,14 +30,14 @@
     <div style="display:flex;align-items:center;gap:14px">
       <img src="assets/nipper-neon.png" alt="Nipper" style="width:32px;height:32px;border-radius:6px;display:block">
       <img src="assets/rca-wordmark-light.png" alt="RCA Records" style="height:15px;width:auto;display:block">
-      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:#847D96;padding-left:14px;border-left:1px solid #2A2A2A">SUPPORT STAFF ONBOARDING</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:#888888;padding-left:14px;border-left:1px solid #2A2A2A">SUPPORT STAFF ONBOARDING</div>
     </div>
     <div style="display:flex;align-items:center;gap:22px;font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase">
-      <a href="#start" style="color:#B0A9BE" style-hover="color:#FCFDF8">Start here</a>
-      <a href="#work" style="color:#B0A9BE" style-hover="color:#FCFDF8">Your work</a>
-      <a href="#first30" style="color:#B0A9BE" style-hover="color:#FCFDF8">First 30 days</a>
-      <a href="#checklists" style="color:#B0A9BE" style-hover="color:#FCFDF8">Release week</a>
-      <a href="#office" style="color:#B0A9BE" style-hover="color:#FCFDF8">Office</a>
+      <a href="#start" style="color:#888888" style-hover="color:#FCFDF8">Start here</a>
+      <a href="#work" style="color:#888888" style-hover="color:#FCFDF8">Your work</a>
+      <a href="#first30" style="color:#888888" style-hover="color:#FCFDF8">First 30 days</a>
+      <a href="#checklists" style="color:#888888" style-hover="color:#FCFDF8">Release week</a>
+      <a href="#office" style="color:#888888" style-hover="color:#FCFDF8">Office</a>
     </div>
   </div>
 </div>
@@ -56,12 +47,12 @@
     <div>
       <div style="font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--flame);margin-bottom:18px">RCA Records</div>
       <h1 style="font-size:54px;font-weight:900;letter-spacing:-2.2px;line-height:.95;text-transform:uppercase;margin:0 0 20px">Support Staff<br><span style="color:var(--lime)">Onboarding</span></h1>
-      <p style="font-size:16px;line-height:1.65;color:#B0A9BE;margin:0 0 12px;max-width:40em">Welcome to RCA Records, Vedika and Emma — we’re really glad you’re here. Your role is to help keep campaigns moving: requests organized, information accurate, deadlines visible, and nothing falling through the cracks.</p>
-      <p style="font-size:14.5px;line-height:1.65;color:#847D96;margin:0;max-width:40em">Nobody expects you to know all of this in week one.</p>
+      <p style="font-size:16px;line-height:1.65;color:#888888;margin:0 0 12px;max-width:40em">Welcome to RCA Records, Vedika and Emma — we’re really glad you’re here. Your role is to help keep campaigns moving: requests organized, information accurate, deadlines visible, and nothing falling through the cracks.</p>
+      <p style="font-size:14.5px;line-height:1.65;color:#888888;margin:0;max-width:40em">Nobody expects you to know all of this in week one.</p>
     </div>
     <div style="border-left:3px solid var(--lime);padding-left:20px">
-      <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:#847D96;margin-bottom:10px">How to use this page</div>
-      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#B0A9BE">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:#888888;margin-bottom:10px">How to use this page</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#888888">
         <div>Start with <strong style="color:#FCFDF8">Start here</strong> and <strong style="color:#FCFDF8">Your work</strong> — that’s plenty for day 1.</div>
         <div>Everything else is here whenever you need it — click a section to open or close it.</div>
         <div>The checklists remember what you’ve ticked, so you can come back anytime.</div>
@@ -154,7 +145,7 @@
         </div>
         <div style="background:var(--card);padding:20px;border-top:6px solid var(--teal)">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-            <span style="background:var(--tint-teal);border:1px solid var(--teal);color:#1F7A78;font-size:11px;font-weight:800;width:28px;height:28px;display:flex;align-items:center;justify-content:center">R</span>
+            <span style="background:var(--tint-teal);border:1px solid var(--teal);color:#2C8A88;font-size:11px;font-weight:800;width:28px;height:28px;display:flex;align-items:center;justify-content:center">R</span>
             <strong style="font-size:16px">Ryan</strong>
             <span style="font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--fog);margin-left:auto">Day-to-day support</span>
           </div>
@@ -379,7 +370,7 @@
           <div style="padding:0 20px 20px 53px">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:18px">
               <div><div style="font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--fog);margin-bottom:10px">Confirm before building</div><ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7"><li>Audience</li><li>Send date</li><li>Subject line</li><li>Approved copy</li><li>Approved artwork</li><li>CTA links</li></ul></div>
-              <div style="background:var(--tint-gold);border-left:4px solid var(--gold);padding:16px 18px"><div style="font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#9A6B00;margin-bottom:10px">Quick check before it goes out</div><ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7"><li>All links work</li><li>Images load</li><li>Artist name is right</li><li>Buttons work</li><li>Looks fine on mobile</li></ul></div>
+              <div style="background:var(--tint-gold);border-left:4px solid var(--gold);padding:16px 18px"><div style="font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#9A7B12;margin-bottom:10px">Quick check before it goes out</div><ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7"><li>All links work</li><li>Images load</li><li>Artist name is right</li><li>Buttons work</li><li>Looks fine on mobile</li></ul></div>
             </div>
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)">
               <div style="background:var(--card);padding:14px 16px"><strong style="font-size:13px">Fan announcement</strong><p style="font-size:12px;color:var(--fog);margin:5px 0 0">New release information</p></div>

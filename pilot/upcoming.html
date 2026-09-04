@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Upcoming — Mockup · Campaign Ops</title>
 <style>
-:root{
-  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
-  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
-  --border:#ECEAE3; --rule:#D8D4CC;
-  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
-  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
-  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
-  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+
 .page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
 
 .hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
@@ -51,15 +42,15 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .uprow .dt{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);width:82px;flex-shrink:0;}
 .uprow .tag{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);flex-shrink:0;}
 .uprow .tag.rel{background:var(--tint-flame);border-color:var(--flame);color:var(--flame);}
-.uprow .tag.live{background:var(--tint-teal);border-color:var(--teal);color:#2A8581;}
-.uprow .tag.promo{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
-.uprow .tag.note{background:var(--tint-lime);border-color:#B8E83D;color:#5C7A1A;}
+.uprow .tag.live{background:var(--tint-teal);border-color:var(--teal);color:#2C8A88;}
+.uprow .tag.promo{background:var(--tint-gold);border-color:var(--gold);color:#9A7B12;}
+.uprow .tag.note{background:var(--tint-lime);border-color:#CDF851;color:#5F7E1C;}
 .uprow .who{font-size:12px;font-weight:700;flex-shrink:0;}
 .uprow .what{font-size:12px;color:var(--fg-2);flex:1;min-width:0;}
 .uprow.r-rel{border-left-color:var(--flame);}
 .uprow.r-live{border-left-color:var(--teal);}
 .uprow.r-promo{border-left-color:var(--gold);}
-.uprow.r-note{border-left-color:#B8E83D;}
+.uprow.r-note{border-left-color:#CDF851;}
 .today{display:flex;align-items:center;gap:12px;margin:10px 0;}
 .today .ln{flex:1;height:0;border-top:2px dashed var(--flame);}
 .today b{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--flame);}

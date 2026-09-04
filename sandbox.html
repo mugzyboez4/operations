@@ -1,36 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sandbox</title>
 <link rel="icon" type="image/png" href="/logo_neon.png">
 <style>
-:root {
-  --paper: #FBF8F2;          /* warm off-white, not the brutalist FCFDF8 */
-  --paper-soft: #F2EEE5;     /* warmer card surface */
-  --ink: #1A1A1A;
-  --ink-soft: #3D3935;
-  --ink-quiet: #6B6660;
-  --ink-fade: #9C968D;
-  --rule: #E8E2D4;
-  --warm: #C25A2C;            /* warm muted terracotta, not flame */
-  --warm-soft: #F5E4D8;
-  --moss: #7A8F5C;            /* muted sage, not chartreuse */
-  --moss-soft: #E8EEDD;
-  --teal: #5E8589;            /* muted teal */
-  --teal-soft: #DDE8E9;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--paper); color: var(--ink); }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
-  line-height: 1.6;
-  font-size: 16px;            /* larger body — this should read like a letter */
-  -webkit-font-smoothing: antialiased;
-}
+
+body{font-weight: 400;            /* larger body — this should read like a letter */}
 
 /* GATE — different copy, different password, softer */
 #gate {
@@ -176,7 +155,7 @@ h2 {
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--teal);
+  color:var(--teal-ink);
   flex-shrink: 0;
 }
 .tool-question {
@@ -438,7 +417,7 @@ if(document.readyState==="loading"){
     <div class="section-label">How to actually help</div>
     <h2>How to contribute.</h2>
 
-    <p>There's now one place to put all of this &mdash; <a href="/ideas.html" style="color:var(--teal);font-weight:700;text-decoration:none;">the board</a>. A wrong tag, a missing creator, or an idea for a tool — post it there and the whole team can see it.</p>
+    <p>There's now one place to put all of this &mdash; <a href="/ideas.html" style="color:var(--teal-ink);font-weight:700;text-decoration:none;">the board</a>. A wrong tag, a missing creator, or an idea for a tool — post it there and the whole team can see it.</p>
 
     <ul class="help-list">
       <li>
@@ -462,7 +441,7 @@ if(document.readyState==="loading"){
 
   <!-- CLOSING -->
   <div class="closing">
-    <p>Corrections and ideas via <a href="/ideas.html" style="color:var(--teal);font-weight:700;text-decoration:none;">the board</a> or directly to Campaign Ops.</p>
+    <p>Corrections and ideas via <a href="/ideas.html" style="color:var(--teal-ink);font-weight:700;text-decoration:none;">the board</a> or directly to Campaign Ops.</p>
 
     <div class="signature">
       <div class="name">Campaign Ops</div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase Gate Checklists · DRAFT (Light)</title>
@@ -8,35 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    :root {
-    --bg: #F5F4EC;
-    --card: #FFFFFF;
-    --card-2: #ECEAE0;
-    --text: #0F0E0E;
-    --text-2: #3E3F41;
-    --chartreuse: #8FA82A;
-    --chartreuse-fill: #CDF851;
-    --flame: #B33113;
-    --flame-fill: #FF4A23;
-    --slate: #C8C5BB;
-    --fog: #6B6776;
-    --teal: #2D8A88;
-    --gold: #B58E10;
-    --gold-fill: #E8C547;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 400;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    padding: 24px 20px 60px;
-    max-width: 980px;
-    margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-  }
+  body{font-weight: 400;
+    max-width: 980px}
 
   .doc-eyebrow {
     font-size: 10px;
@@ -54,7 +29,7 @@
     line-height: 1.0;
     margin-bottom: 12px;
   }
-  h1 .accent { color: var(--chartreuse); }
+  h1 .accent { color:var(--lime-ink); }
 
   .draft-callout {
     background: var(--gold-fill);
@@ -104,8 +79,8 @@
     border-color: var(--chartreuse-fill);
   }
   .ctrl-btn.primary:hover {
-    background: #B8E03D;
-    border-color: #B8E03D;
+    background: #CDF851;
+    border-color: #CDF851;
     color: #0F0E0E;
   }
   .ctrl-btn.primary .arrow {
@@ -144,7 +119,7 @@
   }
   .tab-btn:hover { color: var(--text); }
   .tab-btn.active {
-    color: var(--chartreuse);
+    color:var(--lime-ink);
     border-bottom-color: var(--chartreuse);
   }
   .tab-btn .pcount {
@@ -187,7 +162,7 @@
     margin-bottom: 8px;
   }
   .phase-name .arrow { color: var(--fog); margin: 0 6px; font-weight: 400; }
-  .phase-name .next { color: var(--chartreuse); }
+  .phase-name .next { color:var(--lime-ink); }
   .phase-gate {
     font-size: 13px;
     color: var(--fog);
@@ -241,7 +216,7 @@
     font-weight:700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--chartreuse);
+    color:var(--lime-ink);
   }
   .dept-count {
     font-size: 10px;
@@ -317,7 +292,7 @@
     color: var(--fog);
     line-height: 1.55;
   }
-  .phase-notes strong { color: var(--gold); font-weight: 700; }
+  .phase-notes strong { color:var(--gold-ink); font-weight: 700; }
 
   footer {
     margin-top: 48px;
@@ -331,13 +306,7 @@
 
   /* PRINT — white background, all expanded, page breaks per phase */
   @media print {
-    body {
-      background: #FFFFFF !important;
-      color: #0F0E0E !important;
-      padding: 0;
-      max-width: none;
-      font-size: 10pt;
-    }
+    body{max-width: none}
     .no-print, .tab-nav, .controls { display: none !important; }
     .draft-callout { background: #E8C547 !important; color: #0F0E0E !important; }
     .tab-panel { display: block !important; page-break-after: always; }
@@ -345,20 +314,20 @@
     .phase { margin-bottom: 0; }
     .phase-head { border-bottom-color: #0F0E0E; }
     .phase-name { color: #0F0E0E; }
-    .phase-name .next { color: #5C7019; }
-    .phase-gate, .phase-stage, .progress-label, .dept-count { color: #545158; }
+    .phase-name .next { color: #5F7E1C; }
+    .phase-gate, .phase-stage, .progress-label, .dept-count { color: #2A2A2A; }
     .dept {
       background: #FFFFFF !important;
-      border: 1px solid #CFCBC1;
-      border-left: 3px solid #5C7019;
+      border: 1px solid #D8D4CC;
+      border-left: 3px solid #5F7E1C;
       page-break-inside: avoid;
       margin-bottom: 8pt;
       padding: 8pt 10pt;
     }
-    .dept.ops { border-left-color: #B33113; }
-    .dept-name { color: #5C7019 !important; }
-    .dept.ops .dept-name { color: #B33113 !important; }
-    .dept-head { border-bottom-color: #CFCBC1; }
+    .dept.ops { border-left-color: #FF4A23; }
+    .dept-name { color: #5F7E1C !important; }
+    .dept.ops .dept-name { color: #FF4A23 !important; }
+    .dept-head { border-bottom-color: #D8D4CC; }
     ul.checklist li { padding: 3pt 0; }
     ul.checklist input[type="checkbox"] {
       border-color: #0F0E0E !important;
@@ -367,19 +336,19 @@
     }
     ul.checklist .item-label { color: #0F0E0E !important; font-size: 9.5pt; }
     .phase-notes {
-      background: #F5F4EC !important;
-      border-left-color: #B58E10;
-      color: #545158;
+      background: #F5F2EB !important;
+      border-left-color: #9A7B12;
+      color: #2A2A2A;
     }
-    .phase-notes strong { color: #B58E10; }
+    .phase-notes strong { color: #9A7B12; }
     .progress { display: none; }
-    .doc-meta { color: #545158; border-top-color: #0F0E0E; }
-    footer { color: #545158; border-top-color: #0F0E0E; }
+    .doc-meta { color: #2A2A2A; border-top-color: #0F0E0E; }
+    footer { color: #2A2A2A; border-top-color: #0F0E0E; }
   }
 
   @media (max-width: 600px) {
     h1 { font-size: 26px; }
-    body { padding: 18px 14px 50px; }
+
     .phase-name { font-size: 22px; }
     .tab-btn { padding: 10px 12px; font-size: 10.5px; }
   }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,33 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FCFDF8;
-    --bg-card: #FFFFFF;
-    --bg-sunken: #FAF9F4;
-    --bg-chip: #CDF851;       /* confirmed — chartreuse */
-    --bg-chip-hover: #C2EE3D;
-    --text: #0F0E0E;
-    --text-dim: #6B6A62;
-    --text-soft: #9A9A95;
-    --border: #ECEAE3;
-    --border-faint: #ECEBE4;
-    --border-chip: #A8D636;
-    --chartreuse: #CDF851;
-    --chartreuse-dark: #8FBF20;
-    --chartreuse-soft: #F0FAD0;
-    --flame: #FF4A23;
-    --flame-soft: #FF4A23;
-    --teal: #5BC0BE;
-    --gold: #E8C547;
-    --fog: #B0A9BE;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    background: var(--bg); color: var(--text);
-    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    line-height: 1.5; -webkit-font-smoothing: antialiased;
-  }
 
   /* GATE */
   .gate {
@@ -48,15 +22,15 @@
   }
   .gate-eyebrow {
     font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
-    color: var(--chartreuse); text-transform: uppercase; margin-bottom: 8px;
+    color:var(--lime-ink); text-transform: uppercase; margin-bottom: 8px;
   }
   .gate-title {
     font-size: 22px; font-weight:700; letter-spacing: -0.02em;
     text-transform: uppercase; line-height: 1; margin-bottom: 14px;
   }
-  .gate-sub { font-size: 14px; color: #B0B0AA; margin-bottom: 22px; line-height: 1.5; }
+  .gate-sub { font-size: 14px; color:#888888; margin-bottom: 22px; line-height: 1.5; }
   .gate-input {
-    width: 100%; background: transparent; border: 1px solid #3A3A3A;
+    width: 100%; background: transparent; border: 1px solid #2A2A2A;
     padding: 12px 14px; color: var(--bg); font-family: inherit; font-size: 14px;
     margin-bottom: 12px;
   }
@@ -66,7 +40,7 @@
     border: none; padding: 14px; font-family: inherit; font-size: 12px;
     font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
   }
-  .gate-btn:hover { background: #B8E83D; }
+  .gate-btn:hover { background: #CDF851; }
   .gate-error { color: var(--flame); font-size: 13px; margin-top: 10px; min-height: 16px; }
 
   /* MAIN */
@@ -169,7 +143,7 @@
     min-height: 36px;
   }
   .cultural-bar-band {
-    background: #FFE462;  /* soft gold — cultural moment, distinct from flame (idea) */
+    background: #E8C547;  /* soft gold — cultural moment, distinct from flame (idea) */
     color: #0F0E0E;
     border-right: 1px solid #ECEAE3;
     border-bottom: 1px solid #ECEAE3;
@@ -260,7 +234,7 @@
     display: block; font-size: 16px; line-height: 1.1;
   }
   .grid-header .month-yr {
-    display: block; font-size: 11px; color: var(--chartreuse);
+    display: block; font-size: 11px; color:var(--lime-ink);
     font-weight: 600; letter-spacing: 0.1em; margin-top: 4px;
   }
   .grid.compact .grid-header { padding: 10px 8px; font-size: 11px; }
@@ -278,7 +252,7 @@
     cursor: pointer; user-select: none;
     position: relative;
   }
-  .row-label:hover { background: #EAE9E2; }
+  .row-label:hover { background: #ECEAE3; }
   .row-label .row-label-top {
     display: flex; align-items: center; gap: 6px;
   }
@@ -313,7 +287,7 @@
     position: relative;
   }
   .grid.compact .cell { padding: 9px 8px; min-height: 110px; gap: 5px; }
-  .cell.pre-window { background: #FAFAF7; }
+  .cell.pre-window { background: #FAFAF5; }
   /* When row is collapsed, cells in that row are hidden via JS — no special CSS needed */
   .cell.row-hidden { display: none; }
   .row-label.row-hidden { display: none; }
@@ -332,7 +306,7 @@
     user-select: none;
   }
   .row-collapsed-bar.shown { display: flex; }
-  .row-collapsed-bar:hover { background: #EAE9E2; }
+  .row-collapsed-bar:hover { background: #ECEAE3; }
   .row-collapsed-bar .row-collapsed-chevron {
     font-size: 10px; color: var(--text-dim);
     margin-right: 8px; display: inline-block;
@@ -360,14 +334,14 @@
   }
   .chip:hover {
     background: var(--bg-chip-hover);
-    border-color: #B8C4CA;
+    border-color: #CCCCCC;
   }
   .chip-row {
     display: flex; align-items: center; gap: 6px; margin-bottom: 2px;
   }
   .chip-icon {
     flex-shrink: 0; width: 14px; height: 14px;
-    color: #2D2B22; display: inline-flex;
+    color: #2A2A2A; display: inline-flex;
     align-items: center; justify-content: center;
     font-size: 11px;
   }
@@ -379,13 +353,13 @@
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   }
   .chip-content {
-    font-size: 13px; color: #2D2B22; line-height: 1.35;
+    font-size: 13px; color: #2A2A2A; line-height: 1.35;
     margin-top: 3px;
     overflow: hidden; text-overflow: ellipsis;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   }
   .chip-content .chip-date {
-    font-size: 12px; color: #3A382E; font-weight: 600;
+    font-size: 12px; color: #2A2A2A; font-weight: 600;
   }
   /* Compact zoom for chips */
   .grid.compact .chip { padding: 9px 11px; min-height: 48px; }
@@ -396,11 +370,11 @@
 
   /* Subtle marker for cadence chips */
   .chip.is-cadence {
-    background: #F5F8E8; border-color: #DCE9B8;
+    background: #FFF8E1; border-color: #F0FAD0;
     border-left: 2px solid var(--chartreuse-dark);
   }
-  .chip.is-cadence:hover { background: #EFF4DC; }
-  .chip.is-cadence .chip-artist { color: #4A5A1F; }
+  .chip.is-cadence:hover { background: #FFF8E1; }
+  .chip.is-cadence .chip-artist { color: #5F7E1C; }
   /* Subtle marker for user-added */
   .chip.user-added::after {
     content: '+'; position: absolute; top: 4px; right: 6px;
@@ -410,28 +384,28 @@
   /* ========== PER-ROW CHIP COLORS ========== */
   /* Official Music Releases — keep the Runway-matched pale blue */
   .chip.row-official {
-    background: var(--bg-chip);  /* #DDE7EC */
+    background: var(--bg-chip);  /* #ECEAE3 */
     border-color: var(--border-chip);
   }
   .chip.row-official:hover { background: var(--bg-chip-hover); }
 
   /* Merch Drops — soft chartreuse tint */
   .chip.row-merch {
-    background: #ECF5C7; border-color: #C6D88A;
+    background: #F0FAD0; border-color: #F0FAD0;
   }
-  .chip.row-merch:hover { background: #E2EEB0; border-color: #B4C76F; }
+  .chip.row-merch:hover { background: #F0FAD0; border-color: #5F7E1C; }
 
   /* Music Specials — soft teal tint */
   .chip.row-nonofficial {
-    background: #D6EDED; border-color: #92C9C8;
+    background: #F0FDFC; border-color: #5BC0BE;
   }
-  .chip.row-nonofficial:hover { background: #C4E4E3; border-color: #7FBBB9; }
+  .chip.row-nonofficial:hover { background: #F0FDFC; border-color: #5BC0BE; }
 
   /* Seasonal & Cultural — soft gold tint */
   .chip.row-seasonal {
-    background: #F8EDC1; border-color: #DDC476;
+    background: #F0FAD0; border-color: #E8C547;
   }
-  .chip.row-seasonal:hover { background: #F2E2A6; border-color: #CFB35E; }
+  .chip.row-seasonal:hover { background: #FFF8E1; border-color: #E8C547; }
 
   /* Acquisition Targets — blue */
   .chip.row-acquisition {
@@ -456,7 +430,7 @@
     border: 1px solid var(--chartreuse-dark);
     padding: 2px 6px; border-radius: 10px;
     font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
-    color: #4A5A1F; text-transform: uppercase;
+    color: #5F7E1C; text-transform: uppercase;
     cursor: help; line-height: 1;
     display: flex; align-items: center; gap: 3px;
     z-index: 2;
@@ -687,6 +661,9 @@
 </style>
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
+<style>/* dark-ground accent */
+.gate-card .gate-eyebrow{color:var(--lime)}
+</style>
 </head><body>
 <div class="gate" id="gate">
   <div class="gate-card">
@@ -740,7 +717,7 @@
       <span class="legend-item"><span class="legend-swatch" style="background:#CDF851;"></span>Confirmed / actioned</span>
       <span class="legend-item"><span class="legend-swatch" style="background:#FF4A23;"></span>Idea &mdash; not yet initiated</span>
       <span class="legend-item"><span class="legend-swatch" style="background:#A3DEFF;"></span>Acquisition target</span>
-      <span class="legend-item"><span class="legend-swatch" style="background:#FFE462;"></span>Cultural moment</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#E8C547;"></span>Cultural moment</span>
     </div>
 
     <div class="grid-container">
@@ -894,7 +871,7 @@ function airtableRecordToChip(record) {
   if (colorOverride) {
     color = colorOverride;
   } else if (targetRow === 'cultural') {
-    color = '#FFE462'; // cultural / heritage / seasonal — yellow
+    color = '#E8C547'; // cultural / heritage / seasonal — yellow
   } else if (acquisition) {
     color = '#A3DEFF'; // acquisition target — blue
   } else if (status === 'Draft' || status === 'Initiative' || status === 'Moment') {
@@ -972,10 +949,10 @@ function showSyncBanner(text, kind) {
     hdr.parentNode.insertBefore(banner, hdr.nextSibling);
   }
   banner.textContent = text;
-  if (kind === 'ok') { banner.style.background = '#E8F5E0'; banner.style.color = '#2E5A14'; }
-  else if (kind === 'error') { banner.style.background = '#FFE4DD'; banner.style.color = '#8B2410'; }
-  else if (kind === 'warn') { banner.style.background = '#FFF4D6'; banner.style.color = '#7A5A00'; }
-  else { banner.style.background = '#F4F3EE'; banner.style.color = '#6B6B68'; }
+  if (kind === 'ok') { banner.style.background = '#FFF8E1'; banner.style.color = '#5F7E1C'; }
+  else if (kind === 'error') { banner.style.background = '#FFF5F2'; banner.style.color = '#8B2410'; }
+  else if (kind === 'warn') { banner.style.background = '#FFF8E1'; banner.style.color = '#9A7B12'; }
+  else { banner.style.background = '#F5F2EB'; banner.style.color = '#888888'; }
 }
 
 async function refreshFromAirtable() {
@@ -1431,7 +1408,7 @@ function showActivationModal(idx) {
         { hex: '#CDF851', label: 'Chartreuse — confirmed' },
         { hex: '#FF4A23', label: 'Flame — idea' },
         { hex: '#A3DEFF', label: 'Blue — acquisition target' },
-        { hex: '#FFE462', label: 'Yellow — cultural' },
+        { hex: '#E8C547', label: 'Yellow — cultural' },
         { hex: '#FFB6E6', label: 'Pink' },
         { hex: '#926E64', label: 'Taupe' }
       ];

@@ -1,20 +1,19 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head>
+<link rel="stylesheet" href="/tempo.css"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Phase 1 Roadmap · Campaign Operations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F4EC;--ink:#0F0E0E;--muted:#726E64;--line:#DBD7CB;
---chart:#CDF851;--flame:#B33113;--amber:#8A6708}
-body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+
+body{font:400 17px/1.6 Inter,sans-serif}
 
 .band{background:var(--ink);color:#FCFDF8}
 .band-in{max-width:760px;margin:0 auto;padding:56px 30px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-ink);font-weight:600;margin-bottom:16px}
 h1{font-size:40px;line-height:1.06;font-weight:600;letter-spacing:-.028em}
-.sub{margin-top:16px;font-size:17px;line-height:1.55;color:#B4B1A9;max-width:56ch}
-.comp{display:inline-block;margin-top:24px;font-size:13px;font-weight:500;color:var(--chart);
+.sub{margin-top:16px;font-size:17px;line-height:1.55;color:#888888;max-width:56ch}
+.comp{display:inline-block;margin-top:24px;font-size:13px;font-weight:500;color:var(--lime-ink);
 text-decoration:none;border-bottom:1px solid rgba(205,248,81,.45);padding-bottom:2px}
 
 .wrap{max-width:760px;margin:0 auto;padding:44px 30px 100px}
@@ -32,10 +31,10 @@ li.done{color:var(--muted)}
 
 .tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.09em;
 text-transform:uppercase;padding:3px 8px;margin-right:10px;position:relative;top:-1px}
-.tag.done{background:var(--chart);color:#33401A}
-.tag.wip{background:#F4E3B4;color:var(--amber)}
+.tag.done{background:var(--chart);color:#5F7E1C}
+.tag.wip{background:#F0FAD0;color:var(--amber)}
 .tag.blocked{background:var(--flame);color:#fff}
-.tag.add{background:#E7E4D8;color:var(--ink)}
+.tag.add{background:#ECEAE3;color:var(--ink)}
 .tag.drop{background:none;border:1px solid var(--line);color:var(--muted);padding:2px 7px}
 .quiet{color:var(--muted)}
 
@@ -56,7 +55,10 @@ h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
 font-size:14.5px;line-height:1.62;color:var(--muted);max-width:60ch}
 .foot b{color:var(--ink);font-weight:600}
 @media(max-width:640px){h1{font-size:29px}.band-in{padding:40px 20px}.wrap{padding:32px 20px 70px}}
-</style></head><body>
+</style><style>/* dark-ground accent */
+.band-in .eyebrow,.band-in .comp{color:var(--lime)}
+</style>
+</head><body>
 
 <div class="band"><div class="band-in">
 <div class="eyebrow">Campaign Operations &middot; as of 2026-08-13</div>

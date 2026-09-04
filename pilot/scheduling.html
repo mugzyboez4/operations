@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scheduling — Mockup · Campaign Ops</title>
 <style>
-:root{
-  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
-  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
-  --border:#ECEAE3; --rule:#D8D4CC;
-  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
-  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
-  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
-  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+
 .page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
 
 .hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
@@ -44,15 +35,14 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .req .meta{display:flex;gap:5px;flex-wrap:wrap;}
 .chip{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);background:var(--card-2);color:var(--fog);}
 .chip.date{color:var(--ink);border-color:var(--rule);}
-.chip.plan{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;}
-.chip.conf{background:#DCFCE7;border-color:var(--clear);color:#166534;}
+.chip.plan{background:var(--tint-gold);border-color:var(--gold);color:#9A7B12;}
+.chip.conf{background:#F0FDFC;border-color:var(--clear);color:#1F9D55;}
 .chip.grps{background:var(--ink);border-color:var(--ink);color:var(--lime);}
 .chip.cf{background:var(--ink);border-color:var(--ink);color:var(--lime);}
-.chip.hi{background:var(--tint-flame);border-color:var(--flame);color:#B3300F;}
+.chip.hi{background:var(--tint-flame);border-color:var(--flame);color:#FF4A23;}
 .req.r-plan{border-left-color:var(--gold);}
 .req.r-conf{border-left-color:var(--clear);}
 .req.r-grps{border-left-color:var(--ink);}
-
 
 /* expandable detail */
 .req{cursor:pointer;}
@@ -62,9 +52,9 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .req-detail{display:none;flex-basis:100%;border-top:1px dashed var(--rule);margin-top:8px;padding-top:12px;cursor:default;}
 .req.open .req-detail{display:block;}
 .miss{font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;margin-bottom:10px;}
-.miss.bad{background:var(--tint-flame);border-left:3px solid var(--flame);color:#B3300F;}
-.miss.ok{background:#DCFCE7;border-left:3px solid var(--clear);color:#166534;}
-.miss.warn{background:var(--tint-gold);border-left:3px solid var(--gold);color:#8B6900;}
+.miss.bad{background:var(--tint-flame);border-left:3px solid var(--flame);color:#FF4A23;}
+.miss.ok{background:#F0FDFC;border-left:3px solid var(--clear);color:#1F9D55;}
+.miss.warn{background:var(--tint-gold);border-left:3px solid var(--gold);color:#9A7B12;}
 .dgrid{display:flex;gap:8px 22px;flex-wrap:wrap;margin-bottom:10px;}
 .dkv .dk{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);margin-bottom:2px;}
 .dkv .dv{font-size:11.5px;color:var(--fg-2);}
@@ -72,8 +62,8 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .as{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--border);background:var(--card-2);padding:6px 10px;}
 .as .an{font-family:var(--font-mono);font-size:8px;letter-spacing:.8px;text-transform:uppercase;color:var(--fog);}
 .as .av{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;white-space:nowrap;}
-.as.done{border-color:var(--clear);background:#F2FDF6;}.as.done .av{color:#166534;}
-.as.prog{border-color:var(--gold);background:var(--tint-gold);}.as.prog .av{color:#8B6900;}
+.as.done{border-color:var(--clear);background:#F0FDFC;}.as.done .av{color:#1F9D55;}
+.as.prog{border-color:var(--gold);background:var(--tint-gold);}.as.prog .av{color:#9A7B12;}
 .dnote{font-size:11px;line-height:1.55;color:var(--fog);}
 .dnote b{color:var(--fg-2);font-weight:600;}
 
@@ -88,7 +78,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .field label{font-family:var(--font-mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);}
 .field label i{font-style:normal;color:var(--flame);}
 .field .in{border:1px solid var(--border);background:var(--card-2);padding:9px 12px;font-size:12px;color:var(--fog);}
-.field .in.st{background:var(--tint-gold);border-color:var(--gold);color:#8B6900;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+.field .in.st{background:var(--tint-gold);border-color:var(--gold);color:#9A7B12;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
 .field .hint{font-size:10.5px;line-height:1.5;color:var(--fog);}
 .form .fbtn{margin-top:16px;background:var(--ink);color:var(--lime);padding:11px 20px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
 

@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
+<style>
+:root{ /* page palette */
+--leads:#2F6FB0;--auddev:#C2641F;--ops:#5F7E1C;--support:#6A4F8E;
+--commercial:#1F9D55;--unresolved:#9A7B12;--cl:#2F6FB0;--ad:#C2641F;
+}
+</style>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lane Definition — Updated 2026-04-03</title>
@@ -8,24 +16,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0A0A0A;--surface:#F0EDE6;--card:#FFFFFF;--border:#ECEAE3;
-  --text:#FCFDF8;--dim:#B0A9BE;--fog:#847D96;--muted:#CCCCCC;
-  --chartreuse:#CDF851;--flame:#FF4A23;
-  --ops:#CDF851;--leads:#3AAFFF;--auddev:#FF6B35;--support:#A78BFA;--commercial:#10B981;--removed:#FF4A23;--unresolved:#FFD600;
-}
-body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
 a{color:inherit;text-decoration:none}
 
 /* Header */
 .header{max-width:1440px;margin:0 auto;padding:40px 24px 24px}
-.header-tag{font-family:'Inter',-apple-system,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:8px}
+.header-tag{font-family:'Inter',-apple-system,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--lime-ink);margin-bottom:8px}
 .header h1{font-weight:700;font-size:42px;text-transform:uppercase;letter-spacing:1px;line-height:1.1;margin-bottom:6px}
-.header h1 span{color:var(--chartreuse)}
+.header h1 span{color:var(--lime-ink)}
 .header .sub{font-size:14px;color:var(--dim);margin-bottom:6px}
 .header .meta{font-family:'Inter',-apple-system,sans-serif;font-size:11px;color:var(--fog);letter-spacing:0.5px}
-.header .meta em{color:var(--chartreuse);font-style:normal}
+.header .meta em{color:var(--lime-ink);font-style:normal}
 .rule{height:2px;background:var(--chartreuse);margin:20px 0 28px}
 
 /* Stats bar */
@@ -52,14 +53,12 @@ a{color:inherit;text-decoration:none}
 .card-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:3px}
 .card-note{font-size:10px;color:var(--fog);line-height:1.4}
 .card-tag{display:inline-block;font-family:'Inter',-apple-system,sans-serif;font-size:9px;letter-spacing:0.5px;padding:1px 5px;margin-top:4px;border-radius:2px}
-.tag-new{background:rgba(205,248,81,0.12);color:var(--chartreuse)}
+.tag-new{background:rgba(205,248,81,0.12);color:var(--lime-ink)}
 .tag-moved{background:rgba(58,175,255,0.12);color:var(--leads)}
 .tag-renamed{background:rgba(255,107,53,0.12);color:var(--auddev)}
 .tag-flagged{background:rgba(255,74,35,0.15);color:var(--flame)}
 .tag-confirmed{background:rgba(255,255,255,0.05);color:var(--fog)}
 .tag-shared{background:rgba(167,139,250,0.12);color:var(--support)}
-
-
 
 /* Removed section */
 .removed-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
@@ -76,12 +75,12 @@ a{color:inherit;text-decoration:none}
 
 /* Decision log */
 .log-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
-.log-header{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--chartreuse);margin-bottom:12px}
+.log-header{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--lime-ink);margin-bottom:12px}
 .log-table{width:100%;border-collapse:collapse;font-size:11px}
 .log-table th{text-align:left;font-family:'Inter',-apple-system,sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);padding:6px 10px;border-bottom:1px solid var(--muted)}
 .log-table td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--dim)}
 .log-table .from{color:var(--flame)}
-.log-table .to{color:var(--chartreuse)}
+.log-table .to{color:var(--lime-ink)}
 
 /* Key */
 .key{max-width:1440px;margin:0 auto 32px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap}
@@ -131,22 +130,21 @@ a{color:inherit;text-decoration:none}
 .et-lane{font-size:9px;letter-spacing:0.5px;padding:2px 6px;font-weight:700;white-space:nowrap}
 
 .jd-section{max-width:1440px;margin:0 auto 32px;padding:0 24px}
-.jd-header{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#FF6B35;margin-bottom:4px}
+.jd-header{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#FF4A23;margin-bottom:4px}
 .jd-sub{font-size:11px;color:var(--fog);margin-bottom:12px}
 .jd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:8px}
-.jd-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid #FF6B35;padding:12px 14px}
-.jd-card .card-title{color:#FF6B35;margin-bottom:4px}
+.jd-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid #FF4A23;padding:12px 14px}
+.jd-card .card-title{color:#FF4A23;margin-bottom:4px}
 .jd-card .jd-says{font-size:10px;color:var(--dim);line-height:1.5;margin-bottom:4px}
 .jd-card .jd-says strong{color:var(--text)}
-.jd-card .meeting-says{font-size:10px;color:var(--chartreuse);line-height:1.5;margin-bottom:4px}
+.jd-card .meeting-says{font-size:10px;color:var(--lime-ink);line-height:1.5;margin-bottom:4px}
 .jd-card .impact{font-size:10px;color:var(--flame);line-height:1.5;font-weight:600}
 
 .card{position:relative}
-.card .card-note{display:none;position:absolute;left:0;right:0;top:100%;z-index:100;background:#F5F2EB;border:1px solid #3E3F41;padding:8px 10px;font-size:10px;color:#B0A9BE;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.card .card-note{display:none;position:absolute;left:0;right:0;top:100%;z-index:100;background:#F5F2EB;border:1px solid #CCCCCC;padding:8px 10px;font-size:10px;color:#888888;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
 .card:hover .card-note{display:block}
 .card-tag{display:none}
 .card:hover .card-tag{display:inline-block}
-
 
 /* Drag and drop */
 .card{cursor:grab;transition:transform 0.1s,opacity 0.1s}
@@ -161,12 +159,12 @@ a{color:inherit;text-decoration:none}
 <body>
 <div style="display:flex;align-items:center;padding:14px 32px;border-bottom:1px solid #ECEAE3;gap:16px;position:sticky;top:0;background:#F5F2EB;z-index:9999;font-family:Inter,-apple-system,sans-serif;flex-wrap:wrap">
   <a href="/" style="font-size:13px;font-weight:700;letter-spacing:-.5px;text-transform:uppercase;color:#0F0E0E;text-decoration:none;display:flex;align-items:center;gap:8px"><img src="/logo_neon.png" style="width:32px;height:32px;border-radius:6px">Campaign <span style="color:#0F0E0E;background:#CDF851;padding:2px 6px;font-weight:700">Ops</span></a>
-  <a href="/reference/phase-gates.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Phase Gates</a>
-  <a href="/reference/budget.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Budget</a>
-  <a href="/reference/ar-ops-gaps.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">A&amp;R Ops Gaps</a>
-  <a href="/dept-workflows.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Handoff Map</a>
+  <a href="/reference/phase-gates.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#888888;text-decoration:none;padding:6px 10px">Phase Gates</a>
+  <a href="/reference/budget.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#888888;text-decoration:none;padding:6px 10px">Budget</a>
+  <a href="/reference/ar-ops-gaps.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#888888;text-decoration:none;padding:6px 10px">A&amp;R Ops Gaps</a>
+  <a href="/dept-workflows.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#888888;text-decoration:none;padding:6px 10px">Handoff Map</a>
   <a href="/reference/lanes.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0F0E0E;text-decoration:none;padding:6px 10px;border:1px solid #0F0E0E">Lanes</a>
-  <a href="/reference/creative-lanes.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6B6776;text-decoration:none;padding:6px 10px">Creative</a>
+  <a href="/reference/creative-lanes.html" style="font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#888888;text-decoration:none;padding:6px 10px">Creative</a>
 </div>
 
 <div class="header">
@@ -341,23 +339,23 @@ a{color:inherit;text-decoration:none}
 <div style="max-width:1440px;margin:0 auto 24px;padding:0 24px" id="captureSection">
   <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid #CDF851;padding:16px 20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#CDF851">Live Capture</div>
+      <div style="font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#5F7E1C">Live Capture</div>
       <div style="display:flex;gap:8px">
-        <button onclick="exportCapture()" style="background:none;border:1px solid #3E3F41;color:#B0A9BE;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Copy All</button>
-        <button onclick="clearCapture()" style="background:none;border:1px solid #3E3F41;color:#847D96;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Clear</button>
+        <button onclick="exportCapture()" style="background:none;border:1px solid #CCCCCC;color:#888888;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Copy All</button>
+        <button onclick="clearCapture()" style="background:none;border:1px solid #CCCCCC;color:#888888;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:0.5px">Clear</button>
       </div>
     </div>
 
     <!-- Input row -->
     <div style="display:flex;gap:8px;margin-bottom:12px">
-      <select id="capType" style="background:#F5F2EB;border:1px solid #3E3F41;color:#0F0E0E;padding:8px 10px;font-size:12px;font-family:inherit;width:140px;-webkit-appearance:none">
+      <select id="capType" style="background:#F5F2EB;border:1px solid #CCCCCC;color:#0F0E0E;padding:8px 10px;font-size:12px;font-family:inherit;width:140px;-webkit-appearance:none">
         <option value="decision">Decision</option>
         <option value="action">Action Item</option>
         <option value="tbd">Still TBD</option>
         <option value="note">Note</option>
       </select>
-      <input id="capText" type="text" placeholder="What was decided or noted..." style="background:#F5F2EB;border:1px solid #3E3F41;color:#0F0E0E;padding:8px 12px;font-size:12px;font-family:inherit;flex:1;outline:none" onkeydown="if(event.key==='Enter')addCapture()">
-      <button onclick="addCapture()" style="background:#CDF851;color:#0A0A0A;border:none;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">+ Add</button>
+      <input id="capText" type="text" placeholder="What was decided or noted..." style="background:#F5F2EB;border:1px solid #CCCCCC;color:#0F0E0E;padding:8px 12px;font-size:12px;font-family:inherit;flex:1;outline:none" onkeydown="if(event.key==='Enter')addCapture()">
+      <button onclick="addCapture()" style="background:#CDF851;color:#F5F2EB;border:none;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">+ Add</button>
     </div>
 
     <!-- Captured items -->
@@ -393,16 +391,16 @@ function editCapture(i) {
 
 function renderCapture() {
   var el = document.getElementById('capList');
-  if (!captures.length) { el.innerHTML = '<div style="font-size:11px;color:#847D96;padding:4px 0">No items captured yet.</div>'; return; }
-  var colors = { decision: '#CDF851', action: '#FF4A23', tbd: '#FFD600', note: '#B0A9BE' };
+  if (!captures.length) { el.innerHTML = '<div style="font-size:11px;color:#888888;padding:4px 0">No items captured yet.</div>'; return; }
+  var colors = { decision: '#CDF851', action: '#FF4A23', tbd: '#FFD600', note: '#888888' };
   var labels = { decision: 'DECIDED', action: 'ACTION', tbd: 'TBD', note: 'NOTE' };
   var html = '';
   captures.forEach(function(c, i) {
     html += '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #2A2A2A">';
     html += '<span style="font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;background:rgba(255,255,255,0.05);color:' + colors[c.type] + ';white-space:nowrap;margin-top:1px">' + labels[c.type] + '</span>';
     html += '<span style="font-size:12px;color:#0F0E0E;flex:1;line-height:1.4">' + c.text + '</span>';
-    html += '<span style="font-size:9px;color:#847D96;white-space:nowrap;margin-top:2px">' + c.time + '</span>';
-    html += '<button onclick="editCapture(' + i + ')" style="background:none;border:none;color:#847D96;cursor:pointer;font-size:10px;padding:0 4px" title="Edit">✎</button>';
+    html += '<span style="font-size:9px;color:#888888;white-space:nowrap;margin-top:2px">' + c.time + '</span>';
+    html += '<button onclick="editCapture(' + i + ')" style="background:none;border:none;color:#888888;cursor:pointer;font-size:10px;padding:0 4px" title="Edit">✎</button>';
     html += '<button onclick="removeCapture(' + i + ')" style="background:none;border:none;color:#FF4A23;cursor:pointer;font-size:12px;padding:0 4px" title="Remove">×</button>';
     html += '</div>';
   });
@@ -483,7 +481,7 @@ renderCapture();
 
     <!-- PHYSICAL PACKAGING / D2C -->
     <div style="margin-bottom:24px">
-      <div style="font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#10B981;margin-bottom:8px">Physical Packaging &amp; D2C Production</div>
+      <div style="font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#1F9D55;margin-bottom:8px">Physical Packaging &amp; D2C Production</div>
       <div style="font-size:11px;color:var(--dim);line-height:1.8">No defined handoff from Creative to Commerce/D2C for physical packaging. Someone is filling the gap but it's not in anyone's lane. Needs visibility into who owns the cost-out process, the production timeline, and the handoff from creative direction to manufacturing.</div>
     </div>
 
@@ -699,7 +697,7 @@ document.querySelectorAll('.card-note').forEach(function(el) {
   el.setAttribute('spellcheck', 'false');
   el.style.cursor = 'text';
   el.addEventListener('focus', function() {
-    this.style.outline = '1px solid #847D96';
+    this.style.outline = '1px solid #888888';
     this.style.outlineOffset = '2px';
   });
   el.addEventListener('blur', function() {
@@ -715,10 +713,10 @@ initDragDrop();
 
 <!-- SAVE BAR -->
 <div style="position:fixed;bottom:0;left:0;right:0;background:#F5F2EB;border-top:1px solid #2A2A2A;padding:8px 24px;display:flex;align-items:center;gap:12px;z-index:9999">
-  <button onclick="saveState()" style="background:#CDF851;color:#0A0A0A;border:none;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Save</button>
-  <button onclick="exportState()" style="background:none;border:1px solid #3E3F41;color:#B0A9BE;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Copy All</button>
-  <button onclick="resetState()" style="background:none;border:1px solid #3E3F41;color:#847D96;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Reset</button>
-  <span id="saveStatus" style="font-size:10px;color:#CDF851;opacity:0;transition:opacity 0.3s"></span>
+  <button onclick="saveState()" style="background:#CDF851;color:#F5F2EB;border:none;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Save</button>
+  <button onclick="exportState()" style="background:none;border:1px solid #CCCCCC;color:#888888;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Copy All</button>
+  <button onclick="resetState()" style="background:none;border:1px solid #CCCCCC;color:#888888;padding:6px 14px;font-size:11px;cursor:pointer;font-family:inherit">Reset</button>
+  <span id="saveStatus" style="font-size:10px;color:#5F7E1C;opacity:0;transition:opacity 0.3s"></span>
 </div>
 </body>
 </html>

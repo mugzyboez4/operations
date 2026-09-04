@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Assets — Mockup · Campaign Ops</title>
 <style>
-:root{
-  --bg:#F5F2EB; --card:#FFFFFF; --card-2:#FAFAF5;
-  --ink:#0F0E0E; --fg-2:#2A2A2A; --fog:#888888; --slate:#CCCCCC;
-  --border:#ECEAE3; --rule:#D8D4CC;
-  --lime:#CDF851; --flame:#FF4A23; --teal:#5BC0BE; --gold:#E8C547; --clear:#4ADE80;
-  --tint-flame:#FFF5F2; --tint-teal:#F0FDFC; --tint-gold:#FFF8E1; --tint-lime:#F0FAD0;
-  --font-sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Helvetica,sans-serif;
-  --font-mono:'DM Mono','IBM Plex Mono',ui-monospace,Menlo,monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;}
+
 .page{max-width:1180px;margin:0 auto;padding:0 32px 72px;}
 
 .hdr{padding:40px 0 20px;border-bottom:2px solid var(--ink);}
@@ -42,7 +33,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);-we
 .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
 .acard{background:var(--card);border:1px solid var(--border);cursor:pointer;}
 .acard:hover{border-color:var(--ink);}
-.athumb{aspect-ratio:16/10;border-bottom:1px solid var(--border);background:repeating-linear-gradient(45deg,var(--card-2),var(--card-2) 8px,var(--card) 8px,var(--card) 16px);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);position:relative;}
+.athumb{aspect-ratio:16/10;border-bottom:1px solid var(--border);background:repeating-linear-gradient(45deg,var(--card-2),var(--card-2) 8px,var(--card) 8px,var(--card) 16px);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--fog);position:relative;}
 .athumb .tt{position:absolute;top:8px;left:8px;font-family:var(--font-mono);font-size:8px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;background:var(--ink);color:var(--lime);}
 .athumb.v-art{background:linear-gradient(135deg,var(--tint-gold),var(--card-2));}
 .athumb.v-canvas{background:linear-gradient(135deg,var(--tint-teal),var(--card-2));}

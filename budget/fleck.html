@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Final Sign-off — Fleck</title>
@@ -8,14 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#EDEAE3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
-    --chartreuse:#CDF851; --flame:#FF4A23; --green:#1F9D55; --yellow:#E8B923;
-    --grey-fill:#DAD7D0;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:26px 18px 40px}
+
+  body{display:flex;flex-direction:column;align-items:center}
 
   .head{text-align:center;max-width:560px;margin-bottom:20px}
   .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
@@ -36,7 +31,7 @@
   .sig{font-size:12px;letter-spacing:1px}
   .p-body{padding:6px 22px 24px}
   .p-back{display:flex;justify-content:space-between;align-items:center;padding:8px 0 2px;color:var(--muted)}
-  .p-circle{width:34px;height:34px;border-radius:50%;background:#F0EEE8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px}
+  .p-circle{width:34px;height:34px;border-radius:50%;background:#ECEAE3;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px}
   .p-app{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:8px 0 18px}
   .p-need{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--flame)}
   .p-name{font-size:22px;font-weight:900;letter-spacing:-.01em;margin-top:3px}
@@ -44,9 +39,9 @@
   .p-grp{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;padding:5px 10px;border:1.2px solid var(--line);border-radius:6px}
 
   .verdict{border-radius:12px;padding:15px 16px;margin-top:18px;border-top-width:4px;border-top-style:solid}
-  .verdict.yes{background:#F3FAEF;border-top-color:var(--green)}
-  .verdict.flag{background:#FDF8E6;border-top-color:var(--yellow)}
-  .verdict.no{background:#FDECE7;border-top-color:var(--flame)}
+  .verdict.yes{background:#FAFAF5;border-top-color:var(--green)}
+  .verdict.flag{background:#FFF8E1;border-top-color:var(--yellow)}
+  .verdict.no{background:#FFF5F2;border-top-color:var(--flame)}
   .vh{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900}
   .vbadge{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900;flex:none}
   .vbadge.yes{background:var(--green)} .vbadge.flag{background:var(--yellow)} .vbadge.no{background:var(--flame)}
@@ -54,17 +49,17 @@
 
   .p-gaugelbl{font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:20px 0 9px;display:flex;justify-content:space-between}
   .gauge{position:relative;height:32px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
-  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .spent{background:#CCCCCC;height:100%}
   .gauge .thisb{height:100%}
-  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#FF4A23 7px,#FF4A23 14px)}
   .ceiling-mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);z-index:3}
   .p-scale{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
   .p-scale b.up{color:var(--green)} .p-scale b.over{color:var(--flame)}
 
   .p-checks{margin-top:16px;display:flex;flex-direction:column;gap:9px}
-  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAF9F6;border-radius:9px;padding:11px 13px}
+  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAFAF5;border-radius:9px;padding:11px 13px}
   .p-check .ic{font-weight:900;font-size:13px;line-height:1.3;flex:none}
-  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--yellow)} .p-check.bad .ic{color:var(--flame)}
+  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--gold-ink)} .p-check.bad .ic{color:var(--flame)}
   .p-check .ct{font-size:12.5px;font-weight:800}
   .p-check .cd{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4}
 
@@ -91,7 +86,7 @@
   .arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;cursor:pointer;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center}
   .arrow:disabled{opacity:.3;cursor:not-allowed}
   .dots{display:flex;gap:9px}
-  .dot{width:10px;height:10px;border-radius:50%;background:#CFCBC2;cursor:pointer}
+  .dot{width:10px;height:10px;border-radius:50%;background:#D8D4CC;cursor:pointer}
   .dot.active{background:var(--ink);width:26px;border-radius:6px}
   .caption{margin-top:16px;font-size:12px;color:var(--muted);text-align:center}
   .footer{margin-top:30px;color:var(--muted);font-size:11px;text-align:center;max-width:520px;line-height:1.5}

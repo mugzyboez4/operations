@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campaign Ops · Budget Approval</title>
@@ -8,15 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#F5F3EE; --card:#FFFFFF; --ink:#0F0E0E; --muted:#6B6862; --line:#E4E1DA;
-    --chartreuse:#CDF851; --flame:#FF4A23;
-    --green:#1F9D55; --yellow:#E8B923; --grey-fill:#DAD7D0; --teal:#4FB8B0;
-    --g1:#1A1A1A; --g2:#4FB8B0; --g3:#E8B923; --g4:#CDF851; --g5:#FF4A23;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  body{padding:28px;min-height:100vh}
+
   .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
   .mono-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;display:inline-block}
 
@@ -42,7 +35,7 @@
   .qcard .row{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
   .qcard .amt{font-size:17px;font-weight:800}
   .qcard .grp{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F3F1EB;color:var(--muted)}
+  .status-pill{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:20px;background:#F5F2EB;color:var(--muted)}
   .status-pill.done{background:rgba(31,157,85,.14);color:var(--green)}
   .status-pill.sent{background:rgba(255,74,35,.12);color:var(--flame)}
 
@@ -57,24 +50,24 @@
   .rec-right{padding:24px 22px}
   .rec-left h3{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
   .rec-left .byline{color:var(--muted);font-size:13px;margin-top:7px}
-  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAF9F6}
+  .grp-chip{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:6px 11px;border:1.2px solid var(--line);border-radius:7px;background:#FAFAF5}
   .sec-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px}
 
   /* ceiling gauge */
   .gauge-wrap{position:relative;margin-top:4px}
   .gauge{position:relative;height:34px;background:var(--grey-fill);border-radius:5px;overflow:hidden;display:flex}
-  .gauge .spent{background:#C9C6BE;height:100%}
+  .gauge .spent{background:#CCCCCC;height:100%}
   .gauge .thisb{height:100%}
-  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#e23f1c 7px,#e23f1c 14px)}
+  .gauge .over{height:100%;background:repeating-linear-gradient(45deg,var(--flame),var(--flame) 7px,#FF4A23 7px,#FF4A23 14px)}
   .ceiling-mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);z-index:3}
   .ceiling-lbl{position:absolute;top:40px;transform:translateX(-50%);font-size:11px;font-weight:700;white-space:nowrap}
   .legend{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
   .legend span{display:flex;align-items:center;gap:6px}
   .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
 
-  .note-box{margin-top:26px;background:#EAF7F5;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
-  .note-box.warn{background:#FFF7E0}
-  .note-box.bad{background:#FDECE7}
+  .note-box{margin-top:26px;background:#F0FDFC;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.5}
+  .note-box.warn{background:#FFF8E1}
+  .note-box.bad{background:#FFF5F2}
   .note-box .u{font-weight:800}
 
   /* line items */
@@ -85,13 +78,13 @@
   .li-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px}
   .li-total .cat{font-size:16px;font-weight:900}
   .li-total .val{font-size:18px;font-weight:900}
-  .cap-note{background:#F4FBDD;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
+  .cap-note{background:#FFF8E1;border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.5;margin-top:14px}
 
   /* approval chain */
   .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
   .stage{border:1.5px solid var(--line);border-radius:9px;padding:11px 11px 13px}
   .stage.active{border-color:var(--flame);border-width:2px}
-  .stage.done{background:#F5FAF2;border-color:#CBE7D3}
+  .stage.done{background:#FAFAF5;border-color:#ECEAE3}
   .stage .st{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:5px}
   .stage.done .st{color:var(--green)}
   .stage.active .st{color:var(--flame)}
@@ -114,16 +107,16 @@
   .p-notch{width:96px;height:26px;background:#111;border-radius:20px}
   .p-body{padding:6px 22px 26px}
   .p-back{display:flex;justify-content:space-between;align-items:center;padding:8px 0 4px;color:var(--muted)}
-  .p-circle{width:34px;height:34px;border-radius:50%;background:#F0EEE8;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .p-circle{width:34px;height:34px;border-radius:50%;background:#ECEAE3;display:flex;align-items:center;justify-content:center;font-weight:800}
   .p-app{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:6px 0 18px}
   .p-need{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--flame)}
   .p-name{font-size:21px;font-weight:900;letter-spacing:-.01em;margin-top:3px}
   .p-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
   .p-grp{display:inline-block;margin-top:11px;font-size:11px;font-weight:600;padding:5px 10px;border:1.2px solid var(--line);border-radius:6px}
   .verdict{border-radius:11px;padding:15px 16px;margin-top:18px;border-top-width:4px;border-top-style:solid}
-  .verdict.yes{background:#F3FAEF;border-top-color:var(--green)}
-  .verdict.flag{background:#FDF8E6;border-top-color:var(--yellow)}
-  .verdict.no{background:#FDECE7;border-top-color:var(--flame)}
+  .verdict.yes{background:#FAFAF5;border-top-color:var(--green)}
+  .verdict.flag{background:#FFF8E1;border-top-color:var(--yellow)}
+  .verdict.no{background:#FFF5F2;border-top-color:var(--flame)}
   .verdict .vh{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900}
   .vbadge{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900}
   .vbadge.yes{background:var(--green)} .vbadge.flag{background:var(--yellow)} .vbadge.no{background:var(--flame)}
@@ -132,9 +125,9 @@
   .p-scale{font-size:11px;color:var(--muted);margin-top:9px;display:flex;gap:9px;flex-wrap:wrap}
   .p-scale b.up{color:var(--green)} .p-scale b.over{color:var(--flame)}
   .p-checks{margin-top:16px;display:flex;flex-direction:column;gap:9px}
-  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAF9F6;border-radius:9px;padding:11px 13px}
+  .p-check{display:flex;gap:10px;align-items:flex-start;background:#FAFAF5;border-radius:9px;padding:11px 13px}
   .p-check .ic{font-weight:900;font-size:13px;line-height:1.3}
-  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--yellow)} .p-check.bad .ic{color:var(--flame)}
+  .p-check.ok .ic{color:var(--green)} .p-check.warn .ic{color:var(--gold-ink)} .p-check.bad .ic{color:var(--flame)}
   .p-check .ct{font-size:12.5px;font-weight:800}
   .p-check .cd{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4}
   .p-actions{margin-top:20px;display:flex;flex-direction:column;gap:10px}
@@ -298,7 +291,7 @@ function gaugeHTML(b){
     <div class="gauge">${bar}<div class="ceiling-mark" style="left:${cpos}%"></div></div>
     <div class="ceiling-lbl" style="left:${cpos}%">Ceiling ${fmtK(c)}</div>
     <div class="legend">
-      <span><i class="sw" style="background:#C9C6BE"></i>Spent this cycle · ${fmtK(spent)}</span>
+      <span><i class="sw" style="background:#CCCCCC"></i>Spent this cycle · ${fmtK(spent)}</span>
       <span><i class="sw" style="background:${thisColor}"></i>This budget · ${fmtK(budg)}</span>
       ${over>0
         ? `<span><i class="sw" style="background:var(--flame)"></i>Over ceiling · ${fmtK(over)}</span>`
@@ -318,7 +311,7 @@ function renderDesktop(b){
   const released=b.stageIdx===3, sentBack=b.stageIdx===-1;
   const stageName=b.stageIdx>=0&&b.stageIdx<3?STAGES[b.stageIdx].who:'—';
 
-  let headStatus=`<span class="mono-tag" style="background:#FBF3C9;color:#8a6d00">Awaiting ${stageName}</span>`;
+  let headStatus=`<span class="mono-tag" style="background:#F0FAD0;color:#9A7B12">Awaiting ${stageName}</span>`;
   if(released)headStatus=`<span class="mono-tag" style="background:rgba(31,157,85,.15);color:var(--green)">Released ✓</span>`;
   if(sentBack)headStatus=`<span class="mono-tag" style="background:rgba(255,74,35,.13);color:var(--flame)">Sent back</span>`;
 

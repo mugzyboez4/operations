@@ -1,42 +1,41 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head>
+<link rel="stylesheet" href="/tempo.css"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Two drafts · Ziggy email + deadline tracker ship list</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#F5F4EC;--paper:#FFF;--ink:#0F0E0E;--muted:#6B6776;--line:#C8C5BB;
---chart:#CDF851;--chart-d:#8FA82A;--flame:#B33113;--amber:#E8B538}
-body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,sans-serif;-webkit-font-smoothing:antialiased}
+
+body{font:400 17px/1.6 Inter,sans-serif}
 .band{background:var(--ink);color:#FCFDF8}
 .band-in{max-width:900px;margin:0 auto;padding:52px 32px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chart);font-weight:600;margin-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-ink);font-weight:600;margin-bottom:16px}
 h1{font-size:42px;line-height:1.08;font-weight:700;letter-spacing:-.025em;max-width:20ch}
-.sub{margin-top:18px;font-size:18px;color:#B9B6AE;max-width:62ch}
+.sub{margin-top:18px;font-size:18px;color:#888888;max-width:62ch}
 .wrap{max-width:900px;margin:0 auto;padding:52px 32px 110px}
 section{margin-bottom:52px}
 h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
 .slabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
 .lede{color:var(--muted);max-width:64ch;margin-bottom:24px}
 .mail{background:var(--paper);border:1px solid var(--line);padding:0;margin-bottom:14px}
-.mh{border-bottom:1px solid #EFEDE3;padding:16px 26px;font-size:14px;color:var(--muted)}
+.mh{border-bottom:1px solid #ECEAE3;padding:16px 26px;font-size:14px;color:var(--muted)}
 .mh b{color:var(--ink);font-weight:600;display:inline-block;min-width:52px}
 .mb{padding:26px 30px;font-size:16px;line-height:1.68;white-space:pre-wrap}
 .btn{font:600 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:11px 17px;border:1px solid var(--ink);background:var(--ink);color:var(--chart);cursor:pointer}
 .btn.alt{background:none;color:var(--ink)}
 .btn:hover{opacity:.86}
-.note{background:var(--ink);color:#D6D3CB;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:74ch}
-.note b{color:var(--chart);font-weight:600}
+.note{background:var(--ink);color:#D8D4CC;padding:22px 26px;margin-bottom:26px;font-size:15px;line-height:1.65;max-width:74ch}
+.note b{color:var(--lime-ink);font-weight:600}
 .steps{list-style:none;counter-reset:s}
 .steps li{counter-increment:s;background:var(--paper);border:1px solid var(--line);padding:20px 24px 20px 72px;position:relative;margin-bottom:7px}
 .steps li::before{content:counter(s);position:absolute;left:0;top:0;bottom:0;width:52px;background:var(--ink);color:var(--chart);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700}
 .steps h3{font-size:18px;font-weight:600;margin-bottom:5px}
 .steps p{font-size:15px;color:var(--muted);line-height:1.6;max-width:66ch}
-.steps .who{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#EEECE2;padding:4px 10px}
+.steps .who{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#ECEAE3;padding:4px 10px}
 .chk{background:var(--paper);border:1px solid var(--line);padding:8px}
-.ck{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid #EFEDE3;cursor:pointer}
+.ck{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid #ECEAE3;cursor:pointer}
 .ck:last-child{border-bottom:0}
-.ck:hover{background:#FAF9F3}
+.ck:hover{background:#FAFAF5}
 .bx{flex:0 0 20px;height:20px;border:2px solid var(--ink);margin-top:2px;position:relative}
 .ck.on .bx{background:var(--chart-d);border-color:var(--chart-d)}
 .ck.on .bx::after{content:'';position:absolute;left:5px;top:1px;width:5px;height:11px;border:solid #FFF;border-width:0 2px 2px 0;transform:rotate(42deg)}
@@ -45,7 +44,10 @@ h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
 .ct span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
 .flag{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--flame);padding:15px 20px;margin-bottom:6px;font-size:15px;line-height:1.55;max-width:80ch}
 .flag b{font-weight:600}
-</style></head><body>
+</style><style>/* dark-ground accent */
+.band-in .eyebrow,.note b{color:var(--lime)}
+</style>
+</head><body>
 
 <div class="band"><div class="band-in">
 <div class="eyebrow">Campaign Ops &middot; 13 August 2026</div>

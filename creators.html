@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="/tempo.css">
 <script>try{sessionStorage.setItem('rca_auth','1');sessionStorage.setItem('sandbox_open','1');if(!sessionStorage.getItem('rca_auth_pw'))sessionStorage.setItem('rca_auth_pw','RCA2026');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,41 +9,15 @@
 <link rel="icon" type="image/png" href="/logo_neon.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #F5F2EB;
-  --card: #FFFFFF;
-  --card-2: #FAF9F4;
-  --text: #0F0E0E;
-  --text-soft: #3E3D36;
-  --fog: #6B6A62;
-  --fog-dim: #8A8576;
-  --rule: #ECEAE3;
-  --chartreuse: #5F7E1C;
-  --chartreuse-bg: #EEF9CC;
-  --flame: #FF4A23;
-  --flame-bg: #FCEDE7;
-  --teal: #2C8A88;
-  --teal-bg: #E3F2F1;
-  --gold: #B8941F;
-  --gold-bg: #FAF3DC;
-  --plum: #6A4F8E;
-  --plum-bg: #EEE7F5;
-  --pink: #C04E7F;
-  --pink-bg: #F8E1EC;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--bg); color: var(--text); height: 100%; }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400; line-height: 1.5; font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-}
+
+html, body{height: 100%}
+body{font-weight: 400}
 
 /* PASSWORD GATE */
 #gate{position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;}
 #gate img{width:130px;height:130px;margin-bottom:16px;border-radius:16px;}
 #gate .gate-title{font-size:22px;font-weight:700;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.5px;}
-#gate .gate-sub{font-size:11px;color:#847D96;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
+#gate .gate-sub{font-size:11px;color:#888888;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;}
 #gate input{font-size:14px;padding:10px 20px;border:1px solid #ECEAE3;background:#FFFFFF;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;}
 #gate input:focus{border-color:#CDF851;}
 #gate button{font-size:11px;font-weight:700;padding:10px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;}
@@ -51,7 +26,7 @@ body {
 /* SITE STRIP */
 /* ===== GOLD-STANDARD CHROME ===== */
 .announce{background:#FFFFFF;color:#0F0E0E;border-bottom:1px solid #ECEAE3;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:0.01em;}
-.announce b{color:#CDF851;font-weight:600;}
+.announce b{color:#5F7E1C;font-weight:600;}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
 .topbar-in{max-width:1200px;margin:0 auto;padding:12px 28px;display:flex;align-items:center;gap:20px;}
 .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none;}
@@ -62,11 +37,11 @@ body {
 .tb-nav a{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;color:var(--fog);text-decoration:none;transition:background .12s,color .12s;}
 .tb-nav a:hover{background:var(--card-2);color:var(--text);}
 .tb-spacer{margin-left:auto;}
-.tb-pill{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--chartreuse);border:1px solid var(--rule);border-radius:999px;padding:5px 11px;}
-.site-footer{margin-top:48px;background:#FFFFFF;color:#8A8781;border-top:1px solid #ECEAE3;}
+.tb-pill{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--lime-ink);border:1px solid var(--rule);border-radius:999px;padding:5px 11px;}
+.site-footer{margin-top:48px;background:#FFFFFF;color:#888888;border-top:1px solid #ECEAE3;}
 .site-footer .sf-in{max-width:1200px;margin:0 auto;padding:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
 .site-footer .sf-word{font-weight:700;font-size:16px;letter-spacing:0.04em;color:#F5F2EB;}
-.site-footer .sf-note{font-size:12px;color:#8A8576;}
+.site-footer .sf-note{font-size:12px;color:#888888;}
 @media(max-width:760px){.tb-nav{display:none;}.topbar-in{padding:12px 16px;}}
 
 .wrap { max-width: 1400px; margin: 0 auto; padding: 36px 32px 60px; }
@@ -75,13 +50,13 @@ body {
 header { padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
 .eyebrow {
   font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--chartreuse); margin-bottom: 10px;
+  text-transform: uppercase; color:var(--lime-ink); margin-bottom: 10px;
 }
 h1 {
   font-size: 42px; font-weight:700; letter-spacing: -0.02em;
   line-height: 1.0; text-transform: uppercase; margin-bottom: 12px;
 }
-h1 .x { color: var(--chartreuse); }
+h1 .x { color:var(--lime-ink); }
 header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 .meta { font-size: 11px; color: var(--fog); margin-top: 14px; letter-spacing: 0.5px; }
 .meta strong { color: var(--text-soft); font-weight: 600; }
@@ -198,9 +173,9 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 }
 .fn-critic .cc-fn-badge { background: var(--plum-bg); color: var(--plum); }
 .fn-lifestyle .cc-fn-badge { background: var(--pink-bg); color: var(--pink); }
-.fn-tour .cc-fn-badge { background: var(--teal-bg); color: var(--teal); }
-.fn-aesthetic .cc-fn-badge { background: var(--gold-bg); color: var(--gold); }
-.fn-fan .cc-fn-badge { background: var(--chartreuse-bg); color: #5A7A0E; }
+.fn-tour .cc-fn-badge { background: var(--teal-bg); color:var(--teal-ink); }
+.fn-aesthetic .cc-fn-badge { background: var(--gold-bg); color:var(--gold-ink); }
+.fn-fan .cc-fn-badge { background: var(--chartreuse-bg); color: #5F7E1C; }
 .fn-pub .cc-fn-badge { background: var(--card-2); color: var(--fog); }
 
 .cc-meta {
@@ -221,8 +196,8 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
   text-transform: uppercase; border: 1px solid var(--rule);
   color: var(--text-soft); background: var(--bg);
 }
-.tag.genre { border-color: var(--teal); color: var(--teal); background: var(--teal-bg); }
-.tag.lifestyle { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+.tag.genre { border-color: var(--teal); color:var(--teal-ink); background: var(--teal-bg); }
+.tag.lifestyle { border-color: var(--gold); color:var(--gold-ink); background: var(--gold-bg); }
 
 .cc-price-row {
   display: flex; justify-content: space-between; align-items: center;
@@ -235,7 +210,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 .cc-price.tradeonly, .cc-price.nopaid { color: var(--flame); font-size: 11px; }
 .cc-price.tbd { color: var(--fog-dim); font-size: 11px; font-weight: 500; font-style: italic; }
 .cc-contact {
-  font-size: 10px; color: var(--teal);
+  font-size: 10px; color:var(--teal-ink);
   word-break: break-all;
   text-align: right;
   font-weight: 500;
@@ -278,7 +253,7 @@ header p { font-size: 15px; color: var(--text-soft); max-width: 720px; }
 .modal input:focus { outline: none; border-color: var(--chartreuse); }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; }
 .modal .help { font-size: 11px; color: var(--fog); margin-top: 4px; }
-.modal .help a { color: var(--teal); }
+.modal .help a { color:var(--teal-ink); }
 
 @media (max-width: 700px) {
   .wrap { padding: 24px 16px 40px; }
@@ -293,8 +268,8 @@ footer {
   font-size: 11px; color: var(--fog);
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
 }
-.tb-air{font-size:11px;font-weight:600;color:#6B6A62;text-decoration:none;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #ECEAE3;border-radius:999px;transition:color .12s,border-color .12s;white-space:nowrap;}
-.tb-air:hover{color:#0F0E0E;border-color:#8A8576;}
+.tb-air{font-size:11px;font-weight:600;color:#888888;text-decoration:none;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #ECEAE3;border-radius:999px;transition:color .12s,border-color .12s;white-space:nowrap;}
+.tb-air:hover{color:#0F0E0E;border-color:#888888;}
 </style>
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
