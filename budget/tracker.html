@@ -311,7 +311,7 @@ function renderDesktop(b){
   const released=b.stageIdx===3, sentBack=b.stageIdx===-1;
   const stageName=b.stageIdx>=0&&b.stageIdx<3?STAGES[b.stageIdx].who:'—';
 
-  let headStatus=`<span class="mono-tag" style="background:#F0FAD0;color:#9A7B12">Awaiting ${stageName}</span>`;
+  let headStatus=`<span class="mono-tag" style="background:#F0FAD0;color:#8A6E0E">Awaiting ${stageName}</span>`;
   if(released)headStatus=`<span class="mono-tag" style="background:rgba(31,157,85,.15);color:var(--green)">Released ✓</span>`;
   if(sentBack)headStatus=`<span class="mono-tag" style="background:rgba(255,74,35,.13);color:var(--flame)">Sent back</span>`;
 

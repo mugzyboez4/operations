@@ -28,7 +28,7 @@
     font-size: 22px; font-weight:700; letter-spacing: -0.02em;
     text-transform: uppercase; line-height: 1; margin-bottom: 14px;
   }
-  .gate-sub { font-size: 14px; color:#888888; margin-bottom: 22px; line-height: 1.5; }
+  .gate-sub { font-size: 14px; color:#6E6A63; margin-bottom: 22px; line-height: 1.5; }
   .gate-input {
     width: 100%; background: transparent; border: 1px solid #2A2A2A;
     padding: 12px 14px; color: var(--bg); font-family: inherit; font-size: 14px;
@@ -374,7 +374,7 @@
     border-left: 2px solid var(--chartreuse-dark);
   }
   .chip.is-cadence:hover { background: #FFF8E1; }
-  .chip.is-cadence .chip-artist { color: #5F7E1C; }
+  .chip.is-cadence .chip-artist { color: #55711A; }
   /* Subtle marker for user-added */
   .chip.user-added::after {
     content: '+'; position: absolute; top: 4px; right: 6px;
@@ -393,7 +393,7 @@
   .chip.row-merch {
     background: #F0FAD0; border-color: #F0FAD0;
   }
-  .chip.row-merch:hover { background: #F0FAD0; border-color: #5F7E1C; }
+  .chip.row-merch:hover { background: #F0FAD0; border-color: #55711A; }
 
   /* Music Specials — soft teal tint */
   .chip.row-nonofficial {
@@ -430,7 +430,7 @@
     border: 1px solid var(--chartreuse-dark);
     padding: 2px 6px; border-radius: 10px;
     font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
-    color: #5F7E1C; text-transform: uppercase;
+    color: #55711A; text-transform: uppercase;
     cursor: help; line-height: 1;
     display: flex; align-items: center; gap: 3px;
     z-index: 2;
@@ -661,9 +661,6 @@
 </style>
 <link rel="stylesheet" href="/shell.css">
 <script defer src="/shell.js"></script>
-<style>/* dark-ground accent */
-.gate-card .gate-eyebrow{color:var(--lime)}
-</style>
 </head><body>
 <div class="gate" id="gate">
   <div class="gate-card">
@@ -1427,7 +1424,7 @@ function showActivationModal(idx) {
     '<div class="modal-actions">' +
     (a._airtableId 
       ? '<a class="primary" id="modal-airtable" href="https://airtable.com/' + AIRTABLE_BASE_ID + '/' + AIRTABLE_TABLE_ID + '/' + a._airtableId + '" target="_blank" style="text-decoration:none;text-align:center;">↗ Edit in Airtable</a>'
-      : '<button class="primary" id="modal-reload" style="background:#FF4A23;border-color:#FF4A23;">⚠ Reload page to enable editing</button>') +
+      : '<button class="primary" id="modal-reload" style="background:#FF4A23;border-color:#D93A13;">⚠ Reload page to enable editing</button>') +
     '</div></div>';
   openModal();
   if (!a._airtableId) {
@@ -1619,4 +1616,8 @@ document.getElementById('tb-refresh').addEventListener('click', async () => {
     btn.disabled = false;
   }
 });
-</script></body></html>
+</script><style>/* dark-ground accent */
+.gate-card .gate-eyebrow{color:#FF4A23}
+.gate-card .gate-sub{color:#9B968D}
+</style>
+</body></html>

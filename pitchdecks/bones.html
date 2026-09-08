@@ -12,9 +12,9 @@
 
   .wrap { max-width:960px; margin:0 auto; }
   .head { background:#F5F2EB; color:#0F0E0E; padding:48px 24px 0; }
-  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#5F7E1C; margin-bottom:8px; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#55711A; margin-bottom:8px; }
   h1 { font-size:32px; font-weight:600; letter-spacing:-.02em; margin-bottom:6px; }
-  .sub { font-size:14px; color:#888888; max-width:62ch; line-height:1.55; }
+  .sub { font-size:14px; color:#6E6A63; max-width:62ch; line-height:1.55; }
   .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:2px 9px; margin-left:10px; text-transform:uppercase; }
 
   /* tabs */
@@ -35,10 +35,10 @@
   details summary::-webkit-details-marker { display:none; }
   details summary:hover { background:#F5F2EB; }
   details[open] summary { background:#F5F2EB; color:#0F0E0E; }
-  .num { flex-shrink:0; width:28px; font-size:12px; font-weight:700; color:#FF4A23; }
+  .num { flex-shrink:0; width:28px; font-size:12px; font-weight:700; color:#D93A13; }
   .ttl { flex-shrink:0; font-size:14px; font-weight:700; min-width:180px; }
   .gloss { font-size:13px; color:#777; }
-  details[open] .gloss { color:#888888; }
+  details[open] .gloss { color:#6E6A63; }
   .body { padding:16px 20px 18px 62px; font-size:13.5px; line-height:1.6; color:#333; border-top:1px solid #ECEAE3; }
   .body ul { padding-left:16px; }
   .body li { margin-bottom:5px; max-width:70ch; }
@@ -48,7 +48,7 @@
   .check { background:#FF4A23; color:#fff; font-size:10px; font-weight:700; padding:1px 6px; letter-spacing:.06em; text-transform:uppercase; }
 
   .callout { background:#F5F2EB; color:#0F0E0E; padding:16px 22px; font-size:14px; font-weight:600; line-height:1.55; margin-top:24px; max-width:none; }
-  .callout .zing { color:#5F7E1C; }
+  .callout .zing { color:#55711A; }
   .meta { margin-top:28px; font-size:11px; color:#999; }
 </style>
 </head>
@@ -209,10 +209,10 @@
 <div id="rca-gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
   <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
   <div style="font-size:22px;font-weight:600;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
-  <div style="font-size:11px;color:#888888;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <div style="font-size:11px;color:#6E6A63;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
   <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:1px solid #ECEAE3;background:#FFFFFF;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
-  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+  <div id="rca-err" style="color:#D93A13;font-size:11px;margin-top:10px;height:16px;"></div>
 </div>
 <script>
 (function(){

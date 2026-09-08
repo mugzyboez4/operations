@@ -13,7 +13,7 @@
   .top .in{max-width:1120px;margin:0 auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
   .top .app{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lime-ink);font-weight:700}
   .top h1{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-top:2px}
-  .who{text-align:right;font-size:12px;color:#888888}
+  .who{text-align:right;font-size:12px;color:#6E6A63}
   .who b{color:#fff;font-size:14px;display:block}
   .who .role-chip{display:inline-block;margin-top:4px;background:var(--chart);color:var(--ink);font-weight:800;
     font-size:11px;padding:3px 10px;border-radius:20px;letter-spacing:.02em}
@@ -43,7 +43,7 @@
   .hbar i{position:absolute;top:0;bottom:0;left:0;border-radius:5px}
   .pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px}
   .p-green{background:rgba(31,157,85,.14);color:var(--green)}
-  .p-yellow{background:rgba(232,185,35,.20);color:#9A7B12}
+  .p-yellow{background:rgba(232,185,35,.20);color:#8A6E0E}
   .p-red{background:rgba(255,74,35,.13);color:var(--flame)}
   .p-gray{background:#ECEAE3;color:var(--muted)}
   .p-ink{background:var(--ink);color:#fff}
@@ -148,15 +148,12 @@
   /* role switcher (combined demo) */
   .rolebar{background:#0F0E0E;border-top:1px solid #2A2A2A}
   .rolebar .in2{max-width:1120px;margin:0 auto;padding:9px 22px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .rolebar .rl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#888888;font-weight:700;margin-right:4px}
-  .rs{padding:6px 14px;border-radius:20px;border:1.5px solid #2A2A2A;background:none;color:#888888;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit}
-  .rs:hover{border-color:#888888;color:#fff}
+  .rolebar .rl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#6E6A63;font-weight:700;margin-right:4px}
+  .rs{padding:6px 14px;border-radius:20px;border:1.5px solid #2A2A2A;background:none;color:#6E6A63;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .rs:hover{border-color:#6E6A63;color:#fff}
   .rs.on{background:var(--chart);color:var(--ink);border-color:var(--chart)}
   .rs .rn{display:inline-block;min-width:16px;text-align:center;background:var(--flame);color:#fff;font-size:10px;font-weight:800;padding:0 5px;border-radius:20px;margin-left:5px}
   .rs.on .rn{background:var(--ink);color:#fff}
-</style>
-<style>/* dark-ground accent */
-.in .app{color:var(--lime)}
 </style>
 </head>
 <body>
@@ -628,5 +625,9 @@ function init(){
 }
 init();
 </script>
+<style>/* dark-ground accent */
+.in .app{color:var(--lime)}
+.in .who,.in2 .rl,.in2 .rs{color:#9B968D}
+</style>
 </body>
 </html>

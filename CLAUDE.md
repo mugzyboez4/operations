@@ -34,20 +34,21 @@ onto the canonical values.
 | Cards | `#FFFFFF` / `#FAFAF5` | `--card` / `--card-2` |
 | Ink | `#0F0E0E` | `--ink` |
 | Secondary ink | `#2A2A2A` | `--fg-2` |
-| Muted | `#888888` | `--fog` |
+| Muted | `#6E6A63` | `--fog` |
 | Borders | `#ECEAE3` | `--border`; `--rule` `#D8D4CC` for heavier rules |
 | Accent | `#CDF851` (chartreuse) | **fill only** — never text on paper |
-| Accent as text | `#5F7E1C` | `--lime-ink` |
-| Alert | `#FF4A23` (flame) | links, eyebrows, active tab |
-| Teal / gold | `#5BC0BE` / `#E8C547` | text variants `--teal-ink` `#2C8A88`, `--gold-ink` `#9A7B12` |
+| Accent as text | `#55711A` | `--lime-ink` |
+| Alert | `#D93A13` (flame) | links, eyebrows, active tab; `#FF4A23` on ink grounds |
+| Teal / gold | `#5BC0BE` / `#E8C547` | text variants `--teal-ink` `#257471`, `--gold-ink` `#8A6E0E` |
 | Labels | 9px / 700 weight / 1.5px letter-spacing / uppercase | |
 
 Dark bands still exist (heroes, section badges, utility strip). Put `.om-dark`
 on any panel sitting on `--ink` so links and accents flip correctly.
 
-Accessibility note: `--fog` and `--flame` sit near 3:1 on paper, below WCAG AA
-for small text. They are kept as-authored to match the Digital Partner Guide;
-tempo.css documents the two-line swap that closes the gap.
+Accessibility: every accent clears WCAG AA for small text on paper except
+`--flame` (4.11:1) — going further reads brick rather than flame. On ink
+grounds the darker values invert the problem; add a "dark-ground accent"
+style block at the end of the page, as the existing dark bands do.
 
 ## Shared files
 

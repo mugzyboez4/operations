@@ -148,3 +148,8 @@ h1 {
   font-size: 12px; color: var(--text-soft); line-height: 1.6;
 }
 .loading { padding: 60px 20px; text-align: center; color: var(--text-soft); font-size: 14px; }
+
+/* dark-ground accent — .gate-card is an ink panel, so the accent needs
+   the bright flame rather than the paper-tuned --flame */
+.gate-card .gate-eyebrow{color:#FF4A23}
+.gate-card .gate-input:focus{border-color:#FF4A23}

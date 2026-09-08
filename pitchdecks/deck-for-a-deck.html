@@ -14,9 +14,9 @@
 
   /* dark header band */
   .head { background:#F5F2EB; color:#0F0E0E; padding:48px 0 0; }
-  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#5F7E1C; margin-bottom:8px; }
+  .kicker { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#55711A; margin-bottom:8px; }
   h1 { font-size:32px; font-weight:600; letter-spacing:-.02em; margin-bottom:6px; }
-  .sub { font-size:14px; color:#888888; max-width:62ch; line-height:1.55; margin-bottom:28px; }
+  .sub { font-size:14px; color:#6E6A63; max-width:62ch; line-height:1.55; margin-bottom:28px; }
   .sub .v { display:inline-block; background:#CDF851; color:#0F0E0E; font-size:11px; font-weight:700; letter-spacing:.1em; padding:3px 10px; margin-left:10px; text-transform:uppercase; }
 
   .tabs { display:flex; gap:2px; flex-wrap:wrap; }
@@ -36,11 +36,11 @@
   details { border:1px solid #ECEAE3; background:#fff; margin-bottom:8px; }
   details summary { list-style:none; cursor:pointer; display:flex; gap:14px; align-items:baseline; padding:13px 16px; }
   details summary::-webkit-details-marker { display:none; }
-  summary .num { flex-shrink:0; font-size:12px; font-weight:700; color:#FF4A23; }
+  summary .num { flex-shrink:0; font-size:12px; font-weight:700; color:#D93A13; }
   summary .ttl { font-size:14px; font-weight:700; }
   summary .gloss { font-size:13px; color:#555; }
   details[open] summary { background:#F5F2EB; color:#0F0E0E; }
-  details[open] summary .gloss { color:#888888; }
+  details[open] summary .gloss { color:#6E6A63; }
   details .body { padding:6px 16px 14px 42px; }
   details .body p { font-size:13px; color:#444; line-height:1.6; max-width:62ch; }
 
@@ -48,15 +48,15 @@
   .timeline { display:flex; border:1px solid #ECEAE3; margin:16px 0 14px; background:#fff; }
   .t-seg { flex:1; padding:12px 14px; border-right:1px solid #ECEAE3; }
   .t-seg:last-child { border-right:none; }
-  .t-seg .day { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FF4A23; margin-bottom:3px; }
+  .t-seg .day { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#D93A13; margin-bottom:3px; }
   .t-seg .what { font-size:13px; font-weight:600; line-height:1.4; }
   .t-seg.hot { background:#CDF851; }
 
   .callout { background:#F5F2EB; color:#0F0E0E; padding:18px 24px; font-size:14px; font-weight:600; line-height:1.55; margin-top:14px; }
-  .callout .zing { color:#5F7E1C; }
+  .callout .zing { color:#55711A; }
 
   .footer-line { text-align:center; font-size:19px; font-weight:600; margin-top:20px; }
-  .footer-line .a { color:#FF4A23; }
+  .footer-line .a { color:#D93A13; }
   .meta { margin-top:28px; font-size:12px; color:#888; }
   @media (max-width:800px){ .timeline{flex-direction:column;} .t-seg{border-right:none;border-bottom:1px solid #ECEAE3;} .t-seg:last-child{border-bottom:none;} }
 </style>
@@ -140,10 +140,10 @@
 <div id="rca-gate" style="position:fixed;inset:0;background:#F5F2EB;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Inter',sans-serif;">
   <div style="width:46px;height:46px;background:#CDF851;border-radius:10px;margin-bottom:18px;"></div>
   <div style="font-size:22px;font-weight:600;color:#0F0E0E;margin-bottom:4px;letter-spacing:-0.3px;text-transform:uppercase;">Pitch Deck System</div>
-  <div style="font-size:11px;color:#888888;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
+  <div style="font-size:11px;color:#6E6A63;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;">RCA &middot; Campaign Ops &middot; Team access only</div>
   <input type="password" id="rca-pw" placeholder="Password" autocomplete="off" style="font-size:14px;padding:11px 20px;border:1px solid #ECEAE3;background:#FFFFFF;color:#0F0E0E;width:240px;text-align:center;outline:none;font-family:inherit;border-radius:8px;">
   <button id="rca-go" style="font-size:11px;font-weight:700;padding:11px 28px;background:#CDF851;color:#0F0E0E;border:none;cursor:pointer;margin-top:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:inherit;border-radius:999px;">Unlock</button>
-  <div id="rca-err" style="color:#FF4A23;font-size:11px;margin-top:10px;height:16px;"></div>
+  <div id="rca-err" style="color:#D93A13;font-size:11px;margin-top:10px;height:16px;"></div>
 </div>
 <script>
 (function(){

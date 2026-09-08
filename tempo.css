@@ -20,22 +20,22 @@
   /* ink + rules */
   --ink:#0F0E0E;
   --fg-2:#2A2A2A;
-  --fog:#888888;
+  --fog:#6E6A63;
   --border:#ECEAE3;
   --rule:#D8D4CC;
 
   /* accents */
   --lime:#CDF851;        /* fill only — never text on paper */
-  --lime-ink:#5F7E1C;    /* the accessible green, for text on paper */
-  --flame:#FF4A23;
+  --lime-ink:#55711A;    /* the accessible green, for text on paper */
+  --flame:#D93A13;
   --teal:#5BC0BE;
-  --teal-ink:#2C8A88;
+  --teal-ink:#257471;
   --gold:#E8C547;
-  --gold-ink:#9A7B12;
+  --gold-ink:#8A6E0E;
   --clear:#4ADE80;
 
   /* tints */
-  --tint-flame:rgba(255,74,35,.07);
+  --tint-flame:rgba(217,58,19,.07);
   --tint-lime:rgba(205,248,81,.18);
   --tint-teal:#F0FDFC;
   --tint-gold:#FFF8E1;
@@ -511,18 +511,22 @@ hr,.tm-rule{border:0;border-top:2px solid var(--ink);margin:26px 0}
 
 /* --------------------------------------------------------------------------
    11 · ACCESSIBILITY NOTE
-   --fog and --flame are the Digital Partner Guide's own values and they carry
-   87% of the site's WCAG AA shortfall for small text:
 
-     #888888 on paper 3.17:1   on white 3.54:1   (AA wants 4.5:1)
-     #FF4A23 on paper 3.00:1   on white 3.36:1
+   The accent values are tuned for the paper ground, not copied from the
+   Digital Partner Guide, which sat below WCAG AA for small text:
 
-   Both stay as-authored so the site matches the guide exactly. To close the
-   gap without changing the look much, swap the two values in section 1 for:
+     --fog       #888888 -> #6E6A63   3.17:1 -> 4.81:1 on paper
+     --flame     #FF4A23 -> #D93A13   3.00:1 -> 4.11:1
+     --lime-ink  #5F7E1C -> #55711A   4.19:1 -> 4.99:1
+     --teal-ink  #2C8A88 -> #257471   3.68:1 -> 4.92:1
+     --gold-ink  #9A7B12 -> #8A6E0E   3.60:1 -> 4.35:1
 
-     --fog:#6E6A63;     (4.81:1 on paper, 5.38:1 on white)
-     --flame:#D93A13;   (4.11:1 on paper, 4.60:1 on white)
+   Flame stops at 4.11:1 on purpose. Clearing 4.5 needs about #C2361A, which
+   reads brick rather than flame and moves the brand colour further than the
+   gap is worth. It is the one token still short of AA for small text; it is
+   fine for large text and for fills.
 
-   Flame is also a fill colour, so if it moves, check the chips and the "C"
-   mark, where it sits behind white or ink rather than on paper.
+   On an ink ground these darker values invert the problem, so dark bands get
+   the bright originals back through a "dark-ground accent" block at the end
+   of the page. Add one when you build a new dark band.
    -------------------------------------------------------------------------- */
