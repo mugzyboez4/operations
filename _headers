@@ -49,8 +49,15 @@
 /tempo.css
   Access-Control-Allow-Origin: *
 
-# Rebuilt WordPress page sources — fetched cross-origin from wp-admin
+# Rebuilt WordPress page sources — fetched cross-origin from wp-admin.
+# text/plain so the HTML sources come back as text; the stylesheet needs its
+# real type or the browser refuses to apply it.
 /wp/*
   Access-Control-Allow-Origin: *
   Content-Type: text/plain; charset=utf-8
   Cache-Control: no-store
+
+/wp/retrofit.css
+  Access-Control-Allow-Origin: *
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=300
