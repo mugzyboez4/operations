@@ -1,0 +1,330 @@
+/* ==========================================================================
+   TEMPO for WordPress — Campaign Ops
+   Paste into Appearance → Additional CSS (or Site Editor → Styles → ⋮ →
+   Additional CSS). Restyles every page on the site at once.
+
+   Matches operations.mugzyboez.co / tempo.css. Written against Twenty
+   Twenty-Five; the first block retints the theme's own preset variables, so
+   most blocks convert without being named individually.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* --------------------------------------------------------------------------
+   1 · TOKENS — the tempo palette, plus an override of the theme's presets
+   -------------------------------------------------------------------------- */
+:root{
+  --tm-bg:#F5F2EB;
+  --tm-card:#FFFFFF;
+  --tm-card-2:#FAFAF5;
+  --tm-ink:#0F0E0E;
+  --tm-fg-2:#2A2A2A;
+  --tm-fog:#6E6A63;
+  --tm-border:#ECEAE3;
+  --tm-rule:#D8D4CC;
+
+  --tm-lime:#CDF851;       /* fill only — never text on paper */
+  --tm-lime-ink:#55711A;   /* the green that is legible as text */
+  --tm-flame:#D93A13;
+  --tm-flame-bright:#FF4A23;   /* for use on ink grounds only */
+  --tm-teal:#5BC0BE;
+  --tm-teal-ink:#257471;
+  --tm-gold:#E8C547;
+  --tm-gold-ink:#8A6E0E;
+
+  --tm-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --tm-mono:ui-monospace,'SF Mono','Cascadia Mono','Consolas',Menlo,monospace;
+
+  /* Repoint the theme's own presets. This is what converts buttons, links,
+     backgrounds and block colours without naming each block. */
+  --wp--preset--color--base:#F5F2EB;
+  --wp--preset--color--base-2:#FFFFFF;
+  --wp--preset--color--contrast:#0F0E0E;
+  --wp--preset--color--contrast-2:#2A2A2A;
+  --wp--preset--color--contrast-3:#6E6A63;
+  --wp--preset--color--accent-1:#D93A13;
+  --wp--preset--color--accent-2:#CDF851;
+  --wp--preset--color--accent-3:#ECEAE3;
+  --wp--preset--color--accent-4:#FAFAF5;
+  --wp--preset--color--accent-5:#257471;
+  --wp--preset--color--accent-6:#8A6E0E;
+
+  --wp--preset--font-family--body:var(--tm-sans);
+  --wp--preset--font-family--heading:var(--tm-sans);
+}
+
+/* --------------------------------------------------------------------------
+   2 · BASE
+   -------------------------------------------------------------------------- */
+body,
+.wp-site-blocks{
+  background:var(--tm-bg);
+  color:var(--tm-ink);
+  font-family:var(--tm-sans);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wp-site-blocks a:where(:not(.wp-element-button):not(.wp-block-navigation-item__content)){
+  color:var(--tm-flame);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color .15s linear,border-color .15s linear;
+}
+.wp-site-blocks a:where(:not(.wp-element-button):not(.wp-block-navigation-item__content)):hover{
+  color:var(--tm-ink);
+  border-bottom-color:var(--tm-rule);
+}
+
+::selection{background:var(--tm-lime);color:var(--tm-ink)}
+
+/* --------------------------------------------------------------------------
+   3 · TYPE
+   Display sizes are uppercase and tight, the way the guide sets them.
+   -------------------------------------------------------------------------- */
+.wp-site-blocks h1,
+.wp-block-post-title,
+.wp-block-site-title{
+  font-family:var(--tm-sans);
+  font-weight:900;
+  font-size:clamp(34px,5vw,56px);
+  letter-spacing:-2px;
+  line-height:.95;
+  text-transform:uppercase;
+  color:var(--tm-ink);
+  text-wrap:balance;
+}
+.wp-site-blocks h2{
+  font-weight:900;
+  font-size:clamp(24px,3.4vw,36px);
+  letter-spacing:-1.4px;
+  line-height:1.05;
+  text-transform:uppercase;
+  color:var(--tm-ink);
+  border-bottom:2px solid var(--tm-ink);
+  padding-bottom:12px;
+  margin-bottom:24px;
+  text-wrap:balance;
+}
+.wp-site-blocks h3{
+  font-weight:800;font-size:19px;letter-spacing:-.3px;line-height:1.25;color:var(--tm-ink);
+}
+.wp-site-blocks h4,
+.wp-site-blocks h5,
+.wp-site-blocks h6{
+  font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--tm-fog);
+}
+.wp-site-blocks p{color:var(--tm-fg-2)}
+.wp-site-blocks strong,.wp-site-blocks b{font-weight:700;color:var(--tm-ink)}
+.wp-site-blocks code,.wp-site-blocks kbd,.wp-site-blocks samp{
+  font-family:var(--tm-mono);font-size:.9em;background:var(--tm-card-2);
+  border:1px solid var(--tm-border);padding:1px 5px;
+}
+
+/* an intro paragraph, if the page marks one */
+.wp-site-blocks .has-large-font-size,
+.wp-site-blocks .is-style-lead{
+  font-size:17px;line-height:1.65;color:var(--tm-fg-2);max-width:62ch;
+}
+
+/* --------------------------------------------------------------------------
+   4 · HEADER + NAVIGATION
+   -------------------------------------------------------------------------- */
+.wp-block-template-part header,
+header.wp-block-template-part,
+.wp-site-blocks > header{
+  background:var(--tm-bg);
+  border-bottom:1px solid var(--tm-border);
+}
+.wp-block-site-title a{
+  font-weight:800;font-size:16px;letter-spacing:-.02em;text-transform:uppercase;
+  color:var(--tm-ink);border-bottom:0;
+}
+.wp-block-site-title a:hover{color:var(--tm-flame);border-bottom:0}
+
+.wp-block-navigation .wp-block-navigation-item__content{
+  font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--tm-fog);border-bottom:2px solid transparent;padding-bottom:3px;
+  text-decoration:none;
+}
+.wp-block-navigation .wp-block-navigation-item__content:hover{
+  color:var(--tm-ink);border-bottom-color:var(--tm-lime);text-decoration:none;
+}
+.wp-block-navigation .current-menu-item .wp-block-navigation-item__content,
+.wp-block-navigation .current_page_item .wp-block-navigation-item__content{
+  color:var(--tm-ink);border-bottom-color:var(--tm-flame);
+}
+.wp-block-navigation__submenu-container{
+  background:var(--tm-card);border:1px solid var(--tm-border);border-radius:0;
+}
+
+/* --------------------------------------------------------------------------
+   5 · BLOCKS
+   -------------------------------------------------------------------------- */
+
+/* buttons — square, ink, lime on hover */
+.wp-block-button__link,
+.wp-element-button{
+  background:var(--tm-ink);
+  color:var(--tm-lime);
+  border:1px solid var(--tm-ink);
+  border-radius:0;
+  font-family:var(--tm-sans);
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:11px 18px;
+}
+.wp-block-button__link:hover,.wp-element-button:hover{background:transparent;color:var(--tm-ink)}
+.wp-block-button.is-style-outline .wp-block-button__link{
+  background:transparent;color:var(--tm-ink);border-color:var(--tm-ink);
+}
+.wp-block-button.is-style-outline .wp-block-button__link:hover{background:var(--tm-ink);color:var(--tm-lime)}
+
+/* tables */
+.wp-block-table table{
+  width:100%;border-collapse:collapse;background:var(--tm-card);
+  border:1px solid var(--tm-border);
+}
+.wp-block-table td,.wp-block-table th{
+  padding:12px 14px;font-size:14px;line-height:1.5;color:var(--tm-ink);
+  border:0;border-bottom:1px solid var(--tm-border);text-align:left;vertical-align:top;
+}
+.wp-block-table th{
+  font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--tm-fog);border-bottom:2px solid var(--tm-ink);
+}
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd){background:var(--tm-card-2)}
+.wp-block-table figcaption{font-family:var(--tm-mono);font-size:10px;letter-spacing:1px;color:var(--tm-fog)}
+/* wide tables scroll instead of pushing the page sideways */
+.wp-block-table{overflow-x:auto}
+
+/* quotes + pullquotes */
+.wp-block-quote{
+  border-left:3px solid var(--tm-flame);
+  background:rgba(217,58,19,.06);
+  padding:16px 20px;margin-left:0;font-style:normal;
+}
+.wp-block-quote cite{
+  display:block;margin-top:10px;font-family:var(--tm-mono);font-size:10px;
+  letter-spacing:1px;text-transform:uppercase;color:var(--tm-fog);font-style:normal;
+}
+.wp-block-pullquote{
+  border-top:2px solid var(--tm-ink);border-bottom:2px solid var(--tm-ink);
+  background:transparent;padding:28px 0;
+}
+.wp-block-pullquote p{font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--tm-ink)}
+
+/* groups used as cards */
+.wp-block-group.has-background{border-radius:0;padding:22px}
+.wp-block-group.is-style-card,
+.wp-block-column.has-background{
+  background:var(--tm-card);border:1px solid var(--tm-border);border-top:6px solid var(--tm-lime);
+  border-radius:0;padding:20px;
+}
+
+/* separators + rules */
+.wp-block-separator{border:0;border-top:2px solid var(--tm-ink);opacity:1;max-width:none}
+.wp-block-separator.is-style-wide{border-top-width:1px;border-color:var(--tm-rule)}
+
+/* lists */
+.wp-site-blocks ul li,.wp-site-blocks ol li{margin-bottom:5px;color:var(--tm-fg-2)}
+.wp-site-blocks ul li::marker{color:var(--tm-lime-ink)}
+
+/* images + covers */
+.wp-block-image img,.wp-block-cover{border-radius:0}
+.wp-block-image figcaption{
+  font-family:var(--tm-mono);font-size:10px;letter-spacing:1px;color:var(--tm-fog);
+}
+
+/* forms + search */
+.wp-block-search__input,
+.wp-site-blocks input[type=text],
+.wp-site-blocks input[type=email],
+.wp-site-blocks input[type=search],
+.wp-site-blocks textarea,
+.wp-site-blocks select{
+  background:var(--tm-card);border:1px solid var(--tm-border);border-radius:0;
+  font-family:var(--tm-sans);font-size:14px;color:var(--tm-ink);padding:10px 12px;
+}
+.wp-site-blocks input:focus,.wp-site-blocks textarea:focus,.wp-site-blocks select:focus{
+  outline:2px solid var(--tm-flame);outline-offset:1px;border-color:var(--tm-flame);
+}
+
+/* post meta */
+.wp-block-post-date,.wp-block-post-author-name,.wp-block-post-terms{
+  font-family:var(--tm-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--tm-fog);
+}
+
+/* footer */
+.wp-site-blocks > footer,
+footer.wp-block-template-part{
+  border-top:2px solid var(--tm-ink);background:var(--tm-bg);
+  font-size:13px;color:var(--tm-fog);
+}
+
+/* --------------------------------------------------------------------------
+   6 · DARK SECTIONS
+   Any group set to the Contrast colour becomes an ink band, with the bright
+   accents restored — the paper-tuned ones go muddy on ink.
+   -------------------------------------------------------------------------- */
+.has-contrast-background-color,
+.wp-block-cover{
+  color:#FCFDF8;
+}
+.has-contrast-background-color h1,
+.has-contrast-background-color h2,
+.has-contrast-background-color h3,
+.wp-block-cover h1,.wp-block-cover h2,.wp-block-cover h3{
+  color:#FCFDF8;border-bottom-color:#FCFDF8;
+}
+.has-contrast-background-color p,
+.wp-block-cover p{color:#E6E3DC}
+.has-contrast-background-color h4,
+.has-contrast-background-color h5,
+.has-contrast-background-color h6,
+.wp-block-cover h4,.wp-block-cover h5,.wp-block-cover h6{color:#9B968D}
+.has-contrast-background-color a:not(.wp-element-button),
+.wp-block-cover a:not(.wp-element-button){color:var(--tm-lime)}
+.has-contrast-background-color a:not(.wp-element-button):hover,
+.wp-block-cover a:not(.wp-element-button):hover{color:#FCFDF8;border-bottom-color:var(--tm-lime)}
+.has-contrast-background-color .wp-block-button__link,
+.wp-block-cover .wp-block-button__link{
+  background:transparent;color:#FCFDF8;border-color:#FCFDF8;
+}
+.has-contrast-background-color .wp-block-button__link:hover,
+.wp-block-cover .wp-block-button__link:hover{background:#FCFDF8;color:var(--tm-ink)}
+
+/* --------------------------------------------------------------------------
+   7 · ACCENT GUARDS
+   The chartreuse is a fill, never text on paper. If a block was set to the
+   Accent 2 text colour in the editor, this keeps it readable.
+   -------------------------------------------------------------------------- */
+.has-accent-2-color:not(.has-contrast-background-color):not(.wp-block-cover){color:var(--tm-lime-ink)}
+.has-accent-2-background-color{color:var(--tm-ink)}
+.has-accent-1-background-color{color:#FCFDF8}
+
+/* --------------------------------------------------------------------------
+   8 · UTILITY STRIP (optional)
+   Adds the black "RCA Records · Sony Music · Internal only" bar above the
+   header. Delete this block if the site header is already sticky and the two
+   fight each other.
+   -------------------------------------------------------------------------- */
+.wp-site-blocks::before{
+  content:"RCA Records · Sony Music   |   Internal only";
+  display:flex;align-items:center;
+  height:30px;padding:0 24px;
+  background:var(--tm-ink);color:#FCFDF8;
+  font-family:var(--tm-sans);
+  font-size:9px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   9 · PRINT
+   -------------------------------------------------------------------------- */
+@media print{
+  .wp-block-navigation,.wp-site-blocks::before{display:none!important}
+  body,.wp-site-blocks{background:#fff}
+  .wp-site-blocks a{color:var(--tm-ink)}
+}

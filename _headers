@@ -39,3 +39,12 @@
 
 /office-guide
   Content-Security-Policy: frame-ancestors *
+
+# Stylesheet served to the WordPress site — allow it cross-origin
+/tempo-wordpress.css
+  Access-Control-Allow-Origin: *
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=300
+
+/tempo.css
+  Access-Control-Allow-Origin: *
