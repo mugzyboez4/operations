@@ -320,8 +320,76 @@ footer.wp-block-template-part{
   font-size:9px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
 }
 
+
 /* --------------------------------------------------------------------------
-   9 · PRINT
+   10 · BARE HTML CONTENT
+   Pages published through "HTML Pages" (and anything pasted into a Custom
+   HTML block) arrive as plain <p>/<h2>/<table> with no block classes. These
+   rules catch those regardless of the wrapper the theme puts around them.
+   -------------------------------------------------------------------------- */
+.entry-content,.page-content,.wp-block-post-content,article,main{
+  font-family:var(--tm-sans);color:var(--tm-ink);
+}
+.entry-content p,.page-content p,article p,main p{color:var(--tm-fg-2);line-height:1.6}
+
+.entry-content h1,.page-content h1,article h1,main h1{
+  font-weight:900;font-size:clamp(30px,4.4vw,48px);letter-spacing:-1.8px;line-height:.98;
+  text-transform:uppercase;color:var(--tm-ink);margin:0 0 18px;
+}
+.entry-content h2,.page-content h2,article h2,main h2{
+  font-weight:900;font-size:clamp(22px,3vw,32px);letter-spacing:-1.2px;line-height:1.08;
+  text-transform:uppercase;color:var(--tm-ink);
+  border-bottom:2px solid var(--tm-ink);padding-bottom:10px;margin:44px 0 20px;
+}
+.entry-content h3,.page-content h3,article h3,main h3{
+  font-weight:800;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--tm-fog);margin:28px 0 10px;
+}
+.entry-content h4,.page-content h4,article h4,main h4{
+  font-weight:700;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--tm-fog);margin:20px 0 8px;
+}
+
+/* tables — the workhorse on these pages */
+.entry-content table,.page-content table,article table,main table{
+  width:100%;border-collapse:collapse;background:var(--tm-card);
+  border:1px solid var(--tm-border);margin:0 0 24px;font-size:14px;
+}
+.entry-content th,.page-content th,article th,main th{
+  padding:11px 13px;text-align:left;vertical-align:top;
+  font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--tm-fog);background:var(--tm-card-2);
+  border-bottom:2px solid var(--tm-ink);
+}
+.entry-content td,.page-content td,article td,main td{
+  padding:11px 13px;text-align:left;vertical-align:top;line-height:1.5;
+  color:var(--tm-ink);border-bottom:1px solid var(--tm-border);
+}
+.entry-content tbody tr:last-child td,.page-content tbody tr:last-child td,
+article tbody tr:last-child td,main tbody tr:last-child td{border-bottom:0}
+/* first column reads as the label */
+.entry-content tbody td:first-child,.page-content tbody td:first-child,
+article tbody td:first-child,main tbody td:first-child{font-weight:600;white-space:nowrap}
+
+/* lists */
+.entry-content ul,.entry-content ol,.page-content ul,.page-content ol,
+article ul,article ol,main ul,main ol{margin:0 0 20px 20px}
+.entry-content li,.page-content li,article li,main li{margin-bottom:5px;color:var(--tm-fg-2)}
+.entry-content li::marker,.page-content li::marker,article li::marker,main li::marker{color:var(--tm-lime-ink)}
+
+/* inline */
+.entry-content strong,.page-content strong,article strong,main strong{color:var(--tm-ink);font-weight:700}
+.entry-content hr,.page-content hr,article hr,main hr{border:0;border-top:2px solid var(--tm-ink);margin:32px 0}
+.entry-content blockquote,.page-content blockquote,article blockquote,main blockquote{
+  margin:0 0 24px;padding:14px 18px;border-left:3px solid var(--tm-flame);
+  background:rgba(217,58,19,.06);
+}
+
+/* wide tables scroll rather than pushing the page sideways */
+.entry-content,.page-content,article,main{overflow-x:auto}
+
+/* --------------------------------------------------------------------------
+   11 · PRINT
    -------------------------------------------------------------------------- */
 @media print{
   .wp-block-navigation,.wp-site-blocks::before{display:none!important}
