@@ -177,3 +177,73 @@ td{
   .band,.hero{padding:44px 20px 38px}
   main,.sec{padding-left:20px;padding-right:20px}
 }
+
+/* ==========================================================================
+   7 · OTHER PAGE VOCABULARIES
+   These pages were each authored with their own class names. Mapping them
+   here means they take the Partner Guide treatment without their source
+   being rewritten.
+   ========================================================================== */
+
+/* --- hero bands: roadmap (.band/.band-in), coverage (.band/.hero),
+       artist (.la-band/.la-hero) --- */
+.band,.hero,.la-band,.la-hero{
+  background:var(--ink)!important;
+  color:#FCFDF8!important;
+  border-bottom:6px solid var(--lime)!important;
+}
+.band-in,.la-hero-id{max-width:1180px;margin:0 auto}
+
+/* --- eyebrows --- */
+.eyebrow,.kicker,.kick,.la-eyebrow{
+  font-size:11px!important;font-weight:600!important;
+  letter-spacing:3px!important;text-transform:uppercase!important;
+  color:var(--lime)!important;
+}
+
+/* --- display headings: the signature of the treatment --- */
+h1,.la-name{
+  font-weight:900!important;
+  letter-spacing:-2px!important;
+  line-height:.98!important;
+  text-transform:uppercase!important;
+}
+.band h1,.hero h1,.la-band h1,.la-hero h1,.la-name{color:#FCFDF8!important}
+
+/* --- ledes sitting inside a hero --- */
+.band .sub,.band-in .sub,.hero .sub,.la-hero .la-meta,.la-band .la-meta{
+  font-size:16px!important;line-height:1.65!important;color:#FCFDF8!important;
+  max-width:62ch;
+}
+
+/* --- lane / panel headers used on roadmap and scheduling --- */
+.lane .lh,.panel > .bar,.sheet > .bar{
+  border-bottom:2px solid var(--ink)!important;
+  padding-bottom:10px!important;margin-bottom:16px!important;
+}
+.lane .ln{
+  font-weight:900!important;letter-spacing:-.5px!important;
+  text-transform:uppercase!important;color:var(--ink)!important;
+}
+
+/* --- tab rows (scheduling, coverage) get the guide's square tab --- */
+.tabs .tab,.tabs .tlink{
+  border:1px solid var(--ink)!important;border-radius:0!important;
+  font-family:var(--font-sans)!important;font-size:10px!important;font-weight:700!important;
+  letter-spacing:1.5px!important;text-transform:uppercase!important;
+  padding:8px 16px!important;background:transparent!important;color:var(--ink)!important;
+}
+.tabs .tab.on,.tabs .tlink.on{background:var(--ink)!important;color:var(--lime)!important}
+
+/* --- chips --- */
+.chip,.tag,.srcpill{
+  font-family:var(--font-mono)!important;font-size:9px!important;
+  letter-spacing:1px!important;text-transform:uppercase!important;
+  border-radius:0!important;
+}
+
+/* --- footers --- */
+.foot,.la-foot{
+  border-top:2px solid var(--ink)!important;
+  padding-top:24px!important;font-size:13px!important;color:var(--fog)!important;
+}
