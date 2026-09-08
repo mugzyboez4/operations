@@ -48,3 +48,9 @@
 
 /tempo.css
   Access-Control-Allow-Origin: *
+
+# Rebuilt WordPress page sources — fetched cross-origin from wp-admin
+/wp/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: no-store
