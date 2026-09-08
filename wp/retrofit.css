@@ -11,6 +11,26 @@
    the tokens, including every legacy name these pages use.
    ========================================================================== */
 
+/* -------------------------------------------------------- 0 · TOKEN LOCK
+   These pages each declare their own :root. Marking the canonical values
+   !important means a page's local palette can no longer win, so the retrofit
+   works without editing any page's source. */
+:root{
+  --bg:#F5F2EB!important;      --paper:#FFFFFF!important;
+  --card:#FFFFFF!important;    --card-2:#FAFAF5!important;
+  --ink:#0F0E0E!important;     --text:#0F0E0E!important;
+  --fg-2:#2A2A2A!important;
+  --fog:#6E6A63!important;     --muted:#6E6A63!important;
+  --faint:#6E6A63!important;   --dim:#6E6A63!important;
+  --border:#ECEAE3!important;  --line:#ECEAE3!important;
+  --rule:#D8D4CC!important;
+  --lime:#CDF851!important;    --chart:#CDF851!important;
+  --lime-ink:#55711A!important;
+  --flame:#D93A13!important;
+  --teal:#5BC0BE!important;    --teal-ink:#257471!important;
+  --gold:#E8C547!important;    --gold-ink:#8A6E0E!important;
+}
+
 /* -------------------------------------------------------------- 1 · HERO */
 .band,.hero{
   background:var(--ink)!important;
