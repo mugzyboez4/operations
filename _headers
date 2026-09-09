@@ -61,3 +61,18 @@
   Access-Control-Allow-Origin: *
   Content-Type: text/css; charset=utf-8
   Cache-Control: public, max-age=300
+
+# Digital Partner Guide — the page and its script are fetched cross-origin by
+# the Campaign Ops WordPress copy, and the feed is read by both.
+/partner-guide.html
+  Content-Security-Policy: frame-ancestors *
+  Cache-Control: public, max-age=60
+
+/partner-guide.js
+  Access-Control-Allow-Origin: *
+  Content-Type: text/javascript; charset=utf-8
+  Cache-Control: public, max-age=60
+
+/api/partner-guide
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=60
