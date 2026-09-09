@@ -11,10 +11,14 @@
 (function () {
   var API = 'https://operations.mugzyboez.co/api/partner-guide';
 
+  // One tab per section of the doc. The regexes also match the headings the
+  // pre-restructure doc used, so the page renders either version.
   var VIEWS = [
-    { key: 'opps', label: '01 · Marketing Opportunities', match: /flow of communication|opportunit|required solution|next step|operations/i },
-    { key: 'ts',   label: '02 · Troubleshooting',         match: /troubleshoot|backend access|support/i },
-    { key: 'tr',   label: '03 · Everything',              match: /.*/ }
+    { key: 'opps', label: '01 · Opportunities',   match: /opportunit|program|required solution|next step/i },
+    { key: 'info', label: '02 · Info',            match: /^info$|flow of communication|features|availability|operations|workflow/i },
+    { key: 'ts',   label: '03 · Troubleshooting', match: /troubleshoot|backend access|support/i },
+    { key: 'poc',  label: '04 · Contacts',        match: /^contacts?$|flow of communication/i },
+    { key: 'tr',   label: '05 · Everything',      match: /.*/ }
   ];
 
   var body = document.body;
@@ -71,6 +75,23 @@
       group.nodes.push(n);
     });
 
+    // In the restructured doc the status line is a bullet under Info; it is
+    // still the section's status strip, not body copy.
+    partners.forEach(function (p) {
+      if (p.status) return;
+      p.groups.forEach(function (g) {
+        g.nodes.forEach(function (n) {
+          if (!/^(UL|OL)$/.test(n.tagName || '')) return;
+          [].slice.call(n.children).forEach(function (li) {
+            if (li.tagName !== 'LI' || p.status) return;
+            if (!/^\s*status of partnership/i.test(li.textContent)) return;
+            p.status = li.innerHTML.replace(/^\s*(status of partnership:?)/i, '<b>$1</b>');
+            li.remove();
+          });
+        });
+      });
+    });
+
     guide.innerHTML = '';
     VIEWS.forEach(function (view, vi) {
       var wrap = document.createElement('div');
@@ -96,11 +117,18 @@
       void vi;
     });
 
+    buildTabs();
     buildNav(partners);
     wire();
     setView('opps');
 
-    stat.innerHTML = '<b>' + partners.length + '</b> partners &middot; read live from the doc &middot; synced ' +
+    // Only the partner sections are counted; the doc's cross-partner sections
+    // (workflows, next steps) carry no subheads.
+    var partnerCount = partners.filter(function (p) {
+      return p.groups.some(function (g) { return !!g.name; });
+    }).length || partners.length;
+
+    stat.innerHTML = '<b>' + partnerCount + '</b> partners &middot; read live from the doc &middot; synced ' +
       new Date(data.fetchedAt || Date.now()).toLocaleString();
   }
 
@@ -122,8 +150,9 @@
 
     groups.forEach(function (g) {
       if (g.name) bodyEl.appendChild(el('div', 'kicker', esc(g.name), true));
-      var isContacts = /flow of communication|contact/i.test(g.name || '');
-      var isOpps = /opportunit|program/i.test(g.name || '');
+      var isContacts = /^contacts?$|flow of communication|contact/i.test(g.name || '');
+      // Any deep section reads better as accordions, not one long list.
+      var isOpps = /opportunit|program|troubleshoot/i.test(g.name || '');
       g.nodes.forEach(function (n) { renderNode(n, bodyEl, isContacts, isOpps); });
     });
 
@@ -161,6 +190,17 @@
       if (isOpps && items.some(hasNested)) {
         items.forEach(function (li) {
           if (!hasNested(li)) { into.appendChild(listOf([li])); return; }
+
+          // Pitch routes and deadlines are the thing people open the guide
+          // for. They stay visible instead of collapsing into an accordion.
+          if (/how to pitch|^\s*deadlines?\b/i.test(leadTextOf(li))) {
+            into.appendChild(el('div', 'kicker', esc(leadTextOf(li)), true));
+            leavesOf(li).forEach(function (leaf) {
+              into.appendChild(el('div', 'callout-flame', leaf.innerHTML, true));
+            });
+            return;
+          }
+
           var nested = [].slice.call(li.children).filter(function (c) { return /^(UL|OL)$/.test(c.tagName); });
           var lead = li.cloneNode(true);
           [].slice.call(lead.children).forEach(function (c) { if (/^(UL|OL)$/.test(c.tagName)) c.remove(); });
@@ -202,6 +242,22 @@
   // Each address is one person; the name is the text just before it and the
   // role is a parenthetical just after it.
   function contactsIn(li) {
+    // Restructured doc: one person per bullet, name (and optional role) on the
+    // line, address nested beneath it as a mailto link.
+    var mails = [].slice.call(li.querySelectorAll('a[href^="mailto:"]'));
+    if (mails.length === 1) {
+      var lead = li.cloneNode(true);
+      [].slice.call(lead.querySelectorAll('ul,ol')).forEach(function (n) { n.remove(); });
+      var head = lead.textContent.replace(/\s+/g, ' ').replace(/^\s*POC:\s*/i, '').trim();
+      var mail = mails[0].getAttribute('href').replace(/^mailto:/i, '').trim();
+      if (head && head.indexOf(mail) === -1) {
+        var role = '';
+        var rm = /^(.*?)\s+[\u2014\u2013-]\s+(.+)$/.exec(head);
+        if (rm) { head = rm[1].trim(); role = rm[2].trim(); }
+        return [{ name: head, mail: mail, role: role }];
+      }
+    }
+
     var txt = li.textContent.replace(/^\s*POC:\s*/i, '').trim();
     var re = /([\w.+-]+@[\w.-]+\.\w+)/g;
     var out = [], last = 0, m;
@@ -254,11 +310,67 @@
     return ul;
   }
 
+  // The li's own text, without anything from its nested lists.
+  function leadTextOf(li) {
+    var lead = li.cloneNode(true);
+    [].slice.call(lead.querySelectorAll('ul,ol')).forEach(function (n) { n.remove(); });
+    return lead.textContent.replace(/\s+/g, ' ').trim();
+  }
+
+  // Every descendant item that carries no list of its own.
+  function leavesOf(li) {
+    return [].slice.call(li.querySelectorAll('li')).filter(function (n) {
+      return !hasNested(n);
+    });
+  }
+
   var hasNested = function (li) {
     return [].slice.call(li.children).some(function (c) { return /^(UL|OL)$/.test(c.tagName); });
   };
 
   /* ------------------------------------------------------------ behaviour */
+
+  /**
+   * The page ships with three hardcoded tabs. The tab bar, the hero tab row
+   * and the show/hide rules are all rebuilt from VIEWS here, so the tabs and
+   * the doc's sections cannot drift apart again.
+   */
+  function buildTabs() {
+    var css = ['body[data-view] [data-view-group]{display:none}'];
+    css.push(VIEWS.map(function (v) {
+      return 'body[data-view="' + v.key + '"] [data-view-group="' + v.key + '"]';
+    }).join(',') + '{display:block}');
+    css.push('#navsets > span{display:none!important}');
+    css.push(VIEWS.map(function (v) {
+      return 'body[data-view="' + v.key + '"] .navset-' + v.key;
+    }).join(',') + '{display:flex!important}');
+    css.push('#wftabs,#herotabs{display:flex;gap:0;flex-wrap:wrap}');
+    css.push('#herotabs{gap:8px}');
+    var st = document.createElement('style');
+    st.textContent = css.join('\n');
+    document.head.appendChild(st);
+
+    var bar = document.getElementById('tabOpps');
+    bar = bar && bar.parentNode;
+    if (bar) {
+      bar.id = 'wftabs';
+      bar.innerHTML = VIEWS.map(function (v, i) {
+        return '<button id="tab-' + v.key + '" class="wf-tab' + (i === 0 ? ' active' : '') +
+          '"' + (i ? ' style="border-left:0"' : '') + '>' + esc(v.label) + '</button>';
+      }).join('');
+    }
+
+    var hero = document.querySelector('.hero-tab-opps');
+    hero = hero && hero.parentNode;
+    if (hero) {
+      hero.id = 'herotabs';
+      hero.innerHTML = VIEWS.map(function (v, i) {
+        var color = i === 0 ? 'var(--lime)' : '#FCFDF8';
+        return '<button class="wf-tab hero-tab-' + v.key + '" style="border-color:' + color +
+          ';color:' + color + '">' + esc(v.label) + '</button>';
+      }).join('');
+    }
+  }
 
   function buildNav(partners) {
     navsets.innerHTML = VIEWS.map(function (v) {
@@ -277,8 +389,10 @@
       });
     });
 
-    bind('tabOpps', 'opps'); bind('tabTs', 'ts'); bind('tabTr', 'tr');
-    hook('.hero-tab-opps', 'opps'); hook('.hero-tab-ts', 'ts'); hook('.hero-tab-tr', 'tr');
+    VIEWS.forEach(function (v) {
+      bind('tab-' + v.key, v.key);
+      hook('.hero-tab-' + v.key, v.key);
+    });
 
     if (toggleBtn) toggleBtn.addEventListener('click', function () {
       var secs = visibleSections();
@@ -303,7 +417,7 @@
 
   function setView(v) {
     body.setAttribute('data-view', v);
-    tab('tabOpps', v === 'opps'); tab('tabTs', v === 'ts'); tab('tabTr', v === 'tr');
+    VIEWS.forEach(function (view) { tab('tab-' + view.key, v === view.key); });
     if (search && search.value) runSearch(search.value);
     updateToggleLabel();
   }
