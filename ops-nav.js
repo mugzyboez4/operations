@@ -17,7 +17,8 @@
     ["/roadmap/", "Roadmap"],
     ["/coverage/", "Artist coverage"],
     ["/scheduling/", "Scheduling"],
-    ["/digital-partner-guide/", "Partner guide"]
+    ["/digital-partner-guide/", "Partner guide"],
+     ["/office-guide/", "Office guide"]
   ];
 
   /* "/html/scheduling/" and "/scheduling" both reduce to "scheduling".
