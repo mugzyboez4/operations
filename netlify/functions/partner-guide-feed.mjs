@@ -14,10 +14,21 @@
  * Response: { title, html, headings: [{level, text}], fetchedAt }
  */
 
-const DOC_ID = process.env.PARTNER_GUIDE_DOC_ID
-  || '1N_4RBccBEz5ndFV67ZEtibpUjPo2ywn50Y_eb91PKFg';
+/**
+ * Doc sources, tried in order. The first is the restructured guide (four
+ * fixed sections per partner); the second is the original doc, kept as a
+ * fallback so the page keeps working if the new one is not yet shared
+ * "anyone with the link". Set PARTNER_GUIDE_DOC_ID to pin one.
+ */
+const DOC_IDS = process.env.PARTNER_GUIDE_DOC_ID
+  ? [process.env.PARTNER_GUIDE_DOC_ID]
+  : [
+      '1Q3UtPYqLIYuLgMiYHJa5pUDbmztfEJP9BYSKTc0AoLo',
+      '1N_4RBccBEz5ndFV67ZEtibpUjPo2ywn50Y_eb91PKFg'
+    ];
 
-const EXPORT = `https://docs.google.com/document/d/${DOC_ID}/export?format=html`;
+const exportUrl = (id) =>
+  `https://docs.google.com/document/d/${id}/export?format=html`;
 
 const KEEP = new Set([
   'h2', 'h3', 'p', 'ul', 'ol', 'li', 'table', 'thead', 'tbody',
@@ -63,13 +74,25 @@ function classFlags(idx, attrValue) {
  * The page builds its chips and accordions from the bold lead-in of each
  * item, so the emphasis has to survive as real tags.
  */
+function inlineFlags(style) {
+  return {
+    bold: /font-weight:\s*(?:700|800|900|bold)/i.test(style || ''),
+    italic: /font-style:\s*italic/i.test(style || ''),
+    underline: /text-decoration:[^;]*underline/i.test(style || '')
+  };
+}
+
 function emphasise(html, idx) {
   let out = html;
-  for (let pass = 0; pass < 4; pass++) {
+  for (let pass = 0; pass < 6; pass++) {
     const next = out.replace(
-      /<span class="([^"]*)"[^>]*>((?:(?!<span\b)[\s\S])*?)<\/span>/gi,
-      (whole, cls, inner) => {
-        const f = classFlags(idx, cls);
+      /<span\b([^>]*)>((?:(?!<span\b)[\s\S])*?)<\/span>/gi,
+      (whole, attrs, inner) => {
+        const cls = (/class\s*=\s*"([^"]*)"/i.exec(attrs) || ['', ''])[1];
+        const sty = (/style\s*=\s*"([^"]*)"/i.exec(attrs) || ['', ''])[1];
+        const a = classFlags(idx, cls);
+        const b = inlineFlags(sty);
+        const f = { bold: a.bold || b.bold, italic: a.italic || b.italic };
         let t = inner;
         if (f.italic) t = '<em>' + t + '</em>';
         if (f.bold) t = '<strong>' + t + '</strong>';
@@ -79,6 +102,8 @@ function emphasise(html, idx) {
     if (next === out) break;
     out = next;
   }
+  // <b>/<i> from a markdown-imported doc mean the same thing.
+  out = out.replace(/<(\/?)b>/gi, '<$1strong>').replace(/<(\/?)i>/gi, '<$1em>');
   return out;
 }
 
@@ -109,37 +134,40 @@ function inline(html) {
  * so the levels have to be turned back into structure before anything else.
  */
 function renest(html) {
-  const BLOCK = /(?:<ul\b[^>]*>[\s\S]*?<\/ul>\s*)+/gi;
+  const BLOCK = /(?:<(?:ul|ol)\b[^>]*>[\s\S]*?<\/(?:ul|ol)>\s*)+/gi;
   return html.replace(BLOCK, (run) => {
-    const lists = [...run.matchAll(/<ul\b([^>]*)>([\s\S]*?)<\/ul>/gi)];
+    const lists = [...run.matchAll(/<(ul|ol)\b([^>]*)>([\s\S]*?)<\/\1>/gi)];
     if (lists.length < 2) return run;
 
     const levelOf = (attrs) => {
       const m = /lst-kix_[A-Za-z0-9]+-(\d+)/.exec(attrs || '');
       return m ? Number(m[1]) : 0;
     };
-    if (!lists.some((l) => levelOf(l[1]) > 0)) return run;
+    if (!lists.some((l) => levelOf(l[2]) > 0)) return run;
 
     const items = [];
     for (const l of lists) {
-      const lvl = levelOf(l[1]);
-      for (const li of l[2].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)) {
-        items.push({ lvl, html: li[1] });
+      const tag = l[1].toLowerCase();
+      const lvl = levelOf(l[2]);
+      for (const li of l[3].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)) {
+        items.push({ lvl, tag, html: li[1] });
       }
     }
 
     const build = (start, lvl) => {
       let out = '';
       let i = start;
+      let tag = 'ul';
       while (i < items.length && items[i].lvl >= lvl) {
         if (items[i].lvl > lvl) { i++; continue; }
+        tag = items[i].tag;
         let j = i + 1;
         while (j < items.length && items[j].lvl > lvl) j++;
         const child = j > i + 1 ? build(i + 1, lvl + 1) : '';
         out += '<li>' + items[i].html + child + '</li>';
         i = j;
       }
-      return out ? '<ul>' + out + '</ul>' : '';
+      return out ? '<' + tag + '>' + out + '</' + tag + '>' : '';
     };
     return build(0, 0);
   });
@@ -151,6 +179,7 @@ function reduce(raw) {
   let s = body ? body[1] : raw;
 
   s = s.replace(/<(script|style)[\s\S]*?<\/\1>/gi, '');
+  s = s.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/gi, '');
   s = s.replace(/<!--[\s\S]*?-->/g, '');
 
   // Google exports document comments as [a]/[b] anchors inside the text, plus
@@ -215,19 +244,31 @@ function headings(html) {
 
 export default async () => {
   try {
-    const res = await fetch(EXPORT, { redirect: 'follow' });
-    if (!res.ok) {
+    let raw = null, used = null, last = 0;
+    for (const id of DOC_IDS) {
+      const res = await fetch(exportUrl(id), { redirect: 'follow' });
+      if (res.ok) {
+        const text = await res.text();
+        // A doc that is not link-shared answers 200 with a sign-in page.
+        if (!/<title>\s*(?:Sign in|Meet Google Drive)/i.test(text)) {
+          raw = text; used = id; break;
+        }
+      }
+      last = res.status;
+    }
+    if (raw === null) {
       return Response.json(
-        { error: 'doc fetch failed: ' + res.status },
+        { error: 'doc fetch failed: ' + last },
         { status: 502, headers: { 'cache-control': 'no-store' } }
       );
     }
-    const html = reduce(await res.text());
+    const html = reduce(raw);
     return Response.json(
       {
         title: 'Digital Partner Guide',
         html,
         headings: headings(html),
+        docId: used,
         fetchedAt: new Date().toISOString()
       },
       {
