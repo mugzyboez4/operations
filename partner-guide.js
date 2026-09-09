@@ -143,7 +143,9 @@
         if (contacts.length) {
           var grid = document.createElement('div');
           grid.className = 'poc-grid';
-          contacts.forEach(function (li) { grid.appendChild(pocCard(li)); });
+          contacts.forEach(function (li) {
+            contactsIn(li).forEach(function (c) { grid.appendChild(pocCard(c)); });
+          });
           into.appendChild(grid);
           items = items.filter(function (li) { return contacts.indexOf(li) === -1; });
         }
@@ -194,15 +196,42 @@
     into.appendChild(node.cloneNode(true));
   }
 
-  function pocCard(li) {
-    var txt = li.textContent.replace(/^POC:\s*/i, '').trim();
-    var mails = txt.match(/[\w.+-]+@[\w.-]+\.\w+/g) || [];
-    var name = txt.split(/[<(]/)[0].replace(/^[-•\s]+/, '').trim() || mails[0];
+  // One bullet often carries more than one person:
+  //   POC: Annie Shapiro <a@x.com> + Jordan Ferree <j@x.com>
+  //   POC: Emily <e@x.com> (main) + Natalie <n@x.com> (support)
+  // Each address is one person; the name is the text just before it and the
+  // role is a parenthetical just after it.
+  function contactsIn(li) {
+    var txt = li.textContent.replace(/^\s*POC:\s*/i, '').trim();
+    var re = /([\w.+-]+@[\w.-]+\.\w+)/g;
+    var out = [], last = 0, m;
+    while ((m = re.exec(txt))) {
+      var name = txt.slice(last, m.index).replace(/[<(][^<(]*$/, '');
+      for (var k = 0; k < 4; k++) {
+        name = name
+          .replace(/^[\s>)\],;:\u00b7\u2022\-\u2013\u2014]+/, '')
+          .replace(/^\([^)]*\)\s*/, '')
+          .replace(/^(?:\+|&|and\b|plus\b)\s*/i, '');
+      }
+      name = name.replace(/[\s<(:]+$/, '').trim();
+      var after = txt.slice(m.index + m[1].length, m.index + m[1].length + 40);
+      var role = (/^\s*>?\s*\(([^)]{1,24})\)/.exec(after) || [])[1] || '';
+      out.push({ name: name, mail: m[1], role: role });
+      last = re.lastIndex;
+    }
+    if (!out.length) {
+      var bare = txt.replace(/^[-\u2022\s]+/, '').trim();
+      if (bare) out.push({ name: bare, mail: '', role: '' });
+    }
+    return out;
+  }
+
+  function pocCard(c) {
     var card = document.createElement('div');
     card.className = 'poc';
-    card.innerHTML = '<div class="poc-name">' + esc(name) + '</div>' +
-      '<div class="poc-role">Point of contact</div>' +
-      mails.map(function (m) { return '<div class="body13"><a href="mailto:' + m + '">' + m + '</a></div>'; }).join('');
+    card.innerHTML = '<div class="poc-name">' + esc(c.name || c.mail) + '</div>' +
+      '<div class="poc-role">' + esc(c.role ? 'Point of contact \u00b7 ' + c.role : 'Point of contact') + '</div>' +
+      (c.mail ? '<div class="body13"><a href="mailto:' + c.mail + '">' + c.mail + '</a></div>' : '');
     return card;
   }
 
