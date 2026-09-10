@@ -149,8 +149,7 @@
     var head = document.createElement('div');
     head.className = 'sec-head';
     head.innerHTML = '<span class="chev">&darr;</span> <span class="sec-num">' +
-      pad(num) + '</span> <h2>' + esc(p.name) + '</h2> ' +
-      '<span class="src-chip">Live &middot; Google Doc</span>';
+      pad(num) + '</span> <h2>' + esc(p.name) + '</h2>';
     sec.appendChild(head);
 
     var bodyEl = document.createElement('div');
