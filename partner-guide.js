@@ -13,20 +13,20 @@
 
   // One tab per section of the doc. The regexes also match the headings the
   // pre-restructure doc used, so the page renders either version.
+  // `fallback` marks the tab that also takes any section no other tab claims,
+  // so nothing in the doc goes unrendered.
   var VIEWS = [
     { key: 'opps', label: '01 · Opportunities',   match: /opportunit|program|required solution|next step/i },
-    { key: 'info', label: '02 · Info',            match: /^info$|flow of communication|features|availability|operations|workflow/i },
+    { key: 'info', label: '02 · Info',            match: /^info$|flow of communication|features|availability|operations|workflow/i, fallback: true },
     { key: 'ts',   label: '03 · Troubleshooting', match: /troubleshoot|backend access|support/i },
     { key: 'poc',  label: '04 · Contacts',        match: /^contacts?$|flow of communication/i }
   ];
 
-  // Info is the catch-all: a heading none of the other tabs claim lands there,
-  // so nothing in the doc goes unrendered.
   function claims(view, name) {
     if (view.match.test(name)) return true;
-    if (view.key !== 'info') return false;
-    return !VIEWS.some(function (v) {
-      return v.key !== 'info' && v.match.test(name);
+    if (!view.fallback) return false;
+    return !VIEWS.some(function (other) {
+      return other !== view && other.match.test(name);
     });
   }
 
