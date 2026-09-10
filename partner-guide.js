@@ -17,9 +17,18 @@
     { key: 'opps', label: '01 · Opportunities',   match: /opportunit|program|required solution|next step/i },
     { key: 'info', label: '02 · Info',            match: /^info$|flow of communication|features|availability|operations|workflow/i },
     { key: 'ts',   label: '03 · Troubleshooting', match: /troubleshoot|backend access|support/i },
-    { key: 'poc',  label: '04 · Contacts',        match: /^contacts?$|flow of communication/i },
-    { key: 'tr',   label: '05 · Everything',      match: /.*/ }
+    { key: 'poc',  label: '04 · Contacts',        match: /^contacts?$|flow of communication/i }
   ];
+
+  // Info is the catch-all: a heading none of the other tabs claim lands there,
+  // so nothing in the doc goes unrendered.
+  function claims(view, name) {
+    if (view.match.test(name)) return true;
+    if (view.key !== 'info') return false;
+    return !VIEWS.some(function (v) {
+      return v.key !== 'info' && v.match.test(name);
+    });
+  }
 
   var body = document.body;
   var guide = document.getElementById('guide');
@@ -105,7 +114,7 @@
       var shown = 0;
       partners.forEach(function (p, pi) {
         var groups = p.groups.filter(function (g) {
-          return view.key === 'tr' || view.match.test(g.name || p.name);
+          return claims(view, g.name || p.name);
         });
         if (!groups.length) return;
         shown++;
