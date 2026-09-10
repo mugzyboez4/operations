@@ -426,7 +426,9 @@
   function setView(v) {
     body.setAttribute('data-view', v);
     VIEWS.forEach(function (view) { tab('tab-' + view.key, v === view.key); });
-    if (search && search.value) runSearch(search.value);
+    // Always re-run, including for an empty box: sections hidden by an earlier
+    // query on this tab stay hidden otherwise.
+    runSearch(search ? search.value : '');
     updateToggleLabel();
   }
   function tab(id, on) { var b = document.getElementById(id); if (b) b.classList.toggle('active', on); }
@@ -447,11 +449,17 @@
 
   function runSearch(q) {
     var v = String(q || '').trim().toLowerCase();
-    var secs = visibleSections(), hits = 0;
-    secs.forEach(function (s) {
+    var view = body.getAttribute('data-view');
+    var hits = 0;
+    // Every section, not just the visible tab's — filtering only what is on
+    // screen leaves the other tabs holding stale hidden sections.
+    [].slice.call(document.querySelectorAll('section[data-sec]')).forEach(function (s) {
       var match = !v || s.textContent.toLowerCase().indexOf(v) !== -1;
       s.style.display = match ? '' : 'none';
-      if (match && v) { hits++; s.classList.remove('closed'); }
+      if (!match || !v) return;
+      s.classList.remove('closed');
+      var g = s.closest('[data-view-group]');
+      if (g && g.getAttribute('data-view-group') === view) hits++;
     });
     if (searchStatus) searchStatus.textContent = v ? (hits + ' section' + (hits === 1 ? '' : 's')) : '';
   }
