@@ -152,11 +152,12 @@
     wire();
     setView('flow');
 
-    // Only the partner sections are counted; the doc's cross-partner sections
-    // (workflows, next steps) carry no subheads.
+    // A partner is a section with people to contact. That leaves out the
+    // doc's other top-level sections — next steps, operations, how-to-read.
     void flows;
+    var pocView = VIEWS.filter(function (v) { return v.key === 'poc'; })[0];
     var partnerCount = partners.filter(function (p) {
-      return p.groups.some(function (g) { return !!g.name; });
+      return p.groups.some(function (g) { return claims(pocView, g.name || p.name); });
     }).length || partners.length;
 
     stat.innerHTML = '<b>' + partnerCount + '</b> partners &middot; read live from the doc &middot; synced ' +
@@ -166,35 +167,64 @@
   /* ------------------------------------------------------- workflows tab */
 
   /**
-   * The doc's cross-partner workflows. Each top-level bullet is one workflow
-   * ("Workflow 2: Escalation"); its nested bullets are the steps. Steps are
-   * numbered here rather than in the doc, and a step the doc wrote as "2.a"
-   * renders as a sub-step of 2 instead of taking a number of its own.
+   * The doc's cross-partner workflows. Two shapes reach here and both render:
+   *
+   *   paragraph  <p>Workflow 1: Marketing Opps</p> followed by an <ol> of
+   *              steps, sub-steps nested inside a step as a real list
+   *   bullet     one top-level <li> per workflow, its nested <li>s the steps,
+   *              a sub-step written in the text as "2.a"
+   *
+   * Steps are numbered here rather than in the doc; a sub-step is lettered
+   * off the step above it (2a, 2b) instead of taking a number of its own.
    */
+  var FLOW_TITLE = /^workflows?\s*\d*\s*[:.–—-]/i;
+
   function renderFlows(wrap, flows) {
     var made = 0;
+    var grid = null;
+    function intoGrid(card) {
+      if (!grid) {
+        grid = document.createElement('div');
+        grid.className = 'flow-grid';
+        wrap.appendChild(grid);
+      }
+      grid.appendChild(card);
+    }
+    function loose(node) { grid = null; wrap.appendChild(node); }
+
     flows.forEach(function (p) {
       p.groups.forEach(function (g) {
-        if (g.name) wrap.appendChild(el('div', 'kicker', esc(g.name), true));
+        if (g.name) loose(el('div', 'kicker', esc(g.name), true));
+        var open = null;   // card waiting for the step list that follows it
         g.nodes.forEach(function (n) {
           var tag = n.tagName;
-          if (tag === 'P') { wrap.appendChild(el('div', 'flow-note', n.innerHTML, true)); return; }
-          if (!/^(UL|OL)$/.test(tag || '')) { wrap.appendChild(n.cloneNode(true)); return; }
-          var grid = document.createElement('div');
-          grid.className = 'flow-grid';
+
+          if (tag === 'P') {
+            var t = n.textContent.replace(/\s+/g, ' ').trim();
+            if (!t) return;
+            if (FLOW_TITLE.test(t)) { open = openCard(t, ++made); intoGrid(open.card); return; }
+            open = null;
+            loose(el('div', 'flow-note', n.innerHTML, true));
+            return;
+          }
+
+          if (!/^(UL|OL)$/.test(tag || '')) { open = null; loose(n.cloneNode(true)); return; }
+
+          // A list right after a workflow paragraph is that workflow's steps.
+          if (open) { addSteps(open, n); return; }
+
           [].slice.call(n.children).forEach(function (li) {
             if (li.tagName !== 'LI') return;
-            grid.appendChild(flowCard(li, ++made));
+            intoGrid(flowCard(li, ++made));
           });
-          wrap.appendChild(grid);
         });
       });
     });
     if (!made) wrap.appendChild(el('div', 'loadmsg', 'No cross-partner workflows in the doc yet.'));
   }
 
-  function flowCard(li, num) {
-    var title = leadTextOf(li);
+  // An empty card plus the cursor its steps are added through.
+  function openCard(title, num) {
     var m = /^workflows?\s*(\d+)\s*[:.–—-]\s*(.+)$/i.exec(title);
     var badge = m ? pad(Number(m[1])) : pad(num);
     var name = (m ? m[2] : title).trim();
@@ -210,30 +240,53 @@
 
     var steps = document.createElement('div');
     steps.className = 'flow-steps';
-    var n = 0;
-    [].slice.call(li.children).forEach(function (child) {
-      if (!/^(UL|OL)$/.test(child.tagName || '')) return;
-      [].slice.call(child.children).forEach(function (s) {
-        if (s.tagName !== 'LI') return;
-        var c = s.cloneNode(true);
-        [].slice.call(c.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
-        var sub = /^\s*(\d+)\s*\.\s*([a-z])\b[\s.)]*/i.exec(c.textContent);
-        var mark, html = c.innerHTML;
-        if (sub) {
-          mark = sub[1] + sub[2].toLowerCase();
-          html = html.replace(/^\s*(?:<[^>]+>\s*)*?\d+\s*\.\s*[a-z]\b[\s.)]*/i, function (hit) {
-            return hit.replace(/\d+\s*\.\s*[a-z]\b[\s.)]*$/i, '');
-          });
-        } else {
-          n++; mark = pad(n);
-        }
-        steps.appendChild(el('div', 'flow-step' + (sub ? ' sub' : ''),
-          '<span class="flow-mark">' + esc(mark) + '</span>' +
-          '<span class="flow-text">' + html + '</span>', true));
+    card.appendChild(steps);
+    return { card: card, steps: steps, n: 0 };
+  }
+
+  function addSteps(ctx, list) {
+    [].slice.call(list.children).forEach(function (s) {
+      if (s.tagName !== 'LI') return;
+
+      var lead = s.cloneNode(true);
+      [].slice.call(lead.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
+
+      var sub = /^\s*(\d+)\s*\.\s*([a-z])\b[\s.)]*/i.exec(lead.textContent);
+      var mark, html = lead.innerHTML;
+      if (sub) {
+        mark = sub[1] + sub[2].toLowerCase();
+        html = html.replace(/^\s*(?:<[^>]+>\s*)*?\d+\s*\.\s*[a-z]\b[\s.)]*/i, function (hit) {
+          return hit.replace(/\d+\s*\.\s*[a-z]\b[\s.)]*$/i, '');
+        });
+      } else {
+        ctx.n++; mark = pad(ctx.n);
+      }
+      ctx.steps.appendChild(el('div', 'flow-step' + (sub ? ' sub' : ''),
+        '<span class="flow-mark">' + esc(mark) + '</span>' +
+        '<span class="flow-text">' + html + '</span>', true));
+
+      // A real list nested under the step carries its sub-steps: 2a, 2b, …
+      var letter = 0;
+      [].slice.call(s.children).forEach(function (child) {
+        if (!/^(UL|OL)$/.test(child.tagName || '')) return;
+        [].slice.call(child.children).forEach(function (t) {
+          if (t.tagName !== 'LI') return;
+          var c = t.cloneNode(true);
+          [].slice.call(c.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
+          ctx.steps.appendChild(el('div', 'flow-step sub',
+            '<span class="flow-mark">' + esc(ctx.n + String.fromCharCode(97 + letter++)) + '</span>' +
+            '<span class="flow-text">' + c.innerHTML + '</span>', true));
+        });
       });
     });
-    card.appendChild(steps);
-    return card;
+  }
+
+  function flowCard(li, num) {
+    var ctx = openCard(leadTextOf(li), num);
+    [].slice.call(li.children).forEach(function (child) {
+      if (/^(UL|OL)$/.test(child.tagName || '')) addSteps(ctx, child);
+    });
+    return ctx.card;
   }
 
   function section(viewKey, p, groups, num) {
