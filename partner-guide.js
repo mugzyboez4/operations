@@ -16,17 +16,26 @@
   // `fallback` marks the tab that also takes any section no other tab claims,
   // so nothing in the doc goes unrendered.
   var VIEWS = [
-    { key: 'opps', label: '01 · Opportunities',   match: /opportunit|program|required solution|next step/i },
-    { key: 'info', label: '02 · Info',            match: /^info$|flow of communication|features|availability|operations|workflow/i, fallback: true },
-    { key: 'ts',   label: '03 · Troubleshooting', match: /troubleshoot|backend access|support/i },
-    { key: 'poc',  label: '04 · Contacts',        match: /^contacts?$|flow of communication/i }
+    { key: 'flow', label: '01 · Workflows',       cross: true },
+    { key: 'opps', label: '02 · Opportunities',   match: /opportunit|program|required solution|next step/i },
+    { key: 'info', label: '03 · Info',            match: /^info$|flow of communication|features|availability|operations/i, fallback: true },
+    { key: 'ts',   label: '04 · Troubleshooting', match: /troubleshoot|backend access|support/i },
+    { key: 'poc',  label: '05 · Contacts',        match: /^contacts?$|flow of communication/i }
   ];
 
+  // The doc's cross-partner workflow section. It drives the first tab and is
+  // kept out of every partner tab.
+  var CROSS = /^workflows?\b/i;
+
+  // Filled as the workflow cards are built; the nav links off it.
+  var FLOW_INDEX = [];
+
   function claims(view, name) {
+    if (!view.match) return false;
     if (view.match.test(name)) return true;
     if (!view.fallback) return false;
     return !VIEWS.some(function (other) {
-      return other !== view && other.match.test(name);
+      return other !== view && other.match && other.match.test(name);
     });
   }
 
@@ -101,15 +110,27 @@
       });
     });
 
+    // The workflows section is cross-partner: it becomes tab 01 and is
+    // removed from the partner list so it cannot also land in a partner tab.
+    var flows = partners.filter(function (p) { return CROSS.test(p.name); });
+    partners = partners.filter(function (p) { return flows.indexOf(p) === -1; });
+
     guide.innerHTML = '';
+    FLOW_INDEX = [];
     VIEWS.forEach(function (view, vi) {
       var wrap = document.createElement('div');
       wrap.setAttribute('data-view-group', view.key);
 
       var banner = document.createElement('div');
       banner.className = 'wf-banner';
-      banner.innerHTML = '<span>Workflow ' + view.label + '</span><div class="bar"></div>';
+      banner.innerHTML = '<span>' + esc(view.label) + '</span><div class="bar"></div>';
       wrap.appendChild(banner);
+
+      if (view.cross) {
+        renderFlows(wrap, flows);
+        guide.appendChild(wrap);
+        return;
+      }
 
       var shown = 0;
       partners.forEach(function (p, pi) {
@@ -127,18 +148,92 @@
     });
 
     buildTabs();
-    buildNav(partners);
+    buildNav(partners, flows);
     wire();
-    setView('opps');
+    setView('flow');
 
     // Only the partner sections are counted; the doc's cross-partner sections
     // (workflows, next steps) carry no subheads.
+    void flows;
     var partnerCount = partners.filter(function (p) {
       return p.groups.some(function (g) { return !!g.name; });
     }).length || partners.length;
 
     stat.innerHTML = '<b>' + partnerCount + '</b> partners &middot; read live from the doc &middot; synced ' +
       new Date(data.fetchedAt || Date.now()).toLocaleString();
+  }
+
+  /* ------------------------------------------------------- workflows tab */
+
+  /**
+   * The doc's cross-partner workflows. Each top-level bullet is one workflow
+   * ("Workflow 2: Escalation"); its nested bullets are the steps. Steps are
+   * numbered here rather than in the doc, and a step the doc wrote as "2.a"
+   * renders as a sub-step of 2 instead of taking a number of its own.
+   */
+  function renderFlows(wrap, flows) {
+    var made = 0;
+    flows.forEach(function (p) {
+      p.groups.forEach(function (g) {
+        if (g.name) wrap.appendChild(el('div', 'kicker', esc(g.name), true));
+        g.nodes.forEach(function (n) {
+          var tag = n.tagName;
+          if (tag === 'P') { wrap.appendChild(el('div', 'flow-note', n.innerHTML, true)); return; }
+          if (!/^(UL|OL)$/.test(tag || '')) { wrap.appendChild(n.cloneNode(true)); return; }
+          var grid = document.createElement('div');
+          grid.className = 'flow-grid';
+          [].slice.call(n.children).forEach(function (li) {
+            if (li.tagName !== 'LI') return;
+            grid.appendChild(flowCard(li, ++made));
+          });
+          wrap.appendChild(grid);
+        });
+      });
+    });
+    if (!made) wrap.appendChild(el('div', 'loadmsg', 'No cross-partner workflows in the doc yet.'));
+  }
+
+  function flowCard(li, num) {
+    var title = leadTextOf(li);
+    var m = /^workflows?\s*(\d+)\s*[:.–—-]\s*(.+)$/i.exec(title);
+    var badge = m ? pad(Number(m[1])) : pad(num);
+    var name = (m ? m[2] : title).trim();
+
+    var card = document.createElement('section');
+    card.className = 'flow-card';
+    card.id = 'flow-' + slug(name);
+    card.setAttribute('data-sec', name);
+    FLOW_INDEX.push({ id: card.id, name: name });
+
+    card.appendChild(el('div', 'flow-head',
+      '<span class="flow-num">' + esc(badge) + '</span><h2>' + esc(name) + '</h2>', true));
+
+    var steps = document.createElement('div');
+    steps.className = 'flow-steps';
+    var n = 0;
+    [].slice.call(li.children).forEach(function (child) {
+      if (!/^(UL|OL)$/.test(child.tagName || '')) return;
+      [].slice.call(child.children).forEach(function (s) {
+        if (s.tagName !== 'LI') return;
+        var c = s.cloneNode(true);
+        [].slice.call(c.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
+        var sub = /^\s*(\d+)\s*\.\s*([a-z])\b[\s.)]*/i.exec(c.textContent);
+        var mark, html = c.innerHTML;
+        if (sub) {
+          mark = sub[1] + sub[2].toLowerCase();
+          html = html.replace(/^\s*(?:<[^>]+>\s*)*?\d+\s*\.\s*[a-z]\b[\s.)]*/i, function (hit) {
+            return hit.replace(/\d+\s*\.\s*[a-z]\b[\s.)]*$/i, '');
+          });
+        } else {
+          n++; mark = pad(n);
+        }
+        steps.appendChild(el('div', 'flow-step' + (sub ? ' sub' : ''),
+          '<span class="flow-mark">' + esc(mark) + '</span>' +
+          '<span class="flow-text">' + html + '</span>', true));
+      });
+    });
+    card.appendChild(steps);
+    return card;
   }
 
   function section(viewKey, p, groups, num) {
@@ -260,7 +355,7 @@
       var mail = mails[0].getAttribute('href').replace(/^mailto:/i, '').trim();
       if (head && head.indexOf(mail) === -1) {
         var role = '';
-        var rm = /^(.*?)\s+[\u2014\u2013-]\s+(.+)$/.exec(head);
+        var rm = /^(.*?)\s+[—–-]\s+(.+)$/.exec(head);
         if (rm) { head = rm[1].trim(); role = rm[2].trim(); }
         return [{ name: head, mail: mail, role: role }];
       }
@@ -273,7 +368,7 @@
       var name = txt.slice(last, m.index).replace(/[<(][^<(]*$/, '');
       for (var k = 0; k < 4; k++) {
         name = name
-          .replace(/^[\s>)\],;:\u00b7\u2022\-\u2013\u2014]+/, '')
+          .replace(/^[\s>)\],;:·•\-–—]+/, '')
           .replace(/^\([^)]*\)\s*/, '')
           .replace(/^(?:\+|&|and\b|plus\b)\s*/i, '');
       }
@@ -284,7 +379,7 @@
       last = re.lastIndex;
     }
     if (!out.length) {
-      var bare = txt.replace(/^[-\u2022\s]+/, '').trim();
+      var bare = txt.replace(/^[-•\s]+/, '').trim();
       if (bare) out.push({ name: bare, mail: '', role: '' });
     }
     return out;
@@ -294,7 +389,7 @@
     var card = document.createElement('div');
     card.className = 'poc';
     card.innerHTML = '<div class="poc-name">' + esc(c.name || c.mail) + '</div>' +
-      '<div class="poc-role">' + esc(c.role ? 'Point of contact \u00b7 ' + c.role : 'Point of contact') + '</div>' +
+      '<div class="poc-role">' + esc(c.role ? 'Point of contact · ' + c.role : 'Point of contact') + '</div>' +
       (c.mail ? '<div class="body13"><a href="mailto:' + c.mail + '">' + c.mail + '</a></div>' : '');
     return card;
   }
@@ -343,6 +438,28 @@
    * and the show/hide rules are all rebuilt from VIEWS here, so the tabs and
    * the doc's sections cannot drift apart again.
    */
+  var FLOW_CSS = [
+    '.flow-note{background:var(--card);border-left:3px solid var(--flame);padding:14px 18px;',
+    '  font-size:13px;line-height:1.55;color:var(--fg-2);margin-bottom:28px;max-width:78ch}',
+    '.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px;align-items:start}',
+    '.flow-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--lime);padding:22px 24px 6px}',
+    '.flow-head{display:flex;align-items:baseline;gap:12px;cursor:pointer;margin-bottom:14px}',
+    '.flow-num{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--flame)}',
+    '.flow-head h2{font-size:20px;font-weight:900;letter-spacing:-.5px;line-height:1.1;',
+    '  text-transform:uppercase;color:var(--ink)}',
+    '.flow-steps{border-top:1px solid var(--border)}',
+    '.flow-card.closed .flow-steps{display:none}',
+    '.flow-step{display:flex;gap:12px;padding:11px 2px;border-bottom:1px solid var(--border)}',
+    '.flow-step:last-child{border-bottom:0}',
+    '.flow-step.sub{padding-left:26px;background:var(--card-2)}',
+    '.flow-mark{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);',
+    '  min-width:24px;padding-top:3px}',
+    '.flow-step.sub .flow-mark{color:var(--flame)}',
+    '.flow-text{font-size:13px;line-height:1.55;color:var(--ink)}',
+    '.flow-text p{margin:0}',
+    '@media(max-width:640px){.flow-grid{grid-template-columns:1fr}}'
+  ].join('\n');
+
   function buildTabs() {
     var css = ['body[data-view] [data-view-group]{display:none}'];
     css.push(VIEWS.map(function (v) {
@@ -352,6 +469,7 @@
     css.push(VIEWS.map(function (v) {
       return 'body[data-view="' + v.key + '"] .navset-' + v.key;
     }).join(',') + '{display:flex!important}');
+    css.push(FLOW_CSS);
     css.push('#wftabs,#herotabs{display:flex;gap:0;flex-wrap:wrap}');
     css.push('#herotabs{gap:8px}');
     var st = document.createElement('style');
@@ -382,15 +500,20 @@
 
   function buildNav(partners) {
     navsets.innerHTML = VIEWS.map(function (v) {
+      var links = v.cross
+        ? FLOW_INDEX.map(function (f) {
+            return '<a href="#' + f.id + '" class="navlink">' + esc(f.name) + '</a>';
+          })
+        : partners.map(function (p) {
+            return '<a href="#' + v.key + '-' + slug(p.name) + '" class="navlink">' + esc(p.name) + '</a>';
+          });
       return '<span class="navset-' + v.key + '" style="display:flex;gap:18px;flex-wrap:wrap">' +
-        partners.map(function (p) {
-          return '<a href="#' + v.key + '-' + slug(p.name) + '" class="navlink">' + esc(p.name) + '</a>';
-        }).join('') + '</span>';
+        links.join('') + '</span>';
     }).join('');
   }
 
   function wire() {
-    [].forEach.call(document.querySelectorAll('.sec-head'), function (h) {
+    [].forEach.call(document.querySelectorAll('.sec-head, .flow-head'), function (h) {
       h.addEventListener('click', function () {
         h.parentNode.classList.toggle('closed');
         updateToggleLabel();
