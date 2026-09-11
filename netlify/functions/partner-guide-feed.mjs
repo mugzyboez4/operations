@@ -15,16 +15,17 @@
  */
 
 /**
- * Doc sources, tried in order. The first is the restructured guide (four
- * fixed sections per partner); the second is the original doc, kept as a
- * fallback so the page keeps working if the new one is not yet shared
- * "anyone with the link". Set PARTNER_GUIDE_DOC_ID to pin one.
+ * Doc sources, tried in order. The first is "Digital Partners / Transition",
+ * the working doc the partner team edits; its document tabs export as h2
+ * partners and its bold-underlined subheads as h3 sections. The second is the
+ * restructured guide, kept as a fallback for when the first is unreachable.
+ * Set PARTNER_GUIDE_DOC_ID to pin one.
  */
 const DOC_IDS = process.env.PARTNER_GUIDE_DOC_ID
   ? [process.env.PARTNER_GUIDE_DOC_ID]
   : [
-      '1Q3UtPYqLIYuLgMiYHJa5pUDbmztfEJP9BYSKTc0AoLo',
-      '1N_4RBccBEz5ndFV67ZEtibpUjPo2ywn50Y_eb91PKFg'
+      '1N_4RBccBEz5ndFV67ZEtibpUjPo2ywn50Y_eb91PKFg',
+      '1Q3UtPYqLIYuLgMiYHJa5pUDbmztfEJP9BYSKTc0AoLo'
     ];
 
 const exportUrl = (id) =>
