@@ -143,9 +143,9 @@
         return;
       }
 
+      // p.status is captured only so the doc's status line is kept out of the
+      // body copy. It is not shown.
       var p = view.partner;
-      if (p.status) wrap.appendChild(el('div', 'status-strip', p.status, true));
-
       var links = [], n = 0;
       var named = p.groups.filter(function (g) { return !!g.name; });
       var loose = p.groups.filter(function (g) { return !g.name; });
@@ -156,7 +156,12 @@
         return (x < 0 ? 99 : x) - (y < 0 ? 99 : y);
       });
 
-      loose.forEach(function (g) { g.nodes.forEach(function (node) { wrap.appendChild(node.cloneNode(true)); }); });
+      // Resource links and other loose lines the doc puts under the partner
+      // name, before its first subhead.
+      var pre = document.createElement('div');
+      pre.className = 'pre-note';
+      loose.forEach(function (g) { g.nodes.forEach(function (node) { pre.appendChild(node.cloneNode(true)); }); });
+      if (pre.childNodes.length) wrap.appendChild(pre);
 
       named.forEach(function (g) {
         var sec = section(view.key, g.name, g.nodes, ++n);
@@ -529,7 +534,12 @@
     '.flow-step.sub .flow-mark{color:var(--flame)}',
     '.flow-text{font-size:13px;line-height:1.55;color:var(--ink)}',
     '.flow-text p{margin:0}',
-    '@media(max-width:640px){.flow-grid{grid-template-columns:1fr}}'
+    '@media(max-width:640px){.flow-grid{grid-template-columns:1fr}}',
+    '.pre-note{background:var(--card-2);border:1px solid var(--border);padding:14px 18px;',
+    '  margin:0 0 30px;font-size:13px;line-height:1.7;color:var(--fg-2);max-width:86ch}',
+    '.pre-note > *{margin:0 0 6px}',
+    '.pre-note > *:last-child{margin-bottom:0}',
+    '.pre-note a{font-weight:600}'
   ].join('\n');
 
   function buildTabs() {
@@ -537,9 +547,11 @@
     css.push(VIEWS.map(function (v) {
       return 'body[data-view="' + v.key + '"] [data-view-group="' + v.key + '"]';
     }).join(',') + '{display:block}');
+    // Both rules carry !important, so the one that shows the active set has to
+    // outrank the one that hides them all — hence the #navsets prefix here too.
     css.push('#navsets > span{display:none!important}');
     css.push(VIEWS.map(function (v) {
-      return 'body[data-view="' + v.key + '"] .navset-' + v.key;
+      return 'body[data-view="' + v.key + '"] #navsets > span.navset-' + v.key;
     }).join(',') + '{display:flex!important}');
     css.push(FLOW_CSS);
     css.push('#wftabs,#herotabs{display:flex;gap:0;flex-wrap:wrap}');
@@ -562,10 +574,8 @@
     hero = hero && hero.parentNode;
     if (hero) {
       hero.id = 'herotabs';
-      hero.innerHTML = VIEWS.map(function (v, i) {
-        var color = i === 0 ? 'var(--lime)' : '#FCFDF8';
-        return '<button class="wf-tab hero-tab-' + v.key + '" style="border-color:' + color +
-          ';color:' + color + '">' + esc(v.label) + '</button>';
+      hero.innerHTML = VIEWS.map(function (v) {
+        return '<button class="wf-tab hero-tab-' + v.key + '">' + esc(v.label) + '</button>';
       }).join('');
     }
   }
@@ -616,7 +626,15 @@
 
   function setView(v) {
     body.setAttribute('data-view', v);
-    VIEWS.forEach(function (view) { tab('tab-' + view.key, v === view.key); });
+    VIEWS.forEach(function (view) {
+      tab('tab-' + view.key, v === view.key);
+      // The hero row sits on ink, so its active tab is lit rather than filled.
+      var h = document.querySelector('.hero-tab-' + view.key);
+      if (!h) return;
+      var on = v === view.key;
+      h.style.borderColor = on ? 'var(--lime)' : '#FCFDF8';
+      h.style.color = on ? 'var(--lime)' : '#FCFDF8';
+    });
     // Always re-run, including for an empty box: sections hidden by an earlier
     // query on this tab stay hidden otherwise.
     runSearch(search ? search.value : '');
