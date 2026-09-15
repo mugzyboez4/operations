@@ -234,6 +234,138 @@ function reduce(raw) {
   return s;
 }
 
+/* --------------------------------------------------------- normalisation */
+
+/**
+ * Each partner in the doc carries its own set of subheads — VEVO has five,
+ * META three, and "Flow of Communication" holds POCs, standing calls and
+ * pitch deadlines at once. The page builds four tabs, so every section is
+ * re-filed here into Opportunities / Info / Troubleshooting / Contacts and
+ * the doc's own subhead is kept as a bold lead-in above what it held.
+ *
+ * Sections the guide reads whole are left alone.
+ */
+const SECTIONS = ['Opportunities', 'Info', 'Troubleshooting', 'Contacts'];
+const UNTOUCHED = /^(workflows?\b|next steps)/i;
+
+const BUCKET = [
+  [/troubleshoot|backend access|support/i, 'Troubleshooting'],
+  [/opportunit|program|required solution|pitch/i, 'Opportunities'],
+  [/^contacts?$/i, 'Contacts'],
+  [/flow of communication/i, 'SPLIT'],
+  [/./, 'Info']
+];
+
+// The page gives a flame callout to the leaves of a bullet led this way, so
+// pitch routes and deadlines keep that treatment once they leave Contacts.
+const PITCH_LEAD = 'How to pitch &mdash; routes &amp; deadlines';
+
+// Top-level lists only. A nested list closes a </ul> of its own, so matching
+// to the first one truncates the bullet that holds it.
+function lists(html) {
+  const out = [];
+  let depth = 0, start = -1;
+  const re = /<(\/?)(ul|ol)>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m[1] !== '/') { if (depth === 0) start = m.index; depth++; }
+    else if (--depth === 0) out.push(html.slice(start, re.lastIndex));
+  }
+  return out;
+}
+
+// One bullet at a time, so a nested list stays with the bullet it hangs off.
+function items(listHtml) {
+  const inner = listHtml.replace(/^<(ul|ol)>/i, '').replace(/<\/(ul|ol)>$/i, '');
+  const out = [];
+  let depth = 0, start = -1;
+  const re = /<(\/?)(li|ul|ol)>/gi;
+  let m;
+  while ((m = re.exec(inner))) {
+    const close = m[1] === '/', tag = m[2].toLowerCase();
+    if (tag === 'li' && !close) { if (depth === 0) start = m.index; depth++; }
+    else if (tag === 'li' && close) {
+      depth--;
+      if (depth === 0) out.push(inner.slice(start, re.lastIndex));
+    }
+  }
+  return out;
+}
+
+// A "Flow of Communication" bullet belongs with the people, the pitch routes
+// or the standing detail, depending on what it carries.
+function fileLine(li) {
+  const text = strip(li);
+  if (/mailto:/i.test(li) || /^\s*POC\b/i.test(text)) return 'Contacts';
+  if (/pitch|submission|slate|\bform\b|\bdue\b|deadline/i.test(text)) return 'Opportunities';
+  return 'Info';
+}
+
+function normalise(html) {
+  const marks = [];
+  for (const m of html.matchAll(/<(h2|h3)>([\s\S]*?)<\/\1>/gi)) {
+    marks.push({ lvl: m[1] === 'h2' ? 2 : 3, text: strip(m[2]), at: m.index, end: m.index + m[0].length });
+  }
+  if (!marks.length) return html;
+
+  let out = html.slice(0, marks[0].at);
+
+  for (let i = 0; i < marks.length; i++) {
+    const mk = marks[i];
+    if (mk.lvl !== 2) continue;
+
+    // Everything up to the next partner.
+    let j = i + 1;
+    while (j < marks.length && marks[j].lvl === 3) j++;
+
+    if (UNTOUCHED.test(mk.text) || j === i + 1) {
+      out += html.slice(mk.at, j < marks.length ? marks[j].at : html.length);
+      i = j - 1;
+      continue;
+    }
+
+    const bucket = {};
+    SECTIONS.forEach((s) => { bucket[s] = ''; });
+
+    for (let k = i + 1; k < j; k++) {
+      const name = marks[k].text;
+      const body = html.slice(marks[k].end, k + 1 < j ? marks[k + 1].at : (j < marks.length ? marks[j].at : html.length));
+      const target = (BUCKET.find(([re]) => re.test(name)) || [, 'Info'])[1];
+
+      if (target !== 'SPLIT') {
+        // Keep the doc's own label unless it is already the section name.
+        const lead = new RegExp('^' + target + ':?$', 'i').test(name)
+          ? '' : '<p><strong>' + name.replace(/:\s*$/, '') + '</strong></p>';
+        bucket[target] += lead + body;
+        continue;
+      }
+
+      const spill = { Opportunities: [], Info: [], Contacts: [] };
+      let rest = body;
+      for (const list of lists(body)) {
+        rest = rest.replace(list, '');
+        for (const li of items(list)) spill[fileLine(li)].push(li);
+      }
+      if (spill.Opportunities.length) {
+        bucket.Opportunities += '<ul><li><strong>' + PITCH_LEAD + '</strong><ul>' +
+          spill.Opportunities.join('') + '</ul></li></ul>';
+      }
+      for (const key of ['Info', 'Contacts']) {
+        if (spill[key].length) bucket[key] += '<ul>' + spill[key].join('') + '</ul>';
+      }
+      if (strip(rest)) bucket.Info += rest;
+    }
+
+    // Whatever sits under the partner name before its first subhead — the
+    // status line, a resources link — stays where the page expects it.
+    out += '<h2>' + mk.text + '</h2>' + html.slice(mk.end, marks[i + 1].at);
+    for (const s of SECTIONS) if (strip(bucket[s])) out += '<h3>' + s + '</h3>' + bucket[s];
+    i = j - 1;
+  }
+
+  return out;
+}
+
 function headings(html) {
   const out = [];
   for (const m of html.matchAll(/<(h2|h3)>([\s\S]*?)<\/\1>/gi)) {
@@ -263,7 +395,7 @@ export default async () => {
         { status: 502, headers: { 'cache-control': 'no-store' } }
       );
     }
-    const html = reduce(raw);
+    const html = normalise(reduce(raw));
     return Response.json(
       {
         title: 'Digital Partner Guide',
