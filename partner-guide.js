@@ -11,32 +11,29 @@
 (function () {
   var API = 'https://operations.mugzyboez.co/api/partner-guide';
 
-  // One tab per section of the doc. The regexes also match the headings the
-  // pre-restructure doc used, so the page renders either version.
-  // `fallback` marks the tab that also takes any section no other tab claims,
-  // so nothing in the doc goes unrendered.
-  var VIEWS = [
-    { key: 'flow', label: '01 · Workflows',       cross: true },
-    { key: 'opps', label: '02 · Opportunities',   match: /opportunit|program|required solution|next step/i },
-    { key: 'info', label: '03 · Info',            match: /^info$|flow of communication|features|availability|operations/i, fallback: true },
-    { key: 'ts',   label: '04 · Troubleshooting', match: /troubleshoot|backend access|support/i },
-    { key: 'poc',  label: '05 · Contacts',        match: /^contacts?$|flow of communication/i }
-  ];
+  // One tab per partner, built from the doc in render(). Tab 01 is the
+  // cross-partner workflows; the rest are the partners themselves, each
+  // holding that partner's four sections.
+  var VIEWS = [];
 
   // The doc's cross-partner workflow section. It drives the first tab and is
   // kept out of every partner tab.
   var CROSS = /^workflows?\b/i;
 
-  // Filled as the workflow cards are built; the nav links off it.
+  // The feed files every partner under these four, in this order.
+  var ORDER = ['Opportunities', 'Info', 'Troubleshooting', 'Contacts'];
+
+  // Working notes rather than reference — they go out by email, not here.
+  var OFF_PAGE = /^(next steps|items to confirm)/i;
+
+  // Filled as the tabs are built; the nav links off it.
+  var NAV = {};
   var FLOW_INDEX = [];
 
-  function claims(view, name) {
-    if (!view.match) return false;
-    if (view.match.test(name)) return true;
-    if (!view.fallback) return false;
-    return !VIEWS.some(function (other) {
-      return other !== view && other.match && other.match.test(name);
-    });
+  // A section with people to contact is a partner. Everything else in the doc
+  // is a shared note, and rides in the tabs of the partners it names.
+  function isPartner(p) {
+    return p.groups.some(function (g) { return /^contacts?$/i.test(g.name || ''); });
   }
 
   var body = document.body;
@@ -85,7 +82,8 @@
         return;
       }
       // A partnership-status line is the guide's status strip, not body copy.
-      if (!group && n.tagName === 'P' && /^status of partnership/i.test(n.textContent)) {
+      // It can follow other loose paragraphs, so only a named section ends it.
+      if ((!group || !group.name) && n.tagName === 'P' && /^status of partnership/i.test(n.textContent)) {
         partner.status = n.innerHTML.replace(/^\s*(status of partnership:?)/i, '<b>$1</b>');
         return;
       }
@@ -113,54 +111,79 @@
     // The workflows section is cross-partner: it becomes tab 01 and is
     // removed from the partner list so it cannot also land in a partner tab.
     var flows = partners.filter(function (p) { return CROSS.test(p.name); });
-    partners = partners.filter(function (p) { return flows.indexOf(p) === -1; });
+    var rest = partners.filter(function (p) {
+      return flows.indexOf(p) === -1 && !OFF_PAGE.test(p.name);
+    });
+
+    var roster = rest.filter(isPartner);
+    // A shared note names the partners it covers, so it shows in each of them.
+    var shared = rest.filter(function (p) { return !isPartner(p); }).map(function (p) {
+      return { sec: p, into: roster.filter(function (q) { return p.name.indexOf(q.name) > -1; }) };
+    });
+
+    VIEWS = [{ key: 'flow', label: pad(1) + ' · Workflows', cross: true }].concat(
+      roster.map(function (p, i) {
+        return { key: 'p' + i, label: pad(i + 2) + ' · ' + p.name, partner: p };
+      })
+    );
 
     guide.innerHTML = '';
     FLOW_INDEX = [];
-    VIEWS.forEach(function (view, vi) {
+    NAV = {};
+    VIEWS.forEach(function (view) {
       var wrap = document.createElement('div');
       wrap.setAttribute('data-view-group', view.key);
-
-      var banner = document.createElement('div');
-      banner.className = 'wf-banner';
-      banner.innerHTML = '<span>' + esc(view.label) + '</span><div class="bar"></div>';
-      wrap.appendChild(banner);
+      wrap.appendChild(el('div', 'wf-banner',
+        '<span>' + esc(view.label) + '</span><div class="bar"></div>', true));
 
       if (view.cross) {
         renderFlows(wrap, flows);
         guide.appendChild(wrap);
+        NAV[view.key] = FLOW_INDEX;
         return;
       }
 
-      var shown = 0;
-      partners.forEach(function (p, pi) {
-        var groups = p.groups.filter(function (g) {
-          return claims(view, g.name || p.name);
-        });
-        if (!groups.length) return;
-        shown++;
-        wrap.appendChild(section(view.key, p, groups, shown));
+      var p = view.partner;
+      if (p.status) wrap.appendChild(el('div', 'status-strip', p.status, true));
+
+      var links = [], n = 0;
+      var named = p.groups.filter(function (g) { return !!g.name; });
+      var loose = p.groups.filter(function (g) { return !g.name; });
+
+      // The doc's own order is the feed's order; ORDER only settles ties.
+      named.sort(function (a, b) {
+        var x = ORDER.indexOf(a.name), y = ORDER.indexOf(b.name);
+        return (x < 0 ? 99 : x) - (y < 0 ? 99 : y);
       });
 
-      if (!shown) wrap.appendChild(el('div', 'loadmsg', 'Nothing in the doc matches this workflow yet.'));
+      loose.forEach(function (g) { g.nodes.forEach(function (node) { wrap.appendChild(node.cloneNode(true)); }); });
+
+      named.forEach(function (g) {
+        var sec = section(view.key, g.name, g.nodes, ++n);
+        links.push({ id: sec.id, name: g.name });
+        wrap.appendChild(sec);
+      });
+
+      shared.forEach(function (s) {
+        if (s.into.indexOf(p) < 0) return;
+        s.sec.groups.forEach(function (g) {
+          var sec = section(view.key, s.sec.name, g.nodes, ++n);
+          links.push({ id: sec.id, name: s.sec.name });
+          wrap.appendChild(sec);
+        });
+      });
+
+      if (!n) wrap.appendChild(el('div', 'loadmsg', 'Nothing in the doc for this partner yet.'));
+      NAV[view.key] = links;
       guide.appendChild(wrap);
-      void vi;
     });
 
     buildTabs();
-    buildNav(partners, flows);
+    buildNav();
     wire();
     setView('flow');
 
-    // A partner is a section with people to contact. That leaves out the
-    // doc's other top-level sections — next steps, operations, how-to-read.
-    void flows;
-    var pocView = VIEWS.filter(function (v) { return v.key === 'poc'; })[0];
-    var partnerCount = partners.filter(function (p) {
-      return p.groups.some(function (g) { return claims(pocView, g.name || p.name); });
-    }).length || partners.length;
-
-    stat.innerHTML = '<b>' + partnerCount + '</b> partners &middot; read live from the doc &middot; synced ' +
+    stat.innerHTML = '<b>' + roster.length + '</b> partners &middot; read live from the doc &middot; synced ' +
       new Date(data.fetchedAt || Date.now()).toLocaleString();
   }
 
@@ -289,28 +312,24 @@
     return ctx.card;
   }
 
-  function section(viewKey, p, groups, num) {
+  // One collapsible section inside a partner's tab — Opportunities, Info,
+  // Troubleshooting, Contacts, or a shared note carried into this partner.
+  function section(viewKey, name, nodes, num) {
     var sec = document.createElement('section');
-    sec.id = viewKey + '-' + slug(p.name);
-    sec.setAttribute('data-sec', p.name);
+    sec.id = viewKey + '-' + slug(name);
+    sec.setAttribute('data-sec', name);
 
-    var head = document.createElement('div');
-    head.className = 'sec-head';
-    head.innerHTML = '<span class="chev">&darr;</span> <span class="sec-num">' +
-      pad(num) + '</span> <h2>' + esc(p.name) + '</h2>';
-    sec.appendChild(head);
+    sec.appendChild(el('div', 'sec-head',
+      '<span class="chev">&darr;</span> <span class="sec-num">' + pad(num) +
+      '</span> <h2>' + esc(name) + '</h2>', true));
 
     var bodyEl = document.createElement('div');
     bodyEl.className = 'sec-body';
-    if (p.status) bodyEl.appendChild(el('div', 'status-strip', p.status, true));
 
-    groups.forEach(function (g) {
-      if (g.name) bodyEl.appendChild(el('div', 'kicker', esc(g.name), true));
-      var isContacts = /^contacts?$|flow of communication|contact/i.test(g.name || '');
-      // Any deep section reads better as accordions, not one long list.
-      var isOpps = /opportunit|program|troubleshoot/i.test(g.name || '');
-      g.nodes.forEach(function (n) { renderNode(n, bodyEl, isContacts, isOpps); });
-    });
+    var isContacts = /^contacts?$|flow of communication|contact/i.test(name);
+    // Any deep section reads better as accordions, not one long list.
+    var isOpps = /opportunit|program|troubleshoot/i.test(name);
+    nodes.forEach(function (n) { renderNode(n, bodyEl, isContacts, isOpps); });
 
     sec.appendChild(bodyEl);
     return sec;
@@ -551,15 +570,11 @@
     }
   }
 
-  function buildNav(partners) {
+  function buildNav() {
     navsets.innerHTML = VIEWS.map(function (v) {
-      var links = v.cross
-        ? FLOW_INDEX.map(function (f) {
-            return '<a href="#' + f.id + '" class="navlink">' + esc(f.name) + '</a>';
-          })
-        : partners.map(function (p) {
-            return '<a href="#' + v.key + '-' + slug(p.name) + '" class="navlink">' + esc(p.name) + '</a>';
-          });
+      var links = (NAV[v.key] || []).map(function (f) {
+        return '<a href="#' + f.id + '" class="navlink">' + esc(f.name) + '</a>';
+      });
       return '<span class="navset-' + v.key + '" style="display:flex;gap:18px;flex-wrap:wrap">' +
         links.join('') + '</span>';
     }).join('');
