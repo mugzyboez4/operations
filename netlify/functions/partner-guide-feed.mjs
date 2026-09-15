@@ -185,10 +185,12 @@ function reduce(raw) {
 
   // Google exports document comments as [a]/[b] anchors inside the text, plus
   // a block of comment bodies at the end. Neither belongs in the guide.
+  // The block is found before the anchors are stripped — stripping first
+  // leaves nothing for the search to match, and the whole thread renders.
   s = s.replace(/<sup\b[^>]*>[\s\S]*?<\/sup>/gi, '');
-  s = s.replace(/<a\b[^>]*href="#cmnt[^"]*"[^>]*>[\s\S]*?<\/a>/gi, '');
-  const cmnt = s.search(/<div\b[^>]*>\s*(?:<p\b[^>]*>\s*)?<a\b[^>]*href="#cmnt_ref/i);
+  const cmnt = s.search(/<div\b[^>]*>\s*(?:<p\b[^>]*>\s*)?<a\b[^>]*href="#cmnt(_ref)?\d/i);
   if (cmnt > -1) s = s.slice(0, cmnt);
+  s = s.replace(/<a\b[^>]*href="#cmnt[^"]*"[^>]*>[\s\S]*?<\/a>/gi, '');
 
   s = renest(s);
 
