@@ -197,8 +197,9 @@
   /**
    * The doc's cross-partner workflows. Two shapes reach here and both render:
    *
-   *   paragraph  <p>Workflow 1: Marketing Opps</p> followed by an <ol> of
-   *              steps, sub-steps nested inside a step as a real list
+   *   heading    <h3>Workflow 1: Marketing Opps</h3> or the same line as a
+   *              paragraph, followed by an <ol> of steps, sub-steps nested
+   *              inside a step as a real list
    *   bullet     one top-level <li> per workflow, its nested <li>s the steps,
    *              a sub-step written in the text as "2.a"
    *
@@ -222,8 +223,17 @@
 
     flows.forEach(function (p) {
       p.groups.forEach(function (g) {
-        if (g.name) loose(el('div', 'kicker', esc(g.name), true));
         var open = null;   // card waiting for the step list that follows it
+
+        // A subhead naming a workflow opens its card; any other subhead is a
+        // label over whatever follows.
+        if (g.name && FLOW_TITLE.test(g.name)) {
+          open = openCard(g.name, ++made);
+          intoGrid(open.card);
+        } else if (g.name) {
+          loose(el('div', 'kicker', esc(g.name), true));
+        }
+
         g.nodes.forEach(function (n) {
           var tag = n.tagName;
 
@@ -294,17 +304,24 @@
         '<span class="flow-text">' + html + '</span>', true));
 
       // A real list nested under the step carries its sub-steps: 2a, 2b, …
-      var letter = 0;
-      [].slice.call(s.children).forEach(function (child) {
-        if (!/^(UL|OL)$/.test(child.tagName || '')) return;
-        [].slice.call(child.children).forEach(function (t) {
-          if (t.tagName !== 'LI') return;
-          var c = t.cloneNode(true);
-          [].slice.call(c.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
-          ctx.steps.appendChild(el('div', 'flow-step sub',
-            '<span class="flow-mark">' + esc(ctx.n + String.fromCharCode(97 + letter++)) + '</span>' +
-            '<span class="flow-text">' + c.innerHTML + '</span>', true));
-        });
+      // The doc nests a third level in places; those keep the indent and drop
+      // the marker rather than being thrown away.
+      addSubs(ctx, s, 1, { letter: 0 });
+    });
+  }
+
+  function addSubs(ctx, li, depth, seq) {
+    [].slice.call(li.children).forEach(function (child) {
+      if (!/^(UL|OL)$/.test(child.tagName || '')) return;
+      [].slice.call(child.children).forEach(function (t) {
+        if (t.tagName !== 'LI') return;
+        var c = t.cloneNode(true);
+        [].slice.call(c.querySelectorAll('ul,ol')).forEach(function (x) { x.remove(); });
+        var mark = depth === 1 ? ctx.n + String.fromCharCode(97 + seq.letter++) : '';
+        ctx.steps.appendChild(el('div', 'flow-step sub' + (depth > 1 ? ' sub' + depth : ''),
+          '<span class="flow-mark">' + esc(mark) + '</span>' +
+          '<span class="flow-text">' + c.innerHTML + '</span>', true));
+        addSubs(ctx, t, depth + 1, seq);
       });
     });
   }
@@ -529,6 +546,8 @@
     '.flow-step{display:flex;gap:12px;padding:11px 2px;border-bottom:1px solid var(--border)}',
     '.flow-step:last-child{border-bottom:0}',
     '.flow-step.sub{padding-left:26px;background:var(--card-2)}',
+    '.flow-step.sub2{padding-left:48px}',
+    '.flow-step.sub3{padding-left:68px}',
     '.flow-mark{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--fog);',
     '  min-width:24px;padding-top:3px}',
     '.flow-step.sub .flow-mark{color:var(--flame)}',
