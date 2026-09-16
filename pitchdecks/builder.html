@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="/tempo.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deck Builder — Campaign Ops</title>
+<link rel="icon" type="image/png" href="/logo_neon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  .db-wrap { max-width:1480px; margin:0 auto; padding:0 28px; }
+  .db-head { padding:40px 0 24px; border-bottom:1px solid var(--border); }
+  .db-kicker { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--flame); margin-bottom:10px; }
+  .db-head h1 { font-size:34px; font-weight:600; letter-spacing:-1px; line-height:1.1; margin:0 0 8px; }
+  .db-sub { font-size:14px; color:var(--fog); max-width:70ch; line-height:1.6; }
+
+  .db-bar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:16px 0; border-bottom:1px solid var(--border); }
+  .db-bar input[type=text] { font:inherit; font-size:14px; padding:8px 12px; border:1px solid var(--rule); background:#fff; min-width:220px; color:var(--ink); }
+  .db-btn { font:inherit; font-size:13px; font-weight:600; padding:8px 14px; border:1px solid var(--rule); background:#fff; color:var(--ink); cursor:pointer; white-space:nowrap; }
+  .db-btn:hover { border-color:var(--ink); }
+  .db-btn.pri { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .db-btn.pri:hover { background:#000; }
+  .db-btn.lime { background:var(--lime); border-color:var(--lime); }
+  .db-sp { flex:1; }
+  .db-lbl { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); }
+  .db-file { position:relative; overflow:hidden; }
+  .db-file input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+  .db-grid { display:grid; grid-template-columns:280px 290px minmax(0,1fr); gap:24px; padding:22px 0 64px; align-items:start; }
+  .db-col h2 { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--fog); margin:0 0 10px; display:flex; justify-content:space-between; }
+  .db-scroll { max-height:calc(100vh - 150px); overflow:auto; position:sticky; top:16px; }
+
+  .lib-g { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--lime-ink); margin:16px 0 6px; }
+  .lib-g:first-child { margin-top:0; }
+  .lib-i, .dk-i { display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--border); padding:8px 10px; margin-bottom:-1px; font-size:13px; cursor:grab; user-select:none; }
+  .lib-i:hover, .dk-i:hover { border-color:var(--ink); position:relative; z-index:1; }
+  .lib-i .nm, .dk-i .nm { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tag { font-size:8.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 5px; border:1px solid var(--rule); color:var(--fog); }
+  .tag.empty { border-color:var(--flame); color:var(--flame); }
+  .in-deck { width:6px; height:6px; border:1px solid transparent; flex:none; }
+  .in-deck.on { background:var(--lime); border-color:var(--lime-ink); }
+  .ico { font:inherit; background:none; border:0; color:var(--fog); cursor:pointer; padding:0 3px; font-size:14px; line-height:1; }
+  .ico:hover { color:var(--ink); }
+
+  .dk-list { min-height:320px; border:1px dashed var(--rule); padding:8px; background:var(--card-2); }
+  .dk-list.over { border-color:var(--ink); }
+  .dk-i .no { font-size:11px; font-weight:700; color:var(--fog); width:20px; font-variant-numeric:tabular-nums; }
+  .dk-i.sel { border-color:var(--ink); box-shadow:inset 3px 0 0 var(--lime); position:relative; z-index:2; }
+  .dk-i.dragging { opacity:.35; }
+  .dk-ind { height:2px; background:var(--flame); margin:2px 0; }
+  .dk-empty { color:var(--fog); font-size:13px; text-align:center; padding:110px 16px; line-height:1.6; }
+
+  .pv-stage { position:relative; width:100%; background:#000; overflow:hidden; box-shadow:0 1px 0 var(--rule); }
+  .pv-stage .sl { position:absolute; left:0; top:0; transform-origin:0 0; }
+  .pv-meta { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:10px; font-size:12.5px; color:var(--fog); }
+  .pv-none { aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:var(--fog); border:1px dashed var(--rule); font-size:14px; }
+  .sl [contenteditable]:hover { outline:2px dashed rgba(205,248,81,.55); outline-offset:6px; }
+  .sl [contenteditable]:focus { outline:3px solid #CDF851; outline-offset:6px; }
+
+  @media (max-width:1100px){ .db-grid{grid-template-columns:1fr 1fr;} .db-col.pv{grid-column:1/-1; order:-1;} .db-scroll{position:static; max-height:none;} }
+  @media (max-width:700px){ .db-wrap{padding:0 16px;} .db-grid{grid-template-columns:1fr;} .db-head h1{font-size:28px;} }
+
+  /* ── Present ── */
+  #present { position:fixed; inset:0; background:#000; z-index:9999; display:none; cursor:none; }
+  #present.on { display:block; }
+  #present .sl { position:absolute; transform-origin:0 0; }
+  #present .pc { position:absolute; right:18px; bottom:12px; color:#555; font:600 12px Inter,sans-serif; letter-spacing:1px; }
+  #present:hover { cursor:default; }
+
+  /* ── Slide system (1920×1080, RCA dark) ── */
+  .sl { --k:1; width:1920px; height:1080px; background:#0F0E0E; color:#FCFDF8; font-family:Inter,Helvetica,Arial,sans-serif; position:relative; overflow:hidden; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .sl * { box-sizing:border-box; margin:0; }
+  .sl .in { position:absolute; left:130px; right:130px; top:104px; bottom:120px; display:flex; flex-direction:column; overflow:hidden; }
+  .sl .ft { position:absolute; left:130px; right:130px; bottom:48px; display:flex; justify-content:space-between; font-size:14px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#847D96; border-top:1px solid #2A2A2A; padding-top:18px; }
+  .sl .ft b { color:#FCFDF8; font-weight:800; }
+  .sl .kk { font-size:calc(18px*var(--k)); font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#CDF851; display:flex; gap:22px; align-items:center; }
+  .sl .kk .x { color:#847D96; }
+  .sl .hd { font-size:calc(76px*var(--k)); font-weight:800; letter-spacing:-.03em; line-height:1.02; margin-top:calc(26px*var(--k)); max-width:1660px; }
+  .sl .ld { font-size:calc(30px*var(--k)); line-height:1.45; color:#B0A9BE; margin-top:calc(28px*var(--k)); max-width:1400px; font-weight:400; }
+  .sl .ld.big { font-size:calc(42px*var(--k)); line-height:1.25; color:#FCFDF8; font-weight:600; letter-spacing:-.015em; max-width:1500px; }
+  .sl .bd { font-size:calc(24px*var(--k)); line-height:1.55; color:#847D96; margin-top:calc(20px*var(--k)); max-width:1320px; }
+  .sl .pl { display:grid; gap:calc(28px*var(--k)) 44px; margin-top:auto; padding-top:calc(44px*var(--k)); }
+  .sl .pl > div { border-top:2px solid #CDF851; padding-top:calc(22px*var(--k)); }
+  .sl .pl .pt { font-size:calc(30px*var(--k)); font-weight:700; letter-spacing:-.01em; line-height:1.2; }
+  .sl .pl .pb { font-size:calc(22px*var(--k)); line-height:1.5; color:#B0A9BE; margin-top:calc(12px*var(--k)); }
+  .sl .ch { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:calc(36px*var(--k)); }
+  .sl .ch .cl { font-size:calc(13px*var(--k)); font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#847D96; margin-right:10px; }
+  .sl .ch span.c { font-size:calc(18px*var(--k)); font-weight:600; padding:8px 16px; border:1px solid #3E3F41; color:#FCFDF8; }
+  .sl .gs { display:flex; gap:56px; margin-top:calc(46px*var(--k)); }
+  .sl .gs > div { min-width:0; }
+  .sl .gt { font-size:calc(15px*var(--k)); font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#CDF851; border-bottom:1px solid #2A2A2A; padding-bottom:12px; margin-bottom:calc(14px*var(--k)); }
+  .sl .gs ul { list-style:none; padding:0; column-gap:36px; }
+  .sl .gs li { font-size:calc(21px*var(--k)); line-height:1.3; padding:calc(6px*var(--k)) 0; break-inside:avoid; color:#FCFDF8; }
+  .sl .gs li::before { content:''; display:inline-block; width:7px; height:7px; background:#CDF851; margin-right:12px; vertical-align:middle; position:relative; top:-2px; }
+  .sl .gs .sub + .sub { margin-top:calc(28px*var(--k)); }
+  /* section divider */
+  .sl.section { background:#0F0E0E; }
+  .sl.section .in { justify-content:center; }
+  .sl.section .hd { font-size:calc(128px*var(--k)); letter-spacing:-.04em; line-height:.95; }
+  .sl.section .bar { width:120px; height:10px; background:#CDF851; margin-bottom:40px; }
+  /* title */
+  .sl.title .in { right:auto; width:900px; justify-content:flex-end; }
+  .sl.title .brand { font-size:calc(150px*var(--k)); font-weight:900; letter-spacing:-.05em; line-height:.88; }
+  .sl.title .art { font-size:calc(96px*var(--k)); font-weight:800; letter-spacing:-.04em; line-height:1; color:#CDF851; margin-top:18px; }
+  .sl.title .tg { font-size:calc(22px*var(--k)); font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#FCFDF8; margin-top:calc(48px*var(--k)); }
+  .sl.title .ld { font-size:calc(24px*var(--k)); max-width:820px; }
+  .sl.title .img { position:absolute; right:0; top:0; bottom:0; width:820px; background:#181818 center/cover no-repeat; display:flex; align-items:center; justify-content:center; }
+  .sl.title .img .ph { border:2px dashed #3E3F41; color:#847D96; font-size:16px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; padding:30px 40px; text-align:center; line-height:1.8; }
+  .sl.title .ft { right:auto; width:900px; }
+  /* timeline */
+  .sl .tl { display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:auto; padding-top:calc(40px*var(--k)); }
+  .sl .tl .n { font-size:calc(15px*var(--k)); font-weight:800; letter-spacing:.2em; color:#0F0E0E; background:#CDF851; display:inline-block; padding:6px 12px; }
+  .sl .tl .pt { font-size:calc(34px*var(--k)); font-weight:800; letter-spacing:-.02em; margin-top:calc(18px*var(--k)); }
+  .sl .tl .pb { font-size:calc(22px*var(--k)); line-height:1.5; color:#B0A9BE; margin-top:calc(12px*var(--k)); }
+  .sl .tl ul { list-style:none; padding:0; margin-top:calc(20px*var(--k)); border-top:1px solid #2A2A2A; padding-top:calc(14px*var(--k)); }
+  .sl .tl li { font-size:calc(21px*var(--k)); line-height:1.4; padding:calc(5px*var(--k)) 0; }
+  .sl .tl li::before { content:'—  '; color:#CDF851; }
+  /* empty */
+  .sl .pend { margin-top:auto; border:2px dashed #FF4A23; color:#FF4A23; padding:28px 34px; font-size:20px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; align-self:flex-start; }
+  /* closer */
+  .sl.closer .in { justify-content:center; align-items:flex-start; }
+  .sl.closer .hd { font-size:calc(140px*var(--k)); letter-spacing:-.045em; line-height:.92; }
+  .sl.closer .hd em { font-style:normal; color:#CDF851; }
+
+  #printRoot { position:fixed; left:-30000px; top:0; }
+  @media print {
+    @page { size:1920px 1080px; margin:0; }
+    html, body { margin:0 !important; padding:0 !important; background:#0F0E0E !important; }
+    body > *:not(#printRoot) { display:none !important; }
+    #printRoot { position:static; }
+    #printRoot .sl { page-break-after:always; break-after:page; }
+    #printRoot .sl:last-child { page-break-after:auto; break-after:auto; }
+  }
+</style>
+<script defer src="/shell.js"></script>
+</head>
+<body>
+<div class="db-head"><div class="db-wrap">
+  <div class="db-kicker">RCA Records · Pitch Deck System</div>
+  <h1>Deck Builder</h1>
+  <div class="db-sub">Drag sections into the deck, reorder, click any text in the preview to edit. Present in the browser or save as PDF. Drafts save in this browser only.</div>
+</div></div>
+
+<div class="db-wrap">
+  <div class="db-bar">
+    <input type="text" id="artist" placeholder="Artist name" aria-label="Artist name">
+    <label class="db-btn db-file">Cover image<input type="file" id="img" accept="image/*"></label>
+    <button class="db-btn" id="imgClear" hidden>Remove image</button>
+    <span class="db-sp"></span>
+    <span class="db-lbl">Start from</span>
+    <button class="db-btn" data-preset="full">Full deck</button>
+    <button class="db-btn" data-preset="short">Short pitch</button>
+    <button class="db-btn" data-preset="clear">Blank</button>
+    <button class="db-btn lime" id="pdf">Save PDF</button>
+    <button class="db-btn pri" id="present-btn">Present ▸</button>
+  </div>
+
+  <div class="db-grid">
+    <div class="db-col"><div class="db-scroll">
+      <h2><span>Section library</span><span id="libCount"></span></h2>
+      <div id="lib"></div>
+    </div></div>
+    <div class="db-col"><div class="db-scroll">
+      <h2><span>Your deck</span><span id="dkCount"></span></h2>
+      <div class="dk-list" id="deck"></div>
+    </div></div>
+    <div class="db-col pv">
+      <h2><span>Preview</span><span id="pvName"></span></h2>
+      <div id="pv"></div>
+      <div class="pv-meta"><span id="pvHint">Click text to edit.</span><button class="db-btn" id="resetSlide" hidden>Reset this slide's edits</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="present"><div class="pc" id="pc"></div></div>
+<div id="printRoot"></div>
+
+<script>
+/* Snapshot of "RCA - Pitch Deck" Google Doc, 16 Sep 2026. Republish when the doc changes. */
+var LIB = [
+{ g:'Opening', id:'title', name:'Title', layout:'title',
+  tagline:'Where artists shape culture',
+  lede:'RCA Records is home to artists who move culture forward. We bring together creative, strategic, and global expertise to help those artists realize ambitious visions and build careers that endure.' },
+{ g:'Opening', id:'sony', name:'The Sony System', layout:'pillars', cols:3,
+  kicker:'The Sony System', headline:'Music is just the beginning.',
+  lede:'As part of the Sony ecosystem, RCA artists gain access to a global network of creative, media, technology, and entertainment companies that extend opportunities far beyond the traditional music business.',
+  pillars:[
+    ['Music','Global labels, publishing, neighboring rights, catalog development, and sync opportunities.'],
+    ['Film & Television','Award-winning studios, production companies, and entertainment properties creating opportunities across scripted, unscripted, theatrical, and streaming content.'],
+    ['Gaming','Access to PlayStation and world-class game studios, creating opportunities for integrations, content, experiences, and audience expansion.'],
+    ['Technology & Consumer Electronics','Industry-leading devices, innovation, and consumer platforms that connect artists with audiences worldwide.'],
+    ['Streaming & Content','Premium content ecosystems spanning streaming platforms, anime, digital entertainment, and emerging media.'],
+    ['Experiences & Consumer Products','Merchandise, brand partnerships, live events, licensing, and cultural collaborations that extend artist worlds beyond the music.'] ] },
+
+{ g:'Creative & Campaign', id:'ar', name:'Best in Class A&R', layout:'pillars', cols:4,
+  kicker:'Best in Class A&R', headline:'Built around the artist. Driven by the music.',
+  lede:'No two artists create the same way. Our role is to support the creative process however it works best for each artist, providing the partnerships, resources, and expertise needed to help great ideas become great records.',
+  pillars:[
+    ['Artist Partnership','Supporting artists throughout every chapter of their career while helping create opportunities for growth and creative exploration.'],
+    ['Creative Connections','Opening doors to producers, writers, musicians, and collaborators when they can add value to the creative process.'],
+    ['Project Support','Offering guidance, perspective, and resources to help artists navigate the journey from idea to release.'],
+    ['Creative Excellence','Bringing together the people, experience, and support needed to help artists make the strongest version of the music they want to create.'] ] },
+{ g:'Creative & Campaign', id:'leadership', name:'Campaign Leadership', layout:'pillars', cols:3,
+  kicker:'Campaign Leadership', headline:'Championing the vision. Connecting the strategy. Driving the execution.',
+  lede:'Campaign Leadership works alongside artists, management, and internal teams to help bring creative vision into the world. By aligning strategy, resources, and opportunities across the business, they ensure every part of the campaign is working toward the same goals and delivering the greatest possible impact.',
+  pillars:[
+    ['Vision & Positioning','Helping translate artistic vision into clear audience storytelling, cultural positioning, and strategic opportunities.'],
+    ['Strategic Planning','Building coordinated plans that connect creative moments, audience opportunities, and long-term goals.'],
+    ['Cross-Functional Leadership','Aligning expertise, resources, and teams across the organization to deliver a unified, artist-centered campaign.'] ] },
+{ g:'Creative & Campaign', id:'creative', name:'Creative', layout:'pillars', cols:4,
+  kicker:'Creative', headline:'Helping artists bring their visual vision to life.',
+  lede:'Creative works alongside artists to develop and express the visual world surrounding a project, ensuring the ideas, aesthetics, and creative vision extend cohesively across every audience touchpoint.',
+  pillars:[
+    ['Visual Identity & Brand Design','Build a distinct visual world for each artist, defining the creative language, design systems, and brand elements that create consistency across every fan touchpoint.'],
+    ['Creative Partnership','Provide dedicated creative direction, art direction, design, and motion support across every format.'],
+    ['Campaign Integration','Connect creative, campaign leadership, and audience development to deliver a consistent experience across platforms.'],
+    ['Experiential','Turn the creative world into immersive fan moments, physical spaces, and cultural activations.'] ] },
+{ g:'Creative & Campaign', id:'auddev', name:'Audience Development', layout:'pillars', cols:4,
+  kicker:'Audience Development', headline:'Helping artists connect with the audiences that matter most.',
+  lede:'Audience Development combines audience insight, platform expertise, and fan-first marketing to help artists reach new listeners, deepen fan engagement, and create lasting connections. By understanding how audiences discover, engage with, and advocate for music, we help identify opportunities that support long-term growth.',
+  pillars:[
+    ['Audience Intelligence','Uncover high-value audiences, identify growth opportunities, and translate fan behavior into actionable campaign strategy.'],
+    ['Growth & Discovery','Develop multi-channel plans that accelerate audience growth, expand reach, and drive discovery across key platforms.'],
+    ['Paid Media & Creator Activation','Activate integrated campaigns across paid media, creators, influencers, UGC, seeding, and distribution networks to generate awareness and consumption at scale.'],
+    ['Fan Community Building','Cultivate engaged fan communities that deepen connection, inspire participation, and turn audiences into long-term advocates.'] ] },
+
+{ g:'Media', id:'media', name:'The Media Team', layout:'section',
+  kicker:'The Media Team', pair:'Publicity × Radio', headline:'Where stories become culture',
+  lede:'Publicity and Radio work in tandem to build awareness, shape narrative, and put artists at the center of the conversations that matter, driving impact from tastemaker audiences to the mainstream.' },
+{ g:'Media', id:'publicity', name:'Publicity', layout:'pillars', cols:5,
+  kicker:'Publicity', headline:'Building cultural relevance through narrative development, storytelling, media moments, and industry awareness.',
+  pillars:[
+    ['Storytelling & Narrative Development','Crafting clear, authentic narratives that guide media, cultural, and promotional opportunities.'],
+    ['Cultural Positioning','Expanding artist visibility across music, entertainment, fashion, lifestyle, and culture.'],
+    ['High-Impact Media Moments','Creating conversation-driving opportunities that extend beyond traditional album promotion.'],
+    ['Awards Strategy & Advocacy','Building industry awareness and momentum through targeted awards campaigns and tastemaker engagement.'],
+    ['Tour-Driven Storytelling','Turning tours into ongoing media platforms through exclusive access, behind-the-scenes content, regional moments, and event-driven coverage.'] ] },
+{ g:'Media', id:'pub-media', name:'Publicity — Target Media', layout:'lists',
+  kicker:'Publicity', headline:'Target media include (but are not limited to)',
+  groups:[
+    { cols:3, subs:[{ t:'Print / Digital', items:['Rolling Stone','Billboard','The New York Times','Variety','The Hollywood Reporter','The Wall Street Journal','Interview Magazine','GQ','Esquire','Vogue','Vanity Fair','Vulture','PAPER','The FADER','Pitchfork','Complex','Highsnobiety','Hypebeast','Entertainment Weekly',"Harper's Bazaar",'CR Fashion Book','TIME','LA Times','Nylon','Cosmopolitan'] }] },
+    { cols:2, subs:[{ t:'Podcast & Long-Form', items:['NPR','NY Times Popcast','Song Exploder','Broken Record','Therapuss','Call Her Daddy','Hot Ones','Questlove Supreme','Anthony Mason','Switch on Pop','The Writer Is...','Q with Tom Power','In Your Dreams w/ Owen Thiele','Feeding Starving Celebs w/ Quen Blackwell'] }] } ] },
+{ g:'Media', id:'pub-broadcast', name:'Publicity — Performance & Broadcast', layout:'lists',
+  kicker:'Publicity', headline:'Performance, chat & broadcast opportunities',
+  groups:[
+    { cols:1, subs:[{ t:'Network & Late Night', items:['Saturday Night Live','The Tonight Show Starring Jimmy Fallon','Jimmy Kimmel Live!','TODAY','Good Morning America','CBS Sunday Morning','CBS Mornings','Drew Barrymore','Jennifer Hudson'] }] },
+    { cols:1, subs:[{ t:'Awards & Event Performances', items:['GRAMMY Awards','MTV Video Music Awards','American Music Awards','BET Awards','CMA Awards','ACM Awards'] }, { t:'Premium Performance Platforms', items:['NPR Tiny Desk','Austin City Limits'] }] },
+    { cols:1, subs:[{ t:'Specialty & Cultural Programming', items:['The Voice','American Idol',"New Year's Eve Specials",'Holiday Television Specials','Major Streaming & Cultural Event Broadcasts'] }] } ] },
+{ g:'Media', id:'radio', name:'Radio', layout:'pillars', cols:4,
+  kicker:'Radio', headline:'Building audiences through discovery, advocacy, and sustained momentum.',
+  pillars:[
+    ['Format Strategy & Audience Growth','Developing multi-format strategies that maximize reach, unlock crossover opportunities, and expand audiences throughout an artist’s career.'],
+    ['Single & Album Campaigns','Executing coordinated campaigns from first impact through release, sustaining momentum across singles, albums, and catalog.'],
+    ['Programmer & Partner Advocacy','Building support through deep relationships with programmers, personalities, syndicated platforms, and national radio groups.'],
+    ['National Activation & Artist Experiences','Creating high-impact moments through radio events, tours, exclusive performances, listening sessions, interviews, and fan experiences that deepen artist connections and drive engagement.'] ] },
+{ g:'Media', id:'radio-partners', name:'Radio — Key Partners', layout:'lists',
+  kicker:'Radio', headline:'Key radio partners',
+  groups:[
+    { cols:2, subs:[{ t:'National Radio Groups', items:['iHeartRadio','Audacy','SiriusXM','Cumulus Media','Townsquare Media','Cox Media Group','Connoisseur Media','Summit Media','Beasley Broadcast Group','Urban One','Hubbard Broadcasting','Bonneville International','Saga Communications','Music Choice','Lotus Communications','TelevisaUnivision','Entravision','Independent Radio Stations'] }] },
+    { cols:2, subs:[{ t:'Syndicated & National Programming', items:['On Air with Ryan Seacrest','Elvis Duran and the Morning Show','Most Requested Live','Hits1 Morning Mash Up','Open House Party','Big Boy’s Neighborhood','The Breakfast Club','iHeartRadio Custom','iHeartRadio Hitlist','iHeartRadio The Vibe','iHeartRadio TikTok Radio','Audacy Select','Cumulus Nightly w/ Jade & Tyler','Townsquare Pop Crush','Liveline with Mason','Premiere Networks','Westwood One','HardDrive Radio'] }] } ] },
+{ g:'Media', id:'radio-formats', name:'Radio — Formats & Events', layout:'lists',
+  kicker:'Radio', headline:'Formats, events & experiences',
+  groups:[
+    { cols:1, subs:[{ t:'Priority Radio Formats', items:['Top 40 / Pop','Rhythm','Urban Mainstream / Hip-Hop','Mainstream R&B','Adult R&B','Hot AC','Adult Contemporary','Alternative','Active Rock','Mainstream Rock','Triple A','Non-Commercial','Country','Dance','Latin'] }] },
+    { cols:1, subs:[{ t:'National Events', items:['iHeartRadio Music Festival','iHeartRadio Jingle Ball Tour','iHeartRadio ALTer EGO','iHeartCountry Festival','Audacy We Can Survive','Audacy Stars and Strings','SiriusXM Small Stage Series','SiriusXM Garage','Station Holiday Shows','Major-Market Summer Concerts','Country Radio Seminar','AmericanaFest','Non-Commvention'] }] },
+    { cols:1, subs:[{ t:'Artist & Partner Experiences', items:['Programmer listening sessions','Album and single playbacks','Hour-by-hour world premieres','In-studio interviews','National satellite interview tours','Artist-to-programmer conversations','Acoustic and stripped-back sessions','Station winner events','Private fan performances','Tour-market station appearances','Backstage broadcasts','Album-release events','Custom content capture','Social and digital amplification','Ticket giveaways and flyaways'] }] } ] },
+
+{ g:'Commercial', id:'commercial', name:'Commercial Partnerships', layout:'section',
+  kicker:'Commercial Partnerships', pair:'Digital × Physical', headline:'From discovery to ownership',
+  lede:'Streaming and Physical work in tandem to turn audience demand into measurable consumption. Through strategic platform partnerships, global visibility, fan-first product ecosystems, and retail expansion, we create multiple pathways for fans to discover, engage with, and invest in the artist throughout every stage of a campaign.' },
+{ g:'Commercial', id:'digital', name:'Digital', layout:'pillars', cols:4,
+  kicker:'Digital', headline:'Maximizing discovery, visibility, and consumption through strategic platform partnerships.',
+  pillars:[
+    ['Global Platform Strategy','Building bespoke market-by-market plans that align platform priorities with artist goals to maximize worldwide impact.'],
+    ['Editorial & Marketing Partnerships','Securing premium positioning across editorial, algorithmic, and marketing ecosystems, including playlisting, on-platform features, CRM support, and off-platform activations.'],
+    ['Partner Investment & Experiences','Unlocking co-investment opportunities, exclusive content, fan experiences, live sessions, and platform-led marketing initiatives that extend campaign reach.'],
+    ['Audience Insights & Optimization','Leveraging real-time streaming and audience data to inform targeting, content strategy, and campaign decisions throughout the release cycle.'] ],
+  chipsLabel:'Key partners', chips:['Spotify','Apple Music','Amazon Music','YouTube','TikTok','Meta','SoundCloud','Pandora'] },
+{ g:'Commercial', id:'physical', name:'Physical Music', layout:'pillars', cols:4,
+  kicker:'Physical Music', headline:'Creating products fans value, collect, and champion throughout the lifecycle of a campaign.',
+  pillars:[
+    ['Fan-Centric Product Strategy','Developing vinyl, CD, cassette, and specialty formats that serve fans across every level of engagement, from casual listeners to superfans.'],
+    ['D2C & Collectability','Creating exclusive variants, limited releases, signed editions, and premium offerings that drive engagement, first-week impact, and long-term fan value.'],
+    ['Retail Partnerships','Expanding reach through strategic retail distribution, exclusive configurations, in-store visibility, and key national and independent retail partnerships.'],
+    ['Lifecycle & Fan Experiences','Extending campaigns through phased product drops, launch moments, fan events, signings, pop-ups, and experiential activations that keep audiences engaged long after release.'] ],
+  chipsLabel:'Key retail & D2C channels', chips:['Artist Stores','Amazon','Target','Walmart','Barnes & Noble','Indie Retail','Record Store Day','International Retail Networks','Live Event & Tour Retail'] },
+{ g:'Commercial', id:'merch', name:'Merch / E-Comm', layout:'empty', empty:true, kicker:'Merch / E-Comm', headline:'Merch / E-Comm' },
+
+{ g:'Beyond the Release', id:'data', name:'Data & Analytics', layout:'pillars', cols:4,
+  kicker:'Data & Analytics', headline:'Turning intelligence into competitive advantage.',
+  pillars:[
+    ['Audience Intelligence','Understanding who the audience is, how they behave, and where opportunities exist to deepen engagement and accelerate growth.'],
+    ['Real-Time Decision Making','Monitoring performance across platforms, markets, and touchpoints to identify emerging trends and optimize campaign strategies as they develop.'],
+    ['Market & Geographic Insights','Analyzing regional consumption, audience density, touring potential, and market-specific behavior to inform release, marketing, and growth strategies.'],
+    ['Predictive Opportunity Identification','Using audience, streaming, social, and cultural signals to uncover momentum, identify areas of opportunity, and stay ahead of shifts in the marketplace.'] ] },
+{ g:'Beyond the Release', id:'licensing', name:'Licensing', layout:'pillars', cols:4,
+  kicker:'Licensing', bigLede:true,
+  lede:'Licensing partners with artists, managers, studios, brands, and creative industries to identify opportunities where music can enhance storytelling and connect with audiences in meaningful ways.',
+  body:'From sync placements to original compositions, the team helps extend an artist’s reach across film, television, gaming, advertising, and emerging platforms.',
+  pillars:[
+    ['Sync Strategy','Securing placements across film, television, gaming, advertising, trailers, and digital content.'],
+    ['Industry Relationships','Cultivating direct relationships with music supervisors, studios, networks, streamers, brands, agencies, and production partners.'],
+    ['Original & Bespoke Creative','Connecting artists with opportunities to create original music and custom recordings for film, television, and gaming projects.'],
+    ['Audience Expansion','Leveraging cultural moments and entertainment platforms to introduce music to audiences around the world.'] ] },
+{ g:'Beyond the Release', id:'licensing-partners', name:'Licensing — Key Partners', layout:'lists',
+  kicker:'Licensing', headline:'Key partners & verticals',
+  groups:[
+    { cols:1, subs:[{ t:'Film & Television', items:['Netflix','Amazon MGM Studios','Disney','Hulu','HBO / Max','Apple TV+','Paramount','NBCUniversal','Warner Bros.','A24'] }] },
+    { cols:1, subs:[{ t:'Gaming', items:['PlayStation','Xbox','Nintendo','EA Sports','Epic Games','Riot Games','Take-Two Interactive','Ubisoft'] }] },
+    { cols:1, subs:[{ t:'Advertising & Brands', items:['Global advertising agencies','Consumer brands','Luxury brands','Fashion partners','Technology companies'] }] },
+    { cols:1, subs:[{ t:'Soundtracks & Original Music', items:['Film soundtracks','Television soundtracks','Original compositions','Custom recordings','Trailer music','Promotional campaigns'] }] } ] },
+{ g:'Beyond the Release', id:'brands', name:'Brand Partnerships', layout:'pillars', cols:4,
+  kicker:'Brand Partnerships', bigLede:true,
+  lede:'Brand partnerships create new touchpoints, audiences, and experiences that extend an artist’s cultural footprint beyond the music.',
+  pillars:[
+    ['Strategic Partnerships','Identifying brand relationships that authentically align with artist identity, audience, and long-term goals.'],
+    ['Artist Ventures & Expansion','Developing opportunities across fashion, beauty, gaming, technology, lifestyle, and consumer products that grow artist brands beyond the music.'],
+    ['Campaign Amplification','Leveraging brand investment, media support, and promotional platforms to extend the reach of key campaign moments.'],
+    ['Experiential Activations','Creating fan-facing experiences through partnerships, live events, pop-ups, retail activations, and cultural moments.'] ] },
+{ g:'Beyond the Release', id:'international', name:'International', layout:'pillars', cols:4,
+  kicker:'International', headline:'Global strategy. Local execution.',
+  lede:'With Sony offices in 50+ countries and US international colleagues across New York, Los Angeles, and London, our team is equipped to lead and execute world-class global marketing campaigns, combining bespoke creative with locally tailored content and advertising strategies.',
+  body:'The international team works as an extension of every department, connecting artists to audiences around the world through locally informed strategies, regional expertise, and the unmatched reach of the Sony Music global network.',
+  pillars:[
+    ['Market Development & Expansion','Identifying the territories with the greatest growth potential and developing market-specific strategies that accelerate audience growth and consumption worldwide.'],
+    ['Localized Campaign Strategy','Tailoring creative, content, media, partnerships, and fan engagement to the unique culture, language, and behaviors of local audiences.'],
+    ['Global Team Coordination','Aligning teams across territories to deliver cohesive global campaigns while remaining agile enough to respond to local opportunities and market nuances.'],
+    ['On-The-Ground Activation','Bringing digital campaigns to life through local marketing and media campaigns, IRL fan experiences, partnerships, and cultural moments in each country.'] ] },
+{ g:'Beyond the Release', id:'touring', name:'Touring & Logistics', layout:'empty', empty:true, kicker:'Touring & Logistics', headline:'Touring & Logistics' },
+
+{ g:'Closing', id:'release-planning', name:'Release Planning', layout:'pillars', cols:3, ref:true,
+  kicker:'Release Planning', bigLede:true,
+  lede:'Dedicated staff to ensure all products go to market flawlessly.',
+  pillars:[['Operational Accuracy',''],['Digital Deliveries & Updates',''],['Global Manufacturing & Fulfillment','']] },
+{ g:'Closing', id:'timeline', name:'Album Timeline', layout:'timeline', ref:true,
+  kicker:'Campaign Strategy', headline:'The album timeline',
+  lede:'The shape of a full album campaign, from setup through the long tail.',
+  phases:[
+    { t:'Album Setup', b:'Align globally with partners on strategy and timing. Secure DSP, brand and media integrations for strong pre- and post-release support.',
+      items:['Teasers across social and digital','Music-driven marketing to engage and grow fans','Strategic singles with official videos','Fan activations, pop-ups and interactive experiences','International promo'] },
+    { t:'Core Campaign', b:'An 8–10 week campaign to build anticipation and momentum, using narrative and creative to create cultural touchpoints that engage fans and attract new audiences.',
+      items:['Week 1: Single 1 with official video and album pre-order','Week 4: Single 2','Week 8: Album launch and focus track with official video'] },
+    { t:'Post-Release', b:'A global impact moment at launch, then sustained momentum through high-profile activations, digital engagement and media.',
+      items:['Global livestream performance','Fan playback events','Major long-form content: TV special, documentary, film','Album-themed pop-ups, fan events and intimate shows','Selective press and marquee appearances','Deluxe album plan'] } ] },
+{ g:'Closing', id:'closer', name:'Closer', layout:'closer', ref:true,
+  headline:'Every team.\nOne campaign.',
+  lede:'Every function in this deck is staffed, coordinated and working the same plan — from setup through the long tail.' }
+];
+
+var PRESETS = {
+  full: LIB.filter(function(s){ return !s.empty && !s.ref; }).map(function(s){ return s.id; }).concat(['timeline','closer']),
+  short: ['title','sony','ar','leadership','creative','auddev','media','commercial','data','international','timeline','closer'],
+  clear: []
+};
+
+var BY = {}; LIB.forEach(function(s){ BY[s.id] = s; });
+var KEY = 'rca_deck_builder_v1', IKEY = 'rca_deck_builder_img_v1';
+var S = { artist:'', items:[], sel:null }, IMG = '';
+var uidN = 0; function uid(){ return 'u' + Date.now().toString(36) + (uidN++); }
+
+function load(){
+  try { var j = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (j && Array.isArray(j.items)) { S = j; S.items = S.items.filter(function(i){ return BY[i.id]; }); }
+    else setPreset('short', true);
+  } catch(e){ setPreset('short', true); }
+  try { IMG = localStorage.getItem(IKEY) || ''; } catch(e){}
+}
+var saveT; function save(){ clearTimeout(saveT); saveT = setTimeout(function(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }, 250); }
+
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function pathGet(o, p){ return p.split('.').reduce(function(a,k){ return a == null ? a : a[k]; }, o); }
+function val(item, p){ var ov = item && item.ov; return (ov && Object.prototype.hasOwnProperty.call(ov, p)) ? ov[p] : pathGet(BY[item.id], p); }
+
+/* ── Slide rendering ── */
+function renderSlide(item, n, total, editable){
+  var s = BY[item.id], ed = editable ? ' contenteditable="plaintext-only" spellcheck="false"' : '';
+  function T(tag, cls, p){ var v = val(item, p); if (v == null || v === '') return '';
+    return '<' + tag + ' class="' + cls + '" data-p="' + p + '"' + ed + '>' + esc(v).replace(/\n/g,'<br>') + '</' + tag + '>'; }
+  var artist = (S.artist || '').trim(), h = '';
+  var foot = '<div class="ft"><span>RCA Records' + (artist ? ' <b>× ' + esc(artist) + '</b>' : '') + '</span><span>' + String(n).padStart(2,'0') + ' / ' + String(total).padStart(2,'0') + '</span></div>';
+  var L = s.layout;
+  if (L === 'title'){
+    h = '<div class="in"><div class="brand">RCA<br>Records</div>' + (artist ? '<div class="art">× ' + esc(artist) + '</div>' : '') +
+        T('div','tg','tagline') + T('div','ld','lede') + '</div>' +
+        '<div class="img"' + (IMG ? ' style="background-image:url(' + IMG + ')"' : '') + '>' + (IMG ? '' : '<div class="ph">Artist composite image<br><span style="font-weight:600;letter-spacing:.1em">Use “Cover image” above</span></div>') + '</div>';
+  } else if (L === 'section'){
+    h = '<div class="in"><div class="bar"></div><div class="kk">' + T('span','','kicker') + (s.pair ? '<span class="x">/</span>' + T('span','x','pair') : '') + '</div>' +
+        T('div','hd','headline') + T('div','ld','lede') + '</div>';
+  } else if (L === 'pillars'){
+    var pl = s.pillars.map(function(p, i){ return '<div>' + T('div','pt','pillars.'+i+'.0') + T('div','pb','pillars.'+i+'.1') + '</div>'; }).join('');
+    h = '<div class="in"><div class="kk">' + T('span','','kicker') + '</div>' + T('div','hd','headline') +
+        T('div', 'ld' + (s.bigLede ? ' big' : ''), 'lede') + T('div','bd','body') +
+        '<div class="pl" style="grid-template-columns:repeat(' + (s.cols || 4) + ',1fr)">' + pl + '</div>' +
+        (s.chips ? '<div class="ch">' + T('span','cl','chipsLabel') + s.chips.map(function(c,i){ return T('span','c','chips.'+i); }).join('') + '</div>' : '') + '</div>';
+  } else if (L === 'lists'){
+    var gs = s.groups.map(function(g, gi){
+      return '<div style="flex:' + g.cols + ' 1 0">' + g.subs.map(function(sub, si){
+        var b = 'groups.'+gi+'.subs.'+si;
+        return '<div class="sub">' + T('div','gt', b+'.t') + '<ul style="column-count:' + g.cols + '">' +
+          sub.items.map(function(it, ii){ return T('li','', b+'.items.'+ii); }).join('') + '</ul></div>';
+      }).join('') + '</div>';
+    }).join('');
+    h = '<div class="in"><div class="kk">' + T('span','','kicker') + '</div>' + T('div','hd','headline').replace('class="hd"','class="hd" style="font-size:calc(56px*var(--k))"') + '<div class="gs">' + gs + '</div></div>';
+  } else if (L === 'timeline'){
+    var ph = s.phases.map(function(p, i){ var b = 'phases.'+i;
+      return '<div><span class="n">0' + (i+1) + '</span>' + T('div','pt',b+'.t') + T('div','pb',b+'.b') +
+        '<ul>' + p.items.map(function(it, ii){ return T('li','', b+'.items.'+ii); }).join('') + '</ul></div>'; }).join('');
+    h = '<div class="in"><div class="kk">' + T('span','','kicker') + '</div>' + T('div','hd','headline') + T('div','ld','lede') + '<div class="tl">' + ph + '</div></div>';
+  } else if (L === 'closer'){
+    h = '<div class="in">' + T('div','hd','headline') + T('div','ld','lede') + '</div>';
+  } else if (L === 'empty'){
+    h = '<div class="in"><div class="kk">' + T('span','','kicker') + '</div>' + T('div','hd','headline') + '<div class="pend">Copy pending in source doc</div></div>';
+  }
+  return '<div class="sl ' + L + '" data-uid="' + item.uid + '">' + h + foot + '</div>';
+}
+function fit(sl){
+  var inn = sl.querySelector('.in'); if (!inn) return;
+  var k = sl.classList.contains('lists') ? 1.4 : 1; sl.style.setProperty('--k', k);
+  while (inn.scrollHeight > inn.clientHeight + 1 && k > 0.62){ k = +(k - 0.03).toFixed(2); sl.style.setProperty('--k', k); }
+}
+
+/* ── Library ── */
+function drawLib(){
+  var inDeck = {}; S.items.forEach(function(i){ inDeck[i.id] = 1; });
+  var html = '', g = '';
+  LIB.forEach(function(s){
+    if (s.g !== g){ g = s.g; html += '<div class="lib-g">' + esc(g) + '</div>'; }
+    html += '<div class="lib-i" draggable="true" data-id="' + s.id + '">' +
+      '<span class="in-deck' + (inDeck[s.id] ? ' on" title="In deck"' : '"') + '></span>' +
+      '<span class="nm">' + esc(s.name) + '</span>' +
+      (s.empty ? '<span class="tag empty">Empty</span>' : '') + (s.ref ? '<span class="tag" title="From the Reference Doc tab">Ref</span>' : '') +
+      '<button class="ico" data-add="' + s.id + '" title="Add to deck" aria-label="Add ' + esc(s.name) + '">+</button></div>';
+  });
+  document.getElementById('lib').innerHTML = html;
+  document.getElementById('libCount').textContent = LIB.length;
+}
+
+/* ── Deck list ── */
+function drawDeck(){
+  var el = document.getElementById('deck');
+  if (!S.items.length){ el.innerHTML = '<div class="dk-empty">Drag sections here<br>or pick a starting point above.</div>'; }
+  else el.innerHTML = S.items.map(function(it, i){
+    var s = BY[it.id], edited = it.ov && Object.keys(it.ov).length;
+    return '<div class="dk-i' + (it.uid === S.sel ? ' sel' : '') + '" draggable="true" data-uid="' + it.uid + '">' +
+      '<span class="no">' + (i+1) + '</span><span class="nm">' + esc(s.name) + '</span>' +
+      (edited ? '<span class="tag" title="Text edited">Edited</span>' : '') + (s.empty ? '<span class="tag empty">Empty</span>' : '') +
+      '<button class="ico" data-mv="-1" title="Move up" aria-label="Move up">↑</button><button class="ico" data-mv="1" title="Move down" aria-label="Move down">↓</button>' +
+      '<button class="ico" data-rm="1" title="Remove" aria-label="Remove">×</button></div>';
+  }).join('');
+  document.getElementById('dkCount').textContent = S.items.length ? S.items.length + ' slides' : '';
+}
+
+/* ── Preview ── */
+var pvScale = 1;
+function drawPreview(){
+  var pv = document.getElementById('pv'), idx = S.items.findIndex(function(i){ return i.uid === S.sel; });
+  var reset = document.getElementById('resetSlide');
+  if (idx < 0){ pv.innerHTML = '<div class="pv-none">Select a slide in your deck</div>'; document.getElementById('pvName').textContent = ''; reset.hidden = true; return; }
+  var it = S.items[idx];
+  pv.innerHTML = '<div class="pv-stage" id="stage">' + renderSlide(it, idx+1, S.items.length, true) + '</div>';
+  document.getElementById('pvName').textContent = BY[it.id].name;
+  reset.hidden = !(it.ov && Object.keys(it.ov).length);
+  sizePreview();
+  fit(pv.querySelector('.sl'));
+}
+function sizePreview(){
+  var st = document.getElementById('stage'); if (!st) return;
+  var w = st.clientWidth; pvScale = w / 1920; st.style.height = (w * 1080/1920) + 'px';
+  var sl = st.querySelector('.sl'); if (sl) sl.style.transform = 'scale(' + pvScale + ')';
+}
+function drawAll(){ drawLib(); drawDeck(); drawPreview(); save(); }
+
+/* ── Actions ── */
+function setPreset(name, silent){
+  if (!silent && S.items.some(function(i){ return i.ov && Object.keys(i.ov).length; }) && !confirm('Replace the current deck? Text edits will be lost.')) return;
+  S.items = PRESETS[name].map(function(id){ return { uid:uid(), id:id, ov:{} }; });
+  S.sel = S.items[0] ? S.items[0].uid : null;
+  if (!silent) drawAll();
+}
+function addAt(id, at){
+  var it = { uid:uid(), id:id, ov:{} };
+  if (at == null || at > S.items.length) at = S.items.length;
+  S.items.splice(at, 0, it); S.sel = it.uid; drawAll();
+  var row = document.querySelector('.dk-i[data-uid="' + it.uid + '"]'); if (row) row.scrollIntoView({block:'nearest'});
+}
+function moveTo(u, at){
+  var from = S.items.findIndex(function(i){ return i.uid === u; }); if (from < 0) return;
+  var it = S.items.splice(from, 1)[0]; if (at > from) at--; S.items.splice(at, 0, it); drawAll();
+}
+
+document.getElementById('lib').addEventListener('click', function(e){
+  var b = e.target.closest('[data-add]'); if (b){ addAt(b.getAttribute('data-add')); return; }
+});
+document.getElementById('lib').addEventListener('dblclick', function(e){
+  var r = e.target.closest('.lib-i'); if (r) addAt(r.getAttribute('data-id'));
+});
+document.getElementById('deck').addEventListener('click', function(e){
+  var row = e.target.closest('.dk-i'); if (!row) return;
+  var u = row.getAttribute('data-uid'), idx = S.items.findIndex(function(i){ return i.uid === u; });
+  if (e.target.closest('[data-rm]')){
+    var it = S.items[idx];
+    if (it.ov && Object.keys(it.ov).length && !confirm('Remove this slide and its text edits?')) return;
+    S.items.splice(idx, 1);
+    if (S.sel === u) S.sel = S.items[Math.min(idx, S.items.length-1)] ? S.items[Math.min(idx, S.items.length-1)].uid : null;
+    drawAll(); return;
+  }
+  var mv = e.target.closest('[data-mv]');
+  if (mv){ var d = +mv.getAttribute('data-mv'), to = idx + d; if (to < 0 || to >= S.items.length) return;
+    var t = S.items[idx]; S.items[idx] = S.items[to]; S.items[to] = t; drawAll(); return; }
+  S.sel = u; drawDeck(); drawPreview(); save();
+});
+
+/* drag & drop */
+var drag = null, ind = document.createElement('div'); ind.className = 'dk-ind';
+document.addEventListener('dragstart', function(e){
+  var l = e.target.closest && e.target.closest('.lib-i'), d = e.target.closest && e.target.closest('.dk-i');
+  if (l){ drag = { lib: l.getAttribute('data-id') }; e.dataTransfer.effectAllowed = 'copy'; }
+  else if (d){ drag = { uid: d.getAttribute('data-uid') }; d.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+  else return;
+  try { e.dataTransfer.setData('text/plain', drag.lib || drag.uid); } catch(x){}
+});
+document.addEventListener('dragend', function(){
+  drag = null; if (ind.parentNode) ind.parentNode.removeChild(ind);
+  document.getElementById('deck').classList.remove('over');
+  var g = document.querySelector('.dk-i.dragging'); if (g) g.classList.remove('dragging');
+});
+function dropIndex(list, y){
+  var rows = [].slice.call(list.querySelectorAll('.dk-i'));
+  for (var i = 0; i < rows.length; i++){ var r = rows[i].getBoundingClientRect(); if (y < r.top + r.height/2) return i; }
+  return rows.length;
+}
+var deckEl = document.getElementById('deck');
+deckEl.addEventListener('dragover', function(e){
+  if (!drag) return; e.preventDefault(); deckEl.classList.add('over');
+  var i = dropIndex(deckEl, e.clientY), rows = deckEl.querySelectorAll('.dk-i');
+  if (!rows.length) return;
+  if (i < rows.length) deckEl.insertBefore(ind, rows[i]); else deckEl.appendChild(ind);
+});
+deckEl.addEventListener('dragleave', function(e){ if (!deckEl.contains(e.relatedTarget)){ deckEl.classList.remove('over'); if (ind.parentNode) ind.parentNode.removeChild(ind); } });
+deckEl.addEventListener('drop', function(e){
+  if (!drag) return; e.preventDefault();
+  if (ind.parentNode) ind.parentNode.removeChild(ind);
+  var i = dropIndex(deckEl, e.clientY), d = drag; drag = null;
+  if (d.lib) addAt(d.lib, i); else moveTo(d.uid, i);
+});
+/* drag a deck slide back onto the library to remove it */
+var libEl = document.getElementById('lib');
+libEl.addEventListener('dragover', function(e){ if (drag && drag.uid) e.preventDefault(); });
+libEl.addEventListener('drop', function(e){ if (!drag || !drag.uid) return; e.preventDefault();
+  var u = drag.uid; drag = null; var it = S.items.find(function(i){ return i.uid === u; });
+  if (it && it.ov && Object.keys(it.ov).length && !confirm('Remove this slide and its text edits?')) return;
+  S.items = S.items.filter(function(i){ return i.uid !== u; }); if (S.sel === u) S.sel = S.items[0] ? S.items[0].uid : null; drawAll(); });
+
+/* inline editing */
+document.getElementById('pv').addEventListener('input', function(e){
+  var el = e.target.closest('[data-p]'); if (!el) return;
+  var it = S.items.find(function(i){ return i.uid === S.sel; }); if (!it) return;
+  var p = el.getAttribute('data-p'), v = el.innerText.replace(/\n$/, '');
+  it.ov = it.ov || {};
+  if (v === pathGet(BY[it.id], p)) delete it.ov[p]; else it.ov[p] = v;
+  fit(el.closest('.sl')); save();
+  clearTimeout(window.__dk); window.__dk = setTimeout(function(){ drawDeck(); document.getElementById('resetSlide').hidden = !Object.keys(it.ov).length; }, 400);
+});
+document.getElementById('pv').addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !e.shiftKey && e.target.closest('[data-p]')){ e.preventDefault(); e.target.blur(); }
+});
+document.getElementById('resetSlide').addEventListener('click', function(){
+  var it = S.items.find(function(i){ return i.uid === S.sel; }); if (!it) return; it.ov = {}; drawAll();
+});
+
+/* artist + image */
+var artistEl = document.getElementById('artist');
+artistEl.addEventListener('input', function(){ S.artist = artistEl.value; drawPreview(); save(); });
+document.getElementById('img').addEventListener('change', function(e){
+  var f = e.target.files && e.target.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    var im = new Image(); im.onload = function(){
+      var c = document.createElement('canvas'), sc = Math.min(1, 1600 / Math.max(im.width, im.height));
+      c.width = Math.round(im.width*sc); c.height = Math.round(im.height*sc);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      IMG = c.toDataURL('image/jpeg', .85);
+      try { localStorage.setItem(IKEY, IMG); } catch(x){}
+      document.getElementById('imgClear').hidden = false;
+      if (!S.items.some(function(i){ return i.id === 'title'; })) addAt('title', 0); else drawPreview();
+    }; im.src = r.result;
+  };
+  r.readAsDataURL(f); e.target.value = '';
+});
+document.getElementById('imgClear').addEventListener('click', function(){ IMG = ''; try { localStorage.removeItem(IKEY); } catch(x){} this.hidden = true; drawPreview(); });
+[].forEach.call(document.querySelectorAll('[data-preset]'), function(b){ b.addEventListener('click', function(){ setPreset(b.getAttribute('data-preset')); }); });
+
+/* present */
+var P = { on:false, i:0 };
+function presentDraw(){
+  var box = document.getElementById('present'), it = S.items[P.i];
+  var old = box.querySelector('.sl'); if (old) old.remove();
+  box.insertAdjacentHTML('afterbegin', renderSlide(it, P.i+1, S.items.length, false));
+  var sl = box.querySelector('.sl'), sc = Math.min(innerWidth/1920, innerHeight/1080);
+  sl.style.transform = 'scale(' + sc + ')'; sl.style.left = ((innerWidth - 1920*sc)/2) + 'px'; sl.style.top = ((innerHeight - 1080*sc)/2) + 'px';
+  fit(sl);
+  document.getElementById('pc').textContent = (P.i+1) + ' / ' + S.items.length + '   ·   ← → to move, Esc to exit';
+}
+function presentOpen(){
+  if (!S.items.length) return;
+  var idx = S.items.findIndex(function(i){ return i.uid === S.sel; });
+  P.on = true; P.i = Math.max(0, idx);
+  document.getElementById('present').classList.add('on'); presentDraw();
+  var de = document.documentElement; if (de.requestFullscreen) de.requestFullscreen().catch(function(){});
+}
+function presentClose(){
+  P.on = false; document.getElementById('present').classList.remove('on');
+  if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
+  S.sel = S.items[P.i] ? S.items[P.i].uid : S.sel; drawDeck(); drawPreview(); save();
+}
+function go(d){ var n = P.i + d; if (n < 0 || n >= S.items.length) return; P.i = n; presentDraw(); }
+document.getElementById('present-btn').addEventListener('click', presentOpen);
+document.getElementById('present').addEventListener('click', function(e){ go(e.clientX < innerWidth/3 ? -1 : 1); });
+document.addEventListener('keydown', function(e){
+  if (!P.on) return;
+  if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].indexOf(e.key) > -1){ e.preventDefault(); go(1); }
+  else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].indexOf(e.key) > -1){ e.preventDefault(); go(-1); }
+  else if (e.key === 'Home'){ P.i = 0; presentDraw(); }
+  else if (e.key === 'End'){ P.i = S.items.length-1; presentDraw(); }
+  else if (e.key === 'Escape'){ presentClose(); }
+});
+document.addEventListener('fullscreenchange', function(){ if (!document.fullscreenElement && P.on) presentClose(); });
+
+/* PDF */
+function buildPrint(){
+  var pr = document.getElementById('printRoot');
+  pr.innerHTML = S.items.map(function(it, i){ return renderSlide(it, i+1, S.items.length, false); }).join('');
+  [].forEach.call(pr.querySelectorAll('.sl'), fit);
+}
+document.getElementById('pdf').addEventListener('click', function(){
+  if (!S.items.length) return;
+  buildPrint();
+  var t = document.title; document.title = 'RCA Records' + (S.artist ? ' x ' + S.artist : '') + ' — Pitch Deck';
+  setTimeout(function(){ window.print(); document.title = t; }, 60);
+});
+window.addEventListener('beforeprint', function(){ if (!document.getElementById('printRoot').children.length) buildPrint(); });
+window.addEventListener('afterprint', function(){ document.getElementById('printRoot').innerHTML = ''; });
+
+window.addEventListener('resize', function(){ sizePreview(); if (P.on) presentDraw(); });
+
+load();
+artistEl.value = S.artist || '';
+if (IMG) document.getElementById('imgClear').hidden = false;
+if (!S.sel && S.items[0]) S.sel = S.items[0].uid;
+drawAll();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawPreview);
+</script>
+</body>
+</html>
