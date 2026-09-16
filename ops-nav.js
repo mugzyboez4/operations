@@ -13,7 +13,7 @@
 (function () {
 
   var LINKS = [
-    ["/208-2/", "Campaign tracker"],
+    ["/campaigns/", "Campaign tracker"],
     ["/scheduling/", "Scheduling"],
     ["/office-guide/", "Office guide"]
   ];
