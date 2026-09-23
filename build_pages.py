@@ -192,7 +192,6 @@ systems_tasks = [
     {"name": "Airtable artist detail page rebuild", "status": "active", "owner": "G", "done": False},
     {"name": "Airtable — Phase + Meeting + Gate Status fields", "status": "next", "owner": "G", "done": False},
     {"name": "Airtable — team feedback survey (what do you always need?)", "status": "active", "owner": "G", "done": False},
-    {"name": "Val knowledge capture — URGENT before departure", "status": "blocked", "owner": "G", "done": False},
     {"name": "Christian — Airtable view access + backend training", "status": "active", "owner": "C", "done": False},
     {"name": "SharePoint hub — EOD Drop flow", "status": "active", "owner": "G", "done": False},
     {"name": "CARMA Combined Rights Master — Airtable import", "status": "next", "owner": "G", "done": False},
